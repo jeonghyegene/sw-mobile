@@ -1,0 +1,2123 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세금계산서 발급 (v19 기준)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 20px;
+            /* Pagination 여백 */
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 16px;
+        }
+
+        /* [NEW] Page Tabs (v12 Tab-Nav Style) */
+        .page-tabs {
+            width: 100%;
+            height: 44px;
+            /* v12 standard height */
+            background: white;
+            border-bottom: 1px solid #e8e8e9;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 20px 1px 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .page-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .page-tab-item {
+            height: 42px;
+            padding: 10px 4px;
+            font-size: 16px;
+            /* v12 standard font size */
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 16px;
+            position: relative;
+            color: #bcbcbc;
+            /* Inactive color */
+            border-bottom: 2px solid transparent;
+            flex-shrink: 0;
+            /* Prevent shrinking */
+        }
+
+        .page-tab-item.active {
+            color: black;
+            border-bottom: 2px solid black;
+        }
+
+        .page-tab-item:hover {
+            opacity: 0.8;
+        }
+
+
+        /* Account Section (v14) */
+        /* [MODIFIED] Lighter style for info-section */
+        .info-section {
+            background: #f8f8f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .info-section .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        /* [MODIFIED] Lighter title color */
+        .info-section .balance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .info-section .balance {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .info-section .balance-row .primary-button {
+            height: 36px;
+            font-size: 13px;
+        }
+
+        .account-info-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+
+        .account-info-row:hover {
+            background-color: #f8f8f8;
+        }
+
+        .account-info {
+            font-size: 14px;
+            color: #333;
+            word-break: keep-all;
+            flex-grow: 1;
+            margin-right: 8px;
+        }
+
+        .account-info strong {
+            font-weight: 600;
+        }
+
+        .account-chevron {
+            width: 16px;
+            height: 16px;
+            color: #888;
+            flex-shrink: 0;
+        }
+
+        .info-sub-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .info-sub-row .label {
+            color: #555;
+        }
+
+        .info-sub-row .value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Filter Chip Section */
+        .filter-chip-section {
+            background: #fff;
+            padding: 8px 16px;
+            border-bottom: 1px solid #e9e9e9;
+            margin: 0 -16px 16px -16px;
+        }
+
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip-section .tabs-scroll-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-chip-section .single-chip,
+        .filter-chip-section .multi-chip {
+            /* [MODIFIED] Apply to both chip types */
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        /* Filter Section (v15) */
+        .filter-section {
+            padding: 0 0 16px 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .text-select-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+            padding: 8px 0;
+        }
+
+        .text-select-button:hover {
+            opacity: 0.8;
+        }
+
+        .text-select-button:active {
+            transform: scale(0.98);
+        }
+
+        .text-select-button-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .text-select-button-arrow {
+            width: 16px;
+            height: 16px;
+            color: #555;
+        }
+
+        .text-select-button-arrow svg {
+            transition: transform 0.2s;
+        }
+
+        .text-select-button.open .text-select-button-arrow svg {
+            transform: rotate(-180deg);
+        }
+
+        /* Transaction List Header */
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
+        }
+
+        .transaction-list-header .total-count strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-count-select {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+        }
+
+        .view-count-select:hover {
+            opacity: 0.8;
+        }
+
+        .view-count-select:active {
+            transform: scale(0.98);
+        }
+
+        .view-count-select-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .view-count-select-arrow {
+            width: 12px;
+            height: 12px;
+        }
+
+        .view-count-select-arrow svg {
+            transition: transform 0.2s;
+            transform: translateY(-2px);
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+            /* Pagination 여백 */
+        }
+
+        .no-transactions {
+            padding: 40px 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* [NEW] v12 common-table-card (for Tax Invoice) */
+        .common-table-card {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0px;
+        }
+
+        .card-column1 {
+            font-size: 16px;
+            font-weight: 500;
+            color: #212121;
+        }
+
+        .card-badge {
+            background: white;
+            border: 1px solid #d7d7d7;
+            border-radius: 30px;
+            padding: 2px 10px;
+            font-size: 10px;
+            color: black;
+        }
+
+        .card-column2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333333;
+            margin-top: 4px;
+            margin-bottom: 15px;
+        }
+
+        /* Modified for total amount */
+        .card-divider {
+            width: 100%;
+            height: 1px;
+            background: #e8e8e9;
+            margin: 10px 0;
+        }
+
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .card-row-label {
+            color: #333333;
+        }
+
+        .card-row-value {
+            color: grey;
+        }
+
+        .card-footer {
+            padding-top: 10px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .card-footer .btn {
+            height: 36px;
+            font-size: 13px;
+            padding: 0 12px;
+        }
+
+        /* [NEW] Status-specific badge colors */
+        .card-badge[data-status="미발급"] {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        .card-badge[data-status="발급대기"] {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .card-badge[data-status="발급실패"] {
+            border-color: #ffc107;
+            color: #ffc107;
+        }
+
+        .card-badge[data-status="폐기처리"] {
+            border-color: #28a745;
+            color: #28a745;
+        }
+
+
+        /* [NEW] v12 Checkbox (from Master Guide) */
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .checkbox-off {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #bdbdbd;
+            border-radius: 2px;
+        }
+
+        .checkbox-on {
+            width: 100%;
+            height: 100%;
+            background: #4e6ee4;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-on img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .checkbox:active {
+            transform: scale(0.9);
+        }
+
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-text span {
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* [NEW] v12 Multi-chip (from Master Guide) */
+        .multi-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .multi-chip-off {
+            background: #fdfdfd;
+            border: 1px solid #e6e4e4;
+            color: #6d6d6d;
+        }
+
+        .multi-chip-on {
+            background: #c7d3ff;
+            border: 1px solid #4e6ee4;
+            color: #4e6ee4;
+        }
+
+        .multi-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* [NEW] v12 Search (from Master Guide) */
+        .search {
+            width: 100%;
+            height: 40px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            position: relative;
+        }
+
+        .search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+        }
+
+        .search input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .search-input-right {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+        }
+
+        .search-del {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .search.has-text .search-del {
+            display: flex;
+        }
+
+        .search-icon,
+        .btn-search {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .search-icon:active,
+        .btn-search:active {
+            transform: scale(0.9);
+        }
+
+        .search-del img,
+        .btn-search img,
+        .search-icon img {
+            width: 100%;
+            height: 100%;
+        }
+
+
+        /* [v17] Pagination (Master Guide Img) */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-bottom: 24px;
+            /* [MODIFIED] Added bottom margin */
+        }
+
+        .pagination-arrow {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-arrow img {
+            width: 100%;
+            height: auto;
+        }
+
+        .pagination-arrow:active {
+            transform: scale(0.9);
+        }
+
+        .pagination-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-numbers {
+            display: flex;
+            gap: 3px;
+        }
+
+        .pagination-number {
+            min-width: 28px;
+            height: 28px;
+            padding: 4px 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .pagination-number.active {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .pagination-number:not(.active) {
+            background: white;
+            color: #bcbcbc;
+        }
+
+        .pagination-number:not(.active):hover {
+            background: #f5f5f5;
+        }
+
+        .pagination-number:active {
+            transform: scale(0.95);
+        }
+
+        /* [NEW] Sticky Footer Bar */
+        .sticky-footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            /* Match .mobile-wrap */
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            display: none;
+            /* Hidden by default */
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+            animation: slideUpFooter 0.3s ease-out;
+        }
+
+        .sticky-footer-bar.active {
+            display: flex;
+        }
+
+        @keyframes slideUpFooter {
+            from {
+                transform: translate(-50%, 100%);
+            }
+
+            to {
+                transform: translate(-50%, 0);
+            }
+        }
+
+        .sticky-footer-bar span {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .sticky-footer-bar .dark-button {
+            width: auto;
+            /* Override default 100% width */
+            flex-shrink: 0;
+        }
+
+        /* v12 Standard .single-chip */
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* v12 Standard .disclaimer */
+        .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .disclaimer.warning {
+            color: #dc3545;
+        }
+
+
+        /* ========================================
+           [NEW] MODAL STYLES
+        ======================================== */
+
+        /* [NEW] Modal (from v19 default / v12 guide) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px;
+            /* Modal max width */
+            max-height: 90vh;
+            /* Limit height */
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+
+        @keyframes scaleUpModal {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative;
+            /* For close button */
+            height: 57px;
+            /* Match v12 modal header */
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            text-align: left;
+            /* [MODIFIED] Left aligned */
+            /* width: 100%; [REMOVED] */
+        }
+
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333;
+            /* v12 guide color */
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .btn-modal-close:hover {
+            color: #000;
+        }
+
+        .btn-modal-close svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+
+        /* [NEW] Modal Form Elements (from v12 guide / sungwon_money) */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+
+        .input input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .input input:disabled {
+            background: #f5f5f5;
+            color: #888;
+            cursor: not-allowed;
+        }
+
+        .input.disabled {
+            background: #f5f5f5;
+        }
+
+        /* [NEW] Modal Tab Navigation */
+        .modal-tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .modal-tab-nav .single-chip {
+            /* flex: 1; [REMOVED] */
+            font-weight: 500;
+        }
+
+        /* [MODIFIED] Use v12 Master Guide chip styles */
+        .modal-tab-nav .single-chip-on {
+            background: #4e6ee4;
+            /* Master Guide blue */
+            color: white;
+        }
+
+        /* [NEW] Customer List Modal Styles */
+        .customer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .customer-item {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .customer-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .customer-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .customer-item .white-button {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
+
+        .customer-detail {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+            line-height: 1.5;
+        }
+
+        .customer-detail .label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* [NEW] Form group for customer list button */
+        .form-group-button {
+            /* margin-bottom: 20px; Moved to inline style */
+        }
+
+        .form-group-button .white-button {
+            width: 100%;
+            height: 40px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">세금계산서 발급</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <nav class="page-tabs" id="page-tab-nav">
+                <div class="page-tab-item active" data-page="request" onclick="selectPageTab(this)">신청</div>
+                <div class="page-tab-item" data-page="issue" onclick="selectPageTab(this)">발급 내역</div>
+            </nav>
+
+            <div class="sw-container">
+
+                <section class="filter-section" style="padding-bottom: 8px;">
+                    <div class="tabs-scroll-wrapper" id="period-chip-group">
+                        <div class="single-chip single-chip-on" data-period="current" onclick="selectPeriodChip(this)">
+                            2025년 10월</div>
+                        <div class="single-chip single-chip-off" data-period="previous"
+                            onclick="selectPeriodChip(this)">2025년 9월</div>
+                    </div>
+                </section>
+
+                <section class="filter-chip-section">
+                    <div class="tabs-scroll-wrapper" id="status-chip-group">
+                        <div class="multi-chip multi-chip-off" data-status="전체" onclick="toggleStatusChip(this)">전체
+                        </div>
+                        <div class="multi-chip multi-chip-on" data-status="미발급" onclick="toggleStatusChip(this)">✓ 미발급
+                        </div>
+                        <div class="multi-chip multi-chip-on" data-status="발급대기" onclick="toggleStatusChip(this)">✓ 발급대기
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-status="발급실패" onclick="toggleStatusChip(this)">발급실패
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-status="폐기처리" onclick="toggleStatusChip(this)">폐기처리
+                        </div>
+                    </div>
+                </section>
+
+                <section class="filter-section" style="padding-top: 0;">
+                    <div class="search" data-name="search" id="tax-search">
+                        <input type="text" placeholder="접수번호 또는 고객명 입력" oninput="handleSearchInput(this)">
+                        <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this)">
+                                <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d"
+                                    alt="삭제">
+                            </div>
+                            <div class="btn-search" onclick="handleSearch(this)">
+                                <img src="https://www.figma.com/api/mcp/asset/4af11b15-4228-4024-b0ec-cd703ca89e9f"
+                                    alt="검색">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="transaction-list-section">
+                    <div class="transaction-list-header">
+                        <span class="total-count">총 <strong id="transaction-count">7</strong>건</span>
+                        <div class="view-count-select">
+                            <span class="view-count-select-text">20건씩 보기</span>
+                            <div class="view-count-select-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="transaction-list" id="transaction-list-container">
+
+                        <article class="common-table-card" data-status="미발급">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="card-column1">sw456426</div>
+                                </div>
+                                <div class="card-badge" data-status="미발급">미발급</div>
+                            </div>
+                            <div class="card-column2">220,000 원</div>
+                            <div class="card-divider"></div>
+                            <div class="card-row">
+                                <div class="card-row-label">공급가액</div>
+                                <div class="card-row-value">200,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">부가세액</div>
+                                <div class="card-row-value">20,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">접수일</div>
+                                <div class="card-row-value">2025-10-27</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
+                                    수정</button>
+                                <button type="button" class="primary-button btn">신청</button>
+                            </div>
+                        </article>
+
+                        <article class="common-table-card" data-status="미발급">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="true" onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox-on"><img
+                                                src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a"
+                                                alt="체크"></div>
+                                    </div>
+                                    <div class="card-column1">sw876341</div>
+                                </div>
+                                <div class="card-badge" data-status="미발급">미발급</div>
+                            </div>
+                            <div class="card-column2">220,000 원</div>
+                            <div class="card-divider"></div>
+                            <div class="card-row">
+                                <div class="card-row-label">공급가액</div>
+                                <div class="card-row-value">200,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">부가세액</div>
+                                <div class="card-row-value">20,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">접수일</div>
+                                <div class="card-row-value">2025-10-18</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">배송시작일</div>
+                                <div class="card-row-value">2025-10-20</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
+                                    수정</button>
+                                <button type="button" class="primary-button btn">신청</button>
+                            </div>
+                        </article>
+
+                        <article class="common-table-card" data-status="미발급">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="card-column1">sw567834</div>
+                                </div>
+                                <div class="card-badge" data-status="미발급">미발급</div>
+                            </div>
+                            <div class="card-column2">1,000,220,000 원</div>
+                            <div class="card-divider"></div>
+                            <div class="card-row">
+                                <div class="card-row-label">고객명</div>
+                                <div class="card-row-value">홍길동인쇄업체</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">공급가액</div>
+                                <div class="card-row-value">1,000,200,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">부가세액</div>
+                                <div class="card-row-value">20,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">접수일</div>
+                                <div class="card-row-value">2025-10-13</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">배송시작일</div>
+                                <div class="card-row-value">2025-10-14</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
+                                    수정</button>
+                                <button type="button" class="primary-button btn">신청</button>
+                            </div>
+                        </article>
+
+                        <article class="common-table-card" data-status="폐기처리">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="card-column1">sw457232</div>
+                                </div>
+                                <div class="card-badge" data-status="폐기처리">폐기처리</div>
+                            </div>
+                            <div class="card-column2">220,000 원</div>
+                            <div class="card-divider"></div>
+                            <div class="card-row">
+                                <div class="card-row-label">고객명</div>
+                                <div class="card-row-value">홍길동인쇄업체</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">공급가액</div>
+                                <div class="card-row-value">200,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">부가세액</div>
+                                <div class="card-row-value">20,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">접수일</div>
+                                <div class="card-row-value">2025-10-05</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
+                                    수정</button>
+                                <button type="button" class="primary-button btn">신청</button>
+                            </div>
+                        </article>
+
+                        <article class="common-table-card" data-status="발급대기">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="card-column1">sw457232</div>
+                                </div>
+                                <div class="card-badge" data-status="발급대기">발급대기</div>
+                            </div>
+                            <div class="card-column2">220,000 원</div>
+                            <div class="card-divider"></div>
+                            <div class="card-row">
+                                <div class="card-row-label">고객명</div>
+                                <div class="card-row-value">삼성SDS</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">공급가액</div>
+                                <div class="card-row-value">200,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">부가세액</div>
+                                <div class="card-row-value">20,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">접수일</div>
+                                <div class="card-row-value">2025-10-05</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
+                                    수정</button>
+                            </div>
+                        </article>
+
+                    </div>
+
+                    <div class="no-transactions" style="display: none;">신청할 세금계산서 내역이 없습니다.</div>
+
+                    <div class="pagination" data-name="Pagination">
+                        <div class="pagination-arrow disabled" onclick="paginationFirst()">
+                            <img src="https://www.figma.com/api/mcp/asset/98c36079-6698-4fbf-8222-1c0b4fcaab1c" alt="처음"
+                                style="transform: rotate(90deg);">
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationPrev()">
+                            <img src="https://www.figma.com/api/mcp/asset/5881851a-69b0-4a30-8ba8-bbb647a7fcc4" alt="이전"
+                                style="transform: rotate(90deg);">
+                        </div>
+                        <div class="pagination-numbers" id="pagination-numbers">
+                            <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationNext()">
+                            <img src="https://www.figma.com/api/mcp/asset/9f728346-6da0-4d2b-a299-2137f0214aea" alt="다음"
+                                style="transform: rotate(90deg) scaleY(-1);">
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationLast()">
+                            <img src="https://www.figma.com/api/mcp/asset/4557e67d-fb94-45a7-a3da-e8690f677a05"
+                                alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="info-section">
+                    <div class="title">세금계산서 신청 이용 안내</div>
+                    <p class="disclaimer">* 배송 시작 후 세금계산서 발급 신청이 가능하며, 미발급건에 대해서는 익월 1일 이후 자동으로 발급됩니다.</p>
+                    <p class="disclaimer">* 충무로 매장에서 구매하는 박스 판매 제품에 한하여 충무로 매장 사업자 번호로 세금계산서가 발급됩니다.</p>
+                    <p class="disclaimer">* 폐업 이후 배송을 시작한 접수건은 현금영수증 자진발급으로 처리되며, '마이페이지 > 현금영수증 발급'에서 확인하실 수 있습니다.</p>
+                </section>
+
+            </div>
+        </main>
+
+    </div>
+
+    <div class="sticky-footer-bar" id="tax-action-footer">
+        <span id="tax-selected-count">총 1건 선택됨</span>
+        <button class="dark-button" id="tax-apply-button" onclick="location.href='tax_request_write(다중).html';">세금계산서 신청</button>
+    </div>
+
+    <div class="modal-overlay" id="tax-edit-modal-overlay">
+        <div class="modal-content" id="tax-edit-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">세금계산서 신청정보 수정</h2>
+                <button class="btn-modal-close" onclick="closeModal('tax-edit-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <nav class="modal-tab-nav" id="tax-edit-tabs">
+                    <div class="single-chip single-chip-on" data-tab="my-info"
+                        onclick="switchTaxEditTab(this, 'my-info')">내 정보</div>
+                    <div class="single-chip single-chip-off" data-tab="direct-input"
+                        onclick="switchTaxEditTab(this, 'direct-input')">직접 입력</div>
+                    <div class="single-chip single-chip-off" data-tab="customer-list"
+                        onclick="switchTaxEditTab(this, 'customer-list')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-list">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M9 6l11 0" />
+                            <path d="M9 12l11 0" />
+                            <path d="M9 18l11 0" />
+                            <path d="M5 6l0 .01" />
+                            <path d="M5 12l0 .01" />
+                            <path d="M5 18l0 .01" />
+                        </svg>&nbsp;나의 고객 목록
+                    </div>
+                </nav>
+
+                <form id="tax-edit-form">
+                    <div class="form-group form-group-button" data-tab-content="customer-list"
+                        style="display: none; margin-bottom: 20px;">
+                        <button type="button" class="white-button" onclick="showCustomerListModal()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-list">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M9 6l11 0" />
+                            <path d="M9 12l11 0" />
+                            <path d="M9 18l11 0" />
+                            <path d="M5 6l0 .01" />
+                            <path d="M5 12l0 .01" />
+                            <path d="M5 18l0 .01" />
+                            </svg>&nbsp;
+                            나의 고객 목록
+                        </button>
+                    </div>
+
+                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
+                        <label for="tax-company-name">기업명</label>
+                        <div class="input" id="tax-company-name-wrapper">
+                            <input type="text" id="tax-company-name" placeholder="기업명을 입력해주세요">
+                        </div>
+                    </div>
+
+                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
+                        <label for="tax-biz-num">사업자등록번호</label>
+                        <div class="input" id="tax-biz-num-wrapper">
+                            <input type="text" id="tax-biz-num" placeholder="사업자등록번호를 입력해주세요">
+                        </div>
+                    </div>
+                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
+                        <label for="tax-rep-name">대표자명</label>
+                        <div class="input" id="tax-rep-name-wrapper">
+                            <input type="text" id="tax-rep-name" placeholder="대표자명을 입력해주세요">
+                        </div>
+                    </div>
+                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
+                        <label for="tax-contact-name">회계담당자명</label>
+                        <div class="input">
+                            <input type="text" id="tax-contact-name" placeholder="회계담당자명을 입력해주세요">
+                        </div>
+                    </div>
+                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
+                        <label for="tax-contact-phone">회계담당자 연락처</label>
+                        <div class="input">
+                            <input type="tel" id="tax-contact-phone" placeholder="회계담당자 연락처를 입력해주세요">
+                        </div>
+                    </div>
+                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
+                        <label for="tax-contact-email">회계담당자 이메일</label>
+                        <div class="input">
+                            <input type="email" id="tax-contact-email" placeholder="회계담당자 이메일 주소를 입력해주세요">
+                        </div>
+                    </div>
+
+                    <div class="form-group" data-tab-content="direct-input" style="display: none;">
+                        <div class="checkbox-text" onclick="toggleModalCheckbox(this)">
+                            <div class="checkbox" data-checked="false">
+                                <div class="checkbox-off"></div>
+                            </div>
+                            <span>나의 고객 목록에 추가하기</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="alert('수정하기 (구현 필요)')">수정하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="customer-list-modal-overlay">
+        <div class="modal-content" id="customer-list-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">나의 고객 목록</h2>
+                <button class="btn-modal-close" onclick="closeModal('customer-list-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-section" style="padding: 0 0 16px 0;">
+                    <div class="search" data-name="search" id="customer-search">
+                        <input type="text" placeholder="검색어를 입력해주세요" oninput="handleSearchInput(this)">
+                        <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this)">
+                                <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d"
+                                    alt="삭제">
+                            </div>
+                            <div class="btn-search" onclick="handleSearch(this)">
+                                <img src="https://www.figma.com/api/mcp/asset/4af11b15-4228-4024-b0ec-cd703ca89e9f"
+                                    alt="검색">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transaction-list-header"
+                    style="padding-bottom: 12px; margin-bottom: 12px; border-color: #e8e8e9;">
+                    <span class="total-count">총 <strong>4</strong>개</span>
+                </div>
+
+                <div class="customer-list">
+                    <article class="customer-item">
+                        <div class="customer-item-header">
+                            <span class="customer-name">삼성 SDS</span>
+                            <button class="white-button"
+                                onclick="selectCustomer('삼성 SDS', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
+                    </article>
+
+                    <article class="customer-item">
+                        <div class="customer-item-header">
+                            <span class="customer-name">LG</span>
+                            <button class="white-button"
+                                onclick="selectCustomer('LG', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
+                    </article>
+
+                    <article class="customer-item">
+                        <div class="customer-item-header">
+                            <span class="customer-name">현대오토에버</span>
+                            <button class="white-button"
+                                onclick="selectCustomer('현대오토에버', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
+                    </article>
+
+                    <article class="customer-item">
+                        <div class="customer-item-header">
+                            <span class="customer-name">대우</span>
+                            <button class="white-button"
+                                onclick="selectCustomer('대우', '232-34-33445', '김길동', '', '', '')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="tax-pending-modal-overlay">
+        <div class="modal-content" id="tax-pending-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">세금계산서 신청정보</h2>
+                <button class="btn-modal-close" onclick="closeModal('tax-pending-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="disclaimer warning"
+                    style="margin-top: 0; margin-bottom: 20px; font-size: 14px; text-align: center;">
+                    ① 세금계산서가 '발급대기' 상태일 때는,<br>기업명을 수정할 수 없습니다.
+                </p>
+                <form id="tax-pending-form">
+                    <div class="form-group">
+                        <label>기업명</label>
+                        <div class="input disabled">
+                            <input type="text" value="삼성 SDS" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>사업자등록번호</label>
+                        <div class="readonly-value">123-45-67890</div>
+                    </div>
+                    <div class="form-group">
+                        <label>대표자명</label>
+                        <div class="readonly-value">김길동</div>
+                    </div>
+                    <div class="form-group">
+                        <label>회계담당자명</label>
+                        <div class="readonly-value">김성원</div>
+                    </div>
+                    <div class="form-group">
+                        <label>회계담당자 연락처</label>
+                        <div class="readonly-value">01012341234</div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>회계담당자 이메일 주소</label>
+                        <div class="readonly-value">test@test.com</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;"
+                    onclick="closeModal('tax-pending-modal-overlay')">확인 완료</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- [NEW] Page Tab Logic ---
+        function selectPageTab(tab) {
+            const nav = tab.closest('#page-tab-nav');
+            if (!nav) return;
+            nav.querySelectorAll('.page-tab-item').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const page = tab.getAttribute('data-page');
+            if (page === 'issue') {
+                alert('발급 내역 페이지로 이동 (구현 필요)');
+            }
+        }
+
+        // --- [NEW] v12 Master Guide JS Components ---
+
+        // Checkbox
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+            }
+        }
+
+        // MultiChip
+        function toggleMultiChip(chip, forceState) {
+            const isCurrentlyOn = chip.classList.contains('multi-chip-on');
+            let turnOn;
+
+            if (forceState === true) { // Force On
+                turnOn = true;
+            } else if (forceState === false) { // Force Off
+                turnOn = false;
+            } else { // Toggle
+                turnOn = !isCurrentlyOn;
+            }
+
+            if (turnOn && !isCurrentlyOn) {
+                chip.classList.remove('multi-chip-off');
+                chip.classList.add('multi-chip-on');
+                chip.innerHTML = '✓ ' + chip.innerHTML.trim();
+            } else if (!turnOn && isCurrentlyOn) {
+                chip.classList.remove('multi-chip-on');
+                chip.classList.add('multi-chip-off');
+                chip.innerHTML = chip.innerHTML.replace('✓ ', '');
+            }
+        }
+
+        // Search
+        function handleSearchInput(input) {
+            const searchBox = input.closest('.search');
+            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+        }
+        function clearSearch(btn) {
+            const searchBox = btn.closest('.search');
+            const input = searchBox.querySelector('input');
+            input.value = '';
+            searchBox.classList.remove('has-text');
+            input.focus();
+        }
+        function handleSearch(btn) { console.log('Search submitted:', btn.closest('.search').querySelector('input').value); }
+
+
+        // --- [NEW] Tax Invoice Page Logic ---
+
+        // [NEW] Period Chip Logic
+        function selectPeriodChip(chip) {
+            const group = chip.closest('#period-chip-group');
+            if (group) {
+                group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+                chip.classList.replace('single-chip-off', 'single-chip-on');
+            }
+            console.log("Period filter changed to:", chip.dataset.period);
+            filterTaxInvoices(); // Re-run main filter
+        }
+
+        function toggleTaxCheckbox(checkboxEl) {
+            // 1. Toggle the checkbox UI
+            toggleCheckbox(checkboxEl);
+            // 2. Update the sticky footer
+            updateTaxFooter();
+        }
+
+        function updateTaxFooter() {
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
+
+            const checkedBoxes = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
+            const count = checkedBoxes.length;
+            const footer = document.getElementById('tax-action-footer');
+            const body = document.body;
+
+            if (count > 0) {
+                footer.classList.add('active');
+                document.getElementById('tax-selected-count').textContent = `총 ${count}건 선택됨`;
+                // Set padding to prevent footer from overlapping content
+                document.querySelector('.mobile-wrap').style.paddingBottom = '84px';
+            } else {
+                footer.classList.remove('active');
+                document.querySelector('.mobile-wrap').style.paddingBottom = '20px'; // Reset to default
+            }
+        }
+
+        // [NEW] Multi-select chip filtering
+        function toggleStatusChip(chip) {
+            const status = chip.getAttribute('data-status');
+            const group = chip.closest('#status-chip-group');
+            const allChip = group.querySelector('[data-status="전체"]');
+
+            if (status === '전체') {
+                const isTurningOn = !chip.classList.contains('multi-chip-on');
+                // Toggle '전체'
+                toggleMultiChip(chip, isTurningOn);
+                // Turn all others off
+                group.querySelectorAll('.multi-chip').forEach(c => {
+                    if (c !== chip) toggleMultiChip(c, false);
+                });
+            } else {
+                // Toggle this chip
+                toggleMultiChip(chip);
+                // Turn '전체' off
+                toggleMultiChip(allChip, false);
+
+                // Check if all others are off
+                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-status="전체"])'))
+                    .some(c => c.classList.contains('multi-chip-on'));
+                if (!anyOtherOn) {
+                    // If all are off, turn '전체' on
+                    toggleMultiChip(allChip, true);
+                }
+            }
+            filterTaxInvoices();
+        }
+
+        function filterTaxInvoices() {
+            // [NEW] Get selected period (for future use, not filtering data yet)
+            const periodChip = document.querySelector('#period-chip-group .single-chip-on');
+            const selectedPeriod = periodChip ? periodChip.dataset.period : 'current';
+
+            const selectedStatuses = [];
+            document.querySelectorAll('#status-chip-group .multi-chip-on').forEach(chip => {
+                selectedStatuses.push(chip.dataset.status);
+            });
+
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
+
+            const cards = listContainer.querySelectorAll('.common-table-card');
+            const noResultMsg = listContainer.parentElement.querySelector('.no-transactions');
+            let visibleCount = 0;
+            const isAllSelected = selectedStatuses.includes('전체');
+
+            cards.forEach(card => {
+                const cardStatus = card.getAttribute('data-status');
+                // TODO: Add period filtering logic here when data is dynamic
+                if (isAllSelected || selectedStatuses.includes(cardStatus)) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const countEl = document.getElementById('transaction-count');
+            if (countEl) countEl.textContent = visibleCount;
+            if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+
+        // --- [EXISTING] Pagination Logic ---
+        let currentPage = 1; const totalPages = 1; // [MODIFIED] Total pages
+        function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); }
+        function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
+        function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
+        function paginationFirst() { paginationGo(1); }
+        function paginationLast() { paginationGo(totalPages); }
+        function updatePagination() {
+            const numbersContainer = document.getElementById('pagination-numbers');
+            if (!numbersContainer) return;
+
+            numbersContainer.innerHTML = ''; // Clear
+            for (let i = 1; i <= totalPages; i++) {
+                const numEl = document.createElement('div');
+                numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
+                numEl.dataset.page = i;
+                numEl.textContent = i;
+                numEl.onclick = () => paginationGo(i);
+                numbersContainer.appendChild(numEl);
+            }
+
+            const paginationRoot = numbersContainer.closest('.pagination');
+            if (!paginationRoot) return;
+
+            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
+            const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
+
+            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
+            nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
+        }
+
+        // ========================================
+        // [NEW] MODAL JAVASCRIPT
+        // ========================================
+
+        // --- Modal Helpers ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                // Don't reset body overflow if another modal is still open
+                const anyModalActive = document.querySelector('.modal-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+
+        // --- Checkbox in Modal ---
+        function toggleModalCheckbox(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+            }
+        }
+
+        // --- Tax Edit Modal Logic ---
+        const taxEditForm = document.getElementById('tax-edit-form');
+        const taxEditInputs = {
+            companyName: taxEditForm.querySelector('#tax-company-name'),
+            bizNum: taxEditForm.querySelector('#tax-biz-num'),
+            repName: taxEditForm.querySelector('#tax-rep-name'),
+            contactName: taxEditForm.querySelector('#tax-contact-name'),
+            contactPhone: taxEditForm.querySelector('#tax-contact-phone'),
+            contactEmail: taxEditForm.querySelector('#tax-contact-email')
+        };
+        const taxEditWrappers = {
+            companyName: taxEditForm.querySelector('#tax-company-name-wrapper'),
+            bizNum: taxEditForm.querySelector('#tax-biz-num-wrapper'),
+            repName: taxEditForm.querySelector('#tax-rep-name-wrapper')
+        };
+
+        function showTaxEditModal(buttonEl) {
+            const card = buttonEl.closest('.common-table-card');
+            const status = card.getAttribute('data-status');
+
+            if (status === '발급대기') {
+                // '발급대기' 모달 표시 (PDF 3번 시안)
+                // (실제로는 이 모달에도 데이터를 채워야 함)
+                openModal('tax-pending-modal-overlay');
+            } else {
+                // '신청정보 수정' 모달 표시
+                // 기본값 '내 정보' 탭으로 설정
+                switchTaxEditTab(document.querySelector('#tax-edit-tabs [data-tab="my-info"]'), 'my-info');
+                openModal('tax-edit-modal-overlay');
+            }
+        }
+
+        function switchTaxEditTab(tabEl, tabName) {
+            // 탭 활성화
+            const tabNav = tabEl.closest('.modal-tab-nav');
+            tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            tabEl.classList.replace('single-chip-off', 'single-chip-on');
+
+            // 폼 필드 초기화
+            Object.values(taxEditInputs).forEach(input => {
+                input.value = '';
+                input.disabled = false;
+            });
+            Object.values(taxEditWrappers).forEach(wrapper => {
+                wrapper.classList.remove('disabled');
+            });
+
+            // '나의 고객 목록' 버튼을 먼저 찾음
+            const customerListButton = taxEditForm.querySelector('.form-group-button[data-tab-content="customer-list"]');
+
+            // 폼 섹션(입력 필드) 보이기/숨기기
+            taxEditForm.querySelectorAll('.form-group:not(.form-group-button)').forEach(el => {
+                el.style.display = 'none';
+            });
+            taxEditForm.querySelectorAll(`.form-group[data-tab-content*="${tabName}"]:not(.form-group-button)`).forEach(el => {
+                el.style.display = 'block';
+            });
+
+            // '나의 고객 목록' 탭일 때만 버튼 표시
+            if (tabName === 'customer-list') {
+                customerListButton.style.display = 'block';
+            } else {
+                customerListButton.style.display = 'none';
+            }
+
+
+            // 탭별 로직 적용
+            if (tabName === 'my-info') {
+                // PDF 4번 시안 (내 정보)
+                taxEditInputs.companyName.value = "삼성 SDS";
+                taxEditInputs.bizNum.value = "123-45-67890";
+                taxEditInputs.repName.value = "김길동";
+                taxEditInputs.contactName.value = "김성원";
+                taxEditInputs.contactPhone.value = "01012341234";
+                taxEditInputs.contactEmail.value = "test@test.com";
+
+                // 상위 3개 필드 비활성화
+                taxEditInputs.companyName.disabled = true;
+                taxEditInputs.bizNum.disabled = true;
+                taxEditInputs.repName.disabled = true;
+                taxEditWrappers.companyName.classList.add('disabled');
+                taxEditWrappers.bizNum.classList.add('disabled');
+                taxEditWrappers.repName.classList.add('disabled');
+
+            } else if (tabName === 'direct-input') {
+                // PDF 5번 시안 (직접 입력)
+                // 모든 필드가 placeholder 상태 (위에서 초기화됨)
+
+            } else if (tabName === 'customer-list') {
+                // PDF 1번 시안 (나의 고객 목록)
+                // 고객 목록에서 선택된 정보로 채움 (예시)
+                // 실제로는 selectCustomer() 함수가 이 값을 채움
+                // 여기서는 '선택' 버튼을 누르기 전의 빈 상태를 가정
+            }
+        }
+
+        // --- Customer List Modal Logic ---
+        function showCustomerListModal() {
+            // '신청정보 수정' 모달을 닫지 않고 그 위에 띄움
+            openModal('customer-list-modal-overlay');
+        }
+
+        function selectCustomer(company, bizNum, repName, contactName, contactPhone, contactEmail) {
+            // 1. 고객 목록 모달 닫기
+            closeModal('customer-list-modal-overlay');
+
+            // 2. '신청정보 수정' 모달의 '나의 고객 목록' 탭으로 강제 전환
+            switchTaxEditTab(document.querySelector('#tax-edit-tabs [data-tab="customer-list"]'), 'customer-list');
+
+            // 3. '신청정보 수정' 모달에 데이터 채우기 (PDF 1번 시안)
+            taxEditInputs.companyName.value = company;
+            taxEditInputs.bizNum.value = bizNum;
+            taxEditInputs.repName.value = repName;
+            taxEditInputs.contactName.value = contactName;
+            taxEditInputs.contactPhone.value = contactPhone;
+            taxEditInputs.contactEmail.value = contactEmail;
+
+            // '나의 고객 목록' 탭에서는 모든 필드가 활성화 상태 (disabled=false)
+            Object.values(taxEditInputs).forEach(input => {
+                input.disabled = false;
+            });
+            Object.values(taxEditWrappers).forEach(wrapper => {
+                wrapper.classList.remove('disabled');
+            });
+        }
+
+
+        // --- [MODIFIED] Initialize (Event listeners etc.) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePagination();
+            filterTaxInvoices(); // [NEW] Initial filter for tax page
+            updateTaxFooter(); // [NEW] Initial footer check
+
+            // [NEW] Modal overlay click-to-close listeners
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>
