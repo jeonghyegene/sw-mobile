@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>세금계산서 발급 (v19 기준)</title>
+    <title>현금영수증 발급 (신청)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -984,8 +984,6 @@
             font-weight: 700;
             color: black;
             text-align: left;
-            /* [MODIFIED] Left aligned */
-            /* width: 100%; [REMOVED] */
         }
 
         .btn-modal-close {
@@ -1033,6 +1031,9 @@
         /* [NEW] Modal Form Elements (from v12 guide / sungwon_money) */
         .form-group {
             margin-bottom: 20px;
+        }
+        .form-group:last-child {
+            margin-bottom: 0;
         }
 
         .form-group label {
@@ -1098,71 +1099,12 @@
         }
 
         .modal-tab-nav .single-chip {
-            /* flex: 1; [REMOVED] */
             font-weight: 500;
         }
 
-        /* [MODIFIED] Use v12 Master Guide chip styles */
         .modal-tab-nav .single-chip-on {
             background: #4e6ee4;
-            /* Master Guide blue */
             color: white;
-        }
-
-        /* [NEW] Customer List Modal Styles */
-        .customer-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .customer-item {
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            padding: 12px;
-        }
-
-        .customer-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .customer-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .customer-item .white-button {
-            height: 32px;
-            font-size: 13px;
-            padding: 0 12px;
-            flex-shrink: 0;
-        }
-
-        .customer-detail {
-            font-size: 13px;
-            color: #555;
-            margin-bottom: 4px;
-            line-height: 1.5;
-        }
-
-        .customer-detail .label {
-            font-weight: 500;
-            color: #333;
-        }
-
-        /* [NEW] Form group for customer list button */
-        .form-group-button {
-            /* margin-bottom: 20px; Moved to inline style */
-        }
-
-        .form-group-button .white-button {
-            width: 100%;
-            height: 40px;
-            font-weight: 500;
         }
     </style>
 </head>
@@ -1179,7 +1121,7 @@
                     </svg>
                 </button>
             </div>
-            <h1 class="header-title">세금계산서 발급</h1>
+            <h1 class="header-title">현금영수증 발급</h1>
             <div class="header-right">
                 <button type="button" class="btn-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
@@ -1200,292 +1142,175 @@
 
         <main>
             <nav class="page-tabs" id="page-tab-nav">
-                <div class="page-tab-item active" data-page="request">신청</div>
-                <div class="page-tab-item" data-page="issue" onclick="location.href='tax_issue.html'">발급 내역</div>
+                <div class="page-tab-item active" data-page="request" onclick="selectPageTab(this)">신청</div>
+                <div class="page-tab-item" data-page="issue" onclick="location.href='cr_issue.html';">발급 내역</div>
             </nav>
 
-            <div class="sw-container">
+            <div id="page-content-request" style="display: block;">
+                <div class="sw-container">
 
-                <section class="filter-section" style="padding-bottom: 8px;">
-                    <div class="tabs-scroll-wrapper" id="period-chip-group">
-                        <div class="single-chip single-chip-on" data-period="current" onclick="selectPeriodChip(this)">
-                            2025년 10월</div>
-                        <div class="single-chip single-chip-off" data-period="previous"
-                            onclick="selectPeriodChip(this)">2025년 9월</div>
-                    </div>
-                </section>
+                    <section class="filter-section" style="padding-bottom: 8px;">
+                        <div class="tabs-scroll-wrapper" id="period-chip-group">
+                            <div class="single-chip single-chip-on" data-period="current">
+                                2025년 8월</div>
+                        </div>
+                    </section>
 
-                <section class="filter-chip-section">
-                    <div class="tabs-scroll-wrapper" id="status-chip-group">
-                        <div class="multi-chip multi-chip-off" data-status="전체" onclick="toggleStatusChip(this)">전체
-                        </div>
-                        <div class="multi-chip multi-chip-on" data-status="미발급" onclick="toggleStatusChip(this)">✓ 미발급
-                        </div>
-                        <div class="multi-chip multi-chip-on" data-status="발급대기" onclick="toggleStatusChip(this)">✓ 발급대기
-                        </div>
-                        <div class="multi-chip multi-chip-off" data-status="발급실패" onclick="toggleStatusChip(this)">발급실패
-                        </div>
-                        <div class="multi-chip multi-chip-off" data-status="폐기처리" onclick="toggleStatusChip(this)">폐기처리
-                        </div>
-                    </div>
-                </section>
-
-                <section class="filter-section" style="padding-top: 0;">
-                    <div class="search" data-name="search" id="tax-search">
-                        <input type="text" placeholder="접수번호 또는 고객명 입력" oninput="handleSearchInput(this)">
-                        <div class="search-input-right">
-                            <div class="search-del" onclick="clearSearch(this)">
-                                <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d"
-                                    alt="삭제">
+                    <section class="filter-chip-section">
+                        <div class="tabs-scroll-wrapper" id="status-chip-group">
+                            <div class="multi-chip multi-chip-off" data-status="전체" onclick="toggleStatusChip(this)">전체
                             </div>
-                            <div class="btn-search" onclick="handleSearch(this)">
-                                <img src="https://www.figma.com/api/mcp/asset/4af11b15-4228-4024-b0ec-cd703ca89e9f"
-                                    alt="검색">
+                            <div class="multi-chip multi-chip-on" data-status="미발급" onclick="toggleStatusChip(this)">✓ 미발급
+                            </div>
+                            <div class="multi-chip multi-chip-on" data-status="발급대기" onclick="toggleStatusChip(this)">✓ 발급대기
+                            </div>
+                            <div class="multi-chip multi-chip-off" data-status="발급실패" onclick="toggleStatusChip(this)">발급실패
+                            </div>
+                            <div class="multi-chip multi-chip-off" data-status="폐기처리" onclick="toggleStatusChip(this)">폐기처리
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                <section class="transaction-list-section">
-                    <div class="transaction-list-header">
-                        <span class="total-count">총 <strong id="transaction-count">7</strong>건</span>
-                        <div class="view-count-select">
-                            <span class="view-count-select-text">20건씩 보기</span>
-                            <div class="view-count-select-arrow">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                                    <path d="M6 9l6 6l6 -6" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="transaction-list" id="transaction-list-container">
-
-                        <article class="common-table-card" data-status="미발급">
-                            <div class="card-header">
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
-                                        <div class="checkbox-off"></div>
-                                    </div>
-                                    <div class="card-column1">sw456426</div>
+                    <section class="filter-section" style="padding-top: 0;">
+                        <div class="search" data-name="search" id="tax-search">
+                            <input type="text" placeholder="접수번호 입력" oninput="handleSearchInput(this)">
+                            <div class="search-input-right">
+                                <div class="search-del" onclick="clearSearch(this)">
+                                    <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d"
+                                        alt="삭제">
                                 </div>
-                                <div class="card-badge" data-status="미발급">미발급</div>
-                            </div>
-                            <div class="card-column2">220,000 원</div>
-                            <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">접수일</div>
-                                <div class="card-row-value">2025-10-27</div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
-                                    수정</button>
-                                <button type="button" class="primary-button btn">신청</button>
-                            </div>
-                        </article>
-
-                        <article class="common-table-card" data-status="미발급">
-                            <div class="card-header">
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="true" onclick="toggleTaxCheckbox(this)">
-                                        <div class="checkbox-on"><img
-                                                src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a"
-                                                alt="체크"></div>
-                                    </div>
-                                    <div class="card-column1">sw876341</div>
+                                <div class="btn-search" onclick="handleSearch(this)">
+                                    <img src="https://www.figma.com/api/mcp/asset/4af11b15-4228-4024-b0ec-cd703ca89e9f"
+                                        alt="검색">
                                 </div>
-                                <div class="card-badge" data-status="미발급">미발급</div>
                             </div>
-                            <div class="card-column2">220,000 원</div>
-                            <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">접수일</div>
-                                <div class="card-row-value">2025-10-18</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">배송시작일</div>
-                                <div class="card-row-value">2025-10-20</div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
-                                    수정</button>
-                                <button type="button" class="primary-button btn">신청</button>
-                            </div>
-                        </article>
+                        </div>
+                    </section>
 
-                        <article class="common-table-card" data-status="미발급">
-                            <div class="card-header">
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
-                                        <div class="checkbox-off"></div>
-                                    </div>
-                                    <div class="card-column1">sw567834</div>
+                    <section class="transaction-list-section">
+                        <div class="transaction-list-header">
+                            <span class="total-count">총 <strong id="transaction-count">2</strong>건</span>
+                            <div class="view-count-select">
+                                <span class="view-count-select-text">20건씩 보기</span>
+                                <div class="view-count-select-arrow">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                        <path d="M6 9l6 6l6 -6" />
+                                    </svg>
                                 </div>
-                                <div class="card-badge" data-status="미발급">미발급</div>
                             </div>
-                            <div class="card-column2">1,000,220,000 원</div>
-                            <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">고객명</div>
-                                <div class="card-row-value">홍길동인쇄업체</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">1,000,200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">접수일</div>
-                                <div class="card-row-value">2025-10-13</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">배송시작일</div>
-                                <div class="card-row-value">2025-10-14</div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
-                                    수정</button>
-                                <button type="button" class="primary-button btn">신청</button>
-                            </div>
-                        </article>
+                        </div>
 
-                        <article class="common-table-card" data-status="폐기처리">
-                            <div class="card-header">
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
-                                        <div class="checkbox-off"></div>
+                        <div class="transaction-list" id="transaction-list-container">
+
+                            <article class="common-table-card" data-status="미발급">
+                                <div class="card-header">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
+                                            <div class="checkbox-off"></div>
+                                        </div>
+                                        <div class="card-column1">sw765642</div>
                                     </div>
-                                    <div class="card-column1">sw457232</div>
+                                    <div class="card-badge" data-status="미발급">미발급</div>
                                 </div>
-                                <div class="card-badge" data-status="폐기처리">폐기처리</div>
-                            </div>
-                            <div class="card-column2">220,000 원</div>
-                            <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">고객명</div>
-                                <div class="card-row-value">홍길동인쇄업체</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">접수일</div>
-                                <div class="card-row-value">2025-10-05</div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
-                                    수정</button>
-                                <button type="button" class="primary-button btn">신청</button>
-                            </div>
-                        </article>
+                                <div class="card-column2">550,000 원</div>
+                                <div class="card-divider"></div>
+                                <div class="card-row">
+                                    <div class="card-row-label">접수일</div>
+                                    <div class="card-row-value">2025-08-11</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">배송시작일</div>
+                                    <div class="card-row-value">2025-08-12</div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="button" class="white-button btn" onclick="showReceiptEditModal(this, '수정')">신청정보
+                                        수정</button>
+                                    <button type="button" class="primary-button btn" onclick="showReceiptEditModal(this, '신청')">신청</button>
+                                </div>
+                            </article>
 
-                        <article class="common-table-card" data-status="발급대기">
-                            <div class="card-header">
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
-                                        <div class="checkbox-off"></div>
+                            <article class="common-table-card" data-status="미발급">
+                                <div class="card-header">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
+                                            <div class="checkbox-off"></div>
+                                        </div>
+                                        <div class="card-column1">sw789651</div>
                                     </div>
-                                    <div class="card-column1">sw457232</div>
+                                    <div class="card-badge" data-status="미발급">미발급</div>
                                 </div>
-                                <div class="card-badge" data-status="발급대기">발급대기</div>
-                            </div>
-                            <div class="card-column2">220,000 원</div>
-                            <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">고객명</div>
-                                <div class="card-row-value">삼성SDS</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">접수일</div>
-                                <div class="card-row-value">2025-10-05</div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
-                                    수정</button>
-                            </div>
-                        </article>
+                                <div class="card-column2">550,000 원</div>
+                                <div class="card-divider"></div>
+                                <div class="card-row">
+                                    <div class="card-row-label">접수일</div>
+                                    <div class="card-row-value">2025-08-09</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">배송시작일</div>
+                                    <div class="card-row-value">2025-08-10</div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="button" class="white-button btn" onclick="showReceiptEditModal(this, '수정')">신청정보
+                                        수정</button>
+                                    <button type="button" class="primary-button btn" onclick="showReceiptEditModal(this, '신청')">신청</button>
+                                </div>
+                            </article>
 
-                    </div>
+                        </div>
 
-                    <div class="no-transactions" style="display: none;">신청할 세금계산서 내역이 없습니다.</div>
+                        <div class="no-transactions" id="no-request-list" style="display: none;">신청할 현금영수증 내역이 없습니다.</div>
 
-                    <div class="pagination" data-name="Pagination">
-                        <div class="pagination-arrow disabled" onclick="paginationFirst()">
-                            <img src="https://www.figma.com/api/mcp/asset/98c36079-6698-4fbf-8222-1c0b4fcaab1c" alt="처음"
-                                style="transform: rotate(90deg);">
+                        <div class="pagination" data-name="Pagination">
+                            <div class="pagination-arrow disabled" onclick="paginationFirst()">
+                                <img src="https://www.figma.com/api/mcp/asset/98c36079-6698-4fbf-8222-1c0b4fcaab1c" alt="처음"
+                                    style="transform: rotate(90deg);">
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationPrev()">
+                                <img src="https://www.figma.com/api/mcp/asset/5881851a-69b0-4a30-8ba8-bbb647a7fcc4" alt="이전"
+                                    style="transform: rotate(90deg);">
+                            </div>
+                            <div class="pagination-numbers" id="pagination-numbers">
+                                <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationNext()">
+                                <img src="https://www.figma.com/api/mcp/asset/9f728346-6da0-4d2b-a299-2137f0214aea" alt="다음"
+                                    style="transform: rotate(90deg) scaleY(-1);">
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationLast()">
+                                <img src="https://www.figma.com/api/mcp/asset/4557e67d-fb94-45a7-a3da-e8690f677a05"
+                                    alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                            </div>
                         </div>
-                        <div class="pagination-arrow disabled" onclick="paginationPrev()">
-                            <img src="https://www.figma.com/api/mcp/asset/5881851a-69b0-4a30-8ba8-bbb647a7fcc4" alt="이전"
-                                style="transform: rotate(90deg);">
-                        </div>
-                        <div class="pagination-numbers" id="pagination-numbers">
-                            <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
-                        </div>
-                        <div class="pagination-arrow disabled" onclick="paginationNext()">
-                            <img src="https://www.figma.com/api/mcp/asset/9f728346-6da0-4d2b-a299-2137f0214aea" alt="다음"
-                                style="transform: rotate(90deg) scaleY(-1);">
-                        </div>
-                        <div class="pagination-arrow disabled" onclick="paginationLast()">
-                            <img src="https://www.figma.com/api/mcp/asset/4557e67d-fb94-45a7-a3da-e8690f677a05"
-                                alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
-                        </div>
-                    </div>
-                </section>
+                    </section>
 
-                <section class="info-section">
-                    <div class="title">세금계산서 신청 이용 안내</div>
-                    <p class="disclaimer">* 배송 시작 후 세금계산서 발급 신청이 가능하며, 미발급건에 대해서는 익월 1일 이후 자동으로 발급됩니다.</p>
-                    <p class="disclaimer">* 충무로 매장에서 구매하는 박스 판매 제품에 한하여 충무로 매장 사업자 번호로 세금계산서가 발급됩니다.</p>
-                    <p class="disclaimer">* 폐업 이후 배송을 시작한 접수건은 현금영수증 자진발급으로 처리되며, '마이페이지 > 현금영수증 발급'에서 확인하실 수 있습니다.</p>
-                </section>
+                    <section class="info-section">
+                        <div class="title">현금영수증 신청 이용 안내</div>
+                        <p class="disclaimer">* 성원페이로 결제한 주문건만 현금영수증 신청이 가능합니다.</p>
+                        <p class="disclaimer">* 현금영수증 신청은 배송 시작 후부터 신청이 가능하며, 역월 1일까지 신청하셔야 합니다. (확인 필요)</p>
+                        <p class="disclaimer">* 현금영수증은 국세청 홈페이지 회원가입 여부와 관계없이 발행되나 소득공제 혜택을 보시려면 국세청 홈페이지에 회원가입을 해야만 합니다.</p>
+                        <p class="disclaimer">* 현금영수증 서비스 등록 및 자세한 내용은 국세청 홈페이지 (www.hometax.go.kr)에서 확인하실 수 있습니다.</p>
+                        <p class="disclaimer">* 현금영수증 자진발급건은 발급 내역에서 확인하실 수 있습니다.</p>
+                    </section>
 
+                </div>
             </div>
+
+            <div id="page-content-issue" style="display: none;">
+                </div>
         </main>
 
     </div>
 
     <div class="sticky-footer-bar" id="tax-action-footer">
         <span id="tax-selected-count">총 1건 선택됨</span>
-        <button class="dark-button" id="tax-apply-button" onclick="location.href='tax_request_write(다중).html';">세금계산서 신청</button>
+        <button class="dark-button" id="tax-apply-button" onclick="alert('다중 신청 페이지로 이동 (구현 필요)')">현금영수증 신청</button>
     </div>
 
-    <div class="modal-overlay" id="tax-edit-modal-overlay">
-        <div class="modal-content" id="tax-edit-modal">
+    <div class="modal-overlay" id="receipt-edit-modal-overlay">
+        <div class="modal-content" id="receipt-edit-modal">
             <div class="modal-header">
-                <h2 class="modal-title">세금계산서 신청정보 수정</h2>
-                <button class="btn-modal-close" onclick="closeModal('tax-edit-modal-overlay')">
+                <h2 class="modal-title" id="receipt-modal-title">현금영수증 신청 정보</h2>
+                <button class="btn-modal-close" onclick="closeModal('receipt-edit-modal-overlay')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path d="M18 6l-12 12" />
                         <path d="M6 6l12 12" />
@@ -1493,245 +1318,46 @@
                 </button>
             </div>
             <div class="modal-body">
-                <nav class="modal-tab-nav" id="tax-edit-tabs">
-                    <div class="single-chip single-chip-on" data-tab="my-info"
-                        onclick="switchTaxEditTab(this, 'my-info')">내 정보</div>
-                    <div class="single-chip single-chip-off" data-tab="direct-input"
-                        onclick="switchTaxEditTab(this, 'direct-input')">직접 입력</div>
-                    <div class="single-chip single-chip-off" data-tab="customer-list"
-                        onclick="switchTaxEditTab(this, 'customer-list')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="icon icon-tabler icons-tabler-outline icon-tabler-list">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M9 6l11 0" />
-                            <path d="M9 12l11 0" />
-                            <path d="M9 18l11 0" />
-                            <path d="M5 6l0 .01" />
-                            <path d="M5 12l0 .01" />
-                            <path d="M5 18l0 .01" />
-                        </svg>&nbsp;나의 고객 목록
-                    </div>
+                <nav class="modal-tab-nav" id="receipt-edit-tabs">
+                    <div class="single-chip single-chip-on" data-tab="income-deduction"
+                        onclick="switchReceiptEditTab(this, 'income-deduction')">소득공제</div>
+                    <div class="single-chip single-chip-off" data-tab="business-expense"
+                        onclick="switchReceiptEditTab(this, 'business-expense')">지출증빙</div>
                 </nav>
 
-                <form id="tax-edit-form">
-                    <div class="form-group form-group-button" data-tab-content="customer-list"
-                        style="display: none; margin-bottom: 20px;">
-                        <button type="button" class="white-button" onclick="showCustomerListModal()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="icon icon-tabler icons-tabler-outline icon-tabler-list">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M9 6l11 0" />
-                            <path d="M9 12l11 0" />
-                            <path d="M9 18l11 0" />
-                            <path d="M5 6l0 .01" />
-                            <path d="M5 12l0 .01" />
-                            <path d="M5 18l0 .01" />
-                            </svg>&nbsp;
-                            나의 고객 목록
-                        </button>
-                    </div>
-
-                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
-                        <label for="tax-company-name">기업명</label>
-                        <div class="input" id="tax-company-name-wrapper">
-                            <input type="text" id="tax-company-name" placeholder="기업명을 입력해주세요">
-                        </div>
-                    </div>
-
-                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
-                        <label for="tax-biz-num">사업자등록번호</label>
-                        <div class="input" id="tax-biz-num-wrapper">
-                            <input type="text" id="tax-biz-num" placeholder="사업자등록번호를 입력해주세요">
-                        </div>
-                    </div>
-                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
-                        <label for="tax-rep-name">대표자명</label>
-                        <div class="input" id="tax-rep-name-wrapper">
-                            <input type="text" id="tax-rep-name" placeholder="대표자명을 입력해주세요">
-                        </div>
-                    </div>
-                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
-                        <label for="tax-contact-name">회계담당자명</label>
-                        <div class="input">
-                            <input type="text" id="tax-contact-name" placeholder="회계담당자명을 입력해주세요">
-                        </div>
-                    </div>
-                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
-                        <label for="tax-contact-phone">회계담당자 연락처</label>
-                        <div class="input">
-                            <input type="tel" id="tax-contact-phone" placeholder="회계담당자 연락처를 입력해주세요">
-                        </div>
-                    </div>
-                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
-                        <label for="tax-contact-email">회계담당자 이메일</label>
-                        <div class="input">
-                            <input type="email" id="tax-contact-email" placeholder="회계담당자 이메일 주소를 입력해주세요">
-                        </div>
-                    </div>
-
-                    <div class="form-group" data-tab-content="direct-input" style="display: none;">
-                        <div class="checkbox-text" onclick="toggleModalCheckbox(this)">
-                            <div class="checkbox" data-checked="false">
-                                <div class="checkbox-off"></div>
+                <form id="receipt-edit-form">
+                    <div class="form-fields-wrapper" data-tab-content="income-deduction">
+                        <div class="form-group">
+                            <label for="receipt-id-income">발급번호</label>
+                            <div class="input">
+                                <input type="tel" id="receipt-id-income" placeholder="'-'없이 숫자만 입력">
                             </div>
-                            <span>나의 고객 목록에 추가하기</span>
+                            <p class="disclaimer">* 외국인 고객이신 경우, 외국인번호를 입력하세요</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-fields-wrapper" data-tab-content="business-expense" style="display: none;">
+                        <div class="form-group">
+                            <label for="receipt-biz-num">사업자등록번호</label>
+                            <div class="input">
+                                <input type="text" id="receipt-biz-num" placeholder="'-'없이 숫자만 입력">
+                            </div>
                         </div>
                     </div>
                 </form>
+
+                <div class="card-divider" style="margin-top: 24px; margin-bottom: 16px;"></div>
+                <div style="line-height: 1.5; text-align: right;">
+                    <div style="font-size: 13px; color: #666;" id="modal-receipt-count">총 1건 / 총 금액</div>
+                    <div style="font-size: 20px; color: #000; font-weight: 700;" id="modal-receipt-total">₩0</div>
+                </div>
+
             </div>
             <div class="modal-footer">
-                <button class="btn dark-button" style="width: 100%;" onclick="alert('수정하기 (구현 필요)')">수정하기</button>
+                <button class="btn dark-button" style="width: 100%;" id="receipt-modal-button" onclick="alert('신청하기 (구현 필요)')">신청하기</button>
             </div>
         </div>
     </div>
-
-    <div class="modal-overlay" id="customer-list-modal-overlay">
-        <div class="modal-content" id="customer-list-modal">
-            <div class="modal-header">
-                <h2 class="modal-title">나의 고객 목록</h2>
-                <button class="btn-modal-close" onclick="closeModal('customer-list-modal-overlay')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="filter-section" style="padding: 0 0 16px 0;">
-                    <div class="search" data-name="search" id="customer-search">
-                        <input type="text" placeholder="검색어를 입력해주세요" oninput="handleSearchInput(this)">
-                        <div class="search-input-right">
-                            <div class="search-del" onclick="clearSearch(this)">
-                                <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d"
-                                    alt="삭제">
-                            </div>
-                            <div class="btn-search" onclick="handleSearch(this)">
-                                <img src="https://www.figma.com/api/mcp/asset/4af11b15-4228-4024-b0ec-cd703ca89e9f"
-                                    alt="검색">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="transaction-list-header"
-                    style="padding-bottom: 12px; margin-bottom: 12px; border-color: #e8e8e9;">
-                    <span class="total-count">총 <strong>4</strong>개</span>
-                </div>
-
-                <div class="customer-list">
-                    <article class="customer-item">
-                        <div class="customer-item-header">
-                            <span class="customer-name">삼성 SDS</span>
-                            <button class="white-button"
-                                onclick="selectCustomer('삼성 SDS', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
-                                선택
-                            </button>
-                        </div>
-                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
-                        <div class="customer-detail">대표자명 김길동</div>
-                        <div class="customer-detail"><span class="label">담당자</span></div>
-                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
-                    </article>
-
-                    <article class="customer-item">
-                        <div class="customer-item-header">
-                            <span class="customer-name">LG</span>
-                            <button class="white-button"
-                                onclick="selectCustomer('LG', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
-                                선택
-                            </button>
-                        </div>
-                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
-                        <div class="customer-detail">대표자명 김길동</div>
-                        <div class="customer-detail"><span class="label">담당자</span></div>
-                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
-                    </article>
-
-                    <article class="customer-item">
-                        <div class="customer-item-header">
-                            <span class="customer-name">현대오토에버</span>
-                            <button class="white-button"
-                                onclick="selectCustomer('현대오토에버', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
-                                선택
-                            </button>
-                        </div>
-                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
-                        <div class="customer-detail">대표자명 김길동</div>
-                        <div class="customer-detail"><span class="label">담당자</span></div>
-                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
-                    </article>
-
-                    <article class="customer-item">
-                        <div class="customer-item-header">
-                            <span class="customer-name">대우</span>
-                            <button class="white-button"
-                                onclick="selectCustomer('대우', '232-34-33445', '김길동', '', '', '')">
-                                선택
-                            </button>
-                        </div>
-                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
-                        <div class="customer-detail">대표자명 김길동</div>
-                    </article>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="tax-pending-modal-overlay">
-        <div class="modal-content" id="tax-pending-modal">
-            <div class="modal-header">
-                <h2 class="modal-title">세금계산서 신청정보</h2>
-                <button class="btn-modal-close" onclick="closeModal('tax-pending-modal-overlay')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="disclaimer warning"
-                    style="margin-top: 0; margin-bottom: 20px; font-size: 14px; text-align: center;">
-                    ① 세금계산서가 '발급대기' 상태일 때는,<br>기업명을 수정할 수 없습니다.
-                </p>
-                <form id="tax-pending-form">
-                    <div class="form-group">
-                        <label>기업명</label>
-                        <div class="input disabled">
-                            <input type="text" value="삼성 SDS" disabled>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>사업자등록번호</label>
-                        <div class="readonly-value">123-45-67890</div>
-                    </div>
-                    <div class="form-group">
-                        <label>대표자명</label>
-                        <div class="readonly-value">김길동</div>
-                    </div>
-                    <div class="form-group">
-                        <label>회계담당자명</label>
-                        <div class="readonly-value">김성원</div>
-                    </div>
-                    <div class="form-group">
-                        <label>회계담당자 연락처</label>
-                        <div class="readonly-value">01012341234</div>
-                    </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label>회계담당자 이메일 주소</label>
-                        <div class="readonly-value">test@test.com</div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn dark-button" style="width: 100%;"
-                    onclick="closeModal('tax-pending-modal-overlay')">확인 완료</button>
-            </div>
-        </div>
-    </div>
-
-
     <script>
         // --- [NEW] Page Tab Logic ---
         function selectPageTab(tab) {
@@ -1741,8 +1367,19 @@
             tab.classList.add('active');
 
             const page = tab.getAttribute('data-page');
+            const requestPage = document.getElementById('page-content-request');
+            const issuePage = document.getElementById('page-content-issue');
+            const stickyFooter = document.getElementById('tax-action-footer');
+
             if (page === 'issue') {
-                alert('발급 내역 페이지로 이동 (구현 필요)');
+                requestPage.style.display = 'none';
+                if(issuePage) issuePage.style.display = 'block';
+                if (stickyFooter) stickyFooter.classList.remove('active'); 
+                document.querySelector('.mobile-wrap').style.paddingBottom = '20px';
+            } else {
+                requestPage.style.display = 'block';
+                if(issuePage) issuePage.style.display = 'none';
+                updateTaxFooter(); // 신청 탭에서는 스티키 푸터 상태 업데이트
             }
         }
 
@@ -1801,15 +1438,9 @@
 
         // --- [NEW] Tax Invoice Page Logic ---
 
-        // [NEW] Period Chip Logic
+        // [MODIFIED] Period Chip Logic - 월 선택 클릭 이벤트 제거
         function selectPeriodChip(chip) {
-            const group = chip.closest('#period-chip-group');
-            if (group) {
-                group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
-                chip.classList.replace('single-chip-off', 'single-chip-on');
-            }
-            console.log("Period filter changed to:", chip.dataset.period);
-            filterTaxInvoices(); // Re-run main filter
+             // 월 선택은 1개만 표시되므로 클릭 이벤트 없음
         }
 
         function toggleTaxCheckbox(checkboxEl) {
@@ -1827,15 +1458,17 @@
             const count = checkedBoxes.length;
             const footer = document.getElementById('tax-action-footer');
             const body = document.body;
-
-            if (count > 0) {
-                footer.classList.add('active');
-                document.getElementById('tax-selected-count').textContent = `총 ${count}건 선택됨`;
-                // Set padding to prevent footer from overlapping content
-                document.querySelector('.mobile-wrap').style.paddingBottom = '84px';
-            } else {
-                footer.classList.remove('active');
-                document.querySelector('.mobile-wrap').style.paddingBottom = '20px'; // Reset to default
+            
+            // 현재 '신청' 탭이 활성화 상태일 때만 푸터를 보여줌
+            if (document.getElementById('page-content-request').style.display === 'block') {
+                 if (count > 0) {
+                    footer.classList.add('active');
+                    document.getElementById('tax-selected-count').textContent = `총 ${count}건 선택됨`;
+                    document.querySelector('.mobile-wrap').style.paddingBottom = '84px'; // 푸터 높이만큼 패딩 추가
+                } else {
+                    footer.classList.remove('active');
+                    document.querySelector('.mobile-wrap').style.paddingBottom = '20px'; // Reset to default
+                }
             }
         }
 
@@ -1884,7 +1517,7 @@
             if (!listContainer) return;
 
             const cards = listContainer.querySelectorAll('.common-table-card');
-            const noResultMsg = listContainer.parentElement.querySelector('.no-transactions');
+            const noResultMsg = document.getElementById('no-request-list');
             let visibleCount = 0;
             const isAllSelected = selectedStatuses.includes('전체');
 
@@ -1974,132 +1607,55 @@
             }
         }
 
-        // --- Tax Edit Modal Logic ---
-        const taxEditForm = document.getElementById('tax-edit-form');
-        const taxEditInputs = {
-            companyName: taxEditForm.querySelector('#tax-company-name'),
-            bizNum: taxEditForm.querySelector('#tax-biz-num'),
-            repName: taxEditForm.querySelector('#tax-rep-name'),
-            contactName: taxEditForm.querySelector('#tax-contact-name'),
-            contactPhone: taxEditForm.querySelector('#tax-contact-phone'),
-            contactEmail: taxEditForm.querySelector('#tax-contact-email')
-        };
-        const taxEditWrappers = {
-            companyName: taxEditForm.querySelector('#tax-company-name-wrapper'),
-            bizNum: taxEditForm.querySelector('#tax-biz-num-wrapper'),
-            repName: taxEditForm.querySelector('#tax-rep-name-wrapper')
-        };
+        // --- Receipt Edit Modal Logic (MODIFIED) ---
+        const receiptEditForm = document.getElementById('receipt-edit-form');
+        const receiptModalTitle = document.getElementById('receipt-modal-title');
+        const receiptModalButton = document.getElementById('receipt-modal-button');
+        const receiptModalCount = document.getElementById('modal-receipt-count');
+        const receiptModalTotal = document.getElementById('modal-receipt-total');
 
-        function showTaxEditModal(buttonEl) {
+        function showReceiptEditModal(buttonEl, type) {
+            // 1. 카드에서 데이터 읽기
             const card = buttonEl.closest('.common-table-card');
-            const status = card.getAttribute('data-status');
+            const totalAmount = card.querySelector('.card-column2').textContent.trim();
 
-            if (status === '발급대기') {
-                // '발급대기' 모달 표시 (PDF 3번 시안)
-                // (실제로는 이 모달에도 데이터를 채워야 함)
-                openModal('tax-pending-modal-overlay');
-            } else {
-                // '신청정보 수정' 모달 표시
-                // 기본값 '내 정보' 탭으로 설정
-                switchTaxEditTab(document.querySelector('#tax-edit-tabs [data-tab="my-info"]'), 'my-info');
-                openModal('tax-edit-modal-overlay');
+            // 2. 모달 내용 동적으로 변경
+            if (type === '수정') {
+                receiptModalTitle.textContent = "현금영수증 신청 정보 수정";
+                receiptModalButton.textContent = "수정하기";
+            } else { // '신청'
+                receiptModalTitle.textContent = "현금영수증 신청";
+                receiptModalButton.textContent = "신청하기";
             }
+            
+            // 3. 모달에 금액 및 건수 표시
+            receiptModalCount.textContent = "총 1건 / 총 금액";
+            receiptModalTotal.textContent = totalAmount || '₩0';
+
+            // 4. 폼 초기화 (입력값 비우기)
+            receiptEditForm.reset();
+
+            // 5. 기본값 '소득공제' 탭으로 설정
+            switchReceiptEditTab(document.querySelector('#receipt-edit-tabs [data-tab="income-deduction"]'), 'income-deduction');
+            
+            // 6. 모달 열기
+            openModal('receipt-edit-modal-overlay');
         }
 
-        function switchTaxEditTab(tabEl, tabName) {
-            // 탭 활성화
+        function switchReceiptEditTab(tabEl, tabName) {
+            // 1. 탭 활성화
             const tabNav = tabEl.closest('.modal-tab-nav');
             tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
             tabEl.classList.replace('single-chip-off', 'single-chip-on');
 
-            // 폼 필드 초기화
-            Object.values(taxEditInputs).forEach(input => {
-                input.value = '';
-                input.disabled = false;
+            // 2. 모든 폼 필드 래퍼 숨기기
+            receiptEditForm.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
+                wrapper.style.display = 'none';
             });
-            Object.values(taxEditWrappers).forEach(wrapper => {
-                wrapper.classList.remove('disabled');
-            });
-
-            // '나의 고객 목록' 버튼을 먼저 찾음
-            const customerListButton = taxEditForm.querySelector('.form-group-button[data-tab-content="customer-list"]');
-
-            // 폼 섹션(입력 필드) 보이기/숨기기
-            taxEditForm.querySelectorAll('.form-group:not(.form-group-button)').forEach(el => {
-                el.style.display = 'none';
-            });
-            taxEditForm.querySelectorAll(`.form-group[data-tab-content*="${tabName}"]:not(.form-group-button)`).forEach(el => {
-                el.style.display = 'block';
-            });
-
-            // '나의 고객 목록' 탭일 때만 버튼 표시
-            if (tabName === 'customer-list') {
-                customerListButton.style.display = 'block';
-            } else {
-                customerListButton.style.display = 'none';
-            }
-
-
-            // 탭별 로직 적용
-            if (tabName === 'my-info') {
-                // PDF 4번 시안 (내 정보)
-                taxEditInputs.companyName.value = "삼성 SDS";
-                taxEditInputs.bizNum.value = "123-45-67890";
-                taxEditInputs.repName.value = "김길동";
-                taxEditInputs.contactName.value = "김성원";
-                taxEditInputs.contactPhone.value = "01012341234";
-                taxEditInputs.contactEmail.value = "test@test.com";
-
-                // 상위 3개 필드 비활성화
-                taxEditInputs.companyName.disabled = true;
-                taxEditInputs.bizNum.disabled = true;
-                taxEditInputs.repName.disabled = true;
-                taxEditWrappers.companyName.classList.add('disabled');
-                taxEditWrappers.bizNum.classList.add('disabled');
-                taxEditWrappers.repName.classList.add('disabled');
-
-            } else if (tabName === 'direct-input') {
-                // PDF 5번 시안 (직접 입력)
-                // 모든 필드가 placeholder 상태 (위에서 초기화됨)
-
-            } else if (tabName === 'customer-list') {
-                // PDF 1번 시안 (나의 고객 목록)
-                // 고객 목록에서 선택된 정보로 채움 (예시)
-                // 실제로는 selectCustomer() 함수가 이 값을 채움
-                // 여기서는 '선택' 버튼을 누르기 전의 빈 상태를 가정
-            }
+            
+            // 3. 해당 탭의 폼 필드 보이기
+            receiptEditForm.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
         }
-
-        // --- Customer List Modal Logic ---
-        function showCustomerListModal() {
-            // '신청정보 수정' 모달을 닫지 않고 그 위에 띄움
-            openModal('customer-list-modal-overlay');
-        }
-
-        function selectCustomer(company, bizNum, repName, contactName, contactPhone, contactEmail) {
-            // 1. 고객 목록 모달 닫기
-            closeModal('customer-list-modal-overlay');
-
-            // 2. '신청정보 수정' 모달의 '나의 고객 목록' 탭으로 강제 전환
-            switchTaxEditTab(document.querySelector('#tax-edit-tabs [data-tab="customer-list"]'), 'customer-list');
-
-            // 3. '신청정보 수정' 모달에 데이터 채우기 (PDF 1번 시안)
-            taxEditInputs.companyName.value = company;
-            taxEditInputs.bizNum.value = bizNum;
-            taxEditInputs.repName.value = repName;
-            taxEditInputs.contactName.value = contactName;
-            taxEditInputs.contactPhone.value = contactPhone;
-            taxEditInputs.contactEmail.value = contactEmail;
-
-            // '나의 고객 목록' 탭에서는 모든 필드가 활성화 상태 (disabled=false)
-            Object.values(taxEditInputs).forEach(input => {
-                input.disabled = false;
-            });
-            Object.values(taxEditWrappers).forEach(wrapper => {
-                wrapper.classList.remove('disabled');
-            });
-        }
-
 
         // --- [MODIFIED] Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
