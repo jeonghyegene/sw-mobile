@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원머니 메인 (v19: 환불계좌 UI 개선)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+            width: auto;
+            text-align: left;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 2 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+            width: 100%;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 16px;
+        }
+
+        /* Account Section */
+        .info-section {
+            background: #fff;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .info-section .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .info-section .balance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .info-section .balance {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .info-section .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .info-section .dark-button {
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        /* [REMOVED] Status Filter Tabs (v13) */
+        /*
+        .status-tabs {
+            background: #fff;
+            padding: 8px 16px;
+            border-bottom: 1px solid #e9e9e9;
+            margin: 0 -16px 16px -16px;
+        }
+        */
+
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* [NEW] Filter Chip Section (replaces tabs) */
+        .filter-chip-section {
+            background: #fff;
+            /* Full-width like original tabs, but no border/margin-bottom */
+            padding: 8px 16px; /* Added padding-bottom for spacing */
+            margin: 0 -16px 0 -16px; /* No bottom margin */
+        }
+        .filter-chip-section .tabs-scroll-wrapper {
+            display: flex; /* Make chips align horizontally */
+            gap: 8px; /* Add spacing between chips */
+        }
+        .filter-chip-section .single-chip {
+            flex-shrink: 0; /* Prevent chips from shrinking */
+            white-space: nowrap; /* Ensure text stays on one line */
+        }
+
+
+        /* Filter Section (v15) */
+        .filter-section {
+            padding: 0 0 16px 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .text-select-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+            padding: 8px 0;
+        }
+
+        .text-select-button:hover {
+            opacity: 0.8;
+        }
+
+        .text-select-button:active {
+            transform: scale(0.98);
+        }
+
+        .text-select-button-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .text-select-button-arrow {
+            width: 16px;
+            height: 16px;
+            color: #555;
+        }
+
+        .text-select-button-arrow svg {
+            transition: transform 0.2s;
+        }
+
+        .text-select-button.open .text-select-button-arrow svg {
+            transform: rotate(-180deg);
+        }
+
+        /* Transaction List */
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
+        }
+
+        .transaction-list-header .total-count strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-count-select {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+        }
+
+        .view-count-select:hover {
+            opacity: 0.8;
+        }
+
+        .view-count-select:active {
+            transform: scale(0.98);
+        }
+
+        .view-count-select-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .view-count-select-arrow {
+            width: 12px;
+            height: 12px;
+        }
+
+        .view-count-select-arrow svg {
+            transition: transform 0.2s;
+            transform: translateY(-2px);
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .no-transactions {
+            padding: 40px 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            border-top: 1px solid #f0f0f0;
+            margin-top: -17px;
+        }
+
+        /* Bottom Sheet */
+        .bottom-sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .bottom-sheet-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(100%);
+            }
+        }
+
+        .bottom-sheet {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-top: 1px solid #d7d7d7;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bottom-sheet.closing {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .sheet-handle {
+            width: 27px;
+            height: 4px;
+            background: #d9d9d9;
+            border-radius: 100px;
+            margin: 10px auto;
+            cursor: grab;
+        }
+
+        .sheet-handle:active {
+            cursor: grabbing;
+        }
+
+        .sheet-header {
+            height: 21px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .sheet-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+        }
+
+        .btn-close {
+            position: absolute;
+            right: 20px;
+            top: 0;
+            width: 21px;
+            height: 21px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-close:active {
+            transform: scale(0.9);
+        }
+
+        .btn-close svg {
+            width: 100%;
+            height: 100%;
+            color: #333;
+        }
+
+        .sheet-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 20px 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-group-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .filter-group-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
+        .sheet-footer {
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+        }
+
+        .sheet-footer .btn {
+            flex: 1;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* [New] Virtual Account Bottom Sheet Styles */
+        .account-holder-info {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f8f8f9;
+            border-radius: 4px;
+        }
+
+        .account-holder-info strong {
+            font-weight: 600;
+        }
+
+        .bank-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bank-list li {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .bank-list li:last-child {
+            border-bottom: none;
+        }
+
+        .bank-list button {
+            display: flex;
+            /* Flex layout for icon */
+            align-items: center;
+            /* Center items vertically */
+            justify-content: space-between;
+            /* Push icon to the right */
+            width: 100%;
+            padding: 16px 0;
+            /* Adjusted padding */
+            font-size: 16px;
+            color: #333;
+            background: none;
+            border: none;
+            cursor: pointer;
+            min-height: 48px;
+            /* Touch target */
+        }
+
+        .bank-list button:hover {
+            background-color: #f8f8f8;
+        }
+
+        .bank-list .check-icon {
+            width: 20px;
+            height: 20px;
+            color: #4e6ee4;
+            margin-left: 10px;
+            display: none;
+            /* Hide by default */
+        }
+
+        .bank-list button.selected .check-icon {
+            display: block;
+            /* Show when selected */
+        }
+
+        .bank-list button.selected {
+            font-weight: 600;
+            color: #4e6ee4;
+        }
+
+        /* Selected style */
+
+        /* Modal (v12 Standard Base) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px;
+            /* Modal max width */
+            max-height: 90vh;
+            /* Limit height */
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+
+        @keyframes scaleUpModal {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+        }
+
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .btn-modal-close:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #f8f8f9;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+
+        /* Use standard button styles */
+
+        /* [New] Refund Account Modal Specific Styles */
+        #refund-account-modal .modal-body {
+            padding-bottom: 0;
+        }
+
+        /* Remove bottom padding if footer exists */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .disclaimer {
+            font-size: 12px;
+            color: #dc3545;
+            margin-top: 8px;
+        }
+
+        .bank-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* [v19] Bank Expand Button Wrapper (Center Align) */
+        .expand-button-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+            /* 칩 목록과의 간격 */
+        }
+
+        /* [v19] Hide old button style */
+        .expand-banks-btn {
+            display: none;
+        }
+
+        .hidden-bank {
+            display: none;
+        }
+
+        .banks-expanded .hidden-bank {
+            display: inline-flex;
+        }
+
+        /* .banks-expanded .expand-banks-btn { display: none; } <- This logic is now handled by JS */
+
+        .input-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+
+        .input input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .input-group .white-button {
+            flex-shrink: 0;
+            height: 40px;
+            /* Match input height */
+            font-size: 13px;
+            padding: 0 12px;
+            width: auto;
+        }
+
+        .verification-message {
+            font-size: 12px;
+            margin-top: 8px;
+            min-height: 1.5em;
+            /* Prevent layout shift */
+        }
+
+        .verification-message.success {
+            color: #28a745;
+        }
+
+        .verification-message.error {
+            color: #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">성원머니</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="sw-container">
+            <section class="info-section">
+                <div class="title">성원머니</div>
+                <div class="balance-row">
+                    <span class="balance">₩0</span>
+                </div>
+                <p class="description">가상계좌 등록 후 성원머니 이용이 가능해요</p>
+                <button type="button" class="dark-button" onclick="showVirtualAccountSheet()">가상계좌 등록</button>
+            </section>
+            <section class="info-section">
+                <div class="title">환불계좌</div>
+                <p class="description">등록된 환불계좌가 없어요</p>
+                <button type="button" class="dark-button" onclick="showRefundAccountModal()">환불계좌 등록</button>
+            </section>
+
+            <section class="filter-chip-section">
+                <div class="tabs-scroll-wrapper" id="status-chip-group">
+                    <div class="single-chip single-chip-on" data-status="전체" onclick="selectStatusChip(this)">전체</div>
+                    <div class="single-chip single-chip-off" data-status="입금" onclick="selectStatusChip(this)">입금</div>
+                    <div class="single-chip single-chip-off" data-status="사용" onclick="selectStatusChip(this)">사용</div>
+                    <div class="single-chip single-chip-off" data-status="사용취소" onclick="selectStatusChip(this)">사용취소</div>
+                    <div class="single-chip single-chip-off" data-status="출금" onclick="selectStatusChip(this)">출금</div>
+                    <div class="single-chip single-chip-off" data-status="소멸" onclick="selectStatusChip(this)">소멸</div>
+                </div>
+            </section>
+
+            <section class="filter-section">
+                <button type="button" class="text-select-button" onclick="showFilterSheet()">
+                    <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
+                    <div class="text-select-button-arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                            <path d="M6 9l6 6l6 -6" />
+                        </svg>
+                    </div>
+                </button>
+            </section>
+
+            <section class="transaction-list-section">
+                <div class="transaction-list-header">
+                    <span class="total-count">총 <strong id="transaction-count">0</strong>건</span>
+                    <div class="view-count-select">
+                        <span class="view-count-select-text">20건씩 보기</span>
+                        <div class="view-count-select-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="no-transactions">성원머니 거래내역이 없습니다.</div>
+                <div class="transaction-list" id="transaction-list-container"></div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="refund-account-modal-overlay">
+        <div class="modal-content" id="refund-account-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">환불계좌 등록</h2>
+                <button class="btn-modal-close" onclick="closeRefundAccountModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24"
+                        id="icon-close-modal">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>예금주</label>
+                    <div class="readonly-value">정혜진</div>
+                    <p class="disclaimer">* 환불계좌 등록 시 계좌의 예금주와 회원명이 동일해야만 승인처리가 됩니다.</p>
+                </div>
+                <div class="form-group">
+                    <label>은행명</label>
+                    <div class="bank-chips" id="bank-chip-list">
+                        <div class="single-chip single-chip-off" data-bank-name="국민은행" onclick="selectBank(this)">국민은행
+                        </div>
+                        <div class="single-chip single-chip-off" data-bank-name="신한은행" onclick="selectBank(this)">신한은행
+                        </div>
+                        <div class="single-chip single-chip-off" data-bank-name="우리은행" onclick="selectBank(this)">우리은행
+                        </div>
+                        <div class="single-chip single-chip-off" data-bank-name="하나은행" onclick="selectBank(this)">하나은행
+                        </div>
+                        <div class="single-chip single-chip-off" data-bank-name="농협은행" onclick="selectBank(this)">농협은행
+                        </div>
+                        <div class="single-chip single-chip-off" data-bank-name="기업은행" onclick="selectBank(this)">기업은행
+                        </div>
+                        <div class="single-chip single-chip-off" data-bank-name="카카오뱅크" onclick="selectBank(this)">카카오뱅크
+                        </div>
+                        <div class="single-chip single-chip-off" data-bank-name="토스뱅크" onclick="selectBank(this)">토스뱅크
+                        </div>
+                        <div class="single-chip single-chip-off" data-bank-name="케이뱅크" onclick="selectBank(this)">케이뱅크
+                        </div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="SC제일은행"
+                            onclick="selectBank(this)">SC제일은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="한국씨티은행"
+                            onclick="selectBank(this)">한국씨티은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="산업은행"
+                            onclick="selectBank(this)">산업은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="대구은행"
+                            onclick="selectBank(this)">대구은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="부산은행"
+                            onclick="selectBank(this)">부산은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="광주은행"
+                            onclick="selectBank(this)">광주은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="제주은행"
+                            onclick="selectBank(this)">제주은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="전북은행"
+                            onclick="selectBank(this)">전북은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="경남은행"
+                            onclick="selectBank(this)">경남은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="새마을금고"
+                            onclick="selectBank(this)">새마을금고</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="신협"
+                            onclick="selectBank(this)">신협</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="상호저축은행"
+                            onclick="selectBank(this)">상호저축은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="NH저축은행"
+                            onclick="selectBank(this)">NH저축은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="웰컴저축은행"
+                            onclick="selectBank(this)">웰컴저축은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="수협은행"
+                            onclick="selectBank(this)">수협은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="우체국"
+                            onclick="selectBank(this)">우체국</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="산림조합"
+                            onclick="selectBank(this)">산림조합</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="미래에셋증권"
+                            onclick="selectBank(this)">미래에셋증권</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="NH투자증권"
+                            onclick="selectBank(this)">NH투자증권</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="유안타증권"
+                            onclick="selectBank(this)">유안타증권</div>
+                    </div>
+                    <div class="expand-button-wrapper">
+                        <button type="button" class="text-select-button" id="bank-expand-toggle"
+                            onclick="toggleBankList()">
+                            <span class="text-select-button-text" id="bank-expand-text">은행 더보기</span>
+                            <div class="text-select-button-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="account-number">계좌번호</label>
+                    <div class="input-group">
+                        <div class="input">
+                            <input type="tel" id="account-number" pattern="[0-9]*" placeholder="'-'을 제외하고 숫자만 입력해주세요">
+                        </div>
+                        <button class="white-button" id="verify-button" onclick="verifyAccountNumber()">인증</button>
+                    </div>
+                    <p class="verification-message" id="verification-message"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" id="register-button" onclick="registerRefundAccount()"
+                    disabled>등록하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="filter-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="filter-sheet">
+            <div class="sheet-handle" id="filter-sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">기간 상세검색</div>
+                <div class="btn-close" onclick="closeFilterSheet()"><svg id="icon-close">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
+            <div class="sheet-body" id="filter-sheet-body">
+                <div class="filter-group" id="single-chip-group-period">
+                    <div class="filter-group-title">기간</div>
+                    <div class="filter-group-content">
+                        <div class="single-chip single-chip-on" data-value="최근 1개월" onclick="selectPeriod(this)">최근 1개월
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="최근 3개월" onclick="selectPeriod(this)">최근 3개월
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="최근 6개월" onclick="selectPeriod(this)">최근 6개월
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="최근 1년" onclick="selectPeriod(this)">최근 1년
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="기간 설정" onclick="selectPeriod(this)">기간 설정
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-footer"><button class="btn white-button">초기화</button><button class="btn dark-button"
+                    onclick="applyPeriodFilter()">조회하기</button></div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="virtual-account-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="virtual-account-sheet">
+            <div class="sheet-handle" id="virtual-account-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">가상계좌 등록</div>
+                <div class="btn-close" onclick="closeVirtualAccountSheet()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24"
+                        id="icon-close-va">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="sheet-body">
+                <div class="account-holder-info">예금주: <strong>정혜진</strong></div>
+                <div class="filter-group">
+                    <div class="filter-group-title">은행 선택</div>
+                    <ul class="bank-list" id="bank-selection-list">
+                        <li><button type="button" data-bank-name="IBK기업은행" onclick="virtualSelectBank(this)">IBK기업은행 <span
+                                    class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24">
+                                        <path d="M5 12l5 5l10 -10" />
+                                    </svg></span></button></li>
+                        <li><button type="button" data-bank-name="Sh수협은행" onclick="virtualSelectBank(this)">Sh수협은행 <span
+                                    class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24">
+                                        <path d="M5 12l5 5l10 -10" />
+                                    </svg></span></button></li>
+                        <li><button type="button" data-bank-name="NH농협은행" onclick="virtualSelectBank(this)">NH농협은행 <span
+                                    class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24">
+                                        <path d="M5 12l5 5l10 -10" />
+                                    </svg></span></button></li>
+                        <li><button type="button" data-bank-name="우리은행" onclick="virtualSelectBank(this)">우리은행 <span
+                                    class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24">
+                                        <path d="M5 12l5 5l10 -10" />
+                                    </svg></span></button></li>
+                        <li><button type="button" data-bank-name="하나은행" onclick="virtualSelectBank(this)">하나은행 <span
+                                    class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24">
+                                        <path d="M5 12l5 5l10 -10" />
+                                    </svg></span></button></li>
+                        <li><button type="button" data-bank-name="신한은행" onclick="virtualSelectBank(this)">신한은행 <span
+                                    class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24">
+                                        <path d="M5 12l5 5l10 -10" />
+                                    </svg></span></button></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn dark-button" onclick="registerVirtualAccount()">등록하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Bottom Sheet Logic ---
+        function setupBottomSheet(overlayId, sheetId, handleId) {
+            const overlay = document.getElementById(overlayId); const sheet = document.getElementById(sheetId); const handle = document.getElementById(handleId);
+            if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
+            let isDragging = false, startY = 0, currentY = 0;
+            const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
+            const closeSheet = () => { sheet.classList.add('closing'); document.body.style.overflow = ''; setTimeout(() => { overlay.classList.remove('active'); sheet.classList.remove('closing'); }, 300); };
+            const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
+            const drag = (e) => { if (!isDragging) return; e.preventDefault(); currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; const deltaY = currentY - startY; if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; };
+            const endDrag = () => { if (!isDragging) return; isDragging = false; sheet.style.transition = ''; const deltaY = currentY - startY; if (deltaY > 100) closeSheet(); else sheet.style.transform = ''; };
+            handle.addEventListener('mousedown', startDrag); handle.addEventListener('touchstart', startDrag, { passive: false });
+            document.addEventListener('mousemove', drag); document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag);
+            overlay.addEventListener('click', (e) => { if (e.target.id === overlayId) closeSheet(); });
+            return { openSheet, closeSheet };
+        }
+        const { openSheet: showFilterSheet, closeSheet: closeFilterSheet } = setupBottomSheet('filter-sheet-overlay', 'filter-sheet', 'filter-sheet-handle');
+        const { openSheet: showVirtualAccountSheet, closeSheet: closeVirtualAccountSheet } = setupBottomSheet('virtual-account-overlay', 'virtual-account-sheet', 'virtual-account-handle');
+
+        // --- Filter Component Handlers ---
+        let selectedPeriodValue = "최근 1개월";
+        function selectPeriod(chip) { const group = chip.closest('.filter-group-content'); group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); chip.classList.replace('single-chip-off', 'single-chip-on'); selectedPeriodValue = chip.getAttribute('data-value'); }
+        function applyPeriodFilter() { document.getElementById('selected-period-text').textContent = selectedPeriodValue; document.querySelector('.text-select-button')?.classList.remove('open'); closeFilterSheet(); console.log("기간 필터 적용:", selectedPeriodValue); /* TODO: Filtering logic */ }
+        document.querySelector('.text-select-button')?.addEventListener('click', function () { this.classList.toggle('open'); });
+
+        // --- [REMOVED] Transaction List Filtering (Tab) ---
+        /*
+        function filterTransactions(status, clickedTab) {
+            document.querySelectorAll('#status-filter-tabs a').forEach(tab => tab.classList.remove('active')); clickedTab.classList.add('active');
+            const listContainer = document.getElementById('transaction-list-container'); const cards = listContainer.querySelectorAll('.transaction-card'); const noResultMsg = listContainer.parentElement.querySelector('.no-transactions');
+            let visibleCount = 0;
+            cards.forEach(card => card.style.display = 'none'); // Hide all cards initially in default state
+            document.getElementById('transaction-count').textContent = visibleCount;
+            noResultMsg.style.display = 'block';
+        }
+        */
+        
+        // --- [NEW] Transaction List Filtering (by Chip) ---
+        function selectStatusChip(chip) {
+            const group = chip.closest('#status-chip-group');
+            if (!group) return;
+
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+
+            const status = chip.getAttribute('data-status');
+            filterTransactionsByStatus(status);
+        }
+
+        function filterTransactionsByStatus(status) {
+            // This function replicates the original placeholder behavior of filterTransactions
+            console.log("Filtering by status:", status); // Log the click
+            const listContainer = document.getElementById('transaction-list-container'); 
+            const noResultMsg = listContainer.parentElement.querySelector('.no-transactions');
+            let visibleCount = 0;
+            
+            const countEl = document.getElementById('transaction-count');
+            if(countEl) countEl.textContent = visibleCount; 
+            if(noResultMsg) noResultMsg.style.display = 'block';
+            
+            if (listContainer) {
+                 const cards = listContainer.querySelectorAll('.transaction-card');
+                 cards.forEach(card => card.style.display = 'none'); // Hide all cards
+            }
+        }
+
+
+        // --- [New] Virtual Account Registration Logic ---
+        let selectedBankName = null;
+        function virtualSelectBank(buttonElement) {
+            // Remove selected class from all buttons in the list
+            document.querySelectorAll('#bank-selection-list button').forEach(btn => btn.classList.remove('selected'));
+            // Add selected class to the clicked button
+            buttonElement.classList.add('selected');
+            // Store the selected bank name
+            selectedBankName = buttonElement.getAttribute('data-bank-name');
+            console.log("Selected Bank:", selectedBankName);
+        }
+        function registerVirtualAccount() {
+            if (!selectedBankName) {
+                alert("은행을 선택해주세요."); // Basic validation
+                return;
+            }
+            // --- TODO: Add actual virtual account registration logic here ---
+            console.log(`Registering virtual account with bank: ${selectedBankName}`);
+            alert(`${selectedBankName} 가상계좌 등록 요청됨 (구현 필요)`);
+            selectedBankName = null; // Reset selection
+            closeVirtualAccountSheet();
+            // Optional: Update the UI on the main page after successful registration
+        }
+
+        // --- [v19] Refund Account Modal Logic (Toggle Button Added) ---
+        const refundModalOverlay = document.getElementById('refund-account-modal-overlay');
+        const refundModal = document.getElementById('refund-account-modal');
+        const bankChipList = document.getElementById('bank-chip-list');
+        const accountNumberInput = document.getElementById('account-number');
+        const verifyButton = document.getElementById('verify-button');
+        const verificationMessage = document.getElementById('verification-message');
+        const registerButton = document.getElementById('register-button');
+
+        // [v19] New element references
+        const bankExpandToggle = document.getElementById('bank-expand-toggle');
+        const bankExpandText = document.getElementById('bank-expand-text');
+        let selectedBankChip = null;
+        let isVerified = false;
+
+        function showRefundAccountModal() {
+            // Reset modal state before showing
+            isVerified = false;
+            selectedBankChip = null;
+            bankChipList.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            accountNumberInput.value = '';
+            accountNumberInput.disabled = false;
+            verificationMessage.textContent = '';
+            verificationMessage.className = 'verification-message';
+            verifyButton.textContent = '인증';
+            verifyButton.disabled = false;
+            registerButton.disabled = true;
+
+            // [v19] Reset bank expand button
+            bankChipList.classList.remove('banks-expanded');
+            bankExpandToggle.classList.remove('open');
+            bankExpandText.textContent = '은행 더보기';
+
+            refundModalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRefundAccountModal() {
+            refundModalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function selectBank(chipElement) {
+            bankChipList.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chipElement.classList.replace('single-chip-off', 'single-chip-on');
+            selectedBankChip = chipElement;
+            resetVerification();
+        }
+
+        // [v19] Updated to Toggle function
+        function toggleBankList() {
+            const isExpanded = bankChipList.classList.toggle('banks-expanded');
+            bankExpandToggle.classList.toggle('open', isExpanded);
+            bankExpandText.textContent = isExpanded ? '접기' : '은행 더보기';
+        }
+
+        function resetVerification() {
+            isVerified = false;
+            accountNumberInput.disabled = false;
+            verificationMessage.textContent = '';
+            verificationMessage.className = 'verification-message';
+            verifyButton.textContent = '인증';
+            verifyButton.disabled = false;
+            registerButton.disabled = true;
+        }
+
+        function verifyAccountNumber() {
+            const accountNumber = accountNumberInput.value.trim();
+            if (!selectedBankChip) {
+                verificationMessage.textContent = '은행명을 먼저 선택해주세요.';
+                verificationMessage.className = 'verification-message error';
+                return;
+            }
+            if (!accountNumber) {
+                verificationMessage.textContent = '계좌번호를 입력해주세요.';
+                verificationMessage.className = 'verification-message error';
+                return;
+            }
+            console.log(`Verifying: ${selectedBankChip.dataset.bankName} - ${accountNumber}`);
+            verifyButton.textContent = '인증 중...';
+            verifyButton.disabled = true;
+            setTimeout(() => {
+                const success = accountNumber === '123123123';
+                if (success) {
+                    isVerified = true;
+                    verificationMessage.textContent = '인증이 완료되었습니다.';
+                    verificationMessage.className = 'verification-message success';
+                    verifyButton.textContent = '인증 완료';
+                    accountNumberInput.disabled = true;
+                    registerButton.disabled = false;
+                } else {
+                    isVerified = false;
+                    verificationMessage.textContent = '계좌번호 인증에 실패했어요. 다시 확인하신 후 인증을 진행해주세요';
+                    verificationMessage.className = 'verification-message error';
+                    verifyButton.textContent = '재인증';
+                    verifyButton.disabled = false;
+                    registerButton.disabled = true;
+                }
+            }, 1000);
+        }
+
+        function registerRefundAccount() {
+            if (!isVerified) { alert("계좌 인증을 먼저 완료해주세요."); return; }
+            const bankName = selectedBankChip.dataset.bankName;
+            const accountNumber = accountNumberInput.value.trim();
+            console.log(`Registering Refund Account: ${bankName} - ${accountNumber}`);
+            alert(`환불계좌 등록 요청:\n은행: ${bankName}\n계좌: ${accountNumber}\n(구현 필요)`);
+            closeRefundAccountModal();
+        }
+
+        // --- Initialize (Event listeners etc.) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // [NEW] Set initial filter state
+            filterTransactionsByStatus('전체');
+
+            // [EXISTING]
+            refundModal?.addEventListener('click', (e) => e.stopPropagation());
+            refundModalOverlay?.addEventListener('click', closeRefundAccountModal);
+            accountNumberInput?.addEventListener('input', () => {
+                if (isVerified) {
+                    resetVerification();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
