@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의 내역 상세 (v12 기준)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 20px;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        
+        /* Buttons (v12 Standard) */
+        .primary-button { 
+            background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; 
+        }
+        .primary-button:hover { background: #3d5dd3; }
+        .primary-button:active { transform: scale(0.98); }
+        
+        .dark-button { 
+            background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; 
+        }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+        
+        /* [NEW] Special delete button style */
+        .delete-button {
+            background: white;
+            color: #dc3545;
+            border-color: #e8e8e9;
+        }
+        .delete-button:hover {
+            background: #fefafa;
+            border-color: #dc3545;
+        }
+
+
+        /* Main Content */
+        .sw-container {
+            padding: 16px;
+        }
+
+        /* [NEW] QNA Detail Styles */
+        .qna-section {
+            background: #fff;
+            margin-bottom: 16px;
+        }
+
+        .qna-header {
+            padding: 0 0 16px 0;
+            border-bottom: 1px solid #e8e8e9;
+        }
+
+        .qna-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        /* [NEW] Category Badge Style */
+        .qna-category-badge {
+            font-size: 14px;
+            font-weight: 600;
+            color: #007bff;
+            display: block;
+        }
+        .qna-category-badge[data-category="AS"] {
+            color: #dc3545;
+        }
+        
+        /* [MODIFIED] Title is now its own block */
+        .qna-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #212121;
+            line-height: 1.5;
+            margin-top: 8px; /* Space from category/badge line */
+            white-space: normal;
+            word-break: break-all;
+        }
+        
+        /* [NEW] Date below header */
+        .qna-header-date {
+            font-size: 13px;
+            color: #888;
+            margin-top: 8px; /* Space from title */
+        }
+
+        .qna-badge {
+            flex-shrink: 0;
+            background: white;
+            border: 1px solid #d7d7d7;
+            border-radius: 30px;
+            padding: 2px 10px;
+            font-size: 10px;
+            color: black;
+            margin-top: 4px; /* Align with title */
+        }
+
+        /* Badge colors from tax_issue.html precedent */
+        .qna-badge[data-status="답변 완료"] {
+            border-color: #28a745;
+            color: #28a745;
+        }
+
+        .qna-badge[data-status="답변 대기"] {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        /* [MODIFIED] Meta info 2x2 grid */
+        .qna-meta { 
+            padding-top: 16px; 
+            display: flex;
+            flex-wrap: wrap;
+            /* [NEW] Add row gap for grid */
+            row-gap: 8px;
+        }
+        .meta-grid-item {
+            flex-basis: 50%;
+            display: flex;
+            font-size: 13px;
+        }
+        .meta-grid-item .card-row-label {
+            color: #555; 
+            flex-shrink: 0;
+            margin-right: 8px;
+            font-weight: 500;
+            /* [NEW] Fixed width for alignment */
+            width: 60px; 
+        }
+        .meta-grid-item .card-row-value {
+            color: #555; 
+            text-align: left; /* [MODIFIED] Left align */
+            word-break: break-all;
+        }
+
+
+        .qna-body {
+            padding: 24px 0; 
+            font-size: 14px;
+            line-height: 1.7; 
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .qna-body p {
+            margin-bottom: 16px;
+        }
+        .qna-body p:last-child { margin-bottom: 0; }
+
+        .qna-body-attachments {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .qna-body-attachments img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* [MODIFIED] Attachment item style */
+        .qna-attachment-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #333;
+            background: #f8f8f9;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            /* [MODIFIED] Padding reduced */
+            padding: 8px 10px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .qna-attachment-item:hover {
+            background: #f1f1f1;
+        }
+        .qna-attachment-item svg {
+            width: 16px;
+            height: 16px;
+            color: #888;
+            stroke-width: 2.5;
+            flex-shrink: 0;
+        }
+         .qna-attachment-item span {
+            /* [NEW] Add ellipsis for long filenames */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+         }
+
+        /* [MODIFIED] Answer section as a card */
+        .qna-answer-section {
+            background: #f8f8f9;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            margin-top: 24px; 
+        }
+
+        .qna-answer-header {
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+         .qna-answer-header svg {
+            width: 20px;
+            height: 20px;
+            color: #4e6ee4;
+            /* [MODIFIED] Reverted to chat bubble icon */
+            stroke-width: 2;
+         }
+
+        .qna-answer-body {
+            padding: 24px 16px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #333;
+        }
+        .qna-answer-body p { margin-bottom: 16px; }
+        .qna-answer-body p:last-child { margin-bottom: 0; }
+        
+        /* [MODIFIED] Answer footer with avatar */
+        .qna-answer-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            font-size: 13px;
+            color: #555;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .qna-answer-footer .date {
+            float: none;
+            color: #888;
+            flex-shrink: 0;
+            font-size: 13px;
+        }
+        .qna-answer-staff {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0; /* For flex ellipsis */
+        }
+        .qna-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #eee;
+            flex-shrink: 0;
+        }
+        .staff-name {
+            font-size: 14px;
+            color: #555;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .staff-name strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* [MODIFIED] Navigation Buttons */
+        .page-nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px; /* Space between buttons */
+            padding: 24px 0 16px 0;
+            border-top: 2px solid #333;
+            margin-top: 24px;
+        }
+        .page-nav-buttons .btn {
+            flex: 1; /* Each button takes equal space */
+            min-width: 0;
+        }
+        /* [NEW] For the "List Only" case */
+        .page-nav-buttons.list-only {
+            justify-content: center;
+        }
+        .page-nav-buttons.list-only .btn {
+            flex: 0 1 200px; /* Don't grow, basis 200px */
+        }
+
+        .page-prev-next {
+            display: flex;
+            flex-direction: column;
+            margin-top: 16px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .page-nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 8px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #333;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .page-nav-item:last-child {
+            border-bottom: none;
+        }
+
+        .page-nav-item:hover {
+            background: #f8f8f8;
+        }
+
+        .page-nav-item .label {
+            flex-shrink: 0;
+            font-weight: 600;
+            width: 50px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .page-nav-item .label svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .page-nav-item .title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #555;
+        }
+
+        .page-nav-item.disabled {
+            color: #aaa;
+            pointer-events: none;
+        }
+        .page-nav-item.disabled .title {
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="location.href='qna_list.html'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">문의 내역</h1>
+            <div class="header-right">
+                </div>
+        </header>
+
+        <main class="sw-container">
+
+            <section class="qna-section">
+                <div class="qna-header">
+                    <div class="qna-header-top" data-status="답변 대기">
+                        <span class="qna-category-badge" data-category="AS">AS</span>
+                        <div class="qna-badge" data-status="답변 대기">답변 대기</div>
+                    </div>
+                    <div class="qna-title">용지/인쇄/재단/가공/포장</div>
+                    <div class="qna-header-date">2024-12-30</div>
+                </div>
+
+                <div class="qna-meta">
+                     <div class="meta-grid-item">
+                        <span class="card-row-label">문의번호</span>
+                        <span class="card-row-value">324539</span>
+                    </div>
+                     <div class="meta-grid-item">
+                        <span class="card-row-label">접수번호</span>
+                        <span class="card-row-value">SW340340</span>
+                    </div>
+                </div>
+
+                <div class="qna-body">
+                    <p>안녕하세요. 이번에 주문한 명함 출력물에서 문제가 발생하여 문의드립니다.</p>
+                    <p>첨부된 이미지(프린트 테스트 페이지)에서 보시다시피, 출력물 전체적으로 가로 방향의 줄무늬가 선명하게 나타나고 있습니다. 특히 노란색과 마젠타 색상 부분에서 색상 번짐 현상도 확인됩니다. </p>
+                    <p>해당 문제는 전체 인쇄물에 공통적으로 나타나고 있으며, 이전에 주문했던 다른 인쇄물에서는 발생하지 않던 현상이라 확인을 요청드립니다. 빠른 조치 부탁드립니다.</p>
+                    
+                    <div class="qna-body-attachments">
+                        <a href="#" class="qna-attachment-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 7l-6.5 6.5a1.5 1.5 0 0 0 3 3l6.5 -6.5a3 3 0 0 0 -6 -6l-6.5 6.5a4.5 4.5 0 0 0 9 9l6.5 -6.5" />
+                            </svg>
+                            <span>print_test_page.jpeg</span>
+                        </a>
+                        
+                        <a href="#" class="qna-attachment-item">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8h.01" /><path d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z" /><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" /><path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l2 2" />
+                            </svg>
+                            <span>damaged_business_cards.jpg</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <div class="page-nav-buttons">
+                <button class="white-button btn delete-button" onclick="alert('삭제')">삭제</button>
+                <button class="white-button btn" onclick="alert('수정')">수정</button>
+                <button class="dark-button btn" onclick="location.href='qna_list.html'">목록</button>
+            </div>
+
+            <nav class="page-prev-next">
+                <a href="#" class="page-nav-item">
+                    <span class="label">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15l6 -6l6 6" /></svg>
+                        이전
+                    </span>
+                    <span class="title">[일반명함] 안녕하세요 일반명함에 대해 궁금한게 있습니다....</span>
+                </a>
+                <a href="#" class="page-nav-item disabled">
+                    <span class="label">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l6 6l6 -6" /></svg>
+                        다음
+                    </span>
+                    <span class="title">다음 글이 없습니다.</span>
+                </a>
+            </nav>
+
+        </main>
+    </div>
+
+    <script>
+        // 상세 페이지는 특별한 스크립트가 필요하지 않습니다.
+        // 헤더의 뒤로가기 버튼은 history.back() 또는 목록 링크(qna_list.html)로 연결할 수 있습니다.
+        console.log("Q&A Detail Page Loaded");
+    </script>
+</body>
+
+</html>
