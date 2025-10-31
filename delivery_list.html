@@ -572,7 +572,7 @@
             transform: scale(0.95);
         }
         
-        /* [NEW] Sticky Footer Bar (from tax_request.html) */
+        /* [MODIFIED] Sticky Footer Bar (from cr_request.html) */
         .sticky-footer-bar {
             position: fixed;
             bottom: 0;
@@ -589,6 +589,7 @@
             justify-content: space-between;
             z-index: 500;
             animation: slideUpFooter 0.3s ease-out;
+            gap: 8px; /* [NEW] Add gap */
         }
 
         .sticky-footer-bar.active {
@@ -610,10 +611,10 @@
             color: #333;
         }
 
-        .sticky-footer-bar .white-button {
-             /* [MODIFIED] Use white-button, ensure height */
-            height: 44px;
-            flex-grow: 1; /* Allow buttons to share space */
+        /* [MODIFIED] Style for single button in bar */
+        .sticky-footer-bar .dark-button {
+            width: auto;
+            flex-shrink: 0;
         }
         
         /* [NEW] Sticky Action Footer (from qna_list.html) */
@@ -774,7 +775,7 @@
         <header class="app-header-sub">
             <div class="header-left">
                 <button type="button" class="header-btn" onclick="history.back();">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24"
                         id="icon-chevron-left">
                         <path d="M15 6l-6 6l6 6" />
                     </svg>
@@ -783,13 +784,13 @@
             <h1 class="header-title">배송지 관리</h1>
             <div class="header-right">
                 <button type="button" class="btn-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" id="icon-search">
                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
                         <path d="M21 21l-6 -6" />
                     </svg>
                 </button>
                 <button type="button" class="btn-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" id="icon-cart">
                         <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
                         <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
                         <path d="M17 17h-11v-14h-2" />
@@ -865,6 +866,7 @@
                             <div class="card-row address">(03256) 경기도 성남시 분당구 판교역로 235 H스퀘어 N동 7층 (삼평동)</div>
                             <div class="card-row">010-1234-5667 | 02-124-4455</div>
                             <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="alert('기본배송지로 설정')">기본배송지 설정</button>
                                 <button type="button" class="white-button btn" onclick="openAddressModal('edit', this.closest('.common-table-card'))">수정</button>
                                 <button type="button" class="white-button btn" onclick="alert('삭제')">삭제</button>
                             </div>
@@ -883,6 +885,7 @@
                             <div class="card-row address">(03256) 제주특별자치도 서귀포시 안덕면 신화역사로304번길 38 메리어트관 8210호</div>
                             <div class="card-row">010-1234-5667 | 02-124-4455</div>
                             <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="alert('기본배송지로 설정')">기본배송지 설정</button>
                                 <button type="button" class="white-button btn" onclick="openAddressModal('edit', this.closest('.common-table-card'))">수정</button>
                                 <button type="button" class="white-button btn" onclick="alert('삭제')">삭제</button>
                             </div>
@@ -901,6 +904,7 @@
                             <div class="card-row address">(03256) 제주특별자치도 서귀포시 안덕면 신화역사로304번길 38 메리어트관 8210호</div>
                             <div class="card-row">010-1234-5667 | 02-124-4455</div>
                             <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="alert('기본배송지로 설정')">기본배송지 설정</button>
                                 <button type="button" class="white-button btn" onclick="openAddressModal('edit', this.closest('.common-table-card'))">수정</button>
                                 <button type="button" class="white-button btn" onclick="alert('삭제')">삭제</button>
                             </div>
@@ -938,8 +942,7 @@
         
         <div class="sticky-footer-bar" id="tax-action-footer">
             <span id="tax-selected-count">총 1건 선택됨</span>
-            <button class="white-button btn" onclick="alert('선택 삭제')">선택 삭제</button>
-            <button class="white-button btn" onclick="alert('기본 배송지로 설정')">기본 배송지로 설정</button>
+            <button class="dark-button" onclick="alert('선택 삭제')">선택 삭제</button>
         </div>
         
         <div class="sticky-action-footer">
