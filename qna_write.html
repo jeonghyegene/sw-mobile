@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원애드피아 - 문의 작성</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        }
+        ul, li { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        input, select, textarea { font-family: inherit; }
+        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        /* Layout */
+        .mobile-wrap { 
+            width: 100%; 
+            max-width: 480px; 
+            margin: 0 auto; 
+            background-color: #ffffff; 
+            padding-bottom: 100px; /* Sticky Footer 여백 */
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
+        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; transition: transform 0.2s; color: #333; }
+        .header-btn:active { transform: scale(0.9); }
+        .header-left { flex: 1 0 0; display: flex; justify-content: flex-start; }
+        .header-title { 
+            flex: 3 0 0; 
+            font-size: 18px; 
+            font-weight: 600; 
+            text-align: center; 
+            color: #212121; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .header-right { flex: 1 0 0; display: flex; justify-content: flex-end; gap: 8px; }
+        .btn-icon { cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; color: #333; }
+        .btn-icon:active { transform: scale(0.9); }
+        .btn-icon svg { width: 100%; height: 100%; }
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button { background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .primary-button:hover { background: #3d5dd3; }
+        .primary-button:active { transform: scale(0.98); }
+        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .white-button:hover { background: #f9f9f9; }
+        .white-button:active { transform: scale(0.98); }
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+        
+        /* Main Content */
+        .sw-container { padding: 16px; }
+
+        /* [MODIFIED] Filter Chip Section Grouping */
+        .inquiry-type-section {
+            background: #fff;
+            border-bottom: 8px solid #f4f5f7; /* [NEW] Thick divider */
+        }
+        .filter-chip-group {
+            padding: 16px;
+        }
+        .sub-category-group {
+            padding: 0 16px 16px 16px;
+        }
+
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .tabs-scroll-wrapper::-webkit-scrollbar { display: none; }
+        .filter-chip-group .tabs-scroll-wrapper {
+            display: flex; 
+            gap: 8px; 
+        }
+        .filter-chip-group .single-chip {
+            flex-shrink: 0; 
+            white-space: nowrap; 
+        }
+        
+        /* v12 Standard .single-chip */
+        .single-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
+        .single-chip-on { background: #4e6ee4; color: white; }
+        .single-chip:active { transform: scale(0.95); }
+        
+        /* v12 standard filter-group-content */
+        .filter-group-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        /* [NEW] v12 standard disclaimer */
+        .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
+        
+        /* Form Styles (from sungwon_money_01.html / v12 guide) */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+        .input input::placeholder { color: #c6c6c8; }
+        
+        /* [NEW] Input Group (from sungwon_money_01(default).html) */
+        .input-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .input-group .white-button {
+            flex-shrink: 0;
+            height: 40px; /* Match input height */
+            font-size: 13px;
+            padding: 0 12px;
+            width: auto;
+        }
+        
+        /* [NEW] Textarea (from sungwon_money_01.html) */
+        .input textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+            resize: vertical;
+            min-height: 100px; /* Base height */
+        }
+        .input textarea::placeholder { color: #c6c6c8; }
+        
+        /* [NEW] Select Box Styling (v12 compliant) */
+        .input.select-wrapper {
+            padding: 0; /* Remove padding to allow select to fill */
+            position: relative;
+        }
+        .input select {
+            width: 100%;
+            height: 38px; /* 40px - 2px border */
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 14px;
+            color: black;
+            padding: 0 12px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .input.select-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+        }
+        
+        /* [MODIFIED] Info Banner (for AS) */
+        .info-banner-container {
+            background: #eef2ff; /* Light blue */
+            border: 1px solid #c7d3ff; /* Blue border */
+            border-radius: 6px;
+            margin-bottom: 24px;
+            overflow: hidden; /* To keep radius */
+        }
+        .info-banner-clickable {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #3d5dd3;
+            cursor: pointer;
+        }
+        .info-banner-clickable:hover {
+            background-color: #e6edff;
+        }
+        .info-banner-clickable svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            stroke-width: 2.5;
+        }
+        .info-banner-footer {
+            background: #f8f9ff;
+            border-top: 1px solid #c7d3ff;
+            padding: 10px 16px;
+        }
+        .info-banner-footer .checkbox-text {
+            margin: 0;
+        }
+
+        /* [MODIFIED] FAQ List */
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            margin-top: 24px; /* Space between form groups */
+        }
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .faq-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #f8f8f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+        .faq-item:hover { background-color: #f1f1f1; }
+        .faq-item span { 
+            flex: 1; 
+            /* [NEW] Ellipsis for long Qs */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 8px;
+        }
+        .faq-item svg {
+            width: 16px;
+            height: 16px;
+            color: #888;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+
+        /* [NEW] v12 Checkbox (from Master Guide) */
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
+        .checkbox-on {
+            width: 100%; height: 100%; background: #4e6ee4;
+            border-radius: 2px; display: flex;
+            align-items: center; justify-content: center;
+        }
+        .checkbox-on img { width: 14px; height: 14px; }
+        .checkbox:active { transform: scale(0.9); }
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .checkbox-text span {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        /* [NEW] Checkbox '자세히 보기' link */
+        .disclaimer-link {
+            font-size: 13px;
+            color: #888;
+            text-decoration: underline;
+            margin-left: 28px; /* Align with checkbox text */
+            margin-top: 4px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        /* [NEW] Sticky Form Footer (from tax_request_write...) */
+        .sticky-form-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px; /* Match .mobile-wrap */
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            padding: 20px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+        }
+        .sticky-form-footer .btn {
+            flex: 1;
+        }
+        .sticky-form-footer .white-button {
+             flex-grow: 1;
+        }
+         .sticky-form-footer .dark-button {
+             flex-grow: 2; /* 등록하기 버튼을 더 크게 */
+        }
+        
+        /* ========================================
+           [NEW] MODAL STYLES (v12 Standard)
+        ======================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            animation: fadeInModal 0.2s ease-out;
+        }
+        .modal-overlay.active { display: flex; }
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px; /* Modal max width */
+            max-height: 90vh; /* Limit height */
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+        @keyframes scaleUpModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative; /* For close button */
+            height: 57px; /* Match v12 modal header */
+        }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            text-align: left; 
+        }
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333; /* v12 guide color */
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .btn-modal-close:hover { color: #000; }
+        .btn-modal-close svg { width: 100%; height: 100%; }
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        /* [NEW] Modal body with less padding for list */
+        .modal-body.list-modal {
+            padding: 16px;
+        }
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+        
+        /* [MODIFIED] Alert Modal Specifics (from review_after.html) */
+        .alert-modal {
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            animation: scaleUpModal 0.2s ease-out; 
+        }
+        .alert-modal .modal-title {
+            font-size: 16px; 
+            font-weight: 700; 
+            color: black; 
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .alert-modal .modal-message { 
+            font-size: 14px; 
+            color: black; 
+            margin-bottom: 30px; 
+            line-height: 1.5; 
+        }
+        .alert-modal .modal-message .highlight {
+             font-weight: 600;
+             color: #dc3545; /* Red for alerts */
+        }
+        .alert-modal .modal-buttons { display: flex; gap: 10px; justify-content: center; }
+        .alert-modal .modal-button {
+            flex: 1;
+            min-width: 90px;
+            height: 44px;
+            padding: 7px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .alert-modal .modal-button-primary { 
+            background: #dc3545; /* Red for primary alert action */
+            color: white; 
+            border: none; 
+        }
+        /* [MODIFIED] Exit modal button colors */
+        #exit-alert-modal .modal-button-primary {
+            background: #dc3545; /* Red for "나가기" */
+        }
+        #exit-alert-modal .modal-button-secondary { 
+            background: white; 
+            color: #424242; 
+            border: 1px solid #bababa;
+        } 
+        .alert-modal .modal-button:active { transform: scale(0.98); }
+        
+        /* [NEW] Search (from v12 Master Guide) */
+        .search {
+            width: 100%;
+            height: 40px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            position: relative;
+        }
+        .search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+        }
+        .search input::placeholder { color: #c6c6c8; }
+        .search-input-right { display: flex; gap: 3px; align-items: center; }
+        .search-del { width: 18px; height: 18px; cursor: pointer; display: none; }
+        .search.has-text .search-del { display: flex; }
+        .search-icon, .btn-search { width: 24px; height: 24px; cursor: pointer; transition: transform 0.2s; }
+        .search-icon:active, .btn-search:active { transform: scale(0.9); }
+        .search-del img, .btn-search img, .search-icon img { width: 100%; height: 100%; }
+        
+        /* [NEW] Modal List Header */
+        .transaction-list-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 12px; 
+            font-size: 14px; 
+            color: #555; 
+            border-bottom: 1px solid #e8e8e9; 
+            margin-bottom: 12px; 
+            margin-top: 16px;
+        }
+        .transaction-list-header .total-count strong { font-weight: 600; color: #333; }
+
+        /* [NEW] Order List (Modal) */
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 40vh; /* Set max height for scrolling */
+            overflow-y: auto;
+        }
+        .order-item {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 12px;
+        }
+        .order-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .order-id {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        .order-item .white-button {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
+        .order-detail {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+            line-height: 1.5;
+            word-break: keep-all; 
+        }
+        
+        /* [NEW] Combobox Dropdown */
+        .combobox-wrapper {
+            position: relative;
+            flex: 1;
+        }
+        .combobox-dropdown {
+            position: absolute;
+            top: calc(100% + 2px); /* Position below the input */
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            z-index: 100;
+            max-height: 220px;
+            overflow-y: auto;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .combobox-item {
+            padding: 10px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .combobox-item:last-child {
+            border-bottom: none;
+        }
+        .combobox-item:hover {
+            background: #f5f5f6;
+        }
+        .combobox-item strong {
+            font-weight: 600;
+            color: #333;
+        }
+        .combobox-item .order-date {
+            font-size: 12px;
+            color: #888;
+            margin-left: 8px;
+        }
+        
+        
+        /* ========================================
+           [NEW] BOTTOM SHEET STYLES (v12 Standard)
+        ======================================== */
+        .bottom-sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease-out;
+        }
+        .bottom-sheet-overlay.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes slideDown { from { transform: translateY(0); } to { transform: translateY(100%); } }
+
+        .bottom-sheet {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-top: 1px solid #d7d7d7;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .bottom-sheet.closing { animation: slideDown 0.3s ease-out; }
+        .sheet-handle { width: 27px; height: 4px; background: #d9d9d9; border-radius: 100px; margin: 10px auto; cursor: grab; }
+        .sheet-handle:active { cursor: grabbing; }
+        .sheet-header {
+            height: 21px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+        .sheet-title { font-size: 16px; font-weight: 700; color: black; }
+        .btn-close {
+            position: absolute;
+            right: 20px;
+            top: 0;
+            width: 21px;
+            height: 21px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-close:active { transform: scale(0.9); }
+        .btn-close svg { width: 100%; height: 100%; color: #333; }
+        .sheet-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 20px 20px;
+        }
+        .sheet-footer {
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .sheet-footer .btn { flex: 1; }
+        
+        /* [NEW] AS Policy Sheet Content */
+        .as-policy-content { padding: 0 4px; }
+        .as-policy-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+        .as-policy-content h3:first-child { margin-top: 0; }
+        .as-policy-content p, .as-policy-content li {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        .as-policy-content ul {
+            list-style-type: disc;
+            margin-bottom: 8px;
+        }
+        .as-policy-content .highlight {
+            color: #dc3545;
+            font-weight: 500;
+        }
+        /* [MODIFIED] AS Policy Footer */
+        #as-policy-sheet .sheet-footer {
+            justify-content: center; /* Center the single button */
+        }
+        
+        /* [NEW] FAQ Modal Accordion */
+        .accordion-list { display: flex; flex-direction: column; gap: 8px; }
+        .accordion-item { border: 1px solid #e8e8e9; border-radius: 6px; overflow: hidden; }
+        .accordion-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            background: #f8f8f9;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+        }
+        .accordion-header:hover { background: #f1f1f1; }
+        .accordion-q { flex: 1; line-height: 1.5; padding-right: 10px; }
+        .accordion-icon {
+            width: 16px;
+            height: 16px;
+            color: #888;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+        }
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: #fff;
+        }
+        .accordion-a {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            white-space: pre-wrap; /* To respect newlines in the answer */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="mobile-wrap">
+        
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="checkBeforeExit()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                </button>
+            </div>
+            <h1 class="header-title">문의 작성</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search"><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart"><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17h-11v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /></svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="inquiry-type-section">
+                <div class="filter-chip-group">
+                    <label style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; display: block;">문의유형</label>
+                    <div class="tabs-scroll-wrapper" id="inquiry-type-chips">
+                        <div class="single-chip single-chip-off" data-type="AS" onclick="selectInquiryType(this, 'AS')">AS</div>
+                        <div class="single-chip single-chip-on" data-type="DEFAULT" data-category-name="출고/배송" onclick="selectInquiryType(this, 'DEFAULT')">출고/배송</div>
+                        <div class="single-chip single-chip-off" data-type="DEFAULT" data-category-name="제작" onclick="selectInquiryType(this, 'DEFAULT')">제작</div>
+                        <div class="single-chip single-chip-off" data-type="DEFAULT" data-category-name="고객상담" onclick="selectInquiryType(this, 'DEFAULT')">고객상담</div>
+                        <div class="single-chip single-chip-off" data-type="DEFAULT" data-category-name="파일접수" onclick="selectInquiryType(this, 'DEFAULT')">파일접수</div>
+                        <div class="single-chip single-chip-off" data-type="DEFAULT" data-category-name="회계관련" onclick="selectInquiryType(this, 'DEFAULT')">회계관련</div>
+                        <div class="single-chip single-chip-off" data-type="DEFAULT" data-category-name="기타" onclick="selectInquiryType(this, 'DEFAULT')">기타</div>
+                        <div class="single-chip single-chip-off" data-type="QNA" onclick="selectInquiryType(this, 'QNA')">Q&A</div>
+                    </div>
+                </div>
+                
+                <div class="sub-category-group" id="sub-category-container">
+                    <div class="form-group" data-sub-category-for="AS" style="display: none; margin-bottom: 0;">
+                        <div class="input select-wrapper">
+                            <select id="sub-category-select-as" onchange="isFormDirty = true; updateFaqList('AS');">
+                                </select>
+                        </div>
+                    </div>
+                    <div class="form-group" data-sub-category-for="DEFAULT" style="display: block; margin-bottom: 0;">
+                        <div class="input select-wrapper">
+                            <select id="sub-category-select-default" onchange="isFormDirty = true; updateFaqList('DEFAULT');">
+                                </select>
+                        </div>
+                    </div>
+                    <div class="form-group" data-sub-category-for="QNA" style="display: none; margin-bottom: 0;">
+                        <div class="input select-wrapper">
+                            <select id="sub-category-select-qna" onchange="isFormDirty = true; updateFaqList('QNA');">
+                                </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sw-container" id="form-container">
+                <div class="form-section" data-form-type="AS" style="display: none;">
+                    
+                    <div class="info-banner-container">
+                        <div class="info-banner-clickable" onclick="showAsPolicySheet()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                               <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                               <path d="M12 9h.01" />
+                               <path d="M11 12h1v4h1" />
+                            </svg>
+                            <span>문의 등록 전, <strong>AS 준수사항</strong>을 꼭 확인해주세요.</span>
+                        </div>
+                        <div class="info-banner-footer">
+                            <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                                <div class="checkbox" data-checked="false" id="as-policy-main-checkbox">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <span>AS 준수사항을 확인했습니다.</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2 class="section-title" style="margin-top: 0;">자주 묻는 질문</h2>
+                    <div class="faq-list" id="faq-list-as">
+                        </div>
+                    
+                    <div class="form-group">
+                        <label>접수번호</label>
+                        <div class="input-group">
+                            <div class="combobox-wrapper">
+                                <div class="input">
+                                    <input type="text" id="order-number-as" placeholder="접수번호를 입력해주세요" oninput="filterOrderList(this, 'as')" onfocus="showOrderDropdown('as')" onblur="hideOrderDropdown('as')" autocomplete="off">
+                                </div>
+                                <div class="combobox-dropdown" id="order-dropdown-as">
+                                    </div>
+                            </div>
+                            <button class="white-button" onclick="showOrderListModal()">접수 목록</button>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;" id="order-date-group-as">
+                        <label>접수일</label>
+                        <div class="readonly-value" id="order-date-as"></div>
+                    </div>
+                </div>
+                
+                <div class="form-section" data-form-type="DEFAULT" style="display: block;">
+                    <h2 class="section-title" style="margin-top: 0;">자주 묻는 질문</h2>
+                    <div class="faq-list" id="faq-list-default">
+                        </div>
+
+                    <div class="form-group">
+                        <label>접수번호 (선택)</label>
+                        <div class="input-group">
+                            <div class="combobox-wrapper">
+                                <div class="input">
+                                    <input type="text" id="order-number-default" placeholder="접수번호를 입력해주세요" oninput="filterOrderList(this, 'default')" onfocus="showOrderDropdown('default')" onblur="hideOrderDropdown('default')" autocomplete="off">
+                                </div>
+                                <div class="combobox-dropdown" id="order-dropdown-default">
+                                    </div>
+                            </div>
+                            <button class="white-button" onclick="showOrderListModal()">접수 목록</button>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;" id="order-date-group-default">
+                        <label>접수일</label>
+                        <div class="readonly-value" id="order-date-default"></div>
+                    </div>
+                </div>
+
+                <div class="form-section" data-form-type="QNA" style="display: none;">
+                    <h2 class="section-title">자주 묻는 질문</h2>
+                    <div class="faq-list" id="faq-list-qna">
+                        </div>
+                    
+                    <div class="form-group">
+                        <label>공개 여부</label>
+                        <div class="filter-group-content" id="privacy-chips">
+                            <div class="single-chip single-chip-on" data-value="public" onclick="selectPrivacy(this)">공개</div>
+                            <div class="single-chip single-chip-off" data-value="private" onclick="selectPrivacy(this)">비공개</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section" data-form-type="AS DEFAULT QNA">
+                    <div class="form-group">
+                        <label>이름</label>
+                        <div class="input">
+                            <input type="text" placeholder="이름을 입력해주세요" value="김성원">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>휴대폰 번호</label>
+                        <div class="input">
+                            <input type="tel" placeholder="'-' 제외한 숫자만 입력해주세요">
+                        </div>
+                        <p class="disclaimer">답변이 작성되면 해당 번호로 알림을 드려요.</p>
+                    </div>
+                    <div class="form-group">
+                        <label>문의내용</label>
+                        <div class="input" style="align-items: flex-start;">
+                            <textarea placeholder="문의내용을 작성해주세요"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section" data-form-type="AS DEFAULT">
+                    <div class="form-group">
+                        <label>첨부파일</label>
+                        <button class="white-button" style="width: 100%; font-weight: 500; justify-content: center;">
+                            파일 선택
+                        </button>
+                        <p class="disclaimer">JPG, PNG, GIF, PDF 파일 업로드 가능하며, 최대 3장까지 등록할 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="form-section" data-form-type="AS DEFAULT QNA">
+                    <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                        <div class="checkbox" data-checked="false" id="privacy-checkbox-main">
+                            <div class="checkbox-off"></div>
+                        </div>
+                        <span>개인정보 수집 및 이용 동의 (필수)</span>
+                    </div>
+                    <span class="disclaimer-link" onclick="alert('자세히 보기 (구현 필요)')">자세히 보기</span>
+                </div>
+            </div>
+        </main>
+        
+        <div class="sticky-form-footer">
+            <button class="white-button btn" onclick="location.href='qna_list.html'">문의 내역</button>
+            <button class="dark-button btn" id="submit-inquiry-btn" onclick="alert('등록하기 (구현 필요)')">등록하기</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="order-list-modal-overlay">
+        <div class="modal-content" id="order-list-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">접수 목록</h2>
+                <button class="btn-modal-close" onclick="closeModal('order-list-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="search" data-name="search" id="order-search">
+                    <input type="text" placeholder="접수번호 또는 접수제목, 제품명을 입력해주세요" oninput="handleSearchInput(this)">
+                    <div class="search-input-right">
+                        <div class="search-del" onclick="clearSearch(this)">
+                            <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d" alt="삭제">
+                        </div>
+                        <div class="btn-search" onclick="handleSearch(this)">
+                            <img src="https://www.figma.com/api/mcp/asset/4af11b15-4228-4024-b0ec-cd703ca89e9f" alt="검색">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transaction-list-header">
+                    <span class="total-count">총 <strong>7</strong>개</span>
+                </div>
+                
+                <div class="order-list">
+                    <article class="order-item">
+                        <div class="order-item-header">
+                            <span class="order-id">409056-03</span>
+                            <button class="white-button" onclick="selectOrder('409056-03', '2025-08-08')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="order-detail">명함 - 임원명함</div>
+                        <div class="order-detail" style="color: #888;">접수일 2025-08-08</div>
+                        <div class="order-detail" style="color: #888; font-size: 12px;">용지: 아트지 / 백색 / 150g | 인쇄: 양면 / CMYK / 일반 | 규격: 208x154 | 수량: 200매 / 1건 | 가공: 박</div>
+                    </article>
+                    <article class="order-item">
+                        <div class="order-item-header">
+                            <span class="order-id">409056-02</span>
+                            <button class="white-button" onclick="selectOrder('409056-02', '2025-08-08')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="order-detail">전단지 - 삼성SDS전단지</div>
+                        <div class="order-detail" style="color: #888;">접수일 2025-08-08</div>
+                        <div class="order-detail" style="color: #888; font-size: 12px;">용지: 아트지 / 백색/ 150g | 인쇄: 양면 / CMYK / 일반 | 규격: 208x154 | 수량: 200매 / 1건 | 가공: 박</div>
+                    </article>
+                    <article class="order-item">
+                        <div class="order-item-header">
+                            <span class="order-id">409056-01</span>
+                            <button class="white-button" onclick="selectOrder('409056-01', '2025-08-07')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="order-detail">명함 - SAMPLE</div>
+                        <div class="order-detail" style="color: #888;">접수일 2025-08-07</div>
+                        <div class="order-detail" style="color: #888; font-size: 12px;">용지: 아트지 / 백색/150g | 인쇄: 양면 / CMYK / 일반 | 규격: 208x154 | 수량: 200매 / 1건 | 가공: 박</div>
+                    </article>
+                    <article class="order-item">
+                        <div class="order-item-header">
+                            <span class="order-id">234331-02</span>
+                            <button class="white-button" onclick="selectOrder('234331-02', '2025-08-06')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="order-detail">대봉투 - 무제</div>
+                        <div class="order-detail" style="color: #888;">접수일 2025-08-06</div>
+                        <div class="order-detail" style="color: #888; font-size: 12px;">용지: 아트지 / 백색 / 150g | 인쇄: 양면 / CMYK / 일반 | 규격: 208x154 | 수량: 200매 / 1건 | 가공: 박</div>
+                    </article>
+                    <article class="order-item">
+                        <div class="order-item-header">
+                            <span class="order-id">234331-01</span>
+                            <button class="white-button" onclick="selectOrder('234331-01', '2025-08-06')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="order-detail">샤이니명함 - 김길동_명함</div>
+                        <div class="order-detail" style="color: #888;">접수일 2025-08-06</div>
+                        <div class="order-detail" style="color: #888; font-size: 12px;">용지: 아트지 / 백색/ 150g | 인쇄: 양면 / CMYK / 일반 | 규격: 208x154 | 수량: 200매 / 1건 | 가공: 박</div>
+                    </article>
+                    <article class="order-item">
+                        <div class="order-item-header">
+                            <span class="order-id">654564</span>
+                            <button class="white-button" onclick="selectOrder('654564', '2025-08-03')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="order-detail">초저가전단지 - 초저가_샘플</div>
+                        <div class="order-detail" style="color: #888;">접수일 2025-08-03</div>
+                        <div class="order-detail" style="color: #888; font-size: 12px;">용지: 아트지/백색/ 150g | 인쇄: 양면 / CMYK / 일반 | 규격: 208x154 | 수량: 200매 / 1건 | 가공: 박</div>
+                    </article>
+                    <article class="order-item">
+                        <div class="order-item-header">
+                            <span class="order-id">349783</span>
+                            <button class="white-button" onclick="selectOrder('349783', '2025-08-02')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="order-detail">명함 - 사원 01_명함</div>
+                        <div class="order-detail" style="color: #888;">접수일 2025-08-02</div>
+                        <div class="order-detail" style="color: #888; font-size: 12px;">용지: 아트지 / 백색/150g | 인쇄: 양면 / CMYK / 일반 | 규격: 208x154 | 수량: 200매 / 1건 | 가공: 박</div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="exit-alert-modal">
+        <div class="alert-modal" data-name="Alert"> 
+            <div class="modal-title">안내</div>
+            <div class="modal-message">
+                이 페이지를 나가면 입력한 내용이 모두 사라집니다.
+                <br><span class="highlight">나가시겠습니까?</span>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" onclick="closeModal('exit-alert-modal')">계속 작성하기</button>
+                <button class="modal-button modal-button-primary" onclick="confirmExit()">나가기</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-sheet-overlay" id="as-policy-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="as-policy-sheet">
+            <div class="sheet-handle" id="as-policy-sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">AS 준수사항</div>
+                <div class="btn-close" onclick="closeAsPolicySheet()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </div>
+            </div>
+            <div class="sheet-body">
+                <div class="as-policy-content">
+                    <p style="font-size: 14px; color: #333; margin-bottom: 20px;">문의 등록 전, 아래 내용을 반드시 숙지해주세요.</p>
+                    
+                    <h3>재작업 및 반품 가능기간</h3>
+                    <p><span class="highlight">인쇄물을 수령한 날로부터 7일 이내</span>에만 재작업 요청이 가능합니다.</p>
+                    <p>기준일 초과시 재작업이 불가합니다.</p>
+
+                    <h3>회수 기준</h3>
+                    <p>재작업을 위해서는 <span class="highlight">하자 있는 인쇄물의 90% 이상</span>이 당사 A/S팀으로 회수되어야 합니다.</p>
+                    <p>단, 당사 과실이 명확히 확인된 경우에는 회수 과정이 생략될 수 있습니다.</p>
+                    
+                    <h3>회수 방법</h3>
+                    <ul>
+                        <li>재작업 처리는 사고 물건의 90% 이상이 당사로 회수되어야 합니다.</li>
+                        <li>월 배송 고객은 월배송을 통해 반송해주시고, 택배/퀵/화물 고객은 <span class="highlight">반드시 지정택배사를 통해 착불로</span> 당사 A/S팀에 반송해야 합니다.</li>
+                        <li>사전 연락 없이 지정 택배사 외 다른 방법으로 보낼 경우 반송 처리 됩니다.</li>
+                    </ul>
+
+                    <h3>책임 범위</h3>
+                    <p>재작업건에 대한 당사의 책임범위는 인쇄물 완성까지입니다.</p>
+
+                    <h3>과실에 따른 부담 비용</h3>
+                    <p style="font-weight: 600; color: #333;">당사 과실</p>
+                    <p>모든 인쇄물은 하자 검수 없이 배송됩니다. 당사 실수로 재작업하는 경우, 택배나 월배송으로 무상처리해드립니다. 또한 당사의 실수가 확인될 때에는 물건 회수과정이 생략될 수 있습니다.</p>
+                    <p style="font-weight: 600; color: #333;">고객 과실</p>
+                    <p>재작업 사유가 고객의 실수인 경우, 배송비는 고객부담으로 유상처리 됩니다. 재작업 시 데이터 수정을 원하시면 고객님께서 <span class="highlight">재작업 비용의 50%</span>를 부담해야 합니다.</p>
+                    
+                    <h3>환불 및 손해배상</h3>
+                    <p>환불 및 손해배상에 대한 규정은 당사 이용약관을 따릅니다. 자세한 사항은 고객센터로 문의바랍니다.</p>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn dark-button" style="width: 100%;" id="as-policy-confirm-btn" onclick="confirmAsPolicy()">확인</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="faq-modal-overlay">
+        <div class="modal-content" id="faq-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">자주 묻는 질문</h2>
+                <button class="btn-modal-close" onclick="closeModal('faq-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body list-modal">
+                <div class="accordion-list" id="faq-accordion-container">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="closeModal('faq-modal-overlay')">확인</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- [NEW] Form Dirty Check & Exit Alert ---
+        let isFormDirty = false;
+        
+        function checkBeforeExit() {
+            if (isFormDirty) {
+                openModal('exit-alert-modal');
+            } else {
+                goBack();
+            }
+        }
+        
+        function confirmExit() {
+            isFormDirty = false; // Reset flag
+            closeModal('exit-alert-modal');
+            goBack();
+        }
+        
+        function goBack() {
+             // Simple history back. In a real app, you might want a more robust routing.
+             history.back();
+        }
+
+        // --- Modal Helpers (v12 Standard) ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+        
+        // --- Bottom Sheet Logic (v12 Standard) ---
+        function setupBottomSheet(overlayId, sheetId, handleId) {
+            const overlay = document.getElementById(overlayId); 
+            const sheet = document.getElementById(sheetId); 
+            const handle = document.getElementById(handleId);
+            if (!overlay || !sheet || !handle) return { openSheet: ()=>{}, closeSheet: ()=>{} };
+            
+            let isDragging = false, startY = 0, currentY = 0;
+            
+            const openSheet = () => { 
+                overlay.classList.add('active'); 
+                sheet.classList.remove('closing'); 
+                document.body.style.overflow = 'hidden'; 
+            };
+            
+            const closeSheet = () => { 
+                sheet.classList.add('closing'); 
+                const anyModalActive = document.querySelector('.modal-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = ''; 
+                }
+                setTimeout(() => { 
+                    overlay.classList.remove('active'); 
+                    sheet.classList.remove('closing'); 
+                    sheet.style.transform = ''; // Reset transform
+                }, 300); 
+            };
+            
+            const startDrag = (e) => { 
+                isDragging = true; 
+                startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; 
+                sheet.style.transition = 'none'; 
+            };
+            
+            const drag = (e) => { 
+                if (!isDragging) return; 
+                e.preventDefault(); 
+                currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; 
+                const deltaY = currentY - startY; 
+                if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; 
+            };
+            
+            const endDrag = () => { 
+                if (!isDragging) return; 
+                isDragging = false; 
+                sheet.style.transition = ''; 
+                const deltaY = currentY - startY; 
+                if (deltaY > 100) closeSheet(); 
+                else sheet.style.transform = ''; 
+            };
+            
+            handle.addEventListener('mousedown', startDrag); 
+            handle.addEventListener('touchstart', startDrag, { passive: false });
+            document.addEventListener('mousemove', drag); 
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', endDrag); 
+            document.addEventListener('touchend', endDrag);
+            overlay.addEventListener('click', (e) => { if (e.target.id === overlayId) closeSheet(); });
+            
+            return { openSheet, closeSheet };
+        }
+        
+        const { openSheet: showAsPolicySheet, closeSheet: closeAsPolicySheet } = setupBottomSheet('as-policy-sheet-overlay', 'as-policy-sheet', 'as-policy-sheet-handle');
+
+
+        // --- Checkbox (v12 Standard) ---
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            let newState;
+            if (isChecked) {
+                newState = false;
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                newState = true;
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+            }
+            return newState;
+        }
+        
+        function toggleCheckboxText(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            const newState = toggleCheckbox(checkbox);
+            
+            if (checkbox.id === 'as-policy-main-checkbox' && !newState) {
+                // If user unchecks the AS policy, do nothing special
+            }
+        }
+        
+        // [NEW] AS Policy Confirmation Logic
+        function confirmAsPolicy() {
+            const mainCheckbox = document.getElementById('as-policy-main-checkbox');
+            if (mainCheckbox.dataset.checked !== 'true') {
+                mainCheckbox.dataset.checked = 'true';
+                mainCheckbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+                isFormDirty = true; // Mark form as dirty
+            }
+            closeAsPolicySheet();
+        }
+
+        // --- Search (v12 Standard) ---
+        function handleSearchInput(input) {
+            const searchBox = input.closest('.search');
+            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+        }
+        function clearSearch(btn) {
+            const searchBox = btn.closest('.search');
+            const input = searchBox.querySelector('input');
+            input.value = '';
+            searchBox.classList.remove('has-text');
+            input.focus();
+            
+            if (searchBox.id === 'order-search') {
+                // [NEW] If clearing modal search, reset list
+                // (In a real app, you'd re-fetch or show all)
+            }
+        }
+        function handleSearch(btn) { console.log('Search submitted:', btn.closest('.search').querySelector('input').value); }
+
+
+        // --- [MODIFIED] Inquiry Form Logic ---
+
+        // [MODIFIED] Data for conditional fields
+        const subCategoryOptions = {
+            'AS': [
+                '미발송', '오배송', '상담', '완제품 이상', '용지/인쇄/재단/가공/포장'
+            ],
+            'DEFAULT': {
+                '출고/배송': ['배송 메모', '배송요금', '배송지 변경', '선불/후불/방문수령/퀵/월배송', '제작현황/출고/납기/픽업 문의'],
+                '제작': ['담당직원', '디자인 관련', '별도견적', '사이즈 문의', '색상 문의', '샘플요청', '작업 상세', '작업 수정/취소', '재접수', '제작 여부', '지종 문의', '포장'],
+                '고객상담': ['고객의 소리', '자재(입고/성분 등)', '주문자 정보 변경', '추가주문', '홈페이지 불편문의', '회원(기업)가입/정보 수정'],
+                '파일접수': ['교정/감리', '별색', '성원웹하드', '주문 실수/누락/중복', '파일(작업/수정/취소/폰트/템플릿)'],
+                '회계관련': ['성원머니(전환/환불 등)', '가상계좌변경', '거래명세서/전표 발급', '서류발급/요청', '세금계산서 관련', '입금확인', '주문(부분)취소 및 환불', '카드 결제/취소', '현금영수증 관련', '환불계좌 등록/변경'],
+                '기타': ['기타 문의']
+            },
+            'QNA': ['명함', '홍보물', '스티커', '패키지/봉투', '서식지', '굿즈']
+        };
+        
+        // [NEW] FAQ Data (Manually parsed from CSV)
+        const faqData = {
+            "AS": {
+                "미발송": [{
+                    q: "배송완료라고 하는데, 아직 제품을 수령하지 못했습니다.",
+                    a: "고객센터로 문의 남겨주시면 담당자가 연락드리겠습니다. 아직 받지못하신 제품의 주문번호와 주문자정보를 고객센터로 문의 남겨주세요."
+                }],
+                "상담": [{
+                    q: "AS 가능할 지 상담이 필요합니다.",
+                    a: "고객센터로 문의 남겨주시면 담당자가 연락드리겠습니다. 수령하신 제품을 폐기하지 마시고, 사진 촬영 후 고객센터로 문의해주세요."
+                }],
+                "오배송": [{
+                    q: "오배송 제품을 폐기해도 되나요?",
+                    a: "오배송 상품의 경우 고객센터로 문의 남겨주시면 담당자가 연락드리겠습니다. 수령하신 오배송 제품을 폐기하지 마시고, 담당자 연락을 받으실 떄 까지 사진 촬영 후 보관해주세요."
+                }],
+                "완제품 이상": [{
+                    q: "수량 문제가 있어 문의합니다.",
+                    a: "문의하신 주문번호 (000000-00)건은 여러건의 제품을 모아 합판으로 진행되는 제품으로, 제작 공정상 전체 수량의 3% 내외의 수량 부족이 있을 수 있습니다. 3% 이상의 수량 부족은 고객센터로 문의 남겨주시면 담당자가 연락드리겠습니다."
+                }, {
+                    q: "주문한 제품과 다른 제품을 수령했습니다.",
+                    a: "고객센터로 문의 남겨주시면 담당자가 연락드리겠습니다. 수령하신 오배송 제품을 폐기하지 마시고, 담당자 연락을 받으실 떄 까지 사진 촬영 후 보관해주세요."
+                }],
+                "용지/인쇄/재단/가공/포장": [{
+                    q: "제품 용지/인쇄/재단/가공/포장에 문제가 있어요.",
+                    a: "죄송합니다 고객님. 문제가 있는 부분을 촬영하여 고객센터로 문의 남겨주시면 담당자가 연락드리겠습니다. 제품을 폐기하지 마시고, 담당자 연락을 받으실 떄 까지 사진 촬영 후 보관해주세요."
+                }]
+            },
+            "출고/배송": {
+                "배송 메모": [{
+                    q: "배송 메모는 어디에 작성해야 하나요?",
+                    a: "배송 메모는 주문 마지막 단계의 '배송정보 입력'란에서 작성하실 수 있습니다. 택배기사님께 전달되는 내용으로, '부재 시 경비실에 맡겨주세요' 등과 같은 요청사항을 남기실 수 있습니다."
+                }],
+                "배송요금": [{
+                    q: "배송비는 얼마인가요?",
+                    a: "배송비는 주문하신 제품의 무게, 부피, 그리고 배송 지역에 따라 다르게 책정됩니다. 자세한 배송비는 주문 과정에서 확인하실 수 있습니다."
+                }],
+                "배송지 변경": [{
+                    q: "배송지를 변경하고 싶어요.",
+                    a: "제품이 '출고 대기' 상태 이전일 경우, 마이페이지 > 접수/배송 내역에서 직접 배송지를 변경하실 수 있습니다. '출고 대기' 상태 이후에는 배송지 변경이 어려우니 고객센터로 문의주시기 바랍니다."
+                }],
+                "선불/후불/방문수령/퀵/월배송": [{
+                    q: "방문수령은 어떻게 하나요?",
+                    a: "주문 시 배송 방법을 '방문수령'으로 선택하신 후, 제품 출고 완료 알림을 받으시면 본사(파주) 또는 충무로 사무소에서 수령 가능합니다. 방문 시 주문번호와 성함을 말씀해주세요."
+                }],
+                "제작현황/출고/납기/픽업 문의": [{
+                    q: "현재 제작 상태와 출고 일정이 궁금합니다.",
+                    a: "마이페이지 > 접수/배송 내역에서 주문하신 건의 실시간 제작 현황과 예상 출고일을 확인하실 수 있습니다."
+                }]
+            },
+            "제작": {
+                "담당직원": [{
+                    q: "담당 직원을 지정할 수 있나요?",
+                    a: "모든 주문은 접수 순서대로 담당자가 자동 배정됩니다. 특정 담당자 지정은 어려운 점 양해 부탁드립니다. 제작 관련 요청사항은 1:1 문의 [제작] 카테고리로 남겨주시면 담당자가 확인 후 처리해드립니다."
+                }],
+                "디자인 관련": [{
+                    q: "디자인 작업도 해주시나요?",
+                    a: "성원애드피아는 인쇄 제작을 전문으로 하며, 디자인 작업은 별도로 진행하지 않습니다. '성원에디터'를 이용하시거나, 완성된 디자인 데이터를 접수해주셔야 합니다."
+                }],
+                "별도견적": [{
+                    q: "사이트에 없는 사양으로 제작하고 싶어요.",
+                    a: "홈페이지 상단의 [별도견적] 메뉴를 통해 원하시는 사양을 상세히 기재하여 문의주시면, 담당자가 확인 후 견적을 안내해드립니다."
+                }],
+                "사이즈 문의": [{
+                    q: "작업 사이즈는 어떻게 설정해야 하나요?",
+                    a: "제품 주문 페이지의 '작업가이드' 또는 홈페이지 상단 [인쇄가이드] 메뉴에서 제품별 작업 사이즈 및 유의사항을 확인하실 수 있습니다."
+                }],
+                "색상 문의": [{
+                    q: "원하는 색상으로 인쇄가 가능한가요?",
+                    a: "인쇄는 CMYK 4도 색상을 기준으로 진행됩니다. 별색(PANTONE 등) 인쇄를 원하실 경우 [별도견적]으로 문의주셔야 합니다. 데이터 작업 시 CMYK 모드로 작업하셔야 의도한 색상과 가깝게 인쇄됩니다."
+                }],
+                "샘플요청": [{
+                    q: "샘플을 받아볼 수 있나요?",
+                    a: "성원애드피아는 다양한 용지와 후가공 샘플을 확인하실 수 있는 '샘플북'을 판매하고 있습니다. 홈페이지에서 '샘플북'을 검색하여 구매하실 수 있습니다."
+                }],
+                "작업 상세": [{
+                    q: "후가공 옵션에 대해 자세히 알고 싶어요.",
+                    a: "제품 주문 페이지의 '후가공' 옵션 선택 시 각 항목에 대한 설명을 확인하실 수 있으며, [인쇄가이드] 메뉴에서도 후가공에 대한 상세한 안내를 제공합니다."
+                }],
+                "작업 수정/취소": [{
+                    q: "주문한 내용을 수정하거나 취소하고 싶어요.",
+                    a: "주문 상태가 '데이터 확인중' 또는 '접수 완료' 단계에서는 마이페이지에서 직접 주문을 취소할 수 있습니다. '인쇄중' 단계 이후에는 수정 및 취소가 불가능하오니, 긴급한 경우 즉시 고객센터로 연락주시기 바랍니다."
+                }],
+                "재접수": [{
+                    q: "재접수가 무엇인가요?",
+                    a: "재접수(재주문)는 과거에 주문했던 동일한 데이터를 변경 없이 그대로 다시 인쇄하는 기능입니다. 마이페이지 > 접수/배송 내역에서 '재편수' 버튼을 통해 쉽게 재주문하실 수 있습니다."
+                }],
+                "제작 여부": [{
+                    q: "이런 제품도 제작이 가능한가요?",
+                    a: "사이트에 안내된 제품 외의 특수 인쇄물은 [별도견적]을 통해 문의주시면 제작 가능 여부와 견적을 회신해드립니다."
+                }],
+                "지종 문의": [{
+                    q: "용지(지종) 추천을 받고 싶어요.",
+                    a: "제작하시려는 인쇄물의 용도(명함, 전단지, 책자 등)와 원하시는 느낌(두꺼운, 얇은, 광택, 무광택 등)을 [고객상담] > [기타] 카테고리로 문의주시면 적합한 용지를 추천해드립니다."
+                }],
+                "포장": [{
+                    q: "포장 단위는 어떻게 되나요?",
+                    a: "제품의 종류와 수량에 따라 기본 포장 단위가 정해져 있습니다. (예: 명함 100매/1곽) 별도 포장 단위를 원하실 경우 [별도견적]으로 문의가 필요합니다."
+                }]
+            },
+            "고객상담": {
+                "고객의 소리": [{
+                    q: "성원애드피아에 바라는 점이 있어요.",
+                    a: "서비스 이용 중 불편하셨던 점이나 개선을 바라는 점이 있으시다면 언제든 [고객상담] > [고객의 소리]로 의견을 남겨주세요. 소중한 의견을 반영하여 더 나은 서비스를 제공하겠습니다."
+                }],
+                "자재(입고/성분 등)": [{
+                    q: "사용하는 용지의 성분이나 인증서가 필요한가요?",
+                    a: "특정 용지의 친환경 인증서나 성분 정보가 필요하신 경우, [고객상담] > [자재] 카테고리로 문의주시면 확인 후 안내해드립니다."
+                }],
+                "주문자 정보 변경": [{
+                    q: "주문자 이름을 바꾸고 싶어요.",
+                    a: "주문자의 이름, 연락처, 이메일 등의 정보는 마이페이지 > 회원정보 수정에서 변경하실 수 있습니다. 단, 이미 출고된 주문의 배송 정보는 변경이 어렵습니다."
+                }],
+                "추가주문": [{
+                    q: "같은 제품을 추가로 주문하고 싶어요.",
+                    a: "마이페이지 > 접수/배송 내역에서 이전에 주문한 건의 '재편수' 버튼을 누르시면 동일한 사양으로 빠르고 쉽게 재주문이 가능합니다."
+                }],
+                "홈페이지 불편문의": [{
+                    q: "홈페이지 이용 중 오류가 발생해요.",
+                    a: "오류가 발생하는 화면을 캡쳐하여 사용 중인 기기(PC/모바일)와 브라우저(크롬/엣지 등) 정보를 함께 [고객상담] > [홈페이지 불편문의]로 알려주시면 개발팀에서 확인 후 조치하겠습니다."
+                }],
+                "회원(기업)가입/정보 수정": [{
+                    q: "아이디/비밀번호를 잊어버렸어요.",
+                    a: "로그인 페이지 하단의 '아이디 찾기', '비밀번호 찾기' 기능을 통해 본인 인증 후 찾으실 수 있습니다."
+                }, {
+                    q: "기업회원으로 전환하고 싶어요.",
+                    a: "개인회원으로 가입하신 후, 마이페이지 > 회원정보 수정에서 '기업회원 전환' 신청 및 사업자등록증을 첨부해주시면 관리자 확인 후 전환 처리됩니다."
+                }]
+            },
+            "파일접수": {
+                "교정/감리": [{
+                    q: "인쇄 전에 교정(샘플)을 볼 수 있나요?",
+                    a: "본 인쇄 전 색상이나 재질을 확인하는 '디지털 교정' 또는 '본인쇄 감리' 서비스는 별도 비용으로 이용 가능합니다. [별도견적]으로 문의주시기 바랍니다."
+                }],
+                "별색": [{
+                    q: "별색(PANTONE)을 사용했는데 색이 이상하게 나왔어요.",
+                    a: "모든 인쇄는 CMYK로 변환되어 진행됩니다. 접수하신 데이터에 별색이 포함된 경우, CMYK로 자동 변환되면서 색상 차이가 발생할 수 있습니다. 별색 인쇄는 반드시 [별도견적]으로 사전에 협의해주셔야 합니다."
+                }],
+                "성원웹하드": [{
+                    q: "용량이 큰 파일은 어떻게 접수하나요?",
+                    a: "100MB를 초과하는 대용량 파일은 주문 시 '성원웹하드'를 선택하여 접수하실 수 있습니다. 주문 완료 후 웹하드에 파일을 업로드해주시면 됩니다."
+                }],
+                "주문 실수/누락/중복": [{
+                    q: "주문을 잘못했어요. / 옵션을 빠뜨렸어요.",
+                    a: "주문 상태가 '인쇄중' 이전인 경우, 마이페이지에서 즉시 주문을 취소하고 재주문해주시기 바랍니다. '인쇄중' 이후에는 취소가 불가능합니다."
+                }],
+                "파일(작업/수정/취소/폰트/템플릿)": [{
+                    q: "데이터를 잘못 올려서 수정하고 싶어요.",
+                    a: "주문 상태가 '데이터 확인중' 또는 '접수 완료' 단계일 때, 마이페이지 > 접수/배송 내역에서 '파일 다시 올리기' 버튼을 통해 직접 수정이 가능합니다. '인쇄중' 단계에서는 파일 수정이 절대 불가능합니다."
+                }, {
+                    q: "폰트가 깨져서 나와요.",
+                    a: "데이터 접수 시 모든 폰트는 반드시 아웃라인(Outline) 처리 또는 곡선 처리(Create Outlines)를 해주셔야 합니다. 폰트가 포함된 경우 인쇄 시 다른 서체로 대체될 수 있습니다."
+                }]
+            },
+            "회계관련": {
+                "성원머니(전환/환불 등)": [{
+                    q: "S머니(성원머니)는 어떻게 충전하나요?",
+                    a: "마이페이지 > 성원머니에서 가상계좌를 통해 충전하실 수 있습니다. 충전된 S머니로 결제 시 더욱 빠른 주문이 가능합니다."
+                }],
+                "가상계좌변경": [{
+                    q: "S머니 충전용 가상계좌를 변경하고 싶어요.",
+                    a: "마이페이지 > 성원머니 > 계좌 관리에서 입금 은행을 변경하실 수 있습니다. (월 1회 가능)"
+                }],
+                "거래명세서/전표 발급": [{
+                    q: "거래명세서는 어디서 출력하나요?",
+                    a: "마이페이지 > 접수/배송 내역에서 출고가 완료된 주문 건에 대해 '거래명세서' 출력이 가능합니다."
+                }],
+                "서류발급/요청": [{
+                    q: "사업자등록증 등 회사 서류가 필요해요.",
+                    a: "홈페이지 하단의 [회사소개] 메뉴 또는 고객센터 [서식/자료실]에서 사업자등록증, 통장사본 등 관련 서류를 다운로드하실 수 있습니다."
+                }],
+                "세금계산서 관련": [{
+                    q: "세금계산서는 언제 발행되나요?",
+                    a: "세금계산서는 제품 출고 완료일 기준으로 익월 10일 이내에 회원정보에 등록된 이메일로 자동 발행됩니다. S머니(선불금) 충전 시에는 충전 시점에 계산서가 발행됩니다."
+                }],
+                "입금확인": [{
+                    q: "무통장 입금을 했는데 확인이 안돼요.",
+                    a: "가상계좌 입금은 5~10분 이내에 자동으로 확인됩니다. 만약 주문자와 입금자명이 다르거나 금액이 일치하지 않는 경우, 1:1 문의 [회계관련] > [입금확인]으로 문의주시면 수동 처리해드립니다."
+                }],
+                "주문(부분)취소 및 환불": [{
+                    q: "주문 취소 시 환불은 어떻게 되나요?",
+                    a: "카드로 결제한 경우 카드 승인 취소로 처리되며, S머니/무통장 입금으로 결제한 경우 마이페이지 > 성원머니로 즉시 환불(충전)됩니다."
+                }],
+                "카드 결제/취소": [{
+                    q: "카드 결제 취소는 며칠 걸리나요?",
+                    a: "카드 승인 취소는 당일 처리되나, 카드사에 따라 실제 고객님께 환불되기까지 영업일 기준 3~7일 소요될 수 있습니다."
+                }],
+                "현금영수증 관련": [{
+                    q: "현금영수증은 어떻게 신청하나요?",
+                    a: "무통장 입금 또는 S머니(현금 충전 분)로 결제한 경우, 마이페이지 > 현금영수증 발급 메뉴에서 직접 신청하실 수 있습니다. 제품 출고 완료 건에 한해 신청이 가능합니다."
+                }],
+                "환불계좌 등록/변경": [{
+                    q: "S머니를 제 통장으로 환불받고 싶어요.",
+                    a: "마이페이지 > 성원머니 > 환불계좌 관리에 본인 명의의 계좌를 등록한 후, '출금' 신청을 하시면 영업일 기준 익일 오후에 처리됩니다."
+                }]
+            },
+            "Q&A": {
+                "명함": [{
+                    q: "명함 기본 수량은 몇 매인가요?",
+                    a: "일반명함(스노우지/아트지)의 기본 수량은 200매이며, 고급지/특수지 명함은 종류에 따라 100매 또는 200매가 기본 수량입니다. 주문 페이지에서 확인 가능합니다."
+                }],
+                "홍보물": [{
+                    q: "전단지 소량 제작도 가능한가요?",
+                    a: "네, 가능합니다. '디지털 인쇄' 카테고리의 전단지 제품을 이용하시면 10장부터 소량 제작이 가능합니다."
+                }],
+                "스티커": [{
+                    q: "스티커를 원하는 모양대로 만들 수 있나요?",
+                    a: "네, '도무송 스티커(자유형)' 제품을 선택하시면 원하시는 모양의 칼선(Cut-line) 데이터를 함께 접수하여 자유로운 모양으로 스티커를 제작할 수 있습니다."
+                }],
+                "패키지/봉투": [{
+                    q: "봉투에 인쇄가 가능한가요?",
+                    a: "네, 기성 봉투(자켓/일반봉투)에 1도/4도 인쇄가 가능하며, 원하시는 디자인으로 전체 인쇄를 하는 '주문제작 봉투'도 가능합니다."
+                }],
+                "서식지": [{
+                    q: "NCR지(먹지) 인쇄가 가능한가요?",
+                    a: "네, [서식지] > [NCR지] 카테고리에서 2매 1조 또는 3매 1조의 NCR지(거래명세서, 영수증 등) 인쇄가 가능합니다."
+                }],
+                "굿즈": [{
+                    q: "키링이나 뱃지도 만드나요?",
+                    a: "네, [굿즈] 카테고리에서 아크릴 키링, 핀버튼(뱃지), 포토카드, 떡메모지 등 다양한 굿즈 제품을 1개부터 소량으로 제작하실 수 있습니다."
+                }]
+            }
+        };
+
+        function selectInquiryType(chip, type) {
+            // 1. Toggle chip
+            const group = chip.closest('.tabs-scroll-wrapper');
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+
+            // 2. Show/hide form sections
+            const container = document.getElementById('form-container');
+            container.querySelectorAll('.form-section').forEach(section => {
+                const types = section.dataset.formType.split(' ');
+                if (types.includes(type)) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+            
+            // 3. [MODIFIED] Show/hide sub-category sections
+            const subCategoryContainer = document.getElementById('sub-category-container');
+            subCategoryContainer.querySelectorAll('.form-group[data-sub-category-for]').forEach(section => {
+                if (section.dataset.subCategoryFor === type) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+
+            // 4. Update conditional fields (Sub-category and FAQ)
+            if (type === 'AS') {
+                const subCategorySelect = document.getElementById('sub-category-select-as');
+                subCategorySelect.innerHTML = '';
+                (subCategoryOptions['AS'] || []).forEach(option => {
+                    subCategorySelect.add(new Option(option, option));
+                });
+            } else if (type === 'DEFAULT') {
+                const categoryName = chip.dataset.categoryName; // [MODIFIED] Get name from data attribute
+                const subCategorySelect = document.getElementById('sub-category-select-default');
+                subCategorySelect.innerHTML = '';
+                const options = subCategoryOptions['DEFAULT'][categoryName] || [];
+                options.forEach(option => {
+                    subCategorySelect.add(new Option(option, option));
+                });
+            } else if (type === 'QNA') {
+                const subCategorySelect = document.getElementById('sub-category-select-qna');
+                subCategorySelect.innerHTML = '';
+                (subCategoryOptions['QNA'] || []).forEach(option => {
+                    subCategorySelect.add(new Option(option, option));
+                });
+            }
+            
+            // 5. [NEW] Update FAQ list
+            updateFaqList(type);
+        }
+        
+        // [NEW] Update FAQ List Function
+        function updateFaqList(type) {
+            let primaryCat, secondaryCat, faqListEl;
+            let sectionTitleEl;
+
+            if (type === 'AS') {
+                primaryCat = 'AS';
+                secondaryCat = document.getElementById('sub-category-select-as').value;
+                faqListEl = document.getElementById('faq-list-as');
+                sectionTitleEl = faqListEl.previousElementSibling;
+            } else if (type === 'DEFAULT') {
+                const primaryChip = document.querySelector('#inquiry-type-chips .single-chip-on[data-type="DEFAULT"]');
+                primaryCat = primaryChip.dataset.categoryName;
+                secondaryCat = document.getElementById('sub-category-select-default').value;
+                faqListEl = document.getElementById('faq-list-default');
+                sectionTitleEl = faqListEl.previousElementSibling;
+            } else if (type === 'QNA') {
+                primaryCat = 'Q&A';
+                secondaryCat = document.getElementById('sub-category-select-qna').value;
+                faqListEl = document.getElementById('faq-list-qna');
+                sectionTitleEl = faqListEl.previousElementSibling;
+            }
+
+            if (!faqListEl) return;
+            
+            faqListEl.innerHTML = ''; // Clear existing list
+            
+            const faqs = (faqData[primaryCat] && faqData[primaryCat][secondaryCat]) || [];
+
+            if (faqs.length > 0) {
+                sectionTitleEl.style.display = 'block';
+                faqListEl.style.display = 'flex';
+                faqs.forEach((item, index) => {
+                    faqListEl.innerHTML += `
+                        <div class="faq-item" onclick="openFaqModalWithItem('${primaryCat}', '${secondaryCat}', ${index})">
+                            <span>Q. ${item.q}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
+                        </div>`;
+                });
+            } else {
+                // Hide FAQ section if no questions
+                sectionTitleEl.style.display = 'none';
+                faqListEl.style.display = 'none';
+            }
+        }
+        
+        function selectPrivacy(chip) {
+             const group = chip.closest('#privacy-chips');
+             group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+             chip.classList.replace('single-chip-off', 'single-chip-on');
+        }
+        
+        // --- [NEW] FAQ Modal Logic ---
+        function openFaqModalWithItem(primaryCat, secondaryCat, expandIndex = -1) {
+            // 1. Populate Modal
+            populateFaqModal(primaryCat, secondaryCat, expandIndex);
+            
+            // 2. Open Modal
+            openModal('faq-modal-overlay');
+            
+            // 3. Set max-height for the active item
+            // Needs a slight delay for the browser to render and calculate scrollHeight
+            setTimeout(() => {
+                const activeContent = document.querySelector('#faq-accordion-container .accordion-item.active .accordion-content');
+                if (activeContent) {
+                    activeContent.style.maxHeight = activeContent.scrollHeight + "px";
+                }
+            }, 50); // 50ms delay
+        }
+
+        function populateFaqModal(primary, secondary, expandIndex = -1) {
+            const container = document.getElementById('faq-accordion-container');
+            container.innerHTML = ''; // Clear old content
+            
+            let faqs = [];
+            if (faqData[primary] && faqData[primary][secondary]) {
+                faqs = faqData[primary][secondary];
+            }
+
+            if (faqs.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #888; font-size: 14px; padding: 20px 0;">선택하신 유형에 대한 자주 묻는 질문이 없습니다.</p>';
+                return;
+            }
+
+            faqs.forEach((faq, index) => {
+                const item = document.createElement('div');
+                item.className = (index === expandIndex) ? 'accordion-item active' : 'accordion-item';
+                item.innerHTML = `
+                    <button class="accordion-header" type="button" onclick="toggleAccordion(this, 'faq-item-${index}')">
+                        <span class="accordion-q">Q. ${faq.q}</span>
+                        <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                            <path d="M6 9l6 6l6 -6" />
+                        </svg>
+                    </button>
+                    <div class="accordion-content" id="faq-item-${index}">
+                        <div class="accordion-a">
+A. ${faq.a.replace(/\n/g, '\n')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+        
+        function toggleAccordion(headerButton, contentId) {
+            const item = headerButton.closest('.accordion-item');
+            const content = document.getElementById(contentId);
+            const wasActive = item.classList.contains('active');
+            
+            // Close all other active items
+            const allActiveItems = document.querySelectorAll('#faq-accordion-container .accordion-item.active');
+            allActiveItems.forEach(activeItem => {
+                if (activeItem !== item) {
+                    activeItem.classList.remove('active');
+                    activeItem.querySelector('.accordion-content').style.maxHeight = null;
+                }
+            });
+            
+            // Toggle the clicked item
+            if (wasActive) {
+                item.classList.remove('active');
+                content.style.maxHeight = null;
+            } else {
+                item.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+        
+        
+        // --- [NEW] Order Combobox Logic ---
+        
+        // Sample data
+        const sampleOrders = [
+            { id: '409056-03', date: '2025-08-08', title: '명함 - 임원명함' },
+            { id: '409056-02', date: '2025-08-08', title: '전단지 - 삼성SDS전단지' },
+            { id: '409056-01', date: '2025-08-07', title: '명함 - SAMPLE' },
+            { id: '234331-02', date: '2025-08-06', title: '대봉투 - 무제' },
+            { id: '234331-01', date: '2025-08-06', title: '샤이니명함 - 김길동_명함' }
+        ];
+
+        function populateOrderDropdowns() {
+            const dropdownAS = document.getElementById('order-dropdown-as');
+            const dropdownDefault = document.getElementById('order-dropdown-default');
+            dropdownAS.innerHTML = '';
+            dropdownDefault.innerHTML = '';
+
+            sampleOrders.forEach(order => {
+                const itemHtml = `
+                    <div class="combobox-item" onmousedown="selectOrderFromDropdown('${order.id}', '${order.date}')">
+                        <strong>${order.id}</strong> (${order.title})
+                        <span class="order-date">${order.date}</span>
+                    </div>`;
+                dropdownAS.innerHTML += itemHtml;
+                dropdownDefault.innerHTML += itemHtml;
+            });
+        }
+        
+        function filterOrderList(inputEl, type) {
+            const filter = inputEl.value.toLowerCase();
+            const dropdown = document.getElementById(`order-dropdown-${type}`);
+            const items = dropdown.getElementsByClassName('combobox-item');
+            let hasVisibleItems = false;
+            
+            Array.from(items).forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    item.style.display = '';
+                    hasVisibleItems = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            dropdown.style.display = hasVisibleItems ? 'block' : 'none';
+        }
+
+        function selectOrderFromDropdown(orderId, orderDate) {
+            let type = document.querySelector('[data-form-type="AS"]').style.display === 'block' ? 'as' : 'default';
+            
+            const orderInput = document.getElementById(`order-number-${type}`);
+            const orderDateGroup = document.getElementById(`order-date-group-${type}`);
+            const orderDateValue = document.getElementById(`order-date-${type}`);
+            
+            if (orderInput) {
+                orderInput.value = orderId;
+                isFormDirty = true;
+            }
+            if (orderDateGroup && orderDateValue) {
+                orderDateValue.textContent = orderDate;
+                orderDateGroup.style.display = 'block';
+            }
+        }
+        
+        function showOrderDropdown(type) {
+            // Re-filter or just show all
+            const inputEl = document.getElementById(`order-number-${type}`);
+            filterOrderList(inputEl, type);
+        }
+        
+        function hideOrderDropdown(type) {
+            // Use a timeout to allow click on dropdown item to register
+            setTimeout(() => {
+                const dropdown = document.getElementById(`order-dropdown-${type}`);
+                if (dropdown) dropdown.style.display = 'none';
+            }, 200);
+        }
+
+        // --- Order List Modal Logic (Fallback) ---
+        function showOrderListModal() {
+            openModal('order-list-modal-overlay');
+        }
+
+        function selectOrder(orderId, orderDate) {
+            // Find the visible input field for order number
+            let orderInput, orderDateGroup, orderDateValue;
+            
+            if (document.querySelector('[data-form-type="AS"]').style.display === 'block') {
+                orderInput = document.getElementById('order-number-as');
+                orderDateGroup = document.getElementById('order-date-group-as');
+                orderDateValue = document.getElementById('order-date-as');
+            } else {
+                orderInput = document.getElementById('order-number-default');
+                orderDateGroup = document.getElementById('order-date-group-default');
+                orderDateValue = document.getElementById('order-date-default');
+            }
+            
+            if (orderInput) {
+                orderInput.value = orderId;
+                isFormDirty = true;
+            }
+            if (orderDateGroup && orderDateValue) {
+                orderDateValue.textContent = orderDate;
+                orderDateGroup.style.display = 'block';
+            }
+            
+            closeModal('order-list-modal-overlay');
+        }
+        
+
+        // --- Initialize (Event listeners etc.) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize default form state ("출고/배송")
+            selectInquiryType(document.querySelector('.single-chip[data-type="DEFAULT"]'), 'DEFAULT');
+            
+            // [NEW] Populate combobox dropdowns
+            populateOrderDropdowns();
+            
+            // Modal overlay click-to-close listeners
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+            
+            // Add event listeners for form dirty check
+            document.querySelectorAll('#form-container input, #form-container textarea, .inquiry-type-section select').forEach(el => {
+                el.addEventListener('input', () => { isFormDirty = true; });
+                el.addEventListener('change', () => { isFormDirty = true; }); // For select
+            });
+            document.getElementById('as-policy-main-checkbox').closest('.checkbox-text').addEventListener('click', () => {
+                isFormDirty = true;
+            });
+             document.getElementById('privacy-checkbox-main').closest('.checkbox-text').addEventListener('click', () => {
+                isFormDirty = true;
+            });
+        });
+
+    </script>
+</body>
+</html>
