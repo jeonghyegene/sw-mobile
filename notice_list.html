@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원소식 (v12 기준)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            /* [MODIFIED] Removed padding for sticky footer */
+            padding-bottom: 20px;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        /* Main Content */
+        .sw-container {
+            /* [MODIFIED] Reduced top padding */
+            padding: 16px;
+        }
+
+        /* Filter Chip Section (from sungwon_point.html) */
+        .filter-chip-section {
+            background: #fff;
+            padding: 8px 16px;
+            margin: 0 -16px;
+            /* [MODIFIED] Remove bottom margin */
+            /* [NEW] Add bottom border for separation */
+            border-bottom: 1px solid #e9e9e9;
+        }
+
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip-section .tabs-scroll-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-chip-section .single-chip,
+        .filter-chip-section .multi-chip {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        /* Filter Section (v15) */
+        .filter-section {
+            padding: 0 0 16px 0;
+            display: flex;
+            justify-content: space-between;
+            /* [MODIFIED] Space between */
+            align-items: center;
+        }
+
+        /* [REMOVED] Text Select Button (Period Filter) */
+
+        /* Transaction List Header */
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
+        }
+
+        .transaction-list-header .total-count strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-count-select {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+        }
+
+        .view-count-select:hover {
+            opacity: 0.8;
+        }
+
+        .view-count-select:active {
+            transform: scale(0.98);
+        }
+
+        .view-count-select-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .view-count-select-arrow {
+            width: 12px;
+            height: 12px;
+        }
+
+        .view-count-select-arrow svg {
+            transition: transform 0.2s;
+            transform: translateY(-2px);
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+            /* Pagination 여백 */
+        }
+
+        .no-transactions {
+            padding: 40px 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* [MODIFIED] QNA Card -> Notice Card */
+        .common-table-card {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .common-table-card.qna-card {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .common-table-card.qna-card:hover {
+            background: #f9f9f9;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0;
+        }
+        
+        /* Category style */
+        .qna-category {
+            font-size: 12px;
+            font-weight: 600;
+            color: #007bff; /* Default: Q&A Blue */
+        }
+        /* [NEW] Notice Category Colors */
+        .qna-category[data-category="공지"] {
+            color: #007bff; /* Blue */
+        }
+        .qna-category[data-category="휴무공지"] {
+            color: #dc3545; /* Red */
+        }
+        .qna-category[data-category="회계"] {
+            color: #28a745; /* Green */
+        }
+
+        /* Title row style */
+        .qna-title-row {
+            font-size: 16px;
+            font-weight: 500;
+            color: #212121;
+            margin-top: 8px;
+            margin-bottom: 8px; /* [MODIFIED] Reduced margin */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            white-space: normal;
+            line-height: 1.5;
+            max-height: 48px;
+        }
+
+        /* [REMOVED] card-badge (Status) */
+        
+        /* [REMOVED] card-divider */
+        
+        /* [REMOVED] card-row (for date) */
+
+        .card-row-value {
+            color: grey;
+        }
+        
+        /* v12 Standard .multi-chip */
+        .multi-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .multi-chip-off {
+            background: #fdfdfd;
+            border: 1px solid #e6e4e4;
+            color: #6d6d6d;
+        }
+
+        .multi-chip-on {
+            background: #c7d3ff;
+            border: 1px solid #4e6ee4;
+            color: #4e6ee4;
+        }
+
+        .multi-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* v12 Standard .single-chip */
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* v12 Standard .search */
+        .search {
+            width: 100%;
+            height: 40px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            position: relative;
+        }
+
+        .search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+        }
+
+        .search input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .search-input-right {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+        }
+
+        .search-del {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .search.has-text .search-del {
+            display: flex;
+        }
+
+        .search-icon,
+        .btn-search {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .search-icon:active,
+        .btn-search:active {
+            transform: scale(0.9);
+        }
+
+        .search-del img,
+        .btn-search img,
+        .search-icon img {
+            width: 100%;
+            height: 100%;
+        }
+
+
+        /* [v17] Pagination (Master Guide Img) */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-bottom: 24px;
+            /* [MODIFIED] Added bottom margin */
+        }
+
+        .pagination-arrow {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-arrow img {
+            width: 100%;
+            height: auto;
+        }
+
+        .pagination-arrow:active {
+            transform: scale(0.9);
+        }
+
+        .pagination-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-numbers {
+            display: flex;
+            gap: 3px;
+        }
+
+        .pagination-number {
+            min-width: 28px;
+            height: 28px;
+            padding: 4px 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .pagination-number.active {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .pagination-number:not(.active) {
+            background: white;
+            color: #bcbcbc;
+        }
+
+        .pagination-number:not(.active):hover {
+            background: #f5f5f5;
+        }
+
+        .pagination-number:active {
+            transform: scale(0.95);
+        }
+
+        /* [REMOVED] Bottom Sheet Styles */
+        
+        /* [REMOVED] Sticky Action Footer */
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">성원소식</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="sw-container">
+
+                <section class="filter-chip-section" style="margin-bottom: 16px;">
+                    <div class="tabs-scroll-wrapper" id="category-chip-group">
+                        <div class="multi-chip multi-chip-on" data-category="전체" onclick="toggleCategoryChip(this)">✓ 전체
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="긴급공지" onclick="toggleCategoryChip(this)">긴급공지
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="이벤트" onclick="toggleCategoryChip(this)">이벤트
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="기타" onclick="toggleCategoryChip(this)">기타
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="공모전" onclick="toggleCategoryChip(this)">
+                            공모전</div>
+                        <div class="multi-chip multi-chip-off" data-category="보도자료" onclick="toggleCategoryChip(this)">보도자료
+                        </div>
+                    </div>
+                </section>
+
+                <section class="filter-section" style="padding-top: 0;">
+                    <div class="search" data-name="search" id="qna-search">
+                        <input type="text" placeholder="제목 또는 내용을 입력해주세요" oninput="handleSearchInput(this)">
+                        <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this)">
+                                <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d"
+                                    alt="삭제">
+                            </div>
+                            <div class="btn-search" onclick="handleSearch(this)">
+                                <img src="https://www.figma.com/api/mcp/asset/4af11b15-4228-4024-b0ec-cd703ca89e9f"
+                                    alt="검색">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="transaction-list-section">
+                    <div class="transaction-list-header">
+                        <span class="total-count">총 <strong id="transaction-count">10</strong>건</span>
+                        <div class="view-count-select">
+                            <span class="view-count-select-text">20건씩 보기</span>
+                            <div class="view-count-select-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="transaction-list" id="transaction-list-container">
+
+                        <article class="common-table-card qna-card" data-category="공지"
+                            onclick="location.href='notice_detail.html'">
+                            <div class="card-header">
+                                <span class="qna-category" data-category="공지">공지</span>
+                                </div>
+                            <div class="qna-title-row">
+                                2025 여름휴가 업무일정안내
+                            </div>
+                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2025-07-14</div>
+                        </article>
+
+                        <article class="common-table-card qna-card" data-category="공지"
+                            onclick="location.href='notice_detail.html'">
+                            <div class="card-header">
+                                <span class="qna-category" data-category="공지">공지</span>
+                            </div>
+                            <div class="qna-title-row">
+                                충무로 출고실 토요일 운영 변경 안내
+                            </div>
+                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2024-12-30</div>
+                        </article>
+
+                        <article class="common-table-card qna-card" data-category="공지"
+                            onclick="location.href='notice_detail.html'">
+                            <div class="card-header">
+                                <span class="qna-category" data-category="공지">공지</span>
+                            </div>
+                            <div class="qna-title-row">
+                                택배업체 변경 안내
+                            </div>
+                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2022-10-13</div>
+                        </article>
+
+                        <article class="common-table-card qna-card" data-category="회계"
+                            onclick="location.href='notice_detail.html'">
+                            <div class="card-header">
+                                <span class="qna-category" data-category="회계">회계</span>
+                            </div>
+                            <div class="qna-title-row">
+                                2022년 9월 5일부터 수요일로 환불일 변경됩니다
+                            </div>
+                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2022-09-01</div>
+                        </article>
+                        
+                        <article class="common-table-card qna-card" data-category="휴무공지"
+                            onclick="location.href='notice_detail.html'">
+                            <div class="card-header">
+                                <span class="qna-category" data-category="휴무공지">휴무공지</span>
+                            </div>
+                            <div class="qna-title-row">
+                                2025 6월 대통령 선거일/현충일 운영안내
+                            </div>
+                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2025-05-28</div>
+                        </article>
+                        
+                        <article class="common-table-card qna-card" data-category="휴무공지"
+                            onclick="location.href='notice_detail.html'">
+                            <div class="card-header">
+                                <span class="qna-category" data-category="휴무공지">휴무공지</span>
+                            </div>
+                            <div class="qna-title-row">
+                                2025 5월 가정의 달 휴무공지
+                            </div>
+                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2025-04-10</div>
+                        </article>
+
+                    </div>
+
+                    <div class="no-transactions" style="display: none;">등록된 공지사항이 없습니다.</div>
+
+                    <div class="pagination" data-name="Pagination">
+                        <div class="pagination-arrow disabled" onclick="paginationFirst()">
+                            <img src="https://www.figma.com/api/mcp/asset/98c36079-6698-4fbf-8222-1c0b4fcaab1c" alt="처음"
+                                style="transform: rotate(90deg);">
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationPrev()">
+                            <img src="https://www.figma.com/api/mcp/asset/5881851a-69b0-4a30-8ba8-bbb647a7fcc4" alt="이전"
+                                style="transform: rotate(90deg);">
+                        </div>
+                        <div class="pagination-numbers" id="pagination-numbers">
+                            <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
+                            <div class="pagination-number" data-page="2" onclick="paginationGo(2)">2</div>
+                            <div class="pagination-number" data-page="3" onclick="paginationGo(3)">3</div>
+                        </div>
+                        <div class="pagination-arrow" onclick="paginationNext()">
+                            <img src="https://www.figma.com/api/mcp/asset/9f728346-6da0-4d2b-a299-2137f0214aea" alt="다음"
+                                style="transform: rotate(90deg) scaleY(-1);">
+                        </div>
+                        <div class="pagination-arrow" onclick="paginationLast()">
+                            <img src="https://www.figma.com/api/mcp/asset/4557e67d-fb94-45a7-a3da-e8690f677a05"
+                                alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+
+        </div>
+
+    <script>
+        // --- [v12] Search Component JS ---
+        function handleSearchInput(input) {
+            const searchBox = input.closest('.search');
+            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+        }
+        function clearSearch(btn) {
+            const searchBox = btn.closest('.search');
+            const input = searchBox.querySelector('input');
+            input.value = '';
+            searchBox.classList.remove('has-text');
+            input.focus();
+            filterQnaList(); // [MODIFIED] Clear search and re-filter
+        }
+        function handleSearch(btn) {
+            console.log('Search submitted:', btn.closest('.search').querySelector('input').value);
+            filterQnaList();
+        }
+
+        // --- [v12] MultiChip Component JS ---
+        function toggleMultiChip(chip, forceState) {
+            const isCurrentlyOn = chip.classList.contains('multi-chip-on');
+            let turnOn;
+
+            if (forceState === true) { // Force On
+                turnOn = true;
+            } else if (forceState === false) { // Force Off
+                turnOn = false;
+            } else { // Toggle
+                turnOn = !isCurrentlyOn;
+            }
+
+            if (turnOn && !isCurrentlyOn) {
+                chip.classList.remove('multi-chip-off');
+                chip.classList.add('multi-chip-on');
+                chip.innerHTML = '✓ ' + chip.innerHTML.trim();
+            } else if (!turnOn && isCurrentlyOn) {
+                chip.classList.remove('multi-chip-on');
+                chip.classList.add('multi-chip-off');
+                chip.innerHTML = chip.innerHTML.replace('✓ ', '');
+            }
+        }
+
+        // --- [REMOVED] Bottom Sheet JS ---
+        
+        // --- [NEW] Page-Specific Filter Logic ---
+
+        // [REMOVED] Period Filter Logic
+        
+        // 3. Category Filter (Multi-select chip)
+        function toggleCategoryChip(chip) {
+            const category = chip.getAttribute('data-category');
+            const group = chip.closest('#category-chip-group');
+            const allChip = group.querySelector('[data-category="전체"]');
+
+            if (category === '전체') {
+                const isTurningOn = !chip.classList.contains('multi-chip-on');
+                toggleMultiChip(chip, isTurningOn);
+                group.querySelectorAll('.multi-chip').forEach(c => {
+                    if (c !== chip) toggleMultiChip(c, false);
+                });
+            } else {
+                toggleMultiChip(chip);
+                toggleMultiChip(allChip, false);
+                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-category="전체"])'))
+                    .some(c => c.classList.contains('multi-chip-on'));
+                if (!anyOtherOn) {
+                    toggleMultiChip(allChip, true);
+                }
+            }
+            filterQnaList();
+        }
+
+        // 4. Main Filter Function
+        function filterQnaList() {
+            // [REMOVED] Period filter logic
+            
+            const selectedCategories = [];
+            document.querySelectorAll('#category-chip-group .multi-chip-on').forEach(chip => {
+                selectedCategories.push(chip.dataset.category);
+            });
+
+            const searchTerm = document.querySelector('#qna-search input').value.toLowerCase();
+
+            console.log("Filtering Notice List:", { selectedCategories, searchTerm });
+
+            // Apply filtering logic
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
+
+            const cards = listContainer.querySelectorAll('.qna-card');
+            const noResultMsg = document.querySelector('.no-transactions');
+            let visibleCount = 0;
+            const isAllCategories = selectedCategories.includes('전체');
+
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                const cardTitle = card.querySelector('.qna-title-row').textContent.toLowerCase();
+
+                // Category check
+                // [MODIFIED] Simplified category matching
+                const categoryMatch = (isAllCategories || selectedCategories.includes(cardCategory));
+                
+                // Search check
+                let searchMatch = true;
+                if (searchTerm) {
+                    searchMatch = cardTitle.includes(searchTerm);
+                }
+
+                // [REMOVED] Period filtering logic
+
+                if (categoryMatch && searchMatch) { 
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const countEl = document.getElementById('transaction-count');
+            if (countEl) countEl.textContent = visibleCount;
+            if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+
+        // --- [v12] Pagination Logic ---
+        let currentPage = 1; const totalPages = 2; // [MODIFIED] Total pages
+        function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); }
+        function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
+        function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
+        function paginationFirst() { paginationGo(1); }
+        function paginationLast() { paginationGo(totalPages); }
+        function updatePagination() {
+            const numbersContainer = document.getElementById('pagination-numbers');
+            if (!numbersContainer) return;
+
+            numbersContainer.innerHTML = ''; // Clear
+            for (let i = 1; i <= totalPages; i++) {
+                const numEl = document.createElement('div');
+                numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
+                numEl.dataset.page = i;
+                numEl.textContent = i;
+                numEl.onclick = () => paginationGo(i);
+                numbersContainer.appendChild(numEl);
+            }
+
+            const paginationRoot = numbersContainer.closest('.pagination');
+            if (!paginationRoot) return;
+
+            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
+            const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
+
+            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
+            nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePagination();
+            filterQnaList(); // Initial filter
+        });
+
+    </script>
+</body>
+
+</html>
