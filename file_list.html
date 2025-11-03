@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파일 보관함 (v12 기준)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 100px;
+            /* Sticky Footer 여백 */
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Buttons (v12 Standard + Primary) */
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        /* [NEW] Special delete button style (from qna_detail) */
+        .delete-button {
+            background: white;
+            color: #dc3545;
+            border-color: #e8e8e9;
+        }
+
+        .delete-button:hover {
+            background: #fefafa;
+            border-color: #dc3545;
+        }
+
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 12px 16px 16px 16px;
+        }
+
+        /* Filter Chip Section (from sungwon_point.html) */
+        .filter-chip-section {
+            background: #fff;
+            padding: 8px 16px;
+            margin: 0 -16px;
+            border-bottom: 1px solid #e9e9e9;
+        }
+
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip-section .tabs-scroll-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-chip-section .single-chip,
+        .filter-chip-section .multi-chip {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        /* Filter Section (v15) */
+        .filter-section {
+            padding: 0 0 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Transaction List Header */
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
+        }
+
+        .transaction-list-header .total-count strong {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* [NEW] View Count Select (from qna_list.html) */
+        .view-count-select {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+        }
+        .view-count-select:hover { opacity: 0.8; }
+        .view-count-select:active { transform: scale(0.98); }
+        .view-count-select-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+        .view-count-select-arrow { width: 12px; height: 12px; }
+        .view-count-select-arrow svg {
+            transition: transform 0.2s;
+            transform: translateY(-2px);
+        }
+
+        /* [MODIFIED] Transaction List -> Grid */
+        .transaction-list {
+            display: grid;
+            /* [MODIFIED] Responsive grid: 1 col < 400px, 2 cols @ 400px+, 3+ cols on wider */
+            grid-template-columns: 1fr; /* Default 1 column */
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        /* [MODIFIED] 400px 이상일 때 2열 */
+        @media (min-width: 400px) {
+            .transaction-list {
+                /* 170px 최소값, 1fr 최대값으로 자동-맞춤 */
+                grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            }
+        }
+
+
+        .no-transactions {
+            padding: 40px 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* [NEW] v12 Checkbox (from tax_request.html) */
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .checkbox-off {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #bdbdbd;
+            border-radius: 2px;
+        }
+
+        .checkbox-on {
+            width: 100%;
+            height: 100%;
+            background: #4e6ee4;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-on img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .checkbox:active {
+            transform: scale(0.9);
+        }
+
+
+        /* [MODIFIED] File Archive Card Style -> Grid */
+        .file-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            background: #fff;
+            padding: 0;
+            overflow: hidden; /* Ensure radius */
+        }
+
+        /* [NEW] Card Header (from tax_request.html) */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 12px 12px 8px 12px;
+        }
+        
+        /* [NEW] Card Badge (from tax_issue.html) */
+        .card-badge {
+            background: white;
+            border: 1px solid #d7d7d7;
+            border-radius: 30px;
+            padding: 2px 10px;
+            font-size: 10px;
+            color: black;
+            flex-shrink: 0;
+        }
+        .card-badge[data-type="최근 접수"] {
+            border-color: #007bff;
+            color: #007bff;
+        }
+        .card-badge[data-type="나의 템플릿"] {
+            border-color: #28a745;
+            color: #28a745;
+        }
+
+        /* [NEW] Card Footer (from sungwon_money_01.html) */
+        .card-footer {
+            padding: 8px 12px 12px 12px;
+            background-color: #fff;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .card-footer .btn {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 8px;
+            min-width: 0; /* Allow flex shrink */
+        }
+        /* [MODIFIED] Button flex ratio */
+        .card-footer .btn.detail-btn {
+            flex: 2;
+        }
+        .card-footer .btn.delete-btn {
+            flex: 1;
+            /* Apply delete-button style from qna_detail */
+            color: #dc3545;
+            border-color: #e8e8e9;
+        }
+         .card-footer .btn.delete-btn:hover {
+            background: #fefafa;
+            border-color: #dc3545;
+        }
+
+        .file-card-checkbox {
+            /* No styles needed, wrapper */
+        }
+
+        .file-card-thumbnail {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1.5 / 1; /* Wider aspect ratio for 1-col */
+            object-fit: cover;
+            border-radius: 0;
+            flex-shrink: 0;
+            border: none;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
+            background: #f9f9f9;
+            cursor: pointer;
+        }
+        
+        /* [MODIFIED] When in 2+ columns, use 1:1 ratio */
+        @media (min-width: 400px) {
+            .file-card-thumbnail {
+                aspect-ratio: 1 / 1;
+            }
+        }
+
+
+        .file-card-info {
+            flex: 1;
+            min-width: 0;
+            cursor: pointer;
+            padding: 12px;
+        }
+
+        .file-info-header {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-info-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1; /* 1 line for title */
+            -webkit-box-orient: vertical;
+            white-space: normal;
+            line-height: 1.4;
+            height: 22.4px; /* 1 line height */
+        }
+
+        .file-info-spec {
+            font-size: 14px;
+            color: #555;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 0;
+        }
+        
+        /* [NEW] File Info Count */
+        .file-info-count {
+            font-size: 13px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* v12 Standard .multi-chip */
+        .multi-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .multi-chip-off {
+            background: #fdfdfd;
+            border: 1px solid #e6e4e4;
+            color: #6d6d6d;
+        }
+
+        .multi-chip-on {
+            background: #c7d3ff;
+            border: 1px solid #4e6ee4;
+            color: #4e6ee4;
+        }
+
+        .multi-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* v12 Standard .single-chip */
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* v12 Standard .search */
+        .search {
+            width: 100%;
+            height: 40px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            position: relative;
+        }
+
+        .search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+        }
+
+        .search input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .search-input-right {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+        }
+
+        .search-del {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .search.has-text .search-del {
+            display: flex;
+        }
+
+        .search-icon,
+        .btn-search {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .search-icon:active,
+        .btn-search:active {
+            transform: scale(0.9);
+        }
+
+        .search-del img,
+        .btn-search img,
+        .search-icon img {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* [v17] Pagination (Master Guide Img) */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-bottom: 24px;
+        }
+
+        .pagination-arrow {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-arrow img {
+            width: 100%;
+            height: auto;
+        }
+
+        .pagination-arrow:active {
+            transform: scale(0.9);
+        }
+
+        .pagination-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-numbers {
+            display: flex;
+            gap: 3px;
+        }
+
+        .pagination-number {
+            min-width: 28px;
+            height: 28px;
+            padding: 4px 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .pagination-number.active {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .pagination-number:not(.active) {
+            background: white;
+            color: #bcbcbc;
+        }
+
+        .pagination-number:not(.active):hover {
+            background: #f5f5f5;
+        }
+
+        .pagination-number:active {
+            transform: scale(0.95);
+        }
+
+        /* [NEW] Sticky Footer Bar (from tax_request.html) */
+        .sticky-footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+            animation: slideUpFooter 0.3s ease-out;
+        }
+
+        .sticky-footer-bar.active {
+            display: flex;
+        }
+
+        @keyframes slideUpFooter {
+            from {
+                transform: translate(-50%, 100%);
+            }
+
+            to {
+                transform: translate(-50%, 0);
+            }
+        }
+
+        .sticky-footer-bar span {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .sticky-footer-bar .dark-button {
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        /* ========================================
+           [NEW] MODAL STYLES (from tax_issue.html)
+        ======================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+
+        @keyframes scaleUpModal {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative;
+            height: 57px;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            text-align: left;
+        }
+
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .btn-modal-close:hover {
+            color: #000;
+        }
+
+        .btn-modal-close svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+
+        /* [NEW] Modal Content Styles */
+        /* [MODIFIED] Modal Editable Title */
+        .detail-title-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 4px; /* Reduced margin */
+        }
+        .modal-title-wrapper {
+            flex: 1;
+            min-width: 0;
+        }
+        .detail-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            word-break: break-all;
+            line-height: 1.5; /* [NEW] */
+            padding: 8px 0; /* [NEW] Match input height */
+        }
+        .detail-title-input {
+            /* Use v12 .input styles */
+            width: 100%;
+            height: 40px;
+            background: white;
+            border: 1px solid #4e6ee4; /* Highlight when editing */
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Pretendard', sans-serif;
+            color: black;
+        }
+        .detail-count {
+            font-size: 14px;
+            color: #555;
+            width: 100%; 
+        }
+        .btn-sm { /* Small button for modal */
+            height: 36px;
+            font-size: 13px;
+            padding: 0 12px;
+            flex-shrink: 0;
+            margin-top: 2px; /* [NEW] Align with text */
+        }
+
+        .modal-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            margin-top: 16px; /* [NEW] */
+        }
+
+        /* [MODIFIED] Modal File List (Scrollable) */
+        .file-list-modal {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .file-list-modal.scrollable {
+            max-height: 200px; /* Example height */
+            overflow-y: auto;
+            padding-right: 8px; /* For scrollbar */
+        }
+        .file-list-modal .file-item-modal.hidden-file {
+            display: none;
+        }
+        .file-list-modal.expanded .file-item-modal.hidden-file {
+            display: flex;
+        }
+        #file-list-more-btn-wrapper {
+            /* Wrapper is auto-created by JS */
+        }
+        .file-list-more-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+            padding: 8px 0;
+            width: 100%;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            margin-top: 16px;
+        }
+        .file-list-more-btn:hover { background: #f9f9f9; }
+        .file-list-more-btn-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 500;
+        }
+        .file-list-more-btn-arrow {
+            width: 16px;
+            height: 16px;
+            color: #555;
+        }
+        .file-list-more-btn-arrow svg { transition: transform 0.2s; }
+        .file-list-modal.expanded + #file-list-more-btn-wrapper {
+            display: none; /* Hide button when expanded */
+        }
+
+        .file-item-modal {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .file-item-modal img {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #eee;
+            background: #f9f9f9;
+        }
+        .file-item-modal span {
+            font-size: 14px;
+            color: #333;
+            word-break: break-all;
+        }
+        
+        /* [NEW] Delete Alert Modal Styles (from review_after.html) */
+        .alert-modal {
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+        }
+        .alert-modal .modal-title {
+            font-size: 16px; 
+            font-weight: 700; 
+            color: black; 
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .modal-message { 
+            font-size: 14px; 
+            color: black; 
+            margin-bottom: 30px; 
+            line-height: 1.5; 
+        }
+        .modal-message .highlight {
+             font-weight: 600;
+             color: #dc3545; /* Red highlight */
+        }
+        .modal-buttons { 
+            display: flex; 
+            gap: 10px; 
+            justify-content: center; 
+        }
+        .modal-button {
+            flex: 1;
+            min-width: 90px;
+            height: 44px;
+            padding: 7px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-button-primary { 
+            background: #dc3545; /* Red delete button */
+            color: white; 
+            border: none; 
+            font-weight: 600; 
+        }
+        .modal-button-secondary { 
+            background: white; 
+            color: #424242; 
+            border: 1px solid #bababa; 
+            font-weight: 600;
+        }
+        .modal-button:active { transform: scale(0.98); }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">파일 보관함</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="sw-container">
+
+                <section class="filter-chip-section" style="border-bottom: none; margin-bottom: 0;">
+                    <div class="tabs-scroll-wrapper" id="type-chip-group">
+                        <div class="single-chip single-chip-on" data-type="전체" onclick="selectTypeChip(this)">전체
+                        </div>
+                        <div class="single-chip single-chip-off" data-type="나의 템플릿" onclick="selectTypeChip(this)">
+                            나의 템플릿</div>
+                        <div class="single-chip single-chip-off" data-type="최근 접수" onclick="selectTypeChip(this)">
+                            최근 접수</div>
+                    </div>
+                </section>
+
+                <section class="filter-chip-section" style="margin-bottom: 16px;">
+                    <div class="tabs-scroll-wrapper" id="category-chip-group">
+                        <div class="multi-chip multi-chip-on" data-category="전체" onclick="toggleCategoryChip(this)">✓ 전체
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="명함" onclick="toggleCategoryChip(this)">명함
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="홍보물" onclick="toggleCategoryChip(this)">홍보물
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="패키지/봉투"
+                            onclick="toggleCategoryChip(this)">패키지/봉투
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="서식지" onclick="toggleCategoryChip(this)">서식지
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="굿즈" onclick="toggleCategoryChip(this)">굿즈
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="기획상품" onclick="toggleCategoryChip(this)">기획상품
+                        </div>
+                    </div>
+                </section>
+
+                <section class="filter-section" style="padding-top: 0;">
+                    <div class="search" data-name="search" id="archive-search">
+                        <input type="text" placeholder="검색어를 입력해주세요" oninput="handleSearchInput(this)">
+                        <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this)">
+                                <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d"
+                                    alt="삭제">
+                            </div>
+                            <div class="btn-search" onclick="handleSearch(this)">
+                                <img src="https://www.figma.com/api/mcp/asset/4af11b15-4228-4024-b0ec-cd703ca89e9f"
+                                    alt="검색">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="transaction-list-section">
+                    <div class="transaction-list-header">
+                        <span class="total-count">총 <strong id="transaction-count">4</strong>건</span>
+                        <div class="view-count-select">
+                            <span class="view-count-select-text">20건씩 보기</span>
+                            <div class="view-count-select-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="transaction-list" id="transaction-list-container">
+
+                        <article class="file-card" data-category="명함" data-type="최근 접수"
+                            data-title="[일반명함] 홍길동 사원 명함 요청 건"
+                            data-order="SW250001-01"
+                            data-date="2025-10-17"
+                            data-spec="XT(벡터) | 90x50mm"
+                            data-count="총 10건"
+                            data-files="[일반명함] 홍길동 사원 명함 요청 건_전면.pdf,[일반명함] 홍길동 사원 명함 요청 건_후면.pdf,[일반명함] 홍길동 사원 명함 요청 건_가공.pdf,추가파일_01.ai,추가파일_02.ai,추가파일_03.ai,추가파일_04.ai,추가파일_05.ai,추가파일_06.ai,참고이미지.jpg">
+                            <div class="card-header">
+                                <div class="file-card-checkbox">
+                                    <div class="checkbox" data-checked="false" onclick="toggleFileCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                </div>
+                                <div class="card-badge" data-type="최근 접수">최근 접수</div>
+                            </div>
+                            <img src="https://picsum.photos/seed/sw-card1/300/200" alt="thumbnail"
+                                class="file-card-thumbnail" onclick="openDetailModal(this.closest('.file-card'))">
+                            <div class="file-card-info" onclick="openDetailModal(this.closest('.file-card'))">
+                                <div class="file-info-header">2025-10-17 (SW250001-01)</div>
+                                <div class="file-info-title">[일반명함] 홍길동 사원 명함 요청 건</div>
+                                <div class="file-info-spec">XT(벡터) | 90x50mm</div>
+                                <div class="file-info-count">총 10건</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn detail-btn"
+                                    onclick="openDetailModal(this.closest('.file-card'))">상세</button>
+                                <button type="button" class="white-button btn delete-btn"
+                                    onclick="deleteSingleFile(this)">삭제</button>
+                            </div>
+                        </article>
+
+                        <article class="file-card" data-category="명함" data-type="최근 접수"
+                            data-title="[일반명함] 김철수 대리 명함"
+                            data-order="SW250001-01"
+                            data-date="2025-10-17"
+                            data-spec="A4(90x50mm)"
+                            data-count="총 3건"
+                            data-files="[일반명함] 김철수 대리 명함_전면.pdf,[일반명함] 김철수 대리 명함_후면.pdf,[일반명함] 김철수 대리 명함_가공.pdf">
+                            <div class="card-header">
+                                <div class="file-card-checkbox">
+                                    <div class="checkbox" data-checked="false" onclick="toggleFileCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                </div>
+                                <div class="card-badge" data-type="최근 접수">최근 접수</div>
+                            </div>
+                            <img src="https://picsum.photos/seed/sw-card2/300/200" alt="thumbnail"
+                                class="file-card-thumbnail" onclick="openDetailModal(this.closest('.file-card'))">
+                            <div class="file-card-info" onclick="openDetailModal(this.closest('.file-card'))">
+                                <div class="file-info-header">2025-10-17 (SW250001-01)</div>
+                                <div class="file-info-title">[일반명함] 김철수 대리 명함</div>
+                                <div class="file-info-spec">A4(90x50mm)</div>
+                                <div class="file-info-count">총 3건</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn detail-btn"
+                                    onclick="openDetailModal(this.closest('.file-card'))">상세</button>
+                                <button type="button" class="white-button btn delete-btn"
+                                    onclick="deleteSingleFile(this)">삭제</button>
+                            </div>
+                        </article>
+
+                        <article class="file-card" data-category="명함" data-type="나의 템플릿"
+                            data-title="[템플릿] 기본 명함 레이아웃"
+                            data-order="-"
+                            data-date="2025-10-17"
+                            data-spec="XT(벡터) | 90x50mm"
+                            data-count="총 3건"
+                            data-files="[템플릿] 기본 명함 레이아웃_전면.pdf,[템플릿] 기본 명함 레이아웃_후면.pdf,[템플릿] 기본 명함 레이아웃_가공.pdf">
+                            <div class="card-header">
+                                <div class="file-card-checkbox">
+                                    <div class="checkbox" data-checked="false" onclick="toggleFileCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                </div>
+                                <div class="card-badge" data-type="나의 템플릿">나의 템플릿</div>
+                            </div>
+                            <img src="https://picsum.photos/seed/sw-card3/300/200" alt="thumbnail"
+                                class="file-card-thumbnail" onclick="openDetailModal(this.closest('.file-card'))">
+                            <div class="file-card-info" onclick="openDetailModal(this.closest('.file-card'))">
+                                <div class="file-info-header">2025-10-17</div>
+                                <div class="file-info-title">[템플릿] 기본 명함 레이아웃</div>
+                                <div class="file-info-spec">XT(벡터) | 90x50mm</div>
+                                <div class="file-info-count">총 3건</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn detail-btn"
+                                    onclick="openDetailModal(this.closest('.file-card'))">상세</button>
+                                <button type="button" class="white-button btn delete-btn"
+                                    onclick="deleteSingleFile(this)">삭제</button>
+                            </div>
+                        </article>
+
+                        <article class="file-card" data-category="홍보물" data-type="최근 접수"
+                            data-title="[전단] 가을 이벤트 홍보 전단지 (A4)"
+                            data-order="SW240001-01"
+                            data-date="2025-10-16"
+                            data-spec="A4 | 아트지 150g"
+                            data-count="총 1건"
+                            data-files="[전단] 가을 이벤트 홍보 전단지 (A4).pdf">
+                            <div class="card-header">
+                                <div class="file-card-checkbox">
+                                    <div class="checkbox" data-checked="false" onclick="toggleFileCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                </div>
+                                <div class="card-badge" data-type="최근 접수">최근 접수</div>
+                            </div>
+                            <img src="https://picsum.photos/seed/sw-flyer1/300/200" alt="thumbnail"
+                                class="file-card-thumbnail" onclick="openDetailModal(this.closest('.file-card'))">
+                            <div class="file-card-info" onclick="openDetailModal(this.closest('.file-card'))">
+                                <div class="file-info-header">2025-10-16 (SW240001-01)</div>
+                                <div class="file-info-title">[전단] 가을 이벤트 홍보 전단지 (A4)</div>
+                                <div class="file-info-spec">A4 | 아트지 150g</div>
+                                <div class="file-info-count">총 1건</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn detail-btn"
+                                    onclick="openDetailModal(this.closest('.file-card'))">상세</button>
+                                <button type="button" class="white-button btn delete-btn"
+                                    onclick="deleteSingleFile(this)">삭제</button>
+                            </div>
+                        </article>
+
+                    </div>
+
+                    <div class="no-transactions" id="no-archive-list" style="display: none;">파일 보관함 내역이 없습니다.</div>
+
+                    <div class="pagination" data-name="Pagination">
+                        <div class="pagination-arrow disabled" onclick="paginationFirst()">
+                            <img src="https://www.figma.com/api/mcp/asset/98c36079-6698-4fbf-8222-1c0b4fcaab1c" alt="처음"
+                                style="transform: rotate(90deg);">
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationPrev()">
+                            <img src="https://www.figma.com/api/mcp/asset/5881851a-69b0-4a30-8ba8-bbb647a7fcc4" alt="이전"
+                                style="transform: rotate(90deg);">
+                        </div>
+                        <div class="pagination-numbers" id="pagination-numbers">
+                            <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationNext()">
+                            <img src="https://www.figma.com/api/mcp/asset/9f728346-6da0-4d2b-a299-2137f0214aea" alt="다음"
+                                style="transform: rotate(90deg) scaleY(-1);">
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationLast()">
+                            <img src="https://www.figma.com/api/mcp/asset/4557e67d-fb94-45a7-a3da-e8690f677a05"
+                                alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+
+        <div class="sticky-footer-bar" id="sticky-action-footer">
+            <span id="selected-count-text">총 1건 선택됨</span>
+            <button class="dark-button" id="sticky-action-button" onclick="openDeleteSelectedModal()">선택삭제</button>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="file-detail-modal-overlay">
+        <div class="modal-content" id="file-detail-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">디자인 상세</h2>
+                <button class="btn-modal-close" onclick="closeModal('file-detail-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-title-group">
+                    <div id="modal-title-wrapper" class="modal-title-wrapper">
+                        <span id="modal-detail-title-text" class="detail-title"></span>
+                        <input type="text" id="modal-detail-title-input" class="detail-title-input" style="display: none;">
+                    </div>
+                    <button id="modal-title-edit-btn" class="white-button btn-sm" onclick="toggleTitleEdit(this)">수정</button>
+                </div>
+                <div class="detail-count" id="modal-detail-count"></div>
+
+                <h2 class="modal-section-title" style="margin-top: 16px;">디자인 파일</h2>
+                <div class="file-list-modal" id="modal-file-list">
+                    </div>
+                </div>
+            <div class="modal-footer">
+                <button class="btn white-button" style="flex-grow: 1;" onclick="downloadFiles()">파일 다운로드</button>
+                <button class="btn white-button" style="flex-grow: 1;" onclick="editTemplate()">템플릿 수정</button>
+                <button class="btn white-button delete-button" style="flex-grow: 1;" onclick="openDeleteFromModal()">삭제</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="delete-alert-overlay">
+        <div class="modal-content alert-modal" data-name="Alert">
+            <div class="modal-title">삭제 전 안내</div>
+            <div class="modal-message">
+                파일을 삭제하시겠습니까?<br>
+                <span class="highlight" id="delete-alert-message"></span>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" onclick="closeModal('delete-alert-overlay'); pendingDeletion = null;">닫기</button>
+                <button class="modal-button modal-button-primary" onclick="confirmDeletion()">삭제하기</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- [v12] Search Component JS ---
+        function handleSearchInput(input) {
+            const searchBox = input.closest('.search');
+            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+        }
+        function clearSearch(btn) {
+            const searchBox = btn.closest('.search');
+            const input = searchBox.querySelector('input');
+            input.value = '';
+            searchBox.classList.remove('has-text');
+            input.focus();
+            filterArchiveList(); // [NEW] Clear search and re-filter
+        }
+        function handleSearch(btn) {
+            console.log('Search submitted:', btn.closest('.search').querySelector('input').value);
+            filterArchiveList();
+        }
+
+        // --- [v12] MultiChip Component JS ---
+        function toggleMultiChip(chip, forceState) {
+            const isCurrentlyOn = chip.classList.contains('multi-chip-on');
+            let turnOn;
+
+            if (forceState === true) { // Force On
+                turnOn = true;
+            } else if (forceState === false) { // Force Off
+                turnOn = false;
+            } else { // Toggle
+                turnOn = !isCurrentlyOn;
+            }
+
+            if (turnOn && !isCurrentlyOn) {
+                chip.classList.remove('multi-chip-off');
+                chip.classList.add('multi-chip-on');
+                chip.innerHTML = '✓ ' + chip.innerHTML.trim();
+            } else if (!turnOn && isCurrentlyOn) {
+                chip.classList.remove('multi-chip-on');
+                chip.classList.add('multi-chip-off');
+                chip.innerHTML = chip.innerHTML.replace('✓ ', '');
+            }
+        }
+
+        // --- [NEW] v12 Checkbox JS (from tax_request.html) ---
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+            }
+        }
+
+        // --- [NEW] v12 Modal JS (from tax_request.html) ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+
+
+        // --- [NEW] Page-Specific Filter Logic ---
+
+        // 1. Type Filter (Single-select chip)
+        function selectTypeChip(chip) {
+            const group = chip.closest('#type-chip-group');
+            if (!group) return;
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+            filterArchiveList();
+        }
+
+        // 2. Category Filter (Multi-select chip)
+        function toggleCategoryChip(chip) {
+            const category = chip.getAttribute('data-category');
+            const group = chip.closest('#category-chip-group');
+            const allChip = group.querySelector('[data-category="전체"]');
+
+            if (category === '전체') {
+                const isTurningOn = !chip.classList.contains('multi-chip-on');
+                toggleMultiChip(chip, isTurningOn);
+                group.querySelectorAll('.multi-chip').forEach(c => {
+                    if (c !== chip) toggleMultiChip(c, false);
+                });
+            } else {
+                toggleMultiChip(chip);
+                toggleMultiChip(allChip, false);
+                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-category="전체"])'))
+                    .some(c => c.classList.contains('multi-chip-on'));
+                if (!anyOtherOn) {
+                    toggleMultiChip(allChip, true);
+                }
+            }
+            filterArchiveList();
+        }
+
+        // 3. Main Filter Function
+        function filterArchiveList() {
+            // Get all filter values
+            const typeChip = document.querySelector('#type-chip-group .single-chip-on');
+            const selectedType = typeChip ? typeChip.dataset.type : '전체';
+
+            const selectedCategories = [];
+            document.querySelectorAll('#category-chip-group .multi-chip-on').forEach(chip => {
+                selectedCategories.push(chip.dataset.category);
+            });
+
+            const searchTerm = document.querySelector('#archive-search input').value.toLowerCase();
+
+            console.log("Filtering Archive List:", { selectedType, selectedCategories, searchTerm });
+
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
+
+            const cards = listContainer.querySelectorAll('.file-card');
+            const noResultMsg = document.getElementById('no-archive-list');
+            let visibleCount = 0;
+            const isAllCategories = selectedCategories.includes('전체');
+
+            cards.forEach(card => {
+                const cardType = card.dataset.type;
+                const cardCategory = card.dataset.category;
+                const cardTitle = card.dataset.title.toLowerCase();
+                const cardOrderNo = card.dataset.order.toLowerCase();
+
+                // Type check
+                const typeMatch = (selectedType === '전체' || cardType === selectedType);
+                // Category check
+                const categoryMatch = (isAllCategories || selectedCategories.includes(cardCategory));
+                // Search check
+                let searchMatch = true;
+                if (searchTerm) {
+                    searchMatch = cardTitle.includes(searchTerm) || cardOrderNo.includes(searchTerm);
+                }
+
+                if (typeMatch && categoryMatch && searchMatch) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const countEl = document.getElementById('transaction-count');
+            if (countEl) countEl.textContent = visibleCount;
+            if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // --- [NEW] Card Checkbox & Sticky Footer Logic (from tax_request.html) ---
+        function toggleFileCheckbox(checkboxEl) {
+            toggleCheckbox(checkboxEl);
+            updateStickyFooter();
+        }
+
+        function updateStickyFooter() {
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
+
+            const checkedBoxes = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
+            const count = checkedBoxes.length;
+            const footer = document.getElementById('sticky-action-footer');
+
+            if (count > 0) {
+                footer.classList.add('active');
+                document.getElementById('selected-count-text').textContent = `총 ${count}건 선택됨`;
+                document.querySelector('.mobile-wrap').style.paddingBottom = '84px'; // Footer height
+            } else {
+                footer.classList.remove('active');
+                document.querySelector('.mobile-wrap').style.paddingBottom = '20px'; // Reset
+            }
+        }
+
+        // --- [MODIFIED] Action Button Logic ---
+        
+        let pendingDeletion = null; // Store deletion target
+
+        function openDeleteSelectedModal() {
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
+            const checkedBoxes = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
+            const count = checkedBoxes.length;
+
+            if (count === 0) {
+                alert('삭제할 항목을 선택해주세요.');
+                return;
+            }
+            
+            pendingDeletion = { type: 'selected', count: count };
+            document.getElementById('delete-alert-message').textContent = `선택한 ${count}개의 항목을 삭제합니다. 삭제하신 후 복구하실 수 없습니다.`;
+            openModal('delete-alert-overlay');
+        }
+
+        function deleteSingleFile(buttonEl) {
+            const card = buttonEl.closest('.file-card');
+            const title = card.dataset.title || "이 항목";
+            pendingDeletion = { type: 'single', element: card };
+            document.getElementById('delete-alert-message').textContent = `'${title}' 항목을 삭제합니다. 삭제하신 후 복구하실 수 없습니다.`;
+            openModal('delete-alert-overlay');
+        }
+        
+        function openDeleteFromModal() {
+            const title = document.getElementById('modal-detail-title-text').textContent || "이 디자인";
+            pendingDeletion = { type: 'modal' };
+            document.getElementById('delete-alert-message').textContent = `'${title}' 항목을 삭제합니다. 삭제하신 후 복구하실 수 없습니다.`;
+            
+            closeModal('file-detail-modal-overlay');
+            setTimeout(() => openModal('delete-alert-overlay'), 300); // Allow modal to close
+        }
+
+        function confirmDeletion() {
+            if (!pendingDeletion) return;
+
+            if (pendingDeletion.type === 'selected') {
+                alert(`${pendingDeletion.count}개 항목 삭제 (구현 필요)`);
+                const checkedBoxes = document.querySelectorAll('#transaction-list-container .checkbox[data-checked="true"]');
+                checkedBoxes.forEach(box => {
+                    box.closest('.file-card').remove();
+                });
+                filterArchiveList(); // Re-count
+                updateStickyFooter(); // Hide footer
+
+            } else if (pendingDeletion.type === 'single') {
+                alert('항목 삭제 (구현 필요)');
+                pendingDeletion.element.remove();
+                filterArchiveList(); // Re-count
+                updateStickyFooter(); // Update count if it was checked
+
+            } else if (pendingDeletion.type === 'modal') {
+                alert('디자인 삭제 (구현 필요)');
+                if (currentModalCard) {
+                    currentModalCard.remove();
+                    filterArchiveList(); // Re-count
+                    updateStickyFooter();
+                    currentModalCard = null;
+                }
+            }
+
+            // Reset and close
+            pendingDeletion = null;
+            closeModal('delete-alert-overlay');
+        }
+        
+        // --- [MODIFIED] Detail Modal Logic ---
+        let currentModalCard = null; // Store the card being edited
+
+        function openDetailModal(cardElement) {
+            currentModalCard = cardElement; // Save reference
+
+            // 1. Get data from card (using data attributes)
+            const title = cardElement.dataset.title;
+            const fileCount = cardElement.dataset.count;
+            const filesString = cardElement.dataset.files || "";
+            const files = filesString.split(',').filter(f => f); // Filter empty strings
+
+            // 2. Populate modal title
+            document.getElementById('modal-detail-title-text').textContent = title;
+            document.getElementById('modal-detail-count').textContent = fileCount;
+
+            // 3. Reset edit title state
+            const editBtn = document.getElementById('modal-title-edit-btn');
+            const textSpan = document.getElementById('modal-detail-title-text');
+            const inputField = document.getElementById('modal-detail-title-input');
+            
+            textSpan.style.display = 'block';
+            inputField.style.display = 'none';
+            editBtn.textContent = '수정';
+            editBtn.classList.remove('dark-button');
+            editBtn.classList.add('white-button');
+            editBtn.classList.add('btn-sm');
+
+            // 4. [MODIFIED] Populate file list
+            const fileList = document.getElementById('modal-file-list');
+            fileList.innerHTML = ''; // Clear
+            fileList.className = 'file-list-modal'; // Reset classes
+
+            // Remove existing "more" button if any
+            const existingMoreBtn = document.getElementById('file-list-more-btn-wrapper');
+            if (existingMoreBtn) existingMoreBtn.remove();
+            
+            const maxInitialFiles = 4;
+
+            files.forEach((fileName, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item-modal';
+                
+                if (index >= maxInitialFiles) {
+                    fileItem.classList.add('hidden-file');
+                }
+                
+                fileItem.innerHTML = `
+                    <img src="https://via.placeholder.com/48x48/f0f0f0/cccccc?text=File" alt="thumbnail">
+                    <span>${fileName.trim()}</span>
+                `;
+                fileList.appendChild(fileItem);
+            });
+
+            // 5. [NEW] Add "See More" button if needed
+            if (files.length > maxInitialFiles) {
+                const moreBtnWrapper = document.createElement('div');
+                moreBtnWrapper.id = 'file-list-more-btn-wrapper';
+                moreBtnWrapper.innerHTML = `
+                    <button type="button" class="file-list-more-btn" onclick="expandFileList()">
+                        <span class="file-list-more-btn-text">더보기 (${files.length - maxInitialFiles}건)</span>
+                        <div class="file-list-more-btn-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </div>
+                    </button>
+                `;
+                // Insert after the fileList
+                fileList.insertAdjacentElement('afterend', moreBtnWrapper);
+            }
+            
+            // 6. Open modal
+            openModal('file-detail-modal-overlay');
+        }
+
+        // [NEW] Modal Title Edit Logic
+        function toggleTitleEdit(button) {
+            const wrapper = document.getElementById('modal-title-wrapper');
+            const textSpan = document.getElementById('modal-detail-title-text');
+            const inputField = document.getElementById('modal-detail-title-input');
+
+            if (button.textContent === '수정') {
+                // Switch to edit mode
+                textSpan.style.display = 'none';
+                inputField.style.display = 'block';
+                inputField.value = textSpan.textContent;
+                inputField.focus();
+                button.textContent = '저장';
+                button.classList.remove('white-button');
+                button.classList.add('dark-button'); // Make "Save" primary
+            } else {
+                // Switch to save mode
+                const newTitle = inputField.value.trim();
+                if (newTitle) {
+                    textSpan.textContent = newTitle;
+                    
+                    // [NEW] Update the original card's data attribute and text
+                    if (currentModalCard) {
+                        currentModalCard.dataset.title = newTitle;
+                        currentModalCard.querySelector('.file-info-title').textContent = newTitle;
+                    }
+                    console.log("New title saved (simulated):", newTitle);
+
+                }
+                textSpan.style.display = 'block';
+                inputField.style.display = 'none';
+                button.textContent = '수정';
+                button.classList.remove('dark-button');
+                button.classList.add('white-button');
+            }
+        }
+        
+        // [NEW] Function to expand the list
+        function expandFileList() {
+            const fileList = document.getElementById('modal-file-list');
+            fileList.classList.add('expanded');
+            fileList.classList.add('scrollable');
+            
+            // Button is hidden by CSS rule: .file-list-modal.expanded + #file-list-more-btn-wrapper
+        }
+        
+        function downloadFiles() { alert('파일 다운로드 (구현 필요)'); }
+        function editTemplate() { alert('템플릿 수정 (구현 필요)'); }
+        // deleteFromModal() is now openDeleteFromModal()
+        
+
+
+        // --- [v12] Pagination Logic ---
+        let currentPage = 1; const totalPages = 1; // [MODIFIED] Total pages
+        function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); }
+        function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
+        function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
+        function paginationFirst() { paginationGo(1); }
+        function paginationLast() { paginationGo(totalPages); }
+        function updatePagination() {
+            const numbersContainer = document.getElementById('pagination-numbers');
+            if (!numbersContainer) return;
+
+            numbersContainer.innerHTML = ''; // Clear
+            for (let i = 1; i <= totalPages; i++) {
+                const numEl = document.createElement('div');
+                numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
+                numEl.dataset.page = i;
+                numEl.textContent = i;
+                numEl.onclick = () => paginationGo(i);
+                numbersContainer.appendChild(numEl);
+            }
+
+            const paginationRoot = numbersContainer.closest('.pagination');
+            if (!paginationRoot) return;
+
+            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
+            const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
+
+            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
+            nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePagination();
+            filterArchiveList(); // Initial filter
+            updateStickyFooter(); // Initial footer check
+
+            // [NEW] Modal overlay click-to-close listeners
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        // [MODIFIED] Reset pending deletion if user clicks overlay
+                        if(overlay.id === 'delete-alert-overlay') {
+                            pendingDeletion = null;
+                        }
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
