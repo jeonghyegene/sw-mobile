@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원애드피아 - 회원 탈퇴</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        }
+        ul, li { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        input, select, textarea { font-family: inherit; }
+        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        /* Layout */
+        .mobile-wrap { 
+            width: 100%; 
+            max-width: 480px; 
+            margin: 0 auto; 
+            background-color: #ffffff; 
+            padding-bottom: 100px; /* Sticky Footer 여백 */
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
+        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; transition: transform 0.2s; color: #333; }
+        .header-btn:active { transform: scale(0.9); }
+        .header-left { flex: 1 0 0; display: flex; justify-content: flex-start; }
+        .header-title { 
+            flex: 3 0 0; 
+            font-size: 18px; 
+            font-weight: 600; 
+            text-align: center; 
+            color: #212121; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .header-right { flex: 1 0 0; display: flex; justify-content: flex-end; gap: 8px; }
+        .btn-icon { cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; color: #333; }
+        .btn-icon:active { transform: scale(0.9); }
+        .btn-icon svg { width: 100%; height: 100%; }
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button { background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .primary-button:hover { background: #3d5dd3; }
+        .primary-button:active { transform: scale(0.98); }
+        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .white-button:hover { background: #f9f9f9; }
+        .white-button:active { transform: scale(0.98); }
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+        
+        /* Main Content */
+        .sw-container { padding: 16px; }
+
+        /* [NEW] Step Container */
+        .step-container {
+             background-color: #f4f5f7; /* Match body bg */
+             min-height: calc(100vh - 56px - 84px); /* Full height minus header and footer */
+        }
+        .step-container .sw-container {
+            background-color: #fff; /* White background for content area */
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        /* First step has a different layout, no top padding */
+        .step-container[data-step="1"] .sw-container {
+            padding: 0;
+            background-color: #f4f5f7;
+        }
+
+        
+        /* Filter Chip Group (from qna_write) */
+        .filter-chip-group {
+            padding: 16px;
+        }
+        /* v12 standard filter-group-content */
+        .filter-group-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        /* v12 Standard .single-chip (from qna_write) */
+        .single-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
+        .single-chip-on { background: #4e6ee4; color: white; }
+        .single-chip:active { transform: scale(0.95); }
+        
+        /* v12 standard disclaimer (from qna_write) */
+        .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; word-break: keep-all;}
+        
+        /* Form Styles (from qna_write / v12 guide) */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+        .input input::placeholder { color: #c6c6c8; }
+        
+        /* Textarea (from qna_write) */
+        .input textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+            resize: vertical;
+            min-height: 100px; /* Base height */
+        }
+        .input textarea::placeholder { color: #c6c6c8; }
+        
+        /* v12 Checkbox (from qna_write) */
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
+        .checkbox-on {
+            width: 100%; height: 100%; background: #4e6ee4;
+            border-radius: 2px; display: flex;
+            align-items: center; justify-content: center;
+        }
+        .checkbox-on img { width: 14px; height: 14px; }
+        .checkbox:active { transform: scale(0.9); }
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .checkbox-text span {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        /* Sticky Form Footer (from qna_write) */
+        .sticky-form-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px; /* Match .mobile-wrap */
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            padding: 20px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+        }
+        .sticky-form-footer .btn {
+            flex: 1;
+        }
+        .sticky-form-footer .white-button {
+             flex-grow: 1;
+        }
+         .sticky-form-footer .dark-button {
+             flex-grow: 2; /* Action button is larger */
+        }
+        
+        /* [NEW] Info Section (from tax_issue.html) */
+        .info-section { 
+            background: #fff; 
+            /* [MODIFIED] No border */
+            border-bottom: 8px solid #f4f5f7;
+            padding: 20px 16px; /* Match sw-container padding */
+            margin-bottom: 0; /* Handled by divider */
+        }
+        .info-section .title { 
+            font-size: 16px; /* [MODIFIED] Larger title */
+            font-weight: 600; 
+            color: #333; 
+            margin-bottom: 12px; 
+        }
+        .info-section .balance-row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 12px; 
+        }
+        .info-section .balance { 
+            font-size: 24px; 
+            font-weight: 700; 
+            color: #333; 
+        }
+        .info-section .balance.sub-label {
+            font-size: 16px;
+            color: #555;
+            font-weight: 600;
+        }
+        .info-sub-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        .info-sub-row .label { color: #555; }
+        .info-sub-row .value { color: #333; font-weight: 600; }
+        
+        .card-divider { 
+            width: 100%; 
+            height: 1px; 
+            background: #e8e8e9; 
+            margin: 10px 0; 
+        }
+
+        /* [NEW] Disclaimer bullets for info section */
+        .info-section .disclaimer {
+            margin-top: 4px;
+            position: relative;
+            padding-left: 1.2em; /* Space for bullet */
+        }
+        .info-section .disclaimer::before {
+            content: '*';
+            position: absolute;
+            left: 0.5em;
+            top: 0;
+            color: #888;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="mobile-wrap">
+        
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="navigateStep('back')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                </button>
+            </div>
+            <h1 class="header-title">회원 탈퇴 (1/3)</h1>
+            <div class="header-right">
+                </div>
+        </header>
+
+        <main>
+            <div class="step-container" data-step="1" style="display: block;">
+                <div class="sw-container">
+                    
+                    <section class="info-section">
+                        <div class="title">김성원님, <br>그동안 성원애드피아를 이용해주셔서 감사합니다.</div>
+                        <div class="card-divider"></div>
+                        <div class="info-sub-row">
+                            <span class="label">회원님의 현재 등급</span>
+                            <span class="value">다이아몬드</span>
+                        </div>
+                        <div class="info-sub-row">
+                            <span class="label">소멸 예정 머니</span>
+                            <span class="value" style="color: #dc3545;">2,400 원</span>
+                        </div>
+                        <div class="info-sub-row" style="padding-bottom: 0;">
+                            <span class="label">소멸 예정 포인트</span>
+                            <span class="value" style="color: #dc3545;">1,200 P</span>
+                        </div>
+                    </section>
+                    
+                    <section class="info-section">
+                        <div class="title">유의사항</div>
+                        <p class="disclaimer">탈퇴 시 회원님의 등급, 잔여 성원페이와 포인트는 모두 소멸되며 환불할 수 없습니다.</p>
+                    </section>
+                    
+                </div>
+            </div>
+
+            <div class="step-container" data-step="2" style="display: none;">
+                <div class="sw-container">
+                    <section class="info-section" style="background: #f8f8f9; border-bottom: 1px solid #e8e8e9; padding: 16px;">
+                        <div class="title" style="font-size: 14px;">탈퇴 시 삭제되는 내용</div>
+                        <p class="disclaimer">탈퇴한 계정 및 이용 내역은 복구할 수 없으니 탈퇴 시 유의하시기 바랍니다.</p>
+                    </section>
+
+                    <section class="info-section" style="background: #f8f8f9; border-bottom: 1px solid #e8e8e9; padding: 16px;">
+                        <div class="title" style="font-size: 14px;">탈퇴 시 보관되는 내용</div>
+                        <p class="disclaimer">회원님의 정보는 전자상거래 등에서의 소비자 보호에 관한 법률에 의거한 성원애드피아 고객정보 보호정책 (대금결제 및 재화 등의 공급에 관한 기록 5년, 계약 또는 청약철회 등에 관한 기록 5년, 소비자의 불만 또는 분쟁처리에 관한 기록은 3년)에 따라 관리됩니다.</p>
+                        <p class="disclaimer">아이디(이메일), 이메일, 비밀번호는 부정 이용 탈퇴 방지를 위해 탈퇴 요청 시 7일 간 별도 보관 후 파기합니다.</p>
+                    </section>
+                    
+                    <section class="info-section" style="background: #f8f8f9; border-bottom: 8px solid #f4f5f7; padding: 16px;">
+                        <div class="title" style="font-size: 14px;">탈퇴 불가 및 기타 유의사항</div>
+                        <p class="disclaimer">탈퇴 후에도 서비스에 등록한 게시물 및 댓글은 그대로 남아 있습니다. 탈퇴 후에는 회원정보가 삭제되어 본인 여부를 확인할 수 없으므로 게시글을 임의로 삭제해드릴 수 없습니다. 먼저 해당 게시물을 삭제하신 후 탈퇴를 신청하시기 바랍니다.</p>
+                        <p class="disclaimer">진행 중인 주문이 있는 경우에는 탈퇴할 수 없습니다. 이미 결제가 완료된 건은 탈퇴로 취소되지 않으므로 주문 취소 후 탈퇴를 시도하시고, 주문 내역을 미리 확인해주세요.</p>
+                        <p class="disclaimer">동일 아이디는 후 7일 간 재사용할 수 없습니다.</p>
+                    </section>
+
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label style="font-size: 16px; font-weight: 600;">탈퇴 사유 선택</label>
+                        <p class="disclaimer" style="margin-top: 0; margin-bottom: 12px; padding-left: 0;">서비스를 이용하시면서 불편함이 있으셨다면 개선에 참고하도록 하겠습니다.</p>
+                        <div class="filter-group-content" id="reason-chips">
+                            <div class="single-chip single-chip-off" data-reason="서비스 불만족" onclick="selectReason(this)">서비스 불만족</div>
+                            <div class="single-chip single-chip-off" data-reason="이용이 불편해서" onclick="selectReason(this)">이용이 불편해서</div>
+                            <div class="single-chip single-chip-off" data-reason="개인정보 유출 우려" onclick="selectReason(this)">개인정보 유출 우려</div>
+                            <div class="single-chip single-chip-off" data-reason="인쇄물 종류 부족" onclick="selectReason(this)">인쇄물 종류 부족</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>기타 의견</label>
+                        <div class="input">
+                            <textarea placeholder="기타 불만사항이나 의견이 있으시면 작성해주세요."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-container" data-step="3" style="display: none;">
+                <div class="sw-container" style="padding-top: 20px;">
+                    <div class="form-group">
+                        <label style="font-size: 16px; font-weight: 600;">최종 확인</label>
+                        <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                            <div class="checkbox" data-checked="false" id="final-confirm-checkbox">
+                                <div class="checkbox-off"></div>
+                            </div>
+                            <span>(필수) 위의 내용을 모두 확인하였습니다.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>비밀번호 확인</label>
+                        <div class="input">
+                            <input type="password" placeholder="회원 탈퇴를 진행하시려면 비밀번호를 입력해주세요.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <div class="sticky-form-footer" data-step-footer="1" style="display: flex;">
+            <button class="dark-button btn" onclick="navigateStep('next')">다음</button>
+        </div>
+        <div class="sticky-form-footer" data-step-footer="2" style="display: none;">
+            <button class="white-button btn" onclick="navigateStep('back')">이전</button>
+            <button class="dark-button btn" onclick="navigateStep('next')">다음</button>
+        </div>
+        <div class="sticky-form-footer" data-step-footer="3" style="display: none;">
+            <button class="white-button btn" onclick="navigateStep('back')">이전</button>
+            <button class="dark-button btn" id="submit-withdrawal-btn" onclick="submitWithdrawal()">탈퇴하기</button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- [NEW] Step Navigation Logic ---
+        let currentStep = 1;
+        const totalSteps = 3;
+        const headerTitle = document.querySelector('.header-title');
+        const headerBackBtn = document.querySelector('.header-left .header-btn');
+
+        function navigateStep(direction) {
+            let nextStep = currentStep;
+            if (direction === 'next' && currentStep < totalSteps) {
+                nextStep++;
+            } else if (direction === 'back' && currentStep > 1) {
+                nextStep--;
+            } else if (direction === 'back' && currentStep === 1) {
+                // Step 1's back button goes to history
+                history.back();
+                return;
+            } else {
+                return; // Do nothing if trying to go past boundaries
+            }
+            
+            // Hide all step containers and footers
+            document.querySelectorAll('.step-container').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.sticky-form-footer').forEach(el => el.style.display = 'none');
+            
+            // Show the target step and footer
+            document.querySelector(`.step-container[data-step="${nextStep}"]`).style.display = 'block';
+            document.querySelector(`.sticky-form-footer[data-step-footer="${nextStep}"]`).style.display = 'flex';
+            
+            // Update header title
+            headerTitle.textContent = `회원 탈퇴 (${nextStep}/${totalSteps})`;
+            
+            currentStep = nextStep;
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // [NEW] Single-select chip logic for reason
+        function selectReason(chip) {
+            const group = chip.closest('#reason-chips');
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+        }
+
+        // [NEW] Final submission
+        function submitWithdrawal() {
+            // Add validation
+            const finalConfirm = document.getElementById('final-confirm-checkbox');
+            const passwordInput = document.querySelector('[data-step="3"] input[type="password"]');
+
+            if (finalConfirm.dataset.checked !== 'true') {
+                alert('(필수) 위의 내용을 모두 확인하였습니다.에 동의해주세요.');
+                return;
+            }
+            if (passwordInput.value.trim() === '') {
+                alert('비밀번호를 입력해주세요.');
+                passwordInput.focus();
+                return;
+            }
+            
+            alert('회원 탈퇴가 처리되었습니다. (구현 필요)');
+            // Redirect to home or login
+            // location.href = '/'; 
+        }
+
+        // --- [KEPT] Checkbox (v12 Standard) ---
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+            }
+        }
+        function toggleCheckboxText(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            toggleCheckbox(checkbox);
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set initial header button behavior
+            headerBackBtn.onclick = () => navigateStep('back');
+        });
+
+    </script>
+</body>
+</html>

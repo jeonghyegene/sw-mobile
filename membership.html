@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>등급별 혜택 안내</title>
+    <title>전체 등급 현황</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -40,35 +40,6 @@
         /* Main Content */
         .sw-container { padding: 16px; }
 
-        /* Page Tabs (v12 Tab-Nav Style) */
-        .page-tabs {
-            width: 100%;
-            height: 44px; 
-            background: white;
-            border-bottom: 1px solid #e8e8e9;
-            display: flex;
-            align-items: flex-end;
-            padding: 0 20px 1px 20px;
-        }
-        .page-tab-item {
-            height: 42px;
-            padding: 10px 4px;
-            font-size: 16px; 
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-right: 16px;
-            position: relative;
-            color: #bcbcbc; /* Inactive color */
-            border-bottom: 2px solid transparent;
-            flex-shrink: 0;
-        }
-        .page-tab-item.active {
-            color: black;
-            border-bottom: 2px solid black;
-        }
-        .page-tab-item:hover { opacity: 0.8; }
-        
         /* [NEW] Content wrapper inside main */
         .page-content-wrapper {
             padding: 24px 16px 16px 16px;
@@ -86,10 +57,8 @@
             border-radius: 8px;
             padding: 20px 16px;
             background: #fff;
-            /* [REMOVED] text-align: center; */
         }
         
-        /* [NEW] Request 2: New Card Layout */
         .grade-card-content {
             display: flex;
             gap: 16px;
@@ -101,11 +70,10 @@
             align-items: center;
             gap: 10px;
             min-width: 90px;
-            /* [REMOVED] margin-bottom: 16px; */
-            flex-shrink: 0; /* Prevent header from shrinking */
+            flex-shrink: 0; 
         }
         .grade-details {
-            flex: 1; /* Take remaining space */
+            flex: 1; 
             text-align: left;
         }
         
@@ -133,12 +101,9 @@
         .grade-icon.silver { background-color: #adb5bd; } /* Silver S */
         .grade-icon.gold { background-color: #d4af37; } /* Gold G */
         .grade-icon.diamond { background-color: #212529; } /* Black D */
-
-        /* [REMOVED] .grade-divider { ... } */
         
         .grade-criteria-list {
             text-align: left;
-            /* [REMOVED] margin-bottom: 16px; */
         }
         .criteria-item {
             display: flex;
@@ -157,7 +122,6 @@
             font-weight: 600;
         }
         .grade-benefit {
-            /* [MODIFIED] Request 2: Prominent benefit */
             font-size: 16px;
             color: #4e6ee4; /* Benefit color */
             font-weight: 700;
@@ -168,14 +132,9 @@
         
         /* Specific adjustments for Welcome card */
         .grade-card.welcome .grade-criteria-list {
-            margin-bottom: 0; /* No criteria, just intro */
-            /* [REMOVED] text-align: center; */
-        }
-         .grade-card.welcome .criteria-value {
-            /* [REMOVED] width: 100%; text-align: center; */
+            margin-bottom: 0; 
         }
         .grade-card.welcome .grade-benefit {
-            /* [MODIFIED] Request 2: Apply new layout, but keep text color/weight */
             color: #333;
             font-weight: 600;
         }
@@ -207,7 +166,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* [MODIFIED] Request 1: Gold icon color */
             color: #d4af37;
         }
         .benefit-icon svg { 
@@ -222,7 +180,7 @@
             line-height: 1.4;
         }
         
-        /* [MODIFIED] Copied from sungwon_money_01.html for info boxes */
+        /* [MODIFIED] Info boxes */
         .info-section { 
             background: #f8f8f9; 
             border: 1px solid #f0f0f0; 
@@ -254,18 +212,16 @@
             margin-top: 0;
         }
         
-        /* [NEW] Request 3: Member Status Box Styles */
-        /* [REMOVED] .status-header { ... } */
-        
+        /* [MODIFIED] Member Status Box Styles (Based on PDF) */
         .status-grade-row {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 16px;
         }
         .status-grade-icon {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -273,19 +229,91 @@
             font-size: 16px;
             font-weight: 700;
             color: #fff;
-            background-color: #00a9e0; /* Welcome Blue */
             flex-shrink: 0;
         }
         .status-grade-text {
-            /* [MODIFIED] Request 3: Font size increase */
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             color: #333;
         }
+        
+        /* [NEW] Grade Progress Bar (Based on PDF) */
+        .grade-progress-bar-container {
+            margin-bottom: 12px;
+        }
+        .grade-progress-labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 4px;
+            margin-bottom: 4px;
+        }
+        .grade-progress-label {
+            font-size: 10px;
+            font-weight: 500;
+            color: #bcbcbc;
+        }
+        .grade-progress-label.active {
+            color: #333;
+        }
+        .grade-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 100px;
+            overflow: hidden;
+        }
+        .grade-progress-bar-inner {
+            height: 100%;
+            background-color: #d4af37; /* Gold Color */
+            border-radius: 100px;
+            width: 66.6%; /* (Gold is 4/6) */
+            transition: width 0.5s ease;
+        }
+        
+        /* [NEW] Grade Status Details (Based on PDF) */
+        .status-details-box {
+            background: #f8f8f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .status-details-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+        .status-details-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .status-next-grade {
+            font-size: 13px;
+            color: #555;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .status-next-grade strong {
+            color: #4e6ee4;
+            font-weight: 600;
+        }
+        .status-info-link {
+            display: block;
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            text-decoration: underline;
+            cursor: pointer; /* [NEW] Add cursor */
+        }
+        
+        /* [MODIFIED] Status Grid (Based on PDF) */
         .status-divider {
             height: 1px;
             background: #f0f0f0;
-            margin-bottom: 16px;
+            margin: 16px 0;
         }
         .status-grid {
             display: grid;
@@ -311,6 +339,128 @@
             color: #333;
             font-weight: 600;
         }
+        
+        /* [NEW] Section Title for Grade Cards */
+        .grade-section-title {
+            font-size: 18px; 
+            font-weight: 600; 
+            color: #212121; 
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e8e8e9;
+        }
+        
+        /* ========================================
+           [NEW] MODAL STYLES (v12 Standard)
+        ======================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            animation: fadeInModal 0.2s ease-out;
+        }
+        .modal-overlay.active { display: flex; }
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px; /* Modal max width */
+            max-height: 90vh; /* Limit height */
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+        @keyframes scaleUpModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative; /* For close button */
+            height: 57px; /* Match v12 modal header */
+        }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            text-align: left; 
+        }
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333; /* v12 guide color */
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .btn-modal-close:hover { color: #000; }
+        .btn-modal-close svg { width: 100%; height: 100%; }
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+        
+        /* [NEW] Modal Body Styles for Amount Info */
+        .modal-body > p.description {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .amount-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .amount-info-col h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .amount-info-col p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+            word-break: keep-all; /* Prevent awkward breaks */
+        }
+        
+        /* [NEW] Buttons from v12 Standard */
+         .dark-button { 
+            background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; 
+        }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+
 
     </style>
 </head>
@@ -320,313 +470,524 @@
         <header class="app-header-sub">
             <div class="header-left">
                 <button type="button" class="header-btn" onclick="history.back();">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
                 </button>
             </div>
-            <h1 class="header-title">등급별 혜택 안내</h1>
+            <h1 class="header-title">등급 안내</h1>
             <div class="header-right">
                 <button type="button" class="btn-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search"><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" id="icon-search"><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
                 </button>
                 <button type="button" class="btn-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart"><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17h-11v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" 24" id="icon-cart"><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17h-11v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /></svg>
                 </button>
             </div>
         </header>
 
-        <section class="sw-container" style="padding-bottom: 0;">
-            <div class="status-box">
-                <div class="status-grade-row">
-                    <div class="status-grade-icon">W</div>
-                    <div class="status-grade-text">현재 <strong>웰컴</strong> 등급입니다.</div>
-                </div>
-                <div class="status-divider"></div>
-                <div class="status-grid">
-                    <div class="status-grid-item">
-                        <span class="label">머니</span>
-                        <span class="value">351,000원</span>
-                    </div>
-                    <div class="status-grid-item">
-                        <span class="label">성포인트</span>
-                        <span class="value">14,000 P</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <nav class="page-tabs" id="page-tab-nav">
-            <div class="page-tab-item active" data-page="general" onclick="selectPageTab(this, 'general')">일반 등급</div>
-            <div class="page-tab-item" data-page="vip" onclick="selectPageTab(this, 'vip')">VIP 등급</div>
-        </nav>
-
         <main>
-            <div id="page-content-general" style="display: block;">
-                 <div class="page-content-wrapper">
-                    
-                    <div class="grade-section">
-                        <article class="grade-card welcome">
-                            <div class="grade-card-content">
-                                <div class="grade-header">
-                                    <div class="grade-icon welcome">W</div>
-                                    <div class="grade-name">웰컴</div>
-                                </div>
-                                <div class="grade-details">
-                                    <div class="grade-criteria-list">
-                                        <div class="criteria-item">
-                                            <span class="criteria-value">성원애드피아 신규가입 고객</span>
-                                        </div>
-                                    </div>
-                                    <div class="grade-benefit">SNS 친구 추가 후<br>리뷰 작성시 샘플북 증정</div>
-                                </div>
-                            </div>
-                        </article>
-                        
-                        <article class="grade-card">
-                            <div class="grade-card-content">
-                                <div class="grade-header">
-                                    <div class="grade-icon pearl">P</div>
-                                    <div class="grade-name">진주</div>
-                                </div>
-                                <div class="grade-details">
-                                    <div class="grade-criteria-list">
-                                        <div class="criteria-item">
-                                            <span class="criteria-label">인정금액</span>
-                                            <span class="criteria-value">500만원 이상</span>
-                                        </div>
-                                        <div class="criteria-item">
-                                            <span class="criteria-label">구매건수</span>
-                                            <span class="criteria-value">10건 이상</span>
-                                        </div>
-                                    </div>
-                                    <div class="grade-benefit">샘플북 무료교환권<br>신규고객 이벤트</div>
-                                </div>
-                            </div>
-                        </article>
-                        
-                        <article class="grade-card">
-                            <div class="grade-card-content">
-                                <div class="grade-header">
-                                    <div class="grade-icon bronze">B</div>
-                                    <div class="grade-name">브론즈</div>
-                                </div>
-                                <div class="grade-details">
-                                    <div class="grade-criteria-list">
-                                        <div class="criteria-item">
-                                            <span class="criteria-label">인정금액</span>
-                                            <span class="criteria-value">500만원 이상</span>
-                                        </div>
-                                        <div class="criteria-item">
-                                            <span class="criteria-label">구매건수</span>
-                                            <span class="criteria-value">20건 이상</span>
-                                        </div>
-                                    </div>
-                                    <div class="grade-benefit">샘플북 무료교환권<br>신상품 샘플 발송<br>성원매거진 발송</div>
-                                </div>
-                            </div>
-                        </article>
+            <section class="sw-container" style="padding-bottom: 0;">
+                
+                <div class="status-box">
+                    <div class="status-grade-row">
+                        <div class="status-grade-icon grade-icon welcome">W</div>
+                        <div class="status-grade-text"><strong>김성원</strong>님의 등급은 <strong>웰컴</strong>입니다.</div>
                     </div>
-                    
-                    <section class="info-section">
-                        <div class="title">승급 기준 안내</div>
-                        <p class="disclaimer">승급일: 매 분기 시작일 (휴일일 경우 다음 영업일)</p>
-                        <p class="disclaimer">등급 혜택 제공 기간: (확인 필요)</p>
-                    </section>
-                    
-                    <section class="info-section">
-                        <div class="title">유의사항</div>
-                        <p class="disclaimer">회원 등급 기준은 당사의 사정에 의해 변경될 수 있습니다.</p>
-                    </section>
+                    <div class="grade-progress-bar-container">
+                        <div class="grade-progress-labels">
+                            <span class="grade-progress-label active">WELCOME</span>
+                            <span class="grade-progress-label">PEARL</span>
+                            <span class="grade-progress-label">BRONZE</span>
+                            <span class="grade-progress-label">SILVER</span>
+                            <span class="grade-progress-label">GOLD</span>
+                            <span class="grade-progress-label">DIAMOND</span>
+                        </div>
+                        <div class="grade-progress-bar">
+                            <div class="grade-progress-bar-inner" style="width: 0%; background-color: #00a9e0;"></div>
+                        </div>
+                    </div>
+                    <div class="status-details-box">
+                        <div class="status-details-label">2025년 인정금액/구매건수</div>
+                        <div class="status-details-value">0원/0건</div>
+                    </div>
+                    <div class="status-next-grade">
+                        <strong>5,000,000원/15건</strong>만큼 추가 구매하시면 <strong>진주</strong> 등급으로 승급해요
+                    </div>
+                    <a href="javascript:void(0);" class="status-info-link" onclick="showAmountInfoModal()">인정금액 안내</a>
                 </div>
-            </div>
-
-            <div id="page-content-vip" style="display: none;">
-                <div class="page-content-wrapper">
-                    
-                    <div class="grade-section">
-                        <article class="grade-card">
-                            <div class="grade-card-content">
-                                <div class="grade-header">
-                                    <div class="grade-icon silver">S</div>
-                                    <div class="grade-name">실버</div>
-                                </div>
-                                <div class="grade-details">
-                                    <div class="grade-criteria-list">
-                                        <div class="criteria-item">
-                                            <span class="criteria-label">인정금액</span>
-                                            <span class="criteria-value">3,000만원 이상</span>
-                                        </div>
-                                        <div class="criteria-item">
-                                            <span class="criteria-label">구매건수</span>
-                                            <span class="criteria-value">100건 이상</span>
-                                        </div>
-                                    </div>
-                                    <div class="grade-benefit">1% 적립</div>
-                                </div>
-                            </div>
-                        </article>
-                        
-                        <article class="grade-card">
-                            <div class="grade-card-content">
-                                <div class="grade-header">
-                                    <div class="grade-icon gold">G</div>
-                                    <div class="grade-name">골드</div>
-                                </div>
-                                <div class="grade-details">
-                                    <div class="grade-criteria-list">
-                                        <div class="criteria-item">
-                                            <span class="criteria-label">인정금액</span>
-                                            <span class="criteria-value">5,000만원 이상</span>
-                                        </div>
-                                        <div class="criteria-item">
-                                            <span class="criteria-label">구매건수</span>
-                                            <span class="criteria-value">100건 이상</span>
-                                        </div>
-                                    </div>
-                                    <div class="grade-benefit">2% 적립</div>
-                                </div>
-                            </div>
-                        </article>
-                        
-                        <article class="grade-card">
-                            <div class="grade-card-content">
-                                <div class="grade-header">
-                                    <div class="grade-icon diamond">D</div>
-                                    <div class="grade-name">다이아몬드</div>
-                                </div>
-                                <div class="grade-details">
-                                    <div class="grade-criteria-list">
-                                        <div class="criteria-item">
-                                            <span class="criteria-label">인정금액</span>
-                                            <span class="criteria-value">1억원 이상</span>
-                                        </div>
-                                        <div class="criteria-item">
-                                            <span class="criteria-label">구매건수</span>
-                                            <span class="criteria-value">100건 이상</span>
-                                        </div>
-                                    </div>
-                                    <div class="grade-benefit">4% 적립</div>
-                                </div>
-                            </div>
-                        </article>
+                
+                <div class="status-box">
+                    <div class="status-grade-row">
+                        <div class="status-grade-icon grade-icon pearl">P</div>
+                        <div class="status-grade-text"><strong>김성원</strong>님의 등급은 <strong>진주</strong>입니다.</div>
                     </div>
-
-                    <h2 class="section-title-h2" style="font-size: 18px; font-weight: 600; color: #212121; margin-bottom: 16px;">VIP를 위한 특별 서비스</h2>
-                    <div class="benefit-grid">
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path></svg>
-                            </div>
-                            <div class="benefit-text">VIP 전담 상담</div>
+                    <div class="grade-progress-bar-container">
+                        <div class="grade-progress-labels">
+                            <span class="grade-progress-label active">WELCOME</span>
+                            <span class="grade-progress-label active">PEARL</span>
+                            <span class="grade-progress-label">BRONZE</span>
+                            <span class="grade-progress-label">SILVER</span>
+                            <span class="grade-progress-label">GOLD</span>
+                            <span class="grade-progress-label">DIAMOND</span>
                         </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path><path d="M8 21v-1a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v1"></path><path d="M15 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4z"></path><path d="M3 5m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path><path d="M3 15m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path></svg>
-                            </div>
-                            <div class="benefit-text">VIP 고객 이벤트</div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5"></path></svg>
-                            </div>
-                            <div class="benefit-text">배송</div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"></path><path d="M3 7l9 6l9 -6"></path></svg>
-                            </div>
-                            <div class="benefit-text">신상품 샘플 발송</div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6v13"></path><path d="M12 6v13"></path><path d="M21 6v13"></path></svg>
-                            </div>
-                            <div class="benefit-text">성원매거진 발송</div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9l-8 4.5l-8 -4.5v-9l8 -4.5"></path><path d="M12 12l8 -4.5"></path><path d="M12 12v9"></path><path d="M12 12l-8 -4.5"></path><path d="M16 5.25l-8 4.5"></path></svg>
-                            </div>
-                            <div class="benefit-text">샘플북 신속 발송</div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 21l18 0"></path><path d="M9 8l1 0"></path><path d="M9 12l1 0"></path><path d="M9 16l1 0"></path><path d="M14 8l1 0"></path><path d="M14 12l1 0"></path><path d="M14 16l1 0"></path><path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16"></path></svg>
-                            </div>
-                            <div class="benefit-text">공장견학 프로그램</div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path><path d="M12 15m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path><path d="M12 22l0 -3"></path><path d="M12 5l0 -3"></path><path d="M19.071 19.071l-2.12 -2.12"></path><path d="M4.929 4.929l2.12 2.12"></path><path d="M19.071 4.929l-2.12 2.12"></path><path d="M4.929 19.071l2.12 -2.12"></path><path d="M22 12l-3 0"></path><path d="M5 12l-3 0"></path></svg>
-                            </div>
-                            <div class="benefit-text">생일 선물(쿠폰)</div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12"></path><path d="M20 12v4h-4a2 2 0 0 1 0 -4h4"></path></svg>
-                            </div>
-                            <div class="benefit-text">성원포인트<br>추가 증정</div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 12l2 2l4 -4"></path><path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3"></path></svg>
-                            </div>
-                            <div class="benefit-text">VIP 전용관</div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 21h8"></path><path d="M12 15h0"></path><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9"></path></svg>
-                            </div>
-                            <div class="benefit-text">VIP 고객 초청행사</div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path></svg>
-                            </div>
-                            <div class="benefit-text">이형/별색<br>샘플 자료</div>
+                        <div class="grade-progress-bar">
+                            <div class="grade-progress-bar-inner" style="width: 16.7%; background-color: #6a49e0;"></div>
                         </div>
                     </div>
-                    
-                    <section class="info-section">
-                        <div class="title">승급 기준 안내</div>
-                        <p class="disclaimer">승급일: 매 분기 시작일 (휴일일 경우 다음 영업일)</p>
-                        <p class="disclaimer">등급 혜택 제공 기간: (확인 필요)</p>
-                    </section>
-                    
-                    <section class="info-section">
-                        <div class="title">유의사항</div>
-                        <p class="disclaimer">회원 등급 기준은 당사의 사정에 의해 변경될 수 있습니다.</p>
-                    </section>
-
+                    <div class="status-details-box">
+                        <div class="status-details-label">2025년 인정금액/구매건수</div>
+                        <div class="status-details-value">2,535,000원/4건</div>
+                    </div>
+                    <div class="status-next-grade">
+                        <strong>7,465,000원/10건</strong>만큼 추가 구매하시면 <strong>브론즈</strong> 등급으로 승급해요
+                    </div>
+                    <a href="javascript:void(0);" class="status-info-link" onclick="showAmountInfoModal()">인정금액 안내</a>
                 </div>
+
+                <div class="status-box">
+                    <div class="status-grade-row">
+                        <div class="status-grade-icon grade-icon bronze">B</div>
+                        <div class="status-grade-text"><strong>김성원</strong>님의 등급은 <strong>브론즈</strong>입니다.</div>
+                    </div>
+                    <div class="grade-progress-bar-container">
+                        <div class="grade-progress-labels">
+                            <span class="grade-progress-label active">WELCOME</span>
+                            <span class="grade-progress-label active">PEARL</span>
+                            <span class="grade-progress-label active">BRONZE</span>
+                            <span class="grade-progress-label">SILVER</span>
+                            <span class="grade-progress-label">GOLD</span>
+                            <span class="grade-progress-label">DIAMOND</span>
+                        </div>
+                        <div class="grade-progress-bar">
+                            <div class="grade-progress-bar-inner" style="width: 33.3%; background-color: #8d6e63;"></div>
+                        </div>
+                    </div>
+                    <div class="status-details-box">
+                        <div class="status-details-label">2025년 인정금액/구매건수</div>
+                        <div class="status-details-value">2,535,000원/4건</div>
+                    </div>
+                    <div class="status-next-grade">
+                        <strong>7,465,000원/15건</strong>만큼 추가 구매하시면 <strong>실버</strong> 등급으로 승급해요
+                    </div>
+                    <a href="javascript:void(0);" class="status-info-link" onclick="showAmountInfoModal()">인정금액 안내</a>
+                </div>
+                
+                <div class="status-box">
+                    <div class="status-grade-row">
+                        <div class="status-grade-icon grade-icon silver">S</div>
+                        <div class="status-grade-text"><strong>김성원</strong>님의 등급은 <strong>실버</strong>입니다.</div>
+                    </div>
+                    <div class="grade-progress-bar-container">
+                        <div class="grade-progress-labels">
+                            <span class="grade-progress-label active">WELCOME</span>
+                            <span class="grade-progress-label active">PEARL</span>
+                            <span class="grade-progress-label active">BRONZE</span>
+                            <span class="grade-progress-label active">SILVER</span>
+                            <span class="grade-progress-label">GOLD</span>
+                            <span class="grade-progress-label">DIAMOND</span>
+                        </div>
+                        <div class="grade-progress-bar">
+                            <div class="grade-progress-bar-inner" style="width: 50%; background-color: #adb5bd;"></div>
+                        </div>
+                    </div>
+                    <div class="status-details-box">
+                        <div class="status-details-label">2025년 인정금액/구매건수</div>
+                        <div class="status-details-value">2,535,000원/4건</div>
+                    </div>
+                    <div class="status-next-grade">
+                        <strong>7,465,000원/15건</strong>만큼 추가 구매하시면 <strong>골드</strong> 등급으로 승급해요
+                    </div>
+                    <a href="javascript:void(0);" class="status-info-link" onclick="showAmountInfoModal()">인정금액 안내</a>
+                    <div class="status-divider"></div>
+                    <div class="status-grid" style="grid-template-columns: 1fr;"> <div class="status-grid-item">
+                            <span class="label">적립 포인트 (최근 1년)</span>
+                            <span class="value">2,512P</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="status-box">
+                    <div class="status-grade-row">
+                        <div class="status-grade-icon grade-icon gold">G</div>
+                        <div class="status-grade-text"><strong>김성원</strong>님의 등급은 <strong>골드</strong>입니다.</div>
+                    </div>
+                    <div class="grade-progress-bar-container">
+                        <div class="grade-progress-labels">
+                            <span class="grade-progress-label active">WELCOME</span>
+                            <span class="grade-progress-label active">PEARL</span>
+                            <span class="grade-progress-label active">BRONZE</span>
+                            <span class="grade-progress-label active">SILVER</span>
+                            <span class="grade-progress-label active">GOLD</span>
+                            <span class="grade-progress-label">DIAMOND</span>
+                        </div>
+                        <div class="grade-progress-bar">
+                            <div class="grade-progress-bar-inner" style="width: 66.7%; background-color: #d4af37;"></div>
+                        </div>
+                    </div>
+                    <div class="status-details-box">
+                        <div class="status-details-label">2025년 인정금액/구매건수</div>
+                        <div class="status-details-value">2,535,000원/4건</div>
+                    </div>
+                    <div class="status-next-grade">
+                        <strong>7,465,000원/15건</strong>만큼 추가 구매하시면 <strong>다이아몬드</strong> 등급으로 승급해요
+                    </div>
+                    <a href="javascript:void(0);" class="status-info-link" onclick="showAmountInfoModal()">인정금액 안내</a>
+                    <div class="status-divider"></div>
+                    <div class="status-grid">
+                        <div class="status-grid-item">
+                            <span class="label">받은 혜택 (최근 1년)</span>
+                            <span class="value">2,512P</span>
+                        </div>
+                        <div class="status-grid-item">
+                            <span class="label">적립 포인트</span>
+                            <span class="value">2,512P</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="status-box">
+                    <div class="status-grade-row">
+                        <div class="status-grade-icon grade-icon diamond">D</div>
+                        <div class="status-grade-text"><strong>김성원</strong>님의 등급은 <strong>다이아몬드</strong>입니다.</div>
+                    </div>
+                    <div class="grade-progress-bar-container">
+                        <div class="grade-progress-labels">
+                            <span class="grade-progress-label active">WELCOME</span>
+                            <span class="grade-progress-label active">PEARL</span>
+                            <span class="grade-progress-label active">BRONZE</span>
+                            <span class="grade-progress-label active">SILVER</span>
+                            <span class="grade-progress-label active">GOLD</span>
+                            <span class="grade-progress-label active">DIAMOND</span>
+                        </div>
+                        <div class="grade-progress-bar">
+                            <div class="grade-progress-bar-inner" style="width: 100%; background-color: #212529;"></div>
+                        </div>
+                    </div>
+                    <div class="status-details-box">
+                        <div class="status-details-label">2025년 인정금액/구매건수</div>
+                        <div class="status-details-value">112,253,000원/1,000+건</div>
+                    </div>
+                    <div class="status-next-grade">
+                        축하합니다! VIP만을 위한 모든 특별 서비스를 누리실 수 있습니다.
+                    </div>
+                    <a href="javascript:void(0);" class="status-info-link" onclick="showAmountInfoModal()">인정금액 안내</a>
+                    <div class="status-divider"></div>
+                    <div class="status-grid">
+                        <div class="status-grid-item">
+                            <span class="label">받은 혜택 (최근 1년)</span>
+                            <span class="value">2,512P</span>
+                        </div>
+                        <div class="status-grid-item">
+                            <span class="label">적립한 포인트</span>
+                            <span class="value">2,512P</span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <div class="page-content-wrapper">
+                
+                <h2 class="grade-section-title">일반 등급 혜택</h2>
+                <div class="grade-section">
+                    <article class="grade-card welcome">
+                        <div class="grade-card-content">
+                            <div class="grade-header">
+                                <div class="grade-icon welcome">W</div>
+                                <div class="grade-name">웰컴</div>
+                            </div>
+                            <div class="grade-details">
+                                <div class="grade-criteria-list">
+                                    <div class="criteria-item">
+                                        <span class="criteria-value">성원애드피아 신규가입 고객</span>
+                                    </div>
+                                </div>
+                                <div class="grade-benefit">SNS 친구 추가 후<br>리뷰 작성시 샘플북 증정</div>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="grade-card">
+                        <div class="grade-card-content">
+                            <div class="grade-header">
+                                <div class="grade-icon pearl">P</div>
+                                <div class="grade-name">진주</div>
+                            </div>
+                            <div class="grade-details">
+                                <div class="grade-criteria-list">
+                                    <div class="criteria-item">
+                                        <span class="criteria-label">인정금액</span>
+                                        <span class="criteria-value">500만원 이상</span>
+                                    </div>
+                                    <div class="criteria-item">
+                                        <span class="criteria-label">구매건수</span>
+                                        <span class="criteria-value">15건 이상</span>
+                                    </div>
+                                </div>
+                                <div class="grade-benefit">샘플북 무료교환권<br>신규고객 이벤트</div>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="grade-card">
+                        <div class="grade-card-content">
+                            <div class="grade-header">
+                                <div class="grade-icon bronze">B</div>
+                                <div class="grade-name">브론즈</div>
+                            </div>
+                            <div class="grade-details">
+                                <div class="grade-criteria-list">
+                                    <div class="criteria-item">
+                                        <span class="criteria-label">인정금액</span>
+                                        <span class="criteria-value">500만원 이상</span>
+                                    </div>
+                                    <div class="criteria-item">
+                                        <span class="criteria-label">구매건수</span>
+                                        <span class="criteria-value">20건 이상</span>
+                                    </div>
+                                </div>
+                                <div class="grade-benefit">샘플북 무료교환권<br>신상품 샘플 발송<br>성원매거진 발송</div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                
+                <h2 class="grade-section-title" style="margin-top: 32px;">VIP 등급 혜택</h2>
+                <div class="grade-section">
+                    <article class="grade-card">
+                        <div class="grade-card-content">
+                            <div class="grade-header">
+                                <div class="grade-icon silver">S</div>
+                                <div class="grade-name">실버</div>
+                            </div>
+                            <div class="grade-details">
+                                <div class="grade-criteria-list">
+                                    <div class="criteria-item">
+                                        <span class="criteria-label">인정금액</span>
+                                        <span class="criteria-value">3,000만원 이상</span>
+                                    </div>
+                                    <div class="criteria-item">
+                                        <span class="criteria-label">구매건수</span>
+                                        <span class="criteria-value">100건 이상</span>
+                                    </div>
+                                </div>
+                                <div class="grade-benefit">1% 적립<br>성원푸드몰 상품권 1장 증정</div>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="grade-card">
+                        <div class="grade-card-content">
+                            <div class="grade-header">
+                                <div class="grade-icon gold">G</div>
+                                <div class="grade-name">골드</div>
+                            </div>
+                            <div class="grade-details">
+                                <div class="grade-criteria-list">
+                                    <div class="criteria-item">
+                                        <span class="criteria-label">인정금액</span>
+                                        <span class="criteria-value">5,000만원 이상</span>
+                                    </div>
+                                    <div class="criteria-item">
+                                        <span class="criteria-label">구매건수</span>
+                                        <span class="criteria-value">100건 이상</span>
+                                    </div>
+                                </div>
+                                <div class="grade-benefit">2% 적립<br>성원푸드몰 상품권 2장 증정</div>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="grade-card">
+                        <div class="grade-card-content">
+                            <div class="grade-header">
+                                <div class="grade-icon diamond">D</div>
+                                <div class="grade-name">다이아몬드</div>
+                            </div>
+                            <div class="grade-details">
+                                <div class="grade-criteria-list">
+                                    <div class="criteria-item">
+                                        <span class="criteria-label">인정금액</span>
+                                        <span class="criteria-value">1억원 이상</span>
+                                    </div>
+                                    <div class="criteria-item">
+                                        <span class="criteria-label">구매건수</span>
+                                        <span class="criteria-value">100건 이상</span>
+                                    </div>
+                                </div>
+                                <div class="grade-benefit">4% 적립<br>성원푸드몰 상품권 3장 증정</div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <h2 class="section-title-h2" style="font-size: 18px; font-weight: 600; color: #212121; margin-bottom: 16px;">VIP를 위한 특별 서비스</h2>
+                <div class="benefit-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 8a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M8 18c0 1.657 2.686 3 6 3s6 -1.343 6 -3c0 -1.657 -2.686 -3 -6 -3s-6 1.343 -6 3" /><path d="M4 18c0 1.657 2.686 3 6 3s6 -1.343 6 -3" /><path d="M4 12c0 1.657 2.686 3 6 3s6 -1.343 6 -3" /><path d="M4 6c0 1.657 2.686 3 6 3s6 -1.343 6 -3" /></svg>
+                        </div>
+                        <div class="benefit-text">VIP 전담 상담</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path><path d="M8 21v-1a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v1"></path><path d="M15 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4z"></path><path d="M3 5m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path><path d="M3 15m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path></svg>
+                        </div>
+                        <div class="benefit-text">VIP 고객 이벤트</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5"></path></svg>
+                        </div>
+                        <div class="benefit-text">월배송</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"></path><path d="M3 7l9 6l9 -6"></path></svg>
+                        </div>
+                        <div class="benefit-text">신상품 샘플 발송</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6v13"></path><path d="M12 6v13"></path><path d="M21 6v13"></path></svg>
+                        </div>
+                        <div class="benefit-text">성원매거진 발송</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9l-8 4.5l-8 -4.5v-9l8 -4.5"></path><path d="M12 12l8 -4.5"></path><path d="M12 12v9"></path><path d="M12 12l-8 -4.5"></path><path d="M16 5.25l-8 4.5"></path></svg>
+                        </div>
+                        <div class="benefit-text">샘플북 무료교환권</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 21l18 0"></path><path d="M9 8l1 0"></path><path d="M9 12l1 0"></path><path d="M9 16l1 0"></path><path d="M14 8l1 0"></path><path d="M14 12l1 0"></path><path d="M14 16l1 0"></path><path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16"></path></svg>
+                        </div>
+                        <div class="benefit-text">공장견학 프로그램</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a1 1 0 0 1 1 -1h14a1 1 0 0 1 1 1v7a1 1 0 0 1 -1 1h-14a1 1 0 0 1 -1 -1v-7z" /><path d="M12 15m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M8 11v-4a4 4 0 0 1 8 0v4" /></svg>
+                        </div>
+                        <div class="benefit-text">VIP 전담 접수</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.783 21.424a2 2 0 0 1 -1.566 0l-4 -1.455a2 2 0 0 1 -1.217 -1.854v-9.23a2 2 0 0 1 .94 -1.695l5 -3.571a2 2 0 0 1 2.12 0l5 3.571a2 2 0 0 1 .94 1.695v9.23a2 2 0 0 1 -1.217 1.854l-4 1.455z" /><path d="M12 21v-7.5" /><path d="M12 3.5v7.5" /><path d="M21 8.5l-9 4.5" /><path d="M3 8.5l9 4.5" /><path d="M12 11l-9 -4.5" /><path d="M12 11l9 -4.5" /></svg>
+                        </div>
+                        <div class="benefit-text">명절 선물(설/추석)</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2.1l-8.2 8.2c-.4 .4 -.7 .9 -.8 1.5l-1 4.2c-.1 .5 .1 1 .5 1.4c.4 .4 .9 .6 1.4 .5l4.2 -1c.6 -.1 1.1 -.4 1.5 -.8l8.2 -8.2c.9 -.9 .9 -2.4 0 -3.3l-1.9 -1.9c-.9 -.9 -2.4 -.9 -3.3 0z" /><path d="M16 5l3 3" /></svg>
+                        </div>
+                        <div class="benefit-text">VIP 고객 초대행사</div>
+                    </div>
+                     <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l0 2" /><path d="M15 11l0 2" /><path d="M15 17l0 2" /><path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-3a2 2 0 0 0 0 -4v-3a2 2 0 0 1 2 -2" /></svg>
+                        </div>
+                        <div class="benefit-text">성원푸드몰 상품권</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path><path d="M12 15m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path><path d="M12 22l0 -3"></path><path d="M12 5l0 -3"></path><path d="M19.071 19.071l-2.12 -2.12"></path><path d="M4.929 4.929l2.12 2.12"></path><path d="M19.071 4.929l-2.12 2.12"></path><path d="M4.929 19.071l2.12 -2.12"></path><path d="M22 12l-3 0"></path><path d="M5 12l-3 0"></path></svg>
+                        </div>
+                        <div class="benefit-text">생일 선물(쿠폰)</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12"></path><path d="M20 12v4h-4a2 2 0 0 1 0 -4h4"></path></svg>
+                        </div>
+                        <div class="benefit-text">성원포인트<br>추가 증정</div>
+                    </div>
+                </div>
+                
+                <section class="info-section">
+                    <div class="title">승급 기준 안내</div>
+                    <p class="disclaimer">승급일: 매 분기 시작일 (휴일일 경우 다음 영업일)</p>
+                    <p class="disclaimer">등급 혜택 제공 기간: (확인 필요)</p>
+                </section>
+                
+                <section class="info-section">
+                    <div class="title">유의사항</div>
+                    <p class="disclaimer">회원 등급 기준은 당사의 사정에 의해 변경될 수 있습니다.</p>
+                </section>
+
             </div>
         </main>
         
     </div>
     
+    <div class="modal-overlay" id="amount-info-modal-overlay">
+        <div class="modal-content" id="amount-info-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">인정금액 안내</h2>
+                <button class="btn-modal-close" onclick="closeModal('amount-info-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="description">
+                    인정금액은 신용카드, 성원머니, 실시간 계좌이체 등으로 결제한 실 결제금액을 의미합니다. 성원포인트 사용분은 제외되며, 인정되는 품목의 결제금액만 등급 승급 기준에 반영됩니다.
+                </p>
+                <div class="amount-info-grid">
+                    <div class="amount-info-col">
+                        <h3>대상 품목</h3>
+                        <p>책자 및 카탈로그</p>
+                    </div>
+                    <div class="amount-info-col">
+                        <h3>제외 품목</h3>
+                        <p>전단지 (그 외 확인필요)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="closeModal('amount-info-modal-overlay')">확인</button>
+            </div>
+        </div>
+    </div>
+    
     <script>
-        // --- [NEW] Page Tab Logic ---
-        function selectPageTab(tab, page) {
-            const nav = tab.closest('#page-tab-nav');
-            if (!nav) return;
-            nav.querySelectorAll('.page-tab-item').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            
-            const generalPage = document.getElementById('page-content-general');
-            const vipPage = document.getElementById('page-content-vip');
+        // --- [NEW] Modal Helpers (v12 Standard) ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
 
-            if (page === 'general') {
-                if (generalPage) generalPage.style.display = 'block';
-                if (vipPage) vipPage.style.display = 'none';
-            } else { // 'vip'
-                if (generalPage) generalPage.style.display = 'none';
-                if (vipPage) vipPage.style.display = 'block';
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                // Don't reset body overflow if another modal is still open
+                const anyModalActive = document.querySelector('.modal-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
             }
         }
         
+        // --- [NEW] Amount Info Modal Function ---
+        function showAmountInfoModal() {
+            openModal('amount-info-modal-overlay');
+        }
+
         // --- Initialize ---
         document.addEventListener('DOMContentLoaded', () => {
-            // 초기 탭 설정
-            selectPageTab(document.querySelector('.page-tab-item.active'), 'general');
+            // [NEW] Modal overlay click-to-close listeners
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+            
+            console.log("All 6 static grade status cards loaded.");
         });
     </script>
 </body>
