@@ -17,6 +17,7 @@
         html, body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: #f5f5f5;
+            padding: 12px;
             font-size: 16px;
             line-height: 1.6;
             color: #333;
@@ -24,130 +25,406 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
-            padding: 40px;
+            padding: 20px;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            margin-top: 20px;
         }
 
-        @media all and (max-width: 600px){
+        @media (min-width: 768px) {
+            html, body {
+                padding: 20px;
+            }
             .container {
-                margin-top: 0;
+                padding: 40px;
             }
         }
 
         .header {
-            margin-bottom: 40px;
-            text-align: center;
+            margin-bottom: 15px;
         }
 
         .header h1 {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 700;
             color: #212121;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .header p {
             font-size: 14px;
             color: #666;
+            margin-bottom: 10px;
         }
 
-        .section {
-            margin-bottom: 40px;
+        @media (min-width: 768px) {
+            .header {
+                margin-bottom: 30px;
+            }
+            .header h1 {
+                font-size: 28px;
+                margin-bottom: 12px;
+            }
+            .header p {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
         }
 
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #333;
+        /* 탭 네비게이션 */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #4e6ee4;
+            border-bottom: 2px solid #e8e8e9;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 15px;
+            font-weight: 500;
+            color: #8F8F8F;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .tab-btn.active {
+            color: #4e6ee4;
+            border-bottom-color: #4e6ee4;
+            font-weight: 600;
+        }
+
+        .tab-btn:active {
+            transform: scale(0.98);
+        }
+
+        @media (min-width: 768px) {
+            .tab-nav {
+                margin-bottom: 30px;
+            }
+            .tab-btn {
+                padding: 14px 24px;
+                font-size: 16px;
+            }
+            .tab-btn:hover {
+                color: #4e6ee4;
+            }
+        }
+
+        /* 검색 */
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 44px;
+            padding: 0 44px 0 16px;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #f9f9f9;
+            transition: all 0.2s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #4e6ee4;
+            background: white;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8F8F8F;
+            pointer-events: none;
+        }
+
+        @media (min-width: 768px) {
+            .search-box {
+                margin-bottom: 30px;
+            }
+            .search-box input {
+                height: 40px;
+                font-size: 14px;
+            }
+        }
+
+        /* 탭 컨텐츠 */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 그룹 섹션 */
+        .group-section {
+            margin-bottom: 24px;
+        }
+
+        .group-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            user-select: none;
+            padding: 8px 0;
+        }
+
+        .group-toggle {
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4e6ee4;
+            transition: transform 0.3s;
+        }
+
+        .group-section.collapsed .group-toggle {
+            transform: rotate(-90deg);
+        }
+
+        .group-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .group-count {
+            font-size: 13px;
+            color: #8F8F8F;
+            font-weight: 400;
         }
 
         .screen-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            transition: all 0.3s;
         }
 
-        .screen-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 20px;
+        .group-section.collapsed .screen-list {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .group-section {
+                margin-bottom: 40px;
+            }
+            .group-header {
+                gap: 12px;
+                margin-bottom: 16px;
+            }
+            .group-toggle {
+                width: 24px;
+                height: 24px;
+            }
+            .group-title {
+                font-size: 18px;
+            }
+            .group-count {
+                font-size: 14px;
+            }
+            .screen-list {
+                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+                gap: 12px;
+            }
+        }
+
+        /* 화면 카드 */
+        .screen-card {
+            padding: 14px;
             background: #f9f9f9;
             border-radius: 8px;
             border: 1px solid #e8e8e9;
             transition: all 0.2s;
             cursor: pointer;
-            text-decoration: none;
-            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .screen-item:hover {
-            background: #f0f4ff;
+        .screen-card:active {
+            background: white;
             border-color: #4e6ee4;
-            transform: translateX(4px);
+            transform: scale(0.98);
         }
 
-        .screen-item:active {
-            transform: translateX(2px);
-        }
-
-        .screen-info {
+        .screen-card-header {
             display: flex;
-            align-items: center;
-            gap: 16px;
-            flex: 1;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 8px;
         }
 
-        .screen-number {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            background: #4e6ee4;
-            color: white;
+        .screen-title {
             font-size: 14px;
             font-weight: 600;
-            border-radius: 6px;
+            color: #212121;
+            flex: 1;
+            line-height: 1.4;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            white-space: nowrap;
             flex-shrink: 0;
         }
 
-        .screen-name {
-            font-size: 16px;
-            font-weight: 500;
-            color: #212121;
+        .status-완료 {
+            background: #e8f5e9;
+            color: #2e7d32;
         }
 
-        .screen-arrow {
+        .status-진행중 {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .status-시작전 {
+            background: #f5f5f5;
+            color: #757575;
+        }
+
+        .screen-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        @media (min-width: 768px) {
+            .screen-card {
+                padding: 16px;
+                gap: 12px;
+            }
+            .screen-card:hover {
+                background: white;
+                border-color: #4e6ee4;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(78, 110, 228, 0.15);
+            }
+            .screen-card:active {
+                transform: translateY(-1px);
+            }
+            .screen-title {
+                font-size: 15px;
+            }
+            .status-badge {
+                padding: 4px 10px;
+                font-size: 12px;
+            }
+            .screen-card-body {
+                gap: 8px;
+            }
+        }
+
+        .html-files {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .html-file {
             display: flex;
             align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            color: #8F8F8F;
+            gap: 8px;
+            font-size: 13px;
+            color: #4e6ee4;
+            text-decoration: none;
+            padding: 10px 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            min-height: 44px;
+        }
+
+        .html-file:active {
+            background: #f0f4ff;
+            transform: scale(0.98);
+        }
+
+        .html-file svg {
+            width: 18px;
+            height: 18px;
             flex-shrink: 0;
         }
 
-        .screen-item:hover .screen-arrow {
-            color: #4e6ee4;
+        .html-file-name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 1.3;
         }
 
+        @media (min-width: 768px) {
+            .html-files {
+                gap: 4px;
+            }
+            .html-file {
+                padding: 4px 8px;
+                min-height: auto;
+                font-size: 13px;
+                gap: 6px;
+            }
+            .html-file:hover {
+                background: #f0f4ff;
+            }
+            .html-file:active {
+                transform: none;
+            }
+            .html-file svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .html-file {
+                padding: 0;
+                min-height: 40px;
+            }
+            
+            .group-section.collapsed {
+                margin-bottom: 0;
+            }
+
+            .group-header {
+                margin-bottom: 5px;
+            }
+        }
+
+        /* 통계 */
         .stats {
-            display: flex;
-            gap: 20px;
-            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 16px;
             background: #f0f4ff;
             border-radius: 8px;
-            margin-top: 30px;
-            justify-content: center;
+            margin-top: 24px;
         }
 
         .stat-item {
@@ -155,38 +432,62 @@
         }
 
         .stat-value {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             color: #4e6ee4;
             margin-bottom: 4px;
         }
 
         .stat-label {
-            font-size: 14px;
+            font-size: 12px;
             color: #666;
+            line-height: 1.3;
         }
 
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px 20px;
+        @media (min-width: 768px) {
+            .stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+                padding: 20px;
+                margin-top: 30px;
             }
-
-            .header h1 {
-                font-size: 24px;
+            .stat-value {
+                font-size: 28px;
             }
-
-            .screen-item {
-                padding: 14px 16px;
-                padding-right: 5px;
-            }
-
-            .screen-name {
+            .stat-label {
                 font-size: 14px;
             }
+        }
 
-            .stats {
-                flex-direction: column;
-                gap: 12px;
+        /* 빈 상태 */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #8F8F8F;
+        }
+
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        @media (min-width: 768px) {
+            .empty-state {
+                padding: 60px 20px;
+            }
+            .empty-state svg {
+                width: 64px;
+                height: 64px;
+                margin-bottom: 16px;
+            }
+            .empty-state p {
+                font-size: 16px;
             }
         }
     </style>
@@ -198,286 +499,410 @@
             <p>성원애드피아 모바일 화면 목록</p>
         </div>
 
-        <div class="section">
-            <div class="section-title">화면 목록</div>
-            <div class="screen-list">
-                <a href="sungwon_money_01(default).html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">01</div>
-                        <div class="screen-name">성원머니 (가상계좌/환불계좌 등록 전)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
+        <!-- 탭 네비게이션 -->
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="all">전체</button>
+            <button class="tab-btn" data-tab="mypage">마이페이지</button>
+            <button class="tab-btn" data-tab="cs">고객센터</button>
+        </div>
 
-                <a href="sungwon_money_01.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">02</div>
-                        <div class="screen-name">성원머니 (가상계좌/환불계좌 등록 후)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
+        <!-- 검색 -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="화면 이름 또는 HTML 파일명으로 검색...">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+        </div>
 
-                <a href="sungwon_point.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">03</div>
-                        <div class="screen-name">성원 포인트</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
+        <!-- 전체 탭 -->
+        <div id="tab-all" class="tab-content active">
+            <div id="allContainer"></div>
+        </div>
 
-                <a href="tax_request.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">04</div>
-                        <div class="screen-name">세금계산서 발급 (신청 내역)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
+        <!-- 마이페이지 탭 -->
+        <div id="tab-mypage" class="tab-content">
+            <div id="mypageContainer"></div>
+        </div>
 
-                <a href="tax_request_write(다중).html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">05</div>
-                        <div class="screen-name">세금계산서 신청서 작성 (다중)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
+        <!-- 고객센터 탭 -->
+        <div id="tab-cs" class="tab-content">
+            <div id="csContainer"></div>
+        </div>
 
-                <a href="tax_request_write(단일).html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">06</div>
-                        <div class="screen-name">세금계산서 신청서 작성 (단일)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <p>검색 결과가 없습니다.</p>
+        </div>
 
-                <a href="tax_issue.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">07</div>
-                        <div class="screen-name">세금계산서 발급 (발급 내역)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="cr_request.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">08</div>
-                        <div class="screen-name">현금영수증 발급 (신청 내역)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="cr_issue.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">09</div>
-                        <div class="screen-name">현금영수증 발급 (발급 내역)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="review_before.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">10</div>
-                        <div class="screen-name">리뷰 관리 (작성 가능한 리뷰)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="review_after.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">11</div>
-                        <div class="screen-name">리뷰 관리 (작성한 리뷰)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="qna_list.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">12</div>
-                        <div class="screen-name">문의 내역</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="qna_detail(AS).html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">13</div>
-                        <div class="screen-name">문의 상세 (AS)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="qna_detail(답변없을때).html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">14</div>
-                        <div class="screen-name">문의 상세 (답변 없을 때)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="qna_detail(Q&A).html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">15</div>
-                        <div class="screen-name">문의 상세 (Q&A)</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="qna_write.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">16</div>
-                        <div class="screen-name">문의 작성</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="crm_list.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">17</div>
-                        <div class="screen-name">고객 관리</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="delivery_list.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">18</div>
-                        <div class="screen-name">배송지 관리</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="membership.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">19</div>
-                        <div class="screen-name">등급 안내</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-             
-                <a href="notice_list.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">20</div>
-                        <div class="screen-name">공지사항 목록</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
-             
-                <a href="asset_list.html" class="screen-item">
-                    <div class="screen-info">
-                        <div class="screen-number">21</div>
-                        <div class="screen-name">자료실 목록</div>
-                    </div>
-                    <div class="screen-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </div>
-                </a>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="totalScreens">22</div>
+                <div class="stat-label">총 화면 수</div>
             </div>
-
-            <!-- <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-value">6</div>
-                    <div class="stat-label">총 화면 수</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">100%</div>
-                    <div class="stat-label">모바일 최적화</div>
-                </div>
-            </div> -->
+            <div class="stat-item">
+                <div class="stat-value" id="completedScreens">22</div>
+                <div class="stat-label">완료된 화면</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="htmlFiles">29</div>
+                <div class="stat-label">HTML 파일 수</div>
+            </div>
         </div>
     </div>
 
     <script>
-        console.log('화면 목차 페이지 로드 완료');
-        console.log('총 6개 화면 링크 생성');
-        
-        // 화면 아이템 클릭 로그
-        document.querySelectorAll('.screen-item').forEach((item, index) => {
-            item.addEventListener('click', (e) => {
-                const screenName = item.querySelector('.screen-name').textContent;
-                console.log(`화면 ${index + 1} 클릭: ${screenName}`);
+        const screenData = [
+            {
+                "이름": "성원머니 (기본상태)",
+                "그룹": "결제 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "22개 중 3개 남음",
+                "html": "sungwon_money_01(default).html"
+            },
+            {
+                "이름": "성원머니",
+                "그룹": "결제 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "22개 중 3개 남음",
+                "html": "sungwon_money_01.html"
+            },
+            {
+                "이름": "세금계산서 신청서 작성",
+                "그룹": "결제 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "8개 중 3개 남음",
+                "html": "tax_request_write(단일).html / tax_request_write(다중).html"
+            },
+            {
+                "이름": "현금영수증 발급 (발급 내역)",
+                "그룹": "결제 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "100%",
+                "html": "cr_issue.html"
+            },
+            {
+                "이름": "세금계산서 발급 (발급 내역)",
+                "그룹": "결제 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "2개 중 1개 남음",
+                "html": "tax_issue.html"
+            },
+            {
+                "이름": "현금영수증 발급 (신청)",
+                "그룹": "결제 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "5개 중 3개 남음",
+                "html": "cr_request.html"
+            },
+            {
+                "이름": "세금계산서 발급 (신청)",
+                "그룹": "결제 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "7개 중 1개 남음",
+                "html": "tax_request.html"
+            },
+            {
+                "이름": "성원포인트",
+                "그룹": "결제 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "100%",
+                "html": "sungwon_point.html"
+            },
+            {
+                "이름": "문의 상세",
+                "그룹": "활동 내역",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "4개 중 1개 남음",
+                "html": "qna_detail(AS).html / qna_detail(Q&A).html / qna_detail(답변없을때).html"
+            },
+            {
+                "이름": "문의 작성",
+                "그룹": "활동 내역",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "11개 중 2개 남음",
+                "html": "qna_write.html"
+            },
+            {
+                "이름": "리뷰 관리 (작성한 리뷰)",
+                "그룹": "활동 내역",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "9개 중 1개 남음",
+                "html": "review_after.html"
+            },
+            {
+                "이름": "문의 내역",
+                "그룹": "활동 내역",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "100% 완료",
+                "html": "qna_list.html"
+            },
+            {
+                "이름": "리뷰 관리 (작성 가능한 리뷰)",
+                "그룹": "활동 내역",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "100% + 기타 하나",
+                "html": "review_before.html"
+            },
+            {
+                "이름": "등급 안내",
+                "그룹": "내정보 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "3개 중 2개 남음",
+                "html": "membership.html"
+            },
+            {
+                "이름": "배송지 관리",
+                "그룹": "내정보 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "6개 중 1개 남음",
+                "html": "delivery_list.html"
+            },
+            {
+                "이름": "고객 관리",
+                "그룹": "내정보 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "6개 중 1개 남음",
+                "html": "crm_list.html"
+            },
+            {
+                "이름": "자료실 (상세)",
+                "그룹": "고객센터",
+                "대분류": "고객센터",
+                "상태": "완료",
+                "진행률": "100%",
+                "html": "asset_detail.html"
+            },
+            {
+                "이름": "성원소식 (상세)",
+                "그룹": "고객센터",
+                "대분류": "고객센터",
+                "상태": "완료",
+                "진행률": "100%",
+                "html": "notice_detail.html"
+            },
+            {
+                "이름": "오시는 길",
+                "그룹": "고객센터",
+                "대분류": "고객센터",
+                "상태": "완료",
+                "진행률": "100%",
+                "html": "map.html"
+            },
+            {
+                "이름": "자료실 (목록)",
+                "그룹": "고객센터",
+                "대분류": "고객센터",
+                "상태": "완료",
+                "진행률": "4개 중 1개 남음",
+                "html": "asset_list.html"
+            },
+            {
+                "이름": "자주 묻는 질문",
+                "그룹": "고객센터",
+                "대분류": "고객센터",
+                "상태": "완료",
+                "진행률": "100%",
+                "html": "faq.html"
+            },
+            {
+                "이름": "성원소식 (목록)",
+                "그룹": "고객센터",
+                "대분류": "고객센터",
+                "상태": "완료",
+                "진행률": "4개 중 1개 남음",
+                "html": "notice_list.html"
+            }
+        ];
+
+        // 화면 카드 생성
+        function createScreenCard(screen) {
+            const htmlFiles = screen.html.split(' / ');
+            const statusClass = screen.상태.replace(' ', '');
+
+            return `
+                <div class="screen-card" data-group="${screen.그룹}" data-name="${screen.이름}" data-html="${screen.html}">
+                    <div class="screen-card-header">
+                        <div class="screen-title">${screen.이름}</div>
+                        <div class="status-badge status-${statusClass}">${screen.상태}</div>
+                    </div>
+                    <div class="screen-card-body">
+                        <div class="html-files">
+                            ${htmlFiles.map(file => `
+                                <a href="${file.trim()}" class="html-file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                                        <polyline points="10 9 9 9 8 9"></polyline>
+                                    </svg>
+                                    <span class="html-file-name">${file.trim()}</span>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 그룹별 데이터 구성
+        function groupScreens(data) {
+            const grouped = {};
+            data.forEach(screen => {
+                if (!grouped[screen.그룹]) {
+                    grouped[screen.그룹] = [];
+                }
+                grouped[screen.그룹].push(screen);
+            });
+            return grouped;
+        }
+
+        // 화면 렌더링
+        function renderScreens(containerId, data) {
+            const container = document.getElementById(containerId);
+            const grouped = groupScreens(data);
+            
+            let html = '';
+            Object.entries(grouped).forEach(([group, screens]) => {
+                html += `
+                    <div class="group-section" data-group="${group}">
+                        <div class="group-header" onclick="toggleGroup(this)">
+                            <svg class="group-toggle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                            <span class="group-title">${group}</span>
+                            <span class="group-count">(${screens.length}개)</span>
+                        </div>
+                        <div class="screen-list">
+                            ${screens.map(screen => createScreenCard(screen)).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // 그룹 토글
+        function toggleGroup(header) {
+            const section = header.closest('.group-section');
+            section.classList.toggle('collapsed');
+        }
+
+        // 탭 전환
+        function switchTab(tabName) {
+            // 탭 버튼 활성화
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+            // 탭 컨텐츠 활성화
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+
+            // 데이터 필터링 및 렌더링
+            let filteredData = screenData;
+            let containerId = '';
+
+            if (tabName === 'all') {
+                containerId = 'allContainer';
+            } else if (tabName === 'mypage') {
+                filteredData = screenData.filter(s => s.대분류 === '마이페이지');
+                containerId = 'mypageContainer';
+            } else if (tabName === 'cs') {
+                filteredData = screenData.filter(s => s.대분류 === '고객센터');
+                containerId = 'csContainer';
+            }
+
+            renderScreens(containerId, filteredData);
+            updateStats(filteredData);
+            
+            // 검색 초기화
+            document.getElementById('searchInput').value = '';
+        }
+
+        // 탭 버튼 이벤트
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                switchTab(btn.dataset.tab);
             });
         });
+
+        // 검색 기능
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+            
+            let baseData = screenData;
+            if (activeTab === 'mypage') {
+                baseData = screenData.filter(s => s.대분류 === '마이페이지');
+            } else if (activeTab === 'cs') {
+                baseData = screenData.filter(s => s.대분류 === '고객센터');
+            }
+            
+            const filtered = baseData.filter(screen => 
+                screen.이름.toLowerCase().includes(query) || 
+                screen.html.toLowerCase().includes(query) ||
+                screen.그룹.toLowerCase().includes(query)
+            );
+
+            const containerId = activeTab === 'all' ? 'allContainer' : 
+                                activeTab === 'mypage' ? 'mypageContainer' : 'csContainer';
+            
+            renderScreens(containerId, filtered);
+            updateStats(filtered);
+            
+            // 빈 상태 처리
+            document.getElementById('emptyState').style.display = filtered.length === 0 ? 'block' : 'none';
+        });
+
+        // 통계 업데이트
+        function updateStats(data) {
+            document.getElementById('totalScreens').textContent = data.length;
+            document.getElementById('completedScreens').textContent = 
+                data.filter(s => s.상태 === '완료').length;
+            const htmlCount = data.reduce((acc, screen) => 
+                acc + screen.html.split(' / ').length, 0);
+            document.getElementById('htmlFiles').textContent = htmlCount;
+        }
+
+        // 초기 렌더링
+        switchTab('all');
+
+        // 링크 클릭 로깅
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.html-file')) {
+                const link = e.target.closest('.html-file');
+                console.log('HTML 파일 클릭:', link.href);
+            }
+        });
+
+        console.log('화면 목차 페이지 로드 완료');
+        console.log(`총 ${screenData.length}개 화면, ${screenData.reduce((acc, s) => acc + s.html.split(' / ').length, 0)}개 HTML 파일`);
     </script>
 </body>
 </html>

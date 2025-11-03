@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오시는 길</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        
+        /* Main Content */
+        .sw-container {
+            padding: 24px 16px;
+        }
+
+        /* Page Tabs (v12 Tab-Nav Style) */
+        .page-tabs {
+            width: 100%;
+            height: 44px;
+            background: white;
+            border-bottom: 1px solid #e8e8e9;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 20px 1px 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .page-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .page-tab-item {
+            height: 42px;
+            padding: 10px 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 16px;
+            position: relative;
+            color: #bcbcbc;
+            border-bottom: 2px solid transparent;
+            flex-shrink: 0;
+        }
+
+        .page-tab-item.active {
+            color: black;
+            border-bottom: 2px solid black;
+        }
+
+        .page-tab-item:hover {
+            opacity: 0.8;
+        }
+
+        .no-transactions {
+            padding: 40px 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        /* [MODIFIED] Location Page Styles */
+        .map-placeholder {
+            width: 100%;
+            height: 250px;
+            background-color: #eeeeee;
+            border-bottom: 1px solid #dddddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        .location-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 4px;
+        }
+        
+        .location-address {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .location-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        
+        /* [NEW] Location Tag Badge Style (Req 1) */
+        .location-tag-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 10px; /* More compact padding */
+            border-radius: 4px; /* More rectangular, less bubbly */
+            font-size: 12px;    /* Smaller font */
+            font-weight: 500;   /* Slightly stronger */
+            background: #f4f5f7; /* Light gray bg */
+            color: #555;       /* Darker gray text */
+            border: 1px solid #e8e8e9;
+        }
+
+        .location-tag-badge.red {
+            background-color: #ffeeee;
+            border-color: #ffbbbb;
+            color: #ff7070;
+        }
+
+        .location-divider {
+            width: 100%;
+            height: 1px;
+            background: #e8e8e9;
+            margin: 24px 0;
+        }
+        
+        .location-details {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .detail-item .label {
+            width: 80px; /* [MODIFIED] Increased width for alignment */
+            flex-shrink: 0;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .detail-item .value {
+            flex: 1;
+            color: #333;
+            word-break: keep-all;
+            line-height: 1.6; /* [MODIFIED] Give bus numbers more space */
+        }
+        
+        .detail-item .value .bus-numbers {
+            display: block;
+            margin-top: 4px;
+            color: #555;
+            font-weight: 400;
+        }
+        
+        /* [NEW] Bus Label Styles (Req 2 & 3) */
+        .bus-label {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 1px 5px;
+            border-radius: 3px;
+            margin-right: 6px;
+            vertical-align: middle;
+            line-height: 1.4;
+        }
+        .bus-label.jiseon { /* 연두색 (Green) */
+            background-color: #eaf6ec; 
+            color: #28a745;       
+            border: 1px solid #b8e0c2;
+        }
+        .bus-label.ganseon { /* 파란색 (Blue) */
+            background-color: #eef2ff;
+            color: #4e6ee4;
+            border: 1px solid #c7d3ff;
+        }
+         .bus-label.gonghang { /* 빨간색 (Red) */
+            background-color: #fef2f2;
+            color: #dc3545;
+            border: 1px solid #f8b4b4;
+        }
+        .bus-numbers-text {
+            vertical-align: middle;
+            font-size: 14px; /* Ensure bus numbers are readable */
+            color: #333;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">오시는 길</h1>
+            <div class="header-right">
+                <button type="button" class="header-btn" onclick="alert('공유하기 (기능 구현 필요)')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M8.7 10.7l6.6 -3.4" /><path d="M8.7 13.3l6.6 3.4" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <nav class="page-tabs" id="page-tab-nav">
+                <div class="page-tab-item active" data-page="seongsu" onclick="selectPageTab(this)">성수동</div>
+                <div class="page-tab-item" data-page="chungmuro" onclick="selectPageTab(this)">충무로</div>
+                <div class="page-tab-item" data-page="inhyeon" onclick="selectPageTab(this)">인현동</div>
+            </nav>
+
+            <div id="page-content-seongsu" style="display: block;">
+                <div class="map-placeholder">
+                    <span>지도 영역</span>
+                </div>
+                <div class="sw-container">
+                    <h2 class="location-title">성원애드피아 성수</h2>
+                    <p class="location-address">서울시 성동구 성수일로80</p>
+                    
+                    <div class="location-tags">
+                        <span class="location-tag-badge">공장</span>
+                        <span class="location-tag-badge">접수</span>
+                        <span class="location-tag-badge">출고</span>
+                        <span class="location-tag-badge red">24시간 무인출고 운영</span>
+                    </div>
+
+                    <div class="location-divider"></div>
+
+                    <div class="location-details">
+                        <div class="detail-item">
+                            <span class="label">전화</span>
+                            <span class="value">1599-5555</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">지하철</span>
+                            <span class="value">뚝섬역(2호선) 4번 출구에서 직진하신 후 사거리에서 좌측으로 100m</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">버스</span>
+                            <span class="value">뚝섬역 4번 출구 하차
+                                <span class="bus-numbers">
+                                    <span class="bus-label jiseon">지선</span>
+                                    <span class="bus-numbers-text">2016, 2224, 2413</span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-content-chungmuro" style="display: none;">
+                <div class="map-placeholder">
+                    <span>지도 영역</span>
+                </div>
+                <div class="sw-container">
+                    <h2 class="location-title">성원애드피아 충무로</h2>
+                    <p class="location-address">서울시 중구 퇴계로 41길 6 (충무로4가 112-1) 성원빌딩</p>
+                    <div class="location-tags">
+                        <span class="location-tag-badge">접수</span>
+                        <span class="location-tag-badge">출고</span>
+                    </div>
+                    <div class="location-divider"></div>
+                    <div class="location-details">
+                        <div class="detail-item">
+                            <span class="label">전화</span>
+                            <span class="value">1599-5555</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">오시는 길</span>
+                            <span class="value">충무로역(8번출구)에서 퇴계로 4가 교차로 방향으로 90m 도보 2분 거리</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">지하철</span>
+                            <span class="value">3,4호선 충무로역 8번 출구</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">버스</span>
+                            <span class="value">충무로역 8번출구 대한극장앞 하차
+                                <span class="bus-numbers">
+                                    <span class="bus-label ganseon">간선</span>
+                                    <span class="bus-numbers-text">104, 105, 140, 421, 463, 507, 604, N16</span>
+                                </span>
+                                <span class="bus-numbers">
+                                    <span class="bus-label jiseon">지선</span>
+                                    <span class="bus-numbers-text">7011</span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="page-content-inhyeon" style="display: none;">
+                <div class="map-placeholder">
+                    <span>지도 영역</span>
+                </div>
+                <div class="sw-container">
+                    <h2 class="location-title">성원애드피아 인현동</h2>
+                    <p class="location-address">서울 중구 마른내로 79 세운푸르지오헤리시티 1층</p>
+                    <div class="location-tags">
+                        <span class="location-tag-badge red">24시간 무인출고 운영</span>
+                    </div>
+                    <div class="location-divider"></div>
+                    <div class="location-details">
+                        <div class="detail-item">
+                            <span class="label">전화</span>
+                            <span class="value">1599-5555</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">오시는 길</span>
+                            <span class="value">덕수중학교 정문 바로 옆 / 을지로 4가(9번출구), 충무로역(8번출구)에서 도보 5분거리</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">지하철</span>
+                            <span class="value">
+                                2,5호선 을지로4가역 9번출구<br>
+                                2,3호선 을지로3가역 8번출구<br>
+                                3,4호선 충무로역 8번출구
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">버스</span>
+                            <span class="value">중구청앞 덕수중학교 하차
+                                <span class="bus-numbers">
+                                    <span class="bus-label ganseon">간선</span>
+                                    <span class="bus-numbers-text">104, 140, 604</span>
+                                </span>
+                                <span class="bus-numbers">
+                                    <span class="bus-label jiseon">지선</span>
+                                    <span class="bus-numbers-text">7011</span>
+                                </span>
+                                <span class="bus-numbers">
+                                    <span class="bus-label gonghang">공항</span>
+                                    <span class="bus-numbers-text">6015</span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+        // --- Page Tab Logic ---
+        function selectPageTab(tab) {
+            const nav = tab.closest('#page-tab-nav');
+            if (!nav) return;
+            nav.querySelectorAll('.page-tab-item').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const page = tab.getAttribute('data-page');
+            
+            // 모든 페이지 컨텐츠 숨기기
+            document.getElementById('page-content-seongsu').style.display = 'none';
+            document.getElementById('page-content-chungmuro').style.display = 'none';
+            document.getElementById('page-content-inhyeon').style.display = 'none';
+
+            // 선택된 페이지만 표시
+            const activePage = document.getElementById(`page-content-${page}`);
+            if (activePage) {
+                activePage.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 초기 탭 설정
+            selectPageTab(document.querySelector('.page-tab-item.active'));
+        });
+    </script>
+</body>
+
+</html>
