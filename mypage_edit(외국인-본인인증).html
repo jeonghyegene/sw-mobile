@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원애드피아 - 회원정보 수정</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; 
+            overflow-x: visible;
+        }
+        ul, li { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        input, select, textarea { font-family: inherit; }
+        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        /* Layout */
+        .mobile-wrap { 
+            width: 100%; 
+            max-width: 480px; 
+            margin: 0 auto; 
+            background-color: #ffffff; 
+            padding-bottom: 100px; /* Sticky Footer 여백 */
+            overflow-x: visible;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
+        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; transition: transform 0.2s; color: #333; }
+        .header-btn:active { transform: scale(0.9); }
+        .header-left { flex: 1 0 0; display: flex; justify-content: flex-start; }
+        .header-title { 
+            flex: 3 0 0; 
+            font-size: 18px; 
+            font-weight: 600; 
+            text-align: center; 
+            color: #212121; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .header-right { flex: 1 0 0; display: flex; justify-content: flex-end; gap: 8px; }
+        .btn-icon { cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; color: #333; }
+        .btn-icon:active { transform: scale(0.9); }
+        .btn-icon svg { width: 100%; height: 100%; }
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button { background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .primary-button:hover { background: #3d5dd3; }
+        .primary-button:active { transform: scale(0.98); }
+        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .white-button:hover { background: #f9f9f9; }
+        .white-button:active { transform: scale(0.98); }
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+        
+        .delete-button {
+            background: white;
+            color: #dc3545;
+            border-color: #e8e8e9;
+        }
+        .delete-button:hover {
+            background: #fefafa;
+            border-color: #dc3545;
+        }
+        
+        /* Main Content */
+        .sw-container { padding: 16px; }
+        
+        .section-divider {
+            height: 8px;
+            background: #f4f5f7;
+            margin: 0; 
+            border-top: 1px solid #e8e8e9;
+            border-bottom: 1px solid #e8e8e9;
+        }
+
+        .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+        .input input::placeholder { color: #c6c6c8; }
+        
+        .input-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .input-group .white-button {
+            flex-shrink: 0;
+            height: 40px; 
+            font-size: 13px;
+            padding: 0 12px;
+            width: auto;
+        }
+        .input-group .input.readonly-value {
+            flex: 1;
+            min-width: 0;
+        }
+        .input-group .input.readonly-value input {
+             background: transparent; 
+        }
+        
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            margin-top: 24px; 
+        }
+        .sw-container .section-title:first-child {
+            margin-top: 0;
+        }
+
+        /* Checkbox */
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
+        .checkbox-on {
+            width: 100%; height: 100%; background: #4e6ee4;
+            border-radius: 2px; display: flex;
+            align-items: center; justify-content: center;
+        }
+        .checkbox-on img { width: 14px; height: 14px; }
+        .checkbox:active { transform: scale(0.9); }
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            padding: 4px 0; 
+        }
+        .checkbox-text span {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .disclaimer-link {
+            font-size: 13px;
+            color: #888;
+            text-decoration: underline;
+            margin-left: 28px; 
+            margin-top: 4px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        .agreement-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .agreement-row .disclaimer-link {
+            margin: 0;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        
+        /* Sticky Form Footer */
+        .sticky-form-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px; 
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            padding: 20px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+        }
+        .sticky-form-footer .btn {
+            flex: 1;
+        }
+        .sticky-form-footer .white-button {
+             flex-grow: 1;
+        }
+         .sticky-form-footer .dark-button {
+             flex-grow: 2; 
+        }
+        
+        /* SNS SWITCH STYLES */
+        .sns-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .sns-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8f8f9;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 12px 16px;
+            min-height: 50px; 
+            /* [NEW] Add transition for text color */
+            transition: color 0.4s;
+        }
+        .sns-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sns-item-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #ddd;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            flex-shrink: 0;
+            /* [NEW] Add transition for filter */
+            transition: filter 0.4s, opacity 0.4s;
+        }
+
+        .sns-item-icon.active {
+            display: flex;
+        }
+
+        .sns-item-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            /* [NEW] Add transition for text color */
+            transition: color 0.4s;
+        }
+        .sns-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px; 
+            height: 24px;
+            flex-shrink: 0;
+        }
+        .sns-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .sns-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .sns-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .sns-slider {
+            background-color: #4e6ee4; 
+        }
+        input:checked + .sns-slider:before {
+            transform: translateX(20px);
+        }
+        
+        /* [NEW] Disabled state styles using grayscale filter */
+        .sns-item:not(.enabled) .sns-item-icon {
+            display: flex;
+        }
+        .sns-item:not(.enabled) .sns-item-icon.active {
+            display: none;
+        }
+
+        .sns-item:not(.enabled) .sns-item-text {
+            color: #aaa; /* Grayscale text */
+        }
+        
+        /* [NEW] Form Row for 2-column inputs */
+        .form-row-flex {
+            display: flex;
+            gap: 8px;
+        }
+        .form-row-flex .form-group {
+            flex: 1;
+            min-width: 0;
+            margin-bottom: 0; /* Override default form-group margin */
+        }
+
+        /* [NEW] v12 standard select (from qna_write.html) */
+        .input.select-wrapper {
+            padding: 0; /* Remove padding to allow select to fill */
+            position: relative;
+        }
+        .input select {
+            width: 100%;
+            height: 38px; /* 40px - 2px border */
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 14px;
+            color: black;
+            padding: 0 12px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        /* [MODIFIED] Handle placeholder color for select */
+        .input select:invalid {
+            color: #c6c6c8;
+        }
+        .input select option {
+            color: black;
+        }
+        
+        .input.select-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+        }
+
+        /* MODAL STYLES */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            animation: fadeInModal 0.2s ease-out;
+        }
+        .modal-overlay.active { display: flex; }
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px; 
+            max-height: 90vh; 
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+        @keyframes scaleUpModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative; 
+            height: 57px; 
+        }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            text-align: left; 
+        }
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333; 
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .btn-modal-close:hover { color: #000; }
+        .btn-modal-close svg { width: 100%; height: 100%; }
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+        
+        /* Alert Modal Specifics */
+        .alert-modal {
+            padding: 20px;
+            text-align: center;
+        }
+        .alert-modal .modal-title {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .alert-modal .modal-message {
+            font-size: 14px;
+            color: black;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            text-align: center;
+        }
+        .alert-modal .modal-buttons { display: flex; gap: 10px; justify-content: center; }
+        .alert-modal .modal-button {
+            flex: 1;
+            height: 44px;
+            padding: 7px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .alert-modal .modal-button-primary { background: #424242; color: white; border: none; }
+        .alert-modal .modal-button-secondary { background: white; color: #424242; border: 1px solid #e8e8e9; }
+        .alert-modal .modal-button-danger { background: #dc3545; color: white; border: none; }
+        
+        /* [NEW] Modal Detail List for Save Confirm */
+        .modal-message .modal-detail-list {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .modal-detail-list .modal-list-group {
+            margin-bottom: 16px;
+        }
+        .modal-detail-list .modal-list-group:last-child {
+            margin-bottom: 0;
+        }
+        .modal-detail-list .modal-list-group p {
+            /* Font-size/color/line-height are inherited from .modal-message */
+            margin-bottom: 2px;
+        }
+        .modal-detail-list .modal-list-group .date-info {
+            font-size: 13px;
+            color: #888;
+            margin-top: 6px;
+            display: block;
+        }
+        
+        /* [NEW] Account Setup Modal disclaimer */
+        .modal-body .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="mobile-wrap">
+        
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="checkBeforeExit()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                </button>
+            </div>
+            <h1 class="header-title">회원정보 수정</h1>
+            <div class="header-right">
+            </div>
+        </header>
+
+        <main>
+            <div class="sw-container" style="padding-bottom: 0;">
+                <h2 class="section-title">계정 정보</h2>
+                
+                <div class="form-group">
+                    <label>회원 구분</label>
+                    <div class="readonly-value">외국인회원</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>아이디</label>
+                    <div class="readonly-value">jason_stark</div>
+                </div>
+                
+                <div class="form-group" id="password-display-section">
+                    <label>비밀번호</label>
+                    <div class="input-group">
+                        <div class="input readonly-value" style="flex: 1;">
+                           <input type="password" value="********" readonly>
+                        </div>
+                        <button type="button" class="white-button" id="show-password-change-btn">비밀번호 변경</button>
+                    </div>
+                </div>
+
+                <div id="password-change-section" style="display: none;">
+                    <div class="form-group">
+                        <label for="new-password">새 비밀번호</label>
+                        <div class="input">
+                            <input type="password" id="new-password" placeholder="새 비밀번호를 입력해주세요">
+                        </div>
+                        <p class="disclaimer">영문/숫자/특수문자 중 2가지 이상을 포함하여 8~16자리로 입력해주세요.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">새 비밀번호 확인</label>
+                        <div class="input-group">
+                            <div class="input">
+                                <input type="password" id="confirm-password" placeholder="새 비밀번호를 다시 입력해주세요">
+                            </div>
+                            <button type="button" class="white-button">변경</button>
+                        </div>
+                         <p class="disclaimer" style="color: #28a745; min-height: 1.5em;">비밀번호가 일치합니다.</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>SNS 연동</label>
+                    <p class="disclaimer" style="margin-top: -8px; margin-bottom: 12px;">자주 쓰는 소셜 계정을 연결하고 간편하게 로그인하세요.</p>
+                    <div class="sns-list" id="sns-switch-list">
+                        <div class="sns-item" id="sns-item-kakao">
+                            <div class="sns-item-left">
+                                <div class="sns-item-icon kakao" aria-label="Kakao icon">
+                                    <img src="assets/images/kakao.png" alt="">
+                                </div>
+                                <div class="sns-item-icon kakao active" aria-label="Kakao icon">
+                                    <img src="assets/images/kakao-active.png" alt="">
+                                </div>
+                                <span class="sns-item-text">카카오 로그인</span>
+                            </div>
+                            <label class="sns-switch" style="margin-bottom: 0;">
+                                <input type="checkbox" id="sns-kakao-switch" checked>
+                                <span class="sns-slider"></span>
+                            </label>
+                        </div>
+                        <div class="sns-item" id="sns-item-google">
+                            <div class="sns-item-left">
+                                <div class="sns-item-icon google" aria-label="google icon">
+                                    <img src="assets/images/google.png" alt="">
+                                </div>
+                                <div class="sns-item-icon google active" aria-label="google icon">
+                                    <img src="assets/images/google-active.png" alt="">
+                                </div>
+                                <span class="sns-item-text">구글 로그인</span>
+                            </div>
+                            <label class="sns-switch" style="margin-bottom: 0;">
+                                <input type="checkbox" id="sns-google-switch">
+                                <span class="sns-slider"></span>
+                            </label>
+                        </div>
+                        <div class="sns-item" id="sns-item-naver">
+                            <div class="sns-item-left">
+                                <div class="sns-item-icon naver" aria-label="naver icon">
+                                    <img src="assets/images/naver.png" alt="">
+                                </div>
+                                <div class="sns-item-icon naver active" aria-label="Naver icon">
+                                    <img src="assets/images/naver-active.png" alt="">
+                                </div>
+                                <span class="sns-item-text">네이버 로그인</span>
+                            </div>
+                            <label class="sns-switch" style="margin-bottom: 0;">
+                                <input type="checkbox" id="sns-naver-switch" checked>
+                                <span class="sns-slider"></span>
+                            </label>
+                        </div>
+                        <div class="sns-item" id="sns-item-facebook">
+                            <div class="sns-item-left">
+                                <div class="sns-item-icon facebook" aria-label="facebook icon">
+                                    <img src="assets/images/facebook.png" alt="">
+                                </div>
+                                <div class="sns-item-icon facebook active" aria-label="facebook icon">
+                                    <img src="assets/images/facebook-active.png" alt="">
+                                </div>
+                                <span class="sns-item-text">페이스북 로그인</span>
+                            </div>
+                            <label class="sns-switch" style="margin-bottom: 0;">
+                                <input type="checkbox" id="sns-facebook-switch">
+                                <span class="sns-slider"></span>
+                            </label>
+                        </div>
+                        <div class="sns-item" id="sns-item-apple">
+                            <div class="sns-item-left">
+                                <div class="sns-item-icon apple" aria-label="apple icon">
+                                    <img src="assets/images/apple.png" alt="">
+                                </div>
+                                <div class="sns-item-icon apple active" aria-label="apple icon">
+                                    <img src="assets/images/apple-active.png" alt="">
+                                </div>
+                                <span class="sns-item-text">애플 로그인</span>
+                            </div>
+                            <label class="sns-switch" style="margin-bottom: 0;">
+                                <input type="checkbox" id="sns-apple-switch">
+                                <span class="sns-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+            
+            <div class="sw-container">
+                <h2 class="section-title">기본 정보</h2>
+                
+                <div class="form-group">
+                    <label>이름</label>
+                    <div class="readonly-value">jason</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>생년월일</label>
+                    <div class="readonly-value">1982-04-03</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>휴대폰 번호</label>
+                    <div class="input-group">
+                        <div class="input readonly-value" style="flex: 1;">
+                           <input type="tel" value="01073488450" readonly>
+                        </div>
+                        <button type="button" class="white-button" onclick="alert('휴대폰 번호 변경 (본인인증 팝업)')">휴대폰 번호 변경</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">이메일 주소</label>
+                    <div class="input">
+                        <input type="email" id="email" value="gogiso@naver.com">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="country-select">국가 (Country)</label>
+                    <div class="input select-wrapper">
+                        <select id="country-select" onchange="toggleAddressFormat(this.value)">
+                            <option value="" selected disabled>국가를 선택해주세요</option>
+                            <option value="us">미국 (United States)</option>
+                            <option value="jp">일본 (Japan)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="address-format-us" style="display: none;">
+                    <div class="form-group">
+                        <label for="us-zip">ZIP Code (우편번호) </label>
+                        <div class="input">
+                            <input type="text" id="us-zip" placeholder="Enter ZIP Code">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="us-street">Street Address (상세 주소) </label>
+                        <div class="input">
+                            <input type="text" id="us-street" placeholder="Enter Street Address">
+                        </div>
+                    </div>
+                    <div class="form-row-flex">
+                        <div class="form-group">
+                            <label for="us-city">City (도시) </label>
+                            <div class="input">
+                                <input type="text" id="us-city" placeholder="Enter City">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="us-state">State (주) </label>
+                            <div class="input select-wrapper">
+                                <select id="us-state" required>
+                                    <option value="" selected disabled>Select State</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="address-format-jp" style="display: none;">
+                    <div class="form-group">
+                        <label for="jp-zip">郵便番号 (우편번호) </label>
+                        <div class="input">
+                            <input type="text" id="jp-zip" placeholder="例) 1000001">
+                        </div>
+                    </div>
+                    <div class="form-row-flex" style="margin-bottom: 8px;">
+                        <div class="form-group">
+                            <label for="jp-pref">都道府県 (도도부현) </label>
+                            <div class="input select-wrapper">
+                                 <select id="jp-pref" required>
+                                    <option value="" selected disabled>都道府県を選択</option>
+                                    <option value="Hokkaido">Hokkaido (北海道)</option>
+                                    <option value="Aomori">Aomori (青森県)</option>
+                                    <option value="Iwate">Iwate (岩手県)</option>
+                                    <option value="Miyagi">Miyagi (宮城県)</option>
+                                    <option value="Akita">Akita (秋田県)</option>
+                                    <option value="Yamagata">Yamagata (山形県)</option>
+                                    <option value="Fukushima">Fukushima (福島県)</option>
+                                    <option value="Ibaraki">Ibaraki (茨城県)</option>
+                                    <option value="Tochigi">Tochigi (栃木県)</option>
+                                    <option value="Gumma">Gumma (群馬県)</option>
+                                    <option value="Saitama">Saitama (埼玉県)</option>
+                                    <option value="Chiba">Chiba (千葉県)</option>
+                                    <option value="Tokyo">Tokyo (東京都)</option>
+                                    <option value="Kanagawa">Kanagawa (神奈川県)</option>
+                                    <option value="Niigata">Niigata (新潟県)</option>
+                                    <option value="Toyama">Toyama (富山県)</option>
+                                    <option value="Ishikawa">Ishikawa (石川県)</option>
+                                    <option value="Fukui">Fukui (福井県)</option>
+                                    <option value="Yamanashi">Yamanashi (山梨県)</option>
+                                    <option value="Nagano">Nagano (長野県)</option>
+                                    <option value="Gifu">Gifu (岐阜県)</option>
+                                    <option value="Shizuoka">Shizuoka (静岡県)</option>
+                                    <option value="Aichi">Aichi (愛知県)</option>
+                                    <option value="Mie">Mie (三重県)</option>
+                                    <option value="Shiga">Shiga (滋賀県)</option>
+                                    <option value="Kyoto">Kyoto (京都府)</option>
+                                    <option value="Osaka">Osaka (大阪府)</option>
+                                    <option value="Hyogo">Hyogo (兵庫県)</option>
+                                    <option value="Nara">Nara (奈良県)</option>
+                                    <option value="Wakayama">Wakayama (和歌山県)</option>
+                                    <option value="Tottori">Tottori (鳥取県)</option>
+                                    <option value="Shimane">Shimane (島根県)</option>
+                                    <option value="Okayama">Okayama (岡山県)</option>
+                                    <option value="Hiroshima">Hiroshima (広島県)</option>
+                                    <option value="Yamaguchi">Yamaguchi (山口県)</option>
+                                    <option value="Tokushima">Tokushima (徳島県)</option>
+                                    <option value="Kagawa">Kagawa (香川県)</option>
+                                    <option value="Ehime">Ehime (愛媛県)</option>
+                                    <option value="Kochi">Kochi (高知県)</option>
+                                    <option value="Fukuoka">Fukuoka (福岡県)</option>
+                                    <option value="Saga">Saga (佐賀県)</option>
+                                    <option value="Nagasaki">Nagasaki (長崎県)</option>
+                                    <option value="Kumamoto">Kumamoto (熊本県)</option>
+                                    <option value="Oita">Oita (大分県)</option>
+                                    <option value="Miyazaki">Miyazaki (宮崎県)</option>
+                                    <option value="Kagoshima">Kagoshima (鹿児島県)</option>
+                                    <option value="Okinawa">Okinawa (沖縄県)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="jp-city">市区町村 (시구정촌) </label>
+                            <div class="input">
+                                <input type="text" id="jp-city" placeholder="例) 千代田区千代田">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jp-street">番地・建物名等 (상세 주소) </label>
+                        <div class="input">
+                            <input type="text" id="jp-street" placeholder="例) 1-1">
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="disclaimer" id="address-disclaimer-jp" style="display: none; margin-top: -12px; margin-bottom: 20px;">
+                    * 국제 배송을 위해 이름 및 주소는 영문으로 입력해주세요
+                </p>
+                <h2 class="section-title" style="margin-top: 24px;">동의 정보</h2>
+                
+                <div class="form-group">
+                    <label>혜택 광고성 정보</label>
+                    <div class="agreement-row">
+                        <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                            <div class="checkbox" data-checked="false" id="agree-email">
+                                <div class="checkbox-off"></div>
+                            </div>
+                            <span>이메일 수신</span>
+                        </div>
+                        <a href="#" class="disclaimer-link" style="margin: 0;" onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
+                    </div>
+                    <div class="agreement-row">
+                        <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                            <div class="checkbox" data-checked="false" id="agree-sms">
+                                <div class="checkbox-off"></div>
+                            </div>
+                            <span>SMS 수신</span>
+                        </div>
+                         <a href="#" class="disclaimer-link" style="margin: 0;" onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>마케팅 활용 동의</label>
+                    <div class="agreement-row">
+                        <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                            <div class="checkbox" data-checked="true" id="agree-stayrock">
+                                <div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>
+                            </div>
+                            <span>스테이락 호텔</span>
+                        </div>
+                         <a href="#" class="disclaimer-link" style="margin: 0;" onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
+                    </div>
+                    <div class="agreement-row">
+                        <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                            <div class="checkbox" data-checked="true" id="agree-sungwonmall">
+                                 <div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>
+                            </div>
+                            <span>(주)성원애드피아몰</span>
+                        </div>
+                         <a href="#" class="disclaimer-link" style="margin: 0;" onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
+                    </div>
+                </div>
+                
+            </div>
+        </main>
+        
+        <div class="sticky-form-footer">
+            <button class="white-button btn delete-button" onclick="showWithdrawalAlert()">회원 탈퇴하기</button>
+            <button class="dark-button btn" id="submit-inquiry-btn" onclick="showSaveConfirmModal()">수정하기</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="exit-alert-modal">
+        <div class="modal-content alert-modal" data-name="Alert">
+            <div class="modal-title">안내</div>
+            <div class="modal-message">이 페이지를 나가면 입력한 내용이 모두 사라집니다.<br>나가시겠습니까?</div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" onclick="closeModal('exit-alert-modal')">계속 작성하기</button>
+                <button class="modal-button modal-button-primary" onclick="confirmExit()">나가기</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="withdrawal-alert-modal">
+        <div class="modal-content alert-modal" data-name="Alert">
+            <div class="modal-title">회원 탈퇴</div>
+            <div class="modal-message">정말로 회원을 탈퇴하시겠습니까?<br>보유하신 성원머니와 포인트가 모두 소멸됩니다.</div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" onclick="closeModal('withdrawal-alert-modal')">취소</button>
+                <button class="modal-button modal-button-danger" onclick="location.href='exit.html';">탈퇴하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="save-confirm-modal">
+        <div class="modal-content alert-modal" data-name="ConfirmSave">
+            <div class="modal-title">정보 수정 완료</div>
+            <div class="modal-message">
+                정보 수정이 완료되었습니다.
+                <div class="modal-detail-list" id="save-confirm-details">
+                    </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" onclick="closeModal('save-confirm-modal')">취소</button>
+                <button class="modal-button modal-button-primary" onclick="closeModal('save-confirm-modal');">계정 설정</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="sns-disconnect-alert-modal">
+        <div class="modal-content alert-modal" data-name="Alert">
+            <div class="modal-title">계정 설정 안내</div>
+            <div class="modal-message">
+                최초 연동하신 SNS를 해제하실 경우,<br>
+                계정 이용을 위해 아이디와 비밀번호를<br>
+                새로 설정해야 합니다.
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" onclick="closeModal('sns-disconnect-alert-modal')">닫기</button>
+                <button class="modal-button modal-button-primary" onclick="showAccountSetupModal()">계정 설정</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="account-setup-modal">
+        <div class="modal-content" id="account-setup-content">
+            <div class="modal-header">
+                <h2 class="modal-title">계정 설정</h2>
+                <button class="btn-modal-close" onclick="closeModal('account-setup-modal')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="setup-id">아이디</label>
+                    <div class="input">
+                        <input type="text" id="setup-id" placeholder="아이디를 입력해주세요">
+                    </div>
+                    <p class="disclaimer">* 영문/숫자를 사용하여 5~20자리로 입력해주세요</p>
+                </div>
+                 <div class="form-group">
+                    <label for="setup-password">비밀번호</label>
+                    <div class="input">
+                        <input type="password" id="setup-password" placeholder="비밀번호를 입력해주세요">
+                    </div>
+                    <p class="disclaimer">* 영문/숫자/특수문자 중 2가지 이상을 포함하여 8~16자리로 입력해주세요</p>
+                </div>
+                 <div class="form-group">
+                    <label for="setup-password-confirm">비밀번호 확인</label>
+                    <div class="input">
+                        <input type="password" id="setup-password-confirm" placeholder="비밀번호를 한번 더 입력해주세요">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="completeAccountSetup()">계정 설정 완료</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- [NEW] Form Dirty Check & Exit Alert ---
+        let isFormDirty = false;
+        
+        function checkBeforeExit() {
+            if (isFormDirty) {
+                openModal('exit-alert-modal');
+            } else {
+                goBack();
+            }
+        }
+        
+        function confirmExit() {
+            isFormDirty = false; // Reset flag
+            closeModal('exit-alert-modal');
+            goBack();
+        }
+        
+        function goBack() {
+             // Simple history back.
+             history.back();
+        }
+
+        // [NEW] Foreign Address Format Toggle
+        function toggleAddressFormat(country) {
+            const usAddressBlock = document.getElementById('address-format-us');
+            const jpAddressBlock = document.getElementById('address-format-jp');
+            const addressDisclaimer = document.getElementById('address-disclaimer-jp');
+
+            if (country === 'us') {
+                usAddressBlock.style.display = 'block';
+                jpAddressBlock.style.display = 'none';
+                addressDisclaimer.style.display = 'none';
+            } else if (country === 'jp') {
+                usAddressBlock.style.display = 'none';
+                jpAddressBlock.style.display = 'block';
+                addressDisclaimer.style.display = 'block';
+            } else {
+                usAddressBlock.style.display = 'none';
+                jpAddressBlock.style.display = 'none';
+                addressDisclaimer.style.display = 'none';
+            }
+            isFormDirty = true; // Mark form as dirty on change
+        }
+
+        // --- Modal Helpers (v12 Standard) ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+        
+        // --- Checkbox (v12 Standard) ---
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            let newState;
+            if (isChecked) {
+                newState = false;
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                newState = true;
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+            }
+            return newState;
+        }
+        
+        function toggleCheckboxText(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            if (checkbox) {
+                toggleCheckbox(checkbox);
+                isFormDirty = true; // Mark form as dirty when checkbox is clicked
+            }
+        }
+        
+        // --- [NEW] Withdrawal Alert Logic ---
+        function showWithdrawalAlert() {
+            openModal('withdrawal-alert-modal');
+        }
+        
+        function confirmWithdrawal() {
+            closeModal('withdrawal-alert-modal');
+            alert("회원 탈퇴가 처리되었습니다. (구현 필요)");
+            // In a real app, redirect to home or login page
+            // location.href = '/'; 
+        }
+
+        // --- [NEW] Save Confirm Modal Logic ---
+        function showSaveConfirmModal() {
+            // 1. (Demo) Get current date string
+            const now = new Date();
+            const dateString = `${now.getFullYear()}년 ${String(now.getMonth() + 1).padStart(2, '0')}월 ${String(now.getDate()).padStart(2, '0')}일`;
+
+            // 2. (Demo) Build dynamic content based on checkbox states
+            let detailsHtml = '';
+            
+            const emailAgree = document.getElementById('agree-email').dataset.checked === 'true';
+            const smsAgree = document.getElementById('agree-sms').dataset.checked === 'true';
+            
+            if (emailAgree || smsAgree) {
+                detailsHtml += '<div class="modal-list-group">';
+                if (emailAgree) {
+                    detailsHtml += '<p>• 혜택·광고성 정보 이메일 수신 동의 완료</p>';
+                }
+                if (smsAgree) {
+                    detailsHtml += '<p>• 혜택·광고성 정보 SMS 수신 동의 완료</p>';
+                }
+                detailsHtml += `<span class="date-info">동의일: ${dateString}</span>`;
+                detailsHtml += '</div>';
+            }
+            
+            // NOTE: In a real app, you'd check the *previous* state vs *new* state
+            // For this demo, we assume the initial state was different.
+            const stayrockAgree = document.getElementById('agree-stayrock').dataset.checked === 'true';
+            const sungwonmallAgree = document.getElementById('agree-sungwonmall').dataset.checked === 'true';
+            
+            if (!stayrockAgree || !sungwonmallAgree) {
+                 detailsHtml += '<div class="modal-list-group">';
+                 if (!stayrockAgree) {
+                     detailsHtml += '<p>• 마케팅 활용 동의 (스테이락 호텔) 해제 완료</p>';
+                 }
+                 if (!sungwonmallAgree) {
+                     detailsHtml += '<p>• 마케팅 활용 동의 ((주)성원애드피아몰) 해제 완료</p>';
+                 }
+                 detailsHtml += `<span class="date-info">동의 해제일: ${dateString}</span>`;
+                 detailsHtml += '</div>';
+            }
+
+            // 3. Populate modal and show
+            document.getElementById('save-confirm-details').innerHTML = detailsHtml || '정보가 수정되었습니다.';
+            openModal('save-confirm-modal');
+        }
+        
+        // --- [NEW] SNS Disconnect & Account Setup Logic ---
+        let lastSnsSwitchToDisable = null; // Store the switch that triggered the modal
+
+        function showAccountSetupModal() {
+            closeModal('sns-disconnect-alert-modal');
+            openModal('account-setup-modal');
+            // Clear the form
+            document.getElementById('setup-id').value = '';
+            document.getElementById('setup-password').value = '';
+            document.getElementById('setup-password-confirm').value = '';
+        }
+
+        function completeAccountSetup() {
+            // TODO: Add actual validation for ID and Password
+            const newId = document.getElementById('setup-id').value;
+            const newPass = document.getElementById('setup-password').value;
+            
+            if (!newId || !newPass) {
+                alert("아이디와 비밀번호를 모두 입력해주세요.");
+                return;
+            }
+            
+            console.log(`New Account Setup: ID=${newId}, Pass=${newPass}`);
+            
+            closeModal('account-setup-modal');
+            
+            // Now, actually disable the switch that triggered this flow
+            if (lastSnsSwitchToDisable) {
+                lastSnsSwitchToDisable.checked = false;
+                const parentItem = lastSnsSwitchToDisable.closest('.sns-item');
+                if (parentItem) {
+                    parentItem.classList.remove('enabled');
+                }
+                isFormDirty = true; // A change has now been committed
+                
+                // Show final success
+                alert("계정 설정이 완료되었습니다. SNS 연동이 해제되었습니다.");
+                
+                lastSnsSwitchToDisable = null; // Clear the stored switch
+            }
+        }
+
+        // --- Initialize (Event listeners etc.) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Modal overlay click-to-close listeners
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+            
+            // [NEW] Password change UI toggle
+            const showPasswordBtn = document.getElementById('show-password-change-btn');
+            if (showPasswordBtn) {
+                showPasswordBtn.addEventListener('click', () => {
+                    document.getElementById('password-change-section').style.display = 'block';
+                    document.getElementById('password-display-section').style.display = 'none';
+                    isFormDirty = true; // Mark form as dirty
+                });
+            }
+            
+            // Add event listeners for form dirty check
+            document.querySelectorAll('main input, main textarea, main select').forEach(el => {
+                el.addEventListener('input', () => { isFormDirty = true; });
+                el.addEventListener('change', () => { isFormDirty = true; }); // For select/checkbox
+            });
+            
+            // [MODIFIED] SNS Switch logic to toggle parent 'enabled' class
+            const allSnsSwitches = document.querySelectorAll('#sns-switch-list .sns-switch input[type="checkbox"]');
+            
+            allSnsSwitches.forEach(el => {
+                const parentItem = el.closest('.sns-item');
+                
+                // Set initial state on load
+                function setInitialState() {
+                    if (el.checked) {
+                        parentItem.classList.add('enabled');
+                    } else {
+                        parentItem.classList.remove('enabled');
+                    }
+                }
+                
+                // Add change event listener
+                el.addEventListener('change', (event) => { 
+                    const isUnchecking = !el.checked;
+                    
+                    if (isUnchecking) {
+                        // Check if this is the last checked switch
+                        const checkedSwitches = Array.from(allSnsSwitches).filter(sw => sw.checked);
+                        // Since 'change' fires *after* the value changes,
+                        // if checkedSwitches.length is 0, this was the last one.
+                        
+                        if (checkedSwitches.length === 0) {
+                            // This was the last switch. Prevent uncheck and show modal.
+                            event.preventDefault();
+                            el.checked = true; // Re-check it
+                            lastSnsSwitchToDisable = el; // Store this switch
+                            openModal('sns-disconnect-alert-modal');
+                            return; // Stop further execution
+                        }
+                    }
+                    
+                    // If not the last switch, or if checking, proceed normally
+                    isFormDirty = true; 
+                    if (el.checked) {
+                        parentItem.classList.add('enabled');
+                        const snsName = parentItem.querySelector('.sns-item-text').textContent;
+                        console.log(`${snsName} 연결`);
+                    } else {
+                        parentItem.classList.remove('enabled');
+                        const snsName = parentItem.querySelector('.sns-item-text').textContent;
+                        console.log(`${snsName} 연결 해제`);
+                    }
+                });
+                
+                // Run on load
+                setInitialState();
+            });
+            
+            // [NEW] Set default state for select placeholders
+             document.querySelectorAll('select').forEach(select => {
+                if (select.value === "") {
+                    select.setAttribute('required', ''); // Enable :invalid selector
+                }
+                select.addEventListener('change', (e) => {
+                    if (e.target.value === "") {
+                        e.target.setAttribute('required', '');
+                    } else {
+                        e.target.removeAttribute('required');
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>

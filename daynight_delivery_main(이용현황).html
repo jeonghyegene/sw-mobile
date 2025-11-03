@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>낮·밤배송 안내</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* overflow-x: visible; */
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 20px;
+            min-height: 100vh;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 16px;
+        }
+        
+        /* [REMOVED] Hero Section */
+        
+        /* ================================================================
+        [NEW] Status Card Styles (From Request 1) 
+        ================================================================
+        */
+        .status-card {
+            background: #fff;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px; /* info-section과의 간격 */
+        }
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .status-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 4px;
+        }
+        .status-badge.in-use {
+            color: #4e6ee4;
+            background-color: #f0f3ff;
+            border: 1px solid #d9e2ff;
+        }
+        .status-badge.rejected {
+            color: #d9534f;
+            background-color: #fdf2f2;
+            border: 1px solid #f5c6cb;
+        }
+        .status-badge.pending {
+            color: #555;
+            background-color: #f5f5f5;
+            border: 1px solid #e8e8e9;
+        }
+        .status-badge.waiting-payment {
+            color: #b98600;
+            background-color: #fffbef;
+            border: 1px solid #ffecb3;
+        }
+        .status-body {
+            padding-top: 16px;
+        }
+        .status-row {
+            display: flex;
+            font-size: 14px;
+            margin-bottom: 10px;
+            align-items: flex-start;
+        }
+        .status-row:last-child {
+            margin-bottom: 0;
+        }
+        .status-label {
+            color: #555;
+            width: 64px;
+            flex-shrink: 0;
+            font-weight: 500;
+            padding-top: 1px;
+        }
+        .status-value {
+            color: #333;
+            font-weight: 500;
+            word-break: break-all;
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        /* [NEW] Link Style per user request */
+        .status-link {
+            color: #4e6ee4; /* Key color */
+            font-weight: 600;
+            text-decoration: underline; /* Underline */
+            margin-left: 8px;
+            font-size: 13px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .status-row .status-value .status-link {
+            margin-top: 4px; /* '배송지 상세' 링크 간격 */
+            margin-left: 0;
+        }
+        .footer-info-link .status-link {
+             margin-left: 4px; /* '신청 정보' 링크 간격 */
+        }
+        
+        /* Progress Bar */
+        .progress-bar-section {
+            margin-top: 20px;
+        }
+        .progress-bar-track {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            background: #4e6ee4;
+            height: 100%;
+            width: 0;
+            transition: width 0.5s ease;
+        }
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #555;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .progress-bubble {
+            background: #f8f8f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 16px;
+            position: relative;
+            line-height: 1.5;
+            color: #333;
+        }
+        .progress-bubble strong {
+            color: #212121;
+        }
+        .progress-bubble-arrow-up {
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 7px solid #f8f8f9; /* 말풍선 배경색과 동일 */
+            position: absolute;
+            top: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .progress-bubble.met {
+            background: #f0f3ff;
+            color: #4e6ee4;
+            font-weight: 600;
+            border-color: #d9e2ff;
+        }
+        .progress-bubble.met .progress-bubble-arrow-up {
+            border-bottom-color: #f0f3ff;
+        }
+
+        /* Rejection */
+        .rejection-reason {
+            background: #fdf2f2;
+            border: 1px solid #f5c6cb;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .rejection-reason .status-label { /* label 재정의 */
+            width: auto;
+            margin-bottom: 4px;
+            font-weight: 600;
+            color: #721c24;
+            display: block;
+        }
+        .rejection-reason .reason-text {
+            color: #721c24;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .status-footer {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 16px;
+        }
+        .status-footer.space-between {
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-info-link {
+            font-size: 13px;
+            color: #555;
+        }
+
+        /* Payment */
+        .virtual-account-info {
+            background: #f8f8f9;
+            border-radius: 6px;
+            padding: 16px;
+        }
+        .account-row {
+            display: flex;
+            align-items: flex-start;
+        }
+        .account-row + .account-row {
+            margin-top: 12px;
+        }
+        .account-row .status-label {
+            font-size: 14px;
+            font-weight: 500;
+            padding-top: 1px;
+        }
+        .account-row .status-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .account-row .status-value.amount {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+        }
+        .no-account-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #555;
+            width: 100%;
+        }
+        .no-account-info .status-link {
+            flex-shrink: 0;
+            margin-left: 16px;
+        }
+        /* ================================================================
+        [NEW] Status Card Styles End
+        ================================================================
+        */
+
+
+        /* [NEW] Info Section (from tax_request_write.html) */
+        .info-section {
+            background: #f8f8f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        /* --- [MODIFIED BY USER FEEDBACK 3] --- */
+        .info-sub-row {
+            display: flex;
+            /* justify-content: space-between; */
+            flex-direction: column; /* Stack label and value */
+            justify-content: flex-start;
+            font-size: 14px;
+            padding: 8px 0;
+            align-items: flex-start;
+        }
+        .info-sub-row .label {
+            color: #555;
+            font-weight: 500;
+            /* flex-shrink: 0; */
+            /* margin-right: 16px; */
+            /* flex-basis: 40%; */
+            font-size: 13px; /* Make label smaller */
+            margin-bottom: 4px; /* Add space between label and value */
+        }
+        .info-sub-row .value {
+            color: #333;
+            /* text-align: right; */
+            text-align: left; /* Align value left */
+            font-weight: 600;
+            width: 100%; /* Ensure full width */
+        }
+        .info-sub-row .value.description {
+            font-weight: 400;
+            color: #555;
+            text-align: left;
+            line-height: 1.5;
+            /* flex-basis: 60%; */
+        }
+        /* --- [END MODIFICATION] --- */
+
+
+        /* --- [MODIFIED BY USER FEEDBACK 1 - TAB STYLE] --- */
+        /* v12 Standard .single-chip (Base for tabs) */
+        .single-chip { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 6px 12px; 
+            border-radius: 100px; 
+            font-size: 14px; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            user-select: none; 
+            border: none; /* Reset button default */
+        }
+        .single-chip:active { transform: scale(0.95); }
+
+        /* [NEW] Tab Styles (from apply.html) */
+        .modal-tab-nav {
+            display: flex;
+            gap: 8px;
+            padding: 0 16px; /* No top padding */
+            margin-top: 16px;
+            border-bottom: 1px solid #e8e8e9;
+        }
+        .modal-tab-nav .single-chip {
+            border-radius: 6px 6px 0 0;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            bottom: -1px; /* Overlap border */
+            border: 1px solid transparent;
+            background: none; /* Reset base button style */
+        }
+        .modal-tab-nav .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+            border-color: #e8e8e9;
+            border-bottom: none;
+        }
+        .modal-tab-nav .single-chip-on {
+            background: #fff;
+            color: #4e6ee4;
+            border-color: #e8e8e9;
+            border-bottom: 1px solid #fff;
+            font-weight: 600;
+        }
+        /* --- [END MODIFICATION] --- */
+
+
+        /* [NEW] Delivery Content Area */
+        .delivery-content-area {
+            padding-top: 24px;
+        }
+        
+        /* --- [MODIFIED BY USER FEEDBACK 2 - SPACING V2] --- */
+        .delivery-info-group {
+            margin-top: 24px; 
+        }
+        .delivery-content-area > .delivery-info-group:first-child {
+             margin-top: 0; /* The map image group has no top margin */
+        }
+
+        .delivery-content-area h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+            /* margin-top: 24px;  <-- REMOVED */
+        }
+
+        /* This is for the sub-lists under '배송시간' and '장소' */
+        .delivery-vehicle-row + .disclaimer-list {
+            margin-top: 12px; /* Add space ONLY if it follows a vehicle-row */
+        }
+        /* --- [END MODIFICATION] --- */
+        
+        /* --- [MODIFIED BY USER FEEDBACK 1] --- */
+        .map-image {
+            width: 100%;
+            height: auto; /* Let image define its own height */
+            border: 1px solid #eee;
+            border-radius: 8px;
+            /* margin-bottom: 16px; */ /* Handled by group margin */
+            background: #f9f9f9;
+            display: block; /* Correct display for img */
+        }
+        /* --- [END MODIFICATION] --- */
+        
+        .disclaimer-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 16px;
+        }
+        .disclaimer-list li {
+            font-size: 13px;
+            color: #666;
+            position: relative;
+            padding-left: 1.2em;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .disclaimer-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #888;
+            font-weight: 600;
+        }
+        
+        /* Vehicle List (for single-value rows) */
+        .delivery-vehicle-row {
+             display: flex;
+             font-size: 14px;
+             padding: 8px 4px;
+             border-bottom: 1px solid #f5f5f5;
+             align-items: flex-start;
+        }
+        .delivery-vehicle-row:last-child {
+            border-bottom: none;
+        }
+        
+        /* --- [MODIFIED BY USER FEEDBACK 2] --- */
+        .delivery-vehicle-row .label {
+            color: #333;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-right: 16px;
+            /* flex-basis: 25%; */
+            width: 80px; /* Set a fixed width for better alignment */
+        }
+        /* --- [END MODIFICATION] --- */
+        
+        .delivery-vehicle-row .value {
+             color: #555;
+             text-align: left;
+             line-height: 1.5;
+             flex: 1;
+        }
+
+        /* --- [MODIFIED BY USER FEEDBACK - TABLE STYLE] --- */
+        /* [NEW] Table Styles (from apply.html) */
+        .area-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            border: 1px solid #e8e8e9; /* Add main border */
+        }
+        .area-table th,
+        .area-table td {
+            border: 1px solid #e8e8e9;
+            padding: 8px 10px;
+            text-align: left;
+            line-height: 1.5;
+            height: 44px; /* Ensure min-height */
+        }
+        .area-table th {
+            background-color: #f8f8f9;
+            font-weight: 600;
+            color: #555;
+            text-align: center;
+        }
+        .area-table th:first-child {
+            width: 30%;
+        }
+        .area-table td {
+            color: #333;
+            vertical-align: middle;
+        }
+        /* --- [END MODIFICATION] --- */
+
+
+        .page-bottom-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .page-bottom-buttons .white-button {
+            flex: 1;
+            background: #f8f8f9;
+        }
+
+        /* [NEW] MODAL STYLES (from tax_request_write.html) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+
+        @keyframes scaleUpModal {
+            from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative;
+            height: 57px;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            text-align: left;
+        }
+
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .btn-modal-close:hover {
+            color: #000;
+        }
+
+        .btn-modal-close svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        
+        .modal-body .modal-image {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            background: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 14px;
+            aspect-ratio: 16 / 9;
+        }
+
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+        
+        /* Modal Form Elements (from tax_request_write.html) */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            line-height: 1.5;
+            word-break: break-all;
+        }
+        .form-group.horizontal {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .form-group.horizontal .form-group {
+             flex: 1;
+             margin-bottom: 0;
+        }
+        
+        /* Modal Info Section (from ...pending) */
+        .modal-info-section {
+            border-bottom: 1px solid #e8e8e9;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+        .modal-info-section .info-sub-row {
+            padding: 6px 0;
+        }
+        .modal-info-section .info-sub-row .label {
+            flex-basis: 30%;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 30px;
+            border: 1px solid;
+        }
+        .badge.pending {
+            color: #007bff;
+            border-color: #007bff;
+            background: #f0f6ff;
+        }
+
+        /* common-table-card (from cr_request.html) */
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .common-table-card {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 15px;
+            position: relative;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .card-column1 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+        }
+        .card-divider {
+            width: 100%;
+            height: 1px;
+            background: #e8e8e9;
+            margin: 10px 0;
+        }
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            align-items: flex-start;
+        }
+        .card-row:last-child {
+            margin-bottom: 0;
+        }
+        .card-row-label {
+            color: #555;
+            flex-shrink: 0;
+            margin-right: 8px;
+            font-weight: 500;
+            flex-basis: 30%;
+        }
+        .card-row-value {
+            color: #333;
+            text-align: right;
+            word-break: break-all;
+            font-weight: 500;
+        }
+        .card-footer {
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        .card-footer .btn {
+            height: 36px;
+            font-size: 13px;
+            padding: 0 12px;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">낮·밤배송</h1>
+            <div class="header-right">
+                </div>
+        </header>
+
+        <main>
+            <div class="sw-container">
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge in-use">이용 중</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="status-row">
+                            <span class="status-label">이용기간</span>
+                            <span class="status-value">2025-09-01 ~ 2025-09-30</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">유형</span>
+                            <span class="status-value">낮배송</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">배송지</span>
+                            <span class="status-value">
+                                서울특별시 송파구 가락동 177-10 현대압구정현대압구정현대아파트 1201동 2401호
+                                <a class="status-link" onclick="showDeliveryInfoModal(); return false;">배송지 상세</a>
+                            </span>
+                        </div>
+                        
+                        <div class="progress-bar-section">
+                            <div class="progress-bar-track">
+                                <div class="progress-bar-fill" style="width: 46.16%;"></div>
+                            </div>
+                            <div class="progress-labels">
+                                <span>0원</span>
+                                <span>33만원</span>
+                            </div>
+                            <div class="progress-bubble">
+                                <div class="progress-bubble-arrow-up"></div>
+                                <strong>이번 달 거래금액 152,340원</strong><br>
+                                177,660원만 더 채우시면 다음 달도 무료배송혜택을 받으실 수 있어요!
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge in-use">이용 중</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="status-row">
+                            <span class="status-label">이용기간</span>
+                            <span class="status-value">2025-09-01 ~ 2025-09-30</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">유형</span>
+                            <span class="status-value">낮배송</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">배송지</span>
+                            <span class="status-value">
+                                서울특별시 송파구 가락동 177-10 현대압구정현대압구정현대아파트 1201동 2401호
+                                <a class="status-link" onclick="showDeliveryInfoModal(); return false;">배송지 상세</a>
+                            </span>
+                        </div>
+                        
+                        <div class="progress-bar-section">
+                            <div class="progress-bar-track">
+                                <div class="progress-bar-fill" style="width: 100%;"></div>
+                            </div>
+                            <div class="progress-labels">
+                                <span>0원</span>
+                                <span>33만원</span>
+                            </div>
+                            <div class="progress-bubble met">
+                                <div class="progress-bubble-arrow-up"></div>
+                                이번 달 거래금액 33만원 이상 달성! 다음 달에도 무료배송 혜택이 이어집니다.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge rejected">반려</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="rejection-reason">
+                            <span class="status-label">반려 사유</span>
+                            <span class="reason-text">밤배송 가능한 위치가 아닙니다.</span>
+                        </div>
+                    </div>
+                    <div class="status-footer space-between">
+                        <span class="footer-info-link">
+                            신청일 2025-09-21
+                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
+                        </span>
+                        <button type="button" class="primary-button" style="height: 36px; padding: 0 12px; font-size: 13px;">재신청하기</button>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge pending">승인대기</span>
+                    </div>
+                    <div class="status-footer space-between" style="margin-top: 0;"> <span class="footer-info-link">
+                            신청일 2025-09-21
+                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
+                        </span>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge waiting-payment">입금대기</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="virtual-account-info">
+                            <div class="account-row">
+                                <span class="status-label">가상계좌</span>
+                                <span class="status-value">27560204147121 국민 정혜진</span>
+                            </div>
+                            <div class="account-row">
+                                <span class="status-label">입금금액</span>
+                                <span class="status-value amount">₩55,000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="status-footer space-between">
+                        <span class="footer-info-link">
+                            신청일 2025-09-21
+                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
+                        </span>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge waiting-payment">입금대기</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="virtual-account-info">
+                            <div class="account-row">
+                                <span class="status-label" style="width: 100%; margin-bottom: 4px; display: block;">가상계좌</span>
+                            </div>
+                             <div class="account-row" style="margin-top: 0;">
+                                <div class="no-account-info">
+                                    <span>등록된 가상계좌가 없습니다.</span>
+                                    <a href="#" class="status-link">가상계좌 등록</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="status-footer space-between">
+                        <span class="footer-info-link">
+                            신청일 2025-09-21
+                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
+                        </span>
+                    </div>
+                </section>
+
+                <section class="info-section">
+                    <div class="info-sub-row">
+                        <span class="label">신청비</span>
+                        <span class="value">55,000원(부가세 포함)</span>
+                    </div>
+                    <div class="info-sub-row">
+                        <span class="label">서비스 제공 기간</span>
+                        <span class="value">매월 1일 ~ 말일</span>
+                    </div>
+                    <div class="info-sub-row">
+                        <span class="label">다음 달 무료배송 조건</span>
+                        <span class="value description">월 거래금액이 33만원(부가세 포함) 이상 시, 추가 결제 없이 서비스가 자동으로 연장됩니다.</span>
+                    </div>
+                     <div class="info-sub-row" style="padding-top: 12px; border-top: 1px dashed #ddd;">
+                        <span class="label">유의사항</span>
+                        <span class="value description">월 거래금액이 33만원 미만일 경우, 다음 달 서비스는 자동으로 종료됩니다.<br>이용을 원하실 경우, 다시 신청하시면 언제든 혜택을 이어가실 수 있습니다.</span>
+                    </div>
+                </section>
+
+                <nav class="modal-tab-nav" id="status-tab-group" style="padding-left: 0;">
+                    <button type="button" class="single-chip single-chip-on" data-type="day" onclick="selectDeliveryType(this, 'day')">낮배송</button>
+                    <button type="button" class="single-chip single-chip-off" data-type="night" onclick="selectDeliveryType(this, 'night')">밤배송</button>
+                </nav>
+                <section class="delivery-content-area" id="content-day" style="display: block;">
+                    <div class="delivery-info-group">
+                        <img class="map-image" src="assets/images/day_delivery.png" alt="성원애드피아 낮배송 지도">
+                    </div>
+                    <div class="delivery-info-group">
+                        <h3>배송지역</h3>
+                        <div class="delivery-vehicle-row">
+                            <span class="value">서울 일부 지역</span>
+                        </div>
+                    </div>
+                    <div class="delivery-info-group">
+                        <h3>배정 차량</h3>
+                        <table class="area-table">
+                            <thead>
+                                <tr>
+                                    <th>배정 차량</th>
+                                    <th>지역</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1호차</td>
+                                    <td>인현동, 필동, 충무로, 초동, 주교동, 저동, 을지로3가, 을지로4가, 오장동, 예장동, 묵정동</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    <div class="delivery-info-group">
+                        <h3>배송시간</h3>
+                        <div class="delivery-vehicle-row">
+                            <span class="value">하루 1~2회 배송합니다. (토, 일요일, 공휴일 휴무)</span>
+                        </div>
+                    </div>
+                    <div class="delivery-info-group">
+                        <h3>장소</h3>
+                        <div class="delivery-vehicle-row">
+                            <span class="value">고객님과 기사분과 선약속된 지정장소에 배송됩니다.</span>
+                        </div>
+                        <ul class="disclaimer-list" style="margin-top: 12px;">
+                            <li>물량이 초과되는 경우에는 2회 배송이 될 수도 있습니다. (10R씩 분할배송)</li>
+                        </ul>
+                    </div>
+                    <div class="delivery-info-group">
+                        <h3>유의사항</h3>
+                        <ul class="disclaimer-list">
+                            <li>배송시간은 당사 차량이나 도로, 교통상황에 따라 변동될 수 있습니다.</li>
+                            <li>담당자에게 직접 전달이 어렵기 때문에 1층에 분실위험이 없고, 보관이 가능한 배송 장소를 지정해주셔야 합니다.</li>
+                            <li>배송 장소로 인해 발생하는 사고는 재작업이 불가합니다.</li>
+                            <li>배송 완료 후 발생한 사고(분실, 훼손 등)는 책임을 지지 않으며, 배송 진행 중에 문제가 발생한 경우 과실을 판단한 후 재작업 여부를 결정합니다.</li>
+                            <li>배정된 차량의 주문량이 많은 경우 소량 주문을 우선 배송하며 대량주문건(10연 이상)은 나누어서 익일에도 배송될 수 있습니다.</li>
+                            <li>주간/야간배송 시 누락분은 다음날 주간/야간배송 편으로 배송하여 드리며 퀵서비스 및 택배로 배송해드리지 않습니다.</li>
+                        </ul>
+                    </div>
+                    </section>
+
+                <section class="delivery-content-area" id="content-night" style="display: none;">
+                    <div class="delivery-info-group">
+                        <img class="map-image" src="assets/images/night_delivery.png" alt="성원애드피아 밤배송 지도">
+                    </div>
+                    <div class="delivery-info-group">
+                        <h3>배송지역</h3>
+                        <div class="delivery-vehicle-row">
+                            <span class="value">서울 전지역 및 인천시, 경기도 일부지역 배송</span>
+                        </div>
+                    </div>
+                    <div class="delivery-info-group">
+                        <h3>배정 차량</h3>
+                        <table class="area-table">
+                             <thead>
+                                <tr>
+                                    <th>배정 차량</th>
+                                    <th>지역</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1호차</td><td>광명시, 시흥시, 안산시</td></tr>
+                                <tr><td>2호차</td><td>금천구, 동작구, 영등포구, 구로구, 관악구</td></tr>
+                                <tr><td>3호차</td><td>인천시, 김포시</td></tr>
+                                <tr><td>4호차</td><td>부천시</td></tr>
+                                <tr><td>5호차</td><td>마포구, 고양시, 은평구, 서대문구</td></tr>
+                                <tr><td>6호차</td><td>성남시</td></tr>
+                                <tr><td>7호차</td><td>수원시, 용인시</td></tr>
+                                <tr><td>8호차</td><td>군포시, 안양시, 과천시, 강서구, 양천구</td></tr>
+                                <tr><td>9호차</td><td>구리시, 의정부시, 강북구, 광진구, 노원구, 도봉구, 동대문구, 종로구, 중구, 중랑구, 성북구</td></tr>
+                                <tr><td>10호차</td><td>성동구, 송파구, 강동구, 하남시</td></tr>
+                                <tr><td>11호차</td><td>강남구, 서초구, 용산구</td></tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    <div class="delivery-info-group">
+                        <h3>배송시간</h3>
+                        <div class="delivery-vehicle-row">
+                            <span class="value">야간 (24시 이후) 배송 시작</span>
+                        </div>
+                        <ul class="disclaimer-list" style="margin-top: 12px;">
+                             <li>월요일 저녁(출발)부터 토요일 새벽(도착)까지 주 5회 배송됩니다. (토, 일요일, 공휴일 휴무)</li>
+                        </ul>
+                    </div>
+                    <div class="delivery-info-group">
+                        <h3>장소</h3>
+                        <div class="delivery-vehicle-row">
+                            <span class="value">고객님과 기사분과 선약속된 지정장소에 배송됩니다.</span>
+                        </div>
+                        <ul class="disclaimer-list" style="margin-top: 12px;">
+                            <li>물량이 초과되는 경우에는 2회 배송이 될 수도 있습니다. (10R씩 분할배송)</li>
+                        </ul>
+                    </div>
+                    <div class="delivery-info-group">
+                        <h3>유의사항</h3>
+                        <ul class="disclaimer-list">
+                            <li>배송시간은 당사 차량이나 도로, 교통상황에 따라 변동될 수 있습니다.</li>
+                            <li>담당자에게 직접 전달이 어렵기 때문에 1층에 분실위험이 없고, 보관이 가능한 배송 장소를 지정해주셔야 합니다.</li>
+                            <li>배송 장소로 인해 발생하는 사고는 재작업이 불가합니다.</li>
+                            <li>배송 완료 후 발생한 사고(분실, 훼손 등)는 책임을 지지 않으며, 배송 진행 중에 문제가 발생한 경우 과실을 판단한 후 재작업 여부를 결정합니다.</li>
+                            <li>배정된 차량의 주문량이 많은 경우 소량 주문을 우선 배송하며 대량주문건(10연 이상)은 나누어서 익일에도 배송될 수 있습니다.</li>
+                            <li>주간/야간배송 시 누락분은 다음날 주간/야간배송 편으로 배송하여 드리며 퀵서비스 및 택배로 배송해드리지 않습니다.</li>
+                        </ul>
+                    </div>
+                    </section>
+                
+                <div class="page-bottom-buttons">
+                    <button class="white-button" onclick="showHistoryModal()">이용 내역</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="history-modal-overlay">
+        <div class="modal-content" id="history-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">낮·밤배송 이용 내역</h2>
+                <button class="btn-modal-close" onclick="closeModal('history-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="transaction-list">
+                    <article class="common-table-card">
+                        <div class="card-header"><div class="card-column1">낮배송</div></div>
+                        <div class="card-divider"></div>
+                        <div class="card-row"><div class="card-row-label">이용기간</div><div class="card-row-value">2025-08-01~2025-08-31</div></div>
+                        <div class="card-row"><div class="card-row-label">신청일</div><div class="card-row-value">자동 연장</div></div>
+                        <div class="card-row"><div class="card-row-label">승인일</div><div class="card-row-value">자동 연장</div></div>
+                        <div class="card-footer"><button type="button" class="white-button btn" onclick="showDeliveryInfoModal()">배송지 정보</button></div>
+                    </article>
+                    <article class="common-table-card">
+                        <div class="card-header"><div class="card-column1">낮배송</div></div>
+                        <div class="card-divider"></div>
+                        <div class="card-row"><div class="card-row-label">이용기간</div><div class="card-row-value">2025-07-01 ~ 2025-07-31</div></div>
+                        <div class="card-row"><div class="card-row-label">신청일</div><div class="card-row-value">2025-06-12</div></div>
+                        <div class="card-row"><div class="card-row-label">승인일</div><div class="card-row-value">2025-06-13</div></div>
+                        <div class="card-footer"><button type="button" class="white-button btn" onclick="showDeliveryInfoModal()">배송지 정보</button></div>
+                    </article>
+                    <article class="common-table-card">
+                        <div class="card-header"><div class="card-column1">낮배송</div></div>
+                        <div class="card-divider"></div>
+                        <div class="card-row"><div class="card-row-label">이용기간</div><div class="card-row-value">2025-05-01~2025-05-31</div></div>
+                        <div class="card-row"><div class="card-row-label">신청일</div><div class="card-row-value">자동 연장</div></div>
+                        <div class="card-row"><div class="card-row-label">승인일</div><div class="card-row-value">자동 연장</div></div>
+                        <div class="card-footer"><button type="button" class="white-button btn" onclick="showDeliveryInfoModal()">배송지 정보</button></div>
+                    </article>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="closeModal('history-modal-overlay')">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="delivery-info-modal-overlay">
+        <div class="modal-content" id="delivery-info-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">배송지 정보</h2>
+                <button class="btn-modal-close" onclick="closeModal('delivery-info-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image"></div>
+                <form>
+                    <div class="form-group">
+                        <label>이름(상호명)</label>
+                        <div class="readonly-value">홍길동</div>
+                    </div>
+                    <div class="form-group horizontal">
+                        <div class="form-group">
+                            <label>휴대폰 번호</label>
+                            <div class="readonly-value">01043489122</div>
+                        </div>
+                        <div class="form-group">
+                            <label>긴급 연락처</label>
+                            <div class="readonly-value">023757678</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>주소</label>
+                        <div class="readonly-value">서울특별시 송파구 가락동 177-10 가락동아파트 101동 201호</div>
+                    </div>
+                    <div class="form-group horizontal">
+                        <div class="form-group">
+                            <label>위치</label>
+                            <div class="readonly-value">시내</div>
+                        </div>
+                        <div class="form-group">
+                            <label>층수</label>
+                            <div class="readonly-value">엘리베이터 없음/지하 3층</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>보관장소</label>
+                        <div class="readonly-value">사무실문 앞</div>
+                    </div>
+                    <div class="form-group">
+                        <label>배송시 상세 요청사항</label>
+                        <div class="readonly-value">오후 2시 이후에 배송 부탁드립니다.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>공동현관 출입번호</label>
+                        <div class="readonly-value">있음 / *1343</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="closeModal('delivery-info-modal-overlay')">확인</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="application-info-modal-overlay">
+        <div class="modal-content" id="application-info-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">신청 정보</h2>
+                <button class="btn-modal-close" onclick="closeModal('application-info-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <section class="modal-info-section">
+                    <div class="info-sub-row">
+                        <span class="label">신청일</span>
+                        <span class="value">2025-09-21</span>
+                    </div>
+                    <div class="info-sub-row">
+                        <span class="label">이용기간</span>
+                        <span class="value">2025-10-01~2025-10-31</span>
+                    </div>
+                    <div class="info-sub-row">
+                        <span class="label">유형</span>
+                        <span class="value">낮배송</span>
+                    </div>
+                    <div class="info-sub-row">
+                        <span class="label">승인 상태</span>
+                        <span class="value"><span class="badge pending">승인 대기</span></span>
+                    </div>
+                </section>
+                
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">배송지 정보</h3>
+                <div class="modal-image"></div>
+                <form>
+                    <div class="form-group">
+                        <label>이름(상호명)</label>
+                        <div class="readonly-value">홍길동</div>
+                    </div>
+                    <div class="form-group horizontal">
+                        <div class="form-group">
+                            <label>휴대폰 번호</label>
+                            <div class="readonly-value">01043489122</div>
+                        </div>
+                        <div class="form-group">
+                            <label>긴급 연락처</label>
+                            <div class="readonly-value">023757678</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>주소</label>
+                        <div class="readonly-value">서울특별시 송파구 가락동 177-10 가락동아파트 101동 201호</div>
+                    </div>
+                    <div class="form-group horizontal">
+                        <div class="form-group">
+                            <label>위치</label>
+                            <div class="readonly-value">시내</div>
+                        </div>
+                        <div class="form-group">
+                            <label>층수</label>
+                            <div class="readonly-value">엘리베이터 없음/지하 3층</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>보관장소</label>
+                        <div class="readonly-value" style="line-height: 1.6;">사무실문 앞<br>오후 2시 이후에 배송 부탁드립니다.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>배송시 상세 요청사항</label>
+                        <div class="readonly-value"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>공동현관 출입번호</label>
+                        <div class="readonly-value">있음 / *1343</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="closeModal('application-info-modal-overlay')">확인</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- [MODIFIED BY USER FEEDBACK 1 - TAB SCRIPT] ---
+        function selectDeliveryType(button, type) {
+            // 1. Toggle tab button
+            const group = button.closest('#status-tab-group');
+            if (!group) return;
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            button.classList.replace('single-chip-off', 'single-chip-on');
+
+            // 2. Toggle content
+            const contentDay = document.getElementById('content-day');
+            const contentNight = document.getElementById('content-night');
+            if (contentDay && contentNight) {
+                if (type === 'day') {
+                    contentDay.style.display = 'block';
+                    contentNight.style.display = 'none';
+                } else {
+                    contentDay.style.display = 'none';
+                    contentNight.style.display = 'block';
+                }
+            }
+        }
+        // --- [END MODIFICATION] ---
+
+        // --- [NEW] Modal Helpers (from tax_request_write.html) ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                // Don't reset body overflow if another modal is still open
+                const anyModalActive = document.querySelector('.modal-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+
+        // --- [NEW] Modal Triggers ---
+        function showHistoryModal() {
+            openModal('history-modal-overlay');
+        }
+        
+        function showDeliveryInfoModal() {
+            // In a real app, you'd pass data here.
+            // If opening from history modal, close that first.
+            if(document.getElementById('history-modal-overlay') && document.getElementById('history-modal-overlay').classList.contains('active')) {
+                closeModal('history-modal-overlay');
+            }
+            openModal('delivery-info-modal-overlay');
+        }
+        
+        function showApplicationInfoModal() {
+             // 이력이 아닌 신청정보 모달을 엽니다.
+            openModal('application-info-modal-overlay');
+        }
+
+        // --- [NEW] Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Modal overlay click-to-close listeners
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+            
+            // --- [MODIFIED BY USER FEEDBACK 2 - SPACING] ---
+            // Find all disclaimer lists that are next to a delivery row and apply special margin
+            document.querySelectorAll('.delivery-vehicle-row + .disclaimer-list').forEach(list => {
+                list.style.marginTop = '12px';
+            });
+            // --- [END MODIFICATION] ---
+        });
+    </script>
+</body>
+</html>

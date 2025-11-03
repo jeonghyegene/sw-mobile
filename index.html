@@ -499,14 +499,9 @@
             <p>성원애드피아 모바일 화면 목록</p>
         </div>
 
-        <!-- 탭 네비게이션 -->
-        <div class="tab-nav">
-            <button class="tab-btn active" data-tab="all">전체</button>
-            <button class="tab-btn" data-tab="mypage">마이페이지</button>
-            <button class="tab-btn" data-tab="cs">고객센터</button>
-        </div>
+        <div class="tab-nav" id="tabNavContainer">
+            </div>
 
-        <!-- 검색 -->
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="화면 이름 또는 HTML 파일명으로 검색...">
             <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -515,20 +510,8 @@
             </svg>
         </div>
 
-        <!-- 전체 탭 -->
-        <div id="tab-all" class="tab-content active">
-            <div id="allContainer"></div>
-        </div>
-
-        <!-- 마이페이지 탭 -->
-        <div id="tab-mypage" class="tab-content">
-            <div id="mypageContainer"></div>
-        </div>
-
-        <!-- 고객센터 탭 -->
-        <div id="tab-cs" class="tab-content">
-            <div id="csContainer"></div>
-        </div>
+        <div id="tabContentContainer">
+            </div>
 
         <div id="emptyState" class="empty-state" style="display: none;">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -556,6 +539,62 @@
 
     <script>
         const screenData = [
+            {
+                "이름": "메인",
+                "그룹": "메인",
+                "대분류": "메인",
+                "상태": "시작전",
+                "진행률": "",
+                "html": "아직 없음"
+            },
+            {
+                "이름": "회원가입",
+                "그룹": "회원가입",
+                "대분류": "회원가입 및 로그인",
+                "상태": "시작전",
+                "진행률": "",
+                "html": "아직 없음"
+            },
+            {
+                "이름": "로그인",
+                "그룹": "로그인",
+                "대분류": "회원가입 및 로그인",
+                "상태": "시작전",
+                "진행률": "",
+                "html": "아직 없음"
+            },
+            {
+                "이름": "아이디 찾기",
+                "그룹": "아이디/비밀번호 찾기",
+                "대분류": "회원가입 및 로그인",
+                "상태": "시작전",
+                "진행률": "",
+                "html": "아직 없음"
+            },
+            {
+                "이름": "에디터",
+                "그룹": "에디터",
+                "대분류": "접수/결제",
+                "상태": "시작전",
+                "진행률": "",
+                "html": "editor.html"
+            },
+            {
+                "이름": "마이페이지 진입점",
+                "그룹": "기타",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "",
+                "html": "mypage_main.html"
+            },
+            {
+                "이름": "접수/배송",
+                "그룹": "접수 관리",
+                "대분류": "마이페이지",
+                "상태": "시작전",
+                "진행률": "",
+                "html": "order_list.html"
+            },
             {
                 "이름": "성원머니 (기본상태)",
                 "그룹": "결제 관리",
@@ -661,6 +700,38 @@
                 "html": "review_before.html"
             },
             {
+                "이름": "회원정보 수정 전 비밀번호 입력",
+                "그룹": "내정보 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "",
+                "html": "mypage_edit_before.html / mypage_edit_before(개인SNS).html"
+            },
+            {
+                "이름": "회원정보 수정 (개인)",
+                "그룹": "내정보 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "",
+                "html": "mypage_edit.html / mypage_edit(개인SNS).html"
+            },
+            {
+                "이름": "회원정보 수정 (외국인)",
+                "그룹": "내정보 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "",
+                "html": "mypage_edit(외국인-본인인증).html / mypage_edit(외국인-여권및이메일인증).html"
+            },
+            {
+                "이름": "회원정보 수정 (사업자)",
+                "그룹": "내정보 관리",
+                "대분류": "마이페이지",
+                "상태": "완료",
+                "진행률": "",
+                "html": "mypage_edit(개인및법인사업자).html / mypage_edit(해외사업자).html"
+            },
+            {
                 "이름": "등급 안내",
                 "그룹": "내정보 관리",
                 "대분류": "마이페이지",
@@ -698,7 +769,7 @@
                 "대분류": "마이페이지",
                 "상태": "완료",
                 "진행률": "아직 모름",
-                "html": "daynight_delivery_main.html"
+                "html": "daynight_delivery_main.html / daynight_delivery_main(이용현황).html"
             },
             {
                 "이름": "낮·밤배송 신청서 작성",
@@ -710,15 +781,15 @@
             },
             {
                 "이름": "고객센터 메인",
-                "그룹": "고객센터",
+                "그룹": "기타",
                 "대분류": "고객센터",
                 "상태": "완료",
                 "진행률": "100%",
-                "html": "mypage_main.html"
+                "html": "cs_main.html"
             },
             {
                 "이름": "고객센터 통합검색 결과",
-                "그룹": "고객센터",
+                "그룹": "기타",
                 "대분류": "고객센터",
                 "상태": "완료",
                 "진행률": "100%",
@@ -726,7 +797,7 @@
             },
             {
                 "이름": "자료실 (상세)",
-                "그룹": "고객센터",
+                "그룹": "이용안내",
                 "대분류": "고객센터",
                 "상태": "완료",
                 "진행률": "100%",
@@ -734,7 +805,7 @@
             },
             {
                 "이름": "성원소식 (상세)",
-                "그룹": "고객센터",
+                "그룹": "이용안내",
                 "대분류": "고객센터",
                 "상태": "완료",
                 "진행률": "100%",
@@ -742,7 +813,7 @@
             },
             {
                 "이름": "오시는 길",
-                "그룹": "고객센터",
+                "그룹": "이용안내",
                 "대분류": "고객센터",
                 "상태": "완료",
                 "진행률": "100%",
@@ -750,7 +821,7 @@
             },
             {
                 "이름": "자료실 (목록)",
-                "그룹": "고객센터",
+                "그룹": "이용안내",
                 "대분류": "고객센터",
                 "상태": "완료",
                 "진행률": "4개 중 1개 남음",
@@ -758,7 +829,7 @@
             },
             {
                 "이름": "자주 묻는 질문",
-                "그룹": "고객센터",
+                "그룹": "이용안내",
                 "대분류": "고객센터",
                 "상태": "완료",
                 "진행률": "100%",
@@ -766,7 +837,7 @@
             },
             {
                 "이름": "성원소식 (목록)",
-                "그룹": "고객센터",
+                "그룹": "이용안내",
                 "대분류": "고객센터",
                 "상태": "완료",
                 "진행률": "4개 중 1개 남음",
@@ -814,12 +885,19 @@
                 }
                 grouped[screen.그룹].push(screen);
             });
-            return grouped;
+            // [MODIFIED] 그룹 이름을 기준으로 정렬
+            const sortedGrouped = {};
+            Object.keys(grouped).sort().forEach(key => {
+                sortedGrouped[key] = grouped[key];
+            });
+            return sortedGrouped;
         }
 
         // 화면 렌더링
         function renderScreens(containerId, data) {
             const container = document.getElementById(containerId);
+            if (!container) return; // 컨테이너가 없으면 종료
+            
             const grouped = groupScreens(data);
             
             let html = '';
@@ -849,7 +927,7 @@
             section.classList.toggle('collapsed');
         }
 
-        // 탭 전환
+        // [MODIFIED] 탭 전환 (동적 ID 사용)
         function switchTab(tabName) {
             // 탭 버튼 활성화
             document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -869,39 +947,34 @@
 
             if (tabName === 'all') {
                 containerId = 'allContainer';
-            } else if (tabName === 'mypage') {
-                filteredData = screenData.filter(s => s.대분류 === '마이페이지');
-                containerId = 'mypageContainer';
-            } else if (tabName === 'cs') {
-                filteredData = screenData.filter(s => s.대분류 === '고객센터');
-                containerId = 'csContainer';
+            } else {
+                // [MODIFIED] tabName (즉, 대분류)을 기준으로 필터링
+                filteredData = screenData.filter(s => s.대분류 === tabName);
+                // [MODIFIED] 동적 컨테이너 ID
+                containerId = `${tabName.replace(/\s+/g, '')}Container`;
             }
-
+            
+            // 렌더링
             renderScreens(containerId, filteredData);
             updateStats(filteredData);
             
             // 검색 초기화
             document.getElementById('searchInput').value = '';
+            // 빈 상태 초기화
+            document.getElementById('emptyState').style.display = 'none';
         }
 
-        // 탭 버튼 이벤트
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                switchTab(btn.dataset.tab);
-            });
-        });
 
-        // 검색 기능
+        // [MODIFIED] 검색 기능 (동적 ID 및 필터링 사용)
         const searchInput = document.getElementById('searchInput');
         searchInput.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase();
             const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
             
             let baseData = screenData;
-            if (activeTab === 'mypage') {
-                baseData = screenData.filter(s => s.대분류 === '마이페이지');
-            } else if (activeTab === 'cs') {
-                baseData = screenData.filter(s => s.대분류 === '고객센터');
+            // [MODIFIED] 'all'이 아니면, activeTab(대분류) 값으로 필터링
+            if (activeTab !== 'all') {
+                baseData = screenData.filter(s => s.대분류 === activeTab);
             }
             
             const filtered = baseData.filter(screen => 
@@ -910,8 +983,8 @@
                 screen.그룹.toLowerCase().includes(query)
             );
 
-            const containerId = activeTab === 'all' ? 'allContainer' : 
-                                activeTab === 'mypage' ? 'mypageContainer' : 'csContainer';
+            // [MODIFIED] 동적 컨테이너 ID
+            const containerId = activeTab === 'all' ? 'allContainer' : `${activeTab.replace(/\s+/g, '')}Container`;
             
             renderScreens(containerId, filtered);
             updateStats(filtered);
@@ -930,8 +1003,60 @@
             document.getElementById('htmlFiles').textContent = htmlCount;
         }
 
-        // 초기 렌더링
-        switchTab('all');
+        // [NEW] 탭 동적 생성 및 초기화 함수
+        function initializeTabs() {
+            const tabNavContainer = document.getElementById('tabNavContainer');
+            const tabContentContainer = document.getElementById('tabContentContainer');
+            
+            // 1. Get unique main categories (대분류)
+            const mainCategories = [...new Set(screenData.map(s => s.대분류))];
+            // [MODIFIED] 대분류를 가나다순으로 정렬
+            mainCategories.sort((a, b) => a.localeCompare(b, 'ko'));
+            
+            // 2. Create "All" tab
+            const allTabBtn = document.createElement('button');
+            allTabBtn.className = 'tab-btn active'; // '전체'를 기본 활성화
+            allTabBtn.dataset.tab = 'all';
+            allTabBtn.textContent = '전체';
+            tabNavContainer.appendChild(allTabBtn);
+
+            const allTabContent = document.createElement('div');
+            allTabContent.id = 'tab-all';
+            allTabContent.className = 'tab-content active'; // '전체'를 기본 활성화
+            allTabContent.innerHTML = '<div id="allContainer"></div>'; // 렌더링 컨테이너
+            tabContentContainer.appendChild(allTabContent);
+
+            // 3. Create tabs for each unique category
+            mainCategories.forEach(category => {
+                const tabBtn = document.createElement('button');
+                tabBtn.className = 'tab-btn';
+                tabBtn.dataset.tab = category;
+                tabBtn.textContent = category;
+                tabNavContainer.appendChild(tabBtn);
+
+                // 컨텐츠 영역 생성
+                const contentId = `tab-${category}`;
+                // 렌더링이 될 내부 컨테이너 ID (공백 제거)
+                const containerId = `${category.replace(/\s+/g, '')}Container`; 
+                
+                const tabContent = document.createElement('div');
+                tabContent.id = contentId;
+                tabContent.className = 'tab-content';
+                tabContent.innerHTML = `<div id="${containerId}"></div>`; // 렌더링 컨테이너
+                tabContentContainer.appendChild(tabContent);
+            });
+
+            // 4. Attach event listeners
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    switchTab(btn.dataset.tab);
+                });
+            });
+        }
+
+        // --- [MODIFIED] 초기 렌더링 ---
+        initializeTabs(); // 탭부터 생성
+        switchTab('all'); // '전체' 탭을 기준으로 첫 렌더링
 
         // 링크 클릭 로깅
         document.addEventListener('click', (e) => {
