@@ -174,6 +174,8 @@
             gap: 8px; /* Space between buttons */
             padding: 24px 0 16px 0;
             margin-top: 24px;
+            /* [NEW] Added border top for separation */
+            border-top: 1px solid #e8e8e9;
         }
         .page-nav-buttons .btn {
             flex: 1; /* Each button takes equal space */
@@ -191,16 +193,42 @@
         .completion-section .icon {
             width: 48px;
             height: 48px;
-            color: #28a745; /* Green */
+            /* [MODIFIED] 1. Key color */
+            color: #4e6ee4; /* Blue */
             margin: 0 auto 16px auto;
         }
+        
+        
+        .completion-icon {
+            margin: 0 auto 20px auto;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #eef2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .completion-icon svg {
+            color: #4e6ee4;
+            stroke-width: 3;
+            width: 28px;
+            height: 28px;
+        }
+
         .completion-section h2 {
             font-size: 22px;
             font-weight: 700;
             color: #212121;
             margin-bottom: 8px;
         }
-
+        .completion-section .subtitle {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
         /* [NEW] Button group override */
         .page-nav-buttons.no-border {
             border-top: none;
@@ -208,12 +236,147 @@
             padding-top: 0;
         }
         
-        /* [NEW] Minimal styles copied for this page */
-        .info-section, .info-sub-row, .product-list-header, .product-card, .disclaimer-box {
-             /* These styles are intentionally kept in the CSS block for consistency */
-             /* but are not used in this specific HTML file. */
+        .section-divider {
+            height: 8px;
+            background: #f4f5f7;
+            margin: 0 -16px; /* Extend to screen edges */
         }
         
+        .order-id-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        .order-id-header span {
+            font-weight: 400;
+            color: #888;
+        }
+
+        /* [NEW] Info Section (from tax_issue.html precedent) */
+        .info-section {
+            /* [MODIFIED] 2. 디자인 밋밋함 (배경색 추가) */
+            background: #f8f8f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .info-section .title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .info-sub-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 6px 0;
+            font-size: 14px;
+        }
+        .info-sub-row .label {
+            color: #555;
+            flex-shrink: 0;
+            margin-right: 16px;
+        }
+        .info-sub-row .value {
+            color: #333;
+            font-weight: 500;
+            text-align: right;
+            word-break: break-all;
+        }
+        /* [REMOVED] 2. 배송지 정렬
+        .info-sub-row.long-text {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .info-sub-row.long-text .value {
+            text-align: left;
+            margin-top: 4px;
+            width: 100%;
+        }
+        */
+
+        /* [NEW] Product List Styles */
+        .product-list-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+        .product-list-header u {
+            text-decoration: none;
+            color: #4e6ee4;
+        }
+        .product-card {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .product-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .product-card .spec {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            word-break: break-all;
+        }
+        .product-card .price {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            text-align: right;
+        }
+        
+        /* [NEW] 3. 오늘판 뱃지 */
+        .product-badge {
+            display: inline-block;
+            background: #4e6ee4;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+            vertical-align: middle;
+            text-transform: uppercase;
+        }
+        
+        /* [NEW] Disclaimer Box */
+        .disclaimer-box {
+            background: #f8f8f9;
+            border-radius: 6px;
+            padding: 16px;
+            margin-top: 24px;
+        }
+        .disclaimer-box p {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+         .disclaimer-box p:last-child {
+            margin-bottom: 0;
+         }
+         /* [NEW] 4. 링크 스타일 */
+         .disclaimer-box p a {
+            color: #333;
+            font-weight: 500;
+            text-decoration: underline;
+         }
+         .disclaimer-box p a:hover {
+            color: #4e6ee4;
+         }
+
     </style>
 </head>
 <body>
@@ -236,11 +399,9 @@
         <main class="sw-container">
 
             <section class="completion-section">
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-                    <path d="M9 12l2 2l4 -4" />
-                </svg>
+                <div class="completion-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M5 12l5 5l10 -10" /></svg>
+                </div>
                 <h2>접수 완료 되었어요</h2>
             </section>
 
@@ -249,7 +410,62 @@
                 <button class="dark-button btn" onclick="alert('비회원 접수 조회')">비회원 접수 조회</button>
             </div>
             
-            </main>
+            <div class="section-divider"></div>
+
+            <h4 class="order-id-header">접수번호 1234567890 <span>(접수일시 2025-08-18 18:10)</span></h4>
+
+            <section class="info-section">
+                <div class="title">결제정보</div>
+                <div class="info-sub-row">
+                    <span class="label">결제수단</span>
+                    <span class="value">신용카드(BC카드)</span>
+                </div>
+                <div class="info-sub-row">
+                    <span class="label">결제금액</span>
+                    <span class="value">₩152,000</span>
+                </div>
+            </section>
+            
+            <section class="info-section">
+                <div class="title">배송정보</div>
+                <div class="info-sub-row">
+                    <span class="label">이름</span>
+                    <span class="value">김성수</span>
+                </div>
+                <div class="info-sub-row">
+                    <span class="label">연락처</span>
+                    <span class="value">01012341234</span>
+                </div>
+                <div class="info-sub-row">
+                    <span class="label">배송지</span>
+                    <span class="value">(12345) 서울시 성도구 성수동 123-12 201호 성수애드</span>
+                </div>
+                <div class="info-sub-row">
+                    <span class="label">배송메모</span>
+                    <span class="value">부재 시 문 앞에 놓아주세요</span>
+                </div>
+            </section>
+
+            <h3 class="product-list-header">접수제품 총 <u>2</u>건</h3>
+            <div class="product-list">
+                <article class="product-card">
+                    <h4>디지털엽서<span class="product-badge">오늘판</span></h4>
+                    <p class="spec">아르페 콜트라화이트 310g/2매(0.0005T)/10/208x154/양면칼라 8도/디지털인쇄(인디고)</p>
+                    <div class="price">₩8,200</div>
+                </article>
+                <article class="product-card">
+                    <h4>디지털엽서</h4>
+                    <p class="spec">아트 볼트라화이트 310g/2매 (00005)/12/208154/일변칼리 8도/디지털인쇄(인디고)</p>
+                    <div class="price">₩8,200</div>
+                </article>
+            </div>
+            
+            <div class="disclaimer-box">
+                <p>① 20만원 이상 접수 건일 경우, 교정 확인 후 인쇄가 진행됩니다. 교정 확인은 <a href="#"><strong>마이페이지 접수/배송 내역</strong></a>에서 확인하실 수 있습니다.</p>
+                <p>① 주문 및 배송 관련하여 궁금하신 점이 있으실 경우, <a href="#"><strong>마이페이지 자주묻는질문</strong></a> 또는 <a href="#"><strong>1:1문의</strong></a> 이용해주세요</p>
+            </div>
+
+        </main>
     </div>
 
     <script>
