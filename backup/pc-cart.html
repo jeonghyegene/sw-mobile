@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원애드피아 - 장바구니 (PC v12.3)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           RESET & BASE STYLES (v12.3 PC Standard)
+        ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 0; 
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        ul, li { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        input { font-family: inherit; }
+        table { border-collapse: collapse; border-spacing: 0; width: 100%; }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* ========================================
+           1. Global Navigation Bar (GNB) (v12.3 PC)
+        ======================================== */
+        .pc-gnb {
+            width: 100%;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky; /* GNB 상단 고정 */
+            left: 0;
+            top: 0;
+            z-index: 1000;
+        }
+        .gnb-container {
+            width: 1280px; 
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        
+        .gnb-top-bar {
+            height: 35px;
+            background: #f8f8f8;
+            border-bottom: 1px solid #eee;
+        }
+        .gnb-top-bar .gnb-container {
+            justify-content: flex-end;
+        }
+        .gnb-top-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: #666;
+        }
+        .gnb-top-links a {
+            color: #666;
+            transition: color 0.2s;
+        }
+        .gnb-top-links a:hover { color: #000; }
+        .gnb-top-links .separator {
+            font-size: 10px;
+            color: #ccc;
+        }
+        .gnb-lang {
+            margin-left: 12px;
+            border: 1px solid #ccc;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            background: #fff;
+        }
+
+        .gnb-main-bar {
+            height: 80px;
+        }
+        .gnb-logo {
+            width: 150px;
+            margin-right: 40px;
+        }
+        .gnb-logo img {
+            width: 150px;
+            height: auto;
+            display: block;
+        }
+        .gnb-nav-links {
+            display: flex;
+            gap: 28px;
+            height: 100%;
+            align-items: center;
+        }
+        .gnb-nav-links a {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            font-size: 19px;
+            font-weight: 700;
+            color: #222;
+            border-bottom: 4px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .gnb-nav-links a:hover {
+            color: #4e6ee4;
+        }
+        .gnb-nav-links a.active {
+            color: #4e6ee4;
+            border-bottom-color: #4e6ee4;
+            font-weight: 700;
+        }
+        
+        .gnb-utils {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .gnb-btn {
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .gnb-btn-editor {
+            background: #6c757d;
+            color: #fff;
+        }
+        .gnb-btn-editor:hover { background: #5a6268; }
+        .gnb-btn-quick {
+            background: #4e6ee4;
+            color: #fff;
+        }
+        .gnb-btn-quick:hover { background: #3d5dd3; }
+        
+        .gnb-icon-btn {
+            width: 32px;
+            height: 32px;
+            color: #333;
+            transition: color 0.2s;
+        }
+        .gnb-icon-btn:hover { color: #4e6ee4; }
+        .gnb-icon-btn svg {
+            width: 28px;
+            height: 28px;
+            stroke-width: 1.5;
+        }
+
+        /* [v12 PC] Page Layout */
+        .container {
+            max-width: 1280px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+        .subtitle { font-size: 16px; color: #666; margin-bottom: 50px; }
+        .section { margin-bottom: 60px; }
+        .section-title { font-size: 22px; font-weight: 700; color: #333; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #4e6ee4; }
+        
+        /* ========================================
+           PC CART PAGE - NEW COMPONENTS & STYLES
+        ======================================== */
+
+        /* [NEW] Cart Page Layout */
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px; /* Main content | Sticky summary */
+            gap: 32px;
+            align-items: flex-start;
+        }
+        .cart-main {
+            width: 100%;
+        }
+        .cart-sidebar {
+            width: 100%;
+            position: relative;
+        }
+        
+        /* [NEW] Page Header */
+        .page-header {
+            font-size: 28px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 24px;
+        }
+
+        /* [NEW] Table Controls */
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #333;
+        }
+        
+        /* [NEW] Cart Table (Based on .common-table-card) */
+        .cart-table {
+            border: none;
+            border-radius: 0;
+            overflow: visible;
+        }
+        .cart-table thead { display: none; } /* 테이블 헤더는 .table-controls가 대체 */
+        
+        .cart-table tbody tr {
+            border-bottom: 1px solid #e8e8e9;
+        }
+        .cart-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        .cart-table tbody td {
+            padding: 24px 12px;
+            vertical-align: top;
+        }
+        .cart-table tbody td:first-child { padding-left: 0; }
+        .cart-table tbody td:last-child { padding-right: 0; }
+
+        .cart-table td.col-check { width: 40px; padding-top: 28px; }
+        .cart-table td.col-product { width: auto; }
+        .cart-table td.col-quantity { width: 120px; text-align: center; }
+        .cart-table td.col-price { width: 130px; text-align: right; }
+        .cart-table td.col-actions { width: 150px; text-align: right; }
+
+        /* Product Info Cell */
+        .product-info-cell { display: flex; gap: 16px; }
+        .product-info-cell .thumb {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            flex-shrink: 0;
+            background: #f8f8f8 url('https://i.ibb.co/L5kprzx/image-8dcac2-logo.png') center center no-repeat;
+            background-size: 60%;
+        }
+        .product-info-details .title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+        }
+        .product-info-details .specs {
+            font-size: 13px;
+            color: #666;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+        .product-info-details .memo {
+            font-size: 13px;
+            color: #c0392b;
+            background: #fef5f5;
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        
+        /* Other Cells */
+        .product-quantity, .product-price {
+            font-size: 16px;
+            font-weight: 600;
+            color: #222;
+            padding-top: 4px;
+        }
+        .product-quantity .weight {
+            font-size: 13px;
+            font-weight: 400;
+            color: #777;
+            display: block;
+            margin-top: 4px;
+        }
+        
+        .product-actions-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+        .product-actions-cell .action-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .product-actions-cell .text-btn {
+            font-size: 13px;
+            color: #555;
+            cursor: pointer;
+        }
+        .product-actions-cell .text-btn:hover { text-decoration: underline; }
+        .product-actions-cell .dark-button.btn-sm {
+            height: 36px;
+            padding: 0 16px;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        /* [NEW] Order Summary (Sticky) */
+        .order-summary-sticky {
+            position: sticky;
+            top: 135px; /* GNB height(115) + container margin-top(40) - 20px buffer */
+            border: 2px solid #4e6ee4; /* 키컬러로 강조 */
+            border-radius: 8px;
+            background: #fff;
+        }
+        .summary-header {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .summary-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+        }
+        .summary-row .label { color: #555; }
+        .summary-row .value { color: #000; font-weight: 600; font-size: 16px; }
+        
+        .summary-total {
+            border-top: 1px solid #eee;
+            padding-top: 16px;
+            margin-top: 8px;
+        }
+        .summary-total .label {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .summary-total .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4e6ee4;
+        }
+        
+        .summary-footer {
+            padding: 20px;
+            background: #f8f8f8;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+        .summary-footer .dark-button {
+            width: 100%;
+            height: 52px;
+            font-size: 18px;
+            font-weight: 700;
+            background-color: #4e6ee4; /* 키컬러 적용 */
+            border-color: #4e6ee4;
+        }
+        .summary-footer .white-button {
+            width: 100%;
+            height: 44px;
+            font-size: 15px;
+        }
+
+        /* [NEW] Info Notice Box */
+        .info-notice {
+            margin-top: 24px;
+            padding: 20px;
+            background: #f8f8f8;
+            border-radius: 8px;
+        }
+        .info-notice ul {
+            padding-left: 20px;
+        }
+        .info-notice li {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.7;
+            list-style-type: '① ';
+            padding-left: 4px;
+        }
+        
+        /* [NEW] Cross-sell Section */
+        .cross-sell-section {
+            margin-top: 60px;
+        }
+        .cross-sell-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .product-card-simple {
+            border: 1px solid #eee;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+        .product-card-simple:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .product-card-simple .thumb {
+            height: 180px;
+            background: #f8f8f8 url('https://i.ibb.co/L5kprzx/image-8dcac2-logo.png') center center no-repeat;
+            background-size: 50%;
+        }
+        .product-card-simple .info {
+            padding: 16px;
+        }
+        .product-card-simple .name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+        }
+        .product-card-simple .price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #000;
+            margin-top: 4px;
+        }
+
+        /* ========================================
+           STANDARD COMPONENTS (From v12.3 Guide)
+        ======================================== */
+        .dark-button {
+            background: #424242; color: white; height: 44px; padding: 10px 24px; border-radius: 6px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center;
+        }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+
+        .white-button {
+            background: white; color: #424242; height: 44px; padding: 10px 24px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center;
+        }
+        .white-button:hover { background: #f9f9f9; }
+        .white-button:active { transform: scale(0.98); }
+        
+        .checkbox {
+            width: 20px; height: 20px; position: relative; cursor: pointer; user-select: none; flex-shrink: 0;
+        }
+        .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
+        .checkbox-on {
+            width: 100%; height: 100%; background: #4e6ee4; border-radius: 2px; display: flex; align-items: center; justify-content: center;
+        }
+        .checkbox-on img { width: 14px; height: 14px; }
+        .checkbox:active { transform: scale(0.9); }
+        .checkbox-text {
+            display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none;
+        }
+        .checkbox-text span {
+            font-size: 16px; color: #333; font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header class="pc-gnb">
+        <div class="gnb-top-bar">
+            <div class="gnb-container">
+                <div class="gnb-top-links">
+                    <a href="#">로그인</a>
+                    <span class="separator">|</span>
+                    <a href="#">회원가입</a>
+                    <span class="separator">|</span>
+                    <a href="#">접수/배송 조회</a>
+                    <span class="separator">|</span>
+                    <a href="#">고객센터</a>
+                    <span class="separator">|</span>
+                    <a href="#">성원애드피아몰</a>
+                    <button class="gnb-lang">KR</button>
+                </div>
+            </div>
+        </div>
+        <div class="gnb-main-bar">
+            <div class="gnb-container">
+                <a href="#" class="gnb-logo">
+                    <img src="https://www.figma.com/api/mcp/asset/ef0509bb-c8a7-4eb0-8a39-30b9b46cc207" alt="성원애드피아 로고">
+                </a>
+                <nav class="gnb-nav-links">
+                    <a href="#">명함</a>
+                    <a href="#">홍보물</a>
+                    <a href="#">스티커</a>
+                    <a href="#">패키지/봉투</a>
+                    <a href="#">서식지</a>
+                    <a href="#">굿즈</a>
+                    <a href="#">기획제품</a>
+                    <a href="#">별도견적</a>
+                </nav>
+                <div class="gnb-utils">
+                    <button class="gnb-btn gnb-btn-editor">성원에디터</button>
+                    <button class="gnb-btn gnb-btn-quick">퀵사이트</button>
+                    <button class="gnb-icon-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                           <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                           <path d="M21 21l-6 -6" />
+                        </svg>
+                    </button>
+                    <button class="gnb-icon-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                           <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                           <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                           <path d="M17 17h-11v-14h-2" />
+                           <path d="M6 5l14 1l-1 7h-13" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <h1 class="page-header">장바구니</h1>
+        
+        <div class="cart-layout">
+            
+            <main class="cart-main">
+                
+                <div class="table-controls">
+                    <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                        <div class="checkbox" data-checked="false">
+                            <div class="checkbox-off"></div>
+                        </div>
+                        <span>전체 선택</span>
+                    </div>
+                    <button class="white-button" style="height: 36px; font-size: 14px;">선택 삭제</button>
+                </div>
+                
+                <table class="cart-table" data-name="cart_table">
+                    <tbody>
+                        <tr>
+                            <td class="col-check">
+                                <div class="checkbox" data-checked="false" onclick="toggleCheckbox(this)">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                            </td>
+                            <td class="col-product">
+                                <div class="product-info-cell">
+                                    <div class="thumb"></div>
+                                    <div class="product-info-details">
+                                        <div class="title">책자 - 회사 연례 보고서 책자 500부 인쇄 건</div>
+                                        <div class="specs">
+                                            용지: (표지)아트지/백색/100g, (내지)아트지/백색/100g | 인쇄: (표지) /CMYK/ 단면/K/일반제본 왼쪽/ 중철 A4 (210x195mm) | 가공: 박/오시/도무송
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-quantity">
+                                <div class="product-quantity">
+                                    2매 / 1건
+                                    <span class="weight">(20.57kg)</span>
+                                </div>
+                            </td>
+                            <td class="col-price">
+                                <div class="product-price">₩8,200</div>
+                            </td>
+                            <td class="col-actions">
+                                <div class="product-actions-cell">
+                                    <button class="dark-button btn-sm">접수하기</button>
+                                    <div class="action-links">
+                                        <span class="text-btn">디자인 수정</span>
+                                        <span class="text-btn">삭제</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="col-check">
+                                <div class="checkbox" data-checked="false" onclick="toggleCheckbox(this)">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                            </td>
+                            <td class="col-product">
+                                <div class="product-info-cell">
+                                    <div class="thumb"></div>
+                                    <div class="product-info-details">
+                                        <div class="title">일반 명함 - 홍길동 사원 명함</div>
+                                        <div class="specs">
+                                            용지: 스노우지/백색/250g | 인쇄: 양면/CMYK(컬러) | 규격: 90x50mm / 가로형
+                                        </div>
+                                        <div class="memo">
+                                            [접수 메모] 앞면은 회사 로고와 성명, 직책을 중심으로 배치하고, 뒷면에는 회사 주소와 연락처만 간결하게 넣어주세요
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-quantity">
+                                <div class="product-quantity">
+                                    2매 / 1건
+                                    <span class="weight">(0.57kg)</span>
+                                </div>
+                            </td>
+                            <td class="col-price">
+                                <div class="product-price">₩8,200</div>
+                            </td>
+                            <td class="col-actions">
+                                <div class="product-actions-cell">
+                                    <button class="dark-button btn-sm">접수하기</button>
+                                    <div class="action-links">
+                                        <span class="text-btn">디자인 수정</span>
+                                        <span class="text-btn">옵션 수정</span>
+                                        <span class="text-btn">삭제</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="col-check">
+                                <div class="checkbox" data-checked="false" onclick="toggleCheckbox(this)">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                            </td>
+                            <td class="col-product">
+                                <div class="product-info-cell">
+                                    <div class="thumb"></div>
+                                    <div class="product-info-details">
+                                        <div class="title">전단지 - 신규 매장 오픈 홍보 전단지</div>
+                                        <div class="specs">
+                                            용지: 마트지/백색/90g | 인쇄: (전면)CMYK(컬러), (후면)CMYK(컬러) | 규격: A4(210x297mm) | 포장: 박스 포장(유료)
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-quantity">
+                                <div class="product-quantity">
+                                    1,000매
+                                    <span class="weight">(15.57kg)</span>
+                                </div>
+                            </td>
+                            <td class="col-price">
+                                <div class="product-price">₩2,300,000</div>
+                            </td>
+                            <td class="col-actions">
+                                <div class="product-actions-cell">
+                                    <div class="action-links" style="margin-top: 25px;">
+                                        <span class="text-btn">디자인 수정</span>
+                                        <span class="text-btn">옵션 수정</span>
+                                        <span class="text-btn">삭제</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                
+                <div class="info-notice">
+                    <ul>
+                        <li>장바구니에 담은 후 7일이 지난 제품은 장바구니에서 제외됩니다.</li>
+                        <li>견적서는 선택한 제품의 결제 예정 금액으로 발급되며 포인트 사용, 배송 방식에 따라 실제 결제 금액이 상이해질 수 있습니다.</li>
+                        <li>제품을 삭제할 경우, 해당 제품에 적용된 디자인은 복구할 수 없습니다.</li>
+                    </ul>
+                </div>
+            </main>
+            
+            <aside class="cart-sidebar">
+                <div class="order-summary-sticky">
+                    <div class="summary-header">결제금액</div>
+                    <div class="summary-body">
+                        <div class="summary-row">
+                            <span class="label">상품금액</span>
+                            <span class="value">₩38,000</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="label">배송비</span>
+                            <span class="value">₩3,800</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span class="label">총 결제금액</span>
+                            <span class="value">₩43,800</span>
+                        </div>
+                    </div>
+                    <div class="summary-footer">
+                        <button class="white-button">견적서 발급</button>
+                        <button class="white-button">견적 비교</button>
+                        <button class="dark-button">총 3건 결제하기</button>
+                    </div>
+                </div>
+            </aside>
+            
+        </div>
+        
+        <section class="cross-sell-section">
+            <h2 class="section-title" style="border-bottom-color: #ddd;">이런 제품은 어떠세요?</h2>
+            <p class="subtitle" style="margin-bottom: 20px; font-size: 15px;">현재 가장 많이 구매하는 제품이에요</p>
+            
+            <div class="cross-sell-grid">
+                <div class="product-card-simple">
+                    <div class="thumb"></div>
+                    <div class="info">
+                        <div class="name">카드명함 86x54 (200매)</div>
+                        <div class="price">₩11,000</div>
+                    </div>
+                </div>
+                <div class="product-card-simple">
+                    <div class="thumb"></div>
+                    <div class="info">
+                        <div class="name">카드명함 86x54 (200매)</div>
+                        <div class="price">₩11,000</div>
+                    </div>
+                </div>
+                <div class="product-card-simple">
+                    <div class="thumb"></div>
+                    <div class="info">
+                        <div class="name">카드명함 86x54 (200매)</div>
+                        <div class="price">₩11,000</div>
+                    </div>
+                </div>
+                <div class="product-card-simple">
+                    <div class="thumb"></div>
+                    <div class="info">
+                        <div class="name">카드명함 86x54 (200매)</div>
+                        <div class="price">₩11,000</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div> 
+    <script>
+        // ========================================
+        // STANDARD SCRIPT (From v12.3 Guide)
+        // ========================================
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+            }
+        }
+        function toggleCheckboxText(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            toggleCheckbox(checkbox);
+            // Add logic here to toggle all checkboxes in the table
+        }
+        
+        console.log('성원애드피아 [PC] 장바구니 페이지 (v12.3) 초기화 완료');
+        console.log('[v12.3] 신규 컴포넌트 .cart-layout, .order-summary-sticky, .cart-table 적용 완료.');
+    </script>
+</body>
+</html>
