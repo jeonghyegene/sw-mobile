@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리뷰·Q&A</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        }
+        ul, li { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; border: none; cursor: pointer; background: none; text-align: left; }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        input, textarea { font-family: inherit; }
+        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        /* Layout */
+        .mobile-wrap { 
+            width: 100%; 
+            max-width: 480px; 
+            margin: 0 auto; 
+            background-color: #ffffff; 
+            /* [MODIFIED] 스티키 푸터 기본 여백 */
+            padding-bottom: 20px; 
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
+        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; transition: transform 0.2s; color: #333; }
+        .header-btn:active { transform: scale(0.9); }
+        .header-left { flex: 1 0 0; display: flex; justify-content: flex-start; }
+        .header-title { flex: 3 0 0; font-size: 18px; font-weight: 600; text-align: center; color: #212121; }
+        .header-right { flex: 1 0 0; display: flex; justify-content: flex-end; gap: 8px; }
+        .btn-icon { cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; color: #333; }
+        .btn-icon:active { transform: scale(0.9); }
+        .btn-icon svg { width: 100%; height: 100%; }
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button { background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .primary-button:hover { background: #3d5dd3; }
+        .primary-button:active { transform: scale(0.98); }
+        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .white-button:hover { background: #f9f9f9; }
+        .white-button:active { transform: scale(0.98); }
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        /* Main Content */
+        .sw-container { padding: 16px; }
+
+        /* Page Tabs (v12 Tab-Nav Style) */
+        .page-tabs {
+            width: 100%;
+            height: 44px; 
+            background: white;
+            border-bottom: 1px solid #e8e8e9;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 20px 1px 20px;
+        }
+        .page-tab-item {
+            height: 42px;
+            padding: 10px 4px;
+            font-size: 16px; 
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 16px;
+            position: relative;
+            color: #bcbcbc; /* Inactive color */
+            border-bottom: 2px solid transparent;
+            flex-shrink: 0;
+        }
+        .page-tab-item.active {
+            color: black;
+            border-bottom: 2px solid black;
+        }
+        .page-tab-item:hover { opacity: 0.8; }
+
+
+        /* Filter Chip Section (v12 guide) */
+        .filter-chip-section {
+            background: #fff;
+            padding: 8px 16px; 
+            margin: 0 -16px 0 -16px; 
+        }
+        .tabs-scroll-wrapper { 
+            overflow-x: auto; 
+            white-space: nowrap; 
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+        }
+        .tabs-scroll-wrapper::-webkit-scrollbar { display: none; }
+        .filter-chip-section .tabs-scroll-wrapper {
+            display: flex; 
+            gap: 8px; 
+        }
+        .filter-chip-section .single-chip,
+        .filter-chip-section .multi-chip {
+            flex-shrink: 0; 
+            white-space: nowrap; 
+        }
+        /* v12 Standard .single-chip */
+        .single-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
+        .single-chip-on { background: #4e6ee4; color: white; }
+        .single-chip:active { transform: scale(0.95); }
+        /* [NEW] v12 Standard .multi-chip */
+        .multi-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .multi-chip-off { background: #fdfdfd; border: 1px solid #e6e4e4; color: #6d6d6d; }
+        .multi-chip-on { background: #c7d3ff; border: 1px solid #4e6ee4; color: #4e6ee4; }
+        .multi-chip:active { transform: scale(0.95); }
+
+
+        /* Transaction List Header (v14) */
+        .transaction-list-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 16px 0; 
+            font-size: 14px; 
+            color: #555; 
+            border-bottom: 1px solid #f0f0f0; 
+            margin-bottom: 16px; 
+        }
+        .transaction-list-header .total-count strong { font-weight: 600; color: #333; }
+        
+        /* [MODIFIED] 정렬 버튼 */
+        .sort-select-button { 
+            display: inline-flex; align-items: center; gap: 4px; 
+            cursor: pointer; transition: opacity 0.2s; user-select: none; 
+        }
+        .sort-select-button:hover { opacity: 0.8; }
+        .sort-select-button:active { transform: scale(0.98); }
+        .sort-select-button-text { font-size: 14px; color: #2c2c2c; font-weight: 500; white-space: nowrap; }
+        .sort-select-button-arrow { width: 16px; height: 16px; color: #555; }
+        .sort-select-button-arrow svg {transition: transform 0.2s;}
+
+        /* [NEW] v12 Checkbox */
+        .checkbox { width: 20px; height: 20px; position: relative; cursor: pointer; user-select: none; flex-shrink: 0; }
+        .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
+        .checkbox-on { width: 100%; height: 100%; background: #4e6ee4; border-radius: 2px; display: flex; align-items: center; justify-content: center; }
+        .checkbox-on img { width: 14px; height: 14px; }
+        .checkbox:active { transform: scale(0.9); }
+        .checkbox-text { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+        .checkbox-text span { font-size: 14px; color: #333; }
+        
+        .transaction-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+        
+        /* [MODIFIED] Review Summary Section (Req 3) */
+        .info-section { 
+            background: #fff; 
+            border: 1px solid #e8e8e9; 
+            border-radius: 8px; 
+            padding: 16px; 
+            margin-bottom: 16px; 
+        }
+        .review-summary-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px; /* [MODIFIED] */
+        }
+        .review-summary-score {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+        .review-summary-rating {
+            font-size: 20px;
+        }
+        .review-summary-rating svg { fill: #FFC107; }
+        .review-summary-rating svg.empty_star { fill: none; }
+        
+        /* [NEW] Review Stats Accordion (Req 3) */
+        .review-stats-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .stats-item-card {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: background 0.2s;
+        }
+        .stats-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+        }
+        .stats-item-header:hover {
+            background: #f8f8f9;
+        }
+        .stats-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            min-width: 0; /* for ellipsis */
+            margin-right: 12px;
+        }
+        .stats-category {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        .stats-top-keyword {
+            font-size: 13px;
+            color: #555;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .stats-item-summary {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .summary-item-bar-wrapper {
+            width: 60px;
+            height: 6px;
+            background: #e9ecef; 
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .summary-item-bar {
+            height: 100%;
+            border-radius: 3px;
+        }
+        .summary-item-bar.quality { background: #4e6ee4; }
+        .summary-item-bar.production { background: #28a745; }
+        .summary-item-bar.price { background: #ffc107; }
+        .summary-item-bar.shipping { background: #17a2b8; }
+        
+        .stats-percentage {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            width: 30px; /* Fixed width */
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .stats-arrow {
+            width: 16px;
+            height: 16px;
+            color: #888;
+            flex-shrink: 0;
+        }
+        .stats-arrow svg {
+            transition: transform 0.3s ease;
+        }
+        .stats-item-card.expanded .stats-arrow svg {
+            transform: rotate(-180deg);
+        }
+        .stats-item-body {
+            display: none;
+            background: #f8f8f9;
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+        }
+        .stats-keyword-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .stats-keyword-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .stats-keyword-name {
+            font-size: 13px;
+            color: #555;
+            flex: 1;
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+
+        /* [MODIFIED] Written Review Card Style (from review_after.html) */
+        .written-review-card {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            background: #fff;
+            overflow: hidden;
+        }
+        .card-body { 
+            padding: 16px; 
+            cursor: pointer;
+        }
+        /* [MODIFIED] card-product-name -> card-review-rating (순서 변경 - Req 2) */
+        .card-review-rating { font-size: 16px; margin-bottom: 8px; }
+        .review-detail-rating svg, .card-review-rating svg {fill: #FFC107;}
+        .review-detail-rating svg.empty_star, .card-review-rating svg.empty_star {fill: none;}
+
+        .card-product-spec { font-size: 13px; color: #888; line-height: 1.5; margin-bottom: 12px;}
+        
+        .card-review-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            
+            /* 3-line ellipsis */
+            white-space: normal;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* 3-line clamp */
+            -webkit-box-orient: vertical;
+            max-height: 67.2px; /* 14px * 1.6 * 3 lines */
+        }
+        /* [NEW] Expanded state for review text */
+        .card-review-text.expanded {
+            -webkit-line-clamp: unset;
+            max-height: none;
+        }
+        
+        .card-review-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .review-chip-sm-group {
+            background: #f5f5f6;
+            color: #8a8a92;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 100px;
+            display: inline-flex;
+        }
+        .review-chip-sm-group .category {
+            font-weight: 600;
+            color: #555;
+            margin-right: 4px;
+        }
+        .review-chip-sm-group .keyword {
+            color: #8a8a92;
+        }
+
+        /* [MODIFIED] author/date + expand button */
+        .card-review-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-review-author-date {
+            font-size: 13px;
+            color: #888;
+        }
+        .expand-toggle {
+            font-size: 13px;
+            font-weight: 500;
+            color: #555;
+            cursor: pointer;
+            padding: 4px; /* 터치 영역 확보 */
+        }
+        
+        .card-thumbnail-list {
+            display: flex;
+            gap: 8px;
+            padding: 16px 16px 0 16px; 
+            overflow-x: auto;
+            cursor: pointer;
+        }
+        .card-thumbnail-list img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #eee;
+            flex-shrink: 0;
+        }
+        .written-review-card[data-has-images="false"] .card-thumbnail-list { display: none; }
+        .written-review-card[data-has-images="false"] .card-body { padding-top: 16px; }
+        .written-review-card[data-has-images="true"] .card-body { padding-top: 12px; }
+
+        /* [NEW] QNA Card (from qna_list.html) */
+        .common-table-card {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            position: relative;
+        }
+        /* [MODIFIED] QNA Card layout for checkbox (Req 2) */
+        .common-table-card.qna-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 15px;
+            cursor: default; /* Remove card-wide cursor */
+        }
+        /* [MODIFIED] Remove hover for non-expanded card (Req 3) */
+        .common-table-card.qna-card:hover {
+            background: #fff;
+        }
+        /* [MODIFIED] Add hover for expanded card (Req 3) */
+        .common-table-card.qna-card.expanded {
+            background: #fff; /* White background for expanded card */
+        }
+
+        .qna-checkbox-wrapper {
+            display: none; /* Hide by default */
+            padding-top: 2px; /* Align with header */
+        }
+        .card-content-wrapper {
+            flex: 1;
+            min-width: 0;
+        }
+        /* Cursors for accordion toggle */
+        .qna-card .card-header,
+        .qna-card .qna-title-row {
+            cursor: pointer;
+        }
+        
+        /* Show checkbox when 'my-inquiries' is active */
+        body.my-inquiries-active .qna-checkbox-wrapper {
+            display: block;
+        }
+        /* Hide non-user posts when 'my-inquiries' is active */
+        body.my-inquiries-active .qna-card:not([data-is-mine="true"]) {
+            display: none;
+        }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0; }
+        .qna-category { font-size: 12px; font-weight: 600; color: #007bff; }
+        /* [MODIFIED] All Q&A are Q&A category */
+        .qna-category { color: #007bff; } 
+        
+        .qna-title-row {
+            font-size: 16px;
+            font-weight: 500;
+            color: #212121;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; 
+            -webkit-box-orient: vertical;
+            white-space: normal; 
+            line-height: 1.5; 
+            max-height: 48px;
+        }
+        
+        /* [NEW] Private (lock) icon styles (Req 1) */
+        .qna-title-row.private {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #555; /* Dim color */
+        }
+        .qna-title-row.private .lock-icon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            color: #888;
+            stroke-width: 2.5;
+        }
+        .qna-title-row.private span {
+            /* Ellipsis styles */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; 
+            -webkit-box-orient: vertical;
+            white-space: normal; 
+        }
+
+        .card-badge {
+            background: white;
+            border: 1px solid #d7d7d7;
+            border-radius: 30px;
+            padding: 2px 10px;
+            font-size: 10px;
+            color: black;
+            flex-shrink: 0;
+        }
+        .card-divider { width: 100%; height: 1px; background: #e8e8e9; margin: 10px 0; }
+        .card-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; }
+        .card-row:last-child { margin-bottom: 0; }
+        .card-row-label { color: #333333; }
+        .card-row-value { color: grey; }
+        .card-badge[data-status="답변 완료"] { border-color: #28a745; color: #28a745; }
+        .card-badge[data-status="답변 대기"] { border-color: #007bff; color: #007bff; }
+        
+        /* [NEW] QNA Answer Wrapper (for Accordion) */
+        .qna-answer-wrapper {
+            display: none; /* 숨김 처리 */
+            padding-top: 16px;
+            margin-top: 16px;
+            border-top: 1px solid #f0f0f0;
+        }
+        /* [NEW] QNA Answer Section (from qna_detail(AS).html) */
+        .qna-answer-section {
+            background: #f8f8f9;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+        }
+        .qna-answer-header {
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+         .qna-answer-header svg {
+            width: 20px;
+            height: 20px;
+            color: #4e6ee4;
+            stroke-width: 2;
+         }
+        .qna-answer-body {
+            padding: 24px 16px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #333;
+        }
+        .qna-answer-body p { margin-bottom: 16px; }
+        .qna-answer-body p:last-child { margin-bottom: 0; }
+        .qna-answer-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            font-size: 13px;
+            color: #555;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .qna-answer-footer .date { color: #888; flex-shrink: 0; font-size: 13px; }
+        .qna-answer-staff { display: flex; align-items: center; gap: 10px; min-width: 0; }
+        .qna-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1px solid #eee; flex-shrink: 0; }
+        .staff-name { font-size: 14px; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .staff-name strong { font-weight: 600; color: #333; }
+
+
+        .no-transactions { padding: 40px 16px; text-align: center; color: #888; font-size: 14px; }
+
+        /* [v17] Pagination (Master Guide Img) */
+        .pagination { display: flex; align-items: center; justify-content: center; gap: 9px; }
+        .pagination-arrow { width: 15px; height: 15px; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; }
+        .pagination-arrow img { width: 100%; height: auto; }
+        .pagination-arrow:active { transform: scale(0.9); }
+        .pagination-arrow.disabled { opacity: 0.3; cursor: not-allowed; }
+        .pagination-numbers { display: flex; gap: 3px; }
+        .pagination-number { min-width: 28px; height: 28px; padding: 4px 5px; border-radius: 4px; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .pagination-number.active { background: #4e6ee4; color: white; }
+        .pagination-number:not(.active) { background: white; color: #bcbcbc; }
+        .pagination-number:not(.active):hover { background: #f5f5f5; }
+        .pagination-number:active { transform: scale(0.95); }
+
+        /* [NEW] Modal (v12 Standard Base) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeInModal 0.2s ease-out;
+        }
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px; /* Modal max width */
+            max-height: 90vh; /* Limit height */
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+        @keyframes scaleUpModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+        }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+        }
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #888;
+        }
+        .btn-modal-close:hover {
+            color: #333;
+        }
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+
+        /* [NEW] Review Detail Modal (from review_after.html) */
+        #review-detail-modal .modal-body {
+            padding: 0;
+        }
+        
+        .review-carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background: #f0f0f0;
+            display: none; /* Hide by default */
+            aspect-ratio: 1 / 1; 
+        }
+        .review-carousel-container.has-images {
+            display: block;
+        }
+        .review-carousel-track {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+            height: 100%;
+        }
+        .review-carousel-track .slide {
+            min-width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+        }
+        .review-carousel-track .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            display: block;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-btn:hover { background: rgba(0,0,0,0.5); }
+        .carousel-btn.prev { left: 8px; }
+        .carousel-btn.next { right: 8px; }
+        .carousel-btn.hidden { display: none; }
+        .carousel-pagination {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .carousel-dot.active {
+            background: white;
+        }
+
+        .review-detail-content {
+            padding: 16px;
+        }
+        .review-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        .review-detail-product {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .review-detail-spec {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        .review-detail-rating {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        .review-detail-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            white-space: pre-wrap; 
+        }
+        .review-detail-chips {
+             display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .review-detail-footer-date {
+            font-size: 13px;
+            color: #888;
+            text-align: right;
+            margin-top: 16px;
+        }
+
+        /* [NEW] Sticky Action Footer (from qna_list.html) */
+        .sticky-action-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px; /* Match .mobile-wrap */
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            padding: 16px; 
+            z-index: 500;
+            /* [MODIFIED] 기본 숨김 */
+            display: none; 
+        }
+        .sticky-action-footer .dark-button {
+            width: 100%; /* Make button full width */
+        }
+        
+        /* [NEW] Q&A Delete Footer (Req 2) */
+        #qna-delete-footer {
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+        #qna-delete-footer span {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        #qna-delete-footer .dark-button {
+            width: auto;
+            flex: none; /* Don't grow */
+            background-color: #dc3545; /* Red delete button */
+        }
+        #qna-delete-footer .dark-button:hover {
+            background-color: #c82333;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="mobile-wrap">
+        
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                </button>
+            </div>
+            <h1 class="header-title">리뷰·Q&A</h1>
+            <div class="header-right">
+                </div>
+        </header>
+
+        <nav class="page-tabs" id="page-tab-nav">
+            <div class="page-tab-item active" data-page="review" onclick="selectPageTab(this, 'review')">리뷰 (999+)</div>
+            <div class="page-tab-item" data-page="qna" onclick="selectPageTab(this, 'qna')">Q&A (3)</div>
+        </nav>
+
+        <main>
+            <div id="page-content-review" style="display: block;">
+                 <div class="sw-container" style="padding-top: 16px;">
+                    
+                    <section class="info-section">
+                        <div class="review-summary-header">
+                            <span class="review-summary-score">4.0</span>
+                            <div class="review-summary-rating" id="summary-rating-stars"></div>
+                        </div>
+                        
+                        <div class="review-stats-list" id="review-stats-list">
+                    
+                            <div class="stats-item-card">
+                                <div class="stats-item-header" onclick="toggleStats(this)">
+                                    <div class="stats-item-info">
+                                        <span class="stats-category">품질</span>
+                                        <span class="stats-top-keyword">원하는 색감이 잘 구현됐어요</span>
+                                    </div>
+                                    <div class="stats-item-summary">
+                                        <div class="summary-item-bar-wrapper">
+                                            <div class="summary-item-bar quality" style="width: 98%;"></div>
+                                        </div>
+                                        <span class="stats-percentage">98%</span>
+                                        <div class="stats-arrow">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stats-item-body">
+                                    <ul class="stats-keyword-list">
+                                        <li class="stats-keyword-item">
+                                            <span class="stats-keyword-name">원하는 색감이 잘 구현됐어요</span>
+                                            <div class="summary-item-bar-wrapper">
+                                                <div class="summary-item-bar quality" style="width: 98%;"></div>
+                                            </div>
+                                            <span class="stats-percentage">98%</span>
+                                        </li>
+                                        <li class="stats-keyword-item">
+                                            <span class="stats-keyword-name">재질이 만족스러워요</span>
+                                            <div class="summary-item-bar-wrapper">
+                                                <div class="summary-item-bar quality" style="width: 75%;"></div>
+                                            </div>
+                                            <span class="stats-percentage">75%</span>
+                                        </li>
+                                        <li class="stats-keyword-item">
+                                            <span class="stats-keyword-name">재단·가공이 깔끔해요</span>
+                                            <div class="summary-item-bar-wrapper">
+                                                <div class="summary-item-bar quality" style="width: 60%;"></div>
+                                            </div>
+                                            <span class="stats-percentage">60%</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+        
+                            <div class="stats-item-card">
+                                <div class="stats-item-header" onclick="toggleStats(this)">
+                                    <div class="stats-item-info">
+                                        <span class="stats-category">제작/접수</span>
+                                        <span class="stats-top-keyword">제작 속도가 빨라요</span>
+                                    </div>
+                                    <div class="stats-item-summary">
+                                        <div class="summary-item-bar-wrapper">
+                                            <div class="summary-item-bar production" style="width: 55%;"></div>
+                                        </div>
+                                        <span class="stats-percentage">55%</span>
+                                        <div class="stats-arrow">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stats-item-body">
+                                    <ul class="stats-keyword-list">
+                                        <li class="stats-keyword-item">
+                                            <span class="stats-keyword-name">제작 속도가 빨라요</span>
+                                            <div class="summary-item-bar-wrapper">
+                                                <div class="summary-item-bar production" style="width: 55%;"></div>
+                                            </div>
+                                            <span class="stats-percentage">55%</span>
+                                        </li>
+                                        <li class="stats-keyword-item">
+                                            <span class="stats-keyword-name">오류없이 제작돼요</span>
+                                            <div class="summary-item-bar-wrapper">
+                                                <div class="summary-item-bar production" style="width: 40%;"></div>
+                                            </div>
+                                            <span class="stats-percentage">40%</span>
+                                        </li>
+                                        <li class="stats-keyword-item">
+                                            <span class="stats-keyword-name">접수가 편리해요</span>
+                                            <div class="summary-item-bar-wrapper">
+                                                <div class="summary-item-bar production" style="width: 30%;"></div>
+                                            </div>
+                                            <span class="stats-percentage">30%</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="stats-item-card">
+                                <div class="stats-item-header" onclick="toggleStats(this)">
+                                    <div class="stats-item-info">
+                                        <span class="stats-category">가격</span>
+                                        <span class="stats-top-keyword">다른 곳보다 합리적인 가격이에요</span>
+                                    </div>
+                                    <div class="stats-item-summary">
+                                        <div class="summary-item-bar-wrapper">
+                                            <div class="summary-item-bar price" style="width: 68%;"></div>
+                                        </div>
+                                        <span class="stats-percentage">68%</span>
+                                        <div class="stats-arrow">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stats-item-body">
+                                    <ul class="stats-keyword-list">
+                                        <li class="stats-keyword-item">
+                                            <span class="stats-keyword-name">다른 곳보다 합리적인 가격이에요</span>
+                                            <div class="summary-item-bar-wrapper">
+                                                <div class="summary-item-bar price" style="width: 68%;"></div>
+                                            </div>
+                                            <span class="stats-percentage">68%</span>
+                                        </li>
+                                        <li class="stats-keyword-item">
+                                            <span class="stats-keyword-name">가격 대비 품질이 좋아요</span>
+                                            <div class="summary-item-bar-wrapper">
+                                                <div class="summary-item-bar price" style="width: 60%;"></div>
+                                            </div>
+                                            <span class="stats-percentage">60%</span>
+                                        </li>
+                                        <li class="stats-keyword-item">
+                                            <span class="stats-keyword-name">재주문할 만큼 가성비가 좋아요</span>
+                                            <div class="summary-item-bar-wrapper">
+                                                <div class="summary-item-bar price" style="width: 50%;"></div>
+                                            </div>
+                                            <span class="stats-percentage">50%</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="stats-item-card">
+                                <div class="stats-item-header" onclick="toggleStats(this)">
+                                    <div class="stats-item-info">
+                                        <span class="stats-category">배송</span>
+                                        <span class="stats-top-keyword">포장이 꼼꼼하고 안전했어요</span>
+                                    </div>
+                                    <div class="stats-item-summary">
+                                        <div class="summary-item-bar-wrapper">
+                                            <div class="summary-item-bar shipping" style="width: 80%;"></div>
+                                        </div>
+                                        <span class="stats-percentage">80%</span>
+                                        <div class="stats-arrow">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stats-item-body"> <ul class="stats-keyword-list">
+                                        <li class="stats-keyword-item">
+                                            <span class="stats-keyword-name">포장이 꼼꼼하고 안전했어요</span>
+                                            <div class="summary-item-bar-wrapper">
+                                                <div class="summary-item-bar shipping" style="width: 80%;"></div>
+                                            </div>
+                                            <span class="stats-percentage">80%</span>
+                                        </li>
+                                        <li class="stats-keyword-item">
+                                            <span class="stats-keyword-name">배송 현황 안내가 잘 돼요</span>
+                                            <div class="summary-item-bar-wrapper">
+                                                <div class="summary-item-bar shipping" style="width: 50%;"></div>
+                                            </div>
+                                            <span class="stats-percentage">50%</span>
+                                        </li>
+                                        <li class="stats-keyword-item">
+                                            <span class="stats-keyword-name">배송이 빠르고 정확해요</span>
+                                            <div class="summary-item-bar-wrapper">
+                                                <div class="summary-item-bar shipping" style="width: 30%;"></div>
+                                            </div>
+                                            <span class="stats-percentage">30%</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+        
+                        </div>
+                    </section>
+
+                    <section class="transaction-list-section">
+                        <div class="transaction-list-header">
+                            <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                                <div class="checkbox" data-checked="false">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <span>포토 리뷰만 모아보기</span>
+                            </div>
+                            <button type="button" class="sort-select-button">
+                                <span class="sort-select-button-text">추천순</span>
+                                <div class="sort-select-button-arrow">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                                </div>
+                            </button>
+                        </div>
+    
+                        <div class="transaction-list" id="review-list-container">
+                            
+                            <article class="written-review-card" data-has-images="true" 
+                                     data-images="https://picsum.photos/id/102/300/300,https://picsum.photos/id/103/300/300,https://picsum.photos/id/104/300/300">
+                                <div class="card-thumbnail-list" onclick="openReviewDetailModal(this); event.stopPropagation();">
+                                    <img src="https://picsum.photos/id/102/150/150" alt="리뷰 썸네일 1">
+                                    <img src="https://picsum.photos/id/103/150/150" alt="리뷰 썸네일 2">
+                                    <img src="https://picsum.photos/id/104/150/150" alt="리뷰 썸네일 3">
+                                </div>
+                                <div class="card-body" onclick="openReviewDetailModal(this)">
+                                    <div class="card-product-spec">용지: (표지) 스노우지 / 백색 / 250g, (내지) 아트지 / 백색 / 100g | 인쇄: (표지) 양면 / CMYK / 일반, (내지)단면 / K / 일반 | 제본: 왼쪽 / 무선 | 사이즈: A4(210x195) | 가공: 박 / 오시 / 도무송</div>
+                                    <div class="card-review-rating" id="card-rating-1"></div>
+                                    <div class="card-review-text">색감이 모니터에서 보던 그대로 나와서 정말 만족스러웠어요. 종이 질감도 고급스럽고 마감이 깔끔해서 다음에 꼭 재주문하려고 합니다.</div>
+                                    <div class="card-review-chips">
+                                        <span class="review-chip-sm-group"><strong class="category">품질</strong><span class="keyword">원하는 색감이 잘 구현됐어요</span></span>
+                                        <span class="review-chip-sm-group"><strong class="category">가격</strong><span class="keyword">다른 곳보다 합리적인 가격이에요</span></span>
+                                    </div>
+                                    <div class="card-review-footer">
+                                        <span class="card-review-author-date">홍*동 | 2025-08-08</span>
+                                        <button class="expand-toggle" onclick="toggleReviewText(this); event.stopPropagation();">더보기</button>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="written-review-card" data-has-images="false">
+                                <div class="card-thumbnail-list" onclick="openReviewDetailModal(this); event.stopPropagation();">
+                                    </div>
+                                <div class="card-body" onclick="openReviewDetailModal(this)">
+                                    <div class="card-product-spec">용지: (표지) 스노우지 / 백색 / 250g, (내지) 아트지 / 백색 / 100g | 인쇄: (표지) 양면 / CMYK / 일반, (내지)단면 / K / 일반 | 제본: 왼쪽 / 무선 | 사이즈: A4(210x195) | 가공: 박 / 오시 / 도무송</div>
+                                    <div class="card-review-rating" id="card-rating-2"></div>
+                                    <div class="card-review-text">첫 책자 제작이라 많이 고민했는데, 상세한 안내 덕분에 어렵지 않게 주문할 수 있었습니다. 스노우지 300g 무광 코팅으로 선택했는데, 두께감이 있어 손에 쥐었을 때 안정적이고 고급스러운 느낌을 줍니다. 인쇄도 선명하고 작은 글씨까지 깔끔하게 표현되어 전문적인 이미지를 전달하기에 충분했습니다. 색상도 시안과 거의 동일하게 나와서 믿을 수 있었고, 배송도 예상보다 빠르게 도착해 급하게 필요한 자리에서도 유용하게 활용할 수 있었습니다. 포장도 꼼꼼해서 제품이 손상될 걱정이 없었어요. 다만 코팅을 하지 않은 부분은 지문이 조금 남는 편이라 아쉬움이 있었지만, 전반적으로 가격 대비 만족도가 높습니다. 처음 명함을 제작하거나 대량 제작이 필요한 분들께 자신 있게 추천드릴 수 있는 제품이에요</div>
+                                    <div class="card-review-chips">
+                                        <span class="review-chip-sm-group"><strong class="category">배송</strong><span class="keyword">배송이 빠르고 정확해요</span></span>
+                                        <span class="review-chip-sm-group"><strong class="category">제작/접수</strong><span class="keyword">오류없이 제작돼요</span></span>
+                                        <span class="review-chip-sm-group"><strong class="category">가격</strong><span class="keyword">다른 곳보다 합리적인 가격이에요</span></span>
+                                    </div>
+                                    <div class="card-review-footer">
+                                        <span class="card-review-author-date">홍*동 | 2025-08-08</span>
+                                        <button class="expand-toggle" onclick="toggleReviewText(this); event.stopPropagation();">더보기</button>
+                                    </div>
+                                </div>
+                            </article>
+                            
+                        </div>
+                        
+                        <div class="no-transactions" id="no-review-list" style="display: none;">작성된 리뷰가 없습니다.</div>
+                        
+                        <div class="pagination" data-name="Pagination">
+                            <div class="pagination-arrow disabled" onclick="paginationFirst()">
+                                <img src="https://www.figma.com/api/mcp/asset/98c36079-6698-4fbf-8222-1c0b4fcaab1c" alt="처음" style="transform: rotate(90deg);">
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationPrev()">
+                                <img src="https://www.figma.com/api/mcp/asset/5881851a-69b0-4a30-8ba8-bbb647a7fcc4" alt="이전" style="transform: rotate(90deg);">
+                            </div>
+                            <div class="pagination-numbers" id="pagination-numbers-review">
+                                <div class="pagination-number active" data-page="1" onclick="paginationGo(1, 'review')">1</div>
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationNext()">
+                                <img src="https://www.figma.com/api/mcp/asset/9f728346-6da0-4d2b-a299-2137f0214aea" alt="다음" style="transform: rotate(90deg) scaleY(-1);">
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationLast()">
+                                <img src="https://www.figma.com/api/mcp/asset/4557e67d-fb94-45a7-a3da-e8690f677a05" alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div id="page-content-qna" style="display: none;">
+                
+                <div class="sw-container">
+                    <section class="transaction-list-section">
+                        <div class="transaction-list-header" style="padding-top: 16px;">
+                            <span class="total-count">총 <strong id="qna-count">3</strong>건</span>
+                            <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                                <div class="checkbox" data-checked="false">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <span>내 문의 보기</span>
+                            </div>
+                        </div>
+    
+                        <div class="transaction-list" id="qna-list-container">
+                            
+                            <article class="common-table-card qna-card" data-status="답변 완료" data-category="Q&A">
+                                <div class="qna-checkbox-wrapper">
+                                    <div class="checkbox" data-checked="false" onclick="toggleQnaCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                </div>
+                                <div class="card-content-wrapper">
+                                    <div class="card-header" onclick="toggleQnaAnswer(this)">
+                                        <span class="qna-category" data-category="Q&A">Q&A</span>
+                                        <div class="card-badge" data-status="답변 완료">답변 완료</div>
+                                    </div>
+                                    <div class="qna-title-row" onclick="toggleQnaAnswer(this)">
+                                        <span>Q. 책자 페이지 수는 어떻게 선택해야 하나요?</span>
+                                    </div>
+                                    <div class="card-divider"></div>
+                                    <div class="card-row">
+                                        <div class="card-row-label">작성자</div>
+                                        <div class="card-row-value">홍*동</div>
+                                    </div>
+                                    <div class="card-row">
+                                        <div class="card-row-label">작성일</div>
+                                        <div class="card-row-value">2025-08-08</div>
+                                    </div>
+                                    
+                                    <div class="qna-answer-wrapper">
+                                        <section class="qna-answer-section">
+                                            <div class="qna-answer-header">
+                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
+                                                    <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
+                                                 </svg>
+                                                성원애드피아의 답변입니다.
+                                            </div>
+                                            <div class="qna-answer-body">
+                                                <p>A. 책자 페이지 수는 내지의 매수에 따라 결정됩니다. 표지 4p를 기본으로 포함하며, 내지는 4p 단위로 추가 가능합니다. 원하는 분량에 맞춰 옵션에서 페이지 수를 선택해주세요.</p>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </article>
+                            
+                            <article class="common-table-card qna-card" data-status="답변 대기" data-category="Q&A" data-is-mine="true">
+                                <div class="qna-checkbox-wrapper">
+                                    <div class="checkbox" data-checked="false" onclick="toggleQnaCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                </div>
+                                <div class="card-content-wrapper">
+                                     <div class="card-header" onclick="toggleQnaAnswer(this)">
+                                        <span class="qna-category" data-category="Q&A">Q&A</span> <div class="card-badge" data-status="답변 대기">답변 대기</div>
+                                    </div>
+                                    <div class="qna-title-row" onclick="toggleQnaAnswer(this)">
+                                        <span>Q. 제본 방식은 어떤 차이가 있나요?</span>
+                                    </div>
+                                    <div class="card-divider"></div>
+                                    <div class="card-row">
+                                        <div class="card-row-label">작성자</div>
+                                        <div class="card-row-value">홍*동(나)</div>
+                                    </div>
+                                    <div class="card-row">
+                                        <div class="card-row-label">작성일</div>
+                                        <div class="card-row-value">2025-08-08</div>
+                                    </div>
+                                    
+                                    <div class="qna-answer-wrapper">
+                                         <section class="qna-answer-section" style="background: #f0f0f0; border-color: #e0e0e0;">
+                                            <div class="qna-answer-body" style="padding: 16px; text-align: center; color: #888; font-size: 13px;">
+                                                <p style="margin: 0;">아직 답변이 등록되지 않았습니다.</p>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </article>
+                            
+                            <article class="common-table-card qna-card" data-status="답변 완료" data-category="Q&A">
+                                <div class="qna-checkbox-wrapper">
+                                    <div class="checkbox" data-checked="false" onclick="toggleQnaCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                </div>
+                                <div class="card-content-wrapper">
+                                    <div class="card-header" onclick="toggleQnaAnswer(this)">
+                                        <span class="qna-category" data-category="Q&A">Q&A</span>
+                                        <div class="card-badge" data-status="답변 완료">답변 완료</div>
+                                    </div>
+                                    <div class="qna-title-row private" onclick="toggleQnaAnswer(this)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="lock-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" /><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" /><path d="M8 11v-4a4 4 0 0 1 8 0v4" /></svg>
+                                        <span>Q. 비공개 문의입니다.</span>
+                                    </div>
+                                    <div class="card-divider"></div>
+                                    <div class="card-row">
+                                        <div class="card-row-label">작성자</div>
+                                        <div class="card-row-value">홍*동</div>
+                                    </div>
+                                    <div class="card-row">
+                                        <div class="card-row-label">작성일</div>
+                                        <div class="card-row-value">2025-08-08</div>
+                                    </div>
+                                    <div class="qna-answer-wrapper">
+                                         <section class="qna-answer-section" style="background: #fff8e1; border-color: #ffecb3;">
+                                            <div class="qna-answer-body" style="padding: 16px; display: flex; align-items: center; gap: 8px; color: #6d4c00; font-size: 13px; font-weight: 500;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16v.01" /></svg>
+                                                <p style="margin: 0;">비공개 문의입니다. '내 문의 보기'를 통해 확인해주세요.</p>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </article>
+
+                        </div>
+                        
+                        <div class="no-transactions" id="no-qna-list" style="display: none;">작성된 Q&A가 없습니다.</div>
+                        
+                        <div class="pagination" data-name="Pagination">
+                            <div class="pagination-arrow disabled" onclick="paginationFirst()">
+                                <img src="https://www.figma.com/api/mcp/asset/98c36079-6698-4fbf-8222-1c0b4fcaab1c" alt="처음" style="transform: rotate(90deg);">
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationPrev()">
+                                <img src="https://www.figma.com/api/mcp/asset/5881851a-69b0-4a30-8ba8-bbb647a7fcc4" alt="이전" style="transform: rotate(90deg);">
+                            </div>
+                            <div class="pagination-numbers" id="pagination-numbers-qna">
+                                <div class="pagination-number active" data-page="1" onclick="paginationGo(1, 'qna')">1</div>
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationNext()">
+                                <img src="https://www.figma.com/api/mcp/asset/9f728346-6da0-4d2b-a299-2137f0214aea" alt="다음" style="transform: rotate(90deg) scaleY(-1);">
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationLast()">
+                                <img src="https://www.figma.com/api/mcp/asset/4557e67d-fb94-45a7-a3da-e8690f677a05" alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+        
+        <div class="sticky-action-footer" id="qna-footer">
+             <button class="dark-button" onclick="location.href='qna_write.html'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M12 5l0 14" />
+                    <path d="M5 12l14 0" />
+                </svg>
+                문의하기
+            </button>
+        </div>
+        
+        <div class="sticky-action-footer" id="qna-delete-footer">
+            <span id="qna-selected-count">총 0건 선택됨</span>
+            <button class="dark-button btn" onclick="alert('삭제하기 (구현 필요)')">삭제하기</button>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="review-detail-modal-overlay">
+        <div class="modal-content" id="review-detail-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">리뷰 상세</h2>
+                <button class="btn-modal-close" onclick="closeModal('review-detail-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="review-carousel-container" id="detail-modal-carousel-container">
+                    <div class="review-carousel-track" id="detail-modal-track">
+                        </div>
+                    <button class="carousel-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+                    <button class="carousel-btn next" onclick="moveSlide(1)">&#10095;</button>
+                    <div class="carousel-pagination" id="detail-modal-pagination">
+                        </div>
+                </div>
+
+                <div class="review-detail-content">
+                    <div class="review-detail-header">
+                        <span class="review-detail-product" id="detail-modal-product"></span>
+                        </div>
+                    <div class="review-detail-spec" id="detail-modal-spec"></div>
+                    <div class="review-detail-rating" id="detail-modal-rating"></div>
+                    <div class="review-detail-text" id="detail-modal-text"></div>
+                    <div class="review-detail-chips" id="detail-modal-chips"></div>
+                    <div class="review-detail-footer-date" id="detail-modal-date"></div>
+                </div>
+            </div>
+            </div>
+    </div>
+
+    
+    <script>
+        // --- [NEW] Page Tab Logic ---
+        function selectPageTab(tab, page) {
+            const nav = tab.closest('#page-tab-nav');
+            if (!nav) return;
+            nav.querySelectorAll('.page-tab-item').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            const reviewPage = document.getElementById('page-content-review');
+            const qnaPage = document.getElementById('page-content-qna');
+            const qnaFooter = document.getElementById('qna-footer');
+            const qnaDeleteFooter = document.getElementById('qna-delete-footer');
+            const mobileWrap = document.querySelector('.mobile-wrap');
+
+            if (page === 'review') {
+                if (reviewPage) reviewPage.style.display = 'block';
+                if (qnaPage) qnaPage.style.display = 'none';
+                if (qnaFooter) qnaFooter.style.display = 'none';
+                if (qnaDeleteFooter) qnaDeleteFooter.style.display = 'none';
+                mobileWrap.style.paddingBottom = '20px'; // 기본 여백
+            } else { // 'qna'
+                if (reviewPage) reviewPage.style.display = 'none';
+                if (qnaPage) qnaPage.style.display = 'block';
+                
+                // [MODIFIED] Footer logic (Req 2)
+                const myInquiryCheckbox = document.querySelector('#page-content-qna .checkbox[data-checked="true"]');
+                const isMyInquiryActive = !!myInquiryCheckbox;
+                
+                document.body.classList.toggle('my-inquiries-active', isMyInquiryActive);
+                if (qnaFooter) qnaFooter.style.display = isMyInquiryActive ? 'none' : 'block';
+                
+                if (isMyInquiryActive) {
+                    // '내 문의' 켰을 때: 삭제 푸터 상태 업데이트, 기본 패딩
+                    document.querySelector('.mobile-wrap').style.paddingBottom = '20px';
+                    updateQnaDeleteFooter();
+                } else {
+                    // '내 문의' 껐을 때: 삭제 푸터 숨기고, '문의하기' 푸터 패딩
+                    if (qnaDeleteFooter) qnaDeleteFooter.style.display = 'none';
+                    document.querySelector('.mobile-wrap').style.paddingBottom = '100px'; // 스티키 푸터 여백
+                }
+            }
+        }
+        
+        // --- [NEW] v12 Checkbox ---
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+            }
+            return checkbox.dataset.checked === 'true';
+        }
+        
+        function toggleCheckboxText(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            const isChecked = toggleCheckbox(checkbox);
+            
+            if (wrapper.closest('#page-content-review')) {
+                // 리뷰 '포토 리뷰만' 필터링
+                console.log("포토 리뷰 필터:", isChecked);
+            
+            // [MODIFIED] Q&A '내 문의 보기' 로직 (Req 2)
+            } else if (wrapper.closest('#page-content-qna')) {
+                console.log("내 문의 보기 필터:", isChecked);
+                document.body.classList.toggle('my-inquiries-active', isChecked);
+                document.getElementById('qna-footer').style.display = isChecked ? 'none' : 'block';
+                
+                if (isChecked) {
+                    // '내 문의' 켰을 때: 삭제 푸터 상태 업데이트, 기본 패딩
+                    document.querySelector('.mobile-wrap').style.paddingBottom = '20px';
+                    updateQnaDeleteFooter();
+                } else {
+                    // '내 문의' 껐을 때: 삭제 푸터 숨기고, '문의하기' 푸터 패딩
+                    document.getElementById('qna-delete-footer').style.display = 'none';
+                    document.querySelector('.mobile-wrap').style.paddingBottom = '100px';
+                }
+            }
+        }
+
+        // --- [NEW] v12 MultiChip (for Q&A Category) ---
+        function toggleMultiChip(chip, forceState) {
+            const isCurrentlyOn = chip.classList.contains('multi-chip-on');
+            let turnOn;
+            if (forceState === true) turnOn = true;
+            else if (forceState === false) turnOn = false;
+            else turnOn = !isCurrentlyOn;
+
+            if (turnOn && !isCurrentlyOn) {
+                chip.classList.replace('multi-chip-off', 'multi-chip-on');
+                chip.innerHTML = '✓ ' + chip.innerHTML.trim();
+            } else if (!turnOn && isCurrentlyOn) {
+                chip.classList.replace('multi-chip-on', 'multi-chip-off');
+                chip.innerHTML = chip.innerHTML.replace('✓ ', '');
+            }
+        }
+        
+        // --- [NEW] Q&A Category Filter Logic ---
+        function toggleCategoryChip(chip) {
+            const category = chip.getAttribute('data-category');
+            const group = chip.closest('#category-chip-group');
+            const allChip = group.querySelector('[data-category="전체"]');
+            
+            if (category === '전체') {
+                const isTurningOn = !chip.classList.contains('multi-chip-on');
+                toggleMultiChip(chip, isTurningOn); 
+                group.querySelectorAll('.multi-chip').forEach(c => { 
+                    if (c !== chip) toggleMultiChip(c, false); 
+                });
+            } else {
+                toggleMultiChip(chip);
+                toggleMultiChip(allChip, false); 
+                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-category="전체"])'))
+                                       .some(c => c.classList.contains('multi-chip-on'));
+                if (!anyOtherOn) {
+                    toggleMultiChip(allChip, true);
+                }
+            }
+            // TODO: Q&A 목록 필터링
+            console.log("Q&A 카테고리 필터 변경");
+        }
+
+        
+        // --- [EXISTING] Pagination Logic ---
+        let reviewCurrentPage = 1; const reviewTotalPages = 1; 
+        let qnaCurrentPage = 1; const qnaTotalPages = 1;
+        
+        function paginationGo(page, type) {
+            if (type === 'review') {
+                reviewCurrentPage = page;
+            } else {
+                qnaCurrentPage = page;
+            }
+            updatePagination(type);
+            console.log(`Page changed (${type}):`, page); 
+        }
+        
+        function updatePagination(type) {
+            const numbersContainerId = (type === 'review') ? 'pagination-numbers-review' : 'pagination-numbers-qna';
+            const currentPage = (type === 'review') ? reviewCurrentPage : qnaCurrentPage;
+            const totalPages = (type === 'review') ? reviewTotalPages : qnaTotalPages;
+            
+            const numbersContainer = document.getElementById(numbersContainerId);
+            if (!numbersContainer) return; 
+            
+            numbersContainer.innerHTML = ''; // Clear
+            for (let i = 1; i <= totalPages; i++) {
+                const numEl = document.createElement('div');
+                numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
+                numEl.dataset.page = i;
+                numEl.textContent = i;
+                numEl.onclick = () => paginationGo(i, type);
+                numbersContainer.appendChild(numEl);
+            }
+            
+            const paginationRoot = numbersContainer.closest('.pagination');
+            if (!paginationRoot) return;
+            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)'); 
+            const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
+            
+            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1)); 
+            nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
+        }
+
+        // --- [NEW] Modal Logic ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                const anyModalActive = document.querySelector('.modal-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+        
+        // --- [NEW] Star Rating Helper ---
+        function generateStarRatingHTML(rating, size = 16) {
+            let html = '';
+            const filledStar = `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0; color: #FFC107; stroke: none;"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" /></svg>`;
+            const emptyStar = `<svg width="${size}" height="${size}" class="empty_star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0; color: #e0e0e0;"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>`;
+            
+            html = '<div style="display: flex; gap: 2px;">';
+            for (let i = 0; i < 5; i++) {
+                html += (i < rating) ? filledStar : emptyStar;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        // --- [NEW] Review "더보기/접기" JS ---
+        function toggleReviewText(button) {
+            const cardBody = button.closest('.card-body');
+            const reviewText = cardBody.querySelector('.card-review-text');
+            
+            reviewText.classList.toggle('expanded');
+            if (reviewText.classList.contains('expanded')) {
+                button.textContent = '접기';
+            } else {
+                button.textContent = '더보기';
+            }
+        }
+        
+        // --- [NEW] Review Stats Accordion (Req 3) ---
+        function toggleStats(headerElement) {
+            const card = headerElement.closest('.stats-item-card');
+            if (!card) return;
+            
+            const body = card.querySelector('.stats-item-body');
+            const isExpanded = card.classList.toggle('expanded');
+            
+            // Simple show/hide.
+            if (isExpanded) {
+                body.style.display = 'block';
+            } else {
+                body.style.display = 'none';
+            }
+        }
+        
+        // --- [NEW] Q&A Accordion JS ---
+        function toggleQnaAnswer(element) {
+            const card = element.closest('.qna-card');
+            const answerWrapper = card.querySelector('.qna-answer-wrapper');
+            if (!answerWrapper) return;
+
+            // 모든 열린 답변 숨기기
+            document.querySelectorAll('.qna-answer-wrapper').forEach(wrapper => {
+                if (wrapper !== answerWrapper) {
+                    wrapper.style.display = 'none';
+                    wrapper.closest('.qna-card').classList.remove('expanded');
+                }
+            });
+
+            // 현재 카드 토글
+            if (answerWrapper.style.display === 'block') {
+                answerWrapper.style.display = 'none';
+                card.classList.remove('expanded');
+            } else {
+                answerWrapper.style.display = 'block';
+                card.classList.add('expanded');
+            }
+        }
+        
+        // --- [NEW] Q&A Delete Footer Logic (Req 2) ---
+        function toggleQnaCheckbox(checkboxEl) {
+            // Checkbox UI 토글
+            toggleCheckbox(checkboxEl);
+            // Footer 상태 업데이트
+            updateQnaDeleteFooter();
+        }
+
+        function updateQnaDeleteFooter() {
+            const deleteFooter = document.getElementById('qna-delete-footer');
+            const listContainer = document.getElementById('qna-list-container');
+            const mobileWrap = document.querySelector('.mobile-wrap');
+            
+            if (!listContainer || !deleteFooter) return;
+
+            // '내 문의'가 활성화된 상태일 때만 작동
+            if (!document.body.classList.contains('my-inquiries-active')) {
+                deleteFooter.style.display = 'none';
+                return;
+            }
+
+            const checkedBoxes = listContainer.querySelectorAll('.qna-card[data-is-mine="true"] .checkbox[data-checked="true"]');
+            const count = checkedBoxes.length;
+            
+            if (count > 0) {
+                deleteFooter.style.display = 'flex';
+                document.getElementById('qna-selected-count').textContent = `총 ${count}건 선택됨`;
+                mobileWrap.style.paddingBottom = '100px'; // 삭제 푸터 높이만큼
+            } else {
+                deleteFooter.style.display = 'none';
+                mobileWrap.style.paddingBottom = '20px'; // 기본 여백
+            }
+        }
+
+
+        // --- [MODIFIED] Review Detail Modal Logic (from review_after.html) ---
+        let currentReviewCard = null; 
+        let currentSlide = 0;
+        let totalSlides = 0;
+        let slideTrack;
+        let paginationDots;
+        
+        function openReviewDetailModal(element) {
+            currentReviewCard = element.closest('.written-review-card');
+            
+            const productSpec = currentReviewCard.querySelector('.card-product-spec').textContent;
+            const ratingValue = (currentReviewCard.querySelector('.card-review-rating').innerHTML.match(/fill="currentColor"/g) || []).length;
+            const text = currentReviewCard.querySelector('.card-review-text').textContent;
+            const date = currentReviewCard.querySelector('.card-review-author-date').textContent.split('|')[1].trim();
+            const author = currentReviewCard.querySelector('.card-review-author-date').textContent.split('|')[0].trim();
+            const chipsHtml = currentReviewCard.querySelector('.card-review-chips').innerHTML;
+            
+            // [MODIFIED] 제품명은 스펙에서 파싱 (시안에 없음)
+            document.getElementById('detail-modal-product').textContent = author + "님의 리뷰";
+            document.getElementById('detail-modal-spec').textContent = productSpec;
+            document.getElementById('detail-modal-rating').innerHTML = generateStarRatingHTML(ratingValue, 18);
+            document.getElementById('detail-modal-text').textContent = text;
+            document.getElementById('detail-modal-date').textContent = date;
+            document.getElementById('detail-modal-chips').innerHTML = chipsHtml;
+            
+            const imageUrls = currentReviewCard.dataset.images ? currentReviewCard.dataset.images.split(',') : [];
+            slideTrack = document.getElementById('detail-modal-track');
+            paginationDots = document.getElementById('detail-modal-pagination');
+            const carouselContainer = document.getElementById('detail-modal-carousel-container');
+            
+            slideTrack.innerHTML = '';
+            paginationDots.innerHTML = '';
+            currentSlide = 0;
+            totalSlides = imageUrls.length;
+
+            if (totalSlides > 0) {
+                carouselContainer.classList.add('has-images');
+                imageUrls.forEach((url, index) => {
+                    const slide = document.createElement('div');
+                    slide.className = 'slide';
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.alt = `리뷰 이미지 ${index + 1}`;
+                    slide.appendChild(img);
+                    slideTrack.appendChild(slide);
+                    
+                    const dot = document.createElement('div');
+                    dot.className = 'carousel-dot';
+                    dot.onclick = () => jumpToSlide(index);
+                    paginationDots.appendChild(dot);
+                });
+                showSlide(0); 
+            } else {
+                carouselContainer.classList.remove('has-images');
+            }
+
+            openModal('review-detail-modal-overlay');
+        }
+        
+        // --- [NEW] Carousel Functions ---
+        function showSlide(index) {
+            if (index >= totalSlides) index = 0;
+            if (index < 0) index = totalSlides - 1;
+            
+            if (slideTrack) {
+                slideTrack.style.transform = `translateX(-${index * 100}%)`;
+            }
+            currentSlide = index;
+            
+            updateCarouselUI();
+        }
+
+        function moveSlide(n) {
+            showSlide(currentSlide + n);
+        }
+        
+        function jumpToSlide(index) {
+            showSlide(index);
+        }
+
+        function updateCarouselUI() {
+            const dots = paginationDots.querySelectorAll('.carousel-dot');
+            if(dots.length > 0) {
+                 dots.forEach(dot => dot.classList.remove('active'));
+                 if(dots[currentSlide]) {
+                    dots[currentSlide].classList.add('active');
+                 }
+            }
+           
+            const prevBtn = document.querySelector('#detail-modal-carousel-container .carousel-btn.prev');
+            const nextBtn = document.querySelector('#detail-modal-carousel-container .carousel-btn.next');
+            if (totalSlides <= 1) {
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+                paginationDots.style.display = 'none';
+            } else {
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+                paginationDots.style.display = 'flex';
+            }
+        }
+        
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // 초기 탭 설정
+            selectPageTab(document.querySelector('.page-tab-item.active'), 'review');
+            
+            // 페이지네이션 초기화
+            updatePagination('review'); 
+            updatePagination('qna'); 
+            
+            // [NEW] Populate static ratings
+            document.getElementById('summary-rating-stars').innerHTML = generateStarRatingHTML(4, 20);
+            document.getElementById('card-rating-1').innerHTML = generateStarRatingHTML(5, 16);
+            document.getElementById('card-rating-2').innerHTML = generateStarRatingHTML(4, 16);
+            
+            // 모달 오버레이 클릭 이벤트
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                     if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                     }
+                });
+            });
+
+            // '더보기' 버튼 텍스트 초기화
+            document.querySelectorAll('.written-review-card').forEach(card => {
+                const reviewText = card.querySelector('.card-review-text');
+                const expandToggle = card.querySelector('.expand-toggle');
+                if (reviewText && expandToggle) {
+                    // 텍스트가 실제로 3줄을 넘는지 확인 (scrollHeight > clientHeight)
+                    // 정확도를 위해 임시로 확장했다가 높이를 비교하고 되돌립니다.
+                    const originalHeight = reviewText.clientHeight;
+                    reviewText.classList.add('expanded');
+                    const expandedHeight = reviewText.clientHeight;
+                    reviewText.classList.remove('expanded');
+                    
+                    // clientHeight가 아닌 scrollHeight와 비교
+                    if (reviewText.scrollHeight > originalHeight + 5) { // 5px 정도의 여유
+                        expandToggle.style.display = 'block';
+                        expandToggle.textContent = '더보기';
+                    } else {
+                        expandToggle.style.display = 'none';
+                    }
+                }
+            });
+            
+            // [NEW] '내 문의 보기'가 꺼진 상태로 시작하므로, '문의하기' 푸터 표시
+            document.getElementById('qna-footer').style.display = 'none'; // 기본은 리뷰탭이므로 숨김
+            document.getElementById('qna-delete-footer').style.display = 'none';
+
+        });
+    </script>
+</body>
+</html>

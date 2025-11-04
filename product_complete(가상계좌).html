@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>접수 완료 (가상계좌)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS (from qna_detail(AS).html) */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 20px;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        
+        /* Buttons (v12 Standard) */
+        .primary-button { 
+            background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; 
+        }
+        .primary-button:hover { background: #3d5dd3; }
+        .primary-button:active { transform: scale(0.98); }
+        
+        .dark-button { 
+            background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; 
+        }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 16px;
+        }
+        
+        /* [MODIFIED] Navigation Buttons (from qna_detail) */
+        .page-nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px; /* Space between buttons */
+            padding: 24px 0 16px 0;
+            margin-top: 24px;
+            /* [NEW] Added border top for separation */
+            border-top: 1px solid #e8e8e9;
+        }
+        .page-nav-buttons .btn {
+            flex: 1; /* Each button takes equal space */
+            min-width: 0;
+        }
+
+        /* ========================================
+           [NEW] STYLES FOR COMPLETION PAGE
+        ======================================== */
+
+        .completion-section {
+            padding: 24px 16px;
+            text-align: center;
+        }
+        .completion-section .icon {
+            width: 48px;
+            height: 48px;
+            color: #28a745; /* Green */
+            margin: 0 auto 16px auto;
+        }
+        .completion-section h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 8px;
+        }
+        .completion-section .subtitle {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
+        .virtual-account-box {
+            background: #f8f8f9;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        .virtual-account-box h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        .virtual-account-box .account-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+        .virtual-account-box .account-info span {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            word-break: break-all;
+        }
+        .virtual-account-box .account-info .white-button {
+            flex-shrink: 0;
+            height: 36px;
+            font-size: 13px;
+        }
+
+        /* [NEW] Button group override */
+        .page-nav-buttons.no-border {
+            border-top: none;
+            margin-top: 0;
+            padding-top: 0;
+        }
+        
+        .section-divider {
+            height: 8px;
+            background: #f4f5f7;
+            margin: 0 -16px; /* Extend to screen edges */
+        }
+        
+        .order-id-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        .order-id-header span {
+            font-weight: 400;
+            color: #888;
+        }
+
+        /* [NEW] Info Section (from tax_issue.html precedent) */
+        .info-section {
+            background: #fff;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .info-section .title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .info-sub-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 6px 0;
+            font-size: 14px;
+        }
+        .info-sub-row .label {
+            color: #555;
+            flex-shrink: 0;
+            margin-right: 16px;
+        }
+        .info-sub-row .value {
+            color: #333;
+            font-weight: 500;
+            text-align: right;
+            word-break: break-all;
+        }
+        /* Special style for long address */
+        .info-sub-row.long-text {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .info-sub-row.long-text .value {
+            text-align: left;
+            margin-top: 4px;
+            width: 100%;
+        }
+        /* Special style for pending amount */
+        .info-sub-row.pending {
+            font-weight: 600;
+            color: #dc3545; /* Red */
+        }
+        .info-sub-row.pending .value {
+            color: #dc3545;
+        }
+
+        /* [NEW] Product List Styles */
+        .product-list-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+        .product-card {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .product-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .product-card .spec {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            word-break: break-all;
+        }
+        .product-card .price {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            text-align: right;
+        }
+        
+        /* [NEW] Disclaimer Box */
+        .disclaimer-box {
+            background: #f8f8f9;
+            border-radius: 6px;
+            padding: 16px;
+            margin-top: 24px;
+        }
+        .disclaimer-box p {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+         .disclaimer-box p:last-child {
+            margin-bottom: 0;
+         }
+
+    </style>
+</head>
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">접수 완료</h1>
+            <div class="header-right">
+                </div>
+        </header>
+
+        <main class="sw-container">
+
+            <section class="completion-section">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                    <path d="M9 12l2 2l4 -4" />
+                </svg>
+                <h2>접수 완료 되었어요</h2>
+                <p class="subtitle">가상계좌로 132,000원을 입금해주세요</p>
+            </section>
+
+            <section class="virtual-account-box">
+                <h4>가상계좌</h4>
+                <div class="account-info">
+                    <span>신한은행 11012345678</span>
+                    <button class="white-button">복사하기</button>
+                </div>
+            </section>
+
+            <div class="page-nav-buttons no-border" style="margin-bottom: 24px;">
+                <button class="white-button btn" onclick="alert('메인으로 이동')">메인으로 이동</button>
+                <button class="dark-button btn" onclick="alert('접수 상세보기')">접수 상세보기</button>
+            </div>
+            
+            <div class="section-divider"></div>
+
+            <h4 class="order-id-header">접수번호 1234567890 <span>(점수 시 2025-08-18 18:10)</span></h4>
+
+            <section class="info-section">
+                <div class="title">결제정보</div>
+                <div class="info-sub-row">
+                    <span class="label">결제수단</span>
+                    <span class="value">성원머니</span>
+                </div>
+                <div class="info-sub-row">
+                    <span class="label">결제금액</span>
+                    <span class="value">₩152,000</span>
+                </div>
+                <div class="info-sub-row pending">
+                    <span class="label">결제대기 금액</span>
+                    <span class="value">₩132,000</span>
+                </div>
+            </section>
+            
+            <section class="info-section">
+                <div class="title">배송정보</div>
+                <div class="info-sub-row">
+                    <span class="label">이름</span>
+                    <span class="value">김성수</span>
+                </div>
+                <div class="info-sub-row">
+                    <span class="label">연락처</span>
+                    <span class="value">01012341234</span>
+                </div>
+                <div class="info-sub-row long-text">
+                    <span class="label">배송지</span>
+                    <span class="value">(12345) 서울시 성도구 성수동 123-12 201호 성수애드</span>
+                </div>
+                <div class="info-sub-row">
+                    <span class="label">배송메모</span>
+                    <span class="value">부재 시 문 앞에 놓아주세요</span>
+                </div>
+            </section>
+
+            <h3 class="product-list-header">접수제품 총 2건</h3>
+            <div class="product-list">
+                <article class="product-card">
+                    <h4>디지털엽서</h4>
+                    <p class="spec">아르떼 울트라화이트 310g/2 (0.0005T)/11/208x154/양면칼라 8도/디지털인쇄(인디고)</p>
+                    <div class="price">₩8,200</div>
+                </article>
+                <article class="product-card">
+                    <h4>디지털엽서</h4>
+                    <p class="spec">아르떼 울트라화이트 310g/2매 (0.0005T)/12/208x154/양면칼라 8도/디지털인쇄(인디고)</p>
+                    <div class="price">₩8,200</div>
+                </article>
+            </div>
+            
+            <div class="disclaimer-box">
+                <p>① 20만원 이상 접수 간의 경우, 교장 확인 후 인쇄가 진행됩니다. 교정 확인은 마이페이지 접수/배송 내역에서 확인하실 수 있습니다.</p>
+                <p>① 주문 및 배송 관련하여 궁금하신 점이 있으실 철우, 마이페이지 자주묻는질문 또는 1:1문의를 이용해주세요</p>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        console.log("Completion Page (Virtual Account) Loaded");
+    </script>
+</body>
+</html>
