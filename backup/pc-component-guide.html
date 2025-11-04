@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>성원애드피아 공통 PC 디자인 가이드 (v12.3 표준)</title>
+    <title>성원애드피아 공통 PC 디자인 가이드 (v12.4 표준)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ========================================
-           RESET & BASE STYLES (v12.3 PC Standard)
+           RESET & BASE STYLES (v12.4 PC Standard)
         ======================================== */
         * {
             margin: 0;
@@ -20,7 +20,7 @@
         html, body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: #f5f5f5;
-            padding: 0; /* [요청] body 패딩 제거. GNB가 100% 너비를 갖도록 함 */
+            padding: 0; /* GNB 100% 너비 */
             font-size: 16px;
             line-height: 1.6;
             color: #333;
@@ -31,9 +31,8 @@
         button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
         img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
         input { font-family: inherit; }
-        table { border-collapse: collapse; border-spacing: 0; }
+        table { border-collapse: collapse; border-spacing: 0; width: 100%; }
 
-        /* [v12] SVG 기본 스타일 */
         svg {
             stroke-width: 2;
             fill: none;
@@ -45,35 +44,29 @@
         }
 
         /* ========================================
-           1. Global Navigation Bar (GNB) (v12.3 PC)
-           [요청] GNB를 body 최상단으로 분리
+           1. Global Navigation Bar (GNB) (v12.3)
         ======================================== */
         .pc-gnb {
             width: 100%;
             background: #fff;
             border-bottom: 1px solid #ddd;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            position: relative; /* GNB를 body의 0,0에 위치 */
+            position: sticky;
             left: 0;
             top: 0;
-            position: sticky;
             z-index: 1000;
         }
         .gnb-container {
-            width: 1280px; /* [요청] GNB 내부 콘텐츠 너비 */
+            width: 1280px; 
             margin: 0 auto;
             display: flex;
             align-items: center;
         }
         
-        /* GNB 상단 유틸리티바 */
         .gnb-top-bar {
             height: 35px;
             background: #f8f8f8;
             border-bottom: 1px solid #eee;
-            display: flex;
-            align-content: center;
-            justify-content: flex-start;
         }
         .gnb-top-bar .gnb-container {
             justify-content: flex-end;
@@ -103,12 +96,8 @@
             background: #fff;
         }
 
-        /* GNB 메인 */
         .gnb-main-bar {
             height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
         }
         .gnb-logo {
             width: 150px;
@@ -143,8 +132,7 @@
             border-bottom-color: #4e6ee4;
             font-weight: 700;
         }
-
-        /* GNB 우측 유틸 */
+        
         .gnb-utils {
             margin-left: auto;
             display: flex;
@@ -186,7 +174,7 @@
         /* [v12 PC] Page Layout */
         .container {
             max-width: 1280px;
-            margin: 40px auto; /* [요청] body 패딩 대신 margin으로 GNB와 간격 확보 */
+            margin: 40px auto; 
             background: white;
             padding: 40px;
             border-radius: 12px;
@@ -836,6 +824,143 @@
         .demo-btn { padding: 8px 16px; background: #4e6ee4; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; transition: all 0.2s; }
         .demo-btn:hover { background: #3d5dd3; }
         .demo-btn:active { transform: scale(0.98); }
+        
+        /* ========================================
+           [v12.4] NEW COMPONENTS
+        ======================================== */
+        
+        /* 15. PAGE LAYOUTS */
+        .page-header {
+            font-size: 28px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 24px;
+        }
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 32px;
+            align-items: flex-start;
+        }
+        .cart-main { width: 100%; }
+        .cart-sidebar { width: 100%; position: relative; }
+
+        /* 16. CART TABLE */
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #333;
+        }
+        .cart-table {
+            border: none;
+            border-radius: 0;
+            overflow: visible;
+        }
+        .cart-table thead { display: none; }
+        .cart-table tbody tr { border-bottom: 1px solid #e8e8e9; }
+        .cart-table tbody tr:last-child { border-bottom: none; }
+        .cart-table tbody td { padding: 24px 12px; vertical-align: top; }
+        .cart-table tbody td:first-child { padding-left: 0; }
+        .cart-table tbody td:last-child { padding-right: 0; }
+        .cart-table td.col-check { width: 40px; padding-top: 28px; }
+        .cart-table td.col-product { width: auto; }
+        .cart-table td.col-quantity { width: 120px; text-align: center; }
+        .cart-table td.col-price { width: 130px; text-align: right; }
+        .cart-table td.col-actions { width: 150px; text-align: right; }
+        
+        .product-info-cell { display: flex; gap: 16px; }
+        .product-info-cell .thumb {
+            width: 100px; height: 100px; border: 1px solid #eee; border-radius: 4px;
+            flex-shrink: 0; background: #f8f8f8;
+        }
+        .product-info-details .title {
+            font-size: 16px; font-weight: 600; color: #000;
+        }
+        .product-info-details .specs {
+            font-size: 13px; color: #666; margin-top: 6px; line-height: 1.5;
+        }
+        .product-info-details .memo {
+            font-size: 13px; color: #c0392b; background: #fef5f5;
+            padding: 6px 10px; border-radius: 4px; margin-top: 10px; display: inline-block;
+        }
+        .product-quantity, .product-price {
+            font-size: 16px; font-weight: 600; color: #222; padding-top: 4px;
+        }
+        .product-quantity .weight {
+            font-size: 13px; font-weight: 400; color: #777; display: block; margin-top: 4px;
+        }
+        .product-actions-cell {
+            display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+        }
+        .product-actions-cell .action-links { display: flex; gap: 12px; margin-top: 4px; }
+        .product-actions-cell .text-btn { font-size: 13px; color: #555; cursor: pointer; }
+        .product-actions-cell .text-btn:hover { text-decoration: underline; }
+        .product-actions-cell .dark-button.btn-sm {
+            height: 36px; padding: 0 16px; font-size: 14px; width: 100%;
+        }
+
+        /* 17. ORDER SUMMARY */
+        .order-summary-sticky {
+            position: sticky;
+            top: 135px; /* GNB height(115) + container margin-top(40) - 20px buffer */
+            border: 2px solid #4e6ee4;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .summary-header {
+            padding: 20px; border-bottom: 1px solid #f0f0f0; font-size: 18px; font-weight: 700;
+        }
+        .summary-body {
+            padding: 20px; display: flex; flex-direction: column; gap: 12px;
+        }
+        .summary-row {
+            display: flex; justify-content: space-between; align-items: center; font-size: 15px;
+        }
+        .summary-row .label { color: #555; }
+        .summary-row .value { color: #000; font-weight: 600; font-size: 16px; }
+        .summary-total {
+            border-top: 1px solid #eee; padding-top: 16px; margin-top: 8px;
+        }
+        .summary-total .label { font-size: 18px; font-weight: 700; }
+        .summary-total .value { font-size: 24px; font-weight: 700; color: #4e6ee4; }
+        .summary-footer {
+            padding: 20px; background: #f8f8f8; border-top: 1px solid #f0f0f0;
+            display: flex; flex-direction: column; gap: 10px;
+            border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;
+        }
+        .summary-footer .dark-button {
+            width: 100%; height: 52px; font-size: 18px; font-weight: 700;
+            background-color: #4e6ee4; border-color: #4e6ee4;
+        }
+        .summary-footer .white-button {
+            width: 100%; height: 44px; font-size: 15px;
+        }
+
+        /* 18. MISC COMPONENTS */
+        .info-notice {
+            margin-top: 24px; padding: 20px; background: #f8f8f8; border-radius: 8px;
+        }
+        .info-notice ul { padding-left: 20px; }
+        .info-notice li {
+            font-size: 13px; color: #666; line-height: 1.7; list-style-type: '① '; padding-left: 4px;
+        }
+        .cross-sell-section { margin-top: 60px; }
+        .cross-sell-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 20px;
+        }
+        .product-card-simple {
+            border: 1px solid #eee; border-radius: 6px; overflow: hidden; transition: box-shadow 0.2s;
+        }
+        .product-card-simple:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .product-card-simple .thumb {
+            height: 180px; background: #f8f8f8;
+        }
+        .product-card-simple .info { padding: 16px; }
+        .product-card-simple .name { font-size: 15px; font-weight: 500; color: #333; }
+        .product-card-simple .price { font-size: 16px; font-weight: 700; color: #000; margin-top: 4px; }
+        
     </style>
 </head>
 <body>
@@ -893,27 +1018,18 @@
         </div>
     </header>
     <div class="container">
-        <h1>성원애드피아 공통 PC 디자인 가이드 (v12.3)</h1>
-        <p class="subtitle">PC 데스크탑(1280px) 기준 UX/UI 컴포넌트 시스템 (v12.3 PC 표준)</p>
+        <h1>성원애드피아 공통 PC 디자인 가이드 (v12.4)</h1>
+        <p class="subtitle">PC 데스크탑(1280px) 기준 UX/UI 컴포넌트 시스템 (v12.4 PC 표준)</p>
 
         <div class="section">
             <h2 class="section-title">1. Global Navigation Bar (GNB)</h2>
-            <div class="component-showcase" style="grid-template-columns: 1fr;">
-                <div class="component-item">
-                    <div class="component-label">[요청] GNB (v12.3) / 정렬 및 구조 수정</div>
-                    <p>본 페이지 상단 GNB에 요청하신 구조가 적용되었습니다.</p>
-                    <br>
-                    <p><b>v12.3 변경 사항:</b></p>
-                    <ul>
-                        <li><b>body</b>에서 <b>padding</b>을 제거했습니다.</li>
-                        <li><b>GNB(&lt;header class="pc-gnb"&gt;)</b>를 <b>.container</b> 밖으로 분리하여 뷰포트 너비 100%를 차지하도록 했습니다.</li>
-                        <li>GNB 내부의 <b>.gnb-container</b>가 메인 <b>.container</b>와 동일한 <b>width: 1280px</b> 및 <b>margin: 0 auto</b>를 갖도록 하여 정렬을 맞췄습니다.</li>
-                        <li>메인 <b>.container</b>에 <b>margin: 40px auto</b>를 적용하여 GNB와의 상하 간격을 확보했습니다.</li>
-                    </ul>
+             <div class="component-showcase" style="grid-template-columns: 1fr;">
+                 <div class="component-item">
+                    <div class="component-label">GNB (v12.3) / 정렬 및 구조 수정</div>
+                    <p>본 페이지 상단 GNB 참조. <b>body</b>에서 <b>padding</b>이 제거되고 GNB는 100% 너비를 가지며, <b>.container</b>는 <b>margin: 40px auto</b>로 중앙 정렬됩니다.</p>
                 </div>
             </div>
         </div>
-
         <div class="section">
             <h2 class="section-title">2. Search</h2>
             <div class="component-showcase">
@@ -947,7 +1063,6 @@
                 </div>
             </div>
         </div>
-
         <div class="section">
             <h2 class="section-title">3. Input</h2>
             <div class="component-showcase">
@@ -974,7 +1089,6 @@
                 </div>
             </div>
         </div>
-
         <div class="section">
             <h2 class="section-title">4. Buttons</h2>
             <div class="component-showcase">
@@ -992,7 +1106,6 @@
                 </div>
             </div>
         </div>
-
         <div class="section">
             <h2 class="section-title">5. Chips</h2>
             <div class="component-showcase">
@@ -1020,7 +1133,6 @@
                 </div>
             </div>
         </div>
-
         <div class="section">
             <h2 class="section-title">6. Checkbox</h2>
             <div class="component-showcase">
@@ -1041,7 +1153,6 @@
                 </div>
             </div>
         </div>
-
         <div class="section">
             <h2 class="section-title">7. Tab Navigation</h2>
             <div class="component-showcase" style="grid-template-columns: 1fr;">
@@ -1069,7 +1180,6 @@
                 </div>
             </div>
         </div>
-
         <div class="section">
             <h2 class="section-title">8. Pagination</h2>
             <div class="component-showcase" style="grid-template-columns: 1fr;">
@@ -1319,24 +1429,117 @@
 
         <div class="section">
             <h2 class="section-title">13. Modal (PC)</h2>
-            <div class="demo-controls">
-                <button class="demo-btn" onclick="showBottomSheet()">PC Modal 열기 (Mobile: Bottom Sheet)</button>
-            </div>
-            <div style="margin-top: 10px; font-size: 14px; color: #666;">
-                * 모바일의 Bottom Sheet가 PC에서는 Modal (Center)로 변환됩니다<br>
-                * 오버레이 또는 닫기 버튼을 클릭하면 닫힙니다
+            <div class="component-showcase" style="grid-template-columns: 1fr;">
+                <div class="component-item">
+                    <div class="component-label">Modal (Mobile: Bottom Sheet)</div>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="showBottomSheet()">PC Modal 열기 (Mobile: Bottom Sheet)</button>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="section">
             <h2 class="section-title">14. Modals (Alert & Confirm)</h2>
-            <div class="demo-controls">
-                <button class="demo-btn" onclick="showConfirmModal()">Confirm 모달 열기</button>
-                <button class="demo-btn" onclick="showAlertModal()">Alert 모달 열기</button>
+            <div class="component-showcase">
+                <div class="component-item">
+                    <div class="component-label">Confirm 모달 (1버튼)</div>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="showConfirmModal()">Confirm 모달 열기</button>
+                    </div>
+                </div>
+                 <div class="component-item">
+                    <div class="component-label">Alert 모달 (2버튼)</div>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="showAlertModal()">Alert 모달 열기</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="modal-overlay" id="confirm-modal">
+        
+        <div class="section">
+            <h2 class="section-title">15. Page Layouts (신규)</h2>
+            <div class="component-item" style="grid-column: 1 / -1;">
+                <div class="component-label">2단 레이아웃 (.cart-layout)</div>
+                <div class="cart-layout">
+                    <div class="cart-main" style="border: 1px dashed #ccc; padding: 20px; background: #fdfdfd;">
+                        <h3 class="page-header" style="font-size: 20px; margin-bottom: 10px; border: none; padding: 0;">.cart-main</h3>
+                        <p>메인 콘텐츠 영역입니다. (예: 장바구니 목록)</p>
+                    </div>
+                    <div class="cart-sidebar" style="border: 1px dashed #ccc; padding: 20px; background: #fdfdfd;">
+                        <h3 style="font-size: 20px; font-weight: 600;">.cart-sidebar</h3>
+                        <p>사이드바 영역입니다. (예: 고정 결제창)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">16. Order Summary (신규)</h2>
+            <div class="component-showcase" style="grid-template-columns: 1fr;">
+                <div class="component-item" style="max-width: 360px; margin: 0 auto;">
+                    <div class="component-label">고정 결제 요약 (.order-summary-sticky)</div>
+                    <div class="order-summary-sticky" style="position: static; top: auto;">
+                        <div class="summary-header">결제금액</div>
+                        <div class="summary-body">
+                            <div class="summary-row">
+                                <span class="label">상품금액</span>
+                                <span class="value">₩38,000</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="label">배송비</span>
+                                <span class="value">₩3,800</span>
+                            </div>
+                            <div class="summary-row summary-total">
+                                <span class="label">총 결제금액</span>
+                                <span class="value">₩43,800</span>
+                            </div>
+                        </div>
+                        <div class="summary-footer">
+                            <button class="white-button" style="width: 100%;">견적서 발급</button>
+                            <button class="dark-button" style="width: 100%; background-color: #4e6ee4; border-color: #4e6ee4;">결제하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">17. Product/Info Cards (신규)</h2>
+            <div class="component-showcase" style="grid-template-columns: 1fr;">
+                <div class="component-item">
+                     <div class="component-label">안내 박스 (.info-notice)</div>
+                     <div class="info-notice">
+                        <ul>
+                            <li>장바구니에 담은 후 7일이 지난 제품은 제외됩니다.</li>
+                            <li>견적서는 선택한 제품의 결제 예정 금액입니다.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">상품 추천 카드 (.product-card-simple)</div>
+                    <div class="cross-sell-grid" style="grid-template-columns: 1fr 1fr;">
+                        <div class="product-card-simple">
+                            <div class="thumb" style="background: #f8f8f8; height: 120px;"></div>
+                            <div class="info">
+                                <div class="name">카드명함 86x54 (200매)</div>
+                                <div class="price">₩11,000</div>
+                            </div>
+                        </div>
+                        <div class="product-card-simple">
+                            <div class="thumb" style="background: #f8f8f8; height: 120px;"></div>
+                            <div class="info">
+                                <div class="name">A4 전단지 1000매</div>
+                                <div class="price">₩88,000</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+    </div> <div class="modal-overlay" id="confirm-modal">
         <div class="confirm-modal" data-name="Confirm">
             <div class="modal-title">Title Message</div>
             <div class="modal-message">Sub Message (1-Button Confirm)</div>
@@ -1345,7 +1548,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal-overlay" id="alert-modal">
         <div class="alert-modal" data-name="Alert">
             <div class="modal-title">Title Message</div>
@@ -1356,7 +1558,6 @@
             </div>
         </div>
     </div>
-
     <div class="bottom-sheet-overlay" id="bottom-sheet-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="bottom-sheet">
             <div class="sheet-header">
@@ -1379,9 +1580,7 @@
     </div>
 
     <script>
-        // ========================================
-        // SEARCH HANDLERS
-        // ========================================
+        // (v12.3 Standard Scripts)
         function handleSearchInput(input) {
             const searchBox = input.closest('.search');
             searchBox.classList.toggle('has-text', input.value.trim() !== '');
@@ -1393,16 +1592,7 @@
             searchBox.classList.remove('has-text');
             input.focus();
         }
-        function handleSearch(btn) { console.log('Search submitted:', btn.closest('.search').querySelector('input').value); }
-
-        // ========================================
-        // BUTTON HANDLERS
-        // ========================================
         function handleButtonClick(type) { console.log('Button clicked:', type); }
-
-        // ========================================
-        // CHIP HANDLERS
-        // ========================================
         function toggleMultiChip(chip) {
              if (chip.classList.contains('multi-chip-off')) {
                 chip.classList.remove('multi-chip-off');
@@ -1419,10 +1609,6 @@
             group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
             chip.classList.replace('single-chip-off', 'single-chip-on');
         }
-
-        // ========================================
-        // CHECKBOX HANDLERS
-        // ========================================
         function toggleCheckbox(checkbox) {
             const isChecked = checkbox.dataset.checked === 'true';
             if (isChecked) {
@@ -1437,110 +1623,55 @@
             const checkbox = wrapper.querySelector('.checkbox');
             toggleCheckbox(checkbox);
         }
-
-        // ========================================
-        // TAB HANDLERS
-        // ========================================
         function handleTabClick(tab) {
             const tabNav = tab.closest('.tab-nav');
             tabNav.querySelectorAll('.tab-item').forEach(t => t.classList.replace('active', 'inactive'));
             tab.classList.replace('inactive', 'active');
         }
-        
         function handleTabBoxClick(tab) {
             const tabNav = tab.closest('.tab-nav-box');
             tabNav.querySelectorAll('.tab-item-box').forEach(t => t.classList.replace('active', 'inactive'));
             tab.classList.replace('inactive', 'active');
         }
-
-
-        // ========================================
-        // PAGINATION HANDLERS
-        // ========================================
-        let currentPage = 1;
-        const totalPages = 5;
-
-        function paginationGo(page) {
-            currentPage = page;
-            updatePagination();
-        }
+        let currentPage = 1; const totalPages = 5;
+        function paginationGo(page) { currentPage = page; updatePagination(); }
         function paginationPrev() { if (currentPage > 1) { currentPage--; updatePagination(); } }
         function paginationNext() { if (currentPage < totalPages) { currentPage++; updatePagination(); } }
         function paginationFirst() { currentPage = 1; updatePagination(); }
         function paginationLast() { currentPage = totalPages; updatePagination(); }
-
         function updatePagination() {
             const numbers = document.querySelectorAll('.pagination-number');
             numbers.forEach(num => {
                 num.classList.remove('active');
-                if (parseInt(num.dataset.page) === currentPage) {
-                    num.classList.add('active');
-                }
+                if (parseInt(num.dataset.page) === currentPage) { num.classList.add('active'); }
             });
-            
             const arrows = document.querySelectorAll('.pagination-arrow');
-            arrows[0].classList.toggle('disabled', currentPage === 1);
-            arrows[1].classList.toggle('disabled', currentPage === 1);
-            arrows[2].classList.toggle('disabled', currentPage === totalPages);
-            arrows[3].classList.toggle('disabled', currentPage === totalPages);
-        }
-        
-        document.addEventListener('DOMContentLoaded', updatePagination);
-
-        // ========================================
-        // TEXT SELECT BUTTON HANDLERS
-        // ========================================
-        function toggleTextSelect(button) {
-            button.classList.toggle('open');
-        }
-
-        // ========================================
-        // PC MODAL HANDLERS (from Bottom Sheet)
-        // ========================================
-        function showBottomSheet() {
-            const overlay = document.getElementById('bottom-sheet-overlay');
-            const sheet = document.getElementById('bottom-sheet');
-            overlay.classList.add('active');
-            sheet.classList.remove('closing');
-        }
-
-        function closeBottomSheet() {
-            const overlay = document.getElementById('bottom-sheet-overlay');
-            const sheet = document.getElementById('bottom-sheet');
-            sheet.classList.add('closing');
-            setTimeout(() => {
-                overlay.classList.remove('active');
-                sheet.classList.remove('closing');
-            }, 300);
-        }
-
-        document.getElementById('bottom-sheet-overlay').addEventListener('click', (e) => {
-            if (e.target.id === 'bottom-sheet-overlay') {
-                closeBottomSheet();
+            if(arrows.length > 0) {
+                arrows[0].classList.toggle('disabled', currentPage === 1);
+                arrows[1].classList.toggle('disabled', currentPage === 1);
+                arrows[2].classList.toggle('disabled', currentPage === totalPages);
+                arrows[3].classList.toggle('disabled', currentPage === totalPages);
             }
+        }
+        document.addEventListener('DOMContentLoaded', updatePagination);
+        function toggleTextSelect(button) { button.classList.toggle('open'); }
+        function showBottomSheet() { document.getElementById('bottom-sheet-overlay').classList.add('active'); }
+        function closeBottomSheet() { document.getElementById('bottom-sheet-overlay').classList.remove('active'); }
+        document.getElementById('bottom-sheet-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'bottom-sheet-overlay') { closeBottomSheet(); }
         });
-
-        // ========================================
-        // MODAL HANDLERS (Alert/Confirm)
-        // ========================================
         function showConfirmModal() { document.getElementById('confirm-modal').classList.add('active'); }
         function closeConfirmModal() { document.getElementById('confirm-modal').classList.remove('active'); }
         function showAlertModal() { document.getElementById('alert-modal').classList.add('active'); }
         function closeAlertModal() { document.getElementById('alert-modal').classList.remove('active'); }
-
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    overlay.classList.remove('active');
-                }
+                if (e.target === overlay) { overlay.classList.remove('active'); }
             });
         });
 
-        // ========================================
-        // INITIALIZATION
-        // ========================================
-        console.log('성원애드피아 [PC] 디자인 가이드 (v12.3) 초기화 완료');
-        console.log('[v12.3] GNB 구조 및 body/container 정렬 문제 수정 완료.');
+        console.log('성원애드피아 [PC] 디자인 가이드 (v12.4) 초기화 완료');
+        console.log('[v12.4] 신규 장바구니 컴포넌트(.order-summary-sticky 등) 추가 완료.');
     </script>
 </body>
 </html>
