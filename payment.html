@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원애드피아 - 주문결제</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        }
+        ul, li { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        input, select, textarea { font-family: inherit; }
+        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        /* Layout */
+        .mobile-wrap { 
+            width: 100%; 
+            max-width: 480px; 
+            margin: 0 auto; 
+            background-color: #ffffff; 
+            padding-bottom: 120px; /* Sticky Footer 여백 */
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
+        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; transition: transform 0.2s; color: #333; }
+        .header-btn:active { transform: scale(0.9); }
+        .header-left { flex: 1 0 0; display: flex; justify-content: flex-start; }
+        .header-title { 
+            flex: 3 0 0; 
+            font-size: 18px; 
+            font-weight: 600; 
+            text-align: center; 
+            color: #212121; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .header-right { flex: 1 0 0; display: flex; justify-content: flex-end; gap: 8px; }
+        .btn-icon { cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; color: #333; }
+        .btn-icon:active { transform: scale(0.9); }
+        .btn-icon svg { width: 100%; height: 100%; }
+
+        /* Buttons (v12 Standard) */
+        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .white-button:hover { background: #f9f9f9; }
+        .white-button:active { transform: scale(0.98); }
+        .dark-button:disabled,
+        .white-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+        
+        /* Main Content */
+        .sw-container { padding: 16px; }
+        
+        /* Section Title */
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            padding-top: 8px; /* 위 섹션과의 여백 */
+        }
+        
+        /* [NEW] Product Card (Based on common-table-card) */
+        .common-table-card {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 15px;
+            position: relative;
+        }
+        .card-column1 { font-size: 16px; font-weight: 500; color: #212121; }
+        .card-column2 { font-size: 14px; font-weight: 500; color: #333333; margin-top: 4px; }
+        
+        /* Form Styles (v12 guide) */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+        .input input::placeholder { color: #c6c6c8; }
+        
+        /* Input Group (from qna_write.html) */
+        .input-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .input-group .white-button {
+            flex-shrink: 0;
+            height: 40px; /* Match input height */
+            font-size: 13px;
+            padding: 0 12px;
+            width: auto;
+        }
+        
+        /* Checkbox (v12 guide) */
+        .checkbox { width: 20px; height: 20px; position: relative; cursor: pointer; user-select: none; flex-shrink: 0; }
+        .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
+        .checkbox-on { width: 100%; height: 100%; background: #4e6ee4; border-radius: 2px; display: flex; align-items: center; justify-content: center; }
+        .checkbox-on img { width: 14px; height: 14px; }
+        .checkbox:active { transform: scale(0.9); }
+        .checkbox-text { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+        .checkbox-text span { font-size: 14px; color: #333; }
+        
+        /* Disclaimer (v12 guide) */
+        .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
+
+        /* Chips (v12 guide) */
+        .filter-group-content { display: flex; flex-wrap: wrap; gap: 8px; }
+        .single-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
+        .single-chip-on { background: #4e6ee4; color: white; }
+        .single-chip:active { transform: scale(0.95); }
+        
+        /* [NEW] Payment Method Chips (Large) */
+        .payment-method-chips {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .payment-chip-lg {
+            background: white;
+            border: 1px solid #e8e8e9;
+            color: #424242;
+            height: 48px;
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .payment-chip-lg.active {
+            border-color: #4e6ee4;
+            background: #f0f3ff;
+            color: #4e6ee4;
+            font-weight: 600;
+        }
+        .payment-chip-lg:active { transform: scale(0.98); }
+        
+        /* [NEW] Simple Payment Options */
+        #simple-payment-options {
+            padding: 16px;
+            background: #f8f8f9;
+            border-radius: 6px;
+            margin-top: 16px;
+        }
+        
+        /* Sticky Form Footer (from tax_request_write...) */
+        .sticky-form-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px; /* Match .mobile-wrap */
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            padding: 20px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+        }
+        .sticky-form-footer .btn { flex: 1; }
+        .sticky-form-footer .white-button { flex-grow: 1; }
+        .sticky-form-footer .dark-button { flex-grow: 2; }
+        
+        /* [NEW] Step 1 Footer Summary */
+        .footer-summary {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+        }
+        .footer-summary span {
+            font-size: 13px;
+            color: #555;
+        }
+        .footer-summary strong {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        /* [NEW] Step 2 Footer Summary Box (Inspired by sungwon_money_01) */
+        #footer-step-2 {
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: stretch;
+            padding: 16px;
+            gap: 12px;
+        }
+        .payment-summary-box {
+            width: 100%;
+        }
+        .info-sub-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            font-size: 14px;
+        }
+        .info-sub-row .label { color: #555; }
+        .info-sub-row .value { color: #333; font-weight: 500; }
+        .info-sub-row .value.minus { color: #dc3545; }
+        
+        .info-sub-row.total {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #ccc;
+        }
+        .info-sub-row.total .label { font-size: 16px; font-weight: 600; color: #333; }
+        .info-sub-row.total .value { font-size: 20px; font-weight: 700; color: #4e6ee4; }
+        
+        #footer-step-2 .dark-button {
+            width: 100%; /* Full width button */
+            flex-grow: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="mobile-wrap">
+        
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" id="header-back-btn" style="display: none;" onclick="goToStep(1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                </button>
+            </div>
+            <h1 class="header-title" id="page-title">주문결제 (1/2)</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart"><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17h-11v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /></svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div id="step-1" class="page-step">
+                <div class="sw-container">
+                    <h2 class="section-title">접수 제품</h2>
+                    <article class="common-table-card">
+                        <div class="card-column1">책자 - 중림동 고객 자서전</div>
+                        <div class="card-column2">1건 / 8,200원</div>
+                    </article>
+                    
+                    <h2 class="section-title">배송정보</h2>
+                    <div class="form-group">
+                        <label>받는 분</label>
+                        <div class="input">
+                            <input type="text" placeholder="이름을 입력해주세요" value="김성원">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>휴대폰 번호</label>
+                        <div class="input">
+                            <input type="tel" placeholder="'-' 제외하고 숫자만 입력" value="01012641234">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>연락처 (선택)</label>
+                        <div class="input">
+                            <input type="tel" placeholder="'-' 제외하고 숫자만 입력">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>주소</label>
+                        <div class="input-group" style="margin-bottom: 8px;">
+                            <div class="input">
+                                <input type="text" id="postcode" placeholder="우편번호" readonly>
+                            </div>
+                            <button class="white-button" onclick="alert('우편번호 검색 (구현 필요)')">우편번호 검색</button>
+                        </div>
+                        <div class="input" style="margin-bottom: 8px;">
+                            <input type="text" id="address" placeholder="기본 주소" readonly>
+                        </div>
+                        <div class="input">
+                            <input type="text" id="address-detail" placeholder="상세 주소를 입력해주세요">
+                        </div>
+                    </div>
+                    <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                        <div class="checkbox" data-checked="false" id="default-address-check">
+                            <div class="checkbox-off"></div>
+                        </div>
+                        <span>기본 배송지로 하기</span>
+                    </div>
+
+                    <h2 class="section-title">보내는 분 정보</h2>
+                    <div class="form-group">
+                        <div class="readonly-value">성원애드피아 / 01012341234</div>
+                    </div>
+
+                    <h2 class="section-title">동일 접수자 배정(선택)</h2>
+                    <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                        <div class="checkbox" data-checked="false" id="same-operator-check">
+                            <div class="checkbox-off"></div>
+                        </div>
+                        <span>동일 접수자에게 배정 (제품 2건 이상)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="step-2" class="page-step" style="display: none;">
+                <div class="sw-container">
+                    <h2 class="section-title">성원포인트</h2>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input">
+                                <input type="tel" id="point-input" placeholder="0">
+                            </div>
+                            <button class="white-button" onclick="useAllPoints()">전액 사용</button>
+                        </div>
+                        <p class="disclaimer">사용 가능 포인트: 1,000 P</p>
+                    </div>
+
+                    <h2 class="section-title">결제수단</h2>
+                    <div class="payment-method-chips">
+                        <button class="payment-chip-lg active" data-method="sungwon-money" onclick="selectPaymentMethod(this)">성원머니</button>
+                        <button class="payment-chip-lg" data-method="card" onclick="selectPaymentMethod(this)">신용카드</button>
+                        <button class="payment-chip-lg" data-method="simple-payment" onclick="selectPaymentMethod(this)">간편결제</button>
+                    </div>
+                    
+                    <div id="simple-payment-options" style="display: none;">
+                        <p class="disclaimer" style="margin-top: 0; margin-bottom: 12px;">결제할 간편결제 수단을 선택해주세요.</p>
+                        <div class="filter-group-content" id="simple-payment-chips">
+                            <div class="single-chip single-chip-off" data-pay="kakaopay" onclick="selectPaymentSubOption(this)">
+                                <img src="https" alt="카카오페이" style="width: 40px; height: 16px;">
+                            </div>
+                            <div class="single-chip single-chip-off" data-pay="tosspay" onclick="selectPaymentSubOption(this)">
+                                <img src="https" alt="토스페이" style="width: 50px; height: 16px;">
+                            </div>
+                            <div class="single-chip single-chip-off" data-pay="payco" onclick="selectPaymentSubOption(this)">
+                                <img src="https" alt="페이코" style="width: 40px; height: 16px;">
+                            </div>
+                             <div class="single-chip single-chip-off" data-pay="paypal" onclick="selectPaymentSubOption(this)">
+                                <img src="https" alt="페이팔" style="width: 50px; height: 16px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="section-title">주문내용 확인 및 결제 동의</h2>
+                    <div class="form-group">
+                        <div class="checkbox-text" onclick="toggleCheckboxText(this)" style="margin-bottom: 8px;">
+                            <div class="checkbox" data-checked="false" id="agree-terms-check">
+                                <div class="checkbox-off"></div>
+                            </div>
+                            <span>전자금융거래 이용약관 동의 (필수)</span>
+                        </div>
+                        <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                            <div class="checkbox" data-checked="false" id="agree-privacy-check">
+                                <div class="checkbox-off"></div>
+                            </div>
+                            <span>개인정보 수집 및 이용 (필수)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+        
+        <div class="sticky-form-footer" id="footer-step-1">
+            <div class="footer-summary">
+                <span>총 결제금액</span>
+                <strong>₩43,800</strong>
+            </div>
+            <button class="dark-button btn" style="flex-grow: 1;" onclick="goToStep(2)">다음</button>
+        </div>
+        
+        <div class="sticky-form-footer" id="footer-step-2">
+            <div class="payment-summary-box">
+                <div class="info-sub-row">
+                    <span class="label">총 제품금액</span>
+                    <span class="value">₩38,000</span>
+                </div>
+                <div class="info-sub-row">
+                    <span class="label">성원포인트</span>
+                    <span class="value minus" id="summary-points">-₩1,000</span>
+                </div>
+                <div class="info-sub-row">
+                    <span class="label">배송비</span>
+                    <span class="value">+₩3,000</span>
+                </div>
+                <div class="info-sub-row">
+                    <span class="label">부가세액</span>
+                    <span class="value">+₩3,800</span>
+                </div>
+                <div class="info-sub-row total">
+                    <span class="label">총 결제금액</span>
+                    <span class="value" id="summary-total">₩43,800</span>
+                </div>
+            </div>
+            <button class="dark-button btn" id="submit-payment-btn" onclick="alert('결제하기 (구현 필요)')">결제하기</Tbutton>
+        </div>
+    </div>
+
+    <script>
+        // --- v12 Checkbox (from qna_write.html) ---
+        function toggleCheckboxText(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            toggleCheckbox(checkbox);
+        }
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+            }
+        }
+        
+        // --- [NEW] Step Navigation Logic ---
+        const pageTitle = document.getElementById('page-title');
+        const headerBackBtn = document.getElementById('header-back-btn');
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+        const footer1 = document.getElementById('footer-step-1');
+        const footer2 = document.getElementById('footer-step-2');
+
+        function goToStep(stepNum) {
+            if (stepNum === 1) {
+                // 1단계(배송정보) 표시
+                pageTitle.textContent = "주문결제 (1/2)";
+                headerBackBtn.style.display = 'none';
+                step1.style.display = 'block';
+                step2.style.display = 'none';
+                footer1.style.display = 'flex';
+                footer2.style.display = 'none';
+            } else if (stepNum === 2) {
+                // 2단계(결제하기) 표시
+                pageTitle.textContent = "주문결제 (2/2)";
+                headerBackBtn.style.display = 'flex';
+                step1.style.display = 'none';
+                step2.style.display = 'block';
+                footer1.style.display = 'none';
+                footer2.style.display = 'flex';
+            }
+            window.scrollTo(0, 0); // 페이지 상단으로 스크롤
+        }
+        
+        // --- [NEW] Step 2: Payment Logic ---
+        
+        // 포인트 전액 사용
+        function useAllPoints() {
+            document.getElementById('point-input').value = 1000; // PDF 기준 1,000P
+            // TODO: 결제 금액 다시 계산
+        }
+
+        // 메인 결제수단 선택
+        function selectPaymentMethod(chip) {
+            // 1. 칩 활성화
+            document.querySelectorAll('.payment-method-chips .payment-chip-lg').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            
+            // 2. 간편결제 옵션 표시/숨김
+            const method = chip.dataset.method;
+            const simplePaymentOptions = document.getElementById('simple-payment-options');
+            if (method === 'simple-payment') {
+                simplePaymentOptions.style.display = 'block';
+            } else {
+                simplePaymentOptions.style.display = 'none';
+                // 간편결제 하위 칩 선택 해제
+                document.querySelectorAll('#simple-payment-chips .single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            }
+        }
+        
+        // 간편결제 하위 수단 선택
+        function selectPaymentSubOption(chip) {
+            document.querySelectorAll('#simple-payment-chips .single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+        }
+
+    </script>
+</body>
+</html>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>성원애드피아 - 메인 (검색 레이어 추가)</title>
+    <title>성원애드피아 - 메인 (검색/알림 레이어 추가)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,8 +26,9 @@
             overflow-x: visible;
         }
 
-        /* [NEW] Prevent body scroll when layer is open */
-        body.search-layer-open {
+        /* [MODIFIED] Prevent body scroll when layer is open */
+        body.search-layer-open,
+        body.notification-layer-open {
             overflow: hidden;
         }
 
@@ -191,6 +192,16 @@
             overflow-y: auto;
             flex-grow: 1;
         }
+
+        /* [MODIFIED] Notification Layer sw-container */
+        .notification-layer-main {
+            padding: 16px;
+            /* [MODIFIED] List items have padding */
+            overflow-y: auto;
+            flex-grow: 1;
+            background-color: #f4f5f7; /* [NEW] Set background color like body */
+        }
+
 
         /* [MODIFIED] Mypage Info Section (Based on info-section) */
         .mypage-info-section {
@@ -436,7 +447,6 @@
             flex-direction: column;
 
             /* [NEW] Slide down animation */
-            transform: translateY(-100%);
             transition: transform 0.3s ease-out;
 
             /* [NEW] 모바일 랩 크기에 맞춤 */
@@ -593,6 +603,38 @@
             color: #aaa;
             stroke-width: 2.5;
         }
+        
+        /* [MODIFIED] Notification Card Styles (from sungwon_money_01.html) */
+        .notification-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+        }
+        .notification-card {
+            border: 1px solid #e0e0e0; 
+            border-radius: 8px; 
+            background: #fff; 
+            overflow: hidden;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .notification-card:hover {
+            background: #f8f8f8;
+        }
+        .card-body { padding: 16px; }
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .card-content { font-size: 16px; font-weight: 500; color: #333; margin-right: 16px; line-height: 1.5; }
+        .card-divider { height: 1px; background-color: #f0f0f0; margin: 12px 0; }
+        .card-bottom { display: flex; justify-content: space-between; align-items: center; }
+        .card-meta { font-size: 13px; color: #666; }
+        
+        .notification-type {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4e6ee4; /* v12 blue */
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 
@@ -604,7 +646,7 @@
                 <img src="https://www.figma.com/api/mcp/asset/ef0509bb-c8a7-4eb0-8a39-30b9b46cc207" alt="성원애드피아 로고">
             </div>
             <div class="header-right">
-                <div class="btn-icon">
+                <div class="btn-icon" onclick="openNotificationLayer()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-bell">
                         <path
                             d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
@@ -839,6 +881,87 @@
 
         </main>
     </div>
+    
+    <div class="search-layer-overlay" id="notification-layer">
+        <header class="app-header-sub">
+            <div class="header-left">
+            </div>
+            <h1 class="header-title">알림</h1>
+            <div class="header-right">
+                <button type="button" class="header-btn" onclick="closeNotificationLayer()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-close">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="notification-layer-main">
+            <div class="notification-list" id="notification-list-container">
+                <article class="notification-card" onclick="alert('알림 상세로 이동')">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <div class="card-content">[주문] '디지털 명함' 주문이 완료되었습니다.</div>
+                            <span class="notification-type">주문</span>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-bottom">
+                            <div class="card-meta">2025-11-05 14:00</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="notification-card" onclick="alert('알림 상세로 이동')">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <div class="card-content">[공지] 2025년 추석 연휴 배송 안내</div>
+                            <span class="notification-type">공지</span>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-bottom">
+                            <div class="card-meta">2025-11-04 11:30</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="notification-card" onclick="alert('알림 상세로 이동')">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <div class="card-content">[답변] 'AS 문의'에 답변이 등록되었습니다.</div>
+                            <span class="notification-type">답변</span>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-bottom">
+                            <div class="card-meta">2025-11-03 17:20</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="notification-card" onclick="alert('알림 상세로 이동')">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <div class="card-content">[이벤트] 10월 신규가입 쿠폰팩 증정!</div>
+                            <span class="notification-type">이벤트</span>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-bottom">
+                            <div class="card-meta">2025-11-01 09:00</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="notification-card" onclick="alert('알림 상세로 이동')">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <div class="card-content">[출고] '초저가 전단지' 상품이 출고되었습니다.</div>
+                            <span class="notification-type">출고</span>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-bottom">
+                            <div class="card-meta">2025-10-31 18:05</div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </main>
+    </div>
 
 
     <script>
@@ -861,6 +984,23 @@
             if (searchLayer) {
                 searchLayer.classList.remove('active');
                 document.body.classList.remove('search-layer-open');
+            }
+        }
+        
+        // --- [NEW] Notification Layer Logic ---
+        const notificationLayer = document.getElementById('notification-layer');
+
+        function openNotificationLayer() {
+            if (notificationLayer) {
+                notificationLayer.classList.add('active');
+                document.body.classList.add('notification-layer-open');
+            }
+        }
+
+        function closeNotificationLayer() {
+            if (notificationLayer) {
+                notificationLayer.classList.remove('active');
+                document.body.classList.remove('notification-layer-open');
             }
         }
 
