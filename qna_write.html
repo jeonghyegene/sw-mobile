@@ -534,7 +534,7 @@
             color: black;
         }
         .search input::placeholder { color: #c6c6c8; }
-        .search-input-right { display: flex; gap: 3px; align-items: center; }
+        .search-input-right { display: flex; gap: 5px; align-items: center; }
         .search-del { width: 18px; height: 18px; cursor: pointer; display: none; }
         .search.has-text .search-del { display: flex; }
         .search-icon, .btn-search { width: 24px; height: 24px; cursor: pointer; transition: transform 0.2s; }
@@ -987,10 +987,14 @@
                     <input type="text" placeholder="접수번호 또는 접수제목, 제품명을 입력해주세요" oninput="handleSearchInput(this)">
                     <div class="search-input-right">
                         <div class="search-del" onclick="clearSearch(this)">
-                            <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d" alt="삭제">
+                            <img src="assets/images/search-del.png" alt="지우기">
                         </div>
                         <div class="btn-search" onclick="handleSearch(this)">
-                            <img src="https://www.figma.com/api/mcp/asset/4af11b15-4228-4024-b0ec-cd703ca89e9f" alt="검색">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
+                            id="icon-search">
+                                <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -1283,7 +1287,7 @@
             } else {
                 newState = true;
                 checkbox.dataset.checked = 'true';
-                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
             }
             return newState;
         }
@@ -1302,7 +1306,7 @@
             const mainCheckbox = document.getElementById('as-policy-main-checkbox');
             if (mainCheckbox.dataset.checked !== 'true') {
                 mainCheckbox.dataset.checked = 'true';
-                mainCheckbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+                mainCheckbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
                 isFormDirty = true; // Mark form as dirty
             }
             closeAsPolicySheet();

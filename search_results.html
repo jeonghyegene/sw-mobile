@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검색 결과 (필터 적용)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+        /* [MODIFIED] Body overflow lock for sheet/modal */
+        body.sheet-open {
+            overflow: hidden;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+            text-align: left; /* [NEW] Ensure button text aligns left */
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 20px;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button {
+            background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; 
+        }
+        .primary-button:hover { background: #3d5dd3; }
+        .primary-button:active { transform: scale(0.98); }
+        
+        .dark-button { 
+            background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; 
+        }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+
+        .white-button {
+            background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content;
+        }
+        .white-button:hover { background: #f9f9f9; }
+        .white-button:active { transform: scale(0.98); }
+        
+        /* [NEW] Filter button */
+        .filter-button {
+            height: 40px;
+            padding: 0 12px;
+            font-size: 14px;
+            font-weight: 500;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+        .filter-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+        }
+
+        /* Main Content */
+        .sw-container {
+             padding: 16px;
+        }
+        
+        /* Filter Chip Section (from qna_list.html) */
+        .filter-chip-section {
+            background: #fff;
+            padding: 8px 16px;
+            margin: 0 -16px;
+            border-bottom: 1px solid #e9e9e9;
+        }
+
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip-section .tabs-scroll-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-chip-section .single-chip,
+        .filter-chip-section .multi-chip {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        /* Filter Section (from qna_list.html) */
+        .filter-section {
+            padding: 16px 0 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* v12 Standard .multi-chip */
+        .multi-chip {
+            display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none;
+        }
+        .multi-chip-off { background: #fdfdfd; border: 1px solid #e6e4e4; color: #6d6d6d; }
+        .multi-chip-on { background: #c7d3ff; border: 1px solid #4e6ee4; color: #4e6ee4; }
+        .multi-chip:active { transform: scale(0.95); }
+
+        /* v12 Standard .single-chip */
+        .single-chip {
+            display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none;
+        }
+        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
+        .single-chip-on { background: #4e6ee4; color: white; }
+        .single-chip:active { transform: scale(0.95); }
+
+        /* v12 Standard .search */
+        .search {
+            width: 100%;
+            height: 40px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            position: relative;
+        }
+
+        .search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+        }
+        .search input::placeholder { color: #c6c6c8; }
+        .search-input-right { display: flex; gap: 5px; align-items: center; }
+        .search-del { width: 18px; height: 18px; cursor: pointer; display: none; }
+        .search.has-text .search-del { display: flex; }
+        .search-icon, .btn-search { width: 24px; height: 24px; cursor: pointer; transition: transform 0.2s; }
+        .search-icon:active, .btn-search:active { transform: scale(0.9); }
+        .search-del img, .btn-search img, .search-icon img { width: 100%; height: 100%; }
+
+        /* [NEW] Selected Filter Section */
+        .selected-filters-section {
+            padding: 12px 0;
+            border-bottom: 1px solid #e9e9e9;
+            margin-bottom: 16px;
+        }
+        .selected-filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .selected-filters-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        .selected-filters-reset-btn {
+            font-size: 13px;
+            color: #555;
+            font-weight: 500;
+        }
+        .selected-filters-reset-btn svg {
+            width: 14px; height: 14px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 2px;
+            stroke-width: 2.5;
+        }
+        .selected-filters-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .selected-filter-chip {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 6px 10px;
+            border-radius: 100px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            background: #f5f5f6;
+            border: 1px solid #e6e4e4; 
+            color: #4e6ee4;
+            font-weight: 500;
+        }
+        .selected-filter-chip svg {
+            width: 14px; height: 14px;
+            stroke-width: 2.5;
+            margin-left: 4px;
+            color: #4e6ee4;
+        }
+
+        /* Transaction List Header (from qna_list.html) */
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
+        }
+        .transaction-list-header .total-count strong { font-weight: 600; color: #333; }
+        .product-list { display: flex; flex-direction: column; gap: 12px; }
+        .no-transactions { padding: 40px 16px; text-align: center; color: #888; font-size: 14px; }
+        .no-results-section { padding: 24px 16px; text-align: center; border-bottom: 8px solid #f4f5f7; }
+        .no-results-icon { font-size: 32px; color: #888; margin-bottom: 16px; }
+        .no-results-text { font-size: 16px; font-weight: 600; color: #333; }
+        .popular-products-section { padding-top: 24px; }
+        .popular-products-title { font-size: 16px; font-weight: 600; color: #333; margin-bottom: 16px; }
+
+        /* Product Card Style */
+        .product-card { border: 1px solid #e8e8e9; border-radius: 6px; background: #fff; overflow: hidden; }
+        .product-card-body { padding: 16px; cursor: pointer; }
+        .product-card-category { font-size: 12px; font-weight: 600; color: #4e6ee4; margin-bottom: 8px; }
+        .product-card-title { font-size: 16px; font-weight: 600; color: #212121; margin-bottom: 8px; }
+        .product-card-description {
+            font-size: 14px; color: #555; line-height: 1.5; margin-bottom: 12px;
+            overflow: hidden; text-overflow: ellipsis; display: -webkit-box;
+            -webkit-line-clamp: 2; -webkit-box-orient: vertical; white-space: normal;
+            max-height: 44.8px; 
+        }
+        .product-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+        .product-tag { background: #f5f5f6; color: #8a8a92; font-size: 12px; padding: 4px 8px; border-radius: 4px; }
+        .product-card-price { font-size: 16px; font-weight: 700; color: #333; }
+        .product-card-spec { font-size: 12px; color: #888; margin-top: 4px; }
+        .product-card-footer { 
+            padding: 12px 16px; background-color: #fcfcfc; border-top: 1px solid #f0f0f0; 
+            display: flex; justify-content: flex-end; gap: 8px;
+        }
+        .product-card-footer .btn { height: 36px; font-size: 13px; padding: 0 12px; }
+        
+        
+        /* ========================================
+           [MODIFIED] SIDE SHEET STYLES (v12 Standard)
+        ======================================== */
+        .side-sheet-overlay {
+            position: fixed; inset: 0; 
+            background: rgba(0, 0, 0, 0.5); /* Dimming background */
+            display: none;
+            justify-content: flex-end; /* Push sheet to the right */
+            z-index: 1000; 
+            animation: fadeIn 0.3s ease-out;
+        }
+        .side-sheet-overlay.active { display: flex; }
+        .side-sheet-overlay.closing { animation: fadeOut 0.3s ease-out forwards; }
+
+        .side-sheet {
+            width: 100%; max-width: 320px; /* Set width */
+            height: 100%; /* Full height */
+            background: white;
+            border-left: 1px solid #d7d7d7;
+            position: relative; 
+            display: flex; flex-direction: column;
+            animation: slideIn 0.3s ease-out;
+        }
+        .side-sheet-overlay.closing .side-sheet {
+            animation: slideOut 0.3s ease-out forwards;
+        }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes slideOut { from { transform: translateX(0); } to { transform: translateX(100%); } }
+
+        .sheet-handle { display: none; } /* No handle for side sheet */
+        
+        .sheet-header {
+            height: 56px; /* Match app header height */
+            padding: 0 16px; /* Match app header padding */
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; /* Title left, close right */
+            position: relative; 
+            border-bottom: 1px solid #e8e8e9; /* Add border */
+            flex-shrink: 0;
+        }
+        .sheet-title { 
+            font-size: 16px; font-weight: 700; color: black; 
+            text-align: left;
+        }
+        .btn-close {
+            position: static; /* Remove absolute positioning */
+            transform: none;
+            width: 28px; /* Match header-btn */
+            height: 28px;
+            cursor: pointer; 
+            transition: transform 0.2s;
+        }
+        .btn-close:active { transform: scale(0.9); }
+        .btn-close svg { width: 24px; height: 24px; color: #333; }
+        
+        .sheet-body { flex: 1; overflow-y: auto; padding: 20px; }
+        .sheet-footer {
+            padding: 20px; border-top: 1px solid #f0f0f0; background: #fff;
+            display: flex; gap: 8px; flex-shrink: 0;
+        }
+        .sheet-footer .btn { flex: 1; }
+        
+        /* [NEW] Filter Group Styles (from qna_list.html) */
+        .filter-group { margin-bottom: 24px; }
+        .filter-group-title {
+            font-size: 14px; font-weight: 600; color: #333; margin-bottom: 12px;
+        }
+        .filter-group-content { display: flex; flex-wrap: wrap; gap: 8px; }
+        
+        /* [v12] Checkbox (from mobile-design-guide-final.html) */
+        .checkbox {
+            width: 20px; height: 20px; position: relative; cursor: pointer; user-select: none; flex-shrink: 0;
+        }
+        .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
+        .checkbox-on {
+            width: 100%; height: 100%; background: #4e6ee4; border-radius: 2px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .checkbox-on img { width: 14px; height: 14px; }
+        .checkbox:active { transform: scale(0.9); }
+        
+        .checkbox-text {
+            display: flex; 
+            align-items: center; 
+            cursor: pointer; 
+            user-select: none;
+            /* [MODIFIED] Flex row with space-between */
+            justify-content: space-between;
+            width: 100%;
+        }
+        .checkbox-label-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-grow: 1;
+        }
+        .checkbox-text span { font-size: 14px; color: #333; }
+        
+        /* [NEW] Filter Sheet Specifics */
+        .filter-group-content.checkbox-list {
+            flex-direction: column;
+            gap: 12px; /* Checkbox items spacing */
+            align-items: flex-start;
+        }
+        .filter-expandable-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .filter-expandable-title svg {
+            width: 16px; height: 16px; color: #888; transition: transform 0.2s;
+        }
+        .filter-expandable-title.open svg {
+            transform: rotate(180deg);
+        }
+        .filter-expandable-content {
+            padding-left: 12px;
+            display: none;
+        }
+        .filter-expandable-content.open {
+            display: block;
+        }
+        .show-more-btn {
+            font-size: 13px;
+            color: #555;
+            font-weight: 500;
+            margin-top: 8px;
+            padding-left: 28px; /* Align with checkbox text */
+        }
+        .show-more-btn svg {
+            width: 14px; height: 14px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 2px;
+            transition: transform 0.2s;
+        }
+        .show-more-btn.open svg {
+            transform: rotate(180deg);
+        }
+        
+        /* [NEW] Paper Detail Button */
+        .paper-detail-btn {
+            font-size: 12px;
+            color: #888;
+            text-decoration: underline;
+            font-weight: 400;
+            flex-shrink: 0;
+            padding: 4px; /* Easier touch target */
+        }
+        
+        /* ========================================
+           [NEW] MODAL STYLES (v12 Standard)
+        ======================================== */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none;
+            align-items: center; justify-content: center; z-index: 1001; /* Higher than sheet overlay */
+            padding: 16px;
+        }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.2s ease-out; }
+        .modal-content {
+            background: white; border-radius: 8px; width: 100%; max-width: 360px;
+            max-height: 90vh; display: flex; flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+        @keyframes scaleUpModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px; border-bottom: 1px solid #e8e8e9; position: relative; height: 57px;
+        }
+        .modal-title { font-size: 16px; font-weight: 700; color: black; }
+        .btn-modal-close {
+            width: 24px; height: 24px; cursor: pointer; color: #333;
+            position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+        }
+        .btn-modal-close:hover { color: #000; }
+        .btn-modal-close svg { width: 100%; height: 100%; }
+        .modal-body { padding: 16px; overflow-y: auto; flex-grow: 1; }
+        .modal-footer {
+            padding: 16px; border-top: 1px solid #e8e8e9; background: #fff;
+            display: flex; gap: 8px; border-radius: 0 0 7px 7px;
+        }
+        .modal-footer .btn { flex: 1; height: 44px; font-size: 14px; }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">검색 결과</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="sw-container">
+                <section class="filter-section" style="padding-top: 0; padding-bottom: 16px;">
+                    <div class="search has-text" data-name="search" id="qna-search">
+                        <input type="text" value="디지털 인쇄" placeholder="접수번호 또는 문의 내용을 입력해주세요" oninput="handleSearchInput(this)">
+                        <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this)">
+                                <img src="assets/images/search-del.png" alt="지우기">
+                            </div>
+                            <div class="btn-search" onclick="handleSearch(this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
+                            id="icon-search">
+                                    <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                    <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="white-button filter-button" onclick="openFilterSheet()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M5.5 5h13a1 1 0 0 1 .8 1.6l-6 6.8v.1l6 6.8a1 1 0 0 1 -.8 1.6h-13a1 1 0 0 1 -.8 -1.6l6 -6.8v-.1l-6 -6.8a1 1 0 0 1 .8 -1.6z" stroke="none" fill="currentColor" />
+                        </svg>
+                        검색 필터
+                    </button>
+                </section>
+                
+                <section class="filter-chip-section" style="margin-bottom: 0;">
+                    <div class="tabs-scroll-wrapper" id="status-chip-group">
+                        <div class="multi-chip multi-chip-off" data-status="today" onclick="toggleMultiChip(this); updateSelectedFilters();">오늘 신청 가능</div>
+                        <div class="single-chip single-chip-on" data-status="popular" onclick="selectSortChip(this)">인기순</div>
+                        <div class="single-chip single-chip-off" data-status="low-price" onclick="selectSortChip(this)">낮은가격순</div>
+                        <div class="single-chip single-chip-off" data-status="high-price" onclick="selectSortChip(this)">높은가격순</div>
+                    </div>
+                </section>
+
+                <section class="selected-filters-section" id="selected-filters-container" style="display: none;">
+                    <div class="selected-filters-header">
+                        <span class="selected-filters-title">선택된 필터</span>
+                        <button type="button" class="selected-filters-reset-btn" onclick="resetAllFilters()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.933 13.041a8 8 0 1 1 -2.122 -5.292" /><path d="M14 4v4h4" /></svg>
+                            초기화
+                        </button>
+                    </div>
+                    <div class="selected-filters-list" id="selected-filters-list">
+                        </div>
+                </section>
+
+                <section class="transaction-list-section" id="results-container">
+                    <div class="transaction-list-header" style="margin-top: 16px;">
+                        <span class="total-count">총 <strong id="transaction-count">5</strong>건</span>
+                    </div>
+
+                    <div class="product-list" id="product-list-container">
+                        <article class="product-card">
+                            <div class="product-card-body">
+                                <div class="product-card-category">명함</div>
+                                <div class="product-card-title">오리지널 명함</div>
+                                <div class="product-card-description">간결하면서도 고급스러운 분위기를 연출할 수 있는 기본 명함 제품입니다.</div>
+                                <div class="product-card-price">₩1,400-</div>
+                                <div class="product-card-spec">반누보 90g / 디지털 인쇄 / 100매</div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button type="button" class="white-button btn" style="height: 36px; font-size: 13px;">간편 접수</button>
+                                <button type="button" class="dark-button btn" style="height: 36px; font-size: 13px;">상세보기</button>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+                
+                <section class="no-results-wrapper" id="no-results-container" style="display: none;">
+                    <div class="no-results-section">
+                        <div class="no-results-icon">ⓘ</div>
+                        <div class="no-results-text">검색결과가 없습니다.</div>
+                    </div>
+                    
+                    <div class="popular-products-section">
+                        <div class="popular-products-title">지금 가장 인기있는 제품이에요</div>
+                        <div class="product-list">
+                            <article class="product-card">
+                                <div class="product-card-body">
+                                    <div class="product-card-category">명함</div>
+                                    <div class="product-card-title">오리지널 명함</div>
+                                    <div class="product-card-description">간결하면서도 고급스러운 분위기를 연출할 수 있는 기본 명함 제품입니다.</div>
+                                    <div class="product-card-price">₩1,400-</div>
+                                </div>
+                                <div class="product-card-footer">
+                                    <button type="button" class="dark-button btn" style="height: 36px; font-size: 13px;">상세보기</button>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div class="side-sheet-overlay" id="filter-sheet-overlay">
+        <div class="side-sheet" data-name="side-sheet" id="filter-sheet">
+            <div class="sheet-header">
+                <div class="sheet-title">검색 필터</div>
+                <button type="button" class="btn-close" onclick="closeFilterSheet()">
+                    <svg id="icon-close"> <path d="M18 6l-12 12" /> <path d="M6 6l12 12" /> </svg>
+                </button>
+            </div>
+            <div class="sheet-body" id="filter-sheet-body">
+                <div class="filter-group">
+                    <div class="filter-group-title">카테고리</div>
+                    <div class="filter-group-content" id="filter-group-category">
+                        <div class="multi-chip multi-chip-on" data-filter-group="category" data-filter-value="전체" onclick="toggleCategoryChip(this)">✓ 전체</div>
+                        <div class="multi-chip multi-chip-off" data-filter-group="category" data-filter-value="명함" onclick="toggleCategoryChip(this)">명함</div>
+                        <div class="multi-chip multi-chip-off" data-filter-group="category" data-filter-value="홍보물" onclick="toggleCategoryChip(this)">홍보물</div>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <div class="filter-group-title">용지</div>
+                    
+                    <div class="filter-expandable-title open" onclick="toggleFilterExpand(this)">
+                        <span>스탠다드</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                    </div>
+                    <div class="filter-expandable-content open">
+                        <div class="filter-group-content checkbox-list" data-filter-group="paper_standard">
+                            
+                            <div class="checkbox-text">
+                                <div class="checkbox-label-group" onclick="toggleCheckboxText(this)">
+                                    <div class="checkbox" data-checked="false" data-filter-value="코트지"><div class="checkbox-off"></div></div>
+                                    <span>코트지</span>
+                                </div>
+                                <button type="button" class="paper-detail-btn" onclick="showPaperDetailModal('코트지', '광택이 있는 용지로, 인쇄 색상 표현이 선명합니다. 전단, 포스터, 브로슈어 등 다양한 인쇄물에 사용됩니다.', 'https://via.placeholder.com/300x200.png?text=Cote+Paper')">
+                                    자세히 보기
+                                </button>
+                            </div>
+                            
+                            <div class="checkbox-text">
+                                <div class="checkbox-label-group" onclick="toggleCheckboxText(this)">
+                                    <div class="checkbox" data-checked="false" data-filter-value="뉴에코크라프트"><div class="checkbox-off"></div></div>
+                                    <span>뉴에코크라프트</span>
+                                </div>
+                                 <button type="button" class="paper-detail-btn" onclick="showPaperDetailModal('뉴에코크라프트', '자연스러운 질감의 친환경 크라프트 용지입니다.', 'https://via.placeholder.com/300x200.png?text=Kraft+Paper')">
+                                    자세히 보기
+                                </button>
+                            </div>
+                            
+                            <div class="checkbox-text">
+                                <div class="checkbox-label-group" onclick="toggleCheckboxText(this)">
+                                    <div class="checkbox" data-checked="false" data-filter-value="에코 블랙"><div class="checkbox-off"></div></div>
+                                    <span>에코 블랙</span>
+                                </div>
+                                <button type="button" class="paper-detail-btn" onclick="showPaperDetailModal('에코 블랙', '깊고 진한 검은색이 특징인 고급 용지입니다.', 'https://via.placeholder.com/300x200.png?text=Black+Paper')">
+                                    자세히 보기
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-expandable-title" onclick="toggleFilterExpand(this)" style="margin-top: 12px;">
+                        <span>스페셜</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                    </div>
+                    <div class="filter-expandable-content">
+                         <div class="filter-group-content checkbox-list" data-filter-group="paper_special">
+                            <div class="checkbox-text">
+                                <div class="checkbox-label-group" onclick="toggleCheckboxText(this)">
+                                    <div class="checkbox" data-checked="false" data-filter-value="리브스디자인"><div class="checkbox-off"></div></div>
+                                    <span>리브스디자인</span>
+                                </div>
+                                <button type="button" class="paper-detail-btn" onclick="showPaperDetailModal('리브스디자인', '독특한 격자 무늬가 특징인 용지입니다.', 'https://via.placeholder.com/300x200.png?text=Rives+Design')">
+                                    자세히 보기
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn white-button" onclick="resetSheetFilters()">초기화</button>
+                <button class="btn dark-button" onclick="applyFilters()">적용하기</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="paper-detail-modal-overlay">
+        <div class="modal-content" id="paper-detail-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">용지 상세 정보</h2>
+                <button class="btn-modal-close" onclick="closeModal('paper-detail-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="https://via.placeholder.com/300x200.png?text=Paper+Image" alt="용지 이미지" style="width: 100%; height: auto; border-radius: 6px; margin-bottom: 16px; border: 1px solid #eee;">
+                <h3 id="paper-detail-title" style="font-size: 16px; font-weight: 600; margin-bottom: 8px;"></h3>
+                <p id="paper-detail-description" style="font-size: 14px; color: #555; line-height: 1.6;"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="closeModal('paper-detail-modal-overlay')">확인</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- [v12] Search Component JS ---
+        function handleSearchInput(input) {
+            const searchBox = input.closest('.search');
+            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+        }
+        function clearSearch(btn) {
+            const searchBox = btn.closest('.search');
+            const input = searchBox.querySelector('input');
+            input.value = '';
+            searchBox.classList.remove('has-text');
+            input.focus();
+        }
+        function handleSearch(btn) { 
+            const searchTerm = btn.closest('.search').querySelector('input').value;
+            console.log('Search submitted:', searchTerm); 
+            if (searchTerm === "결과없음") {
+                showNoResults();
+            } else {
+                showResults();
+            }
+        }
+
+        // --- [v12] MultiChip Component JS ---
+        function toggleMultiChip(chip, forceState) {
+            const isCurrentlyOn = chip.classList.contains('multi-chip-on');
+            let turnOn;
+            if (forceState === true) { turnOn = true; }
+            else if (forceState === false) { turnOn = false; }
+            else { turnOn = !isCurrentlyOn; }
+
+            if (turnOn && !isCurrentlyOn) {
+                chip.classList.replace('multi-chip-off', 'multi-chip-on');
+                if (!chip.innerHTML.includes('✓')) chip.innerHTML = '✓ ' + chip.innerHTML.trim();
+            } else if (!turnOn && isCurrentlyOn) {
+                chip.classList.replace('multi-chip-on', 'multi-chip-off');
+                chip.innerHTML = chip.innerHTML.replace('✓ ', '');
+            }
+        }
+        
+        // --- [v12] SingleChip (Sort) ---
+        function selectSortChip(chip) {
+            const group = chip.closest('#status-chip-group');
+            if (!group) return;
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+        }
+        
+        // --- [v12] Checkbox (from mobile-design-guide) ---
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+            }
+        }
+        function toggleCheckboxText(wrapper) {
+            // [MODIFIED] Find checkbox in the parent's first child (.checkbox-label-group)
+            const checkbox = wrapper.querySelector('.checkbox');
+            if (checkbox) {
+                toggleCheckbox(checkbox);
+            }
+        }
+
+        // --- [MODIFIED] Side Sheet JS ---
+        function setupSideSheet(overlayId, sheetId) {
+            const overlay = document.getElementById(overlayId); 
+            const sheet = document.getElementById(sheetId); 
+            if (!overlay || !sheet) return { openSheet: ()=>{}, closeSheet: ()=>{} };
+            
+            const openSheet = () => { 
+                overlay.classList.remove('closing');
+                overlay.classList.add('active'); 
+                document.body.classList.add('sheet-open');
+            };
+            
+            const closeSheet = () => { 
+                overlay.classList.add('closing');
+                document.body.classList.remove('sheet-open');
+                setTimeout(() => { 
+                    overlay.classList.remove('active'); 
+                    overlay.classList.remove('closing');
+                }, 300); // Animation duration
+            };
+            
+            // Close on overlay click
+            overlay.addEventListener('click', (e) => { 
+                if (e.target.id === overlayId) closeSheet(); 
+            });
+            
+            return { openSheet, closeSheet };
+        }
+        const { openSheet: openFilterSheet, closeSheet: closeFilterSheet } = setupSideSheet('filter-sheet-overlay', 'filter-sheet');
+
+        // --- [NEW] Modal Helpers (from cr_issue.html) ---
+        function openModal(overlayId) {
+             const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                // Don't double-lock scroll
+                if (!document.body.classList.contains('sheet-open')) {
+                     document.body.classList.add('sheet-open');
+                }
+            }
+        }
+        function closeModal(overlayId) {
+             const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                // Only unlock if sheet is also closed
+                const anyModalActive = document.querySelector('.modal-overlay.active, .side-sheet-overlay.active');
+                if (!anyModalActive) {
+                    document.body.classList.remove('sheet-open');
+                }
+            }
+        }
+        
+        // --- [NEW] Paper Detail Modal Logic ---
+        function showPaperDetailModal(name, description, imageUrl) {
+            document.getElementById('paper-detail-title').textContent = name;
+            document.getElementById('paper-detail-description').textContent = description;
+            document.getElementById('paper-detail-modal').querySelector('img').src = imageUrl;
+            
+            openModal('paper-detail-modal-overlay');
+        }
+
+
+        // --- [MODIFIED] Filter Sheet Logic ---
+        function toggleFilterExpand(titleEl) {
+            titleEl.classList.toggle('open');
+            const content = titleEl.nextElementSibling;
+            if (content && content.classList.contains('filter-expandable-content')) {
+                content.classList.toggle('open');
+            }
+        }
+        
+        function toggleCategoryChip(chip) {
+            const category = chip.dataset.filterValue;
+            const group = chip.closest('#filter-group-category');
+            const allChip = group.querySelector('[data-filter-value="전체"]');
+            
+            if (category === '전체') {
+                const isTurningOn = !chip.classList.contains('multi-chip-on');
+                toggleMultiChip(chip, isTurningOn); 
+                group.querySelectorAll('.multi-chip').forEach(c => { 
+                    if (c !== chip) toggleMultiChip(c, false); 
+                });
+            } else {
+                toggleMultiChip(chip);
+                toggleMultiChip(allChip, false); 
+                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-filter-value="전체"])'))
+                                       .some(c => c.classList.contains('multi-chip-on'));
+                if (!anyOtherOn) {
+                    toggleMultiChip(allChip, true);
+                }
+            }
+        }
+        
+        function resetSheetFilters() {
+            // Reset categories
+            const categoryGroup = document.getElementById('filter-group-category');
+            categoryGroup.querySelectorAll('.multi-chip').forEach(chip => {
+                if (chip.dataset.filterValue === '전체') {
+                    toggleMultiChip(chip, true);
+                } else {
+                    toggleMultiChip(chip, false);
+                }
+            });
+            // Reset paper checkboxes
+            document.querySelectorAll('#filter-sheet-body .checkbox').forEach(checkbox => {
+                if (checkbox.dataset.checked === 'true') {
+                    toggleCheckbox(checkbox);
+                }
+            });
+        }
+        
+        function applyFilters() {
+            closeFilterSheet();
+            updateSelectedFilters();
+        }
+        
+        function resetAllFilters() {
+            resetSheetFilters();
+            const todayChip = document.querySelector('.multi-chip[data-status="today"]');
+            toggleMultiChip(todayChip, false);
+            updateSelectedFilters();
+        }
+
+        // --- [MODIFIED] Selected Filter UI Logic ---
+        function updateSelectedFilters() {
+            const container = document.getElementById('selected-filters-container');
+            const list = document.getElementById('selected-filters-list');
+            list.innerHTML = '';
+            let hasFilters = false;
+
+            const todayChip = document.querySelector('.multi-chip[data-status="today"]');
+            if (todayChip && todayChip.classList.contains('multi-chip-on')) {
+                list.appendChild(createSelectedChip('today', '오늘 신청 가능'));
+                hasFilters = true;
+            }
+            
+            const categoryChips = document.querySelectorAll('#filter-group-category .multi-chip-on:not([data-filter-value="전체"])');
+            categoryChips.forEach(chip => {
+                const value = chip.dataset.filterValue;
+                list.appendChild(createSelectedChip('category', value));
+                hasFilters = true;
+            });
+            
+            const paperCheckboxes = document.querySelectorAll('#filter-sheet-body .checkbox[data-checked="true"]');
+            paperCheckboxes.forEach(checkbox => {
+                const value = checkbox.dataset.filterValue;
+                const group = checkbox.closest('.filter-group-content').dataset.filterGroup;
+                list.appendChild(createSelectedChip(group, value));
+                hasFilters = true;
+            });
+
+            container.style.display = hasFilters ? 'block' : 'none';
+        }
+        
+        function createSelectedChip(group, value) {
+            const chip = document.createElement('button');
+            chip.className = 'selected-filter-chip';
+            chip.textContent = value;
+            chip.onclick = () => removeFilter(group, value);
+            
+            const closeIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            closeIcon.setAttribute('viewBox', '0 0 24 24');
+            closeIcon.innerHTML = '<path d="M18 6l-12 12" /><path d="M6 6l12 12" />';
+            chip.appendChild(closeIcon);
+            
+            return chip;
+        }
+        
+        function removeFilter(group, value) {
+            if (group === 'today') {
+                const todayChip = document.querySelector('.multi-chip[data-status="today"]');
+                if (todayChip) toggleMultiChip(todayChip, false);
+            } else if (group === 'category') {
+                const categoryChip = document.querySelector(`#filter-group-category .multi-chip[data-filter-value="${value}"]`);
+                if (categoryChip) toggleCategoryChip(categoryChip);
+            } else { 
+                const paperCheckbox = document.querySelector(`#filter-sheet-body .checkbox[data-filter-value="${value}"]`);
+                if (paperCheckbox && paperCheckbox.dataset.checked === 'true') {
+                    toggleCheckbox(paperCheckbox);
+                }
+            }
+            updateSelectedFilters();
+        }
+
+        function showNoResults() {
+            document.getElementById('results-container').style.display = 'none';
+            document.getElementById('no-results-container').style.display = 'block';
+        }
+        
+        function showResults() {
+            document.getElementById('results-container').style.display = 'block';
+            document.getElementById('no-results-container').style.display = 'none';
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            showResults();
+            updateSelectedFilters();
+            
+            // Modal overlay click listener
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

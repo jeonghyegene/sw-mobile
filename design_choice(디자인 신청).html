@@ -116,7 +116,7 @@
             margin-bottom: 12px;
         }
         .sw-container .section-title:first-child {
-            margin-top: 8px; /* [MODIFIED] Reduced top margin for page title */
+            margin-top: 0; /* [MODIFIED] Reduced top margin for page title */
         }
         
         /* Form Styles (v12 Standard) */
@@ -309,7 +309,7 @@
             height: 16px;
         }
         
-        /* [MODIFIED] Req 4: Sticky Price Footer (from cr_request.html) */
+        /* [MODIFIED] Sticky Price Footer */
         .sticky-footer-bar {
             position: fixed;
             bottom: 0;
@@ -320,19 +320,23 @@
             background: #ffffff;
             border-top: 1px solid #e0e0e0;
             box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-            padding: 20px; /* Taller footer */
+            padding: 16px 20px 20px 20px; /* [MODIFIED] 16px top, 20px bottom */
             display: flex;
-            align-items: center; /* Center items vertically */
-            justify-content: space-between; /* Space items apart */
+            flex-direction: column; /* [MODIFIED] Stack price and buttons */
+            gap: 12px; /* [NEW] Add gap between price and buttons */
             z-index: 500;
+            /* [REMOVED] align-items: center; */
+            /* [REMOVED] justify-content: space-between; */
         }
+        
         /* [MODIFIED] Price summary */
         .price-summary-simple {
-            flex-grow: 1;
+            /* [REMOVED] flex-grow: 1; */
             display: flex;
             align-items: center;
             gap: 6px;
             cursor: pointer;
+            align-self: flex-start; /* [NEW] Align to top-left */
         }
         .price-summary-simple:hover { opacity: 0.8; }
         .price-summary-simple .price-total {
@@ -347,7 +351,6 @@
             transition: transform 0.2s;
             transform: rotate(-90deg); /* Default up */
         }
-        /* [NEW] Style for arrow when sheet is open */
         .price-summary-simple.open .price-arrow svg {
             transform: rotate(90deg); /* Down */
         }
@@ -357,11 +360,14 @@
             display: flex;
             flex-shrink: 0;
             gap: 8px; /* Add gap between buttons */
+            width: 100%; /* [NEW] Make button group full width */
         }
         .button-group .btn {
             height: 44px; /* v12 Standard height */
             border-radius: 6px; /* v12 Standard radius */
-            width: 110px;
+            /* [MODIFIED] Use flex-grow instead of fixed width */
+            flex: 1; 
+            flex-basis: 0; /* [NEW] */
             font-size: 14px;
             font-weight: 600;
             padding: 7px 12px;
@@ -371,6 +377,7 @@
         }
         .button-group .dark-button {
              border: none;
+             flex-grow: 1.5; /* [NEW] Make this button wider */
         }
         
         /* ========================================
@@ -513,7 +520,7 @@
             font-size: 14px; color: black;
         }
         .search input::placeholder { color: #c6c6c8; }
-        .search-input-right { display: flex; gap: 3px; align-items: center; }
+        .search-input-right { display: flex; gap: 5px; align-items: center; }
         .search-del { width: 18px; height: 18px; cursor: pointer; display: none; }
         .search.has-text .search-del { display: flex; }
         .search-icon, .btn-search { width: 24px; height: 24px; cursor: pointer; transition: transform 0.2s; }
@@ -744,7 +751,7 @@
         
         <header class="app-header-sub">
             <div class="header-left">
-                <button type="button" class="header-btn" onclick="history.back();">
+                <button type="button" class="header-btn" onclick="checkBeforeExit()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
                 </button>
             </div>
@@ -987,10 +994,14 @@
                         <input type="text" placeholder="검색어를 입력해주세요" oninput="handleSearchInput(this)">
                         <div class="search-input-right">
                             <div class="search-del" onclick="clearSearch(this, true)">
-                                <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d" alt="삭제">
+                                <img src="assets/images/search-del.png" alt="지우기">
                             </div>
                             <div class="btn-search" onclick="handleSearch(this, true)">
-                                <img src="https://www.figma.com/api/mcp/asset/4af11b15-4228-4024-b0ec-cd703ca89e9f" alt="검색">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
+                            id="icon-search">
+                                    <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                    <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -1202,7 +1213,7 @@
                 if (targetElement) targetElement.style.display = 'none';
             } else {
                 checkbox.dataset.checked = 'true';
-                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
                 if (targetElement) targetElement.style.display = 'block';
             }
             isFormDirty = true;
@@ -1338,12 +1349,15 @@
                     document.body.style.overflow = '';
                 }
             }
-            // 모달 닫힐 때 '파일 보관함' 탭 활성화 해제
-            const fileStorageTab = document.querySelector('#upload-source-tabs [data-tab="file-storage"]');
-            fileStorageTab.classList.replace('single-chip-on', 'single-chip-off');
-            // '직접 업로드' 탭 활성화
-            const directUploadTab = document.querySelector('#upload-source-tabs [data-tab="direct-upload"]');
-            directUploadTab.classList.replace('single-chip-off', 'single-chip-on');
+            
+            if (overlayId === 'file-storage-modal-overlay') {
+                // 모달 닫힐 때 '파일 보관함' 탭 활성화 해제
+                const fileStorageTab = document.querySelector('#upload-source-tabs [data-tab="file-storage"]');
+                fileStorageTab.classList.replace('single-chip-on', 'single-chip-off');
+                // '직접 업로드' 탭 활성화
+                const directUploadTab = document.querySelector('#upload-source-tabs [data-tab="direct-upload"]');
+                directUploadTab.classList.replace('single-chip-off', 'single-chip-on');
+            }
         }
         
         // --- [NEW] v12 Search (Modal) (Req 2) ---
@@ -1364,7 +1378,7 @@
             if (isModal) modalFilterArchiveList();
         }
         
-        // --- [NEW] v12 MultiChip Component JS (Req 1) ---
+        // --- [MODIFIED] v12 MultiChip Component JS (Req 1) ---
         function toggleMultiChip(chip, forceState) {
             isFormDirty = true;
             const isCurrentlyOn = chip.classList.contains('multi-chip-on');
@@ -1372,12 +1386,17 @@
             if (forceState === true) turnOn = true;
             else if (forceState === false) turnOn = false;
             else turnOn = !isCurrentlyOn;
+            
             if (turnOn && !isCurrentlyOn) {
                 chip.classList.remove('multi-chip-off');
                 chip.classList.add('multi-chip-on');
+                // [MODIFIED] 체크 아이콘 추가
+                chip.innerHTML = '✓ ' + chip.innerHTML.trim(); 
             } else if (!turnOn && isCurrentlyOn) {
                 chip.classList.remove('multi-chip-on');
                 chip.classList.add('multi-chip-off');
+                 // [MODIFIED] 체크 아이콘 제거
+                chip.innerHTML = chip.innerHTML.replace('✓ ', '');
             }
         }
         
@@ -1394,6 +1413,7 @@
             const category = chip.getAttribute('data-category');
             const group = chip.closest('#modal-category-chip-group');
             const allChip = group.querySelector('[data-category="전체"]');
+            
             if (category === '전체') {
                 const isTurningOn = !chip.classList.contains('multi-chip-on');
                 toggleMultiChip(chip, isTurningOn);
@@ -1582,9 +1602,10 @@
                 }
             });
             newBlock.querySelectorAll('.multi-chip').forEach(chip => {
-                // Ensure 'on' class is removed
+                // Ensure 'on' class is removed and text is reset
                 chip.classList.remove('multi-chip-on');
                 chip.classList.add('multi-chip-off');
+                chip.innerHTML = chip.innerHTML.replace('✓ ', ''); // [MODIFIED] Ensure text is reset
             });
             
             // Hide conditional options by default (since "간단 수정" is selected)
