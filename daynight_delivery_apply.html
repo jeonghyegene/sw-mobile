@@ -458,6 +458,8 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            max-height: 40vh; /* [MODIFIED] Set max height for scrolling */
+            overflow-y: auto;
         }
         .address-item {
             border: 1px solid #e8e8e9;
@@ -628,25 +630,10 @@
                 <section class="form-section">
                     <h2 class="section-title">배송 정보</h2>
                     
-                    <div class="form-group form-group-button" style="margin-bottom: 12px;">
-                         <button type="button" class="white-button" onclick="showAddressListModal()">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-list">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M9 6l11 0" />
-                                <path d="M9 12l11 0" />
-                                <path d="M9 18l11 0" />
-                                <path d="M5 6l0 .01" />
-                                <path d="M5 12l0 .01" />
-                                <path d="M5 18l0 .01" />
-                            </svg>&nbsp;배송지 목록
-                         </button>
-                    </div>
-                    
                     <nav class="modal-tab-nav" id="address-tabs">
                         <div class="single-chip single-chip-on" data-tab="default-addr" onclick="switchAddressTab(this, 'default-addr')">기본 배송지</div>
                         <div class="single-chip single-chip-off" data-tab="direct-input" onclick="switchAddressTab(this, 'direct-input')">직접 입력</div>
+                        <div class="single-chip single-chip-off" data-tab="address-list" onclick="switchAddressTab(this, 'address-list')">배송지 목록</div>
                     </nav>
                     
                     <div id="address-tab-content">
@@ -677,8 +664,8 @@
                                 <div class="input"><input type="text" id="form-addr-detail" placeholder="상세 주소를 입력해주세요" value="1204호"></div>
                                 
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                    <p class="disclaimer warning" id="address-warning-message" style="display: none; margin-top: 0;">
-                                        * <strong id="warning-delivery-type"></strong> 가능 지역이 아닙니다.
+                                    <p class="disclaimer warning" id="form-address-warning-message" style="display: none; margin-top: 0;">
+                                        * <strong id="form-warning-delivery-type"></strong> 가능 지역이 아닙니다.
                                     </p>
                                     
                                     <button type="button" class="white-button" style="height: 32px; font-size: 13px; padding: 0 12px; width: auto; font-weight: 500; margin-left: auto;" onclick="showDeliveryAreaModal()">
@@ -688,14 +675,14 @@
                             </div>
                             <div class="form-group">
                                 <label>위치</label>
-                                <div class="filter-group-content" id="location-type-chips">
-                                    <div class="single-chip single-chip-on" onclick="selectSingleChip(this, 'location-type-chips')">시내</div>
-                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'location-type-chips')">시외</div>
+                                <div class="filter-group-content" id="form-location-type-chips">
+                                    <div class="single-chip single-chip-on" onclick="selectSingleChip(this, 'form-location-type-chips')">시내</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'form-location-type-chips')">시외</div>
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom: 12px;">
                                 <div class="checkbox-text" onclick="toggleCheckboxText(this)">
-                                    <div class="checkbox" data-checked="true">
+                                    <div class="checkbox" data-checked="true" id="form-elevator-check">
                                          <div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>
                                     </div>
                                     <span>엘리베이터 있음</span>
@@ -704,34 +691,34 @@
                             
                             <div class="form-group">
                                 <label>보관장소</label>
-                                <div class="filter-group-content" id="storage-type-chips">
-                                    <div class="single-chip single-chip-on" onclick="selectSingleChip(this, 'storage-type-chips')">사무실</div>
-                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'storage-type-chips')">경비실</div>
-                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'storage-type-chips')">복도</div>
-                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'storage-type-chips')">사무실문 앞</div>
-                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'storage-type-chips')">사무실 창고</div>
-                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'storage-type-chips')">화장실</div>
-                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'storage-type-chips')">공장</div>
-                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'storage-type-chips')">직접 입력</div>
+                                <div class="filter-group-content" id="form-storage-type-chips">
+                                    <div class="single-chip single-chip-on" onclick="selectSingleChip(this, 'form-storage-type-chips')">사무실</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'form-storage-type-chips')">경비실</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'form-storage-type-chips')">복도</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'form-storage-type-chips')">사무실문 앞</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'form-storage-type-chips')">사무실 창고</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'form-storage-type-chips')">화장실</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'form-storage-type-chips')">공장</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'form-storage-type-chips')">직접 입력</div>
                                 </div>
                             </div>
-                            <div class="form-group" id="storage-direct-input-group" style="display: none;">
-                                <div class="input"><input type="text" id="storage-direct-input" placeholder="보관장소를 입력해주세요"></div>
+                            <div class="form-group" id="form-storage-direct-input-group" style="display: none;">
+                                <div class="input"><input type="text" id="form-storage-direct-input" placeholder="보관장소를 입력해주세요"></div>
                             </div>
                             
                             <div class="form-group">
                                 <label>공동현관 출입번호 (선택)</label>
-                                <div class="input"><input type="text" placeholder="출입번호를 입력해주세요"></div>
+                                <div class="input"><input type="text" id="form-entry-code" placeholder="출입번호를 입력해주세요"></div>
                             </div>
                             
                             <div class="form-group">
                                 <label>위치 첨부 (선택)</label>
                                 <div class="photo-uploader-wrapper">
-                                    <label for="file-upload-input" class="photo-upload-box">
+                                    <label for="form-file-upload-input" class="photo-upload-box">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
                                     </label>
-                                    <input type="file" id="file-upload-input" style="display:none;" multiple accept="image/jpeg, image/png, image/gif" onchange="handlePhotoUpload(event, 'photo-preview-list')">
-                                    <div class="photo-preview-list" id="photo-preview-list">
+                                    <input type="file" id="form-file-upload-input" style="display:none;" multiple accept="image/jpeg, image/png, image/gif" onchange="handlePhotoUpload(event, 'form-photo-preview-list')">
+                                    <div class="photo-preview-list" id="form-photo-preview-list">
                                         </div>
                                 </div>
                                 <p class="disclaimer">* 사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 5장까지 첨부 가능합니다.</p>
@@ -740,7 +727,113 @@
                             <div class="form-group">
                                 <label>배송시 요청사항</label>
                                 <div class="input" style="align-items: flex-start;">
-                                    <textarea placeholder="요청사항을 입력해주세요 (예: 부재 시 경비실 보관)" rows="3"></textarea>
+                                    <textarea id="form-request-memo" placeholder="요청사항을 입력해주세요 (예: 부재 시 경비실 보관)" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-fields-wrapper" data-tab-content="address-list" style="display: none;">
+                            <div class="form-group form-group-button" style="margin-bottom: 12px;">
+                                 <button type="button" class="white-button" onclick="showAddressListModal()">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-list">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M9 6l11 0" />
+                                        <path d="M9 12l11 0" />
+                                        <path d="M9 18l11 0" />
+                                        <path d="M5 6l0 .01" />
+                                        <path d="M5 12l0 .01" />
+                                        <path d="M5 18l0 .01" />
+                                    </svg>&nbsp;배송지 목록
+                                 </button>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>이름(상호명)</label>
+                                <div class="input disabled"><input type="text" id="list-receiver" placeholder="배송지 목록에서 선택" readonly></div>
+                            </div>
+                            <div class="form-group">
+                                <label>휴대폰 번호</label>
+                                <div class="input disabled"><input type="tel" id="list-phone" placeholder="배송지 목록에서 선택" readonly></div>
+                            </div>
+                            <div class="form-group">
+                                <label>긴급 연락처</label>
+                                <div class="input disabled"><input type="tel" id="list-tel" placeholder="배송지 목록에서 선택" readonly></div>
+                            </div>
+                            <div class="form-group">
+                                <label>주소</label>
+                                <div class="input-group" style="margin-bottom: 8px;">
+                                    <div class="input disabled"><input type="text" id="list-zipcode" placeholder="우편번호" readonly></div>
+                                    <button type="button" class="white-button" onclick="alert('우편번호 검색')">우편번호 검색</button>
+                                </div>
+                                <div class="input disabled" style="margin-bottom: 8px;"><input type="text" id="list-addr-main" placeholder="기본 주소" readonly></div>
+                                <div class="input"><input type="text" id="list-addr-detail" placeholder="상세 주소를 입력해주세요"></div>
+                                
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                                    <p class="disclaimer warning" id="list-address-warning-message" style="display: none; margin-top: 0;">
+                                        * <strong id="list-warning-delivery-type"></strong> 가능 지역이 아닙니다.
+                                    </p>
+                                    <button type="button" class="white-button" style="height: 32px; font-size: 13px; padding: 0 12px; width: auto; font-weight: 500; margin-left: auto;" onclick="showDeliveryAreaModal()">
+                                        낮·밤배송 가능 지역
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>위치</label>
+                                <div class="filter-group-content" id="list-location-type-chips">
+                                    <div class="single-chip single-chip-on" onclick="selectSingleChip(this, 'list-location-type-chips')">시내</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'list-location-type-chips')">시외</div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                                    <div class="checkbox" data-checked="false" id="list-elevator-check">
+                                         <div class="checkbox-off"></div>
+                                    </div>
+                                    <span>엘리베이터 있음</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>보관장소</label>
+                                <div class="filter-group-content" id="list-storage-type-chips">
+                                    <div class="single-chip single-chip-on" onclick="selectSingleChip(this, 'list-storage-type-chips')">사무실</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'list-storage-type-chips')">경비실</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'list-storage-type-chips')">복도</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'list-storage-type-chips')">사무실문 앞</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'list-storage-type-chips')">사무실 창고</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'list-storage-type-chips')">화장실</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'list-storage-type-chips')">공장</div>
+                                    <div class="single-chip single-chip-off" onclick="selectSingleChip(this, 'list-storage-type-chips')">직접 입력</div>
+                                </div>
+                            </div>
+                            <div class="form-group" id="list-storage-direct-input-group" style="display: none;">
+                                <div class="input"><input type="text" id="list-storage-direct-input" placeholder="보관장소를 입력해주세요"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>공동현관 출입번호 (선택)</label>
+                                <div class="input"><input type="text" id="list-entry-code" placeholder="출입번호를 입력해주세요"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>위치 첨부 (선택)</label>
+                                <div class="photo-uploader-wrapper">
+                                    <label for="list-file-upload-input" class="photo-upload-box">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                                    </label>
+                                    <input type="file" id="list-file-upload-input" style="display:none;" multiple accept="image/jpeg, image/png, image/gif" onchange="handlePhotoUpload(event, 'list-photo-preview-list')">
+                                    <div class="photo-preview-list" id="list-photo-preview-list">
+                                        </div>
+                                </div>
+                                <p class="disclaimer">* 사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 5장까지 첨부 가능합니다.</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>배송시 요청사항</label>
+                                <div class="input" style="align-items: flex-start;">
+                                    <textarea id="list-request-memo" placeholder="요청사항을 입력해주세요 (예: 부재 시 경비실 보관)" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1088,27 +1181,27 @@
             openModal('address-list-modal-overlay');
         }
 
-        // 배송지 목록에서 '선택'
+        // [MODIFIED] 1. 배송지 목록에서 '선택'
         function selectAddress(addressId) {
             const data = addressData[addressId];
             if (data) {
-                // 1. '직접 입력' 폼에 데이터 채우기
-                document.getElementById('form-receiver').value = data.receiver;
-                document.getElementById('form-phone').value = data.phone;
-                document.getElementById('form-tel').value = data.tel;
-                document.getElementById('form-zipcode').value = data.zipcode;
-                document.getElementById('form-addr-main').value = data.main;
-                document.getElementById('form-addr-detail').value = data.detail;
+                // 1. [MODIFIED] '배송지 목록' 탭의 폼에 데이터 채우기
+                document.getElementById('list-receiver').value = data.receiver;
+                document.getElementById('list-phone').value = data.phone;
+                document.getElementById('list-tel').value = data.tel;
+                document.getElementById('list-zipcode').value = data.zipcode;
+                document.getElementById('list-addr-main').value = data.main;
+                document.getElementById('list-addr-detail').value = data.detail;
                 
-                // 2. '직접 입력' 탭으로 전환
-                const directInputTab = document.querySelector('#address-tabs [data-tab="direct-input"]');
-                switchAddressTab(directInputTab, 'direct-input');
+                // 2. [MODIFIED] '배송지 목록' 탭으로 전환
+                const listAddrTab = document.querySelector('#address-tabs [data-tab="address-list"]');
+                switchAddressTab(listAddrTab, 'address-list');
                 
                 // 3. 모달 닫기
                 closeModal('address-list-modal-overlay');
                 
-                // 4. [NEW] 유효성 검사 실행
-                checkAddressValidity(addressId);
+                // 4. 유효성 검사 실행
+                checkAddressValidity(addressId, 'list'); // [MODIFIED] 'list' prefix
             }
         }
         
@@ -1169,16 +1262,19 @@
         }
 
         // --- [MODIFIED] Single Chip Logic (v12 guide demo) ---
+        // [MODIFIED] 폼 ID prefix를 인자로 받도록 수정
         function selectSingleChip(chip, groupId) {
             const group = document.getElementById(groupId);
             if (!group) return;
             group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
             chip.classList.replace('single-chip-off', 'single-chip-on');
             
+            const prefix = groupId.startsWith('list-') ? 'list-' : 'form-';
+            
             // [NEW] 5. 보관장소 '직접 입력' 처리
-            if (groupId === 'storage-type-chips') {
-                const directInputGroup = document.getElementById('storage-direct-input-group');
-                const directInput = document.getElementById('storage-direct-input');
+            if (groupId === 'form-storage-type-chips' || groupId === 'list-storage-type-chips') {
+                const directInputGroup = document.getElementById(`${prefix}storage-direct-input-group`);
+                const directInput = document.getElementById(`${prefix}storage-direct-input`);
                 if (chip.textContent.trim() === '직접 입력') {
                     directInputGroup.style.display = 'block';
                 } else {
@@ -1189,13 +1285,26 @@
             
             // [NEW] 3. 신청유형 변경 시 유효성 검사
             if (groupId === 'delivery-type-chips') {
-                const currentReceiver = document.getElementById('form-receiver').value;
-                // 현재 폼이 '이진희'의 정보와 일치하는지 확인 (예시)
-                if (currentReceiver === '이진희') {
-                    checkAddressValidity('4');
+                // 현재 활성화된 탭의 prefix 확인
+                const activeTab = document.querySelector('#address-tabs .single-chip-on').dataset.tab;
+                let activePrefix = 'form-';
+                let addressId = null;
+                
+                if(activeTab === 'address-list') {
+                    activePrefix = 'list-';
+                    // '배송지 목록'에서 선택된 주소의 ID를 찾아야 함 (예시를 위해 하드코딩)
+                    const currentReceiver = document.getElementById('list-receiver').value;
+                    if (currentReceiver === '이진희') addressId = '4';
+                } else if (activeTab === 'direct-input') {
+                    activePrefix = 'form-';
+                     const currentReceiver = document.getElementById('form-receiver').value;
+                     // '직접 입력' 폼이 '이진희' 정보와 일치하는지 (예시)
+                     if (currentReceiver === '이진희') addressId = '4';
                 } else {
-                    checkAddressValidity(null); // 다른 사람이면 경고 숨김
+                    activePrefix = 'default-'; // 기본 배송지 (검사 로직 필요)
                 }
+
+                checkAddressValidity(addressId, activePrefix);
             }
         }
 
@@ -1240,20 +1349,27 @@
             button.parentElement.remove();
         }
         
-        // --- [NEW] 3. 주소 유효성 검사 (예시) ---
-        function checkAddressValidity(addressId) {
-            const warningMsg = document.getElementById('address-warning-message');
-            const warningType = document.getElementById('warning-delivery-type');
+        // --- [MODIFIED] 3. 주소 유효성 검사 (prefix 추가) ---
+        function checkAddressValidity(addressId, prefix = 'form-') {
+            const warningMsg = document.getElementById(`${prefix}address-warning-message`);
+            const warningType = document.getElementById(`${prefix}warning-delivery-type`);
+            
+            // 'default-' prefix는 폼이 없으므로 검사 중지
+            if (prefix === 'default-') {
+                // (기본 배송지 탭에 경고 메시지 영역이 있다면 여기서 처리)
+                return;
+            }
+            
             const selectedDeliveryTypeChip = document.querySelector('#delivery-type-chips .single-chip-on');
             const deliveryType = selectedDeliveryTypeChip ? selectedDeliveryTypeChip.textContent.trim() : '낮배송'; // '낮배송' or '밤배송'
             
-            warningType.textContent = deliveryType;
+            if(warningType) warningType.textContent = deliveryType;
 
             // 예시: '이진희' (ID '4')는 '낮배송'만 안되고 '밤배송'은 가능하다고 가정
             if (addressId === '4' && deliveryType === '낮배송') { 
-                warningMsg.style.display = 'block';
+                if(warningMsg) warningMsg.style.display = 'block';
             } else {
-                warningMsg.style.display = 'none';
+                if(warningMsg) warningMsg.style.display = 'none';
             }
         }
         
@@ -1300,7 +1416,8 @@
             });
             
             // 유효성 검사 메시지 초기에 숨기기 (페이지 로드 시)
-            document.getElementById('address-warning-message').style.display = 'none';
+            document.getElementById('form-address-warning-message').style.display = 'none';
+            document.getElementById('list-address-warning-message').style.display = 'none';
         });
 
     </script>

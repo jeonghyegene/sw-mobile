@@ -1,0 +1,2476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원애드피아 - 주문결제 (1단계)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        }
+        ul, li { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; text-align: left; }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        input, select, textarea { font-family: inherit; }
+        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        /* Layout */
+        .mobile-wrap { 
+            width: 100%; 
+            max-width: 480px; 
+            margin: 0 auto; 
+            background-color: #ffffff; 
+            padding-bottom: 120px; /* Sticky Footer 여백 */
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
+        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; transition: transform 0.2s; color: #333; }
+        .header-btn:active { transform: scale(0.9); }
+        .header-left { flex: 1 0 0; display: flex; justify-content: flex-start; }
+        .header-title { flex: 3 0 0; font-size: 18px; font-weight: 600; text-align: center; color: #212121; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .header-right { flex: 1 0 0; display: flex; justify-content: flex-end; gap: 8px; }
+        .btn-icon { cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; color: #333; }
+        .btn-icon:active { transform: scale(0.9); }
+        .btn-icon svg { width: 100%; height: 100%; }
+        
+        /* [NEW] Progress Bar */
+        .progress-bar-container {
+            width: 100%;
+            height: 4px;
+            background-color: #e9ecef;
+            position: sticky;
+            top: 56px; /* Header height */
+            z-index: 99;
+        }
+        .progress-bar-fill {
+            width: 50%; /* 1/3 steps */
+            height: 100%;
+            background-color: #4e6ee4; /* v12 primary color */
+            transition: width 0.3s ease-out;
+        }
+
+        /* Buttons (v12 Standard - Primary 추가) */
+        .primary-button { background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .primary-button:hover { background: #3d5dd3; }
+        .primary-button:active { transform: scale(0.98); }
+        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .white-button:hover { background: #f9f9f9; }
+        .white-button:active { transform: scale(0.98); }
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+        
+        /* Main Content */
+        .sw-container { padding: 16px; }
+        
+        /* Section Title */
+        .section-title { font-size: 16px; font-weight: 600; color: #333; margin-bottom: 12px; padding-top: 8px; }
+        .transaction-list { display: flex; flex-direction: column; gap: 12px; }
+        .no-transactions { padding: 40px 16px; text-align: center; color: #888; font-size: 14px; }
+        
+        /* [MODIFIED] Cart Card (from cart.html) */
+        .common-table-card { width: 100%; background: white; border: 1px solid #e8e8e9; border-radius: 6px; padding: 15px; position: relative; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .card-header-actions { display: flex; align-items: center; gap: 4px; }
+        .card-icon-btn { width: 28px; height: 28px; color: #888; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .card-icon-btn:hover { color: #333; }
+        .card-icon-btn svg { width: 22px; height: 22px; }
+        .cart-card-checkbox { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+        .cart-card-title { font-size: 16px; font-weight: 600; color: #212121; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-content-wrapper { display: flex; gap: 12px; margin-bottom: 12px; }
+        .card-thumbnail { width: 80px; height: 80px; flex-shrink: 0; background: #f0f0f0; border-radius: 4px; border: 1px solid #e8e8e9; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #aaa; }
+        .card-info-wrapper { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+        .card-details-link { font-size: 13px; font-weight: 600; color: #4e6ee4; cursor: pointer; display: inline-block; margin-top: 0; }
+        .card-price-metadata-row { display: flex; justify-content: flex-end; align-items: baseline; gap: 4px; margin-top: 12px; }
+        .card-price-metadata-row .card-price { font-size: 18px; font-weight: 700; color: #333; }
+        .card-price-metadata-row .card-unit-info { font-size: 13px; color: #888; }
+        .card-divider { width: 100%; height: 1px; background: #e8e8e9; margin: 10px 0; }
+        .card-footer { padding-top: 10px; display: flex; justify-content: flex-end; gap: 8px; }
+        .card-footer .btn { height: 36px; font-size: 13px; padding: 0 12px; flex: 1; text-align: center; }
+        .card-footer .primary-button { flex-grow: 1; }
+
+        /* Form Styles (v12 guide) */
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
+        .readonly-value { font-size: 14px; color: #333; padding: 10px 12px; background: #f5f5f5; border: 1px solid #e8e8e9; border-radius: 6px; min-height: 40px; display: flex; align-items: center; }
+        .input { width: 100%; min-height: 40px; background: white; border: 1px solid #e8e8e9; border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; position: relative; }
+        .input input { width: 100%; background: transparent; border: none; outline: none; font-size: 14px; color: black; line-height: 1.5; }
+        .input input::placeholder { color: #c6c6c8; }
+        
+        /* [MODIFIED] Apply read-only style to parent .input wrapper when child is read-only */
+        .input:has(input:read-only) {
+            background: #f5f5f5;
+            /* [MODIFIED] readonly 필드는 클릭 이벤트가 아님 (우편번호 검색 버튼이 따로 있음) */
+            /* cursor: pointer; */ 
+        }
+        .input input:read-only { 
+            /* [MODIFIED] readonly 필드는 클릭 이벤트가 아님 */
+            /* cursor: pointer;  */
+            background: transparent; /* Make input transparent so parent bg shows */
+        }
+
+        /* [MODIFIED] Keep JS-driven class for consistency */
+        .input.read-only { 
+            background: #f5f5f5; 
+            cursor: pointer;
+        }
+        .input.read-only input {
+            background: transparent;
+            cursor: pointer;
+        }
+        
+        /* Input Group (from qna_write.html) */
+        .input-group { display: flex; gap: 8px; align-items: center; }
+        .input-group .white-button { flex-shrink: 0; height: 40px; font-size: 13px; padding: 0 12px; width: auto; }
+        
+        /* Checkbox (v12 guide) */
+        .checkbox { width: 20px; height: 20px; position: relative; cursor: pointer; user-select: none; flex-shrink: 0; }
+        .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
+        .checkbox-on { width: 100%; height: 100%; background: #4e6ee4; border-radius: 2px; display: flex; align-items: center; justify-content: center; }
+        .checkbox-on img { width: 14px; height: 14px; }
+        .checkbox:active { transform: scale(0.9); }
+        .checkbox-text { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+        .checkbox-text span { font-size: 14px; color: #333; }
+        
+        /* Disclaimer (v12 guide) */
+        .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
+        
+        /* [MODIFIED] Icon Disclaimer Button */
+        .icon-disclaimer {
+            display: inline-flex; /* 한 줄에 여러 개 배치 */
+            align-items: center; 
+            gap: 6px;
+            font-size: 13px; /* 폰트 크기 조정 */
+            color: #555; /* 텍스트 색상 조정 */
+            font-weight: 500; /* 폰트 굵기 */
+            line-height: 1.5;
+            background: #f8f8f9; /* 연한 회색 배경 */
+            border: 1px solid #f0f0f0; /* 연한 테두리 */
+            border-radius: 6px; /* 둥근 모서리 */
+            padding: 8px 10px; /* 내부 여백 */
+            cursor: pointer; /* 버튼 */
+            transition: background 0.2s;
+            margin-top: 0; /* 개별 마진 제거 */
+            text-align: left; /* button 태그 리셋 */
+        }
+        .icon-disclaimer:hover {
+            background: #f1f1f1;
+        }
+        .icon-disclaimer svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            color: #888;
+            stroke-width: 2;
+            margin-top: 3px; /* Align icon with text */
+        }
+
+        /* [NEW] Disclaimer Button Group */
+        .disclaimer-button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        /* [NEW] Text Select Button (from v12 guide / qna_list.html) */
+        .text-select-button { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; transition: opacity 0.2s; user-select: none; padding: 8px 0; }
+        .text-select-button:hover { opacity: 0.8; }
+        .text-select-button:active { transform: scale(0.98); }
+        .text-select-button-text { font-size: 14px; color: #2c2c2c; font-weight: 500; white-space: nowrap; }
+        .text-select-button-arrow { width: 16px; height: 16px; color: #555; }
+        .text-select-button-arrow svg {transition: transform 0.2s;}
+        .text-select-button.open .text-select-button-arrow svg {transform: rotate(-180deg);}
+
+        /* Chips (v12 guide) */
+        .filter-group-content { display: flex; flex-wrap: wrap; gap: 8px; }
+        .single-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
+        .single-chip-on { background: #4e6ee4; color: white; }
+        .single-chip:active { transform: scale(0.95); }
+        
+        /* Payment Method Chips (Large) */
+        .payment-method-chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .payment-chip-lg { background: white; border: 1px solid #e8e8e9; color: #424242; height: 48px; padding: 7px 10px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; text-align: center; line-height: 1.3; }
+        .payment-chip-lg.active { border-color: #4e6ee4; background: #f0f3ff; color: #4e6ee4; font-weight: 600; }
+        .payment-chip-lg:active { transform: scale(0.98); }
+        
+        /* Sticky Form Footer (from tax_request_write...) */
+        .sticky-form-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px; /* Match .mobile-wrap */
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            padding: 20px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+        }
+        .sticky-form-footer .btn { flex: 1; }
+        
+        /* Step 1 Footer Summary */
+        .footer-summary { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
+        .footer-summary span { font-size: 12px; color: #555; }
+        .footer-summary strong { font-size: 20px; font-weight: 700; color: #333; line-height: 1.2; }
+        
+        /* Address Tab Logic (from daynight_delivery_apply.html) */
+         .modal-tab-nav { display: flex; gap: 8px; margin-bottom: 20px; }
+        .modal-tab-nav .single-chip { font-weight: 500; }
+        .modal-tab-nav .single-chip-on { background: #4e6ee4; color: white; }
+        /* [NEW] Disabled tab chip */
+        .modal-tab-nav .single-chip-disabled {
+            background: #f5f5f6; 
+            color: #adb5bd;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .form-group-button { margin-bottom: 12px; }
+        .form-group-button .white-button { width: 100%; height: 40px; font-weight: 500; font-size: 14px; }
+        .form-group-button .white-button svg { width: 16px; height: 16px; margin-right: 4px; stroke-width: 2.5; }
+
+        /* [NEW] Select Box Styling (v12 compliant) */
+        .input.select-wrapper {
+            padding: 0; /* Remove padding to allow select to fill */
+            position: relative;
+        }
+        .input select {
+            width: 100%;
+            height: 38px; /* 40px - 2px border */
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 14px;
+            color: black;
+            padding: 0 12px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        /* [NEW] Disabled select */
+        .input select:disabled {
+            background: #f5f5f5;
+            color: #888;
+            cursor: not-allowed;
+        }
+        .input.select-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+        }
+        
+        /* [NEW] For Cargo/Quick dropdowns */
+        .filter-group-content#shipping-destination-화물 .input.select-wrapper,
+        .filter-group-content#destination-group-지하철 .input.select-wrapper,
+        .filter-group-content#destination-group-고속버스 .input.select-wrapper {
+            flex: 1 1 120px;
+        }
+        .filter-group-content#shipping-destination-화물 #cargo-branch-wrapper,
+        .filter-group-content#shipping-destination-화물 #cargo-branch-input-wrapper {
+            width: 100%;
+            margin-top: 8px;
+            flex-basis: 100%;
+        }
+
+        /* Request 4: Custom Memo Dropdown */
+        .input-wrapper-dropdown { position: relative; }
+        .input-dropdown-arrow {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: #555;
+            pointer-events: none;
+            transition: transform 0.2s;
+        }
+        .input-wrapper-dropdown.open .input-dropdown-arrow {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .memo-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #e8e8e9;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            z-index: 600;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .input-wrapper-dropdown.open .memo-dropdown {
+            display: block;
+        }
+        .memo-option {
+            padding: 10px 12px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+        }
+        .memo-option:hover {
+            background: #f5f5f6;
+        }
+        #memo-direct-input-group {
+            margin-top: 8px;
+            display: none;
+        }
+        
+        /* Modal Styles (from daynight_delivery_apply.html) */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; animation: fadeInModal 0.2s ease-out; }
+        .modal-overlay.active { display: flex; }
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        .modal-content { background: white; border-radius: 8px; width: 100%; max-width: 360px; max-height: 90vh; display: flex; flex-direction: column; animation: scaleUpModal 0.2s ease-out; }
+        @keyframes scaleUpModal { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #e8e8e9; position: relative; height: 57px; }
+        .modal-title { font-size: 16px; font-weight: 700; color: black; text-align: left; }
+        .btn-modal-close { width: 24px; height: 24px; cursor: pointer; color: #333; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); }
+        .btn-modal-close:hover { color: #000; }
+        .btn-modal-close svg { width: 100%; height: 100%; }
+        .modal-body { padding: 16px; overflow-y: auto; flex-grow: 1; }
+        .modal-footer { padding: 16px; border-top: 1px solid #e8e8e9; background: #fff; display: flex; gap: 8px; border-radius: 0 0 7px 7px; }
+        .modal-footer .btn { flex: 1; height: 44px; font-size: 14px; }
+        .filter-section { padding: 0 0 16px 0; display: flex; justify-content: flex-start; align-items: center; }
+        .search { width: 100%; height: 40px; background: #f9f9f9; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; position: relative; }
+        .search input { flex: 1; background: transparent; border: none; outline: none; font-size: 14px; color: black; }
+        .search input::placeholder { color: #c6c6c8; }
+        .search-input-right { display: flex; gap: 5px; align-items: center; }
+        .search-del { width: 18px; height: 18px; cursor: pointer; display: none; }
+        .search.has-text .search-del { display: flex; }
+        .search-icon, .btn-search { width: 24px; height: 24px; cursor: pointer; transition: transform 0.2s; }
+        .search-icon:active, .btn-search:active { transform: scale(0.9); }
+        .transaction-list-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; font-size: 14px; color: #555; border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; margin-top: 16px; }
+        .transaction-list-header .total-count strong { font-weight: 600; color: #333; }
+        .address-list { display: flex; flex-direction: column; gap: 8px; }
+        .address-item { border: 1px solid #e8e8e9; border-radius: 6px; padding: 12px; }
+        .address-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .address-name { font-size: 16px; font-weight: 600; color: #333; }
+        .address-item .white-button { height: 32px; font-size: 13px; padding: 0 12px; flex-shrink: 0; }
+        .address-detail { font-size: 13px; color: #555; margin-bottom: 4px; line-height: 1.5; }
+        .card-badge { background: white; border: 1px solid #d7d7d7; border-radius: 30px; padding: 2px 10px; font-size: 10px; color: black; flex-shrink: 0; }
+        .card-badge[data-status="default"] { border-color: #4e6ee4; color: #4e6ee4; font-weight: 600; }
+
+        /* Bottom Sheet (from cart.html) */
+        .bottom-sheet-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: flex-end; justify-content: center; z-index: 1000; animation: fadeIn 0.2s ease-out; }
+        .bottom-sheet-overlay.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes slideDown { from { transform: translateY(0); } to { transform: translateY(100%); } }
+        .bottom-sheet { width: 100%; max-width: 480px; background: white; border-top: 1px solid #d7d7d7; border-top-left-radius: 8px; border-top-right-radius: 8px; position: relative; animation: slideUp 0.3s ease-out; max-height: 90vh; display: flex; flex-direction: column; }
+        .bottom-sheet.closing { animation: slideDown 0.3s ease-out; }
+        .sheet-handle { width: 27px; height: 4px; background: #d9d9d9; border-radius: 100px; margin: 10px auto; cursor: grab; }
+        .sheet-handle:active { cursor: grabbing; }
+        .sheet-header { height: 21px; padding: 0 20px; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 20px; }
+        .sheet-title { font-size: 16px; font-weight: 700; color: black; }
+        .btn-close { position: absolute; right: 20px; top: 0; width: 21px; height: 21px; cursor: pointer; transition: transform 0.2s; }
+        .btn-close svg { width: 100%; height: 100%; color: #333; }
+        .btn-close:active { transform: scale(0.9); }
+        .sheet-body { flex: 1; overflow-y: auto; padding: 0 20px 20px 20px; }
+        .sheet-detail-group { margin-bottom: 20px; }
+        .sheet-detail-title { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
+        .sheet-detail-content { font-size: 14px; color: #555; line-height: 1.6; white-space: pre-wrap; background: #f8f8f9; padding: 12px; border-radius: 6px; border: 1px solid #f0f0f0; }
+        .sheet-detail-content.empty { color: #888; font-style: italic; }
+        
+        /* [NEW] Bundle Shipping Card */
+        .bundle-shipping-card {
+            background: #f8f8f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 8px;
+        }
+        .bundle-item-list {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .bundle-item-list li {
+            padding-left: 1.2em;
+            text-indent: -1.2em;
+        }
+        .bundle-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #cccccc;
+        }
+        .bundle-price {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        .bundle-weight {
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* [NEW] Overseas Address Form Styles */
+        .overseas-form-group { margin-bottom: 16px; }
+        .overseas-form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
+        .overseas-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .input-group-country-code { display: flex; gap: 8px; }
+        .input-group-country-code .country-code-select {
+            flex-shrink: 0;
+            width: 80px;
+        }
+        .input-group-country-code .input {
+            flex-grow: 1;
+        }
+        .input-group-country-code .input.select-wrapper::after {
+            /* Select 화살표 아이콘 */
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+        }
+        .input-group-country-code .input.select-wrapper select {
+            width: 100%;
+            height: 38px;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 14px;
+            color: black;
+            padding: 0 12px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* --- STYLES FROM payment-2.html (MERGED) --- */
+        
+        /* [NEW] Clickable Info Row (Replaces Tabs) */
+        .clickable-info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #f8f8f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: background 0.2s;
+        }
+        .clickable-info-row:hover {
+            background-color: #f1f1f1;
+        }
+        .clickable-info-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            flex-shrink: 0;
+            margin-right: 16px;
+        }
+        .clickable-info-value {
+            flex: 1;
+            font-size: 14px;
+            color: #555;
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .clickable-info-value.placeholder {
+            color: #888;
+        }
+        .clickable-info-row svg {
+            width: 16px;
+            height: 16px;
+            color: #888;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+        
+        /* [NEW] Contact List Modal Styles (from crm_list) */
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 40vh;
+            overflow-y: auto;
+        }
+        .contact-item {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 12px;
+        }
+        .contact-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .contact-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        .contact-item .white-button {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
+        .contact-detail {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        /* [NEW] Customer List Modal Styles (from tax_request_write) */
+        .customer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 40vh; /* [MODIFIED] Set max height for scrolling */
+            overflow-y: auto;
+        }
+        .customer-item {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 12px;
+        }
+        .customer-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .customer-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        .customer-item .white-button {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
+        .customer-detail {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+            line-height: 1.5;
+        }
+        .customer-detail .label {
+            font-weight: 500;
+            color: #333;
+        }
+        .customer-item-footer {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        .customer-item-footer .btn {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 12px;
+        }
+        
+        /* [NEW] Operator Product List (from cr_request.html) */
+        #operator-product-list-modal .card-header {
+            margin-bottom: 0;
+        }
+        #operator-product-list-modal .card-column1 {
+            font-size: 14px; /* [MODIFIED] Smaller font for list */
+            font-weight: 500;
+            color: #212121;
+            /* [NEW] Add link style */
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        #operator-product-list-modal .card-column1:hover {
+            color: #4e6ee4;
+        }
+        #operator-product-list-modal .card-badge {
+            background: white;
+            border: 1px solid #d7d7d7;
+            border-radius: 30px;
+            padding: 2px 10px;
+            font-size: 10px;
+            color: black;
+            flex-shrink: 0;
+        }
+        #operator-product-list-modal .card-column2 {
+            font-size: 14px; /* [MODIFIED] Smaller font for list */
+            font-weight: 400; /* [MODIFIED] Lighter weight */
+            color: #555;
+            margin-top: 4px;
+            margin-bottom: 0px; 
+            margin-left: 30px; /* Checkbox width (20) + gap (10) */
+        }
+         /* [NEW] Status-specific badge colors */
+        #operator-product-list-modal .card-badge[data-status="접수대기"] {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        #operator-product-list-modal .card-badge[data-status="접수완료"] {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .divider {width: calc(100% + 32px); height: 8px; background-color: #f4f5f7; margin-left: -16px; margin-right: -16px;}
+
+    </style>
+</head>
+<body>
+    <div class="mobile-wrap">
+        
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" id="header-back-btn" style="display: none;" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                </button>
+            </div>
+            <h1 class="header-title" id="page-title">결제 (1/2)</h1>
+            <div class="header-right">
+            </div>
+        </header>
+        
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+
+        <main>
+            <div id="step-1" class="page-step" style="display: block;">
+                <div class="sw-container">
+                    
+                    <h2 class="section-title" style="padding-top: 0;">접수 제품</h2>
+                    <div class="transaction-list" id="checkout-product-list">
+                        <article class="common-table-card cart-card" data-price="8200"
+                            data-spec="용자: (표지)아트지/백색/100g. (내지)아트지/백색/100g | 인쇄: (표지) /CMYK/ 단면/K/일반제본 왼쪽/ 중규 A4 (210×195mm) 가곡: 박/오시/도무송" 
+                            data-memo="접수 메모 예시입니다.">
+                            
+                            <div class="card-header">
+                                <div class="cart-card-checkbox">
+                                    <div class="cart-card-title">책자 - 중림동 고객 자서전</div>
+                                </div>
+                                <div class="card-header-actions">
+                                </div>
+                            </div>
+                            
+                            <div class="card-content-wrapper">
+                                <div class="card-info-wrapper">
+                                    <span class="card-details-link" onclick="showDetailsSheet(this)">상세보기 ></span>
+                                </div>
+                            </div>
+                            
+                            <div class="card-price-metadata-row">
+                                <span class="card-price">8,200 원</span>
+                                <span class="card-unit-info">/ 1건 / 10kg</span>
+                            </div>
+                            
+                            <div class="card-divider"></div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn">옵션 수정</button>
+                                <button type="button" class="white-button btn">디자인 수정</button>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="no-transactions" id="no-products-message" style="display: none;">결제할 제품이 없습니다.</div>
+
+                    <div class="divider" style="margin-top: 25px; margin-bottom: -5px;"></div>
+                     
+                    <div class="form-group" style="margin-top: 24px;">
+                        <h2 class="section-title" style="padding-top: 0; margin-bottom: 12px;">배송방법</h2>
+                        <div class="filter-group-content" id="shipping-method-chips">
+                            <div class="single-chip single-chip-on" data-method="택배" onclick="selectShippingMethod(this, '택배')">택배</div>
+                            <div class="single-chip single-chip-off" data-method="방문수령" onclick="selectShippingMethod(this, '방문수령')">방문수령</div>
+                            <div class="single-chip single-chip-off" data-method="퀵" onclick="selectShippingMethod(this, '퀵')">퀵</div>
+                            <div class="single-chip single-chip-off" data-method="화물" onclick="selectShippingMethod(this, '화물')">화물</div>
+                            <div class="single-chip single-chip-off" data-method="해외" onclick="selectShippingMethod(this, '해외')">해외</div>
+                        </div>
+                    </div>
+                    
+                    <div id="shipping-sub-options">
+                        
+                        <div class="form-group" data-shipping-sub-for="택배" style="display: none;">
+                            <label>결제 방식</label>
+                            <div class="filter-group-content" id="shipping-payment-택배">
+                                <div class="single-chip single-chip-on" data-value="선불" onclick="selectShippingSubOption(this, '택배')">선불</div>
+                                <div class="single-chip single-chip-off" data-value="착불" onclick="selectShippingSubOption(this, '택배')">착불</div>
+                            </div>
+                            
+                            <div id="shipping-prepaid-details" style="display: none; margin-top: 16px;">
+                                <div class="disclaimer-button-group">
+                                    <button type="button" class="icon-disclaimer" onclick="alert('선불택배 유의사항 (구현 필요)')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14.897 1a4 4 0 0 1 2.664 1.016l.165 .156l4.1 4.1a4 4 0 0 1 1.168 2.605l.006 .227v5.794a4 4 0 0 1 -1.016 2.664l-.156 .165l-4.1 4.1a4 4 0 0 1 -2.603 1.168l-.227 .006h-5.795a3.999 3.999 0 0 1 -2.664 -1.017l-.165 -.156l-4.1 -4.1a4 4 0 0 1 -1.168 -2.604l-.006 -.227v-5.794a4 4 0 0 1 1.016 -2.664l.156 -.165l4.1 -4.1a4 4 0 0 1 2.605 -1.168l.227 -.006h5.793zm-2.897 14a1 1 0 0 0 -.993 .883l-.007 .117l.007 .127a1 1 0 0 0 1.986 0l.007 -.117l-.007 -.127a1 1 0 0 0 -.993 -.883zm1.368 -6.673a2.98 2.98 0 0 0 -3.631 .728a1 1 0 0 0 1.44 1.383l.171 -.18a.98 .98 0 0 1 1.11 -.15a1 1 0 0 1 -.34 1.886l-.232 .012a1 1 0 0 0 .111 1.994a3 3 0 0 0 1.371 -5.673z" /></svg>
+                                        <span>선불택배 유의사항</span>
+                                    </button>
+                                    <button type="button" class="icon-disclaimer" onclick="alert('묶음배송 안내 (구현 필요)')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14.897 1a4 4 0 0 1 2.664 1.016l.165 .156l4.1 4.1a4 4 0 0 1 1.168 2.605l.006 .227v5.794a4 4 0 0 1 -1.016 2.664l-.156 .165l-4.1 4.1a4 4 0 0 1 -2.603 1.168l-.227 .006h-5.795a3.999 3.999 0 0 1 -2.664 -1.017l-.165 -.156l-4.1 -4.1a4 4 0 0 1 -1.168 -2.604l-.006 -.227v-5.794a4 4 0 0 1 1.016 -2.664l.156 -.165l4.1 -4.1a4 4 0 0 1 2.605 -1.168l.227 -.006h5.793zm-2.897 14a1 1 0 0 0 -.993 .883l-.007 .117l.007 .127a1 1 0 0 0 1.986 0l.007 -.117l-.007 -.127a1 1 0 0 0 -.993 -.883zm1.368 -6.673a2.98 2.98 0 0 0 -3.631 .728a1 1 0 0 0 1.44 1.383l.171 -.18a.98 .98 0 0 1 1.11 -.15a1 1 0 0 1 -.34 1.886l-.232 .012a1 1 0 0 0 .111 1.994a3 3 0 0 0 1.371 -5.673z" /></svg>
+                                        <span>묶음배송 안내</span>
+                                    </button>
+                                </div>
+                                <div class="icon-disclaimer" style="margin-top: 12px; background: none; border: none; padding: 0; cursor: default; font-size: 12px; color: #888; font-weight: 400; align-items: flex-start;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="color: #888; stroke-width: 2; fill: none; margin-top: 1px;"><path d="M12 9h.01" /><path d="M11 12h1v4h1" /><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" /></svg>
+                                    <span>선불 택배는 묶음배송 기준에 따라 배송 건수 및 요금이 산정됩니다.</span>
+                                </div>
+                                
+                                <div style="margin-top: 10px;">
+                                    <button type="button" class="text-select-button" onclick="toggleBundleShippingList(this)" style="margin-top: 0; padding-top: 0;">
+                                        <span class="text-select-button-text">배송 건수 총 3건</span>
+                                        <div class="text-select-button-arrow">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                                        </div>
+                                    </button>
+                                </div>
+                                
+                                <div id="bundle-shipping-list" style="display: none; margin-top: 8px;">
+                                    <div class="bundle-shipping-card">
+                                        <ul class="bundle-item-list">
+                                            <li>• [명함] 홍길동 고객 사원 명함 (1묶음/0.28kg)</li>
+                                            <li>• [디지털명함] 김길동 고객 명함 (1묶음/0.28kg)</li>
+                                        </ul>
+                                        <div class="bundle-summary">
+                                            <span class="bundle-weight">(총 0.56kg)</span>
+                                            <span class="bundle-price">배송비 2,500</span>
+                                        </div>
+                                    </div>
+                                    <div class="bundle-shipping-card">
+                                        <ul class="bundle-item-list">
+                                            <li>• [디지털전단지] 가게 홍보용 (1묶음/0.28kg)</li>
+                                            <li>• [디지털포스터] 고객 제공용 (1묶음/0.28kg)</li>
+                                        </ul>
+                                        <div class="bundle-summary">
+                                            <span class="bundle-weight">(총 0.56kg)</span>
+                                            <span class="bundle-price">배송비 2,500</span>
+                                        </div>
+                                    </div>
+                                    <div class="bundle-shipping-card">
+                                        <ul class="bundle-item-list">
+                                            <li>• [명함] 가게 홍보용 대량 명함 (10묶음/2.28kg)</li>
+                                        </ul>
+                                        <div class="bundle-summary">
+                                            <span class="bundle-weight">(총 2.28kg)</span>
+                                            <span class="bundle-price">배송비 2,500</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" data-shipping-sub-for="방문수령" style="display: none;">
+                            <label>수령지</label>
+                            <div class="filter-group-content" id="shipping-pickup-location">
+                                <div class="single-chip single-chip-on" data-value="성수동" onclick="selectShippingSubOption(this, '방문수령')">성수동</div>
+                                <div class="single-chip single-chip-off" data-value="충무로" onclick="selectShippingSubOption(this, '방문수령')">충무로</div>
+                                <div class="single-chip single-chip-off" data-value="인현동" onclick="selectShippingSubOption(this, '방문수령')">인현동</div>
+                            </div>
+                            <div class="disclaimer-button-group">
+                                <button type="button" class="icon-disclaimer" onclick="alert('매장 위치 (구현 필요)')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14.897 1a4 4 0 0 1 2.664 1.016l.165 .156l4.1 4.1a4 4 0 0 1 1.168 2.605l.006 .227v5.794a4 4 0 0 1 -1.016 2.664l-.156 .165l-4.1 4.1a4 4 0 0 1 -2.603 1.168l-.227 .006h-5.795a3.999 3.999 0 0 1 -2.664 -1.017l-.165 -.156l-4.1 -4.1a4 4 0 0 1 -1.168 -2.604l-.006 -.227v-5.794a4 4 0 0 1 1.016 -2.664l.156 -.165l4.1 -4.1a4 4 0 0 1 2.605 -1.168l.227 -.006h5.793zm-2.897 14a1 1 0 0 0 -.993 .883l-.007 .117l.007 .127a1 1 0 0 0 1.986 0l.007 -.117l-.007 -.127a1 1 0 0 0 -.993 -.883zm1.368 -6.673a2.98 2.98 0 0 0 -3.631 .728a1 1 0 0 0 1.44 1.383l.171 -.18a.98 .98 0 0 1 1.11 -.15a1 1 0 0 1 -.34 1.886l-.232 .012a1 1 0 0 0 .111 1.994a3 3 0 0 0 1.371 -5.673z" /></svg>
+                                    <span>매장 위치</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group" data-shipping-sub-for="퀵" style="display: none;">
+                            <label>결제 방식</label>
+                            <div class="filter-group-content" id="shipping-payment-퀵">
+                                <div class="single-chip single-chip-on" data-value="선불" onclick="selectShippingSubOption(this, '퀵')">선불</div>
+                                <div class="single-chip single-chip-off" data-value="착불" onclick="selectShippingSubOption(this, '퀵')">착불</div>
+                            </div>
+                            
+                            <div id="shipping-vehicle-선불" style="display: none;">
+                                <label style="margin-top: 16px;">배송수단</label>
+                                <div class="filter-group-content" id="shipping-vehicle-chips-선불">
+                                    <div class="single-chip single-chip-on" data-vehicle="오토바이" onclick="selectVehicle(this, '선불')">오토바이</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="지하철" onclick="selectVehicle(this, '선불')">지하철</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="다마스" onclick="selectVehicle(this, '선불')">다마스</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="대형트럭" onclick="selectVehicle(this, '선불')">대형트럭</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="소형트럭" onclick="selectVehicle(this, '선불')">소형트럭</div>
+                                </div>
+                            </div>
+                            
+                            <div id="shipping-vehicle-착불" style="display: none;">
+                                <label style="margin-top: 16px;">배송수단</label>
+                                <div class="filter-group-content" id="shipping-vehicle-chips-착불">
+                                    <div class="single-chip single-chip-on" data-vehicle="오토바이" onclick="selectVehicle(this, '착불')">오토바이</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="다마스" onclick="selectVehicle(this, '착불')">다마스</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="라보" onclick="selectVehicle(this, '착불')">라보</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="트럭" onclick="selectVehicle(this, '착불')">트럭</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="고속버스" onclick="selectVehicle(this, '착불')">고속버스</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="KTX" onclick="selectVehicle(this, '착불')">KTX</div>
+                                </div>
+                            </div>
+                            
+                            <div class="disclaimer-button-group">
+                                <button type="button" class="icon-disclaimer" onclick="alert('퀵배송 유의사항 (구현 필요)')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14.897 1a4 4 0 0 1 2.664 1.016l.165 .156l4.1 4.1a4 4 0 0 1 1.168 2.605l.006 .227v5.794a4 4 0 0 1 -1.016 2.664l-.156 .165l-4.1 4.1a4 4 0 0 1 -2.603 1.168l-.227 .006h-5.795a3.999 3.999 0 0 1 -2.664 -1.017l-.165 -.156l-4.1 -4.1a4 4 0 0 1 -1.168 -2.604l-.006 -.227v-5.794a4 4 0 0 1 1.016 -2.664l.156 -.165l4.1 -4.1a4 4 0 0 1 2.605 -1.168l.227 -.006h5.793zm-2.897 14a1 1 0 0 0 -.993 .883l-.007 .117l.007 .127a1 1 0 0 0 1.986 0l.007 -.117l-.007 -.127a1 1 0 0 0 -.993 -.883zm1.368 -6.673a2.98 2.98 0 0 0 -3.631 .728a1 1 0 0 0 1.44 1.383l.171 -.18a.98 .98 0 0 1 1.11 -.15a1 1 0 0 1 -.34 1.886l-.232 .012a1 1 0 0 0 .111 1.994a3 3 0 0 0 1.371 -5.673z" /></svg>
+                                    <span>퀵배송 유의사항</span>
+                                </button>
+                            </div>
+
+                            <div class="form-group" id="destination-group-지하철" style="display: none; margin-top: 16px;">
+                                <label>도착지</label>
+                                <div class="filter-group-content" id="shipping-destination-지하철">
+                                    <div class="input select-wrapper">
+                                        <select id="quick-subway-province" onchange="updateQuickSubwayStations(this.value)">
+                                            <option value="서울">서울</option>
+                                            <option value="경기">경기</option>
+                                            <option value="인천">인천</option>
+                                        </select>
+                                    </div>
+                                    <div class="input select-wrapper">
+                                        <select id="quick-subway-station" disabled>
+                                            <option value="">지하철역을 선택해주세요</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <p class="disclaimer" style="margin-top: 8px;">① 지하철 배송은 서울/경기/인천 지역만 가능하며, 지하철역 반경 500m 이내까지만 배송 가능합니다.</p>
+                            </div>
+                            
+                            <div class="form-group" id="destination-group-고속버스" style="display: none; margin-top: 16px;">
+                                <label>도착지</label>
+                                <div class="filter-group-content" id="shipping-destination-고속버스">
+                                    <div class="input select-wrapper">
+                                        <select id="quick-bus-province" onchange="updateQuickBusTerminals(this.value)">
+                                            <option value="">도 선택</option>
+                                            <option value="강원">강원</option>
+                                            <option value="경기">경기</option>
+                                        </select>
+                                    </div>
+                                    <div class="input select-wrapper">
+                                        <select id="quick-bus-terminal" onchange="updateQuickDestination('고속버스', this.value)" disabled>
+                                            <option value="">역/터미널을 선택해주세요</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" id="destination-group-KTX" style="display: none; margin-top: 16px;">
+                                <label>도착지</label>
+                                <div class="filter-group-content" id="shipping-destination-KTX">
+                                    <div class="input select-wrapper" style="width: 100%;">
+                                        <select id="quick-ktx-station" onchange="updateQuickDestination('KTX', this.value)">
+                                            <option value="">KTX역을 선택해주세요</option>
+                                            <option value="서울역">서울역</option>
+                                            <option value="용산역">용산역</option>
+                                            <option value="부산역">부산역</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <p class="disclaimer" style="margin-top: 8px; color: #dc3545;">KTX 선택 가능한 기준 확인 필요 (제품 등)</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group" data-shipping-sub-for="화물" style="display: none;">
+                            <label>결제 방식</label>
+                            <div class="filter-group-content" id="shipping-payment-화물">
+                                <div class="single-chip single-chip-on" data-value="착불" onclick="selectShippingSubOption(this, '화물')">착불</div>
+                            </div>
+                            
+                            <label style="margin-top: 16px;">운송업체</label>
+                            <div class="filter-group-content" id="shipping-carrier-화물">
+                                <div class="single-chip single-chip-on" data-value="경동화물" onclick="selectSingleChip(this, 'shipping-carrier-화물')">경동화물</div>
+                                <div class="single-chip single-chip-off" data-value="대신화물" onclick="selectSingleChip(this, 'shipping-carrier-화물')">대신화물</div>
+                            </div>
+                            <div class="disclaimer-button-group">
+                                <button type="button" class="icon-disclaimer" onclick="alert('화물 요금표 (구현 필요)')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14.897 1a4 4 0 0 1 2.664 1.016l.165 .156l4.1 4.1a4 4 0 0 1 1.168 2.605l.006 .227v5.794a4 4 0 0 1 -1.016 2.664l-.156 .165l-4.1 4.1a4 4 0 0 1 -2.603 1.168l-.227 .006h-5.795a3.999 3.999 0 0 1 -2.664 -1.017l-.165 -.156l-4.1 -4.1a4 4 0 0 1 -1.168 -2.604l-.006 -.227v-5.794a4 4 0 0 1 1.016 -2.664l.156 -.165l4.1 -4.1a4 4 0 0 1 2.605 -1.168l.227 -.006h5.793zm-2.897 14a1 1 0 0 0 -.993 .883l-.007 .117l.007 .127a1 1 0 0 0 1.986 0l.007 -.117l-.007 -.127a1 1 0 0 0 -.993 -.883zm1.368 -6.673a2.98 2.98 0 0 0 -3.631 .728a1 1 0 0 0 1.44 1.383l.171 -.18a.98 .98 0 0 1 1.11 -.15a1 1 0 0 1 -.34 1.886l-.232 .012a1 1 0 0 0 .111 1.994a3 3 0 0 0 1.371 -5.673z" /></svg>
+                                    <span>화물 요금표</span>
+                                </button>
+                            </div>
+                    
+                            <label style="margin-top: 16px;">도착지</label>
+                            <div class="filter-group-content" id="shipping-destination-화물">
+                                <div class="input select-wrapper">
+                                    <select id="cargo-province" onchange="updateCargoCityOptions(this.value)">
+                                        <option value="">도 선택</option>
+                                    </select>
+                                </div>
+                                <div class="input select-wrapper">
+                                    <select id="cargo-city" onchange="updateCargoBranchOptions(this.value)" disabled>
+                                        <option value="">시 선택</option>
+                                    </select>
+                                </div>
+                                <div id="cargo-branch-wrapper" class="input select-wrapper">
+                                    <select id="cargo-branch" disabled>
+                                        <option value="">지점을 선택해주세요</option>
+                                    </select>
+                                </div>
+                                <div id="cargo-branch-input-wrapper" class="input" style="display: none;">
+                                    <input type="text" id="cargo-branch-direct-input" placeholder="지점명을 입력해주세요">
+                                </div>
+                            </div>
+                            
+                            <div class="checkbox-text" style="margin-top: 12px;" onclick="toggleCargoDirectInput(this)">
+                                <div class="checkbox" data-checked="false" id="cargo-direct-input-check">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <span>지점 직접입력</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" data-shipping-sub-for="해외" style="display: none;">
+                            <label>결제 방식</label>
+                            <div class="filter-group-content" id="shipping-payment-해외">
+                                <div class="single-chip single-chip-on" data-value="선불" onclick="selectShippingSubOption(this, '해외')">선불</div>
+                            </div>
+                            <label style="margin-top: 16px;">국가</label>
+                            <div class="filter-group-content" id="shipping-country">
+                                <div class="single-chip single-chip-on" data-value="미국" onclick="selectShippingSubOption(this, '해외')">미국</div>
+                                <div class="single-chip single-chip-off" data-value="일본" onclick="selectShippingSubOption(this, '해외')">일본</div>
+                            </div>
+                            <div class="disclaimer-button-group">
+                                <button type="button" class="icon-disclaimer" onclick="alert('해외배송 안내 (구현 필요)')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14.897 1a4 4 0 0 1 2.664 1.016l.165 .156l4.1 4.1a4 4 0 0 1 1.168 2.605l.006 .227v5.794a4 4 0 0 1 -1.016 2.664l-.156 .165l-4.1 4.1a4 4 0 0 1 -2.603 1.168l-.227 .006h-5.795a3.999 3.999 0 0 1 -2.664 -1.017l-.165 -.156l-4.1 -4.1a4 4 0 0 1 -1.168 -2.604l-.006 -.227v-5.794a4 4 0 0 1 1.016 -2.664l.156 -.165l4.1 -4.1a4 4 0 0 1 2.605 -1.168l.227 -.006h5.793zm-2.897 14a1 1 0 0 0 -.993 .883l-.007 .117l.007 .127a1 1 0 0 0 1.986 0l.007 -.117l-.007 -.127a1 1 0 0 0 -.993 -.883zm1.368 -6.673a2.98 2.98 0 0 0 -3.631 .728a1 1 0 0 0 1.44 1.383l.171 -.18a.98 .98 0 0 1 1.11 -.15a1 1 0 0 1 -.34 1.886l-.232 .012a1 1 0 0 0 .111 1.994a3 3 0 0 0 1.371 -5.673z" /></svg>
+                                    <span>해외배송 안내</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="divider" style="margin-top: 15px; margin-bottom: 15px;"></div>
+
+                    <h2 class="section-title">배송정보</h2>
+                    
+                    <nav class="modal-tab-nav" id="address-tabs">
+                        <div class="single-chip single-chip-on" id="tab-default-addr" data-tab="default-addr" onclick="switchAddressTab(this, 'default-addr')">기본 배송지</div>
+                        <div class="single-chip single-chip-off" id="tab-direct-input" data-tab="direct-input" onclick="switchAddressTab(this, 'direct-input')">직접 입력</div>
+                        <div class="single-chip single-chip-off" id="tab-address-list" data-tab="address-list" onclick="switchAddressTab(this, 'address-list')">배송지 목록</div>
+                    </nav>
+                    
+                    <div id="address-tab-content">
+                        <div class="form-fields-wrapper" data-tab-content="default-addr" style="display: block;">
+                            <div class="form-group">
+                                <label>받는 분</label>
+                                <div class="input">
+                                    <input type="text" id="default-receiver-input" value="김성원">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>휴대폰 번호</label>
+                                <div class="input">
+                                    <input type="tel" id="default-phone-input" value="010-1264-1234">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>주소</label>
+                                <div class="input-group" style="margin-bottom: 8px;">
+                                    <div class="input">
+                                        <input type="text" id="default-zipcode" placeholder="우편번호" value="04556" readonly>
+                                    </div>
+                                    <button class="white-button" onclick="alert('우편번호 검색 (구현 필요)')">우편번호 검색</button>
+                                </div>
+                                <div class="input" style="margin-bottom: 8px;">
+                                    <input type="text" id="default-addr-main" placeholder="기본 주소" value="서울특별시 중구 중림로 123" readonly>
+                                </div>
+                                <div class="input">
+                                    <input type="text" id="default-addr-detail" placeholder="상세 주소를 입력해주세요" value="456호 (중림동)">
+                                </div>
+                            </div>
+                            <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                                <div class="checkbox" data-checked="false" id="update-default-address-check">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <span>지금 입력한 정보로 기본 발송지 수정하기</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-fields-wrapper" data-tab-content="direct-input" style="display: none;">
+                            
+                            <div id="korea-address-form" style="display: block;">
+                                <div class="form-group">
+                                    <label>받는 분</label>
+                                    <div class="input">
+                                        <input type="text" id="form-receiver" placeholder="이름을 입력해주세요">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>휴대폰 번호</label>
+                                    <div class="input">
+                                        <input type="tel" id="form-phone" placeholder="'-' 제외하고 숫자만 입력">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>연락처 (선택)</label>
+                                    <div class="input">
+                                        <input type="tel" id="form-tel" placeholder="'-' 제외하고 숫자만 입력">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>주소</label>
+                                    <div class="input-group" style="margin-bottom: 8px;">
+                                        <div class="input">
+                                            <input type="text" id="form-zipcode" placeholder="우편번호" readonly>
+                                        </div>
+                                        <button class="white-button" onclick="alert('우편번호 검색 (구현 필요)')">우편번호 검색</button>
+                                    </div>
+                                    <div class="input" style="margin-bottom: 8px;">
+                                        <input type="text" id="form-addr-main" placeholder="기본 주소" readonly>
+                                    </div>
+                                    <div class="input">
+                                        <input type="text" id="form-addr-detail" placeholder="상세 주소를 입력해주세요">
+                                    </div>
+                                    <p class="disclaimer" id="address-disclaimer-지하철" style="display: none; color: #dc3545; margin-top: 8px;">* 지하철역 500m 이내의 주소로 입력해주세요</p>
+                                    <p class="disclaimer" id="address-disclaimer-고속버스" style="display: none; margin-top: 8px;">* 고속버스 퀵배송 도착지로 자동 입력됩니다.</p>
+                                    <p class="disclaimer" id="address-disclaimer-KTX" style="display: none; margin-top: 8px;">* KTX 퀵배송 도착지로 자동 입력됩니다.</p>
+                                </div>
+                                <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                                    <div class="checkbox" data-checked="false" id="default-address-check">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <span>기본 배송지로 하기</span>
+                                </div>
+                            </div>
+                            
+                            <div id="overseas-address-container" style="display: none;">
+                                </div>
+
+                        </div>
+                        
+                        <div class="form-fields-wrapper" data-tab-content="address-list" style="display: none;">
+                            <div class="form-group form-group-button" style="margin-bottom: 12px;">
+                                 <button type="button" class="white-button" onclick="showAddressListModal()">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 6l11 0" /><path d="M9 12l11 0" /><path d="M9 18l11 0" /><path d="M5 6l0 .01" /><path d="M5 12l0 .01" /><path d="M5 18l0 .01" /></svg>
+                                     &nbsp;배송지 목록
+                                 </button>
+                            </div>
+                            <div class="form-group">
+                                <label>받는 분</label>
+                                <div class="input"><input type="text" id="list-receiver" placeholder="배송지 목록에서 선택" readonly></div>
+                            </div>
+                            <div class="form-group">
+                                <label>휴대폰 번호</label>
+                                <div class="input"><input type="tel" id="list-phone" placeholder="배송지 목록에서 선택" readonly></div>
+                            </div>
+                            <div class="form-group">
+                                <label>주소</label>
+                                <div class="input"><input type="text" id="list-address" placeholder="배송지 목록에서 선택" readonly></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group input-wrapper-dropdown" style="margin-top: 20px;" id="memo-wrapper">
+                        <label>배송메모</label>
+                        <div class="input">
+                            <input type="text" id="memo-display" placeholder="배송메모를 선택하거나 입력해주세요"
+                                   onfocus="openMemoDropdown()"
+                                   oninput="handleMemoInput()"
+                                   onblur="closeMemoDropdownWithDelay()"
+                                   autocomplete="off">
+                            <div class="input-dropdown-arrow" onclick="toggleMemoDropdown(event)" style="cursor: pointer; z-index: 2;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                            </div>
+                        </div>
+                        <div class="memo-dropdown">
+                            <div class="memo-option" onclick="selectMemo(this)">배송 전 연락바랍니다.</div>
+                            <div class="memo-option" onclick="selectMemo(this)">부재 시 경비실에 맡겨주세요.</div>
+                            <div class="memo-option" onclick="selectMemo(this)">부재 시 문 앞에 놓아주세요.</div>
+                            <div class="memo-option" onclick="selectMemo(this)">부재 시 택배함에 넣어주세요.</div>
+                            <div class="memo-option" onclick="selectMemo(this)">파손 위험 상품입니다. 주의해주세요.</div>
+                            <div class="memo-option" onclick="selectMemo(this, true)">직접 입력</div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="memo-direct-input-group">
+                        <div class="input">
+                            <input type="text" id="memo-direct-input" placeholder="배송메모를 입력해주세요 (50자 이내)">
+                        </div>
+                    </div>
+                    
+                    <div class="divider" style="margin-top: 15px; margin-bottom: 5px;"></div>
+                    
+                    <h2 class="section-title">보내는 분 정보</h2>
+                    <nav class="modal-tab-nav" id="sender-tabs">
+                        <div class="single-chip single-chip-on" data-tab="default-sender" onclick="switchSenderTab(this, 'default-sender')">성원애드피아</div>
+                        <div class="single-chip single-chip-off" data-tab="direct-input" onclick="switchSenderTab(this, 'direct-input')">직접 입력</div>
+                    </nav>
+                    
+                    <div id="sender-tab-content">
+                        <div class="form-fields-wrapper" data-tab-content="default-sender" style="display: block;">
+                             <div class="form-group">
+                                <label>이름(상호명)</label>
+                                <div class="readonly-value">성원애드피아</div>
+                            </div>
+                            <div class="form-group">
+                                <label>연락처</label>
+                                <div class="readonly-value">01012341234</div>
+                            </div>
+                            <div class="form-group">
+                                <label>주소</label>
+                                <div class="readonly-value">(05644) 서울시 성동구 성수동 124-12, 2층 201호 성원애드피아</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-fields-wrapper" data-tab-content="direct-input" style="display: none;">
+                            <div class="form-group">
+                                <label>이름(상호명)</label>
+                                <div class="input">
+                                    <input type="text" id="form-sender-receiver" placeholder="이름(상호명)을 입력해주세요">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>연락처</label>
+                                <div class="input">
+                                    <input type="tel" id="form-sender-phone" placeholder="'-' 제외하고 숫자만 입력">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>주소</label>
+                                <div class="input-group" style="margin-bottom: 8px;">
+                                    <div class="input">
+                                        <input type="text" id="form-sender-zipcode" placeholder="우편번호" readonly>
+                                    </div>
+                                    <button class="white-button" onclick="alert('우편번호 검색 (구현 필요)')">우편번호 검색</button>
+                                </div>
+                                <div class="input" style="margin-bottom: 8px;">
+                                    <input type="text" id="form-sender-addr-main" placeholder="기본 주소" readonly>
+                                </div>
+                                <div class="input">
+                                    <input type="text" id="form-sender-addr-detail" placeholder="상세 주소를 입력해주세요">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="divider" style="margin-top: 25px; margin-bottom: -15px;"></div>
+
+                    <h2 class="section-title" style="margin-top: 24px;">담당자 정보</h2>
+                    <div class="clickable-info-row" id="contact-info-row" onclick="showContactListModal()">
+                        <span class="clickable-info-label">담당자</span>
+                        <span class="clickable-info-value" id="contact-info-value">김성원 / 010-1234-1234</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
+                    </div>
+                    <div class="icon-disclaimer" style="background: none; border: none; padding: 0; cursor: default; font-size: 12px; color: #888; font-weight: 400; align-items: flex-start;">
+                        <svg style="margin-top: 1px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>
+                        <span>인쇄물 문제나 작업 관련하여 연락이 필요한 경우 해당 번호로 연락드려요</span>
+                    </div>
+
+                    <h2 class="section-title" style="margin-top: 24px;">고객 정보 (선택)</h2>
+                    <div class="clickable-info-row" id="customer-info-row" onclick="showCustomerListModal()">
+                        <span class="clickable-info-label">고객</span>
+                        <span class="clickable-info-value placeholder" id="customer-info-value">선택 안됨</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
+                    </div>
+                    <div class="icon-disclaimer" style="background: none; border: none; padding: 0; cursor: default; font-size: 12px; color: #888; font-weight: 400; align-items: flex-start;">
+                        <svg style="margin-top: 1px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>
+                        <span>대상 고객을 선택하여 고객별 접수 건을 간편하게 관리할 수 있어요</span>
+                    </div>
+
+                    <h2 class="section-title" style="margin-top: 24px;">동일 접수자 배정(선택)</h2>
+                    <div class="clickable-info-row" id="operator-info-row" onclick="showOperatorListModal()">
+                        <span class="clickable-info-label">접수자</span>
+                        <span class="clickable-info-value placeholder" id="operator-info-value">상세 보기</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
+                    </div>
+                    <div class="icon-disclaimer" style="background: none; border: none; padding: 0; cursor: default; font-size: 12px; color: #888; font-weight: 400; align-items: flex-start;">
+                        <svg style="margin-top: 1px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>
+                        <span>동일한 접수자에게 배정되면 원활한 접수 처리가 가능해요</span>
+                    </div>
+
+                </div>
+            </div>
+            
+            </main>
+        
+        <div class="sticky-form-footer" id="footer-step-1" style="display: flex;">
+            <div class="footer-summary">
+                <span>총 결제금액</span>
+                <strong id="footer-step1-total">₩11,200</strong>
+            </div>
+            <button class="dark-button btn" style="flex-grow: 1;" onclick="location.href='payment-step-2.html';">다음</button>
+        </div>
+        
+        </div>
+
+    <div class="modal-overlay" id="address-list-modal-overlay">
+        <div class="modal-content" id="address-list-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">배송지 목록</h2>
+                <button class="btn-modal-close" onclick="closeModal('address-list-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-section" style="padding: 0;">
+                    <div class="search" data-name="search" id="modal-address-search">
+                        <input type="text" placeholder="배송지, 이름, 상호명 검색" oninput="handleSearchInput(this)">
+                         <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this, 'modal-address-search')">
+                                <img src="assets/images/search-del.png" alt="">
+                            </div>
+                            <div class="btn-search" onclick="handleSearch(this, 'modal-address-search')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
+                                        id="icon-search">
+                                    <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                    <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="transaction-list-header" style="margin-top: 0; padding-bottom: 12px; margin-bottom: 12px; border-color: #e8e8e9;">
+                    <span class="total-count">총 <strong id="modal-address-count">1</strong>개</span>
+                </div>
+                <div class="address-list" id="modal-address-list">
+                    <article class="address-item" data-id="1">
+                        <div class="address-item-header">
+                            <span class="address-name">[기본] 김성원</span>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                 <div class="card-badge" data-status="default">기본배송지</div>
+                                 <button class="white-button btn" onclick="selectAddress('1')">선택</button>
+                            </div>
+                        </div>
+                        <div class="address-detail">(04556) 서울특별시 중구 중림로 123, 456호 (중림동)</div>
+                        <div class="address-detail" style="color: #666;">010-1264-1234</div>
+                    </article>
+                </div>
+            </div>
+             <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="openAddressModal('add')">+ 배송지 추가</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="address-modal-overlay">
+        <div class="modal-content" id="address-modal">
+             <div class="modal-header">
+                <h2 class="modal-title" id="address-modal-title">배송지 추가</h2>
+                <button class="btn-modal-close" onclick="closeModal('address-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="address-form">
+                    <div class="form-group"><label for="addr-name">배송지명 (선택)</label><div class="input"><input type="text" id="addr-name" placeholder="배송지명을 입력해주세요"></div></div>
+                    <div class="form-group"><label for="addr-receiver">이름 (상호명)</label><div class="input"><input type="text" id="addr-receiver" placeholder="받으실 분의 성함을 입력해주세요"></div></div>
+                    <div class="form-group"><label for="addr-phone">휴대폰 번호</label><div class="input"><input type="tel" id="addr-phone" placeholder="'-'을 제외한 숫자만 입력해주세요"></div></div>
+                    <div class="form-group"><label for="addr-tel">연락처 (선택)</label><div class="input"><input type="tel" id="addr-tel" placeholder="'-'을 제외한 숫자만 입력해주세요"></div></div>
+                    <div class="form-group"><label>주소</label><div class="input-group"><div class="input"><input type="text" id="addr-zipcode" placeholder="우편번호" readonly></div><button type="button" class="white-button" onclick="alert('우편번호 검색')">우편번호 검색</button></div><div class="input" style="margin-top: 8px;"><input type="text" id="addr-main" placeholder="주소" readonly></div><div class="input" style="margin-top: 8px;"><input type="text" id="addr-detail" placeholder="상세 주소를 입력해주세요"></div></div>
+                    <div class="form-group" style="margin-bottom: 0;"><div class="checkbox-text" onclick="toggleCheckboxText(this)"><div class="checkbox" data-checked="false" id="addr-default-check"><div class="checkbox-off"></div></div><span>기본 배송지로 설정하기</span></div></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" id="address-modal-submit-btn" onclick="alert('저장')">추가하기</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-sheet-overlay" id="details-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="details-sheet">
+            <div class="sheet-handle" id="details-sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">상품 상세정보</div>
+                <button class="btn-close" onclick="closeDetailsSheet()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="sheet-body">
+                <div class="sheet-detail-group">
+                    <h3 class="sheet-detail-title">상품 옵션</h3>
+                    <div class="sheet-detail-content" id="sheet-detail-spec">(옵션 정보)</div>
+                </div>
+                <div class="sheet-detail-group">
+                    <h3 class="sheet-detail-title">접수 메모</h3>
+                    <div class="sheet-detail-content" id="sheet-detail-memo">(접수 메모)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="contact-list-modal-overlay">
+        <div class="modal-content" id="contact-list-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">담당자 목록</h2>
+                <button class="btn-modal-close" onclick="closeModal('contact-list-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body" >
+                <div class="filter-section" style="padding: 0 0 16px 0;">
+                    <div class="search" data-name="search" id="contact-search">
+                        <input type="text" placeholder="담당자명, 연락처 검색" oninput="handleSearchInput(this)">
+                         <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this, 'contact-search')">
+                                <img src="assets/images/search-del.png" alt="삭제">
+                            </div>
+                            <div class="btn-search" onclick="handleSearch(this, 'contact-search')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
+                                        id="icon-search">
+                                    <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                    <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transaction-list-header" style="padding-bottom: 12px; margin-bottom: 12px; border-color: #e8e8e9;">
+                    <span class="total-count">총 <strong>2</strong>개</span>
+                </div>
+
+                <div class="contact-list">
+                    <article class="contact-item">
+                        <div class="contact-item-header">
+                            <span class="contact-name">김성원</span>
+                            <button class="white-button btn" 
+                                onclick="selectContact('김성원', '010-1234-1234')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="contact-detail">010-1234-1234</div>
+                    </article>
+                    <article class="contact-item">
+                        <div class="contact-item-header">
+                            <span class="contact-name">이담당</span>
+                            <button class="white-button btn" 
+                                onclick="selectContact('이담당', '010-5678-5678')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="contact-detail">010-5678-5678</div>
+                    </article>
+                </div>
+            </div>
+             <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="showContactAddModal()">+ 담당자 추가</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="contact-add-modal-overlay">
+        <div class="modal-content" id="contact-add-modal">
+             <div class="modal-header">
+                <h2 class="modal-title" id="contact-add-title">담당자 추가</h2>
+                <button class="btn-modal-close" onclick="closeModal('contact-add-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="contact-add-form">
+                    <div class="form-group">
+                        <label for="contact-form-name">담당자명</label>
+                        <div class="input">
+                            <input type="text" id="contact-form-name" placeholder="담당자명을 입력해주세요">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-form-phone">연락처</label>
+                        <div class="input">
+                            <input type="tel" id="contact-form-phone" placeholder="'-'을 제외한 숫자만 입력해주세요">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn white-button" onclick="closeModal('contact-add-modal-overlay')">취소</button>
+                <button class="btn dark-button" onclick="alert('담당자 추가 (구현 필요)')">저장하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="customer-list-modal-overlay">
+        <div class="modal-content" id="customer-list-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">나의 고객 목록</h2>
+                <button class="btn-modal-close" onclick="closeModal('customer-list-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-section" style="padding: 0;">
+                    <div class="search" data-name="search" id="customer-search">
+                        <input type="text" placeholder="검색어를 입력해주세요" oninput="handleSearchInput(this)">
+                         <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this, 'customer-search')">
+                                <img src="assets/images/search-del.png" alt="지우기">
+                            </div>
+                            <div class="btn-search" onclick="handleSearch(this, 'customer-search')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
+                                    id="icon-search">
+                                    <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                    <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                                </svg>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="transaction-list-header" style="padding-bottom: 12px; margin-bottom: 12px; border-color: #e8e8e9;">
+                    <span class="total-count">총 <strong>4</strong>개</span>
+                </div>
+                <div class="customer-list">
+                    <article class="customer-item">
+                        <div class="customer-item-header">
+                            <span class="customer-name">삼성 SDS</span>
+                            <button class="white-button btn" 
+                                onclick="selectCustomer('삼성 SDS', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
+                        <div class="customer-item-footer">
+                             <button class="white-button btn" onclick="showCustomerEditModal('삼성 SDS', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">수정</button>
+                             <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
+                        </div>
+                    </article>
+                </div>
+            </div>
+             <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="showCustomerAddModal()">+ 고객 추가</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="customer-edit-modal-overlay">
+        <div class="modal-content" id="customer-edit-modal">
+             <div class="modal-header">
+                <h2 class="modal-title" id="customer-edit-title">고객 추가</h2>
+                <button class="btn-modal-close" onclick="closeModal('customer-edit-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="customer-edit-form">
+                    <div class="form-group"><label for="customer-form-company-name">기업명</label><div class="input"><input type="text" id="customer-form-company-name" placeholder="기업명을 입력해주세요"></div></div>
+                    <div class="form-group"><label for="customer-form-biz-num">사업자등록번호</label><div class="input"><input type="text" id="customer-form-biz-num" placeholder="사업자등록번호를 입력해주세요"></div></div>
+                    <div class="form-group"><label for="customer-form-rep-name">대표자명</label><div class="input"><input type="text" id="customer-form-rep-name" placeholder="대표자명을 입력해주세요"></div></div>
+                    <div class="form-group"><label for="customer-form-contact-name">회계담당자명</label><div class="input"><input type="text" id="customer-form-contact-name" placeholder="회계담당자명을 입력해주세요"></div></div>
+                    <div class="form-group"><label for="customer-form-contact-phone">회계담당자 연락처</label><div class="input"><input type="tel" id="customer-form-contact-phone" placeholder="회계담당자 연락처를 입력해주세요"></div></div>
+                    <div class="form-group"><label for="customer-form-contact-email">회계담당자 이메일</label><div class="input"><input type="email" id="customer-form-contact-email" placeholder="회계담당자 이메일 주소를 입력해주세요"></div></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn white-button" onclick="closeModal('customer-edit-modal-overlay')">취소</button>
+                <button class="btn dark-button" onclick="alert('저장 (구현 필요)')">저장하기</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="operator-list-modal-overlay">
+        <div class="modal-content" id="operator-list-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">동일 접수자 배정</h2>
+                <button class="btn-modal-close" onclick="closeModal('operator-list-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body" >
+                <div class="transaction-list-header" style="padding-bottom: 12px; margin-bottom: 12px; border-color: #e8e8e9; margin-top: 0;">
+                    <span class="total-count">총 <strong>2</strong>건</span>
+                </div>
+                <div class="transaction-list" id="operator-product-list-modal">
+                    <article class="common-table-card">
+                        <div class="card-header">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div class="checkbox" data-checked="false" onclick="toggleCheckbox(this); event.stopPropagation();">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <a href="#" class="card-column1" onclick="event.preventDefault(); alert('접수 상세 이동')">sw1234567890</a>
+                            </div>
+                            <div class="card-badge" data-status="접수대기">접수대기</div>
+                        </div>
+                        <div class="card-column2">[삼성SDS] 일반 명함 홍길동 사원 명함</div>
+                    </article>
+                    <article class="common-table-card">
+                        <div class="card-header">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div class="checkbox" data-checked="false" onclick="toggleCheckbox(this); event.stopPropagation();">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <a href="#" class="card-column1" onclick="event.preventDefault(); alert('접수 상세 이동')">sw12345678911</a>
+                            </div>
+                            <div class="card-badge" data-status="접수완료">접수완료</div>
+                        </div>
+                        <div class="card-column2">[LG] 포스터 - 기법 홍보용</div>
+                    </article>
+                </div>
+            </div>
+             <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="applyOperatorSelection()">선택 완료</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- v12 Checkbox (from qna_write.html) ---
+        function toggleCheckboxText(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            toggleCheckbox(checkbox);
+        }
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt='체크'></div>`;
+            }
+            return !isChecked; 
+        }
+        
+        // --- v12 Single Chip (from daynight_delivery_apply.html) ---
+        function selectSingleChip(chip, groupId) {
+            const group = document.getElementById(groupId);
+            if (!group) return;
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+        }
+        
+        // --- [MODIFIED] Step Navigation Logic (SPA) ---
+        // [MODIFIED] goToStep(2) now navigates to payment-3.html
+        function goToStep(stepNum) {
+            if (stepNum === 2) {
+                // 1. Calculate totals
+                let productsTotal = 0;
+                const productCards = document.querySelectorAll('#checkout-product-list .cart-card');
+                productCards.forEach(card => {
+                    productsTotal += parseFloat(card.dataset.price) || 0;
+                });
+                let shippingFee = getShippingFee();
+                
+                // 2. Save to localStorage
+                localStorage.setItem('productsTotal', productsTotal);
+                localStorage.setItem('shippingFee', shippingFee);
+
+                // 3. Navigate to next page
+                location.href = 'payment-3.html';
+            }
+            window.scrollTo(0, 0); 
+        }
+        
+        // --- [MODIFIED] Step 1: Cart/Shipping Logic ---
+        
+        function formatCurrency(number) {
+            return new Intl.NumberFormat('ko-KR').format(number);
+        }
+
+        function deleteItem(button) {
+            if (confirm("이 상품을 결제 목록에서 제외하시겠습니까?")) {
+                const card = button.closest('.cart-card');
+                card.remove();
+                checkEmptyCart();
+                updatePaymentSummary(); 
+            }
+        }
+        
+        function checkEmptyCart() {
+            const listContainer = document.getElementById('checkout-product-list');
+            const noResultMsg = document.getElementById('no-products-message');
+            const totalCount = listContainer.querySelectorAll('.cart-card').length;
+            if (noResultMsg) {
+                noResultMsg.style.display = totalCount === 0 ? 'block' : 'none';
+            }
+        }
+
+        // [MODIFIED] 배송방법 메인 칩 선택
+        function selectShippingMethod(chip, methodName) {
+            selectSingleChip(chip, 'shipping-method-chips');
+            
+            // 모든 하위 옵션 숨기기
+            document.querySelectorAll('#shipping-sub-options .form-group').forEach(el => el.style.display = 'none');
+            
+            // 선택된 하위 옵션 보이기
+            const subOptionEl = document.querySelector(`#shipping-sub-options [data-shipping-sub-for="${methodName}"]`);
+            if (subOptionEl) {
+                subOptionEl.style.display = 'block';
+            }
+            
+            // 배송방법에 따라 주소 탭 및 폼 상태 변경
+            if (methodName === '해외') {
+                forceAddressDirectInput(true, '해외');
+                // '해외' 선택 시 기본값(미국)으로 폼 업데이트
+                const defaultCountryChip = document.querySelector('#shipping-country .single-chip[data-value="미국"]');
+                selectShippingSubOption(defaultCountryChip, '해외');
+            } else if (methodName === '택배' || methodName === '방문수령' || methodName === '화물') {
+                forceAddressDirectInput(false); // 탭 활성화
+                updateOverseasAddressForm(null); // 해외 폼 숨기기
+            } else if (methodName === '퀵') {
+                // 퀵은 기본적으로 탭 활성화, selectVehicle에서 세부 처리
+                forceAddressDirectInput(false); 
+                updateOverseasAddressForm(null); // 해외 폼 숨기기
+            }
+
+            // --- 기존 로직 (하위 옵션 기본값 설정) ---
+            if (methodName === '택배') {
+                document.getElementById('shipping-prepaid-details').style.display = 'block';
+                selectShippingSubOption(document.querySelector('#shipping-payment-택배 .single-chip[data-value="선불"]'), '택배');
+            }
+            if (methodName === '화물') {
+                selectSingleChip(document.querySelector('#shipping-payment-화물 .single-chip[data-value="착불"]'), 'shipping-payment-화물');
+                selectSingleChip(document.querySelector('#shipping-carrier-화물 .single-chip[data-value="경동화물"]'), 'shipping-carrier-화물');
+            }
+            if (methodName === '퀵') {
+                selectShippingSubOption(document.querySelector('#shipping-payment-퀵 .single-chip[data-value="선불"]'), '퀵');
+                document.getElementById('shipping-vehicle-선불').style.display = 'block';
+                document.getElementById('shipping-vehicle-착불').style.display = 'none';
+                selectVehicle(document.querySelector('#shipping-vehicle-선불 .single-chip[data-vehicle="오토바이"]'), '선불'); 
+            }
+            
+            // [MODIFIED] 배송방법에 따라 배송메모 섹션 제어
+            const memoWrapperEl = document.getElementById('memo-wrapper');
+            const memoDirectInputGroupEl = document.getElementById('memo-direct-input-group');
+            const memoDisplayEl = document.getElementById('memo-display');
+            const memoDirectInputEl = document.getElementById('memo-direct-input');
+
+            // [MODIFIED] 방문수령 시에도 배송메모 보이도록 수정
+            if (memoWrapperEl) memoWrapperEl.style.display = 'block';
+            
+            // 다른 배송방법 선택 시, 배송메모를 초기 상태로 리셋
+            if (memoDisplayEl) {
+                memoDisplayEl.value = '';
+                // [MODIFIED] Placeholder 수정
+                memoDisplayEl.placeholder = '배송메모를 선택하거나 입력해주세요';
+            }
+            if (memoDirectInputGroupEl) memoDirectInputGroupEl.style.display = 'none';
+            if (memoDirectInputEl) memoDirectInputEl.value = '';
+        }
+        
+        // [MODIFIED] 배송방법 하위 칩 선택 (결제방식, 수령지, 국가 등)
+        function selectShippingSubOption(chip, methodName) {
+            const groupId = chip.closest('.filter-group-content').id;
+            selectSingleChip(chip, groupId);
+            
+            if (methodName === '택배') {
+                const paymentType = chip.dataset.value;
+                const prepaidDetails = document.getElementById('shipping-prepaid-details');
+                if (paymentType === '선불') {
+                    prepaidDetails.style.display = 'block';
+                } else {
+                    prepaidDetails.style.display = 'none';
+                }
+            }
+            
+            if (methodName === '퀵') {
+                const paymentType = chip.dataset.value; // "선불" or "착불"
+                const vehicleGroupSun = document.getElementById('shipping-vehicle-선불');
+                const vehicleGroupCha = document.getElementById('shipping-vehicle-착불');
+                
+                if (paymentType === '선불') {
+                    vehicleGroupSun.style.display = 'block';
+                    vehicleGroupCha.style.display = 'none';
+                    selectVehicle(document.querySelector('#shipping-vehicle-chips-선불 .single-chip[data-vehicle="오토바이"]'), '선불');
+                } else {
+                    vehicleGroupSun.style.display = 'none';
+                    vehicleGroupCha.style.display = 'block';
+                    selectVehicle(document.querySelector('#shipping-vehicle-chips-착불 .single-chip[data-vehicle="오토바이"]'), '착불');
+                }
+            }
+
+            // [NEW] 해외배송 국가 선택 시 폼 변경
+            if (methodName === '해외' && groupId === 'shipping-country') {
+                const country = chip.dataset.value; // "미국" or "일본"
+                updateOverseasAddressForm(country);
+            }
+        }
+
+        // [MODIFIED] 퀵 - 배송수단 선택
+        function selectVehicle(chip, paymentType) {
+            const vehicleGroupId = `shipping-vehicle-chips-${paymentType}`;
+            let vehicleType;
+
+            if (chip) {
+                selectSingleChip(chip, vehicleGroupId);
+                vehicleType = chip.dataset.vehicle;
+            } else {
+                // 리셋 호출 (chip is null) - 기본 '오토바이'
+                vehicleType = '오토바이';
+            }
+
+            // [NEW] 퀵-착불-고속버스/KTX일 때 주소 탭 비활성화
+            if (paymentType === '착불' && (vehicleType === '고속버스' || vehicleType === 'KTX')) {
+                forceAddressDirectInput(true, '퀵-착불-특수');
+            } else {
+                forceAddressDirectInput(false); // 그 외 모든 퀵은 탭 활성화
+            }
+
+            // --- 기존 로직 (도착지/주소 필드 UI 변경) ---
+            const destSubway = document.getElementById('destination-group-지하철');
+            const destBus = document.getElementById('destination-group-고속버스');
+            const destKtx = document.getElementById('destination-group-KTX');
+            
+            const addrDisclaimerSubway = document.getElementById('address-disclaimer-지하철');
+            const addrDisclaimerBus = document.getElementById('address-disclaimer-고속버스');
+            const addrDisclaimerKtx = document.getElementById('address-disclaimer-KTX');
+            
+            const formZip = document.getElementById('form-zipcode');
+            const formAddrMain = document.getElementById('form-addr-main');
+            const formAddrDetail = document.getElementById('form-addr-detail');
+
+            if (destSubway) destSubway.style.display = 'none';
+            if (destBus) destBus.style.display = 'none';
+            if (destKtx) destKtx.style.display = 'none';
+            
+            if (addrDisclaimerSubway) addrDisclaimerSubway.style.display = 'none';
+            if (addrDisclaimerBus) addrDisclaimerBus.style.display = 'none';
+            if (addrDisclaimerKtx) addrDisclaimerKtx.style.display = 'none';
+            
+            // 주소창 입력 필드 리셋 (읽기 전용 해제, 값 비우기)
+            formZip.readOnly = true;
+            formAddrMain.readOnly = true;
+            formAddrDetail.readOnly = false;
+            formZip.closest('.input')?.classList.remove('read-only');
+            formAddrMain.closest('.input')?.classList.remove('read-only');
+            formAddrDetail.closest('.input')?.classList.remove('read-only');
+            formZip.value = '';
+            formAddrMain.value = '';
+            formAddrDetail.value = '';
+            formZip.placeholder = '우편번호';
+            formAddrMain.placeholder = '기본 주소';
+            formAddrDetail.placeholder = '상세 주소를 입력해주세요';
+            
+            switch (vehicleType) {
+                case '지하철':
+                    if (destSubway) destSubway.style.display = 'block';
+                    if (addrDisclaimerSubway) addrDisclaimerSubway.style.display = 'block';
+                    initQuickSubwayProvinces(); 
+                    break;
+                case '고속버스':
+                    if (destBus) destBus.style.display = 'block';
+                    if (addrDisclaimerBus) addrDisclaimerBus.style.display = 'block';
+                    // [MODIFIED] readOnly 속성 제거
+                    initQuickBusProvinces(); 
+                    break;
+                case 'KTX':
+                    if (destKtx) destKtx.style.display = 'block';
+                    if (addrDisclaimerKtx) addrDisclaimerKtx.style.display = 'block';
+                    // [MODIFIED] readOnly 속성 제거
+                    initQuickKtxStations(); 
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        // [NEW] 묶음배송 목록 펼치기/접기
+        function toggleBundleShippingList(button) {
+            const isOpen = button.classList.toggle('open');
+            const listEl = document.getElementById('bundle-shipping-list');
+            if (listEl) {
+                listEl.style.display = isOpen ? 'block' : 'none';
+            }
+        }
+
+        function toggleCartCheckbox(checkboxEl) {
+            toggleCheckbox(checkboxEl);
+            updatePaymentSummary(); 
+        }
+        
+        // --- [MODIFIED] Step 1: Summary Calculation Logic ---
+        function getShippingFee() {
+            let shippingFee = 0;
+            const mainMethodChip = document.querySelector('#shipping-method-chips .single-chip-on');
+            if (!mainMethodChip) return 0;
+            const methodName = mainMethodChip.dataset.method;
+            switch(methodName) {
+                case '방문수령': shippingFee = 0; break;
+                case '택배':
+                    const paymentTypeChip = document.querySelector('#shipping-payment-택배 .single-chip-on');
+                    if (paymentTypeChip && paymentTypeChip.dataset.value === '선불') {
+                        const bundleCards = document.querySelectorAll('#bundle-shipping-list .bundle-shipping-card');
+                        shippingFee = bundleCards.length * 2500; 
+                    }
+                    break;
+                case '퀵': shippingFee = 10000; break;
+                case '화물': shippingFee = 20000; break;
+                case '해외': shippingFee = 30000; break;
+                default: shippingFee = 0;
+            }
+            return shippingFee;
+        }
+        
+        function updatePaymentSummary() {
+            let productsTotal = 0;
+            const productCards = document.querySelectorAll('#checkout-product-list .cart-card');
+            productCards.forEach(card => {
+                productsTotal += parseFloat(card.dataset.price) || 0;
+            });
+
+            // [MODIFIED]
+            let shippingFee = getShippingFee();
+
+            // --- Step 1 Footer 업데이트 ---
+            const subtotalStep1 = productsTotal + shippingFee;
+            const vatStep1 = Math.round(productsTotal * STEP1_VAT_RATE); 
+            const totalStep1 = productsTotal + shippingFee + vatStep1;
+            
+            const footerTotalEl = document.getElementById('footer-step1-total');
+            if (footerTotalEl) {
+                footerTotalEl.textContent = `₩${formatCurrency(totalStep1)}`;
+            }
+        }
+        
+        // --- [MODIFIED] Step 1: 배송메모 (Request 4) ---
+        let memoWrapper, memoDisplay, memoDirectInputGroup, memoDirectInput;
+        
+        function toggleMemoDropdown(event) {
+            // [NEW] 이벤트 전파를 막아 input의 onblur가 즉시 실행되는 것을 방지
+            if (event) event.stopPropagation(); 
+            if (memoWrapper) memoWrapper.classList.toggle('open');
+        }
+
+        function openMemoDropdown() {
+            if (memoWrapper) memoWrapper.classList.add('open');
+        }
+
+        function closeMemoDropdown() {
+            if (memoWrapper) memoWrapper.classList.remove('open');
+        }
+
+        function closeMemoDropdownWithDelay() {
+            // 옵션 클릭 이벤트를 위해 딜레이를 줌
+            setTimeout(closeMemoDropdown, 200);
+        }
+
+        function handleMemoInput() {
+            // 사용자가 메인 입력창에 직접 타이핑하면 '직접 입력' 창을 숨김
+            if (memoDirectInputGroup) memoDirectInputGroup.style.display = 'none';
+            if (memoDirectInput) memoDirectInput.value = '';
+        }
+        
+        function selectMemo(option, isDirect = false) {
+            if (isDirect) {
+                // "직접 입력" 선택 시
+                memoDisplay.value = ''; // 메인 입력창 비우기
+                memoDisplay.placeholder = '배송메모를 입력해주세요'; // 메인 입력창 placeholder 변경
+                memoDirectInputGroup.style.display = 'block'; // 별도 입력창 보이기
+                memoDirectInput.focus(); // 별도 입력창에 포커스
+            } else {
+                // 옵션 선택 시
+                memoDisplay.value = option.textContent; // 메인 입력창에 텍스트 채우기
+                memoDirectInputGroup.style.display = 'none'; // 별도 입력창 숨기기
+                memoDirectInput.value = ''; // 별도 입력창 비우기
+            }
+            closeMemoDropdown(); // 드롭다운 닫기
+        }
+        
+        // --- [NEW] Step 1: Sender Tab Logic ---
+        function switchSenderTab(tabEl, tabName) {
+            const tabNav = tabEl.closest('.modal-tab-nav');
+            tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            tabEl.classList.replace('single-chip-off', 'single-chip-on');
+            const formContentWrapper = document.getElementById(`sender-tab-content`);
+            formContentWrapper.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
+                wrapper.style.display = 'none';
+            });
+            formContentWrapper.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
+        }
+
+        // --- [NEW] v12 Modal (from daynight_delivery_apply.html) ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+        
+        // --- [NEW] v12 Search (from daynight_delivery_apply.html) ---
+        function handleSearchInput(input) {
+            const searchBox = input.closest('.search');
+            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+        }
+        function clearSearch(btn, searchId) {
+            const searchBox = btn.closest('.search');
+            const input = searchBox.querySelector('input');
+            input.value = '';
+            searchBox.classList.remove('has-text');
+            input.focus();
+            if (searchId === 'modal-address-search') filterAddressList();
+            if (searchId === 'customer-search') { /* TODO: Filter customer list */ }
+            if (searchId === 'contact-search') { /* TODO: Filter contact list */ }
+        }
+        function handleSearch(btn, searchId) { 
+            if (searchId === 'modal-address-search') filterAddressList();
+            if (searchId === 'customer-search') { /* TODO: Filter customer list */ }
+            if (searchId === 'contact-search') { /* TODO: Filter contact list */ }
+        }
+        
+        // --- [NEW] Address Modal Logic (from daynight_delivery_apply.html) ---
+        const addressData = {
+            "1": { name: "[기본] 김성원", receiver: "김성원", phone: "010-1264-1234", tel: "", zipcode: "04556", main: "서울특별시 중구 중림로 123", detail: "456호 (중림동)", isDefault: true }
+        };
+        
+        function openAddressModal(mode) {
+             openModal('address-modal-overlay');
+        }
+        function showAddressListModal() {
+            openModal('address-list-modal-overlay');
+        }
+        function selectAddress(addressId) {
+            const data = addressData[addressId];
+            if (data) {
+                // [MODIFIED] 1. '배송지 목록' 탭의 폼 요소들
+                const listReceiver = document.getElementById('list-receiver');
+                const listPhone = document.getElementById('list-phone');
+                const listAddress = document.getElementById('list-address');
+                
+                // 1. '배송지 목록' 탭에 데이터 채우기
+                listReceiver.value = data.receiver;
+                listPhone.value = data.phone;
+                listAddress.value = `(${data.zipcode}) ${data.main}, ${data.detail}`;
+                
+                // 2. '배송지 목록' 탭으로 전환
+                const listAddrTab = document.querySelector('#address-tabs [data-tab="address-list"]');
+                switchAddressTab(listAddrTab, 'address-list');
+                
+                closeModal('address-list-modal-overlay');
+            }
+        }
+        function filterAddressList() {
+            // (구현 생략)
+        }
+        // [MODIFIED] 주소 탭 전환 (비활성화 로직 추가)
+        function switchAddressTab(tabEl, tabName) {
+            // [NEW] 비활성화된 탭은 클릭 무시
+            if (tabEl.classList.contains('single-chip-disabled')) {
+                return;
+            }
+            
+            const tabNav = tabEl.closest('.modal-tab-nav');
+            // 비활성화되지 않은 탭만 활성/비활성 처리
+            tabNav.querySelectorAll('.single-chip:not(.single-chip-disabled)').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            tabEl.classList.replace('single-chip-off', 'single-chip-on');
+            
+            const formContentWrapper = document.getElementById(`address-tab-content`);
+            formContentWrapper.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
+                wrapper.style.display = 'none';
+            });
+            formContentWrapper.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
+        }
+
+        
+        // [NEW] 주소 탭 강제/해제 로직
+        function forceAddressDirectInput(disableTabs, context = null) {
+            const tabDefault = document.getElementById('tab-default-addr');
+            const tabDirect = document.getElementById('tab-direct-input');
+            const tabList = document.getElementById('tab-address-list');
+            
+            const koreaAddressForm = document.getElementById('korea-address-form');
+            const overseasAddressContainer = document.getElementById('overseas-address-container');
+
+            if (disableTabs) {
+                // 1. 탭 비활성화 및 '직접 입력' 강제 선택
+                tabDefault.classList.replace('single-chip-on', 'single-chip-off');
+                tabDefault.classList.add('single-chip-disabled');
+                
+                tabList.classList.replace('single-chip-on', 'single-chip-off');
+                tabList.classList.add('single-chip-disabled');
+                
+                // '직접 입력' 탭 활성화 (이미 비활성화된 상태일 수 있으므로 강제 해제)
+                tabDirect.classList.remove('single-chip-disabled');
+                switchAddressTab(tabDirect, 'direct-input');
+                
+            } else {
+                // 1. 탭 활성화 및 '기본 배송지'로 복구
+                tabDefault.classList.remove('single-chip-disabled');
+                tabList.classList.remove('single-chip-disabled');
+                
+                // '직접 입력' 탭 비활성화
+                tabDirect.classList.replace('single-chip-on', 'single-chip-off');
+
+                // '기본 배송지' 탭 활성화
+                switchAddressTab(tabDefault, 'default-addr');
+            }
+
+            // 2. 컨텍스트에 따른 폼 내용 변경
+            if (context === '해외') {
+                koreaAddressForm.style.display = 'none';
+                overseasAddressContainer.style.display = 'block';
+            } else {
+                // '퀵-착불-특수' 또는 'false'(활성화)인 경우
+                koreaAddressForm.style.display = 'block';
+                overseasAddressContainer.style.display = 'none';
+            }
+        }
+        
+        // [NEW] 해외 주소 폼 동적 생성
+        function updateOverseasAddressForm(country) {
+            const container = document.getElementById('overseas-address-container');
+            if (!container) return;
+
+            let html = '';
+            
+            if (country === '미국') {
+                // 미국 PDF 기반 폼
+                html = `
+                    <div class="overseas-form-group">
+                        <label>이름(상호명)</label>
+                        <div class="input"><input type="text" placeholder="영문으로 입력해주세요"></div>
+                    </div>
+                    <div class="overseas-form-group">
+                        <label>연락처</label>
+                        <div class="input-group-country-code">
+                            <div class="input select-wrapper country-code-select">
+                                <select><option value="+1">+1</option></select>
+                            </div>
+                            <div class="input"><input type="tel" placeholder="'-'을 제외한 숫자만 입력해주세요"></div>
+                        </div>
+                    </div>
+                    <div class="overseas-form-group">
+                        <label>추가 연락처(선택)</label>
+                        <div class="input-group-country-code">
+                            <div class="input select-wrapper country-code-select">
+                                <select><option value="+1">+1</option></select>
+                            </div>
+                            <div class="input"><input type="tel" placeholder="'-'을 제외한 숫자만 입력해주세요"></div>
+                        </div>
+                    </div>
+                    <div class="overseas-form-group">
+                        <label>주소</label>
+                        <div class="input-group" style="margin-bottom: 8px;">
+                            <div class="input"><input type="text" placeholder="ZIP Code(우편번호)"></div>
+                            <button type="button" class="white-button" onclick="alert('우편번호 찾기')">우편번호 찾기</button>
+                        </div>
+                        <div class="input" style="margin-bottom: 8px;">
+                            <input type="text" placeholder="Street Address(상세 주소)">
+                        </div>
+                        <div class="overseas-grid-2">
+                            <div class="input"><input type="text" placeholder="City(도시)"></div>
+                            <div class="input select-wrapper">
+                                <select id="overseas-state-us">
+                                    <option value="">State(주)</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="CA">California</option>
+                                    <option value="NY">New York</option>
+                                    </select>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (country === '일본') {
+                // 일본 PDF 기반 폼
+                html = `
+                    <div class="overseas-form-group">
+                        <label>이름(상호명)</label>
+                        <div class="input"><input type="text" placeholder="영문으로 입력해주세요"></div>
+                    </div>
+                    <div class="overseas-form-group">
+                        <label>연락처</label>
+                        <div class="input-group-country-code">
+                            <div class="input select-wrapper country-code-select">
+                                <select><option value="+81">+81</option></select>
+                            </div>
+                            <div class="input"><input type="tel" placeholder="'-'을 제외한 숫자만 입력해주세요"></div>
+                        </div>
+                    </div>
+                    <div class="overseas-form-group">
+                        <label>추가 연락처(선택)</label>
+                        <div class="input-group-country-code">
+                            <div class="input select-wrapper country-code-select">
+                                <select><option value="+81">+81</option></select>
+                            </div>
+                            <div class="input"><input type="tel" placeholder="'-'을 제외한 숫자만 입력해주세요"></div>
+                        </div>
+                    </div>
+                    <div class="overseas-form-group">
+                        <label>주소</label>
+                        <div class="input-group" style="margin-bottom: 8px;">
+                            <div class="input"><input type="text" placeholder="郵便番号(우편번호)"></div>
+                            <button type="button" class="white-button" onclick="alert('우편번호 찾기')">우편번호 찾기</button>
+                        </div>
+                        <div class="overseas-grid-2" style="margin-bottom: 8px;">
+                             <div class="input select-wrapper">
+                                <select id="overseas-prefecture-jp">
+                                    <option value="">都道府県(도도부현)</option>
+                                    <option value="tokyo">東京都</option>
+                                    <option value="osaka">大阪府</option>
+                                    </select>
+                            </div>
+                            <div class="input"><input type="text" placeholder="市区町村(시구정촌)"></div>
+                        </div>
+                        <div class="input">
+                            <input type="text" placeholder="番地・建物名等(상세 주소)">
+                        </div>
+                        <p class="disclaimer" style="color: #dc3545; margin-top: 8px;">* 국제 배송을 위해 이름 및 주소는 영문으로 입력해주세요</p>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // --- [NEW] Cargo (Freight) Shipping Logic ---
+        const cargoData = {
+            "강원": {
+                "강릉": [
+                    "강릉교동657(강원도 강릉시 교동 657-3)",
+                    "강릉옥계(강원도 강릉시 옥계면 ...)",
+                    "강릉주문진(강원도 강릉시 주문진읍 ...)"
+                ],
+                "원주": [
+                    "원주가현(강원도 원주시 ...)",
+                    "원주단구(강원도 원주시 ...)"
+                ]
+            },
+            "경기": {
+                "수원": [
+                    "수원권선(경기도 수원시 ...)",
+                    "수원영통(경기도 수원시 ...)"
+                ]
+            }
+        };
+        const cargoProvinceSelect = document.getElementById('cargo-province');
+        const cargoCitySelect = document.getElementById('cargo-city');
+        const cargoBranchSelect = document.getElementById('cargo-branch');
+        
+        function initCargoProvinces() {
+            if (!cargoProvinceSelect) return;
+            cargoProvinceSelect.innerHTML = '<option value="">도 선택</option>'; 
+            for (const province in cargoData) {
+                cargoProvinceSelect.add(new Option(province, province));
+            }
+        }
+        function updateCargoCityOptions(province) {
+            if (!cargoCitySelect) return;
+            cargoCitySelect.innerHTML = '<option value="">시 선택</option>';
+            cargoCitySelect.disabled = true;
+            if (province && cargoData[province]) {
+                for (const city in cargoData[province]) {
+                    cargoCitySelect.add(new Option(city, city));
+                }
+                cargoCitySelect.disabled = false;
+            }
+            cargoBranchSelect.innerHTML = '<option value="">지점을 선택해주세요</option>';
+            cargoBranchSelect.disabled = true;
+        }
+        function updateCargoBranchOptions(city) {
+            if (!cargoBranchSelect) return;
+            cargoBranchSelect.innerHTML = '<option value="">지점을 선택해주세요</option>';
+            cargoBranchSelect.disabled = true;
+            const province = cargoProvinceSelect.value;
+            if (province && city && cargoData[province] && cargoData[province][city]) {
+                cargoData[province][city].forEach(branch => {
+                    cargoBranchSelect.add(new Option(branch, branch));
+                });
+                cargoBranchSelect.disabled = false;
+            }
+        }
+        function toggleCargoDirectInput(checkboxWrapper) {
+            const checkbox = checkboxWrapper.querySelector('.checkbox');
+            const isChecked = toggleCheckbox(checkbox); 
+            const branchSelectWrapper = document.getElementById('cargo-branch-wrapper');
+            const branchInputWrapper = document.getElementById('cargo-branch-input-wrapper');
+            if (isChecked) {
+                branchSelectWrapper.style.display = 'none';
+                branchInputWrapper.style.display = 'flex'; 
+                branchInputWrapper.querySelector('input').focus();
+            } else {
+                branchSelectWrapper.style.display = 'flex'; 
+                branchInputWrapper.style.display = 'none';
+            }
+        }
+
+        // --- [NEW] Quick Shipping Logic ---
+        const quickSubwayData = {
+            "서울": ["시청역", "강남역", "홍대입구역", "서울역"],
+            "경기": ["수원역", "판교역", "정자역"],
+            "인천": ["부평역", "인천시청역"]
+        };
+        const quickBusData = {
+            "강원": ["원주고속버스터미널", "강릉고속버스터미널"],
+            "경기": ["수원버스터미널", "성남버스터미널"]
+        };
+        const quickKtxData = ["서울역", "용산역", "광명역", "부산역", "동대구역"];
+        
+        function initQuickKtxStations() {
+            const ktxSelect = document.getElementById('quick-ktx-station');
+            if (!ktxSelect) return;
+            ktxSelect.innerHTML = '<option value="">KTX역을 선택해주세요</option>';
+            quickKtxData.forEach(station => {
+                ktxSelect.add(new Option(station, station));
+            });
+        }
+        function initQuickBusProvinces() {
+            const provinceSelect = document.getElementById('quick-bus-province');
+            if (!provinceSelect) return;
+            provinceSelect.innerHTML = '<option value="">도 선택</option>';
+            for (const province in quickBusData) {
+                provinceSelect.add(new Option(province, province));
+            }
+            updateQuickBusTerminals(''); 
+        }
+        function updateQuickBusTerminals(province) {
+            const terminalSelect = document.getElementById('quick-bus-terminal');
+            if (!terminalSelect) return;
+            terminalSelect.innerHTML = '<option value="">역/터미널을 선택해주세요</option>';
+            terminalSelect.disabled = true;
+            if (province && quickBusData[province]) {
+                quickBusData[province].forEach(terminal => {
+                    terminalSelect.add(new Option(terminal, terminal));
+                });
+                terminalSelect.disabled = false;
+            }
+        }
+        function initQuickSubwayProvinces() {
+            const provinceSelect = document.getElementById('quick-subway-province');
+            if (!provinceSelect) return;
+            provinceSelect.value = "서울";
+            updateQuickSubwayStations("서울");
+        }
+        function updateQuickSubwayStations(province) {
+            const stationSelect = document.getElementById('quick-subway-station');
+            if (!stationSelect) return;
+            stationSelect.innerHTML = '<option value="">지하철역을 선택해주세요</option>';
+            stationSelect.disabled = true;
+            if (province && quickSubwayData[province]) {
+                quickSubwayData[province].forEach(station => {
+                    stationSelect.add(new Option(station, station));
+                });
+                stationSelect.disabled = false;
+            }
+        }
+
+        function updateQuickDestination(type, selectedValue) {
+            const formZip = document.getElementById('form-zipcode');
+            const formAddrMain = document.getElementById('form-addr-main');
+            const formAddrDetail = document.getElementById('form-addr-detail');
+            if (!selectedValue) {
+                 formZip.value = '';
+                 formAddrMain.value = '';
+                 formAddrDetail.value = '';
+                 return;
+            }
+            if (type === '고속버스') {
+                if (selectedValue === '원주고속버스터미널') {
+                    formZip.value = '220-938';
+                    formAddrMain.value = '강원 원주시 단계동 878-1';
+                    formAddrDetail.value = '원주고속버스터미널';
+                } else {
+                    formZip.value = '111-111';
+                    formAddrMain.value = '선택된 터미널 주소';
+                    formAddrDetail.value = selectedValue;
+                }
+            } else if (type === 'KTX') {
+                 if (selectedValue === '서울역') {
+                    formZip.value = '04320';
+                    formAddrMain.value = '서울특별시 용산구 한강대로 405';
+                    formAddrDetail.value = '서울역 KTX 특송';
+                 } else {
+                    formZip.value = '222-222';
+                    formAddrMain.value = '선택된 KTX역 주소';
+                    formAddrDetail.value = selectedValue + " KTX 특송";
+                 }
+            }
+        }
+
+        // --- [NEW] Bottom Sheet Logic (from cart.html) ---
+        function setupBottomSheet(overlayId, sheetId, handleId) {
+            const overlay = document.getElementById(overlayId);
+            const sheet = document.getElementById(sheetId);
+            const handle = document.getElementById(handleId);
+            if (!overlay || !sheet || !handle) return { openSheet: () => {}, closeSheet: () => {} };
+            let isDragging = false, startY = 0, currentY = 0;
+            const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
+            const closeSheet = () => { sheet.classList.add('closing'); const anyOtherModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active:not(#' + overlayId + ')'); if (!anyOtherModalActive) { document.body.style.overflow = ''; } setTimeout(() => { overlay.classList.remove('active'); sheet.classList.remove('closing'); sheet.style.transform = ''; }, 300); };
+            const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
+            const drag = (e) => { if (!isDragging) return; e.preventDefault(); currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; const deltaY = currentY - startY; if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; };
+            const endDrag = () => { if (!isDragging) return; isDragging = false; sheet.style.transition = ''; const deltaY = currentY - startY; if (deltaY > 100) closeSheet(); else sheet.style.transform = ''; };
+            handle.addEventListener('mousedown', startDrag); handle.addEventListener('touchstart', startDrag, { passive: false });
+            document.addEventListener('mousemove', drag); document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag);
+            overlay.addEventListener('click', (e) => { if (e.target.id === overlayId) closeSheet(); });
+            return { openSheet, closeSheet };
+        }
+        const { openSheet: openDetailsSheet, closeSheet: closeDetailsSheet } = setupBottomSheet('details-sheet-overlay', 'details-sheet', 'details-sheet-handle');
+        
+        function showDetailsSheet(button) {
+            const card = button.closest('.cart-card');
+            const spec = card.dataset.spec;
+            const memo = card.dataset.memo;
+            const specContent = document.getElementById('sheet-detail-spec');
+            const memoContent = document.getElementById('sheet-detail-memo');
+            if (spec) { specContent.textContent = spec; specContent.classList.remove('empty'); } else { specContent.textContent = '상품 옵션 정보가 없습니다.'; specContent.classList.add('empty'); }
+            if (memo) { memoContent.textContent = memo; memoContent.classList.remove('empty'); } else { memoContent.textContent = '접수 메모가 없습니다.'; memoContent.classList.add('empty'); }
+            openDetailsSheet();
+        }
+        
+        // --- FUNCTIONS FROM payment-2.html (MERGED) ---
+        
+        function showContactListModal() {
+            openModal('contact-list-modal-overlay');
+        }
+        
+        function selectContact(name, phone) {
+            closeModal('contact-list-modal-overlay');
+            const valueEl = document.getElementById(`contact-info-value`);
+            valueEl.textContent = `${name} / ${phone}`;
+            valueEl.classList.remove('placeholder');
+        }
+
+        function showContactAddModal() {
+            document.getElementById('contact-add-form').reset();
+            openModal('contact-add-modal-overlay');
+        }
+
+        function showCustomerListModal() {
+            openModal('customer-list-modal-overlay');
+        }
+        
+        function selectCustomer(company, bizNum, repName, contactName, contactPhone, email) {
+            closeModal('customer-list-modal-overlay');
+            const valueEl = document.getElementById(`customer-info-value`);
+            valueEl.textContent = company;
+            valueEl.classList.remove('placeholder');
+        }
+        
+        const customerEditForm = document.getElementById('customer-edit-form');
+        const customerEditTitle = document.getElementById('customer-edit-title');
+        const customerFormInputs = {
+            companyName: document.getElementById('customer-form-company-name'),
+            bizNum: document.getElementById('customer-form-biz-num'),
+            repName: document.getElementById('customer-form-rep-name'),
+            contactName: document.getElementById('customer-form-contact-name'),
+            contactPhone: document.getElementById('customer-form-contact-phone'),
+            contactEmail: document.getElementById('customer-form-contact-email')
+        };
+        
+        function showCustomerAddModal() {
+            if(customerEditTitle) customerEditTitle.textContent = "고객 추가";
+            if(customerEditForm) customerEditForm.reset(); 
+            openModal('customer-edit-modal-overlay');
+        }
+        
+        function showCustomerEditModal(company, bizNum, repName, contactName, contactPhone, email) {
+            if(customerEditTitle) customerEditTitle.textContent = "고객 수정";
+            
+            if(customerFormInputs.companyName) customerFormInputs.companyName.value = company;
+            if(customerFormInputs.bizNum) customerFormInputs.bizNum.value = bizNum;
+            if(customerFormInputs.repName) customerFormInputs.repName.value = repName;
+            if(customerFormInputs.contactName) customerFormInputs.contactName.value = contactName;
+            if(customerFormInputs.contactPhone) customerFormInputs.contactPhone.value = contactPhone;
+            if(customerFormInputs.contactEmail) customerFormInputs.contactEmail.value = email;
+
+            openModal('customer-edit-modal-overlay');
+        }
+        
+        function deleteCustomer() {
+            if (confirm("이 고객 정보를 삭제하시겠습니까?")) {
+                alert("삭제 처리되었습니다. (구현 필요)");
+            }
+        }
+        
+        function showOperatorListModal() {
+            openModal('operator-list-modal-overlay');
+        }
+
+        function applyOperatorSelection() {
+            const list = document.getElementById('operator-product-list-modal');
+            const checkedBoxes = list.querySelectorAll('.checkbox[data-checked="true"]');
+            const count = checkedBoxes.length;
+            const valueEl = document.getElementById('operator-info-value');
+            
+            if (count > 0) {
+                valueEl.textContent = `${count}건 선택됨`;
+                valueEl.classList.remove('placeholder');
+            } else {
+                valueEl.textContent = '상세 보기'; // Reset to placeholder
+                valueEl.classList.add('placeholder');
+            }
+            closeModal('operator-list-modal-overlay');
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // [NEW] 배송메모 변수 할당
+            memoWrapper = document.getElementById('memo-wrapper');
+            memoDisplay = document.getElementById('memo-display');
+            memoDirectInputGroup = document.getElementById('memo-direct-input-group');
+            memoDirectInput = document.getElementById('memo-direct-input');
+            
+            // 모달/시트 오버레이 클릭 이벤트
+            document.querySelectorAll('.modal-overlay, .bottom-sheet-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                     if (e.target.id === overlay.id) {
+                        if (overlay.id.includes('modal')) closeModal(overlay.id);
+                        if (overlay.id.includes('sheet')) closeDetailsSheet(); 
+                     }
+                });
+            });
+            
+            // 전역 클릭 감지 (메모 드롭다운 닫기용)
+            document.addEventListener('click', function(e) {
+                if (memoWrapper && !memoWrapper.contains(e.target)) {
+                    memoWrapper.classList.remove('open');
+                }
+            });
+            
+            // [NEW] 초기 배송방법 설정 (택배)
+            const defaultShippingChip = document.querySelector('#shipping-method-chips .single-chip[data-method="택배"]');
+            selectShippingMethod(defaultShippingChip, '택배');
+            
+            // [NEW] 묶음배송 기본으로 펼침 (PDF 시안)
+            const bundleToggleBtn = document.querySelector('#shipping-prepaid-details .text-select-button');
+            if (bundleToggleBtn) {
+                // toggleBundleShippingList(bundleToggleBtn);
+            }
+            
+            // 초기 결제 금액 계산
+            updatePaymentSummary();
+            checkEmptyCart();
+            
+            // [NEW] 페이지 로드 시 1단계 표시 (필요한 경우)
+            // goToStep(1); // 이 코드는 이미 step-1이 기본 표시되므로 중복임
+        });
+    </script>
+</body>
+</html>

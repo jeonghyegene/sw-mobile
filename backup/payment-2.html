@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원애드피아 - 주문결제 (2/3)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        }
+        ul, li { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; text-align: left; }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        input, select, textarea { font-family: inherit; }
+        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        /* Layout */
+        .mobile-wrap { 
+            width: 100%; 
+            max-width: 480px; 
+            margin: 0 auto; 
+            background-color: #ffffff; 
+            padding-bottom: 120px; /* Sticky Footer 여백 */
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
+        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; transition: transform 0.2s; color: #333; }
+        .header-btn:active { transform: scale(0.9); }
+        .header-left { flex: 1 0 0; display: flex; justify-content: flex-start; }
+        .header-title { flex: 3 0 0; font-size: 18px; font-weight: 600; text-align: center; color: #212121; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .header-right { flex: 1 0 0; display: flex; justify-content: flex-end; gap: 8px; }
+        .btn-icon { cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; color: #333; }
+        .btn-icon:active { transform: scale(0.9); }
+        .btn-icon svg { width: 100%; height: 100%; }
+
+        /* [NEW] Progress Bar */
+        .progress-bar-container {
+            width: 100%;
+            height: 4px;
+            background-color: #e9ecef;
+            position: sticky;
+            top: 56px; /* Header height */
+            z-index: 99;
+        }
+        .progress-bar-fill {
+            width: 66%; /* 3/3 steps */
+            height: 100%;
+            background-color: #4e6ee4; /* v12 primary color */
+            transition: width 0.3s ease-out;
+        }
+
+        /* Buttons (v12 Standard - Primary 추가) */
+        .primary-button { background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .primary-button:hover { background: #3d5dd3; }
+        .primary-button:active { transform: scale(0.98); }
+        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
+        .white-button:hover { background: #f9f9f9; }
+        .white-button:active { transform: scale(0.98); }
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+        
+        /* Main Content */
+        .sw-container { padding: 16px; }
+        
+        /* Section Title */
+        .section-title { font-size: 16px; font-weight: 600; color: #333; margin-bottom: 12px; padding-top: 8px; }
+        .transaction-list { display: flex; flex-direction: column; gap: 12px; }
+        
+        /* [MODIFIED] Cart Card (from cart.html) */
+        .common-table-card { width: 100%; background: white; border: 1px solid #e8e8e9; border-radius: 6px; padding: 15px; position: relative; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .card-header-actions { display: flex; align-items: center; gap: 4px; }
+        .cart-card-checkbox { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+        .cart-card-title { font-size: 16px; font-weight: 600; color: #212121; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-content-wrapper { display: flex; gap: 12px; margin-bottom: 12px; }
+        .card-info-wrapper { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+        .card-details-link { font-size: 13px; font-weight: 600; color: #4e6ee4; cursor: pointer; display: inline-block; margin-top: 0; }
+        .card-price-metadata-row { display: flex; justify-content: flex-end; align-items: baseline; gap: 4px; margin-top: 12px; }
+        .card-price-metadata-row .card-price { font-size: 18px; font-weight: 700; color: #333; }
+        .card-price-metadata-row .card-unit-info { font-size: 13px; color: #888; }
+        .card-divider { width: 100%; height: 1px; background: #e8e8e9; margin: 10px 0; }
+
+        /* Form Styles (v12 guide) */
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
+        .readonly-value { font-size: 14px; color: #333; padding: 10px 12px; background: #f5f5f5; border: 1px solid #e8e8e9; border-radius: 6px; min-height: 40px; display: flex; align-items: center; }
+        .input { width: 100%; min-height: 40px; background: white; border: 1px solid #e8e8e9; border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; position: relative; }
+        .input input { width: 100%; background: transparent; border: none; outline: none; font-size: 14px; color: black; line-height: 1.5; }
+        .input input::placeholder { color: #c6c6c8; }
+        .input input:read-only { cursor: pointer; }
+        
+        /* Input Group (from qna_write.html) */
+        .input-group { display: flex; gap: 8px; align-items: center; }
+        .input-group .white-button { flex-shrink: 0; height: 40px; font-size: 13px; padding: 0 12px; width: auto; }
+        
+        /* Checkbox (v12 guide) */
+        .checkbox { width: 20px; height: 20px; position: relative; cursor: pointer; user-select: none; flex-shrink: 0; }
+        .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
+        .checkbox-on { width: 100%; height: 100%; background: #4e6ee4; border-radius: 2px; display: flex; align-items: center; justify-content: center; }
+        .checkbox-on img { width: 14px; height: 14px; }
+        .checkbox:active { transform: scale(0.9); }
+        .checkbox-text { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+        .checkbox-text span { font-size: 14px; color: #333; }
+        
+        /* [NEW] Icon Disclaimer (Request) */
+        .icon-disclaimer {
+            display: flex;
+            align-items: flex-start; /* Align icon to top of text */
+            gap: 6px;
+            font-size: 12px;
+            color: #888;
+            margin-top: 12px; /* Standard disclaimer margin */
+            line-height: 1.5;
+        }
+        .icon-disclaimer svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            color: #888;
+            stroke-width: 2;
+            margin-top: 3px; /* Align icon with text */
+        }
+
+        /* Chips (v12 guide) */
+        .filter-group-content { display: flex; flex-wrap: wrap; gap: 8px; }
+        .single-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
+        .single-chip-on { background: #4e6ee4; color: white; }
+        .single-chip:active { transform: scale(0.95); }
+        
+        /* Sticky Form Footer (from tax_request_write...) */
+        .sticky-form-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px; /* Match .mobile-wrap */
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            padding: 20px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+        }
+        .sticky-form-footer .btn { flex: 1; }
+        /* [MODIFIED] Footer Step 2 button styles */
+        #footer-step-2 .white-button { flex-grow: 1; }
+        #footer-step-2 .dark-button { flex-grow: 2; }
+        
+        /* Address Tab Logic (from daynight_delivery_apply.html) */
+        .modal-tab-nav { display: flex; gap: 8px; margin-bottom: 20px; }
+        .modal-tab-nav .single-chip { font-weight: 500; }
+        .modal-tab-nav .single-chip-on { background: #4e6ee4; color: white; }
+        .form-group-button { margin-bottom: 12px; }
+        .form-group-button .white-button { width: 100%; height: 40px; font-weight: 500; font-size: 14px; }
+        .form-group-button .white-button svg { width: 16px; height: 16px; margin-right: 4px; stroke-width: 2.5; }
+
+        /* Modal Styles (from daynight_delivery_apply.html) */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; animation: fadeInModal 0.2s ease-out; }
+        .modal-overlay.active { display: flex; }
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        .modal-content { background: white; border-radius: 8px; width: 100%; max-width: 360px; max-height: 90vh; display: flex; flex-direction: column; animation: scaleUpModal 0.2s ease-out; }
+        @keyframes scaleUpModal { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #e8e8e9; position: relative; height: 57px; }
+        .modal-title { font-size: 16px; font-weight: 700; color: black; text-align: left; }
+        .btn-modal-close { width: 24px; height: 24px; cursor: pointer; color: #333; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); }
+        .btn-modal-close:hover { color: #000; }
+        .btn-modal-close svg { width: 100%; height: 100%; }
+        .modal-body { padding: 16px; overflow-y: auto; flex-grow: 1; }
+        .modal-footer { padding: 16px; border-top: 1px solid #e8e8e9; background: #fff; display: flex; gap: 8px; border-radius: 0 0 7px 7px; }
+        .modal-footer .btn { flex: 1; height: 44px; font-size: 14px; }
+        .filter-section { padding: 0 0 16px 0; display: flex; justify-content: flex-start; align-items: center; }
+        .search { width: 100%; height: 40px; background: #f9f9f9; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; position: relative; }
+        .search input { flex: 1; background: transparent; border: none; outline: none; font-size: 14px; color: black; }
+        .search input::placeholder { color: #c6c6c8; }
+        .search-input-right { display: flex; gap: 5px; align-items: center; }
+        .search-del { width: 18px; height: 18px; cursor: pointer; display: none; }
+        .search.has-text .search-del { display: flex; }
+        .search-icon, .btn-search { width: 24px; height: 24px; cursor: pointer; transition: transform 0.2s; }
+        .search-icon:active, .btn-search:active { transform: scale(0.9); }
+        .transaction-list-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; font-size: 14px; color: #555; border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; margin-top: 16px; }
+        .transaction-list-header .total-count strong { font-weight: 600; color: #333; }
+
+        /* [NEW] Customer List Modal Styles (from tax_request_write) */
+        .customer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 40vh; /* [MODIFIED] Set max height for scrolling */
+            overflow-y: auto;
+        }
+        .customer-item {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 12px;
+        }
+        .customer-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .customer-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        .customer-item .white-button {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
+        .customer-detail {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+            line-height: 1.5;
+        }
+        .customer-detail .label {
+            font-weight: 500;
+            color: #333;
+        }
+        .customer-item-footer {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        .customer-item-footer .btn {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 12px;
+        }
+        
+        /* [NEW] Contact List Modal Styles (from crm_list) */
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 40vh;
+            overflow-y: auto;
+        }
+        .contact-item {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 12px;
+        }
+        .contact-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .contact-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        .contact-item .white-button {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
+        .contact-detail {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* [NEW] Operator Product List (from cr_request.html) */
+        /* Use .common-table-card styles */
+        #operator-product-list .card-header {
+            margin-bottom: 0;
+        }
+        #operator-product-list .card-column1 {
+            font-size: 14px; /* [MODIFIED] Smaller font for list */
+            font-weight: 500;
+            color: #212121;
+            /* [NEW] Add link style */
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        #operator-product-list .card-column1:hover {
+            color: #4e6ee4;
+        }
+        #operator-product-list .card-badge {
+            background: white;
+            border: 1px solid #d7d7d7;
+            border-radius: 30px;
+            padding: 2px 10px;
+            font-size: 10px;
+            color: black;
+            flex-shrink: 0;
+        }
+        #operator-product-list .card-column2 {
+            font-size: 14px; /* [MODIFIED] Smaller font for list */
+            font-weight: 400; /* [MODIFIED] Lighter weight */
+            color: #555;
+            margin-top: 4px;
+            margin-bottom: 0px; 
+            /* [MODIFIED] Indent like cr_request */
+            margin-left: 30px; /* Checkbox width (20) + gap (10) */
+        }
+         /* [NEW] Status-specific badge colors */
+        #operator-product-list .card-badge[data-status="접수대기"] {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        #operator-product-list .card-badge[data-status="접수완료"] {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="mobile-wrap">
+        
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" id="header-back-btn" style="display: flex;" onclick="goToStep(1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                </button>
+            </div>
+            <h1 class="header-title" id="page-title">주문결제 (2/3)</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart"><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17h-11v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /></svg>
+                </button>
+            </div>
+        </header>
+        
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+
+        <main>
+            <div id="step-2" class="page-step" style="display: block;">
+                <div class="sw-container">
+                    <h2 class="section-title" style="padding-top: 0;">담당자 정보</h2>
+                    <nav class="modal-tab-nav" id="contact-tabs">
+                        <div class="single-chip single-chip-on" data-tab="default-contact" onclick="switchContactTab(this, 'default-contact')">기본 담당자</div>
+                        <div class="single-chip single-chip-off" data-tab="direct-input" onclick="switchContactTab(this, 'direct-input')">직접 입력</div>
+                        <div class="single-chip single-chip-off" data-tab="contact-list" onclick="switchContactTab(this, 'contact-list')">담당자 목록</div>
+                    </nav>
+                    <div id="contact-tab-content">
+                        <div class="form-fields-wrapper" data-tab-content="default-contact" style="display: block;">
+                             <div class="form-group">
+                                <label>담당자</label>
+                                <div class="readonly-value" id="default-contact-name">김성원</div>
+                            </div>
+                            <div class="form-group">
+                                <label>연락처</label>
+                                <div class="readonly-value" id="default-contact-phone">010-1234-1234</div>
+                            </div>
+                        </div>
+                        <div class="form-fields-wrapper" data-tab-content="direct-input" style="display: none;">
+                            <div class="form-group">
+                                <label>담당자</label>
+                                <div class="input">
+                                    <input type="text" id="form-contact-name" placeholder="이름을 입력해주세요">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>연락처</label>
+                                <div class="input">
+                                    <input type="tel" id="form-contact-phone" placeholder="'-' 제외하고 숫자만 입력">
+                                </div>
+                            </div>
+                            <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                                <div class="checkbox" data-checked="false" id="add-to-contact-list-check">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <span>담당자 목록에 추가하기</span>
+                            </div>
+                        </div>
+                        <div class="form-fields-wrapper" data-tab-content="contact-list" style="display: none;">
+                            <div class="form-group form-group-button" style="margin-bottom: 12px;">
+                                 <button type="button" class="white-button" onclick="showContactListModal()">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 6l11 0" /><path d="M9 12l11 0" /><path d="M9 18l11 0" /><path d="M5 6l0 .01" /><path d="M5 12l0 .01" /><path d="M5 18l0 .01" /></svg>
+                                     &nbsp;담당자 목록
+                                 </button>
+                            </div>
+                            <div class="form-group">
+                                <label>담당자</label>
+                                <div class="input"><input type="text" id="list-contact-name" placeholder="담당자 목록에서 선택" readonly></div>
+                            </div>
+                            <div class="form-group">
+                                <label>연락처</label>
+                                <div class="input"><input type="tel" id="list-contact-phone" placeholder="담당자 목록에서 선택" readonly></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="icon-disclaimer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>
+                        <span>인쇄물 문제나 작업 관련하여 연락이 필요한 경우 해당 번호로 연락드려요</span>
+                    </div>
+
+                    <h2 class="section-title" style="margin-top: 24px;">고객 정보 (선택)</h2>
+                    <section class="form-section">
+                        <nav class="modal-tab-nav" id="customer-tabs">
+                            <div class="single-chip single-chip-on" data-tab="my-info" onclick="switchCustomerTab(this, 'my-info')">내 정보</div>
+                            <div class="single-chip single-chip-off" data-tab="direct-input" onclick="switchCustomerTab(this, 'direct-input')">직접 입력</div>
+                            <div class="single-chip single-chip-off" data-tab="customer-list" onclick="switchCustomerTab(this, 'customer-list')">고객 목록</div>
+                        </nav>
+                        
+                        <div id="customer-tab-content">
+                             <div class="form-fields-wrapper" data-tab-content="my-info" style="display: block;">
+                                <div class="form-group">
+                                    <label>기업명</label>
+                                    <div class="readonly-value">주식회사 성원애드피아</div>
+                                </div>
+                                </div>
+                            
+                            <div class="form-fields-wrapper" data-tab-content="direct-input" style="display:none;">
+                                <div class="form-group">
+                                    <label>기업명</label>
+                                    <div class="input"><input type="text" placeholder="기업명을 입력해주세요"></div>
+                                </div>
+                                <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                                    <div class="checkbox" data-checked="false" id="add-to-customer-list-check">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <span>고객 목록에 추가하기</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-fields-wrapper" data-tab-content="customer-list" style="display:none;">
+                                <div class="form-group form-group-button" style="margin-bottom: 12px;">
+                                     <button type="button" class="white-button" onclick="showCustomerListModal()">
+                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 6l11 0" /><path d="M9 12l11 0" /><path d="M9 18l11 0" /><path d="M5 6l0 .01" /><path d="M5 12l0 .01" /><path d="M5 18l0 .01" /></svg>
+                                         &nbsp;고객 목록
+                                     </button>
+                                </div>
+                                <div class="form-group">
+                                    <label>기업명</label>
+                                    <div class="input"><input type="text" id="customer-company-name" placeholder="고객 목록에서 선택해주세요" readonly></div>
+                                </div>
+                                </div>
+                        </div>
+                        <div class="icon-disclaimer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>
+                            <span>대상 고객을 선택하여 고객별 접수 건을 간편하게 관리할 수 있어요</span>
+                        </div>
+                    </section>
+
+                    <h2 class="section-title" style="margin-top: 24px;">동일 접수자 배정(선택)</h2>
+                    <div class="icon-disclaimer" style="margin-top: -4px; margin-bottom: 12px;"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>
+                        <span>동일한 접수자에게 배정되면 원활한 접수 처리가 가능해요</span>
+                    </div>
+                    
+                    <div class="transaction-list" id="operator-product-list">
+                        <article class="common-table-card">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" onclick="toggleCheckbox(this); event.stopPropagation();">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <a href="#" class="card-column1" onclick="event.preventDefault(); alert('접수 상세 이동')">sw1234567890</a>
+                                </div>
+                                <div class="card-badge" data-status="접수대기">접수대기</div>
+                            </div>
+                            <div class="card-column2">[삼성SDS] 일반 명함 홍길동 사원 명함</div>
+                        </article>
+                        <article class="common-table-card">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" onclick="toggleCheckbox(this); event.stopPropagation();">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <a href="#" class="card-column1" onclick="event.preventDefault(); alert('접수 상세 이동')">sw12345678911</a>
+                                </div>
+                                <div class="card-badge" data-status="접수완료">접수완료</div>
+                            </div>
+                            <div class="card-column2">[LG] 포스터 - 기법 홍보용</div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+        
+        <div class="sticky-form-footer" id="footer-step-2" style="display: flex;">
+            <button class="white-button btn" onclick="goToStep(1)">이전</button>
+            <button class="dark-button btn" onclick="goToStep(3)">다음</button>
+        </div>
+        
+    </div>
+
+    <div class="modal-overlay" id="contact-list-modal-overlay">
+        <div class="modal-content" id="contact-list-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">담당자 목록</h2>
+                <button class="btn-modal-close" onclick="closeModal('contact-list-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body" >
+                <div class="filter-section" style="padding: 0 0 16px 0;">
+                    <div class="search" data-name="search" id="contact-search">
+                        <input type="text" placeholder="담당자명, 연락처 검색" oninput="handleSearchInput(this)">
+                         <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this, 'contact-search')">
+                                <img src="assets/images/search-del.png" alt="삭제">
+                            </div>
+                            <div class="btn-search" onclick="handleSearch(this, 'contact-search')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
+                                        id="icon-search">
+                                    <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                    <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transaction-list-header" style="padding-bottom: 12px; margin-bottom: 12px; border-color: #e8e8e9;">
+                    <span class="total-count">총 <strong>2</strong>개</span>
+                </div>
+
+                <div class="contact-list">
+                    <article class="contact-item">
+                        <div class="contact-item-header">
+                            <span class="contact-name">김성원</span>
+                            <button class="white-button btn" 
+                                onclick="selectContact('김성원', '010-1234-1234')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="contact-detail">010-1234-1234</div>
+                    </article>
+                    <article class="contact-item">
+                        <div class="contact-item-header">
+                            <span class="contact-name">이담당</span>
+                            <button class="white-button btn" 
+                                onclick="selectContact('이담당', '010-5678-5678')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="contact-detail">010-5678-5678</div>
+                    </article>
+                </div>
+            </div>
+             <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="showContactAddModal()">+ 담당자 추가</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="contact-add-modal-overlay">
+        <div class="modal-content" id="contact-add-modal">
+             <div class="modal-header">
+                <h2 class="modal-title" id="contact-add-title">담당자 추가</h2>
+                <button class="btn-modal-close" onclick="closeModal('contact-add-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="contact-add-form">
+                    <div class="form-group">
+                        <label for="contact-form-name">담당자명</label>
+                        <div class="input">
+                            <input type="text" id="contact-form-name" placeholder="담당자명을 입력해주세요">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-form-phone">연락처</label>
+                        <div class="input">
+                            <input type="tel" id="contact-form-phone" placeholder="'-'을 제외한 숫자만 입력해주세요">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn white-button" onclick="closeModal('contact-add-modal-overlay')">취소</button>
+                <button class="btn dark-button" onclick="alert('담당자 추가 (구현 필요)')">저장하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="customer-list-modal-overlay">
+        <div class="modal-content" id="customer-list-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">나의 고객 목록</h2>
+                <button class="btn-modal-close" onclick="closeModal('customer-list-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-section" style="padding: 0 0 16px 0;">
+                    <div class="search" data-name="search" id="customer-search">
+                        <input type="text" placeholder="검색어를 입력해주세요" oninput="handleSearchInput(this)">
+                         <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this, 'customer-search')">
+                                <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d" alt="삭제">
+                            </div>
+                            <div class="btn-search" onclick="handleSearch(this, 'customer-search')">
+                                <img src="https://www.figma.com/api/mcp/asset/4af11b15-4228-4024-b0ec-cd703ca89e9f" alt="검색">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="transaction-list-header" style="padding-bottom: 12px; margin-bottom: 12px; border-color: #e8e8e9;">
+                    <span class="total-count">총 <strong>4</strong>개</span>
+                </div>
+                <div class="customer-list">
+                    <article class="customer-item">
+                        <div class="customer-item-header">
+                            <span class="customer-name">삼성 SDS</span>
+                            <button class="white-button btn" 
+                                onclick="selectCustomer('삼성 SDS', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
+                                선택
+                            </button>
+                        </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
+                        <div class="customer-item-footer">
+                             <button class="white-button btn" onclick="showCustomerEditModal('삼성 SDS', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">수정</button>
+                             <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
+                        </div>
+                    </article>
+                </div>
+            </div>
+             <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="showCustomerAddModal()">+ 고객 추가</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="customer-edit-modal-overlay">
+        <div class="modal-content" id="customer-edit-modal">
+             <div class="modal-header">
+                <h2 class="modal-title" id="customer-edit-title">고객 추가</h2>
+                <button class="btn-modal-close" onclick="closeModal('customer-edit-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="customer-edit-form">
+                    <div class="form-group"><label for="customer-form-company-name">기업명</label><div class="input"><input type="text" id="customer-form-company-name" placeholder="기업명을 입력해주세요"></div></div>
+                    <div class="form-group"><label for="customer-form-biz-num">사업자등록번호</label><div class="input"><input type="text" id="customer-form-biz-num" placeholder="사업자등록번호를 입력해주세요"></div></div>
+                    <div class="form-group"><label for="customer-form-rep-name">대표자명</label><div class="input"><input type="text" id="customer-form-rep-name" placeholder="대표자명을 입력해주세요"></div></div>
+                    <div class="form-group"><label for="customer-form-contact-name">회계담당자명</label><div class="input"><input type="text" id="customer-form-contact-name" placeholder="회계담당자명을 입력해주세요"></div></div>
+                    <div class="form-group"><label for="customer-form-contact-phone">회계담당자 연락처</label><div class="input"><input type="tel" id="customer-form-contact-phone" placeholder="회계담당자 연락처를 입력해주세요"></div></div>
+                    <div class="form-group"><label for="customer-form-contact-email">회계담당자 이메일</label><div class="input"><input type="email" id="customer-form-contact-email" placeholder="회계담당자 이메일 주소를 입력해주세요"></div></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn white-button" onclick="closeModal('customer-edit-modal-overlay')">취소</button>
+                <button class="btn dark-button" onclick="alert('저장 (구현 필요)')">저장하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- v12 Checkbox (from qna_write.html) ---
+        function toggleCheckboxText(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            toggleCheckbox(checkbox);
+        }
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt='체크'></div>`;
+            }
+            return !isChecked; 
+        }
+        
+        // --- v12 Single Chip (from daynight_delivery_apply.html) ---
+        function selectSingleChip(chip, groupId) {
+            const group = document.getElementById(groupId);
+            if (!group) return;
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+        }
+        
+        // --- [MODIFIED] Step Navigation Logic (2-Step) ---
+        function goToStep(stepNum) {
+            if (stepNum === 1) {
+                location.href = 'payment-1.html';
+            } else if (stepNum === 3) {
+                location.href = 'payment-3.html';
+            }
+            window.scrollTo(0, 0); 
+        }
+
+        // --- [NEW] v12 Modal (from daynight_delivery_apply.html) ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+        
+        // --- [NEW] v12 Search (from daynight_delivery_apply.html) ---
+        function handleSearchInput(input) {
+            const searchBox = input.closest('.search');
+            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+        }
+        function clearSearch(btn, searchId) {
+            const searchBox = btn.closest('.search');
+            const input = searchBox.querySelector('input');
+            input.value = '';
+            searchBox.classList.remove('has-text');
+            input.focus();
+            if (searchId === 'customer-search') { /* TODO: Filter customer list */ }
+            if (searchId === 'contact-search') { /* TODO: Filter contact list */ }
+        }
+        function handleSearch(btn, searchId) { 
+            if (searchId === 'customer-search') { /* TODO: Filter customer list */ }
+            if (searchId === 'contact-search') { /* TODO: Filter contact list */ }
+        }
+
+        // --- [NEW] Step 2: Contact Tab Logic ---
+        function switchContactTab(tabEl, tabName) {
+            const tabNav = tabEl.closest('.modal-tab-nav');
+            tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            tabEl.classList.replace('single-chip-off', 'single-chip-on');
+            
+            const formContentWrapper = document.getElementById(`contact-tab-content`);
+            formContentWrapper.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
+                wrapper.style.display = 'none';
+            });
+            formContentWrapper.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
+        }
+        
+        function showContactListModal() {
+            openModal('contact-list-modal-overlay');
+        }
+        
+        function selectContact(name, phone) {
+            closeModal('contact-list-modal-overlay');
+            document.getElementById(`list-contact-name`).value = name;
+            document.getElementById(`list-contact-phone`).value = phone;
+        }
+
+        function showContactAddModal() {
+            document.getElementById('contact-add-form').reset();
+            openModal('contact-add-modal-overlay');
+        }
+
+        // --- [NEW] Step 2: Customer Tab & Modal Logic (from tax_request_write) ---
+        function switchCustomerTab(tabEl, tabName) {
+            const tabNav = tabEl.closest('.modal-tab-nav');
+            tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            tabEl.classList.replace('single-chip-off', 'single-chip-on');
+
+            const formContentWrapper = document.getElementById(`customer-tab-content`);
+            formContentWrapper.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
+                wrapper.style.display = 'none';
+            });
+            formContentWrapper.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
+        }
+
+        function showCustomerListModal() {
+            openModal('customer-list-modal-overlay');
+        }
+        
+        function selectCustomer(company, bizNum, repName, contactName, contactPhone, email) {
+            closeModal('customer-list-modal-overlay');
+            document.getElementById(`customer-company-name`).value = company;
+        }
+        
+        const customerEditForm = document.getElementById('customer-edit-form');
+        const customerEditTitle = document.getElementById('customer-edit-title');
+        const customerFormInputs = {
+            companyName: document.getElementById('customer-form-company-name'),
+            bizNum: document.getElementById('customer-form-biz-num'),
+            repName: document.getElementById('customer-form-rep-name'),
+            contactName: document.getElementById('customer-form-contact-name'),
+            contactPhone: document.getElementById('customer-form-contact-phone'),
+            contactEmail: document.getElementById('customer-form-contact-email')
+        };
+        
+        function showCustomerAddModal() {
+            if(customerEditTitle) customerEditTitle.textContent = "고객 추가";
+            if(customerEditForm) customerEditForm.reset(); 
+            openModal('customer-edit-modal-overlay');
+        }
+        
+        function showCustomerEditModal(company, bizNum, repName, contactName, contactPhone, email) {
+            if(customerEditTitle) customerEditTitle.textContent = "고객 수정";
+            
+            if(customerFormInputs.companyName) customerFormInputs.companyName.value = company;
+            if(customerFormInputs.bizNum) customerFormInputs.bizNum.value = bizNum;
+            if(customerFormInputs.repName) customerFormInputs.repName.value = repName;
+            if(customerFormInputs.contactName) customerFormInputs.contactName.value = contactName;
+            if(customerFormInputs.contactPhone) customerFormInputs.contactPhone.value = contactPhone;
+            if(customerFormInputs.contactEmail) customerFormInputs.contactEmail.value = email;
+
+            openModal('customer-edit-modal-overlay');
+        }
+        
+        function deleteCustomer() {
+            if (confirm("이 고객 정보를 삭제하시겠습니까?")) {
+                alert("삭제 처리되었습니다. (구현 필요)");
+            }
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // 모달/시트 오버레이 클릭 이벤트
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                     if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                     }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
