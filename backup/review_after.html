@@ -1325,44 +1325,21 @@
             // TODO: 목록 새로고침 또는 카드 제거
         }
 
-        // --- [MODIFIED] 만족도 칩 (그룹당 1개만 선택) ---
+        // --- 만족도 칩 다중선택
         function toggleReviewChip(chip, forceState) {
-            const group = chip.closest('.filter-group-content');
-            if (!group) return;
-
             const isCurrentlyOn = chip.classList.contains('multi-chip-on');
             let turnOn;
+            
+            if (forceState === true) turnOn = true;
+            else if (forceState === false) turnOn = false;
+            else turnOn = !isCurrentlyOn;
 
-            if (forceState === true) { // Force On (from modal load)
-                turnOn = true;
-            } else if (forceState === false) { // Force Off (from modal load)
-                turnOn = false;
-            } else { // User Click (forceState is undefined)
-                
-                if (isCurrentlyOn) {
-                    // User is turning OFF the active chip
-                    turnOn = false;
-                } else {
-                    // User is turning ON a new chip
-                    // 1. Turn OFF all other chips in this group
-                    group.querySelectorAll('.multi-chip').forEach(c => {
-                        if (c !== chip && c.classList.contains('multi-chip-on')) {
-                            c.classList.replace('multi-chip-on', 'multi-chip-off');
-                        }
-                    });
-                    // 2. Turn ON the clicked chip
-                    turnOn = true;
-                }
-            }
-
-            // Apply the final state
             if (turnOn && !isCurrentlyOn) {
                 chip.classList.replace('multi-chip-off', 'multi-chip-on');
             } else if (!turnOn && isCurrentlyOn) {
                 chip.classList.replace('multi-chip-on', 'multi-chip-off');
             }
         }
-
 
         // --- 사진 첨부
         const maxPhotos = 5; // [MODIFIED] Max photo limit

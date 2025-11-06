@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원애드피아 - 모바일 알럿 3종</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS Reset & Base (from login(SNS).html) */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout (from login(SNS).html) */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* Header (v12 Standard from login(SNS).html) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        
+        /* Main Content (from login(SNS).html) */
+        .sw-container {
+            padding: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+
+        /* ========================================
+           [NEW] 2. MODAL STYLES (v12/v19 선례 기반 from login(SNS).html)
+        ======================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+            overflow: hidden;
+        }
+        
+        /* [NEW] Alert Modal (from v12 master guide / login(SNS).html) */
+        .alert-modal {
+            max-width: 320px;
+            padding: 20px;
+            text-align: center;
+        }
+        .modal-title { 
+            font-size: 16px; 
+            font-weight: 700; 
+            color: black; 
+            margin-bottom: 15px; 
+        }
+        .modal-message { 
+            font-size: 14px; 
+            color: black; 
+            margin-bottom: 30px; 
+            line-height: 1.5;
+            white-space: pre-line; /* Allow <br> tags */
+        }
+        .modal-buttons { 
+            display: flex; 
+            gap: 10px; 
+            justify-content: center; 
+        }
+        .modal-button {
+            flex: 1; 
+            min-width: 90px;
+            height: 44px;
+            padding: 7px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        /* v12 다크버튼 (Primary) */
+        .modal-button-primary { 
+            background: #424242;
+            color: white; 
+            border: none; 
+        }
+        /* v12 화이트버튼 (Secondary) */
+        .modal-button-secondary { 
+            background: white; 
+            color: #424242;
+            border: 1px solid #e8e8e9;
+        }
+        .modal-button:active { 
+            transform: scale(0.98); 
+        }
+        /* [END] Alert Modal */
+
+
+        @keyframes scaleUpModal {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        /* ========================================
+           [NEW] 3. FORM / BUTTON (v12/v19 선례 기반 from login(SNS).html)
+        ======================================== */
+        
+        /* [NEW] White Button */
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+            width: 100%;
+        }
+
+        .white-button:hover { background: #f9f9f9; }
+        .white-button:active { transform: scale(0.98); }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                 <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">모바일 알럿 (3종)</h1>
+            <div class="header-right">
+            </div>
+        </header>
+
+        <main class="sw-container">
+            <div class="form-group">
+                <button class="white-button" onclick="showAlert('va_fail')">
+                    가상계좌 발급 실패
+                </button>
+            </div>
+             <div class="form-group">
+                <button class="white-button" onclick="showAlert('refund_change_fail')">
+                    환불계좌 변경 불가
+                </button>
+            </div>
+             <div class="form-group">
+                <button class="white-button" onclick="showAlert('refund_register_guide')">
+                    환불계좌 등록 안내
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="alert-modal">
+        <div class="modal-content alert-modal" data-name="Alert">
+            <div class="modal-title" id="alert-title"></div>
+            <div class="modal-message" id="alert-message"></div>
+            <div class="modal-buttons" id="alert-buttons">
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // ========================================
+        // [NEW] 2. MODAL SCRIPT (v12/v19 선례 기반 from login(SNS).html)
+        // ========================================
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+
+        // ========================================
+        // [NEW] 3. ALERT SCRIPT
+        // ========================================
+        
+        // [NEW] Alert 데이터 정의
+        const alertData = {
+            'va_fail': {
+                title: '가상계좌 발급 실패',
+                message: '가상계좌 발급이 실패했습니다.\n고객센터를 통해 문의해주세요',
+                buttons: [
+                    { text: '닫기', class: 'modal-button-secondary', action: "close" }
+                ]
+            },
+            'refund_change_fail': {
+                title: '환불계좌 변경 불가',
+                message: '출금 신청이 진행 중이므로\n출금이 완료된 후 변경할 수 있습니다.',
+                buttons: [
+                    { text: '닫기', class: 'modal-button-secondary', action: "close" }
+                ]
+            },
+            'refund_register_guide': {
+                title: '환불계좌 등록 안내',
+                message: '등록된 환불계좌가 없습니다.\n원활한 출금 신청을 위해\n환불 계좌를 먼저 등록해 주세요.',
+                buttons: [
+                    { text: '닫기', class: 'modal-button-secondary', action: "close" },
+                    { text: '환불계좌 등록하기', class: 'modal-button-primary', action: "register" }
+                ]
+            }
+        };
+
+        // [NEW] Alert 표시 함수
+        function showAlert(type) {
+            const data = alertData[type];
+            if (!data) return;
+
+            document.getElementById('alert-title').innerHTML = data.title;
+            // white-space: pre-line; 스타일을 사용하여 \n을 <br>로 자동 변환
+            document.getElementById('alert-message').textContent = data.message;
+            
+            const buttonsContainer = document.getElementById('alert-buttons');
+            buttonsContainer.innerHTML = ''; // 버튼 초기화
+
+            data.buttons.forEach(btnData => {
+                const button = document.createElement('button');
+                button.className = `modal-button ${btnData.class}`;
+                button.textContent = btnData.text;
+                
+                if (btnData.action === 'close') {
+                    button.onclick = () => closeModal('alert-modal');
+                } else if (btnData.action === 'register') {
+                    button.onclick = () => {
+                        alert('환불계좌 등록하기 (구현 필요)');
+                        closeModal('alert-modal');
+                    };
+                }
+                buttonsContainer.appendChild(button);
+            });
+
+            openModal('alert-modal');
+        }
+
+
+        // 페이지 로드 시
+        document.addEventListener('DOMContentLoaded', () => {
+            // 모달 오버레이 클릭 시 닫기
+            document.getElementById('alert-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'alert-modal') {
+                    closeModal('alert-modal');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

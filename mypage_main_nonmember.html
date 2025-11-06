@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>성원애드피아 - 마이페이지 (로그아웃 버튼 추가)</title>
+    <title>성원애드피아 - 마이페이지 (비회원 가입 유도)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -145,6 +145,14 @@
             width: 100%;
             height: 100%;
         }
+        
+        /* [NEW] Buttons (from v12 guide) */
+        .dark-button { 
+            background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; 
+        }
+        .dark-button:hover { background: #333; }
+        .dark-button:active { transform: scale(0.98); }
+
 
         /* Main Content */
         .sw-container {
@@ -160,110 +168,29 @@
             /* 페이지 배경색과 구분하기 위한 구분선 */
             border-bottom: 8px solid #f4f5f7;
         }
-
-        .mypage-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .mypage-user {
-            font-size: 22px;
-            font-weight: 700;
-            color: #212121;
-        }
-
-        .mypage-level-link {
-            font-size: 13px;
-            font-weight: 500;
-            color: #666;
-            padding: 6px 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 100px;
-        }
-
-        .mypage-level-link:hover {
-            background-color: #f8f8f8;
-        }
-
-        .mypage-metrics {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .metric-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .metric-item .label {
-            font-size: 16px;
-            font-weight: 500;
-            color: #333;
-        }
-
-        .metric-item .value {
-            font-size: 18px;
-            font-weight: 600;
-            color: #212121;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .metric-item .value-arrow {
-            width: 16px;
-            height: 16px;
-            color: #888;
-        }
-
-        /* [NEW] Quick Menu Grid (User Request) */
-        .quick-menu-grid {
-            display: flex;
-            justify-content: space-around;
-            padding: 16px 0;
-            border-bottom: 8px solid #f4f5f7;
-        }
-
-        .quick-menu-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            flex: 1;
-            padding: 8px 0;
+        
+        /* [MODIFIED] 비회원 로그인 유도 */
+        .non-member-prompt {
+            padding: 16px 0; 
             text-align: center;
         }
-
-        .quick-menu-item .icon-box {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background-color: #f4f5f7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #4e6ee4;
-            /* 아이콘 색상 */
+        .non-member-prompt h2 {
+            font-size: 20px; 
+            font-weight: 700; 
+            margin-bottom: 8px;
+        }
+        .non-member-prompt p {
+            font-size: 14px; 
+            color: #666; 
+            margin-bottom: 20px;
+        }
+        .non-member-prompt .dark-button {
+            width: 100%; 
+            max-width: 300px; 
+            margin: 0 auto;
         }
 
-        .quick-menu-item .icon-box svg {
-            width: 24px;
-            height: 24px;
-            /* [MODIFIED] 2. 퀵메뉴 아이콘 stroke-width 1.25로 통일 */
-            stroke-width: 1.25;
-        }
-
-        .quick-menu-item p {
-            font-size: 14px;
-            font-weight: 500;
-            color: #333;
-        }
+        /* [REMOVED] Quick Menu Grid */
 
         /* [NEW] Menu List Section */
         .menu-section {
@@ -604,109 +531,38 @@
 
         <main class="sw-container">
             <section class="mypage-info-section">
-                <div class="mypage-header">
-                    <span class="mypage-user">김성원님</span>
-                    <a href="membership.html" class="mypage-level-link">등급 안내</a>
+                <div class="non-member-prompt">
+                    <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">로그인이 필요합니다</h2>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 20px;">로그인하고 성원애드피아의<br>다양한 혜택을 만나보세요.</p>
+                    <button class="dark-button" style="width: 100%; max-width: 300px; margin: 0 auto;" onclick="alert('로그인 페이지로 이동')">로그인 / 회원가입</button>
                 </div>
-                <div class="mypage-metrics">
-                    <a href="sungwon_money_01.html" class="metric-item">
-                        <span class="label">성원머니</span>
-                        <span class="value">
-                            5,200,000원
-                            <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                viewBox="0 0 24 24">
-                                <path d="M9 6l6 6l-6 6" />
-                            </svg>
-                        </span>
-                    </a>
-                    <a href="sungwon_point.html" class="metric-item">
-                        <span class="label">성원포인트</span>
-                        <span class="value">
-                            12,680원
-                            <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                viewBox="0 0 24 24">
-                                <path d="M9 6l6 6l-6 6" />
-                            </svg>
-                        </span>
-                    </a>
-                </div>
-            </section>
-
-            <section class="quick-menu-grid">
-                <a href="order_list.html" class="quick-menu-item">
-                    <div class="icon-box">
-                        <svg width="24" height="24" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            id="icon-quick-delivery">
-                            <g clip-path="url(#clip0_4859_1417)">
-                                <path
-                                    d="M4.58203 15.5833C4.58203 16.0696 4.77519 16.5359 5.119 16.8797C5.46282 17.2235 5.92913 17.4167 6.41536 17.4167C6.90159 17.4167 7.36791 17.2235 7.71173 16.8797C8.05554 16.5359 8.2487 16.0696 8.2487 15.5833C8.2487 15.0971 8.05554 14.6308 7.71173 14.287C7.36791 13.9432 6.90159 13.75 6.41536 13.75C5.92913 13.75 5.46282 13.9432 5.119 14.287C4.77519 14.6308 4.58203 15.0971 4.58203 15.5833Z"
-                                    stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path
-                                    d="M13.75 15.5833C13.75 16.0696 13.9432 16.5359 14.287 16.8797C14.6308 17.2235 15.0971 17.4167 15.5833 17.4167C16.0696 17.4167 16.5359 17.2235 16.8797 16.8797C17.2235 16.5359 17.4167 16.0696 17.4167 15.5833C17.4167 15.0971 17.2235 14.6308 16.8797 14.287C16.5359 13.9432 16.0696 13.75 15.5833 13.75C15.0971 13.75 14.6308 13.9432 14.287 14.287C13.9432 14.6308 13.75 15.0971 13.75 15.5833Z"
-                                    stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path
-                                    d="M4.58333 15.582H2.75V5.4987C2.75 5.25558 2.84658 5.02243 3.01849 4.85052C3.19039 4.67861 3.42355 4.58203 3.66667 4.58203H11.9167V15.582M8.25 15.582H13.75M17.4167 15.582H19.25V10.082M19.25 10.082H11.9167M19.25 10.082L16.5 5.4987H11.9167"
-                                    stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_4859_1417">
-                                    <rect width="22" height="22" fill="white" />
-                                </clipPath>
-                            </defs>
-                        </svg>
-                    </div>
-                    <p>접수/배송</p>
-                </a>
-                <a href="qna_list.html" class="quick-menu-item">
-                    <div class="icon-box">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            id="icon-quick-qna">
-                            <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
-                            <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
-                        </svg>
-                    </div>
-                    <p>문의</p>
-                </a>
-                <a href="cs_main.html" class="quick-menu-item">
-                    <div class="icon-box">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            id="icon-quick-cs">
-                            <path
-                                d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" />
-                        </svg>
-                    </div>
-                    <p>고객센터</p>
-                </a>
             </section>
 
             <section class="menu-section">
                 <h3 class="menu-section-title">접수 관리</h3>
                 <div class="menu-item-list">
-                    <a href="order_list.html" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>접수/배송</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
                             <path d="M9 6l6 6l-6 6" />
                         </svg>
                     </a>
-                    <a href="#" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>저장 견적</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
                             <path d="M9 6l6 6l-6 6" />
                         </svg>
                     </a>
-                    <a href="#" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>저장 옵션</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
                             <path d="M9 6l6 6l-6 6" />
                         </svg>
                     </a>
-                    <a href="#" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>디자인 보관함</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
@@ -719,28 +575,28 @@
             <section class="menu-section">
                 <h3 class="menu-section-title">결제 관리</h3>
                 <div class="menu-item-list">
-                    <a href="sungwon_money_01.html" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>성원머니</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
                             <path d="M9 6l6 6l-6 6" />
                         </svg>
                     </a>
-                    <a href="sungwon_point.html" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>성원포인트</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
                             <path d="M9 6l6 6l-6 6" />
                         </svg>
                     </a>
-                    <a href="tax_issue.html" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>세금계산서 발급</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
                             <path d="M9 6l6 6l-6 6" />
                         </svg>
                     </a>
-                    <a href="cr_request.html" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>현금영수증 발급</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
@@ -753,14 +609,14 @@
             <section class="menu-section">
                 <h3 class="menu-section-title">활동 내역</h3>
                 <div class="menu-item-list">
-                    <a href="review_before.html" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>리뷰 관리</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
                             <path d="M9 6l6 6l-6 6" />
                         </svg>
                     </a>
-                    <a href="qna_list.html" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>문의 내역</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
@@ -773,36 +629,29 @@
             <section class="menu-section">
                 <h3 class="menu-section-title">내 정보 관리</h3>
                 <div class="menu-item-list">
-                    <a href="mypage_edit_before.html" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>회원정보 수정</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
                             <path d="M9 6l6 6l-6 6" />
                         </svg>
                     </a>
-                    <a href="crm_list.html" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>고객 관리</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
                             <path d="M9 6l6 6l-6 6" />
                         </svg>
                     </a>
-                    <a href="delivery_list.html" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>배송지 관리</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
                             <path d="M9 6l6 6l-6 6" />
                         </svg>
                     </a>
-                    <a href="daynight_delivery_main.html" class="menu-item">
+                    <a href="#" onclick="alert('로그인이 필요한 서비스입니다.');" class="menu-item">
                         <span>낮·밤배송</span>
-                        <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                            viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
-                        </svg>
-                    </a>
-                    <a href="#" class="menu-item" onclick="alert('로그아웃 (구현 필요)');">
-                        <span>로그아웃</span>
                         <svg class="menu-item-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 24 24">
                             <path d="M9 6l6 6l-6 6" />
@@ -1093,8 +942,8 @@
                 // 실제 페이지 이동 로직 (예: location.href = `/${page}.html`;)
                 // (마이페이지는 현재 페이지이므로 이동 안 함)
                 // if (page !== 'mypage_main') {
-                    location.href = page + '.html';
-                    //  alert(page + ' 페이지로 이동합니다.');
+                    // location.href = page + '.html';
+                     alert(page + ' 페이지로 이동합니다.');
                 // }
             });
         });
