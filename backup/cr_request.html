@@ -1227,7 +1227,8 @@
                                 <div class="card-footer">
                                     <button type="button" class="white-button btn" onclick="showReceiptEditModal(this, '수정')">신청정보
                                         수정</button>
-                                    </div>
+                                    <!-- <button type="button" class="primary-button btn" onclick="showReceiptEditModal(this, '신청')">신청</button> -->
+                                </div>
                             </article>
 
                             <article class="common-table-card" data-status="미발급">
@@ -1251,6 +1252,8 @@
                                     <div class="card-row-value">2025-08-10</div>
                                 </div>
                                 <div class="card-footer">
+                                    <!-- <button type="button" class="white-button btn" onclick="showReceiptEditModal(this, '수정')">신청정보
+                                        수정</button> -->
                                     <button type="button" class="primary-button btn" onclick="showReceiptEditModal(this, '신청')">신청</button>
                                 </div>
                             </article>
@@ -1302,7 +1305,7 @@
 
     <div class="sticky-footer-bar" id="tax-action-footer">
         <span id="tax-selected-count">총 1건 선택됨</span>
-        <button class="dark-button" id="tax-apply-button" onclick="openModalForSelection()">현금영수증 신청</button>
+        <button class="dark-button" id="tax-apply-button" onclick="alert('다중 신청 페이지로 이동 (구현 필요)')">현금영수증 신청</button>
     </div>
 
     <div class="modal-overlay" id="receipt-edit-modal-overlay">
@@ -1655,48 +1658,6 @@
             // 3. 해당 탭의 폼 필드 보이기
             receiptEditForm.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
         }
-
-        // [NEW] Sticky Footer '신청' 버튼 클릭 시
-        function openModalForSelection() {
-            const listContainer = document.getElementById('transaction-list-container');
-            if (!listContainer) return;
-
-            const checkedCards = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
-            const count = checkedCards.length;
-            
-            if (count === 0) {
-                alert("선택된 항목이 없습니다.");
-                return;
-            }
-
-            let totalAmount = 0;
-            checkedCards.forEach(checkbox => {
-                const card = checkbox.closest('.common-table-card');
-                const amountText = card.querySelector('.card-column2').textContent.trim();
-                const amount = parseInt(amountText.replace(/,| 원/g, ''));
-                if (!isNaN(amount)) {
-                    totalAmount += amount;
-                }
-            });
-
-            // 1. 모달 내용 동적으로 변경 (신청 고정)
-            receiptModalTitle.textContent = "현금영수증 신청";
-            receiptModalButton.textContent = "신청하기";
-            
-            // 2. 모달에 집계된 금액 및 건수 표시
-            receiptModalCount.textContent = `총 ${count}건 / 총 금액`;
-            receiptModalTotal.textContent = `₩${totalAmount.toLocaleString('ko-KR')}`;
-
-            // 3. 폼 초기화 (입력값 비우기)
-            receiptEditForm.reset();
-
-            // 4. 기본값 '소득공제' 탭으로 설정
-            switchReceiptEditTab(document.querySelector('#receipt-edit-tabs [data-tab="income-deduction"]'), 'income-deduction');
-            
-            // 5. 모달 열기
-            openModal('receipt-edit-modal-overlay');
-        }
-
 
         // --- [MODIFIED] Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
