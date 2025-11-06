@@ -534,6 +534,7 @@
             align-items: center;
             justify-content: flex-start;
             gap: 5px;
+            flex-shrink: 0; /* 뱃지 축소 방지 */
         }
 
         .card-column1 {
@@ -549,6 +550,7 @@
             padding: 2px 10px;
             font-size: 10px;
             color: black;
+            flex-shrink: 0;
         }
 
         .card-column2 {
@@ -573,13 +575,19 @@
             margin-bottom: 8px;
             font-size: 12px;
         }
+        .card-row:last-of-type {
+            margin-bottom: 0;
+        }
 
         .card-row-label {
             color: #333333;
+            flex-shrink: 0;
+            margin-right: 8px;
         }
 
         .card-row-value {
             color: grey;
+            text-align: right;
         }
 
         .card-footer {
@@ -615,7 +623,8 @@
             border-color: #28a745;
             color: #28a745;
         }
-
+        
+        /* [NEW] Remarks badge color */
         .card-badge[data-status="배송전"] {
             background-color: #ebebeb;
             color: #5f5f5f;
@@ -658,6 +667,16 @@
 
         .checkbox:active {
             transform: scale(0.9);
+        }
+        
+        /* [NEW] Disabled state for custom checkbox */
+        .checkbox[data-disabled="true"] .checkbox-off {
+            background-color: #f1f1f1;
+            border-color: #e0e0e0;
+            cursor: not-allowed;
+        }
+        .checkbox[data-disabled="true"] {
+            cursor: not-allowed;
         }
 
         .checkbox-text {
@@ -1252,7 +1271,7 @@
                             </div>
                             <div class="btn-search" onclick="handleSearch(this)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
-                            id="icon-search">
+                                    id="icon-search">
                                     <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                                     <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
                                 </svg>
@@ -1279,7 +1298,7 @@
                         <article class="common-table-card" data-status="미발급">
                             <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" data-disabled="true" onclick="toggleTaxCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                     <div class="card-column1">sw456426</div>
@@ -1304,54 +1323,22 @@
                                 <div class="card-row-value">2025-10-27</div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
-                                    수정</button>
-                                <button type="button" class="primary-button btn">신청</button>
+                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보 수정</button>
+                                <button type="button" class="primary-button btn" disabled>신청</button>
                             </div>
                         </article>
 
                         <article class="common-table-card" data-status="미발급">
                             <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" data-disabled="false" onclick="toggleTaxCheckbox(this)">
                                         <div class="checkbox-off"></div>
-                                    </div>
-                                    <div class="card-column1">sw456426</div>
-                                </div>
-                                <div class="card-badge" data-status="미발급">미발급</div>
-                            </div>
-                            <div class="card-column2">220,000 원</div>
-                            <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">접수일</div>
-                                <div class="card-row-value">2025-10-27</div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
-                                    수정</button>
-                                <button type="button" class="primary-button btn">신청</button>
-                            </div>
-                        </article>
-
-                        <article class="common-table-card" data-status="미발급">
-                            <div class="card-header">
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="true" onclick="toggleTaxCheckbox(this)">
-                                        <div class="checkbox-on"><img
-                                                src="assets/images/checked.svg"
-                                                alt="체크"></div>
                                     </div>
                                     <div class="card-column1">sw876341</div>
                                 </div>
-                                <div class="card-badge" data-status="미발급">미발급</div>
+                                <div class="card-header-badges">
+                                    <div class="card-badge" data-status="미발급">미발급</div>
+                                </div>
                             </div>
                             <div class="card-column2">220,000 원</div>
                             <div class="card-divider"></div>
@@ -1372,23 +1359,55 @@
                                 <div class="card-row-value">2025-10-20</div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
-                                    수정</button>
-                                <button type="button" class="primary-button btn">신청</button>
+                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보 수정</button>
+                                <button type="button" class="primary-button btn" onclick="location.href='tax_request_write(단일).html';">신청</button>
                             </div>
                         </article>
 
                         <article class="common-table-card" data-status="미발급">
                             <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" data-disabled="true" onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="card-column1">sw456426</div>
+                                </div>
+                                <div class="card-header-badges">
+                                    <div class="card-badge" data-status="배송전">배송전</div>
+                                    <div class="card-badge" data-status="미발급">미발급</div>
+                                </div>
+                            </div>
+                            <div class="card-column2">220,000 원</div>
+                            <div class="card-divider"></div>
+                            <div class="card-row">
+                                <div class="card-row-label">공급가액</div>
+                                <div class="card-row-value">200,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">부가세액</div>
+                                <div class="card-row-value">20,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">접수일</div>
+                                <div class="card-row-value">2025-10-17</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보 수정</button>
+                                <button type="button" class="primary-button btn" disabled>신청</button>
+                            </div>
+                        </article>
+
+                        <article class="common-table-card" data-status="미발급">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" data-disabled="false" onclick="toggleTaxCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                     <div class="card-column1">sw567834</div>
                                 </div>
                                 <div class="card-badge" data-status="미발급">미발급</div>
                             </div>
-                            <div class="card-column2">1,000,220,000 원</div>
+                            <div class="card-column2">220,000 원</div>
                             <div class="card-divider"></div>
                             <div class="card-row">
                                 <div class="card-row-label">고객명</div>
@@ -1411,16 +1430,15 @@
                                 <div class="card-row-value">2025-10-14</div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
-                                    수정</button>
-                                <button type="button" class="primary-button btn">신청</button>
+                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보 수정</button>
+                                <button type="button" class="primary-button btn" onclick="location.href='tax_request_write(단일).html';">신청</button>
                             </div>
                         </article>
 
                         <article class="common-table-card" data-status="폐기처리">
                             <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" data-disabled="false" onclick="toggleTaxCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                     <div class="card-column1">sw457232</div>
@@ -1446,16 +1464,15 @@
                                 <div class="card-row-value">2025-10-05</div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
-                                    수정</button>
-                                <button type="button" class="primary-button btn">신청</button>
+                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보 수정</button>
+                                <button type="button" class="primary-button btn" onclick="location.href='tax_request_write(단일).html';">신청</button>
                             </div>
                         </article>
 
                         <article class="common-table-card" data-status="발급대기">
                             <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" data-disabled="true" onclick="toggleTaxCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                     <div class="card-column1">sw457232</div>
@@ -1481,14 +1498,46 @@
                                 <div class="card-row-value">2025-10-05</div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보
-                                    수정</button>
+                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보 수정</button>
+                            </div>
+                        </article>
+                        
+                        <article class="common-table-card" data-status="미발급" data-period="previous" style="display: none;">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" data-disabled="true" onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="card-column1">sw856745</div>
+                                </div>
+                                <div class="card-header-badges">
+                                    <div class="card-badge" data-status="배송전">배송전</div>
+                                    <div class="card-badge" data-status="미발급">미발급</div>
+                                </div>
+                            </div>
+                            <div class="card-column2">220,000 원</div>
+                            <div class="card-divider"></div>
+                            <div class="card-row">
+                                <div class="card-row-label">공급가액</div>
+                                <div class="card-row-value">200,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">부가세액</div>
+                                <div class="card-row-value">20,000 원</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">접수일</div>
+                                <div class="card-row-value">2025-09-28</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">신청정보 수정</button>
+                                <button type="button" class="primary-button btn" disabled>신청</button>
                             </div>
                         </article>
 
                     </div>
 
-                    <div class="no-transactions" style="display: none;">신청할 세금계산서 내역이 없습니다.</div>
+                    <div class="no-transactions" style="display: none;">신청할 세금계산서 내역이 없어요</div>
 
                     <div class="pagination" data-name="Pagination">
                         <div class="pagination-arrow disabled" onclick="paginationFirst()">
@@ -1503,21 +1552,21 @@
                             <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationNext()">
-                            <img src="assets/images/next-arrow.svg" alt="다음"
-                                style="transform: rotate(90deg) scaleY(-1);">
+                            <img src="assets/images/next-arrow.svg"
+                                    alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationLast()">
                             <img src="assets/images/nnext-arrow.svg"
-                                alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                                    alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
                         </div>
                     </div>
                 </section>
 
                 <section class="info-section">
                     <div class="title">세금계산서 신청 이용 안내</div>
-                    <p class="disclaimer">* 배송 시작 후 세금계산서 발급 신청이 가능하며, 미발급건에 대해서는 익월 1일 이후 자동으로 발급됩니다.</p>
-                    <p class="disclaimer">* 충무로 매장에서 구매하는 박스 판매 제품에 한하여 충무로 매장 사업자 번호로 세금계산서가 발급됩니다.</p>
-                    <p class="disclaimer">* 폐업 이후 배송을 시작한 접수건은 현금영수증 자진발급으로 처리되며, '마이페이지 > 현금영수증 발급'에서 확인하실 수 있습니다.</p>
+                    <p class="disclaimer">* 배송이 시작된 후에 세금계산서 발급을 신청할 수 있어요. 신청하지 않은 건은 익월 1일 이후 자동으로 발급돼요</p>
+                    <p class="disclaimer">* 충무로 매장에서 구매한 박스 판매 제품은  충무로 매장 사업자 번호로 세금계산서가 발급돼요</p>
+                    <p class="disclaimer">* 폐업 후 배송이 시작된 접수건은 현금영수증 자진발급으로 처리돼요. ‘마이페이지 > 현금영수증 발급’에서 확인할 수 있어요</p>
                 </section>
 
             </div>
@@ -1526,7 +1575,7 @@
     </div>
 
     <div class="sticky-footer-bar" id="tax-action-footer">
-        <span id="tax-selected-count">총 1건 선택됨</span>
+        <span id="tax-selected-count">총 0건 선택됨</span>
         <button class="dark-button" id="tax-apply-button" onclick="location.href='tax_request_write(다중).html';">세금계산서 신청</button>
     </div>
 
@@ -1657,7 +1706,7 @@
                             </div>
                             <div class="btn-search" onclick="handleSearch(this)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
-                            id="icon-search">
+                                    id="icon-search">
                                     <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                                     <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
                                 </svg>
@@ -1744,7 +1793,7 @@
             <div class="modal-body">
                 <p class="disclaimer warning"
                     style="margin-top: 0; margin-bottom: 20px; font-size: 14px; text-align: center;">
-                    ① 세금계산서가 '발급대기' 상태일 때는,<br>기업명을 수정할 수 없습니다.
+                    * 세금계산서가 '발급대기' 상태일 때는,<br>기업명을 수정할 수 없어요
                 </p>
                 <form id="tax-pending-form">
                     <div class="form-group">
@@ -1793,7 +1842,7 @@
 
             const page = tab.getAttribute('data-page');
             if (page === 'issue') {
-                alert('발급 내역 페이지로 이동 (구현 필요)');
+                location.href = 'tax_issue.html'; // 페이지 이동
             }
         }
 
@@ -1864,6 +1913,10 @@
         }
 
         function toggleTaxCheckbox(checkboxEl) {
+            // [MODIFIED] Check if the checkbox is disabled
+            if (checkboxEl.dataset.disabled === 'true') {
+                return; // Do nothing
+            }
             // 1. Toggle the checkbox UI
             toggleCheckbox(checkboxEl);
             // 2. Update the sticky footer
@@ -1922,9 +1975,9 @@
         }
 
         function filterTaxInvoices() {
-            // [NEW] Get selected period (for future use, not filtering data yet)
+            // [MODIFIED] Filter logic based on Period and Status
             const periodChip = document.querySelector('#period-chip-group .single-chip-on');
-            const selectedPeriod = periodChip ? periodChip.dataset.period : 'current';
+            const selectedPeriod = periodChip ? periodChip.dataset.period : 'current'; // 'current' or 'previous'
 
             const selectedStatuses = [];
             document.querySelectorAll('#status-chip-group .multi-chip-on').forEach(chip => {
@@ -1941,8 +1994,14 @@
 
             cards.forEach(card => {
                 const cardStatus = card.getAttribute('data-status');
-                // TODO: Add period filtering logic here when data is dynamic
-                if (isAllSelected || selectedStatuses.includes(cardStatus)) {
+                const cardPeriod = card.dataset.period || 'current'; // Default to 'current' if not specified
+
+                // [NEW] Period check
+                const periodMatch = (cardPeriod === selectedPeriod);
+                // Status check
+                const statusMatch = (isAllSelected || selectedStatuses.includes(cardStatus));
+
+                if (periodMatch && statusMatch) {
                     card.style.display = '';
                     visibleCount++;
                 } else {
@@ -2021,7 +2080,7 @@
                 checkbox.innerHTML = '<div class="checkbox-off"></div>';
             } else {
                 checkbox.dataset.checked = 'true';
-                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
             }
         }
 
