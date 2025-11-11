@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>성원머니 (v2)</title>
+    <title>성원머니 메인 (성원머니_가상계좌/환불계좌 등록 전)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -38,8 +38,7 @@
             color: #333;
             font-size: 16px;
             line-height: 1.6;
-            overflow-x: hidden; /* [MODIFIED] v2: 가로 스크롤 방지 */
-            position: relative; /* [MODIFIED] v2: 모달 애니메이션 기준 */
+            overflow-x: visible;
         }
 
         ul,
@@ -69,7 +68,7 @@
             display: block;
         }
 
-        input, select {
+        input {
             font-family: inherit;
         }
 
@@ -229,7 +228,6 @@
             align-items: center;
             justify-content: center;
             min-width: fit-content;
-            width: 100%; /* [MODIFIED] v2: Full width */
         }
 
         .white-button:hover {
@@ -289,32 +287,46 @@
             margin-bottom: 12px;
         }
 
-        .info-section .action-button { /* [MODIFIED] v2: Class added for button */
+        .info-section .dark-button {
             margin-top: 8px;
             width: 100%;
         }
 
+        /* [REMOVED] Status Filter Tabs (v13) */
+        /*
+        .status-tabs {
+            background: #fff;
+            padding: 8px 16px;
+            border-bottom: 1px solid #e9e9e9;
+            margin: 0 -16px 16px -16px;
+        }
+        */
 
-        /* Filter Chip Section (v12) */
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* [NEW] Filter Chip Section (replaces tabs) */
         .filter-chip-section {
             background: #fff;
-            padding: 8px 16px; 
-            margin: 0 -16px 0 -16px; 
+            /* Full-width like original tabs, but no border/margin-bottom */
+            padding: 8px 16px; /* Added padding-bottom for spacing */
+            margin: 0 -16px 0 -16px; /* No bottom margin */
         }
-        .tabs-scroll-wrapper { 
-            overflow-x: auto; 
-            white-space: nowrap; 
-            -ms-overflow-style: none; 
-            scrollbar-width: none; 
-        }
-        .tabs-scroll-wrapper::-webkit-scrollbar { display: none; }
         .filter-chip-section .tabs-scroll-wrapper {
-            display: flex; 
-            gap: 8px; 
+            display: flex; /* Make chips align horizontally */
+            gap: 8px; /* Add spacing between chips */
         }
         .filter-chip-section .single-chip {
-            flex-shrink: 0; 
-            white-space: nowrap; 
+            flex-shrink: 0; /* Prevent chips from shrinking */
+            white-space: nowrap; /* Ensure text stays on one line */
         }
 
 
@@ -697,30 +709,32 @@
             align-items: center;
             justify-content: center;
             z-index: 1000;
-            padding: 0; /* [MODIFIED] v2: Full modal padding */
-        }
-        
-        /* [MODIFIED] v2: Modal Overlay Animation */
-        .modal-overlay.active {
-            display: flex;
-            /* animation: fadeInModal 0.2s ease-out; */ /* [MODIFIED] v2: Use JS for full-modal */
-        }
-        .modal-overlay.overlay-full-modal {
-            animation: none;
-            opacity: 0;
-            transition: opacity 0.3s ease-out;
-        }
-        .modal-overlay.overlay-full-modal.active {
-            opacity: 1;
+            padding: 16px;
         }
 
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
 
         .modal-content {
             background: white;
             border-radius: 8px;
             width: 100%;
             max-width: 360px;
+            /* Modal max width */
             max-height: 90vh;
+            /* Limit height */
             display: flex;
             flex-direction: column;
             animation: scaleUpModal 0.2s ease-out;
@@ -737,61 +751,6 @@
                 opacity: 1;
             }
         }
-        
-        /* [NEW] v2: Full Modal Style */
-        .modal-content.full-modal {
-            width: 100%;
-            height: 100%;
-            max-width: 100%;
-            max-height: 100%;
-            border-radius: 0;
-            position: fixed; 
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            transform: translateX(100%); 
-            transition: transform 0.3s ease-out; 
-            animation: none; 
-        }
-        
-        .modal-overlay.active .modal-content.full-modal {
-            transform: translateX(0);
-        }
-         .modal-overlay .modal-content.full-modal.closing {
-            transform: translateX(100%);
-         }
-        
-        .full-modal .modal-header {
-            height: 56px; 
-            background: white; 
-            border-bottom: 1px solid #cccccc; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 0 16px; 
-            position: sticky; 
-            top: 0; 
-            z-index: 10;
-        }
-         .full-modal .modal-title {
-            flex: 3 0 0; 
-            font-size: 18px; 
-            font-weight: 600; 
-            text-align: center; 
-            color: #212121;
-         }
-         .full-modal .btn-modal-close {
-            position: static;
-            transform: none;
-            width: 28px; 
-            height: 28px;
-         }
-         .full-modal .modal-header-placeholder {
-             flex: 1 0 0;
-             display: flex;
-             justify-content: flex-end;
-         }
 
         .modal-header {
             display: flex;
@@ -827,18 +786,11 @@
         .modal-footer {
             padding: 16px;
             border-top: 1px solid #e8e8e9;
-            background: #fff; /* [MODIFIED] v2: Match full-modal footer */
+            background: #f8f8f9;
             display: flex;
             gap: 8px;
             border-radius: 0 0 7px 7px;
         }
-        
-        .full-modal .modal-footer {
-            position: sticky;
-            bottom: 0;
-            border-radius: 0;
-            z-index: 10;
-         }
 
         .modal-footer .btn {
             flex: 1;
@@ -846,11 +798,14 @@
             font-size: 14px;
         }
 
+        /* Use standard button styles */
+
         /* [New] Refund Account Modal Specific Styles */
         #refund-account-modal .modal-body {
             padding-bottom: 0;
         }
 
+        /* Remove bottom padding if footer exists */
         .form-group {
             margin-bottom: 20px;
         }
@@ -879,7 +834,6 @@
             font-size: 12px;
             color: #dc3545;
             margin-top: 8px;
-            line-height: 1.5; /* [NEW] v2: Added line-height */
         }
 
         .bank-chips {
@@ -888,10 +842,43 @@
             gap: 8px;
         }
 
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* [v19] Bank Expand Button Wrapper (Center Align) */
         .expand-button-wrapper {
             display: flex;
             justify-content: center;
             margin-top: 12px;
+            /* 칩 목록과의 간격 */
+        }
+
+        /* [v19] Hide old button style */
+        .expand-banks-btn {
+            display: none;
         }
 
         .hidden-bank {
@@ -901,7 +888,9 @@
         .banks-expanded .hidden-bank {
             display: inline-flex;
         }
-        
+
+        /* .banks-expanded .expand-banks-btn { display: none; } <- This logic is now handled by JS */
+
         .input-group {
             display: flex;
             gap: 8px;
@@ -918,22 +907,8 @@
             display: flex;
             align-items: center;
         }
-        
-        /* [NEW] v2: Date input styles */
-        .form-group .date-inputs {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-         }
-         .form-group .date-inputs .input {
-             flex: 1;
-         }
-         .form-group .date-inputs span {
-             flex-shrink: 0;
-             color: #888;
-         }
 
-        .input input, .input select {
+        .input input {
             width: 100%;
             background: transparent;
             border: none;
@@ -941,31 +916,6 @@
             font-size: 14px;
             color: black;
             line-height: 1.5;
-        }
-        
-        .input.select-wrapper {
-            padding: 0;
-            position: relative;
-        }
-        .input select {
-            height: 38px;
-            padding: 0 12px;
-            appearance: none;
-            -webkit-appearance: none;
-            cursor: pointer;
-        }
-         .input.select-wrapper::after {
-            content: '';
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: center;
-            pointer-events: none;
         }
 
         .input input::placeholder {
@@ -975,6 +925,7 @@
         .input-group .white-button {
             flex-shrink: 0;
             height: 40px;
+            /* Match input height */
             font-size: 13px;
             padding: 0 12px;
             width: auto;
@@ -984,6 +935,7 @@
             font-size: 12px;
             margin-top: 8px;
             min-height: 1.5em;
+            /* Prevent layout shift */
         }
 
         .verification-message.success {
@@ -1034,13 +986,12 @@
                     <span class="balance">₩0</span>
                 </div>
                 <p class="description">가상계좌 등록 후 성원머니 이용이 가능해요</p>
-                <button type="button" class="dark-button action-button" onclick="showVirtualAccountSheet()">가상계좌 등록</button>
+                <button type="button" class="dark-button" onclick="showVirtualAccountSheet()">가상계좌 등록</button>
             </section>
             <section class="info-section">
                 <div class="title">환불계좌</div>
                 <p class="description">등록된 환불계좌가 없어요</p>
-                <!-- [MODIFIED] Req 1: dark-button -> white-button -->
-                <button type="button" class="white-button action-button" onclick="showRefundAccountModal()">환불계좌 등록</button>
+                <button type="button" class="dark-button" onclick="showRefundAccountModal()">환불계좌 등록</button>
             </section>
 
             <section class="filter-chip-section">
@@ -1055,7 +1006,6 @@
             </section>
 
             <section class="filter-section">
-                 <!-- [MODIFIED] Req 2: onClick 핸들러 변경 -->
                 <button type="button" class="text-select-button" onclick="showFilterSheet()">
                     <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
                     <div class="text-select-button-arrow">
@@ -1084,17 +1034,17 @@
         </main>
     </div>
 
-    <!-- [MODIFIED] Req 3: Full-Modal로 변경 -->
     <div class="modal-overlay" id="refund-account-modal-overlay">
-        <div class="modal-content full-modal" id="refund-account-modal">
+        <div class="modal-content" id="refund-account-modal">
             <div class="modal-header">
+                <h2 class="modal-title">환불계좌 등록</h2>
                 <button class="btn-modal-close" onclick="closeRefundAccountModal()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M15 6l-6 6l6 6" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24"
+                        id="icon-close-modal">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
                     </svg>
                 </button>
-                <h2 class="modal-title">환불계좌 등록</h2>
-                <!-- <div class="modal-header-placeholder"></div> -->
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -1194,69 +1144,37 @@
         </div>
     </div>
 
-    <!-- [MODIFIED] Req 2: 기간 필터 Bottom Sheet -->
     <div class="bottom-sheet-overlay" id="filter-sheet-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="filter-sheet">
             <div class="sheet-handle" id="filter-sheet-handle"></div>
-            <div class="sheet-header"><div class="sheet-title">기간 상세검색</div><div class="btn-close" onclick="closeFilterSheet()"><svg id="icon-close"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div></div>
+            <div class="sheet-header">
+                <div class="sheet-title">기간 상세검색</div>
+                <div class="btn-close" onclick="closeFilterSheet()"><svg id="icon-close">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
             <div class="sheet-body" id="filter-sheet-body">
                 <div class="filter-group" id="single-chip-group-period">
                     <div class="filter-group-title">기간</div>
                     <div class="filter-group-content">
-                        <div class="single-chip single-chip-on" data-value="최근 1개월" onclick="selectPeriod(this)">최근 1개월</div>
-                        <div class="single-chip single-chip-off" data-value="최근 3개월" onclick="selectPeriod(this)">최근 3개월</div>
-                        <div class="single-chip single-chip-off" data-value="최근 6개월" onclick="selectPeriod(this)">최근 6개월</div>
-                        <div class="single-chip single-chip-off" data-value="최근 1년" onclick="selectPeriod(this)">최근 1년</div>
-                        <div class="single-chip single-chip-off" data-value="기간 설정" onclick="selectPeriod(this)">기간 설정</div>
+                        <div class="single-chip single-chip-on" data-value="최근 1개월" onclick="selectPeriod(this)">최근 1개월
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="최근 3개월" onclick="selectPeriod(this)">최근 3개월
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="최근 6개월" onclick="selectPeriod(this)">최근 6개월
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="최근 1년" onclick="selectPeriod(this)">최근 1년
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="기간 설정" onclick="selectPeriod(this)">기간 설정
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- [REMOVED] v2: Footer 제거
             <div class="sheet-footer"><button class="btn white-button">초기화</button><button class="btn dark-button"
                     onclick="applyPeriodFilter()">조회하기</button></div>
-            -->
         </div>
     </div>
-    
-    <!-- [NEW] v2: Custom Period Bottom Sheet -->
-    <div class="bottom-sheet-overlay" id="period-custom-sheet-overlay">
-        <div class="bottom-sheet" data-name="bottom-sheet" id="period-custom-sheet">
-            <div class="sheet-handle" id="period-custom-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">기간 설정</div>
-                <div class="btn-close" onclick="closeCustomPeriodSheet()">
-                     <svg id="icon-close-custom-period"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="form-group">
-                    <label for="start-date">시작일</label>
-                    <div class="input">
-                        <input type="date" id="start-date" value="2025-10-11">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="end-date">종료일</label>
-                    <div class="input">
-                        <input type="date" id="end-date" value="2025-11-11">
-                    </div>
-                </div>
-                 <div class="form-group">
-                    <label>간편 설정</label>
-                    <div class="filter-group-content">
-                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(0)">오늘</div>
-                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(7)">1주일</div>
-                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(30)">1개월</div>
-                    </div>
-                </div>
-            </div>
-            <div class="sheet-footer">
-                <button class="btn white-button" onclick="closeCustomPeriodSheet()">취소</button>
-                <button class="btn dark-button" onclick="applyCustomPeriod()">조회하기</button>
-            </div>
-        </div>
-    </div>
-
 
     <div class="bottom-sheet-overlay" id="virtual-account-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="virtual-account-sheet">
@@ -1322,18 +1240,7 @@
             if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
             let isDragging = false, startY = 0, currentY = 0;
             const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
-            const closeSheet = () => { 
-                sheet.classList.add('closing'); 
-                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active:not(#' + overlayId + ')');
-                if (!anyModalActive) {
-                    document.body.style.overflow = ''; 
-                }
-                setTimeout(() => { 
-                    overlay.classList.remove('active'); 
-                    sheet.classList.remove('closing'); 
-                    sheet.style.transform = ''; // Reset transform
-                }, 300); 
-            };
+            const closeSheet = () => { sheet.classList.add('closing'); document.body.style.overflow = ''; setTimeout(() => { overlay.classList.remove('active'); sheet.classList.remove('closing'); }, 300); };
             const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
             const drag = (e) => { if (!isDragging) return; e.preventDefault(); currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; const deltaY = currentY - startY; if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; };
             const endDrag = () => { if (!isDragging) return; isDragging = false; sheet.style.transition = ''; const deltaY = currentY - startY; if (deltaY > 100) closeSheet(); else sheet.style.transform = ''; };
@@ -1345,87 +1252,26 @@
         }
         const { openSheet: showFilterSheet, closeSheet: closeFilterSheet } = setupBottomSheet('filter-sheet-overlay', 'filter-sheet', 'filter-sheet-handle');
         const { openSheet: showVirtualAccountSheet, closeSheet: closeVirtualAccountSheet } = setupBottomSheet('virtual-account-overlay', 'virtual-account-sheet', 'virtual-account-handle');
-        // [NEW] v2: Custom Period Sheet
-        const { openSheet: showCustomPeriodSheet, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
 
-
-        // --- [MODIFIED] Req 2: Filter Component Handlers ---
+        // --- Filter Component Handlers ---
         let selectedPeriodValue = "최근 1개월";
-        
-        function selectPeriod(chip) { 
-            const group = chip.closest('.filter-group-content'); 
-            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
-            chip.classList.replace('single-chip-off', 'single-chip-on'); 
-            selectedPeriodValue = chip.getAttribute('data-value'); 
-            
-            if (selectedPeriodValue === "기간 설정") {
-                // 기간 설정 클릭 시, 날짜 기본값 세팅 (예: 최근 1개월)
-                const endDate = new Date();
-                const startDate = new Date();
-                startDate.setMonth(endDate.getMonth() - 1);
-                document.getElementById('start-date').value = startDate.toISOString().split('T')[0];
-                document.getElementById('end-date').value = endDate.toISOString().split('T')[0];
-                
-                showCustomPeriodSheet();
-            } else {
-                applyPeriodFilter(); // 즉시 적용
-            }
-        }
-        
-        function applyPeriodFilter() { 
-            document.getElementById('selected-period-text').textContent = selectedPeriodValue; 
-            document.querySelector('.text-select-button')?.classList.remove('open'); 
-            closeFilterSheet(); 
-            console.log("기간 필터 적용:", selectedPeriodValue); 
-            filterTransactionsByStatus(document.querySelector('#status-chip-group .single-chip-on').dataset.status);
-        }
+        function selectPeriod(chip) { const group = chip.closest('.filter-group-content'); group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); chip.classList.replace('single-chip-off', 'single-chip-on'); selectedPeriodValue = chip.getAttribute('data-value'); }
+        function applyPeriodFilter() { document.getElementById('selected-period-text').textContent = selectedPeriodValue; document.querySelector('.text-select-button')?.classList.remove('open'); closeFilterSheet(); console.log("기간 필터 적용:", selectedPeriodValue); /* TODO: Filtering logic */ }
+        document.querySelector('.text-select-button')?.addEventListener('click', function () { this.classList.toggle('open'); });
 
-        function setCustomPeriod(days) {
-            const endDate = new Date();
-            let startDate = new Date();
-            
-            if (days === 0) { // 오늘
-                 startDate = endDate;
-            } else if (days === 7) { // 1주일
-                startDate.setDate(endDate.getDate() - 7);
-            } else if (days === 30) { // 1개월
-                 startDate.setMonth(endDate.getMonth() - 1);
-            }
-            
-            // Format to YYYY-MM-DD
-            const isoStartDate = startDate.toISOString().split('T')[0];
-            const isoEndDate = endDate.toISOString().split('T')[0];
-
-            document.getElementById('start-date').value = isoStartDate;
-            document.getElementById('end-date').value = isoEndDate;
+        // --- [REMOVED] Transaction List Filtering (Tab) ---
+        /*
+        function filterTransactions(status, clickedTab) {
+            document.querySelectorAll('#status-filter-tabs a').forEach(tab => tab.classList.remove('active')); clickedTab.classList.add('active');
+            const listContainer = document.getElementById('transaction-list-container'); const cards = listContainer.querySelectorAll('.transaction-card'); const noResultMsg = listContainer.parentElement.querySelector('.no-transactions');
+            let visibleCount = 0;
+            cards.forEach(card => card.style.display = 'none'); // Hide all cards initially in default state
+            document.getElementById('transaction-count').textContent = visibleCount;
+            noResultMsg.style.display = 'block';
         }
-
-        function applyCustomPeriod() {
-            const startDate = document.getElementById('start-date').value;
-            const endDate = document.getElementById('end-date').value;
-            
-            if (!startDate || !endDate) {
-                alert("시작일과 종료일을 모두 선택해주세요.");
-                return;
-            }
-            if (new Date(startDate) > new Date(endDate)) {
-                 alert("시작일이 종료일보다 늦을 수 없습니다.");
-                return;
-            }
-            
-            selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`;
-            
-            closeCustomPeriodSheet();
-            applyPeriodFilter(); // 메인 필터 적용
-        }
+        */
         
-        document.querySelector('.text-select-button')?.addEventListener('click', function() { 
-            this.classList.toggle('open'); 
-            showFilterSheet(); // [MODIFIED] v2: 메인 필터 시트 열기
-        });
-        
-        
-        // --- Transaction List Filtering (by Chip) ---
+        // --- [NEW] Transaction List Filtering (by Chip) ---
         function selectStatusChip(chip) {
             const group = chip.closest('#status-chip-group');
             if (!group) return;
@@ -1438,9 +1284,8 @@
         }
 
         function filterTransactionsByStatus(status) {
+            // This function replicates the original placeholder behavior of filterTransactions
             console.log("Filtering by status:", status); // Log the click
-            console.log("Period is:", selectedPeriodValue); // [NEW] v2: Log period
-            
             const listContainer = document.getElementById('transaction-list-container'); 
             const noResultMsg = listContainer.parentElement.querySelector('.no-transactions');
             let visibleCount = 0;
@@ -1459,23 +1304,28 @@
         // --- [New] Virtual Account Registration Logic ---
         let selectedBankName = null;
         function virtualSelectBank(buttonElement) {
+            // Remove selected class from all buttons in the list
             document.querySelectorAll('#bank-selection-list button').forEach(btn => btn.classList.remove('selected'));
+            // Add selected class to the clicked button
             buttonElement.classList.add('selected');
+            // Store the selected bank name
             selectedBankName = buttonElement.getAttribute('data-bank-name');
             console.log("Selected Bank:", selectedBankName);
         }
         function registerVirtualAccount() {
             if (!selectedBankName) {
-                alert("은행을 선택해주세요."); 
+                alert("은행을 선택해주세요."); // Basic validation
                 return;
             }
+            // --- TODO: Add actual virtual account registration logic here ---
             console.log(`Registering virtual account with bank: ${selectedBankName}`);
             alert(`${selectedBankName} 가상계좌 등록 요청됨 (구현 필요)`);
-            selectedBankName = null; 
+            selectedBankName = null; // Reset selection
             closeVirtualAccountSheet();
+            // Optional: Update the UI on the main page after successful registration
         }
 
-        // --- [MODIFIED] Req 3: Refund Account Modal Logic ---
+        // --- [v19] Refund Account Modal Logic (Toggle Button Added) ---
         const refundModalOverlay = document.getElementById('refund-account-modal-overlay');
         const refundModal = document.getElementById('refund-account-modal');
         const bankChipList = document.getElementById('bank-chip-list');
@@ -1484,12 +1334,14 @@
         const verificationMessage = document.getElementById('verification-message');
         const registerButton = document.getElementById('register-button');
 
+        // [v19] New element references
         const bankExpandToggle = document.getElementById('bank-expand-toggle');
         const bankExpandText = document.getElementById('bank-expand-text');
         let selectedBankChip = null;
         let isVerified = false;
 
         function showRefundAccountModal() {
+            // Reset modal state before showing
             isVerified = false;
             selectedBankChip = null;
             bankChipList.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
@@ -1501,44 +1353,18 @@
             verifyButton.disabled = false;
             registerButton.disabled = true;
 
+            // [v19] Reset bank expand button
             bankChipList.classList.remove('banks-expanded');
             bankExpandToggle.classList.remove('open');
             bankExpandText.textContent = '은행 더보기';
 
-            if (refundModalOverlay) {
-                // [MODIFIED] v2: 애니메이션 로직
-                refundModalOverlay.classList.add('overlay-full-modal');
-                refundModalOverlay.style.display = 'flex';
-                requestAnimationFrame(() => {
-                    refundModalOverlay.classList.add('active');
-                });
-            }
+            refundModalOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
         function closeRefundAccountModal() {
-            // [MODIFIED] v2: 애니메이션 로직
-            if (refundModal) {
-                 refundModal.classList.add('closing');
-            }
-            if (refundModalOverlay) {
-                refundModalOverlay.classList.remove('active'); 
-            }
-            
-            const anyModalActive = document.querySelector('.modal-overlay.active:not(#refund-account-modal-overlay), .bottom-sheet-overlay.active');
-            if (!anyModalActive) {
-                document.body.style.overflow = '';
-            }
-
-            setTimeout(() => {
-                 if (refundModalOverlay) {
-                    refundModalOverlay.style.display = 'none'; 
-                    refundModalOverlay.classList.remove('overlay-full-modal');
-                 }
-                if (refundModal) {
-                    refundModal.classList.remove('closing');
-                }
-            }, 300); // Match CSS transition
+            refundModalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         function selectBank(chipElement) {
@@ -1548,6 +1374,7 @@
             resetVerification();
         }
 
+        // [v19] Updated to Toggle function
         function toggleBankList() {
             const isExpanded = bankChipList.classList.toggle('banks-expanded');
             bankExpandToggle.classList.toggle('open', isExpanded);
@@ -1610,50 +1437,20 @@
 
         // --- Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
+            // [NEW] Set initial filter state
             filterTransactionsByStatus('전체');
 
+            // [EXISTING]
             refundModal?.addEventListener('click', (e) => e.stopPropagation());
-            // [MODIFIED] v2: Overlay click handled by closeRefundAccountModal
-            refundModalOverlay?.addEventListener('click', (e) => {
-                 if (e.target.id === 'refund-account-modal-overlay') {
-                    closeRefundAccountModal();
-                 }
-            });
+            refundModalOverlay?.addEventListener('click', closeRefundAccountModal);
             accountNumberInput?.addEventListener('input', () => {
                 if (isVerified) {
                     resetVerification();
                 }
             });
-            
-            // [NEW] v2: Set default dates for custom period
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('start-date').value = today;
-            document.getElementById('end-date').value = today;
         });
     </script>
 
-    <div class="disqus-thread-wrap">
-        <div id="disqus_thread"></div>
-        <script>
-            /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-            /*
-            var disqus_config = function () {
-            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-            };
-            */
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://sw-mobile.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-    <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>
 
 </html>
