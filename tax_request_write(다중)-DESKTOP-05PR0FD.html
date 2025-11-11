@@ -3,26 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>세금계산서 신청서 작성 (단일)</title>
+    <title>세금계산서 신청서 작성 (다중)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* [v12] Master Guide CSS */
-        .disqus-thread-wrap {
-            position: fixed;
-            top: 40px;
-            right: 40px;
-            width: 450px;
-            height: 100%;
-            overflow: auto;
-        }
-
-        @media all and (max-width: 1490px) {
-            .disqus-thread-wrap {
-                display: none;
-            }
-        }
         /* Reset & Base */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body {
@@ -56,6 +42,7 @@
             font-weight: 600; 
             text-align: center; 
             color: #212121; 
+            /* [MODIFIED] 줄 바꿈 방지 및 말줄임표 처리 */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -157,6 +144,29 @@
         .item-price-wrapper { display: flex; flex-direction: column; align-items: flex-end; }
         .item-price-total { font-size: 14px; font-weight: 500; color: #333; }
         .item-price-details { font-size: 12px; color: #888; }
+        
+        /* [NEW] 합산 (single card) item row */
+        .aggregate-item-row {
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        .aggregate-item-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .aggregate-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .aggregate-item-id { font-size: 14px; font-weight: 500; color: #212121; }
+        .aggregate-item-date { font-size: 12px; color: #888; }
+        .aggregate-item-list .item-row { margin-bottom: 8px; }
+        .aggregate-item-list .item-row:last-child { margin-bottom: 0; }
+        
         
         /* Form Styles (from sungwon_money_01.html / v12 guide) */
         .form-group {
@@ -308,7 +318,7 @@
             color: black;
         }
         .search input::placeholder { color: #c6c6c8; }
-        .search-input-right { display: flex; gap: 5px; align-items: center; }
+        .search-input-right { display: flex; gap: 3px; align-items: center; }
         .search-del { width: 18px; height: 18px; cursor: pointer; display: none; }
         .search.has-text .search-del { display: flex; }
         .search-icon, .btn-search { width: 24px; height: 24px; cursor: pointer; transition: transform 0.2s; }
@@ -464,65 +474,6 @@
             padding: 0 12px;
         }
 
-        /* ========================================
-           [NEW] ALERT MODAL STYLES (Request 1, 2)
-        ======================================== */
-        .alert-modal {
-            background: white;
-            border-radius: 6px;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-            width: 100%;
-            max-width: 320px;
-        }
-        .alert-modal .modal-title {
-            font-size: 16px; 
-            font-weight: 700; 
-            color: black; 
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .modal-message { 
-            font-size: 14px; 
-            color: black; 
-            margin-bottom: 30px; 
-            line-height: 1.5; 
-        }
-        .modal-buttons { 
-            display: flex; 
-            gap: 10px; 
-            justify-content: center; 
-        }
-        .modal-button {
-            flex: 1;
-            min-width: 90px;
-            height: 44px;
-            padding: 7px;
-            border-radius: 6px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-        }
-        /* [MODIFIED] v12 alert button colors (Primary: #424242, Secondary: white) */
-        .modal-button-primary { 
-            background: #424242; /* Dark button (검은색) */
-            color: white; 
-            border: none; 
-        }
-        .modal-button-secondary { 
-            background: white; 
-            color: #424242; 
-            border: 1px solid #bababa; 
-        }
-        .modal-button:active { 
-            transform: scale(0.98); 
-        }
-
     </style>
 </head>
 <body>
@@ -530,7 +481,7 @@
         
         <header class="app-header-sub">
             <div class="header-left">
-                <button type="button" class="header-btn" onclick="checkBeforeExit();">
+                <button type="button" class="header-btn" onclick="history.back();">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
                 </button>
             </div>
@@ -546,42 +497,327 @@
         </header>
 
         <main>
-            <div id="bill-type-건별" class="page-content" style="display: block;">
+            <div id="bill-type-합산" class="page-content">
                 <div class="sw-container">
                     
                     <section class="form-group" style="margin-bottom: 20px;">
                         <label class="section-title">발급 유형</label>
-                        <div class="filter-group-content" id="bill-type-chips-건별">
-                            <div class="single-chip single-chip-on" data-type="건별">건별</div>
+                        <div class="filter-group-content" id="bill-type-chips-합산">
+                            <div class="single-chip single-chip-on" data-type="합산" onclick="selectBillType(this)">합산</div>
+                            <div class="single-chip single-chip-off" data-type="건별" onclick="selectBillType(this)">건별</div>
                         </div>
-                         <p class="disclaimer" id="disclaimer-건별" style="margin-top: 8px;">* 1건의 접수는 '건별' 발급만 가능해요</p>
+                        <p class="disclaimer" id="disclaimer-합산" style="margin-top: 8px;">* '합산'의 경우, 선택한 5건의 주문이 1장의 세금계산서로 발급됩니다.</p>
                     </section>
                     
                     <section class="info-section">
                         <div class="title">발급 정보</div>
                         <div class="balance-row">
                             <span class="label" style="font-size: 14px;">총 합계</span>
-                            <span class="balance">220,000 원</span>
+                            <span class="balance">1,022,220 원</span>
                         </div>
                         <div class="info-sub-row">
                             <span class="label">공급가액</span>
-                            <span class="value">200,000 원</span>
+                            <span class="value">1,000,000 원</span>
                         </div>
                         <div class="info-sub-row" style="border-bottom: 1px solid #f0f0f0; padding-bottom: 12px; margin-bottom: 8px;">
                             <span class="label">부가세액</span>
-                            <span class="value">20,000 원</span>
+                            <span class="value">22,220 원</span>
                         </div>
                         <div class="info-sub-row">
                             <span class="label">발급 신청 건</span>
-                            <span class="value">1 건</span>
+                            <span class="value">5 건</span>
                         </div>
                     </section>
                     
                     <h2 class="section-title">신청 상세</h2>
-                    <div class="section-subtitle">총 1장의 세금계산서로 발급돼요</div>
-
+                    <div class="section-subtitle">총 1장의 세금계산서로 발급됩니다.</div>
+                    
+                    <section class="transaction-list">
+                        <article class="common-table-card">
+                            <div class="aggregate-item-list">
+                                <div class="aggregate-item-row">
+                                    <div class="aggregate-item-header">
+                                        <div class="aggregate-item-id">sw456426</div>
+                                        <div class="aggregate-item-date">2025-08-12</div>
+                                    </div>
+                                    <div class="item-list">
+                                        <div class="item-row">
+                                            <span class="item-name">한단지</span>
+                                            <div class="item-price-wrapper">
+                                                <span class="item-price-total">2,500 원</span>
+                                                <span class="item-price-details">(공급가액: 2,273 / 부가세액: 227)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="aggregate-item-row">
+                                    <div class="aggregate-item-header">
+                                        <div class="aggregate-item-id">sw765642</div>
+                                        <div class="aggregate-item-date">2025-08-12</div>
+                                    </div>
+                                    <div class="item-list">
+                                        <div class="item-row">
+                                            <span class="item-name">전단지</span>
+                                            <div class="item-price-wrapper">
+                                                <span class="item-price-total">31,020 원</span>
+                                                <span class="item-price-details">(공급가액: 28,200 / 부가세액: 2,820)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="aggregate-item-row">
+                                    <div class="aggregate-item-header">
+                                        <div class="aggregate-item-id">sw567421</div>
+                                        <div class="aggregate-item-date">2025-08-12</div>
+                                    </div>
+                                    <div class="item-list">
+                                        <div class="item-row">
+                                            <span class="item-name">대봉투</span>
+                                            <div class="item-price-wrapper">
+                                                <span class="item-price-total">6,520 원</span>
+                                                <span class="item-price-details">(공급가액: 5,927 / 부가세액: 593)</span>
+                                            </div>
+                                        </div>
+                                        <div class="item-row">
+                                            <span class="item-name">전단지</span>
+                                            <div class="item-price-wrapper">
+                                                <span class="item-price-total">13,200 원</span>
+                                                <span class="item-price-details">(공급가액: 12,000 / 부가세액: 1,200)</span>
+                                            </div>
+                                        </div>
+                                        <div class="item-row">
+                                            <span class="item-name">택배비</span>
+                                            <div class="item-price-wrapper">
+                                                <span class="item-price-total">2,500 원</span>
+                                                <span class="item-price-details">(공급가액: 2,273 / 부가세액: 227)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="aggregate-item-row">
+                                    <div class="aggregate-item-header">
+                                        <div class="aggregate-item-id">sw111111</div>
+                                        <div class="aggregate-item-date">2025-08-11</div>
+                                    </div>
+                                    <div class="item-list">
+                                        <div class="item-row">
+                                            <span class="item-name">스티커</span>
+                                            <div class="item-price-wrapper">
+                                                <span class="item-price-total">110,000 원</span>
+                                                <span class="item-price-details">(공급가액: 100,000 / 부가세액: 10,000)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="aggregate-item-row">
+                                    <div class="aggregate-item-header">
+                                        <div class="aggregate-item-id">sw222222</div>
+                                        <div class="aggregate-item-date">2025-08-10</div>
+                                    </div>
+                                    <div class="item-list">
+                                        <div class="item-row">
+                                            <span class="item-name">명함</span>
+                                            <div class="item-price-wrapper">
+                                                <span class="item-price-total">808,000 원</span>
+                                                <span class="item-price-details">(공급가액: 800,000 / 부가세액: 8,000)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="card-divider" style="margin-top: 20px;"></div>
+                            <div class="card-row-total" style="margin-top: 15px;">
+                                <div class="label">총 합계</div>
+                                <div class="value">1,022,220 원</div>
+                            </div>
+                        </article>
+                    </section>
+                    
+                    <h2 class="section-title">신청 기업 정보</h2>
+                    <section class="form-section">
+                        <nav class="modal-tab-nav" id="tax-form-tabs-합산">
+                            <div class="single-chip single-chip-on" data-tab="my-info" onclick="switchTaxFormTab(this, 'my-info', '합산')">내 정보</div>
+                            <div class="single-chip single-chip-off" data-tab="direct-input" onclick="switchTaxFormTab(this, 'direct-input', '합산')">직접 입력</div>
+                            <div class="single-chip single-chip-off" data-tab="customer-list" onclick="switchTaxFormTab(this, 'customer-list', '합산')">나의 고객 목록</div>
+                        </nav>
+                        
+                        <div id="tax-form-content-합산">
+                            <div class="form-fields-wrapper" data-tab-content="my-info">
+                                <div class="form-group">
+                                    <label>기업명</label>
+                                    <div class="readonly-value">주식회사 메스 TX</div>
+                                </div>
+                                <div class="form-group">
+                                    <label>사업자등록번호</label>
+                                    <div class="readonly-value">434-34342-22</div>
+                                </div>
+                                <div class="form-group">
+                                    <label>대표자명</label>
+                                    <div class="readonly-value">김수한</div>
+                                </div>
+                                <div class="form-group">
+                                    <label>회계담당자명</label>
+                                    <div class="input"><input type="text" value="김회계"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>연락처</label>
+                                    <div class="input"><input type="tel" value="0233441688"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>이메일 주소</label>
+                                    <div class="input"><input type="email" value="damdangja@email.com"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-fields-wrapper" data-tab-content="direct-input" style="display:none;">
+                                <div class="form-group">
+                                    <label>기업명</label>
+                                    <div class="input"><input type="text" placeholder="기업명을 입력해주세요"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>사업자등록번호</label>
+                                    <div class="input"><input type="text" placeholder="'-'없이 숫자만 입력"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>대표자명</label>
+                                    <div class="input"><input type="text" placeholder="대표자명을 입력해주세요"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>회계담당자명</label>
+                                    <div class="input"><input type="text" placeholder="회계담당자명을 입력해주세요"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>연락처</label>
+                                    <div class="input"><input type="tel" placeholder="회계담당자 연락처를 입력해주세요"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>이메일 주소</label>
+                                    <div class="input"><input type="email" placeholder="회계담당자 이메일 주소를 입력해주세요"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-fields-wrapper" data-tab-content="customer-list" style="display:none;">
+                                <div class="form-group form-group-button">
+                                     <button type="button" class="white-button" onclick="showCustomerListModal()">
+                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-list">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M9 6l11 0" />
+                                            <path d="M9 12l11 0" />
+                                            <path d="M9 18l11 0" />
+                                            <path d="M5 6l0 .01" />
+                                            <path d="M5 12l0 .01" />
+                                            <path d="M5 18l0 .01" />
+                                        </svg>&nbsp;나의 고객 목록
+                                     </button>
+                                </div>
+                                <div class="form-group">
+                                    <label>기업명</label>
+                                    <div class="input"><input type="text" id="customer-company-name-합산" placeholder="고객 목록에서 선택해주세요" readonly></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>사업자등록번호</label>
+                                    <div class="input"><input type="text" id="customer-biz-num-합산" placeholder="고객 목록에서 선택해주세요" readonly></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>대표자명</label>
+                                    <div class="input"><input type="text" id="customer-rep-name-합산" placeholder="고객 목록에서 선택해주세요" readonly></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>회계담당자명</label>
+                                    <div class="input"><input type="text" id="customer-contact-name-합산" placeholder="회계담당자명을 입력해주세요"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>연락처</label>
+                                    <div class="input"><input type="tel" id="customer-contact-phone-합산" placeholder="회계담당자 연락처를 입력해주세요"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>이메일 주소</label>
+                                    <div class="input"><input type="email" id="customer-contact-email-합산" placeholder="회계담당자 이메일 주소를 입력해주세요"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            
+            <div id="bill-type-건별" class="page-content" style="display: none;">
+                <div class="sw-container">
+                    
+                    <section class="form-group" style="margin-bottom: 20px;">
+                        <label class="section-title">발급 유형</label>
+                        <div class="filter-group-content" id="bill-type-chips-건별">
+                            <div class="single-chip single-chip-off" data-type="합산" onclick="selectBillType(this)">합산</div>
+                            <div class="single-chip single-chip-on" data-type="건별" onclick="selectBillType(this)">건별</div>
+                        </div>
+                         <p class="disclaimer" id="disclaimer-건별" style="margin-top: 8px; display: none;">* 선택한 5건의 주문이 각각 1장의 세금계산서로 발급됩니다.</p>
+                    </section>
+                    
+                    <section class="info-section">
+                        <div class="title">발급 정보</div>
+                        <div class="balance-row">
+                            <span class="label" style="font-size: 14px;">총 합계</span>
+                            <span class="balance">1,022,220 원</span>
+                        </div>
+                        <div class="info-sub-row">
+                            <span class="label">공급가액</span>
+                            <span class="value">1,000,000 원</span>
+                        </div>
+                        <div class="info-sub-row" style="border-bottom: 1px solid #f0f0f0; padding-bottom: 12px; margin-bottom: 8px;">
+                            <span class="label">부가세액</span>
+                            <span class="value">22,220 원</span>
+                        </div>
+                        <div class="info-sub-row">
+                            <span class="label">발급 신청 건</span>
+                            <span class="value">5 건</span>
+                        </div>
+                    </section>
+                    
+                    <h2 class="section-title">신청 상세</h2>
+                    <div class="section-subtitle">총 5장의 세금계산서로 발급됩니다.</div>
+                    
                     <section class="transaction-list">
                          <article class="common-table-card">
+                            <div class="card-header">
+                                <div class="card-column1">sw456426</div>
+                                <div class="card-row-value">2025-08-12</div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="item-list">
+                                <div class="item-row">
+                                    <span class="item-name">한단지</span>
+                                    <div class="item-price-wrapper">
+                                        <span class="item-price-total">2,500 원</span>
+                                        <span class="item-price-details">(공급가액: 2,273 / 부가세액: 227)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row-total"><div class="label">합계</div><div class="value">2,500 원</div></div>
+                        </article>
+                        
+                        <article class="common-table-card">
+                            <div class="card-header">
+                                <div class="card-column1">sw765642</div>
+                                <div class="card-row-value">2025-08-12</div>
+                            </div>
+                            <div class="card-divider"></div>
+                             <div class="item-list">
+                                <div class="item-row">
+                                    <span class="item-name">전단지</span>
+                                    <div class="item-price-wrapper">
+                                        <span class="item-price-total">31,020 원</span>
+                                        <span class="item-price-details">(공급가액: 28,200 / 부가세액: 2,820)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row-total"><div class="label">합계</div><div class="value">31,020 원</div></div>
+                        </article>
+                        
+                        <article class="common-table-card">
                             <div class="card-header">
                                 <div class="card-column1">sw567421</div>
                                 <div class="card-row-value">2025-08-12</div>
@@ -614,8 +850,43 @@
                             <div class="card-row-total"><div class="label">합계</div><div class="value">22,220 원</div></div>
                         </article>
                         
-                        <p class="disclaimer" id="disclaimer-합산" style="margin-top: 8px;">* 세금계산서 작성일은 선택한 접수건 중 가장 늦은 날짜로 자동 설정돼요.
-폐기된 건은 배송시작일이 아니라 폐기처리일이 기준으로 적용돼요</p>
+                        <article class="common-table-card">
+                            <div class="card-header">
+                                <div class="card-column1">sw111111</div>
+                                <div class="card-row-value">2025-08-11</div>
+                            </div>
+                            <div class="card-divider"></div>
+                             <div class="item-list">
+                                <div class="item-row">
+                                    <span class="item-name">스티커</span>
+                                    <div class="item-price-wrapper">
+                                        <span class="item-price-total">110,000 원</span>
+                                        <span class="item-price-details">(공급가액: 100,000 / 부가세액: 10,000)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row-total"><div class="label">합계</div><div class="value">110,000 원</div></div>
+                        </article>
+                        
+                        <article class="common-table-card">
+                            <div class="card-header">
+                                <div class="card-column1">sw222222</div>
+                                <div class="card-row-value">2025-08-10</div>
+                            </div>
+                            <div class="card-divider"></div>
+                             <div class="item-list">
+                                <div class="item-row">
+                                    <span class="item-name">명함</span>
+                                    <div class="item-price-wrapper">
+                                        <span class="item-price-total">808,000 원</span>
+                                        <span class="item-price-details">(공급가액: 800,000 / 부가세액: 8,000)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row-total"><div class="label">합계</div><div class="value">808,000 원</div></div>
+                        </article>
                     </section>
                     
                     <h2 class="section-title">신청 기업 정보</h2>
@@ -729,11 +1000,11 @@
         </main>
         
         <div class="sticky-form-footer">
-            <button class="white-button btn" onclick="checkBeforeExit();">목록으로 가기</button>
-            <button class="dark-button btn" onclick="showClosedBizAlert()">신청하기</button>
+            <button class="white-button btn" onclick="location.href='tax_request.html';">목록으로 가기</button>
+            <button class="dark-button btn" onclick="alert('신청하기 (구현 필요)')">신청하기</button>
         </div>
     </div>
-    
+
     <div class="modal-overlay" id="customer-list-modal-overlay">
         <div class="modal-content" id="customer-list-modal">
             <div class="modal-header">
@@ -750,14 +1021,10 @@
                         <input type="text" placeholder="검색어를 입력해주세요" oninput="handleSearchInput(this)">
                          <div class="search-input-right">
                             <div class="search-del" onclick="clearSearch(this)">
-                                <img src="assets/images/search-del.png" alt="지우기">
+                                <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d" alt="삭제">
                             </div>
                             <div class="btn-search" onclick="handleSearch(this)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
-                            id="icon-search">
-                                    <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                    <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
-                                </svg>
+                                <img src="https://www.figma.com/api/mcp/asset/4af11b15-4228-4024-b0ec-cd703ca89e9f" alt="검색">
                             </div>
                         </div>
                     </div>
@@ -883,34 +1150,9 @@
             </div>
         </div>
     </div>
-    
-    <div class="modal-overlay" id="exit-alert-modal">
-        <div class="modal-content alert-modal" data-name="Alert">
-            <div class="modal-title">안내</div>
-            <div class="modal-message">입력한 내용이 모두 사라져요.<br>정말 나가시겠어요?</div>
-            <div class="modal-buttons">
-                <button class="modal-button modal-button-secondary" onclick="closeModal('exit-alert-modal')">계속 작성하기</button>
-                <button class="modal-button modal-button-primary" onclick="confirmExit()">나가기</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="modal-overlay" id="closed-biz-alert-modal">
-        <div class="modal-content alert-modal" data-name="Alert">
-            <div class="modal-title">폐업 안내</div>
-            <div class="modal-message">신청하신 기업은 폐업 상태에요.<br>해당 기업을 고객 목록에서 삭제할까요?</div>
-            <div class="modal-buttons">
-                <button class="modal-button modal-button-secondary" onclick="closeModal('closed-biz-alert-modal')">닫기</button>
-                <button class="modal-button modal-button-primary" onclick="deleteClosedBiz()">삭제하기</button>
-            </div>
-        </div>
-    </div>
 
 
     <script>
-        // [NEW] isFormDirty 플래그
-        let isFormDirty = false;
-
         // --- [NEW] v12 Search JS (For Request 3) ---
         function handleSearchInput(input) {
             const searchBox = input.closest('.search');
@@ -925,30 +1167,41 @@
         }
         function handleSearch(btn) { console.log('Search submitted:', btn.closest('.search').querySelector('input').value); }
         
-        // --- [NEW] Form Dirty Check & Exit Alert ---
-        function checkBeforeExit() {
-            if (isFormDirty) {
-                openModal('exit-alert-modal');
-            } else {
-                goBack();
-            }
-        }
-        
-        function confirmExit() {
-            isFormDirty = false; // Reset flag
-            closeModal('exit-alert-modal');
-            goBack();
-        }
-        
-        function goBack() {
-             // '목록으로 가기' 버튼과 동일하게 동작
-             location.href='tax_request.html';
-        }
-
         // --- [NEW] Main Page Bill Type Logic ---
         function selectBillType(chip) {
-            // 이 파일은 '건별' 전용이므로 해당 함수는 기능하지 않지만,
-            // DOMContentLoaded의 오류를 막기 위해 빈 함수로 둡니다.
+            const chipWrapper = chip.closest('.filter-group-content');
+            if (!chipWrapper) return;
+            
+            // 칩 활성화
+            chipWrapper.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+            
+            const pageName = chip.getAttribute('data-type');
+            
+            // 콘텐츠 영역 토글
+            document.querySelectorAll('.page-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            document.getElementById(`bill-type-${pageName}`).style.display = 'block';
+
+            // 다른 탭의 칩 상태도 동기화 (예: 합산 탭에서 '건별'을 누르면 건별 탭의 칩도 '건별'로)
+            const otherContext = (pageName === '합산') ? '건별' : '합산';
+            const otherChipWrapper = document.getElementById(`bill-type-chips-${otherContext}`);
+            if (otherChipWrapper) {
+                 otherChipWrapper.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+                 otherChipWrapper.querySelector(`[data-type="${pageName}"]`).classList.replace('single-chip-off', 'single-chip-on');
+            }
+            
+             // [MODIFIED] 안내 문구 변경
+            const disclaimer합산 = document.getElementById('disclaimer-합산');
+            const disclaimer건별 = document.getElementById('disclaimer-건별');
+            if (pageName === '합산') {
+                disclaimer합산.style.display = 'block';
+                disclaimer건별.style.display = 'none';
+            } else {
+                disclaimer합산.style.display = 'none';
+                disclaimer건별.style.display = 'block';
+            }
         }
 
         // --- [NEW] Inner Form Tab Logic ---
@@ -1031,9 +1284,6 @@
             contactNameInput.placeholder = contactName ? '' : '회계담당자명을 입력해주세요';
             contactPhoneInput.placeholder = contactPhone ? '' : '회계담당자 연락처를 입력해주세요';
             contactEmailInput.placeholder = email ? '' : '회계담당자 이메일 주소를 입력해주세요';
-            
-            // [NEW] 고객 선택 시 isFormDirty 플래그 설정
-            isFormDirty = true;
         }
 
         // --- Customer Add/Edit/Delete Logic ---
@@ -1072,88 +1322,31 @@
         
         function deleteCustomer() {
             // 간단한 확인창
-            if (confirm("이 고객 정보를 삭제할까요?")) {
-                alert("삭제했어요 (구현 필요)");
+            if (confirm("이 고객 정보를 삭제하시겠습니까?")) {
+                alert("삭제 처리되었습니다. (구현 필요)");
                 // TODO: 실제 삭제 로직 및 목록 새로고침
             }
-        }
-        
-        // --- [NEW] Closed Biz Alert Logic ---
-        function showClosedBizAlert() {
-            // '신청하기' 버튼 클릭 시 호출
-            openModal('closed-biz-alert-modal');
-        }
-        
-        function deleteClosedBiz() {
-            // 폐업 안내 모달의 '삭제하기' 버튼 클릭 시
-            closeModal('closed-biz-alert-modal');
-            alert("고객 목록에서 해당 기업이 삭제되었어요 (구현 필요)");
-            // TODO: 실제 삭제 로직
         }
 
         // --- [MODIFIED] Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
+            // 초기 페이지 로드 시 '합산' 탭 활성화 상태 확인
+            selectBillType(document.querySelector('#bill-type-chips-합산 .single-chip.active'));
             
-            // [BUG FIX] '#tax-form-tabs-합산' -> '#tax-form-tabs-건별'로 수정
-            // [BUG FIX] '.active' -> '.single-chip-on'으로 수정
-            if (typeof switchTaxFormTab === 'function') {
-                const activeTab = document.querySelector('#tax-form-tabs-건별 .single-chip-on');
-                if (activeTab) {
-                    switchTaxFormTab(activeTab, 'my-info', '건별');
-                }
-            }
+            // 초기 폼 탭 활성화 상태 확인 (양쪽 탭 모두)
+            switchTaxFormTab(document.querySelector('#tax-form-tabs-합산 .single-chip.active'), 'my-info', '합산');
+            switchTaxFormTab(document.querySelector('#tax-form-tabs-건별 .single-chip.active'), 'my-info', '건별');
             
              // [NEW] Modal overlay click-to-close listeners
             document.querySelectorAll('.modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
-                    // [BUG FIX] 모달 오버레이 클릭 시 닫기
-                    if (e.target === overlay) {
+                    if (e.target.id === overlay.id) {
                         closeModal(overlay.id);
                     }
                 });
             });
-            
-            // [NEW] Add event listeners for form dirty check
-            // (이제 이 스크립트가 정상적으로 등록됩니다)
-            document.querySelectorAll('.form-fields-wrapper input, .form-fields-wrapper select').forEach(el => {
-                el.addEventListener('input', () => { isFormDirty = true; });
-                el.addEventListener('change', () => { isFormDirty = true; }); // For select
-            });
-            document.querySelectorAll('.modal-tab-nav .single-chip').forEach(el => {
-                 el.addEventListener('click', () => { isFormDirty = true; });
-            });
-            
-            // 고객 목록 버튼 클릭도 dirty로 간주
-            const customerListButton = document.querySelector('.form-group-button .white-button');
-            if(customerListButton) {
-                customerListButton.addEventListener('click', () => { isFormDirty = true; });
-            }
         });
 
     </script>
-
-
-    <div class="disqus-thread-wrap">
-        <div id="disqus_thread"></div>
-        <script>
-            /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-            /*
-            var disqus_config = function () {
-            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-            };
-            */
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://sw-mobile.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-    <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>
 </html>
