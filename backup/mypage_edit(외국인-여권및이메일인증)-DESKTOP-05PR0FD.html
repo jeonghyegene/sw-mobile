@@ -497,31 +497,7 @@
         }
 
         .combobox-wrapper .input.select-wrapper::after {
-            right: 8px; /* [MODIFIED] Arrow position */
-        }
-        
-        /* [NEW] v12 standard filter-group-content (from qna_write.html) */
-        .filter-group-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        
-        /* [NEW] v12 Standard .single-chip (from qna_write.html) */
-        .single-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
-        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
-        .single-chip-on { background: #4e6ee4; color: white; }
-        .single-chip:active { transform: scale(0.95); }
-        
-        /* [NEW] form-group-button (from tax_request_write...) */
-        .form-group-button {
-             margin-bottom: 20px;
-        }
-        .form-group-button .white-button {
-            width: 100%;
-            height: 40px;
-            font-weight: 500;
-            font-size: 14px;
+            right: 9px; /* [MODIFIED] Arrow position */
         }
 
 
@@ -684,12 +660,12 @@
                 
                 <div class="form-group">
                     <label>회원 구분</label>
-                    <div class="readonly-value">해외사업자</div>
+                    <div class="readonly-value">외국인회원</div>
                 </div>
                 
                 <div class="form-group">
                     <label>아이디</label>
-                    <div class="readonly-value">jason_stark_0304</div>
+                    <div class="readonly-value">jason_stark</div>
                 </div>
                 
                 <div class="form-group" id="password-display-section">
@@ -728,18 +704,15 @@
             
             <div class="sw-container">
                 <h2 class="section-title">기본 정보</h2>
-
+                
                 <div class="form-group">
-                    <label for="company-name">기업명</label>
-                    <div class="input">
-                        <input type="text" id="company-name" value="Google">
-                    </div>
+                    <label>이름</label>
+                    <div class="readonly-value">jason</div>
                 </div>
+                
                 <div class="form-group">
-                    <label for="rep-name">대표자명</label>
-                    <div class="input">
-                        <input type="text" id="rep-name" value="John watson">
-                    </div>
+                    <label>생년월일</label>
+                    <div class="readonly-value">1982-04-03</div>
                 </div>
                 
                 <div class="form-group">
@@ -772,200 +745,191 @@
                             </div>
                         </div>
                         
-                        <div class="input" style="flex: 1;">
-                           <input type="tel" value="" placeholder="휴대폰 번호 입력">
+                        <div class="input readonly-value" style="flex: 1;"> <input type="tel" value="01073488450" readonly>
                         </div>
+                        <button type="button" class="white-button" onclick="alert('휴대폰 번호 변경 (본인인증 팝업)')">변경</button>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="email">이메일 주소</label>
-                    <div class="input-group">
-                        <div class="input">
-                           <input type="email" id="email" value="gogiso@naver.com">
-                        </div>
+                    <div class="input">
+                        <input type="email" id="email" value="gogiso@naver.com">
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label for="country-select">국가 (Country)</label>
                     <div class="input select-wrapper">
                         <select id="country-select" onchange="toggleAddressFormat(this.value)">
-                            <option value="" disabled>국가를 선택해주세요</option>
-                            <option value="us" selected>미국 (United States)</option> <option value="jp">일본 (Japan)</option>
+                            <option value="" selected disabled>국가를 선택해주세요</option>
+                            <option value="us">미국 (United States)</option>
+                            <option value="jp">일본 (Japan)</option>
                         </select>
                     </div>
                 </div>
 
-                <h2 class="section-title" style="margin-top: 24px;">기업 추가 정보</h2>
-                <p class="disclaimer" style="margin-top: -8px; margin-bottom: 12px;">세금계산서 발급 시 참고할 선택 입력 정보에요</p>
-
-                <div class="form-group">
-                    <label>회사주소 (선택)</label>
-                    
-                    <div id="address-format-us" style="display: block;">
+                <div id="address-format-us" style="display: none;">
+                    <div class="form-group">
+                        <label for="us-zip">ZIP Code (우편번호) </label>
+                        <div class="input">
+                            <input type="text" id="us-zip" placeholder="Enter ZIP Code">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="us-street">Street Address (상세 주소) </label>
+                        <div class="input">
+                            <input type="text" id="us-street" placeholder="Enter Street Address">
+                        </div>
+                    </div>
+                    <div class="form-row-flex">
                         <div class="form-group">
-                            <label for="us-zip">ZIP Code (우편번호) </label>
+                            <label for="us-city">City (도시) </label>
                             <div class="input">
-                                <input type="text" id="us-zip" placeholder="Enter ZIP Code">
+                                <input type="text" id="us-city" placeholder="Enter City">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="us-street">Street Address (상세 주소) </label>
-                            <div class="input">
-                                <input type="text" id="us-street" placeholder="Enter Street Address">
-                            </div>
-                        </div>
-                        <div class="form-row-flex">
-                            <div class="form-group">
-                                <label for="us-city">City (도시) </label>
-                                <div class="input">
-                                    <input type="text" id="us-city" placeholder="Enter City">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="us-state">State (주) </label>
-                                <div class="input select-wrapper">
-                                    <select id="us-state" required>
-                                        <option value="" selected disabled>Select State</option>
-                                        <option value="AL">Alabama</option>
-                                        <option value="AK">Alaska</option>
-                                        <option value="AZ">Arizona</option>
-                                        <option value="AR">Arkansas</option>
-                                        <option value="CA">California</option>
-                                        <option value="CO">Colorado</option>
-                                        <option value="CT">Connecticut</option>
-                                        <option value="DE">Delaware</option>
-                                        <option value="FL">Florida</option>
-                                        <option value="GA">Georgia</option>
-                                        <option value="HI">Hawaii</option>
-                                        <option value="ID">Idaho</option>
-                                        <option value="IL">Illinois</option>
-                                        <option value="IN">Indiana</option>
-                                        <option value="IA">Iowa</option>
-                                        <option value="KS">Kansas</option>
-                                        <option value="KY">Kentucky</option>
-                                        <option value="LA">Louisiana</option>
-                                        <option value="ME">Maine</option>
-                                        <option value="MD">Maryland</option>
-                                        <option value="MA">Massachusetts</option>
-                                        <option value="MI">Michigan</option>
-                                        <option value="MN">Minnesota</option>
-                                        <option value="MS">Mississippi</option>
-                                        <option value="MO">Missouri</option>
-                                        <option value="MT">Montana</option>
-                                        <option value="NE">Nebraska</option>
-                                        <option value="NV">Nevada</option>
-                                        <option value="NH">New Hampshire</option>
-                                        <option value="NJ">New Jersey</option>
-                                        <option value="NM">New Mexico</option>
-                                        <option value="NY">New York</option>
-                                        <option value="NC">North Carolina</option>
-                                        <option value="ND">North Dakota</option>
-                                        <option value="OH">Ohio</option>
-                                        <option value="OK">Oklahoma</option>
-                                        <option value="OR">Oregon</option>
-                                        <option value="PA">Pennsylvania</option>
-                                        <option value="RI">Rhode Island</option>
-                                        <option value="SC">South Carolina</option>
-                                        <option value="SD">South Dakota</option>
-                                        <option value="TN">Tennessee</option>
-                                        <option value="TX">Texas</option>
-                                        <option value="UT">Utah</option>
-                                        <option value="VT">Vermont</option>
-                                        <option value="VA">Virginia</option>
-                                        <option value="WA">Washington</option>
-                                        <option value="WV">West Virginia</option>
-                                        <option value="WI">Wisconsin</option>
-                                        <option value="WY">Wyoming</option>
-                                    </select>
-                                </div>
+                            <label for="us-state">State (주) </label>
+                            <div class="input select-wrapper">
+                                <select id="us-state" required>
+                                    <option value="" selected disabled>Select State</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-
-                    <div id="address-format-jp" style="display: none;">
-                        <div class="form-group">
-                            <label for="jp-zip">郵便番号 (우편번호) </label>
-                            <div class="input">
-                                <input type="text" id="jp-zip" placeholder="例) 1000001">
-                            </div>
-                        </div>
-                        <div class="form-row-flex" style="margin-bottom: 8px;">
-                            <div class="form-group">
-                                <label for="jp-pref">都道府県 (도도부현) </label>
-                                <div class="input select-wrapper">
-                                    <select id="jp-pref" required>
-                                        <option value="" selected disabled>都道府県を選択</option>
-                                        <option value="Hokkaido">Hokkaido (北海道)</option>
-                                        <option value="Aomori">Aomori (青森県)</option>
-                                        <option value="Iwate">Iwate (岩手県)</option>
-                                        <option value="Miyagi">Miyagi (宮城県)</option>
-                                        <option value="Akita">Akita (秋田県)</option>
-                                        <option value="Yamagata">Yamagata (山形県)</option>
-                                        <option value="Fukushima">Fukushima (福島県)</option>
-                                        <option value="Ibaraki">Ibaraki (茨城県)</option>
-                                        <option value="Tochigi">Tochigi (栃木県)</option>
-                                        <option value="Gumma">Gumma (群馬県)</option>
-                                        <option value="Saitama">Saitama (埼玉県)</option>
-                                        <option value="Chiba">Chiba (千葉県)</option>
-                                        <option value="Tokyo">Tokyo (東京都)</option>
-                                        <option value="Kanagawa">Kanagawa (神奈川県)</option>
-                                        <option value="Niigata">Niigata (新潟県)</option>
-                                        <option value="Toyama">Toyama (富山県)</option>
-                                        <option value="Ishikawa">Ishikawa (石川県)</option>
-                                        <option value="Fukui">Fukui (福井県)</option>
-                                        <option value="Yamanashi">Yamanashi (山梨県)</option>
-                                        <option value="Nagano">Nagano (長野県)</option>
-                                        <option value="Gifu">Gifu (岐阜県)</option>
-                                        <option value="Shizuoka">Shizuoka (静岡県)</option>
-                                        <option value="Aichi">Aichi (愛知県)</option>
-                                        <option value="Mie">Mie (三重県)</option>
-                                        <option value="Shiga">Shiga (滋賀県)</option>
-                                        <option value="Kyoto">Kyoto (京都府)</option>
-                                        <option value="Osaka">Osaka (大阪府)</option>
-                                        <option value="Hyogo">Hyogo (兵庫県)</option>
-                                        <option value="Nara">Nara (奈良県)</option>
-                                        <option value="Wakayama">Wakayama (和歌산県)</option>
-                                        <option value="Tottori">Tottori (鳥取県)</option>
-                                        <option value="Shimane">Shimane (島根県)</option>
-                                        <option value="Okayama">Okayama (岡山県)</option>
-                                        <option value="Hiroshima">Hiroshima (広島県)</option>
-                                        <option value="Yamaguchi">Yamaguchi (山口県)</option>
-                                        <option value="Tokushima">Tokushima (徳島県)</option>
-                                        <option value="Kagawa">Kagawa (香川県)</option>
-                                        <option value="Ehime">Ehime (愛媛県)</option>
-                                        <option value="Kochi">Kochi (高知県)</option>
-                                        <option value="Fukuoka">Fukuoka (福岡県)</option>
-                                        <option value="Saga">Saga (佐賀県)</option>
-                                        <option value="Nagasaki">Nagasaki (長崎県)</option>
-                                        <option value="Kumamoto">Kumamoto (熊本県)</option>
-                                        <option value="Oita">Oita (大分県)</option>
-                                        <option value="Miyazaki">Miyazaki (宮崎県)</option>
-                                        <option value="Kagoshima">Kagoshima (鹿児島県)</option>
-                                        <option value="Okinawa">Okinawa (沖縄県)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="jp-city">市区町村 (시구정촌) </label>
-                                <div class="input">
-                                    <input type="text" id="jp-city" placeholder="例) 千代田区千代田">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="jp-street">番地・建物名等 (상세 주소) </label>
-                            <div class="input">
-                                <input type="text" id="jp-street" placeholder="例) 1-1">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <p class="disclaimer" id="address-disclaimer-jp" style="display: none; margin-top: -12px; margin-bottom: 20px;">
-                        * 국제 배송을 위해 이름 및 주소는 영문으로 입력해주세요
-                    </p>
                 </div>
 
+                <div id="address-format-jp" style="display: none;">
+                    <div class="form-group">
+                        <label for="jp-zip">郵便番号 (우편번호) </label>
+                        <div class="input">
+                            <input type="text" id="jp-zip" placeholder="例) 1000001">
+                        </div>
+                    </div>
+                    <div class="form-row-flex" style="margin-bottom: 8px;">
+                        <div class="form-group">
+                            <label for="jp-pref">都道府県 (도도부현) </label>
+                            <div class="input select-wrapper">
+                                 <select id="jp-pref" required>
+                                    <option value="" selected disabled>都道府県を選択</option>
+                                    <option value="Hokkaido">Hokkaido (北海道)</option>
+                                    <option value="Aomori">Aomori (青森県)</option>
+                                    <option value="Iwate">Iwate (岩手県)</option>
+                                    <option value="Miyagi">Miyagi (宮城県)</option>
+                                    <option value="Akita">Akita (秋田県)</option>
+                                    <option value="Yamagata">Yamagata (山形県)</option>
+                                    <option value="Fukushima">Fukushima (福島県)</option>
+                                    <option value="Ibaraki">Ibaraki (茨城県)</option>
+                                    <option value="Tochigi">Tochigi (栃木県)</option>
+                                    <option value="Gumma">Gumma (群馬県)</option>
+                                    <option value="Saitama">Saitama (埼玉県)</option>
+                                    <option value="Chiba">Chiba (千葉県)</option>
+                                    <option value="Tokyo">Tokyo (東京都)</option>
+                                    <option value="Kanagawa">Kanagawa (神奈川県)</option>
+                                    <option value="Niigata">Niigata (新潟県)</option>
+                                    <option value="Toyama">Toyama (富山県)</option>
+                                    <option value="Ishikawa">Ishikawa (石川県)</option>
+                                    <option value="Fukui">Fukui (福井県)</option>
+                                    <option value="Yamanashi">Yamanashi (山梨県)</option>
+                                    <option value="Nagano">Nagano (長野県)</option>
+                                    <option value="Gifu">Gifu (岐阜県)</option>
+                                    <option value="Shizuoka">Shizuoka (静岡県)</option>
+                                    <option value="Aichi">Aichi (愛知県)</option>
+                                    <option value="Mie">Mie (三重県)</option>
+                                    <option value="Shiga">Shiga (滋賀県)</option>
+                                    <option value="Kyoto">Kyoto (京都府)</option>
+                                    <option value="Osaka">Osaka (大阪府)</option>
+                                    <option value="Hyogo">Hyogo (兵庫県)</option>
+                                    <option value="Nara">Nara (奈良県)</option>
+                                    <option value="Wakayama">Wakayama (和歌山県)</option>
+                                    <option value="Tottori">Tottori (鳥取県)</option>
+                                    <option value="Shimane">Shimane (島根県)</option>
+                                    <option value="Okayama">Okayama (岡山県)</option>
+                                    <option value="Hiroshima">Hiroshima (広島県)</option>
+                                    <option value="Yamaguchi">Yamaguchi (山口県)</option>
+                                    <option value="Tokushima">Tokushima (徳島県)</option>
+                                    <option value="Kagawa">Kagawa (香川県)</option>
+                                    <option value="Ehime">Ehime (愛媛県)</option>
+                                    <option value="Kochi">Kochi (高知県)</option>
+                                    <option value="Fukuoka">Fukuoka (福岡県)</option>
+                                    <option value="Saga">Saga (佐賀県)</option>
+                                    <option value="Nagasaki">Nagasaki (長崎県)</option>
+                                    <option value="Kumamoto">Kumamoto (熊本県)</option>
+                                    <option value="Oita">Oita (大分県)</option>
+                                    <option value="Miyazaki">Miyazaki (宮崎県)</option>
+                                    <option value="Kagoshima">Kagoshima (鹿児島県)</option>
+                                    <option value="Okinawa">Okinawa (沖縄県)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="jp-city">市区町村 (시구정촌) </label>
+                            <div class="input">
+                                <input type="text" id="jp-city" placeholder="例) 千代田区千代田">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jp-street">番地・建物名等 (상세 주소) </label>
+                        <div class="input">
+                            <input type="text" id="jp-street" placeholder="例) 1-1">
+                        </div>
+                    </div>
+                </div>
                 
+                <p class="disclaimer" id="address-disclaimer-jp" style="display: none; margin-top: -12px; margin-bottom: 20px;">
+                    * 국제 배송을 위해 이름 및 주소는 영문으로 입력해주세요
+                </p>
                 <h2 class="section-title" style="margin-top: 24px;">동의 정보</h2>
                 
                 <div class="form-group">
@@ -1012,16 +976,6 @@
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label>저작권 활용 동의</label>
-                    <div class="agreement-row">
-                        <div class="filter-group-content" id="copyright-chips">
-                            <div class="single-chip single-chip-off" data-value="agree" onclick="selectCopyright(this)">동의</div>
-                            <div class="single-chip single-chip-on" data-value="refuse" onclick="selectCopyright(this)">거부</div> </div>
-                        <a href="#" class="disclaimer-link" style="margin: 0;" onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
-                    </div>
-                </div>
-                
             </div>
         </main>
         
@@ -1063,8 +1017,8 @@
                     </div>
             </div>
             <div class="modal-buttons">
-                <!-- <button class="modal-button modal-button-secondary" onclick="closeModal('save-confirm-modal')">취소</button> -->
-                <button class="modal-button modal-button-primary" onclick="closeModal('save-confirm-modal');">확인</button>
+                <button class="modal-button modal-button-secondary" onclick="closeModal('save-confirm-modal')">취소</button>
+                <button class="modal-button modal-button-primary" onclick="closeModal('save-confirm-modal');">계정 설정</button>
             </div>
         </div>
     </div>
@@ -1247,6 +1201,8 @@
                 detailsHtml += '</div>';
             }
             
+            // NOTE: In a real app, you'd check the *previous* state vs *new* state
+            // For this demo, we assume the initial state was different.
             const stayrockAgree = document.getElementById('agree-stayrock').dataset.checked === 'true';
             const sungwonmallAgree = document.getElementById('agree-sungwonmall').dataset.checked === 'true';
             
@@ -1328,14 +1284,6 @@
             isFormDirty = true;
             // [MODIFIED] Explicitly call hide to fix bug
             hideCountryCodeDropdown();
-        }
-        
-        // --- [NEW] Copyright Agreement Logic ---
-        function selectCopyright(chip) {
-             const group = chip.closest('#copyright-chips');
-             group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
-             chip.classList.replace('single-chip-off', 'single-chip-on');
-             isFormDirty = true;
         }
 
 
@@ -1435,18 +1383,14 @@
             // [MODIFIED] Add blur listener to combobox wrapper to close it
             const comboboxWrapper = document.querySelector('.combobox-wrapper .input.select-wrapper');
             if (comboboxWrapper) {
-                // [MODIFIED] Use 'focusout' event on the wrapper to detect when focus leaves the component
-                const comboboxRoot = comboboxWrapper.closest('.combobox-wrapper');
-                comboboxRoot.addEventListener('focusout', (e) => {
-                    // Check if the new focused element is still inside this combobox
-                    if (!comboboxRoot.contains(e.relatedTarget)) {
-                        hideCountryCodeDropdown();
-                    }
+                comboboxWrapper.addEventListener('blur', () => {
+                    // We use a timeout to allow the mousedown on the item to fire first
+                    setTimeout(() => {
+                        const dropdown = document.getElementById('country-code-dropdown');
+                        if (dropdown) dropdown.style.display = 'none';
+                    }, 200);
                 });
             }
-            
-            // [NEW] Initialize default "미국" address form
-            toggleAddressFormat('us');
         });
 
     </script>

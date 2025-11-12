@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>현금영수증 발급 (발급 내역)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        .disqus-thread-wrap {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 450px;
+            height: 100%;
+            overflow: auto;
+        }
+
+        @media all and (max-width: 1490px) {
+            .disqus-thread-wrap {
+                display: none;
+            }
+        }
+        .disqus-thread-wrap {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 450px;
+            height: 100%;
+            overflow: auto;
+        }
+
+        @media all and (max-width: 1490px) {
+            .disqus-thread-wrap {
+                display: none;
+            }
+        }
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input, select {
+            font-family: inherit;
+        }
+        
+        /* [MODIFIED] CR1: Add styles for date input (from tax_issue.html) */
+        input[type="date"] {
+            position: relative;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+            padding: 10px 12px;
+            width: 100%;
+            min-height: 40px;
+            border: none;
+            outline: none;
+        }
+        
+        /* [MODIFIED] CR1: Date input placeholder styling (from tax_issue.html) */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+        }
+        
+        input[type="date"]::before {
+            content: attr(data-placeholder);
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #c6c6c8; /* Placeholder color */
+            display: none;
+        }
+        
+        input[type="date"]:invalid::before {
+            display: block;
+        }
+        input[type="date"][value]:not([value=""])::before {
+            display: none; /* Hide placeholder if date is set */
+        }
+
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 20px;
+            /* Pagination 여백 */
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 2 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 16px;
+        }
+
+        /* [NEW] Page Tabs (v12 Tab-Nav Style) */
+        .page-tabs {
+            width: 100%;
+            height: 44px;
+            /* v12 standard height */
+            background: white;
+            border-bottom: 1px solid #e8e8e9;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 20px 1px 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .page-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .page-tab-item {
+            height: 42px;
+            padding: 10px 4px;
+            font-size: 16px;
+            /* v12 standard font size */
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 16px;
+            position: relative;
+            color: #bcbcbc;
+            /* Inactive color */
+            border-bottom: 2px solid transparent;
+            flex-shrink: 0;
+            /* Prevent shrinking */
+        }
+
+        .page-tab-item.active {
+            color: black;
+            border-bottom: 2px solid black;
+        }
+
+        .page-tab-item:hover {
+            opacity: 0.8;
+        }
+
+
+        /* Account Section (v14) */
+        /* [MODIFIED] Lighter style for info-section */
+        .info-section {
+            background: #f8f8f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .info-section .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .info-section .balance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .info-section .balance {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .info-section .balance-row .primary-button {
+            height: 36px;
+            font-size: 13px;
+        }
+        
+        /* Filter Chip Section */
+        .filter-chip-section {
+            background: #fff;
+            padding: 8px 16px;
+            border-bottom: 1px solid #e9e9e9;
+            margin: 0 -16px 16px -16px;
+        }
+
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip-section .tabs-scroll-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-chip-section .single-chip,
+        .filter-chip-section .multi-chip {
+            /* [MODIFIED] Apply to both chip types */
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        /* Filter Section (v15) */
+        .filter-section {
+            padding: 0 0 16px 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        
+        #issue-period-filter {
+            padding-bottom: 16px;
+        }
+
+        .text-select-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+            padding: 8px 0;
+        }
+
+        .text-select-button:hover {
+            opacity: 0.8;
+        }
+
+        .text-select-button:active {
+            transform: scale(0.98);
+        }
+
+        .text-select-button-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .text-select-button-arrow {
+            width: 16px;
+            height: 16px;
+            color: #555;
+        }
+
+        .text-select-button-arrow svg {
+            transition: transform 0.2s;
+        }
+
+        .text-select-button.open .text-select-button-arrow svg {
+            transform: rotate(-180deg);
+        }
+
+        /* Transaction List Header */
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .transaction-list-header .total-count strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-count-select {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+        }
+
+        .view-count-select:hover {
+            opacity: 0.8;
+        }
+
+        .view-count-select:active {
+            transform: scale(0.98);
+        }
+
+        .view-count-select-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .view-count-select-arrow {
+            width: 12px;
+            height: 12px;
+        }
+
+        .view-count-select-arrow svg {
+            transition: transform 0.2s;
+            transform: translateY(-2px);
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+            /* Pagination 여백 */
+        }
+
+        .no-transactions {
+            padding: 40px 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* [NEW] v12 common-table-card (for Tax Invoice) */
+        .common-table-card {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0px;
+        }
+
+        .card-column1 {
+            font-size: 16px;
+            font-weight: 500;
+            color: #212121;
+        }
+        
+        /* [NEW] Text button style (from tax_issue.html) */
+        .card-column1-button {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            text-align: left;
+        }
+        .card-column1-button:hover {
+            opacity: 0.7;
+        }
+
+        .card-badge {
+            background: white;
+            border: 1px solid #d7d7d7;
+            border-radius: 30px;
+            padding: 2px 10px;
+            font-size: 10px;
+            color: black;
+            flex-shrink: 0;
+        }
+
+        .card-column2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333333;
+            margin-top: 4px;
+            margin-bottom: 15px;
+        }
+
+        .card-divider {
+            width: 100%;
+            height: 1px;
+            background: #e8e8e9;
+            margin: 10px 0;
+        }
+
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .card-row-label {
+            color: #333333;
+            flex-shrink: 0;
+            margin-right: 8px;
+        }
+
+        .card-row-value {
+            color: grey;
+            text-align: right;
+            word-break: break-all;
+        }
+
+        .card-footer {
+            padding-top: 10px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .card-footer .btn {
+            height: 36px;
+            font-size: 13px;
+            padding: 0 12px;
+        }
+
+        /* [v17] Pagination (Master Guide Img) */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-bottom: 24px;
+        }
+
+        .pagination-arrow {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-arrow img {
+            width: 100%;
+            height: auto;
+        }
+
+        .pagination-arrow:active {
+            transform: scale(0.9);
+        }
+
+        .pagination-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-numbers {
+            display: flex;
+            gap: 3px;
+        }
+
+        .pagination-number {
+            min-width: 28px;
+            height: 28px;
+            padding: 4px 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .pagination-number.active {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .pagination-number:not(.active) {
+            background: white;
+            color: #bcbcbc;
+        }
+
+        .pagination-number:not(.active):hover {
+            background: #f5f5f5;
+        }
+
+        .pagination-number:active {
+            transform: scale(0.95);
+        }
+
+        /* [NEW] Sticky Footer Bar */
+        .sticky-footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+            animation: slideUpFooter 0.3s ease-out;
+        }
+
+        .sticky-footer-bar.active {
+            display: flex;
+        }
+
+        @keyframes slideUpFooter {
+            from {
+                transform: translate(-50%, 100%);
+            }
+
+            to {
+                transform: translate(-50%, 0);
+            }
+        }
+
+        .sticky-footer-bar span {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .sticky-footer-bar .dark-button {
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        /* v12 Standard .single-chip */
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* v12 Standard .disclaimer */
+        .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .disclaimer.warning {
+            color: #dc3545;
+        }
+        
+        /* [NEW] Link style in disclaimer */
+        .disclaimer a {
+            color: #4e6ee4; 
+            text-decoration: underline;
+        }
+        .disclaimer a:hover {
+            text-decoration: none;
+        }
+
+
+        /* ========================================
+           [NEW] MODAL STYLES
+        ======================================== */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+
+        @keyframes scaleUpModal {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative;
+            height: 57px;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            text-align: left;
+        }
+
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .btn-modal-close:hover {
+            color: #000;
+        }
+
+        .btn-modal-close svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+
+        /* Modal Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* [NEW] Input for date (from tax_issue.html) */
+        .input.select-wrapper {
+            padding: 0;
+            position: relative;
+        }
+        .input select {
+            height: 38px;
+            padding: 0 12px;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+         .input.select-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+        }
+
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+
+        .input input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .input input:disabled {
+            background: #f5f5f5;
+            color: #888;
+            cursor: not-allowed;
+        }
+
+        .input.disabled {
+            background: #f5f5f5;
+        }
+        
+        /* [NEW] Detail Item Style (from sungwon_money_01.html) */
+        .detail-item { display: flex; margin-bottom: 12px; font-size: 14px; }
+        .detail-item .label { color: #666; width: 80px; flex-shrink: 0; }
+        .detail-item .value { color: #333; font-weight: 500; }
+        
+        /* ========================================
+           [NEW] BOTTOM SHEET STYLES
+        ======================================== */
+        .bottom-sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .bottom-sheet-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(100%);
+            }
+        }
+
+        .bottom-sheet {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-top: 1px solid #d7d7d7;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bottom-sheet.closing {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .sheet-handle {
+            width: 27px;
+            height: 4px;
+            background: #d9d9d9;
+            border-radius: 100px;
+            margin: 10px auto;
+            cursor: grab;
+        }
+
+        .sheet-handle:active {
+            cursor: grabbing;
+        }
+
+        .sheet-header {
+            height: 21px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .sheet-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+        }
+
+        .btn-close {
+            position: absolute;
+            right: 20px;
+            top: 0;
+            width: 21px;
+            height: 21px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-close:active {
+            transform: scale(0.9);
+        }
+
+        .btn-close svg {
+            width: 100%;
+            height: 100%;
+            color: #333;
+        }
+
+        .sheet-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 20px 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-group-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .filter-group-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .sheet-footer {
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+        }
+
+        .sheet-footer .btn {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">현금영수증 발급</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <nav class="page-tabs" id="page-tab-nav">
+                <div class="page-tab-item" data-page="request" onclick="location.href='cr_request.html';">신청</div>
+                <div class="page-tab-item active" data-page="issue" onclick="selectPageTab(this)">발급 내역</div>
+            </nav>
+            
+            <div id="page-content-request" style="display: none;">
+                <div class="sw-container">
+                    <div class="no-transactions">현금영수증 신청 내역이 없어요</div>
+                </div>
+            </div>
+            
+            <div id="page-content-issue" style="display: block;">
+                <div class="sw-container">
+
+                    <section class="filter-section" id="issue-period-filter">
+                        <button type="button" class="text-select-button" onclick="showFilterSheet()">
+                            <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
+                            <div class="text-select-button-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </button>
+                    </section>
+    
+                    <section class="transaction-list-section">
+                        <div class="transaction-list-header">
+                            <span class="total-count">총 <strong id="issue-count">2</strong>건</span>
+                            <div class="view-count-select">
+                                <span class="view-count-select-text">20건씩 보기</span>
+                                <div class="view-count-select-arrow">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                        <path d="M6 9l6 6l6 -6" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="transaction-list" id="issue-list-container">
+    
+                            <article class="common-table-card" data-type="건별">
+                                <div class="card-header">
+                                    <button type="button" class="card-column1-button">
+                                        <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
+                                        <span style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw434322</span>
+                                    </button>
+                                </div>
+                                <div class="card-row" style="margin-top: 15px;">
+                                    <div class="card-row-label" style="font-weight: 600; color: #333;">결제금액</div>
+                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">152,500 원</div>
+                                </div>
+                                <div class="card-divider"></div>
+                                <div class="card-row">
+                                    <div class="card-row-label">발급일</div>
+                                    <div class="card-row-value">2025-07-18</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">발급번호</div>
+                                    <div class="card-row-value">010****0450</div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="button" class="white-button btn" onclick="alert('PC에서만 가능합니다')">영수증 인쇄</button>
+                                </div>
+                            </article>
+                            
+                            <article class="common-table-card" data-type="건별">
+                                <div class="card-header">
+                                    <button type="button" class="card-column1-button">
+                                        <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
+                                        <span style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw654734</span>
+                                    </button>
+                                </div>
+                                <div class="card-row" style="margin-top: 15px;">
+                                    <div class="card-row-label" style="font-weight: 600; color: #333;">결제금액</div>
+                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">1,202,500 원</div>
+                                </div>
+                                <div class="card-divider"></div>
+                                <div class="card-row">
+                                    <div class="card-row-label">발급일</div>
+                                    <div class="card-row-value">2025-07-18</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">발급번호</div>
+                                    <div class="card-row-value">010***1234</div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="button" class="white-button btn" onclick="showSelfIssueModal()">자진발급 정보</button>
+                                </div>
+                            </article>
+    
+                        </div>
+    
+                        <div class="no-transactions" id="no-issue-list" style="display: none;">발급된 현금영수증 내역이 없어요</div>
+    
+                        <div class="pagination" data-name="Pagination">
+                            <div class="pagination-arrow disabled" onclick="paginationFirst()">
+                                <img src="assets/images/nnext-arrow.svg" alt="처음"
+                                    style="transform: rotate(90deg);">
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationPrev()">
+                                <img src="assets/images/next-arrow.svg" alt="이전"
+                                    style="transform: rotate(90deg);">
+                            </div>
+                            <div class="pagination-numbers" id="issue-pagination-numbers">
+                                <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationNext()">
+                                <img src="assets/images/next-arrow.svg" alt="다음"
+                                    style="transform: rotate(90deg) scaleY(-1);">
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationLast()">
+                                <img src="assets/images/nnext-arrow.svg"
+                                    alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                            </div>
+                        </div>
+                    </section>
+    
+                    <section class="info-section">
+                        <div class="title">현금영수증 발급 내역 이용 안내</div>
+                        <p class="disclaimer">* 발급 상태에서 ‘영수증 인쇄’ 버튼을 눌러 현금영수증을 출력할 수 있어요</p>
+                        <p class="disclaimer">* 국세청 홈택스에서는 보통 발급 다음 날부터 발급 내역을 조회할 수 있어요. 아직 회원가입을 하지 않았다면, 먼저 홈택스에서 회원가입을 완료해 주세요</p>
+                    </section>
+    
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <div class="sticky-footer-bar" id="tax-action-footer">
+        <span id="tax-selected-count">총 1건 선택됨</span>
+        <button class="dark-button" id="tax-apply-button" onclick="alert('현금영수증 신청 (구현 필요)')">현금영수증 신청</button>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="filter-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="filter-sheet">
+            <div class="sheet-handle" id="filter-sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">기간 상세검색</div>
+                <div class="btn-close" onclick="closeFilterSheet()"><svg id="icon-close">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
+            <div class="sheet-body" id="filter-sheet-body">
+                <div class="filter-group" id="single-chip-group-period">
+                    <div class="filter-group-title">기간</div>
+                    <div class="filter-group-content">
+                        <div class="single-chip single-chip-on" data-value="최근 1개월" onclick="selectPeriod(this)">최근 1개월
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="최근 3개월" onclick="selectPeriod(this)">최근 3개월
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="월별" onclick="selectPeriod(this)">월별
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="기간 설정" onclick="selectPeriod(this)">기간 설정
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </div>
+    
+    <div class="bottom-sheet-overlay" id="period-custom-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="period-custom-sheet">
+            <div class="sheet-handle" id="period-custom-sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">기간 설정</div>
+                <div class="btn-close" onclick="closeCustomPeriodSheet()">
+                     <svg id="icon-close-custom-period"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </div>
+            </div>
+            <div class="sheet-body">
+                <div class="form-group">
+                    <label for="start-date">시작일</label>
+                    <div class="input" style="padding: 0;"> <input type="date" id="start-date" data-placeholder="YYYY-MM-DD" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="end-date">종료일</label>
+                    <div class="input" style="padding: 0;">
+                        <input type="date" id="end-date" data-placeholder="YYYY-MM-DD" required>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label>간편 설정</label>
+                    <div class="filter-group-content">
+                        <div class="single-chip single-chip-off" onclick="setQuickDate('today')">오늘</div>
+                        <div class="single-chip single-chip-off" onclick="setQuickDate('week')">1주일</div>
+                        <div class="single-chip single-chip-off" onclick="setQuickDate('month')">1개월</div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn white-button" onclick="closeCustomPeriodSheet()">취소</button>
+                <button class="btn dark-button" onclick="applyCustomPeriod()">조회하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="period-monthly-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="period-monthly-sheet">
+            <div class="sheet-handle" id="period-monthly-sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">월별 설정</div>
+                <div class="btn-close" onclick="closeMonthlyPeriodSheet()">
+                     <svg id="icon-close-monthly-period"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </div>
+            </div>
+            <div class="sheet-body">
+                <div class="form-group">
+                    <label for="select-year">년도</label>
+                    <div class="input select-wrapper">
+                        <select id="select-year">
+                            </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="select-month">월</label>
+                    <div class="input select-wrapper">
+                        <select id="select-month">
+                            </select>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn white-button" onclick="closeMonthlyPeriodSheet()">취소</button>
+                <button class="btn dark-button" onclick="applyMonthlyPeriod()">조회하기</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal-overlay" id="self-issue-modal-overlay">
+        <div class="modal-content" id="self-issue-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">자진발급 정보</h2>
+                <button class="btn-modal-close" onclick="closeModal('self-issue-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-item">
+                    <span class="label">거래일시</span>
+                    <span class="value" id="modal-issue-date"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">거래금액</span>
+                    <span class="value" id="modal-issue-amount"></span>
+                </div>
+                <div class="detail-item" style="margin-bottom: 24px;">
+                    <span class="label">승인번호</span>
+                    <span class="value" id="modal-issue-approval"></span>
+                </div>
+                
+                <div class="info-section" style="margin-bottom: 0;">
+                    <div class="title">자진발급 이용 안내</div>
+                    <p class="disclaimer" style="margin-top: 0;">* 거래일시, 금액, 승인번호를 확인한 뒤 <a href="https://www.hometax.go.kr" target="_blank" rel="noopener noreferrer">국세청 홈택스</a>에서 등록하면 소득공제가 정상 처리돼요</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="closeModal('self-issue-modal-overlay')">확인</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- [NEW] Page Tab Logic ---
+        function selectPageTab(tab) {
+            const nav = tab.closest('#page-tab-nav');
+            if (!nav) return;
+            nav.querySelectorAll('.page-tab-item').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const page = tab.getAttribute('data-page');
+            const requestPage = document.getElementById('page-content-request');
+            const issuePage = document.getElementById('page-content-issue');
+            const stickyFooter = document.getElementById('tax-action-footer');
+
+            if (page === 'issue') {
+                requestPage.style.display = 'none';
+                issuePage.style.display = 'block';
+                if (stickyFooter) stickyFooter.classList.remove('active'); // 발급 내역 탭에서는 스티키 푸터 숨김
+                document.querySelector('.mobile-wrap').style.paddingBottom = '20px';
+            } else {
+                requestPage.style.display = 'block';
+                issuePage.style.display = 'none';
+                // updateTaxFooter(); // '신청' 탭의 푸터 로직 (현재 페이지에는 없음)
+            }
+        }
+
+        // --- '신청' 탭 Logic (Placeholder) ---
+        // (이 페이지는 '발급 내역'이 기본이므로 '신청' 탭 관련 JS는 최소화)
+        
+        function updateTaxFooter() {
+            // '신청' 탭의 푸터 로직 (이 페이지에서는 호출되지 않음)
+            const footer = document.getElementById('tax-action-footer');
+            if (footer) footer.classList.remove('active');
+            document.querySelector('.mobile-wrap').style.paddingBottom = '20px'; // Reset to default
+        }
+
+        // --- [NEW] '발급 내역' 탭 Logic ---
+
+        // [MODIFIED] CR1: Bottom Sheet (v12 Standard) - tax_issue.html 버전 (중첩 모달/시트 핸들링)
+        function setupBottomSheet(overlayId, sheetId, handleId) {
+            const overlay = document.getElementById(overlayId); const sheet = document.getElementById(sheetId); const handle = document.getElementById(handleId);
+            if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
+            let isDragging = false, startY = 0, currentY = 0;
+            const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
+            const closeSheet = () => { 
+                sheet.classList.add('closing'); 
+                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active:not(#' + overlayId + ')');
+                if (!anyModalActive) {
+                    document.body.style.overflow = ''; 
+                }
+                setTimeout(() => { 
+                    overlay.classList.remove('active'); 
+                    sheet.classList.remove('closing'); 
+                    sheet.style.transform = ''; // Reset transform
+                }, 300); 
+            };
+            const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
+            const drag = (e) => { if (!isDragging) return; e.preventDefault(); currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; const deltaY = currentY - startY; if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; };
+            const endDrag = () => { if (!isDragging) return; isDragging = false; sheet.style.transition = ''; const deltaY = currentY - startY; if (deltaY > 100) closeSheet(); else sheet.style.transform = ''; };
+            handle.addEventListener('mousedown', startDrag); handle.addEventListener('touchstart', startDrag, { passive: false });
+            document.addEventListener('mousemove', drag); document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag);
+            overlay.addEventListener('click', (e) => { if (e.target.id === overlayId) closeSheet(); });
+            return { openSheet, closeSheet };
+        }
+        
+        const { openSheet: showFilterSheet, closeSheet: closeFilterSheet } = setupBottomSheet('filter-sheet-overlay', 'filter-sheet', 'filter-sheet-handle');
+        // [MODIFIED] CR1: Add setup for new bottom sheets (from tax_issue.html)
+        const { openSheet: showCustomPeriodSheet, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
+        const { openSheet: showMonthlyPeriodSheet, closeSheet: closeMonthlyPeriodSheet } = setupBottomSheet('period-monthly-sheet-overlay', 'period-monthly-sheet', 'period-monthly-sheet-handle');
+
+        
+        // Modal Helpers
+        function openModal(overlayId) {
+             const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        function closeModal(overlayId) {
+             const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+        
+        // [NEW] '자진발급 정보' 모달
+        function showSelfIssueModal() {
+            // PDF 시안의 값으로 하드코딩 (예시 데이터)
+            document.getElementById('modal-issue-date').textContent = '2025/04/17 10:48:55';
+            document.getElementById('modal-issue-amount').textContent = '₩1,202,500'; // 카드 금액에 맞춤
+            document.getElementById('modal-issue-approval').textContent = 'K50633076'; // 예시 승인번호
+            
+            openModal('self-issue-modal-overlay');
+        }
+
+        // '발급 내역' 기간 필터
+        let selectedPeriodValue = "최근 1개월";
+        
+        // [MODIFIED] CR1: selectPeriod function (from tax_issue.html)
+        function selectPeriod(chip) { 
+            const group = chip.closest('.filter-group-content'); 
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
+            chip.classList.replace('single-chip-off', 'single-chip-on'); 
+            selectedPeriodValue = chip.getAttribute('data-value'); 
+
+            if (selectedPeriodValue === '기간 설정') {
+                closeFilterSheet();
+                // Set default dates (e.g., last 1 month)
+                const endDate = new Date();
+                const startDate = new Date();
+                startDate.setMonth(endDate.getMonth() - 1);
+                // Set input values
+                const startDateInput = document.getElementById('start-date');
+                const endDateInput = document.getElementById('end-date');
+                startDateInput.value = startDate.toISOString().split('T')[0];
+                endDateInput.value = endDate.toISOString().split('T')[0];
+                // Trigger change to remove placeholder if value is set
+                startDateInput.dispatchEvent(new Event('change'));
+                endDateInput.dispatchEvent(new Event('change'));
+
+                showCustomPeriodSheet();
+            } else if (selectedPeriodValue === '월별') {
+                closeFilterSheet();
+                populateMonthyPicker(); // Populate year/month selects
+                showMonthlyPeriodSheet();
+            } else {
+                // '최근 1개월', '최근 3개월' 등은 바로 적용
+                applyPeriodFilter();
+            }
+        }
+        
+        function applyPeriodFilter() { 
+            document.getElementById('selected-period-text').textContent = selectedPeriodValue; 
+            document.querySelector('#issue-period-filter .text-select-button')?.classList.remove('open'); 
+            closeFilterSheet(); 
+            console.log("기간 필터 적용 (발급 내역):", selectedPeriodValue); 
+            // TODO: Filtering logic
+        }
+         function resetPeriodFilter() { 
+            selectPeriod(document.querySelector('#single-chip-group-period .single-chip[data-value="최근 1개월"]'));
+         }
+         
+        // [MODIFIED] CR1: Date Picker Modal Functions (from tax_issue.html)
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
+        }
+
+        function setQuickDate(period) {
+            const startDateInput = document.getElementById('start-date');
+            const endDateInput = document.getElementById('end-date');
+            const endDate = new Date();
+            let startDate = new Date();
+
+            if (period === 'today') {
+                // startDate is already today
+            } else if (period === 'week') {
+                startDate.setDate(endDate.getDate() - 7);
+            } else if (period === 'month') {
+                startDate.setMonth(endDate.getMonth() - 1);
+            }
+            
+            startDateInput.value = formatDate(startDate);
+            endDateInput.value = formatDate(endDate);
+            
+            // Trigger change to remove placeholder
+            startDateInput.dispatchEvent(new Event('change'));
+            endDateInput.dispatchEvent(new Event('change'));
+        }
+
+        function applyCustomPeriod() {
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+
+            if (!startDate || !endDate) {
+                alert("시작일과 종료일을 모두 선택해주세요.");
+                return;
+            }
+            if (new Date(startDate) > new Date(endDate)) {
+                 alert("시작일이 종료일보다 늦을 수 없습니다.");
+                return;
+            }
+            
+            selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`; // 포맷 변경
+            
+            closeCustomPeriodSheet();
+            applyPeriodFilter(); // 메인 필터 적용 함수 호출
+        }
+        
+        // [MODIFIED] CR1: Monthly Picker Modal Functions (from tax_issue.html)
+        function populateMonthyPicker() {
+            const yearSelect = document.getElementById('select-year');
+            const monthSelect = document.getElementById('select-month');
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth() + 1;
+
+            // 연도 채우기 (현재 연도 ~ 5년 전)
+            if (yearSelect.options.length === 0) { // 한번만 채우기
+                for (let i = 0; i < 5; i++) {
+                    const year = currentYear - i;
+                    yearSelect.add(new Option(`${year}년`, year));
+                }
+            }
+            // 월 채우기 (1~12월)
+            if (monthSelect.options.length === 0) { // 한번만 채우기
+                 for (let i = 1; i <= 12; i++) {
+                    monthSelect.add(new Option(`${i}월`, i));
+                }
+            }
+            // 현재 월로 기본 설정
+            yearSelect.value = currentYear;
+            monthSelect.value = currentMonth;
+        }
+
+        function applyMonthlyPeriod() {
+            const year = document.getElementById('select-year').value;
+            const month = document.getElementById('select-month').value;
+            selectedPeriodValue = `${year}년 ${month}월`;
+            
+            closeMonthlyPeriodSheet();
+            applyPeriodFilter(); // 메인 필터 적용
+        }
+
+
+        // --- Pagination Logic (Placeholder) ---
+        let currentPage = 1; const totalPages = 1; 
+        function paginationGo(page) { currentPage = page; updatePagination(); }
+        function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
+        function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
+        function paginationFirst() { paginationGo(1); }
+        function paginationLast() { paginationGo(totalPages); }
+        function updatePagination() {
+            const numbersContainer = document.getElementById('issue-pagination-numbers');
+            if (!numbersContainer) return; // [MODIFIED] Guard clause
+            numbersContainer.innerHTML = ''; // Clear
+            for (let i = 1; i <= totalPages; i++) {
+                const numEl = document.createElement('div');
+                numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
+                numEl.dataset.page = i;
+                numEl.textContent = i;
+                numEl.onclick = () => paginationGo(i);
+                numbersContainer.appendChild(numEl);
+            }
+            
+            const paginationRoot = numbersContainer.closest('.pagination');
+            if (!paginationRoot) return; // [MODIFIED] Guard clause
+            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
+            const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
+            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
+            nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
+        }
+
+
+        // --- [MODIFIED] Initialize (Event listeners etc.) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // 초기 페이지 상태 설정 ('발급 내역' 탭)
+            selectPageTab(document.querySelector('.page-tab-item.active'));
+            
+            // Pagination
+            updatePagination();
+
+            // [NEW] Modal overlay click-to-close listeners
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+            
+            // [MODIFIED] CR1: Add change listener to date inputs to hide placeholder (from tax_issue.html)
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    if (e.target.value) {
+                        e.target.removeAttribute('data-placeholder');
+                    } else {
+                        e.target.setAttribute('data-placeholder', 'YYYY-MM-DD');
+                    }
+                });
+                // Initial check
+                if (input.value) {
+                    input.removeAttribute('data-placeholder');
+                }
+            });
+        });
+
+    </script>
+
+
+    <div class="disqus-thread-wrap">
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://sw-mobile.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
+</body>
+
+</html>

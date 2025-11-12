@@ -279,6 +279,7 @@
             border-radius: 6px;
             padding: 12px 16px;
             min-height: 50px; 
+            /* [NEW] Add transition for text color */
             transition: color 0.4s;
         }
         .sns-item-left {
@@ -298,13 +299,19 @@
             font-weight: 600;
             color: #555;
             flex-shrink: 0;
+            /* [NEW] Add transition for filter */
             transition: filter 0.4s, opacity 0.4s;
         }
-        .sns-item-icon.active { display: flex; }
+
+        .sns-item-icon.active {
+            display: flex;
+        }
+
         .sns-item-text {
             font-size: 14px;
             font-weight: 500;
             color: #333;
+            /* [NEW] Add transition for text color */
             transition: color 0.4s;
         }
         .sns-switch {
@@ -314,7 +321,11 @@
             height: 24px;
             flex-shrink: 0;
         }
-        .sns-switch input { opacity: 0; width: 0; height: 0; }
+        .sns-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
         .sns-slider {
             position: absolute;
             cursor: pointer;
@@ -343,188 +354,19 @@
         input:checked + .sns-slider:before {
             transform: translateX(20px);
         }
-        .sns-item:not(.enabled) .sns-item-icon { display: flex; }
-        .sns-item:not(.enabled) .sns-item-icon.active { display: none; }
-        .sns-item:not(.enabled) .sns-item-text { color: #aaa; }
         
-        /* Form Row for 2-column inputs */
-        .form-row-flex {
+        /* [NEW] Disabled state styles using grayscale filter */
+        .sns-item:not(.enabled) .sns-item-icon {
             display: flex;
-            gap: 8px;
         }
-        .form-row-flex .form-group {
-            flex: 1;
-            min-width: 0;
-            margin-bottom: 0; 
-        }
-
-        /* v12 standard select */
-        .input.select-wrapper {
-            padding: 0; 
-            position: relative;
-        }
-        .input select {
-            width: 100%;
-            height: 38px; 
-            border: none;
-            outline: none;
-            background: transparent;
-            font-size: 14px;
-            color: black;
-            padding: 0 12px;
-            appearance: none;
-            -webkit-appearance: none;
-            background-color: white;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .input select:invalid {
-            color: #c6c6c8;
-        }
-        .input select option {
-            color: black;
-        }
-        
-        .input.select-wrapper::after {
-            content: '';
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: center;
-            pointer-events: none;
-        }
-        
-        /* [NEW] v12 standard select with flag */
-        .select-wrapper-with-flag {
-            position: relative;
-        }
-        .select-wrapper-with-flag .select-flag {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 18px; /* Emoji size */
-            pointer-events: none;
-            z-index: 1; /* Above the select */
-            display: flex; /* [MODIFIED] To center img */
-            align-items: center; /* [MODIFIED] To center img */
-        }
-        .select-wrapper-with-flag select {
-            padding: 0 30px 0 40px; 
-        }
-        .select-wrapper-with-flag::after {
-            z-index: 1; 
-        }
-
-        /* [NEW] Combobox (from qna_write.html) */
-        .combobox-wrapper {
-            position: relative;
-            flex: 1;
-        }
-        .combobox-dropdown {
-            position: absolute;
-            top: calc(100% + 2px); /* Position below the input */
-            left: 0;
-            right: 0;
-            background: #fff;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            z-index: 100;
-            max-height: 220px;
-            overflow-y: auto;
+        .sns-item:not(.enabled) .sns-item-icon.active {
             display: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .combobox-item {
-            padding: 10px 12px;
-            font-size: 14px;
-            cursor: pointer;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .combobox-item:last-child {
-            border-bottom: none;
-        }
-        .combobox-item:hover {
-            background: #f5f5f6;
-        }
-        .combobox-item strong {
-            font-weight: 600;
-            color: #333;
-            flex-shrink: 0;
-        }
-        .combobox-item span {
-             font-size: 14px;
-             color: #555;
-        }
-        .combobox-item .flag {
-            font-size: 18px;
-            flex-shrink: 0;
-            display: flex; /* [MODIFIED] To center img */
-            align-items: center; /* [MODIFIED] To center img */
         }
 
-        .combobox-item .flag img{
-            width: 20px; /* [MODIFIED] Flag size in list */
-            height: auto;
-            border-radius: 2px;
-        }
-
-        .combobox-wrapper .select-flag img {
-            width: 24px; /* [MODIFIED] Flag size in input */
-            height: auto;
-            border-radius: 2px;
-        }
-
-        .combobox-wrapper .input.select-wrapper {
-            padding-left: 8px; /* [MODIFIED] Reset padding */
+        .sns-item:not(.enabled) .sns-item-text {
+            color: #aaa; /* Grayscale text */
         }
         
-        .combobox-wrapper .input.select-wrapper .select-flag {
-             left: 10px; /* [MODIFIED] Adjust flag position */
-        }
-
-        .combobox-wrapper .input.select-wrapper input {
-             padding-left: 42px; /* [MODIFIED] Adjust text padding (10px + 24px + 8px) */
-             padding-right: 30px; /* For arrow */
-        }
-
-        .combobox-wrapper .input.select-wrapper::after {
-            right: 8px; /* [MODIFIED] Arrow position */
-        }
-        
-        /* [NEW] v12 standard filter-group-content (from qna_write.html) */
-        .filter-group-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        
-        /* [NEW] v12 Standard .single-chip (from qna_write.html) */
-        .single-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
-        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
-        .single-chip-on { background: #4e6ee4; color: white; }
-        .single-chip:active { transform: scale(0.95); }
-        
-        /* [NEW] form-group-button (from tax_request_write...) */
-        .form-group-button {
-             margin-bottom: 20px;
-        }
-        .form-group-button .white-button {
-            width: 100%;
-            height: 40px;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-
         /* MODAL STYLES */
         .modal-overlay {
             position: fixed;
@@ -684,12 +526,12 @@
                 
                 <div class="form-group">
                     <label>회원 구분</label>
-                    <div class="readonly-value">해외사업자</div>
+                    <div class="readonly-value">개인회원</div>
                 </div>
                 
                 <div class="form-group">
                     <label>아이디</label>
-                    <div class="readonly-value">jason_stark_0304</div>
+                    <div class="readonly-value">gogiso</div>
                 </div>
                 
                 <div class="form-group" id="password-display-section">
@@ -722,249 +564,141 @@
                          <p class="disclaimer" style="color: #28a745; min-height: 1.5em;">비밀번호가 일치해요</p>
                     </div>
                 </div>
+                
+                <div class="form-group">
+                    <label>SNS 연동</label>
+                    <p class="disclaimer" style="margin-top: -8px; margin-bottom: 12px;">자주 쓰는 소셜 계정을 연결하고 간편하게 로그인하세요</p>
+                    <div class="sns-list" id="sns-switch-list">
+                        <div class="sns-item" id="sns-item-kakao">
+                            <div class="sns-item-left">
+                                <div class="sns-item-icon kakao" aria-label="Kakao icon">
+                                    <img src="assets/images/kakao.png" alt="">
+                                </div>
+                                <div class="sns-item-icon kakao active" aria-label="Kakao icon">
+                                    <img src="assets/images/kakao-active.png" alt="">
+                                </div>
+                                <span class="sns-item-text">카카오 로그인</span>
+                            </div>
+                            <label class="sns-switch" style="margin-bottom: 0;">
+                                <input type="checkbox" id="sns-kakao-switch" checked>
+                                <span class="sns-slider"></span>
+                            </label>
+                        </div>
+                        <div class="sns-item" id="sns-item-google">
+                            <div class="sns-item-left">
+                                <div class="sns-item-icon google" aria-label="google icon">
+                                    <img src="assets/images/google.png" alt="">
+                                </div>
+                                <div class="sns-item-icon google active" aria-label="google icon">
+                                    <img src="assets/images/google-active.png" alt="">
+                                </div>
+                                <span class="sns-item-text">구글 로그인</span>
+                            </div>
+                            <label class="sns-switch" style="margin-bottom: 0;">
+                                <input type="checkbox" id="sns-google-switch">
+                                <span class="sns-slider"></span>
+                            </label>
+                        </div>
+                        <div class="sns-item" id="sns-item-naver">
+                            <div class="sns-item-left">
+                                <div class="sns-item-icon naver" aria-label="naver icon">
+                                    <img src="assets/images/naver.png" alt="">
+                                </div>
+                                <div class="sns-item-icon naver active" aria-label="Naver icon">
+                                    <img src="assets/images/naver-active.png" alt="">
+                                </div>
+                                <span class="sns-item-text">네이버 로그인</span>
+                            </div>
+                            <label class="sns-switch" style="margin-bottom: 0;">
+                                <input type="checkbox" id="sns-naver-switch" checked>
+                                <span class="sns-slider"></span>
+                            </label>
+                        </div>
+                        <div class="sns-item" id="sns-item-facebook">
+                            <div class="sns-item-left">
+                                <div class="sns-item-icon facebook" aria-label="facebook icon">
+                                    <img src="assets/images/facebook.png" alt="">
+                                </div>
+                                <div class="sns-item-icon facebook active" aria-label="facebook icon">
+                                    <img src="assets/images/facebook-active.png" alt="">
+                                </div>
+                                <span class="sns-item-text">페이스북 로그인</span>
+                            </div>
+                            <label class="sns-switch" style="margin-bottom: 0;">
+                                <input type="checkbox" id="sns-facebook-switch">
+                                <span class="sns-slider"></span>
+                            </label>
+                        </div>
+                        <div class="sns-item" id="sns-item-apple">
+                            <div class="sns-item-left">
+                                <div class="sns-item-icon apple" aria-label="apple icon">
+                                    <img src="assets/images/apple.png" alt="">
+                                </div>
+                                <div class="sns-item-icon apple active" aria-label="apple icon">
+                                    <img src="assets/images/apple-active.png" alt="">
+                                </div>
+                                <span class="sns-item-text">애플 로그인</span>
+                            </div>
+                            <label class="sns-switch" style="margin-bottom: 0;">
+                                <input type="checkbox" id="sns-apple-switch">
+                                <span class="sns-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="section-divider"></div>
             
             <div class="sw-container">
                 <h2 class="section-title">기본 정보</h2>
-
+                
                 <div class="form-group">
-                    <label for="company-name">기업명</label>
-                    <div class="input">
-                        <input type="text" id="company-name" value="Google">
-                    </div>
+                    <label>이름</label>
+                    <div class="readonly-value">정혜진</div>
                 </div>
+                
                 <div class="form-group">
-                    <label for="rep-name">대표자명</label>
-                    <div class="input">
-                        <input type="text" id="rep-name" value="John watson">
-                    </div>
+                    <label>생년월일</label>
+                    <div class="readonly-value">1994-01-28</div>
                 </div>
                 
                 <div class="form-group">
                     <label>휴대폰 번호</label>
                     <div class="input-group">
-                        <div class="combobox-wrapper" style="flex: 0 1 140px;">
-                            <div class="input select-wrapper" onclick="showCountryCodeDropdown()" onblur="hideCountryCodeDropdown()" style="cursor: pointer;">
-                                <span class="select-flag" id="country-code-flag">
-                                    <img src="assets/images/flag-kor.png" alt="Korean flag">
-                                </span>
-                                <input type="text" id="country-code-display" value="+82 (Korea)" readonly 
-                                       style="border: none; background: transparent; width: 100%; cursor: pointer; padding: 0 30px 0 5px; font-size: 14px; outline: none; height: 38px;">
-                            </div>
-                             <div class="combobox-dropdown" id="country-code-dropdown">
-                                <div class="combobox-item" onmousedown="selectCountryCode('kr', 'assets/images/flag-kor.png', '+82 (Korea)', 'Korean flag')">
-                                    <span class="flag">
-                                        <img src="assets/images/flag-kor.png" alt="Korean flag">
-                                    </span> <strong>+82</strong> <span>(Korea)</span>
-                                </div>
-                                <div class="combobox-item" onmousedown="selectCountryCode('jp', 'assets/images/flag-jp.png', '+81 (Japan)', 'Japanese flag')">
-                                    <span class="flag">
-                                        <img src="assets/images/flag-jp.png" alt="Japanese flag">
-                                    </span> <strong>+81</strong> <span>(Japan)</span>
-                                </div>
-                                <div class="combobox-item" onmousedown="selectCountryCode('us', 'assets/images/flag-eng.png', '+1 (USA)', 'USA flag')">
-                                    <span class="flag">
-                                        <img src="assets/images/flag-eng.png" alt="USA flag">
-                                    </span> <strong>+1</strong> <span>(USA)</span>
-                                </div>
-                            </div>
+                        <div class="input readonly-value" style="flex: 1;">
+                           <input type="tel" value="01073488450" readonly>
                         </div>
-                        
-                        <div class="input" style="flex: 1;">
-                           <input type="tel" value="" placeholder="휴대폰 번호 입력">
-                        </div>
+                        <button type="button" class="white-button" onclick="alert('휴대폰 번호 변경 (본인인증 팝업)')">휴대폰 번호 변경</button>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label for="email">이메일 주소</label>
+                    <div class="input">
+                        <input type="email" id="email" value="gogiso@naver.com">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>주소 (선택)</label>
                     <div class="input-group">
-                        <div class="input">
-                           <input type="email" id="email" value="gogiso@naver.com">
+                        <div class="input readonly-value" style="background-color: #f5f5f5;" >
+                            <input type="text" placeholder="우편번호" readonly>
                         </div>
+                        <button type="button" class="white-button" onclick="alert('우편번호 검색')">우편번호 검색</button>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="country-select">국가 (Country)</label>
-                    <div class="input select-wrapper">
-                        <select id="country-select" onchange="toggleAddressFormat(this.value)">
-                            <option value="" disabled>국가를 선택해주세요</option>
-                            <option value="us" selected>미국 (United States)</option> <option value="jp">일본 (Japan)</option>
-                        </select>
+                <div class="form-group" style="margin-top: -12px;">
+                    <div class="input readonly-value" style="background-color: #f5f5f5;">
+                        <input type="text" placeholder="기본주소" readonly>
                     </div>
                 </div>
-
-                <h2 class="section-title" style="margin-top: 24px;">기업 추가 정보</h2>
-                <p class="disclaimer" style="margin-top: -8px; margin-bottom: 12px;">세금계산서 발급 시 참고할 선택 입력 정보에요</p>
-
-                <div class="form-group">
-                    <label>회사주소 (선택)</label>
-                    
-                    <div id="address-format-us" style="display: block;">
-                        <div class="form-group">
-                            <label for="us-zip">ZIP Code (우편번호) </label>
-                            <div class="input">
-                                <input type="text" id="us-zip" placeholder="Enter ZIP Code">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="us-street">Street Address (상세 주소) </label>
-                            <div class="input">
-                                <input type="text" id="us-street" placeholder="Enter Street Address">
-                            </div>
-                        </div>
-                        <div class="form-row-flex">
-                            <div class="form-group">
-                                <label for="us-city">City (도시) </label>
-                                <div class="input">
-                                    <input type="text" id="us-city" placeholder="Enter City">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="us-state">State (주) </label>
-                                <div class="input select-wrapper">
-                                    <select id="us-state" required>
-                                        <option value="" selected disabled>Select State</option>
-                                        <option value="AL">Alabama</option>
-                                        <option value="AK">Alaska</option>
-                                        <option value="AZ">Arizona</option>
-                                        <option value="AR">Arkansas</option>
-                                        <option value="CA">California</option>
-                                        <option value="CO">Colorado</option>
-                                        <option value="CT">Connecticut</option>
-                                        <option value="DE">Delaware</option>
-                                        <option value="FL">Florida</option>
-                                        <option value="GA">Georgia</option>
-                                        <option value="HI">Hawaii</option>
-                                        <option value="ID">Idaho</option>
-                                        <option value="IL">Illinois</option>
-                                        <option value="IN">Indiana</option>
-                                        <option value="IA">Iowa</option>
-                                        <option value="KS">Kansas</option>
-                                        <option value="KY">Kentucky</option>
-                                        <option value="LA">Louisiana</option>
-                                        <option value="ME">Maine</option>
-                                        <option value="MD">Maryland</option>
-                                        <option value="MA">Massachusetts</option>
-                                        <option value="MI">Michigan</option>
-                                        <option value="MN">Minnesota</option>
-                                        <option value="MS">Mississippi</option>
-                                        <option value="MO">Missouri</option>
-                                        <option value="MT">Montana</option>
-                                        <option value="NE">Nebraska</option>
-                                        <option value="NV">Nevada</option>
-                                        <option value="NH">New Hampshire</option>
-                                        <option value="NJ">New Jersey</option>
-                                        <option value="NM">New Mexico</option>
-                                        <option value="NY">New York</option>
-                                        <option value="NC">North Carolina</option>
-                                        <option value="ND">North Dakota</option>
-                                        <option value="OH">Ohio</option>
-                                        <option value="OK">Oklahoma</option>
-                                        <option value="OR">Oregon</option>
-                                        <option value="PA">Pennsylvania</option>
-                                        <option value="RI">Rhode Island</option>
-                                        <option value="SC">South Carolina</option>
-                                        <option value="SD">South Dakota</option>
-                                        <option value="TN">Tennessee</option>
-                                        <option value="TX">Texas</option>
-                                        <option value="UT">Utah</option>
-                                        <option value="VT">Vermont</option>
-                                        <option value="VA">Virginia</option>
-                                        <option value="WA">Washington</option>
-                                        <option value="WV">West Virginia</option>
-                                        <option value="WI">Wisconsin</option>
-                                        <option value="WY">Wyoming</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                <div class="form-group" style="margin-top: -12px;">
+                    <div class="input">
+                        <input type="text" placeholder="상세주소">
                     </div>
-
-                    <div id="address-format-jp" style="display: none;">
-                        <div class="form-group">
-                            <label for="jp-zip">郵便番号 (우편번호) </label>
-                            <div class="input">
-                                <input type="text" id="jp-zip" placeholder="例) 1000001">
-                            </div>
-                        </div>
-                        <div class="form-row-flex" style="margin-bottom: 8px;">
-                            <div class="form-group">
-                                <label for="jp-pref">都道府県 (도도부현) </label>
-                                <div class="input select-wrapper">
-                                    <select id="jp-pref" required>
-                                        <option value="" selected disabled>都道府県を選択</option>
-                                        <option value="Hokkaido">Hokkaido (北海道)</option>
-                                        <option value="Aomori">Aomori (青森県)</option>
-                                        <option value="Iwate">Iwate (岩手県)</option>
-                                        <option value="Miyagi">Miyagi (宮城県)</option>
-                                        <option value="Akita">Akita (秋田県)</option>
-                                        <option value="Yamagata">Yamagata (山形県)</option>
-                                        <option value="Fukushima">Fukushima (福島県)</option>
-                                        <option value="Ibaraki">Ibaraki (茨城県)</option>
-                                        <option value="Tochigi">Tochigi (栃木県)</option>
-                                        <option value="Gumma">Gumma (群馬県)</option>
-                                        <option value="Saitama">Saitama (埼玉県)</option>
-                                        <option value="Chiba">Chiba (千葉県)</option>
-                                        <option value="Tokyo">Tokyo (東京都)</option>
-                                        <option value="Kanagawa">Kanagawa (神奈川県)</option>
-                                        <option value="Niigata">Niigata (新潟県)</option>
-                                        <option value="Toyama">Toyama (富山県)</option>
-                                        <option value="Ishikawa">Ishikawa (石川県)</option>
-                                        <option value="Fukui">Fukui (福井県)</option>
-                                        <option value="Yamanashi">Yamanashi (山梨県)</option>
-                                        <option value="Nagano">Nagano (長野県)</option>
-                                        <option value="Gifu">Gifu (岐阜県)</option>
-                                        <option value="Shizuoka">Shizuoka (静岡県)</option>
-                                        <option value="Aichi">Aichi (愛知県)</option>
-                                        <option value="Mie">Mie (三重県)</option>
-                                        <option value="Shiga">Shiga (滋賀県)</option>
-                                        <option value="Kyoto">Kyoto (京都府)</option>
-                                        <option value="Osaka">Osaka (大阪府)</option>
-                                        <option value="Hyogo">Hyogo (兵庫県)</option>
-                                        <option value="Nara">Nara (奈良県)</option>
-                                        <option value="Wakayama">Wakayama (和歌산県)</option>
-                                        <option value="Tottori">Tottori (鳥取県)</option>
-                                        <option value="Shimane">Shimane (島根県)</option>
-                                        <option value="Okayama">Okayama (岡山県)</option>
-                                        <option value="Hiroshima">Hiroshima (広島県)</option>
-                                        <option value="Yamaguchi">Yamaguchi (山口県)</option>
-                                        <option value="Tokushima">Tokushima (徳島県)</option>
-                                        <option value="Kagawa">Kagawa (香川県)</option>
-                                        <option value="Ehime">Ehime (愛媛県)</option>
-                                        <option value="Kochi">Kochi (高知県)</option>
-                                        <option value="Fukuoka">Fukuoka (福岡県)</option>
-                                        <option value="Saga">Saga (佐賀県)</option>
-                                        <option value="Nagasaki">Nagasaki (長崎県)</option>
-                                        <option value="Kumamoto">Kumamoto (熊本県)</option>
-                                        <option value="Oita">Oita (大分県)</option>
-                                        <option value="Miyazaki">Miyazaki (宮崎県)</option>
-                                        <option value="Kagoshima">Kagoshima (鹿児島県)</option>
-                                        <option value="Okinawa">Okinawa (沖縄県)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="jp-city">市区町村 (시구정촌) </label>
-                                <div class="input">
-                                    <input type="text" id="jp-city" placeholder="例) 千代田区千代田">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="jp-street">番地・建物名等 (상세 주소) </label>
-                            <div class="input">
-                                <input type="text" id="jp-street" placeholder="例) 1-1">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <p class="disclaimer" id="address-disclaimer-jp" style="display: none; margin-top: -12px; margin-bottom: 20px;">
-                        * 국제 배송을 위해 이름 및 주소는 영문으로 입력해주세요
-                    </p>
                 </div>
-
                 
                 <h2 class="section-title" style="margin-top: 24px;">동의 정보</h2>
                 
@@ -1012,16 +746,6 @@
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label>저작권 활용 동의</label>
-                    <div class="agreement-row">
-                        <div class="filter-group-content" id="copyright-chips">
-                            <div class="single-chip single-chip-off" data-value="agree" onclick="selectCopyright(this)">동의</div>
-                            <div class="single-chip single-chip-on" data-value="refuse" onclick="selectCopyright(this)">거부</div> </div>
-                        <a href="#" class="disclaimer-link" style="margin: 0;" onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
-                    </div>
-                </div>
-                
             </div>
         </main>
         
@@ -1063,8 +787,8 @@
                     </div>
             </div>
             <div class="modal-buttons">
-                <!-- <button class="modal-button modal-button-secondary" onclick="closeModal('save-confirm-modal')">취소</button> -->
-                <button class="modal-button modal-button-primary" onclick="closeModal('save-confirm-modal');">확인</button>
+                <button class="modal-button modal-button-secondary" onclick="closeModal('save-confirm-modal')">취소</button>
+                <button class="modal-button modal-button-primary" onclick="closeModal('save-confirm-modal');">계정 설정</button>
             </div>
         </div>
     </div>
@@ -1143,28 +867,6 @@
         function goBack() {
              // Simple history back.
              history.back();
-        }
-
-        // [NEW] Foreign Address Format Toggle
-        function toggleAddressFormat(country) {
-            const usAddressBlock = document.getElementById('address-format-us');
-            const jpAddressBlock = document.getElementById('address-format-jp');
-            const addressDisclaimer = document.getElementById('address-disclaimer-jp');
-
-            if (country === 'us') {
-                usAddressBlock.style.display = 'block';
-                jpAddressBlock.style.display = 'none';
-                addressDisclaimer.style.display = 'none';
-            } else if (country === 'jp') {
-                usAddressBlock.style.display = 'none';
-                jpAddressBlock.style.display = 'block';
-                addressDisclaimer.style.display = 'block';
-            } else {
-                usAddressBlock.style.display = 'none';
-                jpAddressBlock.style.display = 'none';
-                addressDisclaimer.style.display = 'none';
-            }
-            isFormDirty = true; // Mark form as dirty on change
         }
 
         // --- Modal Helpers (v12 Standard) ---
@@ -1247,6 +949,8 @@
                 detailsHtml += '</div>';
             }
             
+            // NOTE: In a real app, you'd check the *previous* state vs *new* state
+            // For this demo, we assume the initial state was different.
             const stayrockAgree = document.getElementById('agree-stayrock').dataset.checked === 'true';
             const sungwonmallAgree = document.getElementById('agree-sungwonmall').dataset.checked === 'true';
             
@@ -1308,36 +1012,6 @@
                 lastSnsSwitchToDisable = null; // Clear the stored switch
             }
         }
-
-        // --- [MODIFIED] Country Code Combobox Logic ---
-        function showCountryCodeDropdown() {
-            const dropdown = document.getElementById('country-code-dropdown');
-            if (dropdown) dropdown.style.display = 'block';
-        }
-
-        function hideCountryCodeDropdown() {
-            // [MODIFIED] No timeout, close immediately
-            const dropdown = document.getElementById('country-code-dropdown');
-            if (dropdown) dropdown.style.display = 'none';
-        }
-
-        function selectCountryCode(code, flagImgSrc, text, altText) {
-            // [MODIFIED] Set the innerHTML to an img tag
-            document.getElementById('country-code-flag').innerHTML = `<img src="${flagImgSrc}" alt="${altText}">`;
-            document.getElementById('country-code-display').value = text;
-            isFormDirty = true;
-            // [MODIFIED] Explicitly call hide to fix bug
-            hideCountryCodeDropdown();
-        }
-        
-        // --- [NEW] Copyright Agreement Logic ---
-        function selectCopyright(chip) {
-             const group = chip.closest('#copyright-chips');
-             group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
-             chip.classList.replace('single-chip-off', 'single-chip-on');
-             isFormDirty = true;
-        }
-
 
         // --- Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -1417,36 +1091,6 @@
                 // Run on load
                 setInitialState();
             });
-            
-            // [NEW] Set default state for select placeholders
-             document.querySelectorAll('select').forEach(select => {
-                if (select.value === "") {
-                    select.setAttribute('required', ''); // Enable :invalid selector
-                }
-                select.addEventListener('change', (e) => {
-                    if (e.target.value === "") {
-                        e.target.setAttribute('required', '');
-                    } else {
-                        e.target.removeAttribute('required');
-                    }
-                });
-            });
-            
-            // [MODIFIED] Add blur listener to combobox wrapper to close it
-            const comboboxWrapper = document.querySelector('.combobox-wrapper .input.select-wrapper');
-            if (comboboxWrapper) {
-                // [MODIFIED] Use 'focusout' event on the wrapper to detect when focus leaves the component
-                const comboboxRoot = comboboxWrapper.closest('.combobox-wrapper');
-                comboboxRoot.addEventListener('focusout', (e) => {
-                    // Check if the new focused element is still inside this combobox
-                    if (!comboboxRoot.contains(e.relatedTarget)) {
-                        hideCountryCodeDropdown();
-                    }
-                });
-            }
-            
-            // [NEW] Initialize default "미국" address form
-            toggleAddressFormat('us');
         });
 
     </script>

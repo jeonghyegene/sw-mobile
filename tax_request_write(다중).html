@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>세금계산서 신청서 작성 (다중)</title>
+    <title>세금계산서 신청서 작성 (다중 v2)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -354,7 +354,7 @@
         
         
         /* ========================================
-           [NEW] MODAL STYLES (For Request 3)
+           [MODIFIED] MODAL STYLES (For Request 3)
         ======================================== */
 
         .modal-overlay {
@@ -366,15 +366,27 @@
             justify-content: center;
             z-index: 1000;
             padding: 16px;
+            /* [MODIFIED] Animation on overlay */
+            animation: fadeInModal 0.3s ease-out; 
         }
         .modal-overlay.active {
             display: flex;
-            animation: fadeInModal 0.2s ease-out;
         }
+        /* [NEW] Closing animation for overlay */
+        .modal-overlay.closing {
+            animation: fadeOutModal 0.35s ease-out forwards;
+        }
+
         @keyframes fadeInModal {
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        /* [NEW] Keyframe for overlay fade out */
+        @keyframes fadeOutModal {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
         .modal-content {
             background: white;
             border-radius: 8px;
@@ -383,12 +395,80 @@
             max-height: 90vh; /* Limit height */
             display: flex;
             flex-direction: column;
-            animation: scaleUpModal 0.2s ease-out;
+            /* [MODIFIED] Default animation */
+            animation: scaleUpModal 0.3s ease-out; 
         }
         @keyframes scaleUpModal {
             from { transform: scale(0.9); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
+        
+        /* [NEW] Default closing animation */
+        .modal-overlay.closing .modal-content {
+             animation: scaleDownModal 0.3s ease-out forwards;
+        }
+        @keyframes scaleDownModal {
+            from { transform: scale(1); opacity: 1; }
+            to { transform: scale(0.9); opacity: 0; }
+        }
+
+        /* [NEW] Full Modal Animations (Right to Left) */
+        @keyframes slideInFromRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        @keyframes slideOutToRight {
+            from { transform: translateX(0); }
+            to { transform: translateX(100%); }
+        }
+
+        /* [MODIFIED] Override for Full Modal (Customer List & Edit) */
+        #customer-list-modal-overlay,
+        #customer-edit-modal-overlay { /* <-- ADDED #customer-edit-modal-overlay */
+            padding: 0; /* Remove padding */
+            align-items: stretch; /* Stretch to fill */
+            justify-content: stretch; /* Stretch to fill */
+            background: transparent; /* Overlay fades in, but modal content is opaque */
+            overflow: hidden;
+        }
+
+        #customer-list-modal,
+        #customer-edit-modal { /* <-- ADDED #customer-edit-modal */
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 0;
+            position: absolute; /* Position for transform */
+            top: 0;
+            right: 0;
+            transform: translateX(100%); /* Start off-screen */
+            animation: none; /* Disable default scale */
+        }
+
+        /* [MODIFIED] Apply slide animations to full modals */
+        #customer-list-modal-overlay.active #customer-list-modal,
+        #customer-edit-modal-overlay.active #customer-edit-modal { /* <-- ADDED #customer-edit-modal */
+            animation: slideInFromRight 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        /* [MODIFIED] Override closing animation for full modals */
+        #customer-list-modal-overlay.closing #customer-list-modal,
+        #customer-edit-modal-overlay.closing #customer-edit-modal { /* <-- ADDED #customer-edit-modal */
+            animation: slideOutToRight 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        /* [MODIFIED] Override overlay background for full modals */
+        #customer-list-modal-overlay.active,
+        #customer-edit-modal-overlay.active { /* <-- ADDED #customer-edit-modal-overlay */
+            background: rgba(0, 0, 0, 0.5);
+            animation: fadeInModal 0.35s ease-out;
+        }
+        #customer-list-modal-overlay.closing,
+        #customer-edit-modal-overlay.closing { /* <-- ADDED #customer-edit-modal-overlay */
+            background: rgba(0, 0, 0, 0.5); /* Start with background */
+            animation: fadeOutModal 0.35s ease-out forwards;
+        }
+
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -397,6 +477,7 @@
             border-bottom: 1px solid #e8e8e9;
             position: relative; /* For close button */
             height: 57px; /* Match v12 modal header */
+            flex-shrink: 0; /* [NEW] Prevent header from shrinking */
         }
         .modal-title {
             font-size: 16px;
@@ -428,7 +509,14 @@
             display: flex;
             gap: 8px;
             border-radius: 0 0 7px 7px;
+            flex-shrink: 0; /* [NEW] Prevent footer from shrinking */
         }
+        /* [NEW] Remove border-radius for full modals */
+        #customer-list-modal .modal-footer,
+        #customer-edit-modal .modal-footer {
+            border-radius: 0;
+        }
+
         .modal-footer .btn {
             flex: 1;
             height: 44px;
@@ -1055,7 +1143,7 @@
                 </div>
 
                 <div class="transaction-list-header" style="padding-bottom: 12px; margin-bottom: 12px; border-color: #e8e8e9;">
-                    <span class="total-count">총 <strong>4</strong>개</span>
+                    <span class="total-count">총 <strong>3</strong>개</span>
                 </div>
 
                 <div class="customer-list">
@@ -1072,7 +1160,6 @@
                         <div class="customer-detail"><span class="label">담당자</span></div>
                         <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
                         <div class="customer-item-footer">
-                             <button class="white-button btn" onclick="showCustomerEditModal('삼성 SDS', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">수정</button>
                              <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                         </div>
                     </article>
@@ -1090,7 +1177,6 @@
                         <div class="customer-detail"><span class="label">담당자</span></div>
                         <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
                          <div class="customer-item-footer">
-                             <button class="white-button btn" onclick="showCustomerEditModal('LG', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">수정</button>
                              <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                         </div>
                     </article>
@@ -1106,14 +1192,10 @@
                         <div class="customer-detail">사업자등록번호 232-34-33445</div>
                         <div class="customer-detail">대표자명 김길동</div>
                          <div class="customer-item-footer">
-                             <button class="white-button btn" onclick="showCustomerEditModal('대우', '232-34-33445', '김길동', '', '', '')">수정</button>
                              <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                         </div>
                     </article>
                 </div>
-            </div>
-             <div class="modal-footer">
-                <button class="btn dark-button" style="width: 100%;" onclick="showCustomerAddModal()">+ 고객 추가</button>
             </div>
         </div>
     </div>
@@ -1254,13 +1336,14 @@
         }
         
         // ========================================
-        // [NEW] MODAL JAVASCRIPT (Request 3)
+        // [MODIFIED] MODAL JAVASCRIPT (Request 3)
         // ========================================
 
         // --- Modal Helpers ---
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
+                overlay.classList.remove('closing'); // Ensure closing class is removed
                 overlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
@@ -1269,12 +1352,20 @@
         function closeModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
-                overlay.classList.remove('active');
-                // Don't reset body overflow if another modal is still open
-                const anyModalActive = document.querySelector('.modal-overlay.active');
-                if (!anyModalActive) {
-                    document.body.style.overflow = '';
-                }
+                // [MODIFIED] Add closing class for animation
+                overlay.classList.add('closing');
+                
+                // Remove active class after animation
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                    overlay.classList.remove('closing');
+                    
+                    // Check if any other modals or sheets are open
+                    const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
+                    if (!anyModalActive) {
+                        document.body.style.overflow = '';
+                    }
+                }, 350); // Match CSS animation duration (0.35s)
             }
         }
         
@@ -1378,8 +1469,8 @@
         <div id="disqus_thread"></div>
         <script>
             /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
             /*
             var disqus_config = function () {
             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable

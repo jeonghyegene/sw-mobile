@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>세금계산서 발급 (v19 기준)</title>
+    <title>세금계산서 발급 (발급 내역)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -66,54 +66,9 @@
             display: block;
         }
 
-        input, select {
+        input {
             font-family: inherit;
         }
-        
-        /* [MODIFIED] CR1: Add styles for date input */
-        input[type="date"] {
-            position: relative;
-            font-size: 14px;
-            color: black;
-            line-height: 1.5;
-            padding: 10px 12px;
-            width: 100%;
-            min-height: 40px;
-            border: none;
-            outline: none;
-        }
-        
-        /* [MODIFIED] CR1: Date input placeholder styling */
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            background: transparent;
-            bottom: 0;
-            color: transparent;
-            cursor: pointer;
-            height: auto;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: auto;
-        }
-        
-        input[type="date"]::before {
-            content: attr(data-placeholder);
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #c6c6c8; /* Placeholder color */
-            display: none;
-        }
-        
-        input[type="date"]:invalid::before {
-            display: block;
-        }
-        input[type="date"][value]:not([value=""])::before {
-            display: none; /* Hide placeholder if date is set */
-        }
-
 
         svg {
             stroke-width: 2;
@@ -611,7 +566,13 @@
             /* [NEW] 뱃지 축소 방지 */
         }
 
-        /* [REMOVED] CR2: .card-column2 removed */
+        .card-column2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333333;
+            margin-top: 4px;
+            margin-bottom: 15px;
+        }
 
         /* Modified for total amount */
         .card-divider {
@@ -1020,17 +981,6 @@
                 opacity: 1;
             }
         }
-        
-        /* [NEW] CR2: Full modal overlay animation */
-        .modal-overlay.overlay-full-modal {
-            animation: none;
-            opacity: 0;
-            transition: opacity 0.3s ease-out;
-            padding: 0; /* Full modal has no padding */
-        }
-        .modal-overlay.overlay-full-modal.active {
-            opacity: 1;
-        }
 
         .modal-content {
             background: white;
@@ -1056,74 +1006,6 @@
                 opacity: 1;
             }
         }
-        
-        /* [NEW] CR2: Full Modal Styles (from sungwon_money_01) */
-        .modal-content.full-modal {
-            width: 100%;
-            height: 100%;
-            max-width: 100%;
-            max-height: 100%;
-            border-radius: 0;
-            position: fixed; 
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            transform: translateX(100%); /* Start off-screen */
-            transition: transform 0.3s ease-out; 
-            animation: none; 
-        }
-        
-        .modal-overlay.active .modal-content.full-modal {
-            transform: translateX(0); /* Slide in */
-        }
-         .modal-overlay .modal-content.full-modal.closing {
-            transform: translateX(100%); /* Slide out */
-         }
-        
-        .full-modal .modal-header {
-            height: 56px; 
-            background: white; 
-            border-bottom: 1px solid #cccccc; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 0 16px; 
-            position: sticky; 
-            top: 0; 
-            z-index: 10;
-        }
-         .full-modal .modal-title {
-            flex: 3 0 0; 
-            font-size: 18px; 
-            font-weight: 600; 
-            text-align: center; 
-            color: #212121;
-         }
-         .full-modal .btn-modal-close {
-            position: static;
-            transform: none;
-            width: 28px;
-            height: 28px;
-         }
-         .full-modal .modal-header-placeholder {
-             flex: 1 0 0;
-             display: flex;
-             justify-content: flex-end;
-             width: 28px; /* Match button width */
-         }
-        
-         .full-modal .modal-footer {
-            position: sticky;
-            bottom: 0;
-            border-radius: 0;
-            z-index: 10;
-         }
-        
-        /* [NEW] CR3: Override modal width for full-details modal */
-        #issue-full-details-modal-overlay .modal-content:not(.full-modal) {
-            max-width: 440px; /* Wider than default 360px */
-        }
 
         .modal-header {
             display: flex;
@@ -1135,7 +1017,6 @@
             /* For close button */
             height: 57px;
             /* Match v12 modal header */
-            flex-shrink: 0; 
         }
 
         .modal-title {
@@ -1143,6 +1024,8 @@
             font-weight: 700;
             color: black;
             text-align: left;
+            /* [MODIFIED] Left aligned */
+            /* width: 100%; [REMOVED] */
         }
 
         .btn-modal-close {
@@ -1187,7 +1070,6 @@
             display: flex;
             gap: 8px;
             border-radius: 0 0 7px 7px;
-            flex-shrink: 0; 
         }
 
         .modal-footer .btn {
@@ -1209,60 +1091,10 @@
             margin-bottom: 8px;
         }
         
+        /* [MODIFIED] Req 4: Last form group in modal has no margin */
         .modal-body .form-group:last-child {
             margin-bottom: 0;
         }
-        
-        /* [NEW] CR1: Date picker modal styles */
-        #date-picker-modal .form-group {
-            margin-bottom: 16px;
-        }
-        #date-picker-modal .form-group-date {
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            overflow: hidden; /* To keep border-radius on input */
-        }
-        #date-picker-modal .form-group-date input {
-            border: none;
-            outline: none;
-        }
-        #date-picker-modal .quick-set-chips .single-chip {
-            padding: 4px 10px;
-            font-size: 13px;
-        }
-        /* [NEW] CR1: Added select wrapper style from sungwon_money_01 */
-        .input.select-wrapper {
-            padding: 0;
-            position: relative;
-        }
-        .input select {
-            height: 38px;
-            padding: 0 12px;
-            appearance: none;
-            -webkit-appearance: none;
-            cursor: pointer;
-            width: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: black;
-            line-height: 1.5;
-        }
-         .input.select-wrapper::after {
-            content: '';
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: center;
-            pointer-events: none;
-        }
-
 
         .readonly-value {
             font-size: 14px;
@@ -1319,11 +1151,14 @@
         }
 
         .modal-tab-nav .single-chip {
+            /* flex: 1; [REMOVED] */
             font-weight: 500;
         }
 
+        /* [MODIFIED] Use v12 Master Guide chip styles */
         .modal-tab-nav .single-chip-on {
             background: #4e6ee4;
+            /* Master Guide blue */
             color: white;
         }
 
@@ -1373,7 +1208,9 @@
         }
 
         /* [NEW] Form group for customer list button */
-        .form-group-button { }
+        .form-group-button {
+            /* margin-bottom: 20px; Moved to inline style */
+        }
 
         .form-group-button .white-button {
             width: 100%;
@@ -1562,40 +1399,6 @@
         .detail-item { display: flex; margin-bottom: 12px; font-size: 14px; }
         .detail-item .label { color: #666; width: 100px; flex-shrink: 0; }
         .detail-item .value { color: #333; font-weight: 500; }
-        
-        
-        /* [NEW] CR3: Text button style for issue number */
-        .card-column1-button {
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-            background: none;
-            border: none;
-            padding: 0;
-            margin: 0;
-            cursor: pointer;
-            text-align: left;
-        }
-        .card-column1-button:hover {
-            opacity: 0.7;
-        }
-        
-        /* [NEW] CR5: Chevron icon style (from sungwon_money_01.html) */
-        .card-chevron-icon {
-            width: 16px;
-            height: 16px;
-            color: #888;
-            flex-shrink: 0;
-        }
-        
-        /* [NEW] CR5: Clickable card style (from qna_list.html) */
-        .common-table-card.clickable {
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .common-table-card.clickable:hover {
-            background: #f9f9f9;
-        }
     </style>
 </head>
 
@@ -1672,7 +1475,7 @@
                             <input type="text" placeholder="접수번호 또는 기업명, 사업자등록번호" oninput="handleSearchInput(this)">
                             <div class="search-input-right">
                                 <div class="search-del" onclick="clearSearch(this)">
-                                    <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d" alt="지우기">
+                                    <img src="assets/images/search-del.png" alt="지우기">
                                 </div>
                                 <div class="btn-search" onclick="handleSearch(this)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
@@ -1700,14 +1503,36 @@
     
                         <div class="transaction-list" id="issue-list-container">
     
-                            <article class="common-table-card clickable" data-type="합산" onclick="showIssueSimpleDetails({
+                            <article class="common-table-card" data-type="합산">
+                                <div class="card-header">
+                                    <div class="card-column1" style="display: flex; align-items: baseline; gap: 6px;">
+                                        <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
+                                        <span style="font-size: 16px; font-weight: 600; color: #212121;">324111</span>
+                                    </div>
+                                    <div class="card-badge" data-type="합산">합산</div>
+                                </div>
+                                <div class="card-column2">1,003,305,000 원</div>
+                                <div class="card-divider"></div>
+                                <div class="card-row">
+                                    <div class="card-row-label">발급일</div>
+                                    <div class="card-row-value">2025-08-01</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">공급가액</div>
+                                    <div class="card-row-value">103,305,000 원</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">부가세액</div>
+                                    <div class="card-row-value">1,003,305,000 원</div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="button" class="white-button btn" onclick="showIssueSimpleDetails({
                                         orderNo: 'sw675541 외 999건+',
                                         company: '주식회사티엑스',
                                         bizNo: '123-45-23155',
                                         writeDate: '2025-08-02'
-                                    })">
-                                <div class="card-header">
-                                    <button type="button" class="card-column1-button" onclick="event.stopPropagation(); showIssueFullDetailsModal({
+                                    })">상세</button>
+                                    <button type="button" class="white-button btn" onclick="showIssueFullDetailsModal({
                                         issueNo: '324111',
                                         issueDate: '2025-08-01',
                                         issueType: '합산',
@@ -1723,49 +1548,41 @@
                                         contactName: '김회계',
                                         contactPhone: '0233441688',
                                         contactEmail: 'damdangja@email.com'
-                                    })">
-                                        <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
-                                        <span style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">324111</span>
-                                    </button>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <div class="card-badge" data-type="합산">합산</div>
-                                        <div class="card-chevron-icon">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="card-row" style="margin-top: 15px;">
-                                    <div class="card-row-label">공급가액</div>
-                                    <div class="card-row-value">103,305,000 원</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">부가세액</div>
-                                    <div class="card-row-value">1,003,305,000 원</div>
-                                </div>
-                                <div class="card-row" style="margin-top: 8px;">
-                                    <div class="card-row-label" style="font-weight: 600; color: #333;">합계금액</div>
-                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">1,003,305,000 원</div>
-                                </div>
-                                
-                                <div class="card-divider"></div>
-                                <div class="card-row">
-                                    <div class="card-row-label">발급일</div>
-                                    <div class="card-row-value">2025-08-01</div>
-                                </div>
-                                <div class="card-footer">
-                                    <button type="button" class="white-button btn" onclick="event.stopPropagation(); alert('PC 에서만 가능합니다')">출력</button>
+                                    })">발급정보</button>
+                                    <button type="button" class="white-button btn">출력</button>
                                 </div>
                             </article>
                             
-                            <article class="common-table-card clickable" data-type="건별" onclick="showIssueSimpleDetails({
+                            <article class="common-table-card" data-type="건별">
+                                <div class="card-header">
+                                    <div class="card-column1" style="display: flex; align-items: baseline; gap: 6px;">
+                                        <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
+                                        <span style="font-size: 16px; font-weight: 600; color: #212121;">102032</span>
+                                    </div>
+                                    <div class="card-badge" data-type="건별">건별</div>
+                                </div>
+                                <div class="card-column2">9,020 원</div>
+                                <div class="card-divider"></div>
+                                <div class="card-row">
+                                    <div class="card-row-label">발급일</div>
+                                    <div class="card-row-value">2025-08-13</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">공급가액</div>
+                                    <div class="card-row-value">8,200 원</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">부가세액</div>
+                                    <div class="card-row-value">820 원</div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="button" class="white-button btn" onclick="showIssueSimpleDetails({
                                         orderNo: 'sw243222',
                                         company: '주식회사티엑스',
                                         bizNo: '123-45-23155',
                                         writeDate: '2025-08-12'
-                                    })">
-                                <div class="card-header">
-                                    <button type="button" class="card-column1-button" onclick="event.stopPropagation(); showIssueFullDetailsModal({
+                                    })">상세</button>
+                                    <button type="button" class="white-button btn" onclick="showIssueFullDetailsModal({
                                         issueNo: '102032',
                                         issueDate: '2025-08-13',
                                         issueType: '건별',
@@ -1781,49 +1598,41 @@
                                         contactName: '김회계',
                                         contactPhone: '0233441688',
                                         contactEmail: 'damdangja@email.com'
-                                    })">
-                                        <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
-                                        <span style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">102032</span>
-                                    </button>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <div class="card-badge" data-type="건별">건별</div>
-                                        <div class="card-chevron-icon">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card-row" style="margin-top: 15px;">
-                                    <div class="card-row-label">공급가액</div>
-                                    <div class="card-row-value">8,200 원</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">부가세액</div>
-                                    <div class="card-row-value">820 원</div>
-                                </div>
-                                <div class="card-row" style="margin-top: 8px;">
-                                    <div class="card-row-label" style="font-weight: 600; color: #333;">합계금액</div>
-                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">9,020 원</div>
-                                </div>
-                                
-                                <div class="card-divider"></div>
-                                <div class="card-row">
-                                    <div class="card-row-label">발급일</div>
-                                    <div class="card-row-value">2025-08-13</div>
-                                </div>
-                                <div class="card-footer">
-                                    <button type="button" class="white-button btn" onclick="event.stopPropagation(); alert('PC 에서만 가능합니다')">출력</button>
+                                    })">발급정보</button>
+                                    <button type="button" class="white-button btn">출력</button>
                                 </div>
                             </article>
                             
-                            <article class="common-table-card clickable" data-type="건별" onclick="showIssueSimpleDetails({
+                            <article class="common-table-card" data-type="건별">
+                                <div class="card-header">
+                                    <div class="card-column1" style="display: flex; align-items: baseline; gap: 6px;">
+                                        <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
+                                        <span style="font-size: 16px; font-weight: 600; color: #212121;">102032</span>
+                                    </div>
+                                    <div class="card-badge" data-type="건별">건별</div>
+                                </div>
+                                <div class="card-column2">1,100,000 원</div>
+                                <div class="card-divider"></div>
+                                <div class="card-row">
+                                    <div class="card-row-label">발급일</div>
+                                    <div class="card-row-value">2025-08-20</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">공급가액</div>
+                                    <div class="card-row-value">1,000,000 원</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">부가세액</div>
+                                    <div class="card-row-value">100,000 원</div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="button" class="white-button btn" onclick="showIssueSimpleDetails({
                                         orderNo: 'sw645721',
                                         company: '주식회사티엑스',
                                         bizNo: '123-45-23155',
                                         writeDate: '2025-08-15'
-                                    })">
-                                <div class="card-header">
-                                    <button type="button" class="card-column1-button" onclick="event.stopPropagation(); showIssueFullDetailsModal({
+                                    })">상세</button>
+                                    <button type="button" class="white-button btn" onclick="showIssueFullDetailsModal({
                                         issueNo: '102032',
                                         issueDate: '2025-08-20',
                                         issueType: '건별',
@@ -1839,38 +1648,8 @@
                                         contactName: '김회계',
                                         contactPhone: '0233441688',
                                         contactEmail: 'damdangja@email.com'
-                                    })">
-                                        <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
-                                        <span style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">102032</span>
-                                    </button>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <div class="card-badge" data-type="건별">건별</div>
-                                        <div class="card-chevron-icon">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="card-row" style="margin-top: 15px;">
-                                    <div class="card-row-label">공급가액</div>
-                                    <div class="card-row-value">1,000,000 원</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">부가세액</div>
-                                    <div class="card-row-value">100,000 원</div>
-                                </div>
-                                <div class="card-row" style="margin-top: 8px;">
-                                    <div class="card-row-label" style="font-weight: 600; color: #333;">합계금액</div>
-                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">1,100,000 원</div>
-                                </div>
-                                
-                                <div class="card-divider"></div>
-                                <div class="card-row">
-                                    <div class="card-row-label">발급일</div>
-                                    <div class="card-row-value">2025-08-20</div>
-                                </div>
-                                <div class="card-footer">
-                                    <button type="button" class="white-button btn" onclick="event.stopPropagation(); alert('PC 에서만 가능합니다')">출력</button>
+                                    })">발급정보</button>
+                                    <button type="button" class="white-button btn">출력</button>
                                 </div>
                             </article>
     
@@ -1923,7 +1702,7 @@
     </div>
 
     <div class="modal-overlay" id="tax-edit-modal-overlay">
-    </div>
+        </div>
     
     <div class="bottom-sheet-overlay" id="filter-sheet-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="filter-sheet">
@@ -1950,78 +1729,12 @@
                     </div>
                 </div>
             </div>
-            </div>
-    </div>
-    
-    <div class="bottom-sheet-overlay" id="period-custom-sheet-overlay">
-        <div class="bottom-sheet" data-name="bottom-sheet" id="period-custom-sheet">
-            <div class="sheet-handle" id="period-custom-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">기간 설정</div>
-                <div class="btn-close" onclick="closeCustomPeriodSheet()">
-                     <svg id="icon-close-custom-period"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="form-group">
-                    <label for="start-date">시작일</label>
-                    <div class="input" style="padding: 0;"> <input type="date" id="start-date" data-placeholder="YYYY-MM-DD" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="end-date">종료일</label>
-                    <div class="input" style="padding: 0;">
-                        <input type="date" id="end-date" data-placeholder="YYYY-MM-DD" required>
-                    </div>
-                </div>
-                 <div class="form-group">
-                    <label>간편 설정</label>
-                    <div class="filter-group-content">
-                        <div class="single-chip single-chip-off" onclick="setQuickDate('today')">오늘</div>
-                        <div class="single-chip single-chip-off" onclick="setQuickDate('week')">1주일</div>
-                        <div class="single-chip single-chip-off" onclick="setQuickDate('month')">1개월</div>
-                    </div>
-                </div>
-            </div>
             <div class="sheet-footer">
-                <button class="btn white-button" onclick="closeCustomPeriodSheet()">취소</button>
-                <button class="btn dark-button" onclick="applyCustomPeriod()">조회하기</button>
+                <button class="btn white-button" onclick="resetPeriodFilter()">초기화</button>
+                <button class="btn dark-button" onclick="applyPeriodFilter()">조회하기</button>
             </div>
         </div>
     </div>
-
-    <div class="bottom-sheet-overlay" id="period-monthly-sheet-overlay">
-        <div class="bottom-sheet" data-name="bottom-sheet" id="period-monthly-sheet">
-            <div class="sheet-handle" id="period-monthly-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">월별 설정</div>
-                <div class="btn-close" onclick="closeMonthlyPeriodSheet()">
-                     <svg id="icon-close-monthly-period"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="form-group">
-                    <label for="select-year">년도</label>
-                    <div class="input select-wrapper">
-                        <select id="select-year">
-                            </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="select-month">월</label>
-                    <div class="input select-wrapper">
-                        <select id="select-month">
-                            </select>
-                    </div>
-                </div>
-            </div>
-            <div class="sheet-footer">
-                <button class="btn white-button" onclick="closeMonthlyPeriodSheet()">취소</button>
-                <button class="btn dark-button" onclick="applyMonthlyPeriod()">조회하기</button>
-            </div>
-        </div>
-    </div>
-
     
     <div class="bottom-sheet-overlay" id="issue-simple-details-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="issue-simple-details-sheet">
@@ -2057,15 +1770,14 @@
     </div>
     
     <div class="modal-overlay" id="issue-full-details-modal-overlay">
-        <div class="modal-content full-modal" id="issue-full-details-modal">
+        <div class="modal-content" id="issue-full-details-modal">
             <div class="modal-header">
+                <h2 class="modal-title">발급 정보</h2>
                 <button class="btn-modal-close" onclick="closeModal('issue-full-details-modal-overlay')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M15 6l-6 6l6 6" />
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
                     </svg>
                 </button>
-                <h2 class="modal-title">발급 정보</h2>
-                <!-- <div class="modal-header-placeholder" style="flex: 1 0 0; display: flex; justify-content: flex-end; width: 28px;"></div> -->
             </div>
             <div class="modal-body">
                 
@@ -2131,7 +1843,7 @@
                 
             </div>
             <div class="modal-footer">
-                <button class="btn dark-button" onclick="closeModal('issue-full-details-modal-overlay')">확인</button>
+                <button class="btn dark-button" style="width: 100%;" onclick="closeModal('issue-full-details-modal-overlay')">확인</button>
             </div>
         </div>
     </div>
@@ -2172,7 +1884,7 @@
                 checkbox.innerHTML = '<div class="checkbox-off"></div>';
             } else {
                 checkbox.dataset.checked = 'true';
-                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
             }
         }
 
@@ -2266,7 +1978,7 @@
             const listContainer = document.getElementById('transaction-list-container');
             if (!listContainer) return;
             const noResultMsg = document.getElementById('no-request-list');
-            let visibleCount = 0; // 예시로 0건
+            const visibleCount = 0; // 예시로 0건
             
             if(document.getElementById('transaction-count')) {
                 document.getElementById('transaction-count').textContent = visibleCount;
@@ -2283,56 +1995,23 @@
         }
 
         // --- '신청' 탭 Modal Logic (Placeholder) ---
-        // [MODIFIED] CR2: openModal/closeModal (Full Modal Logic Added)
         function openModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (!overlay) return;
-
-            const modal = overlay.querySelector('.modal-content');
-            
-            if (modal && modal.classList.contains('full-modal')) {
-                // Full Modal Open Logic (from sungwon_money_01)
-                overlay.classList.add('overlay-full-modal');
-                overlay.style.display = 'flex';
-                requestAnimationFrame(() => {
-                    overlay.classList.add('active');
-                });
-            } else {
-                // Default Modal Open Logic
+             const overlay = document.getElementById(overlayId);
+            if (overlay) {
                 overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
             }
-            document.body.style.overflow = 'hidden';
         }
-
         function closeModal(overlayId) {
              const overlay = document.getElementById(overlayId);
-            if (!overlay) return;
-
-            const modal = overlay.querySelector('.modal-content');
-
-            if (modal && modal.classList.contains('full-modal')) {
-                // Full Modal Close Logic (from sungwon_money_01)
-                modal.classList.add('closing');
+            if (overlay) {
                 overlay.classList.remove('active');
-                
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                    overlay.classList.remove('overlay-full-modal');
-                    modal.classList.remove('closing');
-                }, 300); // Match CSS transition
-                
-            } else {
-                // Default Modal Close Logic
-                overlay.classList.remove('active');
-            }
-            
-            // Check for other modals/sheets
-            const anyModalActive = document.querySelector('.modal-overlay.active:not(#' + overlayId + '), .bottom-sheet-overlay.active');
-            if (!anyModalActive) {
-                document.body.style.overflow = '';
+                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
             }
         }
-        
         function showTaxEditModal(buttonEl) {
             // (Placeholder)
             alert("신청 정보 수정 모달 열기 (구현 필요)");
@@ -2347,18 +2026,7 @@
             if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
             let isDragging = false, startY = 0, currentY = 0;
             const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
-            const closeSheet = () => { 
-                sheet.classList.add('closing'); 
-                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active:not(#' + overlayId + ')');
-                if (!anyModalActive) {
-                    document.body.style.overflow = ''; 
-                }
-                setTimeout(() => { 
-                    overlay.classList.remove('active'); 
-                    sheet.classList.remove('closing'); 
-                    sheet.style.transform = ''; // Reset transform
-                }, 300); 
-            };
+            const closeSheet = () => { sheet.classList.add('closing'); document.body.style.overflow = ''; setTimeout(() => { overlay.classList.remove('active'); sheet.classList.remove('closing'); }, 300); };
             const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
             const drag = (e) => { if (!isDragging) return; e.preventDefault(); currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; const deltaY = currentY - startY; if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; };
             const endDrag = () => { if (!isDragging) return; isDragging = false; sheet.style.transition = ''; const deltaY = currentY - startY; if (deltaY > 100) closeSheet(); else sheet.style.transform = ''; };
@@ -2369,10 +2037,6 @@
             return { openSheet, closeSheet };
         }
         const { openSheet: showFilterSheet, closeSheet: closeFilterSheet } = setupBottomSheet('filter-sheet-overlay', 'filter-sheet', 'filter-sheet-handle');
-        // [NEW] CR1: Add setup for new bottom sheets
-        const { openSheet: showCustomPeriodSheet, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
-        const { openSheet: showMonthlyPeriodSheet, closeSheet: closeMonthlyPeriodSheet } = setupBottomSheet('period-monthly-sheet-overlay', 'period-monthly-sheet', 'period-monthly-sheet-handle');
-
         
         // [MODIFIED] '발급 내역' 간단 상세 Bottom Sheet (Req 2)
         const { openSheet: openIssueSimpleDetailsSheet, closeSheet: closeIssueSimpleDetailsSheet } = setupBottomSheet('issue-simple-details-overlay', 'issue-simple-details-sheet', 'issue-simple-details-handle');
@@ -2437,12 +2101,12 @@
                             ${itemsHtml}
                         </div>
                         <div class="card-divider"></div>
-                        <div class="card-row" style="font-weight: 600; font-size: 13px;">
-                            <div class="card-row-label">총 합계</div>
-                            <div class="card-row-value" style="color: #333;">${order.orderTotal.total} 원</div>
+                        <div class="card-row-total">
+                            <div class="label">총 합계</div>
+                            <div class="value">${order.orderTotal.total} 원</div>
                         </div>
-                        <div class="card-row" style="justify-content: flex-end; margin-top: -4px;">
-                            <div class="card-row-value" style="font-size: 11px;">(공: ${order.orderTotal.supply} / 부: ${order.orderTotal.tax})</div>
+                        <div class="card-row" style="justify-content: flex-end;">
+                            <div class="card-row-value">(공: ${order.orderTotal.supply} / 부: ${order.orderTotal.tax})</div>
                         </div>
                     `;
                     orderList.appendChild(card);
@@ -2462,40 +2126,12 @@
 
         // '발급 내역' 기간 필터
         let selectedPeriodValue = "최근 1개월";
-        
-        // [MODIFIED] CR1: selectPeriod function
         function selectPeriod(chip) { 
             const group = chip.closest('.filter-group-content'); 
             group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
             chip.classList.replace('single-chip-off', 'single-chip-on'); 
             selectedPeriodValue = chip.getAttribute('data-value'); 
-
-            if (selectedPeriodValue === '기간 설정') {
-                closeFilterSheet();
-                // Set default dates (e.g., last 1 month)
-                const endDate = new Date();
-                const startDate = new Date();
-                startDate.setMonth(endDate.getMonth() - 1);
-                // Set input values
-                const startDateInput = document.getElementById('start-date');
-                const endDateInput = document.getElementById('end-date');
-                startDateInput.value = startDate.toISOString().split('T')[0];
-                endDateInput.value = endDate.toISOString().split('T')[0];
-                // Trigger change to remove placeholder if value is set
-                startDateInput.dispatchEvent(new Event('change'));
-                endDateInput.dispatchEvent(new Event('change'));
-
-                showCustomPeriodSheet();
-            } else if (selectedPeriodValue === '월별') {
-                closeFilterSheet();
-                populateMonthyPicker(); // Populate year/month selects
-                showMonthlyPeriodSheet();
-            } else {
-                // '최근 1개월', '최근 3개월'은 바로 적용
-                applyPeriodFilter();
-            }
         }
-        
         function applyPeriodFilter() { 
             document.getElementById('selected-period-text').textContent = selectedPeriodValue; 
             document.querySelector('#issue-period-filter .text-select-button')?.classList.remove('open'); 
@@ -2504,93 +2140,8 @@
             // TODO: Filtering logic
         }
          function resetPeriodFilter() { 
-            // '최근 1개월' 칩을 찾아서 선택
-            const defaultChip = document.querySelector('#single-chip-group-period .single-chip[data-value="최근 1개월"]');
-            if(defaultChip) {
-                selectPeriod(defaultChip);
-            }
+            selectPeriod(document.querySelector('#single-chip-group-period .single-chip[data-value="최근 1개월"]'));
          }
-         
-        // [NEW] CR1: Date Picker Modal Functions (from sungwon_money_01)
-        function formatDate(date) {
-            return date.toISOString().split('T')[0];
-        }
-
-        function setQuickDate(period) {
-            const startDateInput = document.getElementById('start-date');
-            const endDateInput = document.getElementById('end-date');
-            const endDate = new Date();
-            let startDate = new Date();
-
-            if (period === 'today') {
-                // startDate is already today
-            } else if (period === 'week') {
-                startDate.setDate(endDate.getDate() - 7);
-            } else if (period === 'month') {
-                startDate.setMonth(endDate.getMonth() - 1);
-            }
-            
-            startDateInput.value = formatDate(startDate);
-            endDateInput.value = formatDate(endDate);
-            
-            // Trigger change to remove placeholder
-            startDateInput.dispatchEvent(new Event('change'));
-            endDateInput.dispatchEvent(new Event('change'));
-        }
-
-        function applyCustomPeriod() { // Renamed from applyDateRangeFilter
-            const startDate = document.getElementById('start-date').value;
-            const endDate = document.getElementById('end-date').value;
-
-            if (!startDate || !endDate) {
-                alert("시작일과 종료일을 모두 선택해주세요.");
-                return;
-            }
-            if (new Date(startDate) > new Date(endDate)) {
-                 alert("시작일이 종료일보다 늦을 수 없습니다.");
-                return;
-            }
-            
-            selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`; // 포맷 변경
-            
-            closeCustomPeriodSheet();
-            applyPeriodFilter(); // 메인 필터 적용 함수 호출
-        }
-        
-        // [NEW] CR1: Monthly Picker Modal Functions
-        function populateMonthyPicker() {
-            const yearSelect = document.getElementById('select-year');
-            const monthSelect = document.getElementById('select-month');
-            const currentYear = new Date().getFullYear();
-            const currentMonth = new Date().getMonth() + 1;
-
-            // 연도 채우기 (현재 연도 ~ 5년 전)
-            if (yearSelect.options.length === 0) { // 한번만 채우기
-                for (let i = 0; i < 5; i++) {
-                    const year = currentYear - i;
-                    yearSelect.add(new Option(`${year}년`, year));
-                }
-            }
-            // 월 채우기 (1~12월)
-            if (monthSelect.options.length === 0) { // 한번만 채우기
-                 for (let i = 1; i <= 12; i++) {
-                    monthSelect.add(new Option(`${i}월`, i));
-                }
-            }
-            // 현재 월로 기본 설정
-            yearSelect.value = currentYear;
-            monthSelect.value = currentMonth;
-        }
-
-        function applyMonthlyPeriod() {
-            const year = document.getElementById('select-year').value;
-            const month = document.getElementById('select-month').value;
-            selectedPeriodValue = `${year}년 ${month}월`;
-            
-            closeMonthlyPeriodSheet();
-            applyPeriodFilter(); // 메인 필터 적용
-        }
-
 
         // '발급 내역' 발급유형 필터 (Req 4)
         function toggleIssueTypeChip(chip) {
@@ -2661,35 +2212,6 @@
             
             // Pagination (예시로 '발급 내역' 탭의 것만 초기화)
             // (paginationGo, updatePagination 등은 tax_request.html에 이미 존재한다고 가정)
-            // Pagination Logic (Placeholder)
-            let currentPage = 1; const totalPages = 1; 
-            function paginationGo(page) { currentPage = page; updatePagination(); }
-            function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
-            function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
-            function paginationFirst() { paginationGo(1); }
-            function paginationLast() { paginationGo(totalPages); }
-            function updatePagination() {
-                const numbersContainer = document.getElementById('issue-pagination-numbers');
-                if (!numbersContainer) return;
-                numbersContainer.innerHTML = ''; // Clear
-                for (let i = 1; i <= totalPages; i++) {
-                    const numEl = document.createElement('div');
-                    numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
-                    numEl.dataset.page = i;
-                    numEl.textContent = i;
-                    numEl.onclick = () => paginationGo(i);
-                    numbersContainer.appendChild(numEl);
-                }
-                
-                const paginationRoot = numbersContainer.closest('.pagination');
-                if (!paginationRoot) return;
-                const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
-                const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
-                prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
-                nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
-            }
-            updatePagination();
-
 
             // [NEW] Modal overlay click-to-close listeners
             document.querySelectorAll('.modal-overlay').forEach(overlay => {
@@ -2698,21 +2220,6 @@
                         closeModal(overlay.id);
                     }
                 });
-            });
-            
-            // [NEW] CR1: Add change listener to date inputs to hide placeholder
-            document.querySelectorAll('input[type="date"]').forEach(input => {
-                input.addEventListener('change', (e) => {
-                    if (e.target.value) {
-                        e.target.removeAttribute('data-placeholder');
-                    } else {
-                        e.target.setAttribute('data-placeholder', 'YYYY-MM-DD');
-                    }
-                });
-                // Initial check
-                if (input.value) {
-                    input.removeAttribute('data-placeholder');
-                }
             });
         });
 
@@ -2723,8 +2230,8 @@
         <div id="disqus_thread"></div>
         <script>
             /**
-            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
             /*
             var disqus_config = function () {
             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable

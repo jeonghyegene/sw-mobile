@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>성원포인트 (v2)</title>
+    <title>성원포인트</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -27,14 +27,13 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: hidden;
-            position: relative;
+            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
         }
         ul, li { list-style: none; }
         a { text-decoration: none; color: inherit; }
         button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
         img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-        input, select { font-family: inherit; }
+        input { font-family: inherit; }
         svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
 
         /* Layout */
@@ -61,6 +60,7 @@
         .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
         .white-button:hover { background: #f9f9f9; }
         .white-button:active { transform: scale(0.98); }
+        /* v19 (from default) : Disabled state */
         .dark-button:disabled,
         .white-button:disabled,
         .primary-button:disabled {
@@ -73,10 +73,10 @@
         /* Main Content */
         .sw-container { padding: 16px; }
 
-        /* Page Tabs (v12 Tab-Nav Style) */
+        /* [NEW] Page Tabs (v12 Tab-Nav Style) */
         .page-tabs {
             width: 100%;
-            height: 44px; 
+            height: 44px; /* v12 standard height */
             background: white;
             border-bottom: 1px solid #e8e8e9;
             display: flex;
@@ -86,13 +86,13 @@
         .page-tab-item {
             height: 42px;
             padding: 10px 4px;
-            font-size: 16px; 
+            font-size: 16px; /* v12 standard font size */
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             margin-right: 16px;
             position: relative;
-            color: #bcbcbc; 
+            color: #bcbcbc; /* Inactive color */
             border-bottom: 2px solid transparent;
         }
         .page-tab-item.active {
@@ -114,6 +114,7 @@
         .account-info strong { font-weight: 600; }
         .account-chevron { width: 16px; height: 16px; color: #888; flex-shrink: 0; }
         
+        /* [NEW] Info Sub Row (for point expiry) */
         .info-sub-row {
             display: flex;
             justify-content: space-between;
@@ -129,7 +130,7 @@
             font-weight: 600;
         }
 
-        /* Filter Chip Section (v12) */
+        /* [NEW] Filter Chip Section (replaces tabs) */
         .filter-chip-section {
             background: #fff;
             padding: 8px 16px; 
@@ -161,7 +162,7 @@
         .text-select-button-arrow svg {transition: transform 0.2s;}
         .text-select-button.open .text-select-button-arrow svg {transform: rotate(-180deg);}
 
-        /* Transaction List */
+        /* [MODIFIED] Transaction Card -> Point Card */
         .transaction-list-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; font-size: 14px; color: #555; border-bottom: 1px solid #f0f0f0; margin-bottom: 16px; }
         .transaction-list-header .total-count strong { font-weight: 600; color: #333; }
         .view-count-select { display: inline-flex; align-items: center; gap: 2px; cursor: pointer; transition: opacity 0.2s; user-select: none; }
@@ -171,9 +172,9 @@
         .view-count-select-arrow { width: 12px; height: 12px; }
         .view-count-select-arrow svg {transition: transform 0.2s; transform: translateY(-2px);}
         
-        .transaction-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+        .transaction-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; /* Pagination 여백 */ }
         
-        /* Point Card Style */
+        /* [NEW] Point Card Style */
         .point-card { 
             border: 1px solid #e0e0e0; 
             border-radius: 8px; 
@@ -182,33 +183,8 @@
         }
         .card-body { padding: 16px; }
         .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-        
-        /* [MODIFIED] v2: .card-content to flex column */
-        .card-content { 
-            font-size: 16px; 
-            font-weight: 500; 
-            color: #333; 
-            margin-right: 16px;
-            display: flex; /* [NEW] v2 */
-            flex-direction: column; /* [NEW] v2 */
-            gap: 4px; /* [NEW] v2 */
-        }
-        /* [MODIFIED] v2: .card-order-id removed font-size and margin-top */
-        .card-order-id { 
-            color: #888; 
-        }
-        
-        /* [NEW] v2: Link styles for receipt number */
-        .card-order-id a {
-            font-size: 14px; /* [NEW] v2: Specific font size */
-            color: inherit;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .card-order-id a:hover {
-            text-decoration: underline;
-        }
-
+        .card-content { font-size: 16px; font-weight: 500; color: #333; margin-right: 16px; }
+        .card-order-id { font-size: 13px; color: #888; margin-top: 4px; }
         .card-amount { font-size: 16px; font-weight: 700; white-space: nowrap; }
         .card-amount.plus { color: #007bff; }
         .card-amount.minus { color: #dc3545; }
@@ -220,7 +196,7 @@
         .card-balance .value { font-weight: 700; }
         .card-expiry-date {
             font-size: 13px;
-            color: #dc3545; 
+            color: #dc3545; /* 강조 */
             font-weight: 500;
             margin-top: 8px;
             text-align: left;
@@ -228,10 +204,16 @@
 
         .no-transactions { padding: 40px 16px; text-align: center; color: #888; font-size: 14px; }
 
-        /* [v17] Pagination */
+        /* [v17] Pagination (Master Guide Img) */
         .pagination { display: flex; align-items: center; justify-content: center; gap: 9px; }
-        .pagination-arrow { width: 15px; height: 15px; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; }
-        .pagination-arrow img { width: 100%; height: auto; } 
+        .pagination-arrow { 
+            width: 15px; /* 가이드 기준 크기 조정 */
+            height: 15px; 
+            cursor: pointer; 
+            transition: transform 0.2s; 
+            display: flex; align-items: center; justify-content: center; /* 이미지 중앙정렬 */
+        }
+        .pagination-arrow img { width: 100%; height: auto; } /* 이미지 크기 조정 */
         .pagination-arrow:active { transform: scale(0.9); }
         .pagination-arrow.disabled { opacity: 0.3; cursor: not-allowed; }
         .pagination-numbers { display: flex; gap: 3px; }
@@ -277,7 +259,88 @@
         .detail-item .value { color: #333; font-weight: 500; }
         .detail-item .value.fail-reason { color: #dc3545; }
 
-        /* [NEW] v2: Form/Input Styles for Custom Period Sheet */
+
+        /* ========================================
+           [EXISTING] STYLES FROM sungwon_money_01_final
+        ======================================== */
+
+        /* [EXISTING] Modal (from v19 default) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeInModal 0.2s ease-out;
+        }
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px; /* Modal max width */
+            max-height: 90vh; /* Limit height */
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+        @keyframes scaleUpModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+        }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+        }
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #888;
+        }
+        .btn-modal-close:hover {
+            color: #333;
+        }
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff; /* v17은 푸터 배경색 없음 */
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+
+        /* [EXISTING] Refund Account Modal Specific Styles (from v19 default) */
+        #refund-account-modal .modal-body {
+            padding-bottom: 0; /* Remove bottom padding if footer exists */
+        }
         .form-group {
             margin-bottom: 20px;
         }
@@ -288,18 +351,47 @@
             color: #333;
             margin-bottom: 8px;
         }
-         .form-group .date-inputs {
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
             display: flex;
             align-items: center;
+        }
+        .disclaimer {
+            font-size: 12px;
+            color: #888; /* v17은 #888 */
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+        .disclaimer.error { /* v19의 .disclaimer 스타일 */
+             color: #dc3545;
+        }
+        .bank-chips {
+            display: flex;
+            flex-wrap: wrap;
             gap: 8px;
-         }
-         .form-group .date-inputs .input {
-             flex: 1;
-         }
-         .form-group .date-inputs span {
-             flex-shrink: 0;
-             color: #888;
-         }
+        }
+        .expand-button-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+        }
+        .hidden-bank {
+            display: none;
+        }
+        .banks-expanded .hidden-bank {
+            display: inline-flex;
+        }
+        .input-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
         .input {
             width: 100%;
             min-height: 40px;
@@ -319,22 +411,129 @@
             color: black;
             line-height: 1.5;
         }
-        .input input[type="date"] {
-            -webkit-appearance: none;
-            appearance: none;
-            position: relative;
+        .input input::placeholder { color: #c6c6c8; }
+        .input-group .white-button {
+            flex-shrink: 0;
+            height: 40px; /* Match input height */
+            font-size: 13px;
+            padding: 0 12px;
+            width: auto; /* v19에서 추가 */
         }
-        .input input[type="date"]::-webkit-calendar-picker-indicator {
-            position: absolute;
-            right: 0;
-            top: 0;
+        .verification-message {
+            font-size: 12px;
+            margin-top: 8px;
+            min-height: 1.5em; /* Prevent layout shift */
+        }
+        .verification-message.success {
+            color: #28a745;
+        }
+        .verification-message.error {
+            color: #dc3545;
+        }
+        
+        /* Textarea Style (v12 master guide based) */
+        .input textarea {
             width: 100%;
-            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            font-family: 'Pretendard', sans-serif;
+            color: black;
+            line-height: 1.5;
+            resize: vertical;
+        }
+        .input textarea::placeholder { color: #c6c6c8; }
+
+        /* Detail Box (for withdrawal sheet) */
+        .detail-box {
+            padding: 16px;
+            background: #f8f8f9;
+            border-radius: 6px;
+        }
+        .detail-box .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Bank List Styles (from v19 default) */
+        .account-holder-info {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f8f8f9;
+            border-radius: 4px;
+        }
+        .account-holder-info strong {
+            font-weight: 600;
+        }
+        .bank-list {
+            list-style: none;
             padding: 0;
             margin: 0;
-            opacity: 0;
-            cursor: pointer;
         }
+        .bank-list li {
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .bank-list li:last-child {
+            border-bottom: none;
+        }
+        .bank-list button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 16px 0;
+            font-size: 16px;
+            color: #333;
+            background: none;
+            border: none;
+            cursor: pointer;
+            min-height: 48px;
+            text-align: left;
+        }
+        .bank-list button:hover {
+            background-color: #f8f8f8;
+        }
+        .bank-list .check-icon {
+            width: 20px;
+            height: 20px;
+            color: #4e6ee4;
+            margin-left: 10px;
+            display: none;
+        }
+        .bank-list button.selected .check-icon {
+            display: block;
+        }
+        .bank-list button.selected {
+            font-weight: 600;
+            color: #4e6ee4;
+        }
+
+        /* History Table Style (New) */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .history-table th,
+        .history-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #f0f0f0;
+            text-align: center;
+        }
+        .history-table th {
+            background-color: #f8f8f9;
+            color: #555;
+            font-weight: 600;
+        }
+        .history-table td {
+            color: #333;
+        }
+        .history-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
     </style>
 </head>
 <body>
@@ -401,16 +600,10 @@
                     </div>
 
                     <div class="transaction-list" id="transaction-list-container">
-                        <!-- [MODIFIED] v2: .card-content 구조 변경 및 <a> 태그 추가 -->
                         <article class="point-card" data-type="사용취소">
                             <div class="card-body">
                                 <div class="card-top">
-                                    <div class="card-content">
-                                        <span class="card-description">결제 취소</span>
-                                        <div class="card-order-id">
-                                            <a href="#" onclick="alert('접수번호 sw233924 상세 (구현 필요)'); return false;">sw233924</a>
-                                        </div>
-                                    </div>
+                                    <div class="card-content">결제 취소<div class="card-order-id">sw233924</div></div>
                                     <div class="card-amount plus">+2,500</div>
                                 </div>
                                 <div class="card-divider"></div>
@@ -424,12 +617,7 @@
                         <article class="point-card" data-type="사용">
                             <div class="card-body">
                                 <div class="card-top">
-                                    <div class="card-content">
-                                        <span class="card-description">제품 결제 사용</span>
-                                        <div class="card-order-id">
-                                            <a href="#" onclick="alert('접수번호 sw233924 상세 (구현 필요)'); return false;">sw233924</a>
-                                        </div>
-                                    </div>
+                                    <div class="card-content">제품 결제 사용<div class="card-order-id">sw233924</div></div>
                                     <div class="card-amount minus">-2,500</div>
                                 </div>
                                 <div class="card-divider"></div>
@@ -443,12 +631,7 @@
                         <article class="point-card" data-type="적립">
                             <div class="card-body">
                                 <div class="card-top">
-                                    <div class="card-content">
-                                        <span class="card-description">구매 적립</span>
-                                        <div class="card-order-id">
-                                            <a href="#" onclick="alert('접수번호 sw543211 상세 (구현 필요)'); return false;">sw543211</a>
-                                        </div>
-                                    </div>
+                                    <div class="card-content">구매 적립<div class="card-order-id">sw543211</div></div>
                                     <div class="card-amount plus">+2,500</div>
                                 </div>
                                 <div class="card-divider"></div>
@@ -463,10 +646,7 @@
                         <article class="point-card" data-type="적립">
                             <div class="card-body">
                                 <div class="card-top">
-                                    <div class="card-content">
-                                        <span class="card-description">S포인트 전환 적립</span>
-                                        <!-- 접수번호 없으므로 card-order-id 없음 -->
-                                    </div>
+                                    <div class="card-content">S포인트 전환 적립</div>
                                     <div class="card-amount plus">+10,000</div>
                                 </div>
                                 <div class="card-divider"></div>
@@ -480,9 +660,7 @@
                         <article class="point-card" data-type="소멸">
                             <div class="card-body">
                                 <div class="card-top">
-                                    <div class="card-content">
-                                        <span class="card-description">기간 만료</span>
-                                    </div>
+                                    <div class="card-content">기간 만료</div>
                                     <div class="card-amount plus">-1,000</div>
                                 </div>
                                 <div class="card-divider"></div>
@@ -520,85 +698,158 @@
         
     </div>
 
-    <!-- [MODIFIED] Req 1: 기간 필터 Bottom Sheet (Footer 제거) -->
     <div class="bottom-sheet-overlay" id="filter-sheet-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="filter-sheet">
             <div class="sheet-handle" id="filter-sheet-handle"></div>
             <div class="sheet-header"><div class="sheet-title">기간 상세검색</div><div class="btn-close" onclick="closeFilterSheet()"><svg id="icon-close"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div></div>
             <div class="sheet-body" id="filter-sheet-body"><div class="filter-group" id="single-chip-group-period"><div class="filter-group-title">기간</div><div class="filter-group-content"><div class="single-chip single-chip-on" data-value="최근 1개월" onclick="selectPeriod(this)">최근 1개월</div><div class="single-chip single-chip-off" data-value="최근 3개월" onclick="selectPeriod(this)">최근 3개월</div><div class="single-chip single-chip-off" data-value="최근 6개월" onclick="selectPeriod(this)">최근 6개월</div><div class="single-chip single-chip-off" data-value="최근 1년" onclick="selectPeriod(this)">최근 1년</div><div class="single-chip single-chip-off" data-value="기간 설정" onclick="selectPeriod(this)">기간 설정</div></div></div></div>
-            <!-- [REMOVED] v2: Footer 제거
             <div class="sheet-footer"><button class="btn white-button">초기화</button><button class="btn dark-button" onclick="applyPeriodFilter()">조회하기</button></div>
-            -->
         </div>
     </div>
     
-    <!-- [NEW] v2: Custom Period Bottom Sheet -->
-    <div class="bottom-sheet-overlay" id="period-custom-sheet-overlay">
-        <div class="bottom-sheet" data-name="bottom-sheet" id="period-custom-sheet">
-            <div class="sheet-handle" id="period-custom-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">기간 설정</div>
-                <div class="btn-close" onclick="closeCustomPeriodSheet()">
-                     <svg id="icon-close-custom-period"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+    <div class="bottom-sheet-overlay" id="account-options-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="account-options-sheet">
+            <div class="sheet-handle" id="account-options-handle"></div>
+            <div class="sheet-header"><div class="sheet-title">계좌 관리</div><div class="btn-close" onclick="closeAccountOptionsSheet()"><svg id="icon-close-options"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div></div>
+            <div class="sheet-body">
+                <ul class="option-list">
+                    <li><button type="button" onclick="alert('발급 확인서 클릭됨'); closeAccountOptionsSheet();">발급 확인서</button></li>
+                    <li><button type="button" onclick="showVaHistoryModal(); closeAccountOptionsSheet();">변경내역</button></li>
+                    <li><button type="button" onclick="showVaChangeSheet(); closeAccountOptionsSheet();">가상계좌 변경</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="withdrawal-details-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="withdrawal-details-sheet">
+            <div class="sheet-handle" id="withdrawal-details-handle"></div>
+            <div class="sheet-header"><div class="sheet-title">출금 상세 정보</div><div class="btn-close" onclick="closeWithdrawalDetailsSheet()"><svg id="icon-close-details"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div></div>
+            <div class="sheet-body"><div class="detail-item"><span class="label">출금자</span><span class="value" id="detail-withdrawer"></span></div><div class="detail-item"><span class="label">출금은행</span><span class="value" id="detail-bank"></span></div><div class="detail-item"><span class="label">계좌번호</span><span class="value" id="detail-account"></span></div><div class="detail-item"><span class="label">출금사유</span><span class="value" id="detail-reason"></span></div></div>
+            <div class="sheet-footer"><button class="btn dark-button" onclick="closeWithdrawalDetailsSheet()">확인</button></div>
+        </div>
+    </div>
+
+
+    <div class="modal-overlay" id="refund-account-modal-overlay">
+        <div class="modal-content" id="refund-account-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">환불계좌 변경</h2>
+                <button class="btn-modal-close" onclick="closeRefundAccountModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-close-modal">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>예금주</label>
+                    <div class="readonly-value">정혜진</div>
+                    <p class="disclaimer error">* 환불 계좌의 예금주 이름이 회원명과 같아야 변경이 승인돼요</p>
                 </div>
+                <div class="form-group">
+                    <label>은행명</label>
+                    <div class="bank-chips" id="bank-chip-list">
+                        <div class="single-chip single-chip-off" data-bank-name="국민은행" onclick="selectBank(this)">국민은행
+                        </div>
+                        <div class="single-chip single-chip-off" data-bank-name="케이뱅크" onclick="selectBank(this)">케이뱅크
+                        </div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="SC제일은행"
+                            onclick="selectBank(this)">SC제일은행</div>
+                        <div class="single-chip single-chip-off hidden-bank" data-bank-name="유안타증권"
+                            onclick="selectBank(this)">유안타증권</div>
+                    </div>
+                    <div class="expand-button-wrapper">
+                        <button type="button" class="text-select-button" id="bank-expand-toggle"
+                            onclick="toggleBankList()">
+                            <span class="text-select-button-text" id="bank-expand-text">은행 더보기</span>
+                            <div class="text-select-button-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="account-number">계좌번호</label>
+                    <div class="input-group">
+                        <div class="input">
+                            <input type="tel" id="account-number" pattern="[0-9]*" placeholder="'-'을 제외하고 숫자만 입력해주세요">
+                        </div>
+                        <button class="white-button" id="verify-button" onclick="verifyAccountNumber()">인증</button>
+                    </div>
+                    <p class="verification-message" id="verification-message"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" id="register-button" onclick="updateRefundAccount()"
+                    disabled>변경하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="withdrawal-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="withdrawal-sheet">
+            <div class="sheet-handle" id="withdrawal-sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">출금 신청</div>
+                <div class="btn-close" onclick="closeWithdrawalSheet()"><svg id="icon-close-withdraw"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
             </div>
             <div class="sheet-body">
-                <div class="form-group">
-                    <label for="start-date">시작일</label>
-                    <div class="input">
-                        <input type="date" id="start-date" value="2025-10-11">
-                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="end-date">종료일</label>
-                    <div class="input">
-                        <input type="date" id="end-date" value="2025-11-11">
-                    </div>
-                </div>
-                 <div class="form-group">
-                    <label>간편 설정</label>
-                    <div class="filter-group-content">
-                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(0)">오늘</div>
-                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(7)">1주일</div>
-                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(30)">1개월</div>
-                    </div>
-                </div>
-            </div>
             <div class="sheet-footer">
-                <button class="btn white-button" onclick="closeCustomPeriodSheet()">취소</button>
-                <button class="btn dark-button" onclick="applyCustomPeriod()">조회하기</button>
+                <button class="btn dark-button" id="withdraw-submit-btn" onclick="submitWithdrawal()" disabled>출금 신청하기</button>
             </div>
         </div>
     </div>
-    
-    <!-- Other inactive Modals/Sheets from original file... -->
-    <div class="bottom-sheet-overlay" id="account-options-overlay"></div>
-    <div class="bottom-sheet-overlay" id="withdrawal-details-overlay"></div>
-    <div class="modal-overlay" id="refund-account-modal-overlay"></div>
-    <div class="bottom-sheet-overlay" id="withdrawal-sheet-overlay"></div>
-    <div class="modal-overlay" id="va-history-modal-overlay"></div>
-    <div class="bottom-sheet-overlay" id="va-change-sheet-overlay"></div>
+
+    <div class="modal-overlay" id="va-history-modal-overlay">
+        <div class="modal-content" id="va-history-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">가상계좌 변경내역</h2>
+                <button class="btn-modal-close" onclick="closeVaHistoryModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="history-table">
+                    </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" onclick="closeVaHistoryModal()">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="va-change-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="va-change-sheet">
+            <div class="sheet-handle" id="va-change-sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">가상계좌 변경</div>
+                <div class="btn-close" onclick="closeVaChangeSheet()"><svg id="icon-close-va-change"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
+            </div>
+            <div class="sheet-body">
+                </div>
+            <div class="sheet-footer">
+                <button class="btn dark-button" id="va-change-submit-btn" onclick="submitVaChange()" disabled>변경하기</button>
+            </div>
+        </div>
+    </div>
 
 
     <script>
-        // --- Bottom Sheet Logic ---
+        // --- [EXISTING] Bottom Sheet Logic ---
         function setupBottomSheet(overlayId, sheetId, handleId) {
             const overlay = document.getElementById(overlayId); const sheet = document.getElementById(sheetId); const handle = document.getElementById(handleId);
             if (!overlay || !sheet || !handle) return { openSheet: ()=>{}, closeSheet: ()=>{} };
             let isDragging = false, startY = 0, currentY = 0;
             const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
-            const closeSheet = () => { 
-                sheet.classList.add('closing'); 
-                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active:not(#' + overlayId + ')');
-                if (!anyModalActive) {
-                    document.body.style.overflow = ''; 
-                }
-                setTimeout(() => { 
-                    overlay.classList.remove('active'); 
-                    sheet.classList.remove('closing'); 
-                    sheet.style.transform = ''; // Reset transform
-                }, 300); 
-            };
+            const closeSheet = () => { sheet.classList.add('closing'); document.body.style.overflow = ''; setTimeout(() => { overlay.classList.remove('active'); sheet.classList.remove('closing'); }, 300); };
             const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
             const drag = (e) => { if (!isDragging) return; e.preventDefault(); currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; const deltaY = currentY - startY; if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; };
             const endDrag = () => { if (!isDragging) return; isDragging = false; sheet.style.transition = ''; const deltaY = currentY - startY; if (deltaY > 100) closeSheet(); else sheet.style.transform = ''; };
@@ -609,96 +860,24 @@
             return { openSheet, closeSheet };
         }
         
-        // [MODIFIED] v2: Initialize all sheets
+        // [EXISTING] Sheet setups
         const { openSheet: showFilterSheet, closeSheet: closeFilterSheet } = setupBottomSheet('filter-sheet-overlay', 'filter-sheet', 'filter-sheet-handle');
-        const { openSheet: showCustomPeriodSheet, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
-        
-        // (Other sheet initializations, not used on this page but kept for structure)
         const { openSheet: showAccountOptionsSheet, closeSheet: closeAccountOptionsSheet } = setupBottomSheet('account-options-overlay', 'account-options-sheet', 'account-options-handle');
-        const { openSheet: _showWithdrawalDetailsSheet, closeSheet: closeWithdrawalDetailsSheet } = setupBottomSheet('withdrawal-details-overlay', 'withdrawal-details-sheet', 'withdrawal-details-handle'); 
+        const { openSheet: _showWithdrawalDetailsSheet, closeSheet: closeWithdrawalDetailsSheet } = setupBottomSheet('withdrawal-details-overlay', 'withdrawal-details-sheet', 'withdrawal-details-handle'); // v16
+
+        // [EXISTING] Sheet setups
         const { openSheet: showWithdrawalSheet, closeSheet: closeWithdrawalSheet } = setupBottomSheet('withdrawal-sheet-overlay', 'withdrawal-sheet', 'withdrawal-sheet-handle');
         const { openSheet: showVaChangeSheet, closeSheet: closeVaChangeSheet } = setupBottomSheet('va-change-sheet-overlay', 'va-change-sheet', 'va-change-sheet-handle');
 
 
-        // --- [MODIFIED] Req 1: Filter Component Handlers ---
+        // --- [EXISTING] Filter Component Handlers ---
         let selectedPeriodValue = "최근 1개월"; 
-        
-        function selectPeriod(chip) { 
-            const group = chip.closest('.filter-group-content'); 
-            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
-            chip.classList.replace('single-chip-off', 'single-chip-on'); 
-            selectedPeriodValue = chip.getAttribute('data-value'); 
-            
-            if (selectedPeriodValue === "기간 설정") {
-                // 기간 설정 클릭 시, 날짜 기본값 세팅 (예: 최근 1개월)
-                const endDate = new Date();
-                const startDate = new Date();
-                startDate.setMonth(endDate.getMonth() - 1);
-                document.getElementById('start-date').value = startDate.toISOString().split('T')[0];
-                document.getElementById('end-date').value = endDate.toISOString().split('T')[0];
-                
-                showCustomPeriodSheet();
-            } else {
-                applyPeriodFilter(); // 즉시 적용
-            }
-        }
-        
-        function applyPeriodFilter() { 
-            document.getElementById('selected-period-text').textContent = selectedPeriodValue; 
-            document.querySelector('.text-select-button')?.classList.remove('open'); 
-            closeFilterSheet(); 
-            console.log("기간 필터 적용:", selectedPeriodValue); 
-            // 현재 선택된 status chip 기준으로 필터링 함수 재호출
-            filterTransactionsByStatus(document.querySelector('#status-chip-group .single-chip-on').dataset.status);
-        }
-
-        function setCustomPeriod(days) {
-            const endDate = new Date();
-            let startDate = new Date();
-            
-            if (days === 0) { // 오늘
-                 startDate = endDate;
-            } else if (days === 7) { // 1주일
-                startDate.setDate(endDate.getDate() - 7);
-            } else if (days === 30) { // 1개월
-                 startDate.setMonth(endDate.getMonth() - 1);
-            }
-            
-            // Format to YYYY-MM-DD
-            const isoStartDate = startDate.toISOString().split('T')[0];
-            const isoEndDate = endDate.toISOString().split('T')[0];
-
-            document.getElementById('start-date').value = isoStartDate;
-            document.getElementById('end-date').value = isoEndDate;
-        }
-
-        function applyCustomPeriod() {
-            const startDate = document.getElementById('start-date').value;
-            const endDate = document.getElementById('end-date').value;
-            
-            if (!startDate || !endDate) {
-                alert("시작일과 종료일을 모두 선택해주세요.");
-                return;
-            }
-            if (new Date(startDate) > new Date(endDate)) {
-                 alert("시작일이 종료일보다 늦을 수 없습니다.");
-                return;
-            }
-            
-            selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`;
-            
-            closeCustomPeriodSheet();
-            applyPeriodFilter(); // 메인 필터 적용
-        }
-        
-        // [MODIFIED] v2: text-select-button의 click 핸들러는 showFilterSheet()만 호출
-        document.querySelector('.text-select-button')?.addEventListener('click', function() { 
-            this.classList.toggle('open'); 
-            showFilterSheet();
-        });
+        function selectPeriod(chip) { const group = chip.closest('.filter-group-content'); group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); chip.classList.replace('single-chip-off', 'single-chip-on'); selectedPeriodValue = chip.getAttribute('data-value'); }
+        function applyPeriodFilter() { document.getElementById('selected-period-text').textContent = selectedPeriodValue; document.querySelector('.text-select-button')?.classList.remove('open'); closeFilterSheet(); console.log("기간 필터 적용:", selectedPeriodValue); /* TODO: Filtering logic */ }
+        document.querySelector('.text-select-button')?.addEventListener('click', function() { this.classList.toggle('open'); });
 
         
-        // --- Page Tab Logic ---
+        // --- [NEW] Page Tab Logic ---
         function selectPageTab(tab) {
             const nav = tab.closest('#page-tab-nav');
             if (!nav) return;
@@ -707,11 +886,12 @@
             
             const page = tab.getAttribute('data-page');
             if (page === 'money') {
+                // TODO: '성원머니' 페이지로 이동
                 alert('성원머니 페이지로 이동 (구현 필요)');
             }
         }
         
-        // --- Transaction List Filtering (by Chip) ---
+        // --- [EXISTING] Transaction List Filtering (by Chip) ---
         function selectStatusChip(chip) {
             const group = chip.closest('#status-chip-group');
             if (!group) return;
@@ -724,21 +904,15 @@
         }
 
         function filterTransactionsByStatus(status) {
-            console.log("Filtering by status:", status, "for period:", selectedPeriodValue);
-            
             const listContainer = document.getElementById('transaction-list-container'); 
             if (!listContainer) return; 
-            const cards = listContainer.querySelectorAll('.point-card');
+            const cards = listContainer.querySelectorAll('.point-card'); // [MODIFIED] Select .point-card
             const noResultMsg = listContainer.parentElement.querySelector('.no-transactions');
             let visibleCount = 0;
             
             cards.forEach(card => { 
                 const cardType = card.getAttribute('data-type'); 
-                
-                // [MODIFIED] v2: 실제 필터링 로직 (기간은 무시하고 status만)
-                const statusMatch = (status === '전체' || cardType === status);
-                
-                if (statusMatch) { 
+                if (status === '전체' || cardType === status) { 
                     card.style.display = ''; 
                     visibleCount++; 
                 } else { 
@@ -752,7 +926,7 @@
         }
         
         
-        // --- Withdrawal Details Bottom Sheet ---
+        // --- [EXISTING] Withdrawal Details Bottom Sheet ---
         function showWithdrawalDetailsSheet(details) {
             document.getElementById('detail-withdrawer').textContent = details.withdrawer || '-';
             document.getElementById('detail-bank').textContent = details.bank || '-';
@@ -763,17 +937,20 @@
             _showWithdrawalDetailsSheet(); 
         }
 
-        // --- Pagination Logic ---
-        let currentPage = 1; const totalPages = 1; 
-        function paginationGo(page) { currentPage = page; updatePagination(); }
+        // --- [EXISTING] Pagination Logic ---
+        let currentPage = 1; const totalPages = 1; // [MODIFIED] Total pages for this example
+        function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); /* TODO: Fetch data */ }
         function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
         function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
         function paginationFirst() { paginationGo(1); }
         function paginationLast() { paginationGo(totalPages); }
         function updatePagination() {
-            const numbersContainer = document.getElementById('pagination-numbers');
-            if (!numbersContainer) return; // [NEW] v2: Guard clause
+            const numbers = document.querySelectorAll('.pagination-number'); 
+            const prevArrows = document.querySelectorAll('.pagination .pagination-arrow:nth-child(-n+2)'); 
+            const nextArrows = document.querySelectorAll('.pagination .pagination-arrow:nth-child(n+4)');
             
+            // Generate page numbers if needed (simple example)
+            const numbersContainer = document.getElementById('pagination-numbers');
             numbersContainer.innerHTML = ''; // Clear
             for (let i = 1; i <= totalPages; i++) {
                 const numEl = document.createElement('div');
@@ -783,32 +960,103 @@
                 numEl.onclick = () => paginationGo(i);
                 numbersContainer.appendChild(numEl);
             }
-            
-            const paginationRoot = numbersContainer.closest('.pagination');
-            if (!paginationRoot) return; // [NEW] v2: Guard clause
 
-            const prevArrows = paginationRoot.querySelectorAll('.pagination .pagination-arrow:nth-child(-n+2)'); 
-            const nextArrows = paginationRoot.querySelectorAll('.pagination .pagination-arrow:nth-child(n+4)');
-            
             prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1)); 
             nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
         }
 
-        // --- Initialize (Event listeners etc.) ---
+
+        // ========================================
+        // [EXISTING] JAVASCRIPT (INACTIVE ON THIS PAGE)
+        // ========================================
+
+        // --- 1. Withdrawal Sheet Logic ---
+        const withdrawAmountInput = document.getElementById('withdraw-amount');
+        const withdrawReasonTextGroup = document.getElementById('withdraw-reason-text-group');
+        const withdrawReasonText = document.getElementById('withdraw-reason-text');
+        const withdrawReasonChips = document.getElementById('withdraw-reason-chips');
+        const withdrawSubmitBtn = document.getElementById('withdraw-submit-btn');
+        let currentWithdrawBalance = 1500000; 
+        let selectedWithdrawReason = null;
+        function setWithdrawAmount(amount) { /* ... */ }
+        function selectWithdrawReason(chip) { /* ... */ }
+        function validateWithdrawalForm() { /* ... */ }
+        function submitWithdrawal() { /* ... */ }
+
+        // --- 2. VA Change History Modal Logic ---
+        const vaHistoryModalOverlay = document.getElementById('va-history-modal-overlay');
+        function showVaHistoryModal() {
+            if (vaHistoryModalOverlay) {
+                vaHistoryModalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        function closeVaHistoryModal() {
+            if (vaHistoryModalOverlay) {
+                vaHistoryModalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        if (vaHistoryModalOverlay) {
+            vaHistoryModalOverlay.addEventListener('click', (e) => {
+                if (e.target.id === 'va-history-modal-overlay') {
+                    closeVaHistoryModal();
+                }
+            });
+        }
+
+        
+        // --- 3. VA Change Sheet Logic ---
+        const vaChangeBankList = document.getElementById('va-change-bank-list');
+        const vaChangeSubmitBtn = document.getElementById('va-change-submit-btn');
+        let selectedChangeVaBank = null;
+        function selectChangeVaBank(buttonElement) { /* ... */ }
+        function submitVaChange() { /* ... */ }
+
+        // --- [EXISTING] Refund Account Modal Logic ---
+        const refundModalOverlay = document.getElementById('refund-account-modal-overlay');
+        const refundModal = document.getElementById('refund-account-modal');
+        const bankChipList = document.getElementById('bank-chip-list');
+        const accountNumberInput = document.getElementById('account-number');
+        const verifyButton = document.getElementById('verify-button');
+        const verificationMessage = document.getElementById('verification-message');
+        const registerButton = document.getElementById('register-button');
+        const bankExpandToggle = document.getElementById('bank-expand-toggle');
+        const bankExpandText = document.getElementById('bank-expand-text');
+        let selectedBankChip = null;
+        let isVerified = false;
+        function showRefundAccountModal() { /* ... */ }
+        function closeRefundAccountModal() { /* ... */ }
+        function selectBank(chipElement) { /* ... */ }
+        function toggleBankList() { /* ... */ }
+        function resetVerification() { /* ... */ }
+        function verifyAccountNumber() { /* ... */ }
+        function updateRefundAccount() { /* ... */ }
+
+        // --- [MODIFIED] Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
+            // For Pagination
             updatePagination(); 
-            filterTransactionsByStatus('전체'); // Initial filter
             
-            // [NEW] v2: Set default dates for custom period
-            const today = new Date().toISOString().split('T')[0];
-            const defaultStartDate = new Date();
-            defaultStartDate.setMonth(defaultStartDate.getMonth() - 1);
-            
-            document.getElementById('start-date').value = defaultStartDate.toISOString().split('T')[0];
-            document.getElementById('end-date').value = today;
+            // [NEW] Set initial filter state
+            filterTransactionsByStatus('전체');
+
+            // For Refund Modal
+            refundModal?.addEventListener('click', (e) => e.stopPropagation());
+            refundModalOverlay?.addEventListener('click', (e) => {
+                 if (e.target.id === 'refund-account-modal-overlay') {
+                    closeRefundAccountModal();
+                 }
+            });
+            accountNumberInput?.addEventListener('input', () => {
+                if (isVerified) {
+                    resetVerification();
+                }
+            });
         });
 
     </script>
+
 
     <div class="disqus-thread-wrap">
         <div id="disqus_thread"></div>

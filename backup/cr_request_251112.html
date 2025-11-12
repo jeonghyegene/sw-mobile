@@ -486,11 +486,6 @@
             margin-bottom: 16px;
         }
 
-        /* [MODIFIED] Req 3: total-count styles */
-        .transaction-list-header .total-count {
-            font-size: 14px;
-            color: #555;
-        }
         .transaction-list-header .total-count strong {
             font-weight: 600;
             color: #333;
@@ -559,28 +554,13 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            /* [MODIFIED] margin-bottom: 15px; */
-            margin-bottom: 15px; 
+            margin-bottom: 0px;
         }
 
         .card-column1 {
             font-size: 16px;
             font-weight: 500;
             color: #212121;
-        }
-        
-        /* [MODIFIED] Req 1: 접수번호 텍스트 버튼 스타일 */
-        .order-button:hover {
-            opacity: 0.7;
-        }
-        
-        /* [NEW] 뱃지 그룹 (for tax_request) */
-        .card-header-badges {
-            display: inline-flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 5px;
-            flex-shrink: 0; /* 뱃지 축소 방지 */
         }
 
         .card-badge {
@@ -592,7 +572,6 @@
             color: black;
         }
 
-        /* [REMOVED] Req 2: card-column2 제거
         .card-column2 {
             font-size: 16px;
             font-weight: 600;
@@ -600,7 +579,6 @@
             margin-top: 4px;
             margin-bottom: 15px;
         }
-        */
 
         /* Modified for total amount */
         .card-divider {
@@ -615,10 +593,6 @@
             justify-content: space-between;
             margin-bottom: 8px;
             font-size: 12px;
-        }
-        /* [NEW] Req 2: last-of-type to remove margin */
-        .card-row:last-of-type {
-            margin-bottom: 0;
         }
 
         .card-row-label {
@@ -658,19 +632,9 @@
             color: #ffc107;
         }
 
-        /* [REMOVED] Req 1: 폐기처리 status badge */
-        /*
         .card-badge[data-status="폐기처리"] {
             border-color: #28a745;
             color: #28a745;
-        }
-        */
-
-        /* [NEW] Req 1: Add remark style for 폐기처리 */
-        .card-badge[data-remark="폐기처리"] {
-            background-color: #ebebeb;
-            color: #5f5f5f;
-            border: 0;
         }
 
 
@@ -709,16 +673,6 @@
 
         .checkbox:active {
             transform: scale(0.9);
-        }
-        
-        /* [NEW] Disabled state for custom checkbox */
-        .checkbox[data-disabled="true"] .checkbox-off {
-            background-color: #f1f1f1;
-            border-color: #e0e0e0;
-            cursor: not-allowed;
-        }
-        .checkbox[data-disabled="true"] {
-            cursor: not-allowed;
         }
 
         .checkbox-text {
@@ -1015,12 +969,6 @@
                 opacity: 1;
             }
         }
-        
-        /* [NEW] Added fade-out for overlay closing */
-        @keyframes fadeOutModal {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
 
         .modal-content {
             background: white;
@@ -1186,73 +1134,6 @@
             background: #4e6ee4;
             color: white;
         }
-        
-        /* ========================================
-           [NEW] FULL MODAL STYLES (Req 2)
-        ======================================== */
-        .full-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: flex-end; /* Align to the right */
-            z-index: 1000;
-            animation: fadeInModal 0.3s ease-out; /* Same fade-in for overlay */
-        }
-
-        .full-modal-overlay.active {
-            display: flex;
-        }
-        
-        .full-modal-overlay.closing {
-            animation: fadeOutModal 0.3s ease-out forwards;
-        }
-
-        .full-modal-content {
-            width: 100%;
-            /* [MODIFIED] max-width: 480px; -> 100% */
-            height: 100%;
-            background: white;
-            display: flex;
-            flex-direction: column;
-            animation: slideInFromRight 0.3s ease-out;
-        }
-        
-        .full-modal-overlay.closing .full-modal-content {
-             animation: slideOutToRight 0.3s ease-out forwards;
-        }
-        
-        /* [NEW] Re-use existing modal header/body/footer but adapt for full-modal */
-        .full-modal-content .modal-header {
-            /* Use existing .modal-header styles */
-            position: sticky; /* Stick to top */
-            top: 0;
-            background: white;
-            z-index: 1;
-        }
-        .full-modal-content .modal-body {
-            /* Use existing .modal-body styles */
-            overflow-y: auto;
-            flex-grow: 1;
-            /* [NEW] Add padding for sticky footer */
-            padding-bottom: 96px; 
-        }
-        .full-modal-content .modal-footer {
-             /* Use existing .modal-footer styles */
-            position: sticky; /* Stick to bottom */
-            bottom: 0;
-            background: white;
-            z-index: 1;
-        }
-
-        @keyframes slideInFromRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-        @keyframes slideOutToRight {
-            from { transform: translateX(0); }
-            to { transform: translateX(100%); }
-        }
     </style>
 </head>
 
@@ -1313,7 +1194,9 @@
                             </div>
                             <div class="multi-chip multi-chip-off" data-status="발급실패" onclick="toggleStatusChip(this)">발급실패
                             </div>
+                            <div class="multi-chip multi-chip-off" data-status="폐기처리" onclick="toggleStatusChip(this)">폐기처리
                             </div>
+                        </div>
                     </section>
 
                     <section class="filter-section" style="padding-top: 0;">
@@ -1336,12 +1219,7 @@
 
                     <section class="transaction-list-section">
                         <div class="transaction-list-header">
-                            <div class="checkbox-text" onclick="toggleSelectAll(this)">
-                                <div class="checkbox" data-checked="false" id="select-all-checkbox">
-                                    <div class="checkbox-off"></div>
-                                </div>
-                                <span class="total-count">총 <strong id="transaction-count">2</strong>건</span>
-                            </div>
+                            <span class="total-count">총 <strong id="transaction-count">2</strong>건</span>
                             <div class="view-count-select">
                                 <span class="view-count-select-text">20건씩 보기</span>
                                 <div class="view-count-select-arrow">
@@ -1357,23 +1235,15 @@
                             <article class="common-table-card" data-status="미발급">
                                 <div class="card-header">
                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                        <div class="checkbox" data-checked="false" data-disabled="false" onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
                                             <div class="checkbox-off"></div>
                                         </div>
-                                        <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
-                                            <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                            <span style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw765642</span> 
-                                        </div>
+                                        <div class="card-column1">sw765642</div>
                                     </div>
-                                    <div class="card-header-badges">
-                                        <div class="card-badge" data-status="미발급">미발급</div>
-                                    </div>
+                                    <div class="card-badge" data-status="미발급">미발급</div>
                                 </div>
+                                <div class="card-column2">550,000 원</div>
                                 <div class="card-divider"></div>
-                                <div class="card-row" style="font-weight: 600;">
-                                    <div class="card-row-label" style="color: #333;">결제금액</div>
-                                    <div class="card-row-value" style="color: #333;" data-field="total-amount">550,000 원</div>
-                                </div>
                                 <div class="card-row">
                                     <div class="card-row-label">접수일</div>
                                     <div class="card-row-value">2025-08-11</div>
@@ -1383,30 +1253,23 @@
                                     <div class="card-row-value">2025-08-12</div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="button" class="white-button btn" onclick="showReceiptEditModal(this, '수정')">수정</button>
-                                </div>
+                                    <button type="button" class="white-button btn" onclick="showReceiptEditModal(this, '수정')">신청정보
+                                        수정</button>
+                                    </div>
                             </article>
 
                             <article class="common-table-card" data-status="미발급">
                                 <div class="card-header">
                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                        <div class="checkbox" data-checked="false" data-disabled="false" onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox" data-checked="false" onclick="toggleTaxCheckbox(this)">
                                             <div class="checkbox-off"></div>
                                         </div>
-                                        <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
-                                            <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                            <span style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw789651</span> 
-                                        </div>
+                                        <div class="card-column1">sw789651</div>
                                     </div>
-                                    <div class="card-header-badges">
-                                        <div class="card-badge" data-status="미발급">미발급</div>
-                                    </div>
+                                    <div class="card-badge" data-status="미발급">미발급</div>
                                 </div>
+                                <div class="card-column2">550,000 원</div>
                                 <div class="card-divider"></div>
-                                <div class="card-row" style="font-weight: 600;">
-                                    <div class="card-row-label" style="color: #333;">결제금액</div>
-                                    <div class="card-row-value" style="color: #333;" data-field="total-amount">550,000 원</div>
-                                </div>
                                 <div class="card-row">
                                     <div class="card-row-label">접수일</div>
                                     <div class="card-row-value">2025-08-09</div>
@@ -1470,8 +1333,8 @@
         <button class="dark-button" id="tax-apply-button" onclick="openModalForSelection()">현금영수증 신청</button>
     </div>
 
-    <div class="full-modal-overlay" id="receipt-edit-modal-overlay">
-        <div class="full-modal-content" id="receipt-edit-modal">
+    <div class="modal-overlay" id="receipt-edit-modal-overlay">
+        <div class="modal-content" id="receipt-edit-modal">
             <div class="modal-header">
                 <h2 class="modal-title" id="receipt-modal-title">현금영수증 신청 정보</h2>
                 <button class="btn-modal-close" onclick="closeModal('receipt-edit-modal-overlay')">
@@ -1607,16 +1470,10 @@
              // 월 선택은 1개만 표시되므로 클릭 이벤트 없음
         }
 
-        // [MODIFIED] Req 3: Updated function
         function toggleTaxCheckbox(checkboxEl) {
-            if (checkboxEl.dataset.disabled === 'true') {
-                return; // Do nothing
-            }
             // 1. Toggle the checkbox UI
             toggleCheckbox(checkboxEl);
-            // 2. [NEW] Sync "Select All" state
-            updateSelectAllState();
-            // 3. Update the sticky footer
+            // 2. Update the sticky footer
             updateTaxFooter();
         }
 
@@ -1673,7 +1530,6 @@
             filterTaxInvoices();
         }
 
-        // [MODIFIED] Req 3: Updated function
         function filterTaxInvoices() {
             // [NEW] Get selected period (for future use, not filtering data yet)
             const periodChip = document.querySelector('#period-chip-group .single-chip-on');
@@ -1706,78 +1562,6 @@
             const countEl = document.getElementById('transaction-count');
             if (countEl) countEl.textContent = visibleCount;
             if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
-            
-            // [NEW] Req 3: Update "Select All" state based on new filter
-            updateSelectAllState();
-        }
-        
-        // --- [NEW] Req 3: Select All Logic ---
-        
-        /**
-         * [Req 3] "Select All" 체크박스를 토글하고, 모든 보이는/활성화된 체크박스 상태를 동기화합니다.
-         */
-        function toggleSelectAll(wrapper) {
-            const mainCheckbox = wrapper.querySelector('.checkbox');
-            toggleCheckbox(mainCheckbox); // 메인 체크박스 토글
-            const isChecked = mainCheckbox.dataset.checked === 'true';
-            
-            const listContainer = document.getElementById('transaction-list-container');
-            if (!listContainer) return;
-
-            // *보이는* 카드만 선택
-            const visibleCards = Array.from(listContainer.querySelectorAll('.common-table-card'))
-                                     .filter(card => card.style.display !== 'none');
-            
-            visibleCards.forEach(card => {
-                const checkbox = card.querySelector('.checkbox');
-                // *활성화된* 체크박스만 상태 변경
-                if (checkbox && checkbox.dataset.disabled !== 'true') {
-                    const isCurrentlyOn = checkbox.dataset.checked === 'true';
-                    if (isChecked && !isCurrentlyOn) { // Turn On
-                        toggleCheckbox(checkbox);
-                    } else if (!isChecked && isCurrentlyOn) { // Turn Off
-                        toggleCheckbox(checkbox);
-                    }
-                }
-            });
-            
-            updateTaxFooter(); // 푸터 카운트 업데이트
-        }
-        
-        /**
-         * [Req 3] *보이는* 그리고 *활성화된* 아이템 체크박스 상태를 기반으로 "Select All" 체크박스 상태를 동기화합니다.
-         */
-        function updateSelectAllState() {
-            const listContainer = document.getElementById('transaction-list-container');
-            const mainCheckbox = document.getElementById('select-all-checkbox');
-            if (!listContainer || !mainCheckbox) return;
-
-            // *보이는* 카드 목록
-            const visibleCards = Array.from(listContainer.querySelectorAll('.common-table-card'))
-                                     .filter(card => card.style.display !== 'none');
-            
-            // 보이는 카드 중에서 *활성화된* 체크박스 목록
-            const visibleEnabledCheckboxes = visibleCards
-                .map(card => card.querySelector('.checkbox:not([data-disabled="true"])'))
-                .filter(cb => cb); // nulls (e.g., card with no checkbox) filter
-
-            if (visibleEnabledCheckboxes.length === 0) {
-                // 선택할 항목이 없으면 "Select All"은 항상
-                if (mainCheckbox.dataset.checked === 'true') {
-                    toggleCheckbox(mainCheckbox); // Force off
-                }
-                return;
-            }
-
-            // *보이는* 그리고 *활성화된* 모든 항목이 체크되었는지
-            const allVisibleChecked = visibleEnabledCheckboxes.every(cb => cb.dataset.checked === 'true');
-            const isMainChecked = mainCheckbox.dataset.checked === 'true';
-
-            if (allVisibleChecked && !isMainChecked) {
-                toggleCheckbox(mainCheckbox); // Force on
-            } else if (!allVisibleChecked && isMainChecked) {
-                toggleCheckbox(mainCheckbox); // Force off
-            }
         }
 
 
@@ -1813,7 +1597,7 @@
         }
 
         // ========================================
-        // [MODIFIED] MODAL JAVASCRIPT (Req 2)
+        // [NEW] MODAL JAVASCRIPT
         // ========================================
 
         // --- Modal Helpers ---
@@ -1828,24 +1612,11 @@
         function closeModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
-                // [MODIFIED] Req 2: Check if it's the new full-modal
-                if (overlay.classList.contains('full-modal-overlay')) {
-                    overlay.classList.add('closing'); // Add closing animation class
-                    setTimeout(() => {
-                        overlay.classList.remove('active');
-                        overlay.classList.remove('closing'); // Clean up
-                        const anyModalActive = document.querySelector('.modal-overlay.active, .full-modal-overlay.active');
-                        if (!anyModalActive) {
-                            document.body.style.overflow = '';
-                        }
-                    }, 300); // Match animation duration
-                } else {
-                    // Original logic for centered modals
-                    overlay.classList.remove('active');
-                    const anyModalActive = document.querySelector('.modal-overlay.active, .full-modal-overlay.active');
-                    if (!anyModalActive) {
-                        document.body.style.overflow = '';
-                    }
+                overlay.classList.remove('active');
+                // Don't reset body overflow if another modal is still open
+                const anyModalActive = document.querySelector('.modal-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
                 }
             }
         }
@@ -1870,13 +1641,10 @@
         const receiptModalCount = document.getElementById('modal-receipt-count');
         const receiptModalTotal = document.getElementById('modal-receipt-total');
 
-        // [MODIFIED] Req 2: JavaScript logic update
         function showReceiptEditModal(buttonEl, type) {
             // 1. 카드에서 데이터 읽기
             const card = buttonEl.closest('.common-table-card');
-            // [MODIFIED] Req 2: 금액을 .card-row .card-row-value[data-field="total-amount"] 에서 읽어옴
-            const totalAmountEl = card.querySelector('[data-field="total-amount"]');
-            const totalAmount = totalAmountEl ? totalAmountEl.textContent.trim() : '₩0';
+            const totalAmount = card.querySelector('.card-column2').textContent.trim();
 
             // 2. 모달 내용 동적으로 변경
             if (type === '수정') {
@@ -1889,7 +1657,7 @@
             
             // 3. 모달에 금액 및 건수 표시
             receiptModalCount.textContent = "총 1건 / 총 금액";
-            receiptModalTotal.textContent = totalAmount; // '원'이 이미 포함됨
+            receiptModalTotal.textContent = totalAmount || '₩0';
 
             // 4. 폼 초기화 (입력값 비우기)
             receiptEditForm.reset();
@@ -1916,7 +1684,7 @@
             receiptEditForm.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
         }
 
-        // [MODIFIED] Req 2: JavaScript logic update
+        // [NEW] Sticky Footer '신청' 버튼 클릭 시
         function openModalForSelection() {
             const listContainer = document.getElementById('transaction-list-container');
             if (!listContainer) return;
@@ -1932,9 +1700,7 @@
             let totalAmount = 0;
             checkedCards.forEach(checkbox => {
                 const card = checkbox.closest('.common-table-card');
-                // [MODIFIED] Req 2: 금액을 .card-row .card-row-value[data-field="total-amount"] 에서 읽어옴
-                const amountTextEl = card.querySelector('[data-field="total-amount"]');
-                const amountText = amountTextEl ? amountTextEl.textContent.trim() : '0';
+                const amountText = card.querySelector('.card-column2').textContent.trim();
                 const amount = parseInt(amountText.replace(/,| 원/g, ''));
                 if (!isNaN(amount)) {
                     totalAmount += amount;
@@ -1966,8 +1732,8 @@
             filterTaxInvoices(); // [NEW] Initial filter for tax page
             updateTaxFooter(); // [NEW] Initial footer check
 
-            // [MODIFIED] Modal overlay click-to-close listeners
-            document.querySelectorAll('.modal-overlay, .full-modal-overlay').forEach(overlay => {
+            // [NEW] Modal overlay click-to-close listeners
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
                         closeModal(overlay.id);
@@ -1983,8 +1749,8 @@
         <div id="disqus_thread"></div>
         <script>
             /**
-            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
             /*
             var disqus_config = function () {
             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable

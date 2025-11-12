@@ -386,17 +386,17 @@
         }
         
         /* ========================================
-           [MODIFIED] MODAL STYLES (v12 Standard)
+           [NEW] MODAL STYLES (v12 Standard)
         ======================================== */
         .modal-overlay {
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.5);
             display: none;
-            align-items: flex-start; /* [MODIFIED] Align top */
-            justify-content: flex-end; /* [MODIFIED] Align right */
+            align-items: center;
+            justify-content: center;
             z-index: 1000;
-            padding: 0; /* [MODIFIED] Remove padding */
+            padding: 16px;
             animation: fadeInModal 0.2s ease-out;
         }
         .modal-overlay.active { display: flex; }
@@ -404,7 +404,6 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
         .modal-content {
             background: white;
             border-radius: 8px;
@@ -414,45 +413,11 @@
             display: flex;
             flex-direction: column;
             animation: scaleUpModal 0.2s ease-out;
-            margin: 16px; /* [NEW] Add margin for non-full-modal */
         }
-        
-        /* [MODIFIED] Full-width modal override */
-        .modal-content.full-modal {
-            max-width: 100%; /* Match mobile-wrap max-width */
-            width: 100%;
-            max-height: 100vh;
-            height: 100vh;
-            border-radius: 0;
-            margin: 0; /* [NEW] Remove margin */
-            animation: slideInFromRight 0.3s ease-out; /* [MODIFIED] Use slide animation */
-        }
-        
-        /* [MODIFIED] alert-modal 은 중앙 정렬 유지 */
-        .modal-overlay.alert-overlay {
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-        
         @keyframes scaleUpModal {
             from { transform: scale(0.9); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
-        
-        /* [NEW] Slide animations */
-        @keyframes slideInFromRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-        .modal-overlay.closing .modal-content.full-modal {
-            animation: slideOutToRight 0.3s ease-out;
-        }
-        @keyframes slideOutToRight {
-            from { transform: translateX(0); }
-            to { transform: translateX(100%); }
-        }
-
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -513,7 +478,6 @@
             width: 100%;
             max-width: 320px;
             animation: scaleUpModal 0.2s ease-out; 
-            margin: 0; /* [NEW] Remove margin for alert */
         }
         .alert-modal .modal-title {
             font-size: 16px; 
@@ -613,11 +577,6 @@
             max-height: 40vh; /* Set max height for scrolling */
             overflow-y: auto;
         }
-        /* [NEW] Full modal list height */
-        .full-modal .order-list {
-            max-height: none; /* 스크롤은 modal-body가 담당 */
-        }
-        
         .order-item {
             border: 1px solid #e8e8e9;
             border-radius: 6px;
@@ -792,11 +751,6 @@
         
         /* [NEW] FAQ Modal Accordion */
         .accordion-list { display: flex; flex-direction: column; gap: 8px; }
-        /* [NEW] Full modal list height */
-        .full-modal .accordion-list {
-            max-height: none;
-        }
-        
         .accordion-item { border: 1px solid #e8e8e9; border-radius: 6px; overflow: hidden; }
         .accordion-header {
             width: 100%;
@@ -969,7 +923,7 @@
                 </div>
 
                 <div class="form-section" data-form-type="QNA" style="display: none;">
-                    <h2 class="section-title" style="margin-top: 0;">자주 묻는 질문</h2>
+                    <h2 class="section-title">자주 묻는 질문</h2>
                     <div class="faq-list" id="faq-list-qna">
                         </div>
                     
@@ -1033,7 +987,7 @@
     </div>
 
     <div class="modal-overlay" id="order-list-modal-overlay">
-        <div class="modal-content full-modal" id="order-list-modal">
+        <div class="modal-content" id="order-list-modal">
             <div class="modal-header">
                 <h2 class="modal-title">접수 목록</h2>
                 <button class="btn-modal-close" onclick="closeModal('order-list-modal-overlay')">
@@ -1146,7 +1100,7 @@
         </div>
     </div>
     
-    <div class="modal-overlay alert-overlay" id="exit-alert-modal">
+    <div class="modal-overlay" id="exit-alert-modal">
         <div class="alert-modal" data-name="Alert"> 
             <div class="modal-title">안내</div>
             <div class="modal-message">
@@ -1207,7 +1161,7 @@
     </div>
     
     <div class="modal-overlay" id="faq-modal-overlay">
-        <div class="modal-content full-modal" id="faq-modal">
+        <div class="modal-content" id="faq-modal">
             <div class="modal-header">
                 <h2 class="modal-title">자주 묻는 질문</h2>
                 <button class="btn-modal-close" onclick="closeModal('faq-modal-overlay')">
@@ -1254,16 +1208,7 @@
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
-                overlay.classList.remove('closing'); // Ensure closing animation class is removed
                 overlay.classList.add('active');
-                
-                // [NEW] Add specific class for alert modals
-                if (overlay.querySelector('.alert-modal')) {
-                    overlay.classList.add('alert-overlay');
-                } else {
-                    overlay.classList.remove('alert-overlay');
-                }
-                
                 document.body.style.overflow = 'hidden';
             }
         }
@@ -1271,20 +1216,11 @@
         function closeModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
-                // [NEW] Add closing animation class
-                overlay.classList.add('closing');
-                
-                // Remove active class after animation finishes
-                setTimeout(() => {
-                    overlay.classList.remove('active');
-                    overlay.classList.remove('closing'); // Clean up
-                    overlay.classList.remove('alert-overlay'); // Clean up
-                    
-                    const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
-                    if (!anyModalActive) {
-                        document.body.style.overflow = '';
-                    }
-                }, 300); // Animation duration (match CSS)
+                overlay.classList.remove('active');
+                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
             }
         }
         
@@ -1954,10 +1890,7 @@ A. ${faq.a.replace(/\n/g, '\n')}
             document.querySelectorAll('.modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
-                        // [MODIFIED] Do not close full-modals by overlay click
-                        if (!overlay.querySelector('.full-modal')) {
-                            closeModal(overlay.id);
-                        }
+                        closeModal(overlay.id);
                     }
                 });
             });
@@ -1982,8 +1915,8 @@ A. ${faq.a.replace(/\n/g, '\n')}
         <div id="disqus_thread"></div>
         <script>
             /**
-            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
             /*
             var disqus_config = function () {
             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable

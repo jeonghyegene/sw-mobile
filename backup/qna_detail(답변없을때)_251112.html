@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>문의 내역 상세 (AS)</title>
+    <title>문의 내역 상세 (답변 없을 때)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -176,7 +176,6 @@
         .white-button:active {
             transform: scale(0.98);
         }
-
         
         /* [NEW] Special delete button style */
         .delete-button {
@@ -188,6 +187,7 @@
             background: #fefafa;
             border-color: #dc3545;
         }
+
 
         /* Main Content */
         .sw-container {
@@ -440,12 +440,10 @@
             flex: 1; /* Each button takes equal space */
             min-width: 0;
         }
-
         /* [NEW] For the "List Only" case */
         .page-nav-buttons.list-only {
             justify-content: center;
         }
-
         .page-nav-buttons.list-only .btn {
             flex: 0 1 200px; /* Don't grow, basis 200px */
         }
@@ -527,24 +525,24 @@
 
             <section class="qna-section">
                 <div class="qna-header">
-                    <div class="qna-header-top">
+                    <div class="qna-header-top" data-status="답변 대기">
                         <span class="qna-category-badge" data-category="AS">AS</span>
-                        <div class="qna-badge" data-status="답변 완료">답변 완료</div>
+                        <div class="qna-badge" data-status="답변 대기">답변 대기</div>
                     </div>
                     <div class="qna-title">용지/인쇄/재단/가공/포장</div>
                     <div class="qna-header-date">2024-12-30</div>
                 </div>
 
                 <div class="qna-meta">
-                    <div class="meta-grid-item">
+                     <div class="meta-grid-item">
                         <span class="card-row-label">문의번호</span>
                         <span class="card-row-value">324539</span>
                     </div>
                      <div class="meta-grid-item">
                         <span class="card-row-label">접수번호</span>
-                        <span class="card-row-value">sw654543</span>
+                        <span class="card-row-value">SW340340</span>
                     </div>
-                    </div>
+                </div>
 
                 <div class="qna-body">
                     <p>안녕하세요. 이번에 주문한 명함 출력물에서 문제가 발생하여 문의드립니다.</p>
@@ -569,41 +567,19 @@
                 </div>
             </section>
 
-            <section class="qna-answer-section">
-                <div class="qna-answer-header">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
-                        <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
-                     </svg>
-                    성원애드피아의 답변입니다.
-                </div>
-                <div class="qna-answer-body">
-                    <p>안녕하세요, 성원애드피아 고객님.</p>
-                    <p>먼저 인쇄물 품질 문제로 불편을 드린 점 진심으로 사과드립니다. 고객님께서 겪으신 출력물 줄무늬 및 색상 번짐 현상에 대해 면밀히 확인하였습니다.</p>
-                    <p>첨부해주신 이미지를 확인한 결과, 특정 인쇄 장비의 노즐 막힘 또는 잉크 공급 불균형으로 인해 발생했을 가능성이 높습니다. 저희 품질 관리팀에서 해당 접수번호(SW340340)의 건에 대해 즉시 재인쇄 및 정밀 검수를 진행할 예정입니다.</p>
-                    <p>재인쇄가 완료되는 대로 최대한 빠르게 출고하여 고객님께 전달드리겠습니다. 다시 한번 불편을 드려 죄송합니다. 더욱 철저한 품질 관리로 만족스러운 서비스를 제공할 수 있도록 노력하겠습니다.</p>
-                    <p>감사합니다.<br>성원애드피아 고객센터 드림</p>
-                </div>
-                <div class="qna-answer-footer">
-                    <div class="qna-answer-staff">
-                        <img src="assets/images/damdangja.png" alt="담당자 프로필" class="qna-avatar">
-                        <span class="staff-name">답변 담당자: <strong>김희동</strong></span>
-                    </div>
-                    <span class="date">2024-12-30</span>
-                </div>
-            </section>
-
             <div class="page-nav-buttons">
-                <button class="dark-button btn" style="max-width: 200px;" onclick="location.href='qna_list.html'">목록</button>
+                <button class="white-button btn delete-button" onclick="alert('삭제')">삭제</button>
+                <button class="white-button btn" onclick="alert('수정')">수정</button>
+                <button class="dark-button btn" onclick="location.href='qna_list.html'">목록</button>
             </div>
 
             <nav class="page-prev-next">
-                <a href="qna_detail(Q&A).html" class="page-nav-item">
+                <a href="#" class="page-nav-item">
                     <span class="label">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15l6 -6l6 6" /></svg>
                         이전
                     </span>
-                    <span class="title">일반명함</span>
+                    <span class="title">[일반명함] 안녕하세요 일반명함에 대해 궁금한게 있습니다....</span>
                 </a>
                 <a href="#" class="page-nav-item disabled">
                     <span class="label">

@@ -501,6 +501,81 @@
         .page-nav-item.disabled .title {
             color: #aaa;
         }
+        
+        /* ========================================
+           [NEW] MODAL STYLES (from review_after)
+        ======================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeInModal 0.2s ease-out;
+        }
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px; /* Modal max width */
+            max-height: 90vh; /* Limit height */
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+        @keyframes scaleUpModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        /* [MODIFIED] Alert Modal (v12 Standard) */
+        .alert-modal {
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+        }
+        .alert-modal .modal-title {
+            font-size: 16px; 
+            font-weight: 700; 
+            color: black; 
+            margin-bottom: 20px; /* Added margin */
+        }
+        .modal-message { font-size: 14px; color: black; margin-bottom: 30px; line-height: 1.5; }
+        .modal-message .highlight {
+             font-weight: 600;
+             color: #dc3545;
+        }
+        .modal-buttons { display: flex; gap: 10px; justify-content: center; }
+        .modal-button {
+            flex: 1;
+            min-width: 90px;
+            height: 44px;
+            padding: 7px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-button-primary { background: #dc3545; color: white; border: none; font-weight: 600; }
+        .modal-button-secondary { background: white; color: #424242; border: 1px solid #bababa; font-weight: 600;}
+        .modal-button:active { transform: scale(0.98); }
     </style>
 </head>
 
@@ -568,8 +643,8 @@
             </section>
 
             <div class="page-nav-buttons">
-                <button class="white-button btn delete-button" onclick="alert('삭제')">삭제</button>
-                <button class="white-button btn" onclick="alert('수정')">수정</button>
+                <button class="white-button btn delete-button" onclick="openDeleteAlert()">삭제</button>
+                <button class="white-button btn" onclick="location.href='qna_edit.html'">수정</button>
                 <button class="dark-button btn" onclick="location.href='qna_list.html'">목록</button>
             </div>
 
@@ -592,11 +667,77 @@
 
         </main>
     </div>
+    
+    <div class="modal-overlay" id="delete-alert-overlay">
+        <div class="alert-modal" data-name="Alert">
+            <div class="modal-title">삭제 전 안내</div>
+            <div class="modal-message">
+                문의를 삭제할까요?<br>
+                <span class="highlight">삭제하면 복구할 수 없어요</span>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" onclick="closeModal('delete-alert-overlay')">취소</button>
+                <button class="modal-button modal-button-primary" onclick="deleteInquiry()">삭제하기</button>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         // 상세 페이지는 특별한 스크립트가 필요하지 않습니다.
         // 헤더의 뒤로가기 버튼은 history.back() 또는 목록 링크(qna_list.html)로 연결할 수 있습니다.
         console.log("Q&A Detail Page Loaded");
+        
+        // --- [NEW] Modal Helper Functions ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                const anyModalActive = document.querySelector('.modal-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+        
+        // --- [MODIFIED] Delete Logic ---
+        function openDeleteAlert() {
+            // [MODIFIED] 1. confirm() 대신 modal 열기
+            openModal('delete-alert-overlay');
+        }
+        
+        function deleteInquiry() {
+            // [NEW] 2. 실제 삭제 로직
+            console.log('Delete confirmed.');
+            alert('삭제되었습니다. (구현 필요)');
+            
+            // 3. 모달 닫기
+            closeModal('delete-alert-overlay');
+            
+            // 4. 삭제 후 목록 페이지로 이동
+            location.href = 'qna_list.html';
+        }
+        
+        // [MODIFIED] 2. 수정 버튼은 HTML onclick에서 'qna_edit.html'로 바로 이동시킵니다.
+        
+        // --- [NEW] Modal Overlay Click Listener ---
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                     if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                     }
+                });
+            });
+        });
     </script>
 
 
@@ -604,8 +745,8 @@
         <div id="disqus_thread"></div>
         <script>
             /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
             /*
             var disqus_config = function () {
             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
