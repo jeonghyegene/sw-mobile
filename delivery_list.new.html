@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배송지 관리 (v3)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 100px;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 12px 16px 16px 16px;
+        }
+
+        /* Filter Section (v15) */
+        .filter-section {
+            padding: 0 0 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Transaction List Header */
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
+        }
+        
+        /* [MODIFIED] Req 1: Checkbox-text alignment */
+        .transaction-list-header .checkbox-text {
+            align-items: center;
+        }
+        .transaction-list-header .checkbox-text .total-count {
+            display: inline;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .transaction-list-header .total-count strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-count-select {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+        }
+
+        .view-count-select:hover {
+            opacity: 0.8;
+        }
+
+        .view-count-select:active {
+            transform: scale(0.98);
+        }
+
+        .view-count-select-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .view-count-select-arrow {
+            width: 12px;
+            height: 12px;
+        }
+
+        .view-count-select-arrow svg {
+            transition: transform 0.2s;
+            transform: translateY(-2px);
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .no-transactions {
+            padding: 40px 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* v12 common-table-card */
+        .common-table-card {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 15px;
+            position: relative;
+            transition: background 0.2s, border-color 0.2s;
+            /* [MODIFIED] Removed cursor: pointer; */
+        }
+        
+        /* [NEW] Card selected state (from crm_list.html) */
+        .common-table-card[data-selected="true"] {
+            background-color: #eef2ff;
+            border-color: #4e6ee4;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0px;
+        }
+
+        .card-column1 {
+            font-size: 16px;
+            font-weight: 500;
+            color: #212121;
+        }
+
+        .card-badge {
+            background: white;
+            border: 1px solid #d7d7d7;
+            border-radius: 30px;
+            padding: 2px 10px;
+            font-size: 10px;
+            color: black;
+            flex-shrink: 0;
+        }
+        
+        .card-badge[data-status="default"] {
+            border-color: #4e6ee4;
+            color: #4e6ee4;
+            font-weight: 600;
+        }
+
+        .card-divider {
+            width: 100%;
+            height: 1px;
+            background: #e8e8e9;
+            margin: 10px 0;
+        }
+
+        .card-row {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 4px;
+        }
+        .card-row:last-child { margin-bottom: 0; }
+        .card-row.address {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+
+        .card-footer {
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .card-footer .btn {
+            height: 36px;
+            font-size: 13px;
+            padding: 0 12px;
+        }
+
+        /* v12 Checkbox */
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .checkbox-off {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #bdbdbd;
+            border-radius: 2px;
+        }
+
+        .checkbox-on {
+            width: 100%;
+            height: 100%;
+            background: #4e6ee4;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-on img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .checkbox:active {
+            transform: scale(0.9);
+        }
+        
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-text span {
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* v12 Standard .search */
+        .search {
+            width: 100%;
+            height: 40px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            position: relative;
+        }
+
+        .search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+        }
+
+        .search input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .search-input-right {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .search-del {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .search.has-text .search-del {
+            display: flex;
+        }
+
+        .search-icon,
+        .btn-search {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .search-icon:active,
+        .btn-search:active {
+            transform: scale(0.9);
+        }
+
+        .search-del img,
+        .btn-search img,
+        .search-icon img {
+            width: 100%;
+            height: 100%;
+        }
+
+
+        /* [v17] Pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-bottom: 24px;
+        }
+
+        .pagination-arrow {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-arrow img {
+            width: 100%;
+            height: auto;
+        }
+
+        .pagination-arrow:active {
+            transform: scale(0.9);
+        }
+
+        .pagination-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-numbers {
+            display: flex;
+            gap: 3px;
+        }
+
+        .pagination-number {
+            min-width: 28px;
+            height: 28px;
+            padding: 4px 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .pagination-number.active {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .pagination-number:not(.active) {
+            background: white;
+            color: #bcbcbc;
+        }
+
+        .pagination-number:not(.active):hover {
+            background: #f5f5f5;
+        }
+
+        .pagination-number:active {
+            transform: scale(0.95);
+        }
+        
+        /* Sticky Footer Bar */
+        .sticky-footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+            animation: slideUpFooter 0.3s ease-out;
+            gap: 8px;
+        }
+
+        .sticky-footer-bar.active {
+            display: flex;
+        }
+
+        @keyframes slideUpFooter {
+            from {
+                transform: translate(-50%, 100%);
+            }
+            to {
+                transform: translate(-50%, 0);
+            }
+        }
+
+        .sticky-footer-bar span {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .sticky-footer-bar .dark-button {
+            width: auto;
+            flex-shrink: 0;
+        }
+        
+        /* Sticky Action Footer */
+        .sticky-action-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            padding: 16px;
+            z-index: 499;
+        }
+        .sticky-action-footer .dark-button {
+            width: 100%;
+        }
+        
+        /* ========================================
+           MODAL STYLES
+        ======================================== */
+        
+        /* [MODIFIED] Req 3: Changed to Full-Screen Modal */
+        .full-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: flex-start;
+            justify-content: flex-end;
+            z-index: 1000;
+            animation: fadeInModal 0.3s ease-out;
+        }
+        .full-modal-overlay.active {
+            display: flex;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); }
+            to { transform: translateX(100%); }
+        }
+        .full-modal-content {
+            background: white;
+            width: 100%;
+            max-width: 100%; /* [MODIFIED] Req 3: 100% width */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            animation: slideInRight 0.3s ease-out;
+            box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+        }
+        .full-modal-content.closing {
+            animation: slideOutRight 0.3s ease-out;
+        }
+        .full-modal-header {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            flex-shrink: 0;
+        }
+        .full-modal-header .header-title {
+            text-align: center;
+        }
+        .full-modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+            background-color: #fff; /* Match body bg */
+        }
+        .full-modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .full-modal-footer .btn {
+            flex: 1;
+        }
+
+        /* Form Styles (for modal) */
+        .form-section-card {
+             background: #fff; 
+             padding: 20px 16px; 
+             border-radius: 8px; 
+             border: 1px solid #e8e8e9;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+         .form-section-card .form-group:last-child {
+            margin-bottom: 0;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+        .input input::placeholder { color: #c6c6c8; }
+        .input input[readonly] {
+             background: #f5f5f5;
+             cursor: not-allowed;
+        }
+        .input.readonly {
+            background: #f5f5f5;
+        }
+        .input-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .input-group .white-button {
+            flex-shrink: 0;
+            height: 40px;
+            font-size: 13px;
+            padding: 0 12px;
+            width: auto;
+        }
+        .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
+        
+        /* [NEW] Alert Modal (Req 2) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001; /* Above full-modal overlay */
+            padding: 16px;
+        }
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeInModal 0.2s ease-out;
+        }
+        .alert-modal {
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+        .alert-modal .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .modal-message {
+            font-size: 14px;
+            color: black;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .modal-message .highlight {
+            font-weight: 600;
+            color: #dc3545;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .modal-button {
+            flex: 1;
+            min-width: 90px;
+            height: 44px;
+            padding: 7px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .modal-button-primary {
+            background: #dc3545;
+            color: white;
+            border: none;
+        }
+        .modal-button-secondary {
+            background: white;
+            color: #424242;
+            border: 1px solid #bababa;
+        }
+        .modal-button:active {
+            transform: scale(0.98);
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">배송지 관리</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="sw-container">
+
+                <section class="filter-section" style="padding-top: 0;">
+                    <div class="search" data-name="search" id="address-search">
+                        <input type="text" placeholder="배송지 또는 이름/상호명 입력" oninput="handleSearchInput(this)">
+                        <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this)">
+                               <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d" alt="지우기">
+                            </div>
+                            <div class="btn-search" onclick="handleSearch(this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
+                                    id="icon-search">
+                                    <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                    <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="transaction-list-section">
+                    <div class="transaction-list-header">
+                        <div class="checkbox-text" onclick="toggleSelectAll(this)">
+                            <div class="checkbox" data-checked="false" id="address-select-all">
+                                <div class="checkbox-off"></div>
+                            </div>
+                            <span class="total-count">총 <strong id="transaction-count">4</strong>건</span>
+                        </div>
+                        <div class="view-count-select">
+                            <span class="view-count-select-text">20건씩 보기</span>
+                            <div class="view-count-select-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="transaction-list" id="transaction-list-container">
+
+                        <article class="common-table-card" data-id="1">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" onclick="toggleAddressCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="card-column1">[우리집] 김혜진</div>
+                                </div>
+                                <div class="card-badge" data-status="default">기본배송지</div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row address">(03256) 서울 마포구 상암동 1605 누리꿈스퀘어 101동 1001호</div>
+                            <div class="card-row">010-1234-5667 | 02-124-4455</div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="openAddressModal('edit', this.closest('.common-table-card'))">수정</button>
+                                <button type="button" class="white-button btn" onclick="showAddressDeleteAlert()">삭제</button>
+                            </div>
+                        </article>
+                        
+                        <article class="common-table-card" data-id="2">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" onclick="toggleAddressCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="card-column1">[회사] 박광진</div>
+                                </div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row address">(03256) 경기도 성남시 분당구 판교역로 235 H스퀘어 N동 7층 (삼평동)</div>
+                            <div class="card-row">010-1234-5667 | 02-124-4455</div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="alert('기본배송지로 설정')">기본배송지 설정</button>
+                                <button type="button" class="white-button btn" onclick="openAddressModal('edit', this.closest('.common-table-card'))">수정</button>
+                                <button type="button" class="white-button btn" onclick="showAddressDeleteAlert()">삭제</button>
+                            </div>
+                        </article>
+                        
+                        <article class="common-table-card" data-id="3">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" onclick="toggleAddressCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="card-column1">[제주도 거래처] 김영희</div>
+                                </div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row address">(03256) 제주특별자치도 서귀포시 안덕면 신화역사로304번길 38 메리어트관 8210호</div>
+                            <div class="card-row">010-1234-5667 | 02-124-4455</div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="alert('기본배송지로 설정')">기본배송지 설정</button>
+                                <button type="button" class="white-button btn" onclick="openAddressModal('edit', this.closest('.common-table-card'))">수정</button>
+                                <button type="button" class="white-button btn" onclick="showAddressDeleteAlert()">삭제</button>
+                            </div>
+                        </article>
+                        
+                        <article class="common-table-card" data-id="4">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" onclick="toggleAddressCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="card-column1">이진희</div>
+                                </div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row address">(03256) 제주특별자치도 서귀포시 안덕면 신화역사로304번길 38 메리어트관 8210호</div>
+                            <div class="card-row">010-1234-5667 | 02-124-4455</div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn" onclick="alert('기본배송지로 설정')">기본배송지 설정</button>
+                                <button type="button" class="white-button btn" onclick="openAddressModal('edit', this.closest('.common-table-card'))">수정</button>
+                                <button type="button" class="white-button btn" onclick="showAddressDeleteAlert()">삭제</button>
+                            </div>
+                        </article>
+
+                    </div>
+
+                    <div class="no-transactions" id="no-address-list" style="display: none;">등록된 배송지가 없어요</div>
+
+                    <div class="pagination" data-name="Pagination">
+                        <div class="pagination-arrow disabled" onclick="paginationFirst()">
+                            <img src="https://www.figma.com/api/mcp/asset/98c36079-6698-4fbf-8222-1c0b4fcaab1c" alt="처음"
+                                style="transform: rotate(90deg);">
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationPrev()">
+                            <img src="https://www.figma.com/api/mcp/asset/5881851a-69b0-4a30-8ba8-bbb647a7fcc4" alt="이전"
+                                style="transform: rotate(90deg);">
+                        </div>
+                        <div class="pagination-numbers" id="pagination-numbers">
+                            <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationNext()">
+                            <img src="https://www.figma.com/api/mcp/asset/9f728346-6da0-4d2b-a299-2137f0214aea" alt="다음"
+                                style="transform: rotate(90deg) scaleY(-1);">
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationLast()">
+                            <img src="https://www.figma.com/api/mcp/asset/4557e67d-fb94-45a7-a3da-e8690f677a05"
+                                alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </main>
+        
+        <div class="sticky-footer-bar" id="tax-action-footer">
+            <span id="tax-selected-count">총 1건 선택됨</span>
+            <button class="dark-button" onclick="deleteSelectedAddresses()">선택 삭제</button>
+        </div>
+        
+        <div class="sticky-action-footer">
+             <button class="dark-button" onclick="openAddressModal('add')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M12 5l0 14" />
+                    <path d="M5 12l14 0" />
+                </svg>
+                배송지 추가
+            </button>
+        </div>
+
+    </div>
+    
+    <div class="full-modal-overlay" id="address-modal-overlay">
+        <div class="full-modal-content" id="address-modal">
+            <div class="full-modal-header">
+                <div class="header-left">
+                    <button type="button" class="header-btn" onclick="closeModal('address-modal-overlay')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M15 6l-6 6l6 6" />
+                        </svg>
+                    </button>
+                </div>
+                <h2 class="header-title" id="address-modal-title">배송지 추가</h2>
+                <div class="header-right"></div>
+            </div>
+            <div class="full-modal-body">
+                <section class="form-section-card" style="padding: 0;">
+                    <form id="address-form" style="padding-top: 10px;">
+                        <div class="form-group">
+                            <label for="addr-name">배송지명 (선택)</label>
+                            <div class="input">
+                                <input type="text" id="addr-name" placeholder="배송지명을 입력해주세요">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="addr-receiver">이름 (상호명)</label>
+                            <div class="input">
+                                <input type="text" id="addr-receiver" placeholder="받으실 분의 성함을 입력해주세요">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="addr-phone">휴대폰 번호</label>
+                            <div class="input">
+                                <input type="tel" id="addr-phone" placeholder="'-'을 제외한 숫자만 입력해주세요">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="addr-tel">연락처 (선택)</label>
+                            <div class="input">
+                                <input type="tel" id="addr-tel" placeholder="'-'을 제외한 숫자만 입력해주세요">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>주소</label>
+                            <div class="input-group">
+                                <div class="input readonly">
+                                    <input type="text" id="addr-zipcode" placeholder="우편번호" readonly>
+                                </div>
+                                <button type="button" class="white-button" onclick="alert('우편번호 검색')">우편번호 검색</button>
+                            </div>
+                            <div class="input readonly" style="margin-top: 8px;">
+                                <input type="text" id="addr-main" placeholder="주소" readonly>
+                            </div>
+                             <div class="input" style="margin-top: 8px;">
+                                <input type="text" id="addr-detail" placeholder="상세 주소를 입력해주세요">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                             <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                                <div class="checkbox" data-checked="false" id="addr-default-check">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <span>기본 배송지로 설정하기</span>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+            <div class="full-modal-footer">
+                <button class="btn dark-button" style="width: 100%;" id="address-modal-submit-btn" onclick="alert('저장')">추가하기</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="address-delete-alert-overlay">
+        <div class="modal-content alert-modal" data-name="Alert">
+            <div class="modal-title">삭제 전 안내</div>
+            <div class="modal-message">
+                배송지를 삭제할까요?<br>
+                <span class="highlight">삭제하면 복구할 수 없어요</span>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary"
+                    onclick="closeModal('address-delete-alert-overlay')">아니요</button>
+                <button class="modal-button modal-button-primary" onclick="deleteAddress()">삭제하기</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- [v12] Search Component JS ---
+        function handleSearchInput(input) {
+            const searchBox = input.closest('.search');
+            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+        }
+        function clearSearch(btn) {
+            const searchBox = btn.closest('.search');
+            const input = searchBox.querySelector('input');
+            input.value = '';
+            searchBox.classList.remove('has-text');
+            input.focus();
+            filterAddressList();
+        }
+        function handleSearch(btn) { 
+            console.log('Search submitted:', btn.closest('.search').querySelector('input').value); 
+            filterAddressList();
+        }
+        
+        // --- [v12] Checkbox (from crm_list.html) ---
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+            }
+        }
+        function toggleCheckboxText(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            toggleCheckbox(checkbox);
+        }
+        
+        // --- [MODIFIED] Req 3: Full-Screen Modal Logic (from crm_list.html) ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                const fullModalContent = overlay.querySelector('.full-modal-content');
+                if (fullModalContent) {
+                    fullModalContent.classList.remove('closing');
+                }
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (!overlay) return;
+
+            const fullModalContent = overlay.querySelector('.full-modal-content');
+
+            if (fullModalContent) {
+                // This is a full-screen modal
+                fullModalContent.classList.add('closing');
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                    fullModalContent.classList.remove('closing');
+                    const anyModalActive = document.querySelector('.modal-overlay.active, .full-modal-overlay.active');
+                    if (!anyModalActive) {
+                        document.body.style.overflow = '';
+                    }
+                }, 300); // Match animation duration
+            } else {
+                // This is a standard modal (e.g., delete alert)
+                overlay.classList.remove('active');
+                const anyModalActive = document.querySelector('.modal-overlay.active, .full-modal-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+        
+        // --- [MODIFIED] Address Modal Logic (Req 3) ---
+        const addressModalTitle = document.getElementById('address-modal-title');
+        const addressModalSubmitBtn = document.getElementById('address-modal-submit-btn');
+        const addressForm = document.getElementById('address-form');
+        const addrName = document.getElementById('addr-name');
+        const addrReceiver = document.getElementById('addr-receiver');
+        const addrPhone = document.getElementById('addr-phone');
+        const addrTel = document.getElementById('addr-tel');
+        const addrZipcode = document.getElementById('addr-zipcode');
+        const addrMain = document.getElementById('addr-main');
+        const addrDetail = document.getElementById('addr-detail');
+        const addrDefaultCheck = document.getElementById('addr-default-check');
+        
+        const addressData = {
+            "1": { name: "[우리집]", receiver: "김혜진", phone: "01012345667", tel: "021244455", zipcode: "03256", main: "서울 마포구 상암동 1605 누리꿈스퀘어", detail: "101동 1001호", isDefault: true },
+            "2": { name: "[회사]", receiver: "박광진", phone: "01012345667", tel: "021244455", zipcode: "03256", main: "경기도 성남시 분당구 판교역로 235 H스퀘어 N동 7층 (삼평동)", detail: "", isDefault: false },
+            "3": { name: "[제주도 거래처]", receiver: "김영희", phone: "01012345667", tel: "021244455", zipcode: "03256", main: "제주특별자치도 서귀포시 안덕면 신화역사로304번길 38 메리어트관 8210호", detail: "", isDefault: false },
+            "4": { name: "", receiver: "이진희", phone: "01012345667", tel: "021244455", zipcode: "03256", main: "제주특별자치도 서귀포시 안덕면 신화역사로304번길 38 메리어트관 8210호", detail: "", isDefault: false }
+        };
+
+        function openAddressModal(mode, cardElement = null) {
+            addressForm.reset();
+            addrDefaultCheck.dataset.checked = 'false';
+            addrDefaultCheck.innerHTML = '<div class="checkbox-off"></div>';
+            
+            if (mode === 'add') {
+                addressModalTitle.textContent = '배송지 추가';
+                addressModalSubmitBtn.textContent = '추가하기';
+            } else if (mode === 'edit' && cardElement) {
+                addressModalTitle.textContent = '배송지 수정';
+                addressModalSubmitBtn.textContent = '수정하기';
+                
+                const dataId = cardElement.dataset.id;
+                const data = addressData[dataId];
+                
+                if (data) {
+                    addrName.value = data.name;
+                    addrReceiver.value = data.receiver;
+                    addrPhone.value = data.phone;
+                    addrTel.value = data.tel;
+                    addrZipcode.value = data.zipcode;
+                    addrMain.value = data.main;
+                    addrDetail.value = data.detail;
+                    if (data.isDefault) {
+                        addrDefaultCheck.dataset.checked = 'true';
+                        addrDefaultCheck.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+                    }
+                }
+            }
+            openModal('address-modal-overlay');
+        }
+        
+        // --- [NEW] Req 2: Delete Alert Logic ---
+        function showAddressDeleteAlert() {
+            openModal('address-delete-alert-overlay');
+        }
+
+        function deleteAddress() {
+            closeModal('address-delete-alert-overlay');
+            alert("삭제되었어요 (구현 필요)");
+            // TODO: Add logic to remove the card or reload the list
+        }
+
+        function deleteSelectedAddresses() {
+            const listContainer = document.getElementById('transaction-list-container');
+            const checkedBoxes = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
+            if (checkedBoxes.length > 0) {
+                showAddressDeleteAlert();
+                // In a real app, deleteAddress() would handle the selected IDs
+            } else {
+                alert("삭제할 배송지를 선택해주세요");
+            }
+        }
+
+
+        // --- [NEW] Req 1: Select All & Sticky Footer Logic (from crm_list.html) ---
+        function toggleSelectAll(wrapper) {
+            const mainCheckbox = wrapper.querySelector('.checkbox');
+            const isChecking = mainCheckbox.dataset.checked !== 'true'; 
+            
+            toggleCheckbox(mainCheckbox); 
+            
+            const listContainer = document.getElementById('transaction-list-container');
+            listContainer.querySelectorAll('.common-table-card .checkbox').forEach(cardCheckbox => {
+                const card = cardCheckbox.closest('.common-table-card');
+                if (cardCheckbox.dataset.checked !== (isChecking ? 'true' : 'false')) {
+                    toggleCheckbox(cardCheckbox); 
+                    card.dataset.selected = isChecking;
+                }
+            });
+            
+            updateSelectionFooter();
+        }
+
+        function toggleAddressCheckbox(checkboxEl) {
+            toggleCheckbox(checkboxEl);
+            
+            const card = checkboxEl.closest('.common-table-card');
+            const isSelected = checkboxEl.dataset.checked === 'true';
+            card.dataset.selected = isSelected;
+
+            checkSelectAllState();
+            updateSelectionFooter();
+        }
+
+        function checkSelectAllState() {
+            const listContainer = document.getElementById('transaction-list-container');
+            const allCardCheckboxes = listContainer.querySelectorAll('.common-table-card .checkbox');
+            if (allCardCheckboxes.length === 0) return;
+            
+            const totalCards = allCardCheckboxes.length;
+            const checkedCards = listContainer.querySelectorAll('.common-table-card .checkbox[data-checked="true"]').length;
+            
+            const mainCheckbox = document.getElementById('address-select-all');
+            if (!mainCheckbox) return;
+
+            const mainIsChecked = mainCheckbox.dataset.checked === 'true';
+
+            if (totalCards > 0 && totalCards === checkedCards) {
+                if (!mainIsChecked) {
+                    toggleCheckbox(mainCheckbox);
+                }
+            } else {
+                if (mainIsChecked) {
+                    toggleCheckbox(mainCheckbox);
+                }
+            }
+        }
+        
+        function updateSelectionFooter() {
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
+
+            const checkedBoxes = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
+            const count = checkedBoxes.length;
+            const footer = document.getElementById('tax-action-footer');
+            const addFooter = document.getElementById('sticky-action-footer');
+            const mobileWrap = document.querySelector('.mobile-wrap');
+            
+            const addFooterHeight = addFooter?.offsetHeight || 85;
+
+            if (count > 0) {
+                footer.classList.add('active');
+                document.getElementById('tax-selected-count').textContent = `총 ${count}건 선택됨`;
+                // Set padding to accommodate both footers
+                const actionBarHeight = footer?.offsetHeight || 84;
+                mobileWrap.style.paddingBottom = `${addFooterHeight + actionBarHeight}px`;
+                addFooter.style.bottom = `${actionBarHeight}px`; // Move add footer up
+            } else {
+                footer.classList.remove('active');
+                mobileWrap.style.paddingBottom = `${addFooterHeight}px`; // Reset to default
+                addFooter.style.bottom = '0';
+            }
+            
+            if(count === 0 && document.getElementById('address-select-all')) {
+                checkSelectAllState(); // Uncheck "select all" if count is 0
+            }
+        }
+
+
+        // --- [NEW] Main List Filter Function ---
+        function filterAddressList() {
+            const searchTerm = document.querySelector('#address-search input').value.toLowerCase();
+            console.log("Filtering Address List:", searchTerm);
+
+            const listContainer = document.getElementById('transaction-list-container'); 
+            if (!listContainer) return; 
+            
+            const cards = listContainer.querySelectorAll('.common-table-card');
+            const noResultMsg = document.getElementById('no-address-list');
+            let visibleCount = 0;
+
+            cards.forEach(card => { 
+                const cardTitle = card.querySelector('.card-column1').textContent.toLowerCase();
+                const cardAddress = card.querySelector('.card-row.address').textContent.toLowerCase();
+                const cardPhone = card.querySelector('.card-row:not(.address)').textContent.toLowerCase();
+                
+                let searchMatch = true;
+                if (searchTerm) {
+                    searchMatch = cardTitle.includes(searchTerm) || cardAddress.includes(searchTerm) || cardPhone.includes(searchTerm);
+                }
+                
+                if (searchMatch) { 
+                    card.style.display = ''; 
+                    visibleCount++; 
+                } else { 
+                    card.style.display = 'none'; 
+                } 
+            });
+            
+            const countEl = document.getElementById('transaction-count');
+            if(countEl) countEl.textContent = visibleCount; 
+            if(noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+
+        // --- [v12] Pagination Logic ---
+        let currentPage = 1; const totalPages = 1;
+        function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); }
+        function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
+        function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
+        function paginationFirst() { paginationGo(1); }
+        function paginationLast() { paginationGo(totalPages); }
+        function updatePagination() {
+            const numbersContainer = document.getElementById('pagination-numbers');
+            if (!numbersContainer) return;
+
+            numbersContainer.innerHTML = ''; // Clear
+            for (let i = 1; i <= totalPages; i++) {
+                const numEl = document.createElement('div');
+                numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
+                numEl.dataset.page = i;
+                numEl.textContent = i;
+                numEl.onclick = () => paginationGo(i);
+                numbersContainer.appendChild(numEl);
+            }
+
+            const paginationRoot = numbersContainer.closest('.pagination');
+            if (!paginationRoot) return;
+
+            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
+            const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
+
+            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
+            nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePagination();
+            filterAddressList(); // Initial filter
+            updateSelectionFooter(); // Initial footer check
+            checkSelectAllState(); // Check initial select all
+            
+            // Modal overlay click-to-close listeners
+            document.querySelectorAll('.modal-overlay, .full-modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+            
+            // Populate asset paths
+            document.querySelectorAll('img[src="assets/images/search-del.png"]').forEach(img => img.src = 'https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d');
+            document.querySelectorAll('img[src="assets/images/checked.svg"]').forEach(img => img.src = 'assets/images/checked.svg');
+            document.querySelectorAll('img[src="assets/images/nnext-arrow.svg"]').forEach(img => img.src = 'https://www.figma.com/api/mcp/asset/98c36079-6698-4fbf-8222-1c0b4fcaab1c');
+            document.querySelectorAll('img[src="assets/images/next-arrow.svg"]').forEach(img => img.src = 'https://www.figma.com/api/mcp/asset/5881851a-69b0-4a30-8ba8-bbb647a7fcc4');
+        });
+
+    </script>
+
+</body>
+</html>

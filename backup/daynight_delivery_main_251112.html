@@ -51,8 +51,8 @@
             color: #333;
             font-size: 16px;
             line-height: 1.6;
-            /* [MODIFIED] From hidden to visible for sticky header */
-            overflow-x: visible; 
+            overflow-x: hidden;
+            /* overflow-x: visible; */
         }
 
         ul,
@@ -152,23 +152,6 @@
             display: flex;
             justify-content: flex-end;
             gap: 8px;
-        }
-        
-        /* [NEW] Header text button style */
-        .header-text-btn {
-            font-size: 14px;
-            font-weight: 500;
-            color: #4e6ee4; /* Use primary color for action */
-            padding: 6px 8px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-        .header-text-btn:hover {
-            background-color: #f5f5f5;
-        }
-        .header-text-btn:active {
-            background-color: #eee;
-            transform: scale(0.98);
         }
 
         /* Buttons (v12 Standard + Primary) */
@@ -538,19 +521,6 @@
         @keyframes fadeInModal {
             from { opacity: 0; } to { opacity: 1; }
         }
-        
-        /* [MODIFIED] Added animations */
-        @keyframes slideInFromRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-        @keyframes slideOutToRight {
-            from { transform: translateX(0); }
-            to { transform: translateX(100%); }
-        }
-        @keyframes scaleUpModal {
-            from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; }
-        }
 
         .modal-content {
             background: white;
@@ -561,6 +531,10 @@
             display: flex;
             flex-direction: column;
             animation: scaleUpModal 0.2s ease-out;
+        }
+
+        @keyframes scaleUpModal {
+            from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; }
         }
 
         .modal-header {
@@ -633,45 +607,6 @@
             flex: 1;
             height: 44px;
             font-size: 14px;
-        }
-        
-        /* [NEW] Full Modal Style (for Request 2) */
-        .modal-overlay.full-modal {
-            align-items: flex-start; /* Align to top */
-            padding: 0;
-            overflow: hidden; /* Prevent body scroll during animation */
-        }
-        .full-modal .modal-content {
-            width: 100%;
-            /* [MODIFIED] max-width: 480px -> 100% */
-            max-width: 100%; 
-            height: 100vh; /* Full height */
-            max-height: 100vh; /* Override 90vh */
-            border-radius: 0; /* No radius for full screen */
-            /* [MODIFIED] animation: none; -> slideInFromRight */
-            animation: slideInFromRight 0.3s ease-out; 
-        }
-        /* [NEW] Closing animation */
-        .full-modal .modal-content.closing {
-            animation: slideOutToRight 0.3s ease-out;
-        }
-        
-        .full-modal .modal-header {
-            position: sticky;
-            top: 0;
-            background: #fff;
-            z-index: 10;
-        }
-        .full-modal .modal-body {
-            overflow-y: auto;
-            flex-grow: 1;
-        }
-        .full-modal .modal-footer {
-            position: sticky;
-            bottom: 0;
-            background: #fff;
-            z-index: 10;
-            border-radius: 0;
         }
         
         /* Modal Form Elements (from tax_request_write.html) */
@@ -820,8 +755,7 @@
             </div>
             <h1 class="header-title">낮·밤배송</h1>
             <div class="header-right">
-                <button type="button" class="header-text-btn" onclick="showHistoryModal()">이용 내역</button>
-            </div>
+                </div>
         </header>
 
         <main>
@@ -830,7 +764,7 @@
                 <h2>낮·밤 원하는 시간에<br>언제나 무료배송</h2>
                 <p>월 거래금액 33만원 이상 달성하고,<br>다음 달도 무료배송 혜택 받아보세요!</p>
                 <p style="font-size: 13px; color: #4e6ee4; margin-top: 16px;">지금 신청하면, 다음 달은 무료배송!</p>
-                <button class="primary-button" onclick="location.href='daynight_delivery_apply.html'">
+                <button class="primary-button" onclick="alert('신청 페이지로 이동')">
                     신청하기
                 </button>
             </section>
@@ -979,13 +913,16 @@
                             <li>주간·야간 배송에서 누락된 상품은 다음 배송편으로 보내드려요. 퀵서비스나 택배로는 따로 배송되지 않아요</li>
                         </ul>
                     </div>
-                </section>
+                    </section>
                 
+                <div class="page-bottom-buttons">
+                    <button class="white-button" onclick="showHistoryModal()">이용 내역</button>
                 </div>
+            </div>
         </main>
     </div>
 
-    <div class="modal-overlay full-modal" id="history-modal-overlay">
+    <div class="modal-overlay" id="history-modal-overlay">
         <div class="modal-content" id="history-modal">
             <div class="modal-header">
                 <h2 class="modal-title">낮·밤배송 이용 내역</h2>
@@ -1023,10 +960,13 @@
                     </article>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="closeModal('history-modal-overlay')">확인</button>
+            </div>
         </div>
     </div>
 
-    <div class="modal-overlay full-modal" id="delivery-info-modal-overlay">
+    <div class="modal-overlay" id="delivery-info-modal-overlay">
         <div class="modal-content" id="delivery-info-modal">
             <div class="modal-header">
                 <h2 class="modal-title">배송지 정보</h2>
@@ -1080,6 +1020,9 @@
                         <div class="readonly-value">있음 / *1343</div>
                     </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="closeModal('delivery-info-modal-overlay')">확인</button>
             </div>
         </div>
     </div>
@@ -1190,7 +1133,7 @@
         }
         // --- [END MODIFICATION] ---
 
-        // --- [MODIFIED] Modal Helpers (to support full-modal animation) ---
+        // --- [NEW] Modal Helpers (from tax_request_write.html) ---
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
@@ -1201,27 +1144,9 @@
 
         function closeModal(overlayId) {
             const overlay = document.getElementById(overlayId);
-            if (!overlay) return;
-
-            const modalContent = overlay.querySelector('.modal-content');
-            
-            // Check if it's a full-modal
-            if (overlay.classList.contains('full-modal') && modalContent) {
-                modalContent.classList.add('closing');
-                
-                // Wait for animation to finish before hiding overlay
-                setTimeout(() => {
-                    overlay.classList.remove('active');
-                    modalContent.classList.remove('closing'); // Reset for next open
-                    
-                    const anyModalActive = document.querySelector('.modal-overlay.active');
-                    if (!anyModalActive) {
-                        document.body.style.overflow = '';
-                    }
-                }, 300); // Duration should match animation (0.3s)
-            } else {
-                // Original behavior for non-full-modals
+            if (overlay) {
                 overlay.classList.remove('active');
+                // Don't reset body overflow if another modal is still open
                 const anyModalActive = document.querySelector('.modal-overlay.active');
                 if (!anyModalActive) {
                     document.body.style.overflow = '';
@@ -1272,8 +1197,8 @@
         <div id="disqus_thread"></div>
         <script>
             /**
-            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
             /*
             var disqus_config = function () {
             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable

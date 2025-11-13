@@ -4,12 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>고객 관리 (v3)</title>
+    <title>고객 관리</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* [v12] Master Guide CSS */
+        .disqus-thread-wrap {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 450px;
+            height: 100%;
+            overflow: auto;
+        }
+
+        @media all and (max-width: 1490px) {
+            .disqus-thread-wrap {
+                display: none;
+            }
+        }
+        .disqus-thread-wrap {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 450px;
+            height: 100%;
+            overflow: auto;
+        }
+
+        @media all and (max-width: 1490px) {
+            .disqus-thread-wrap {
+                display: none;
+            }
+        }
         /* Reset & Base */
         * {
             box-sizing: border-box;
@@ -238,7 +266,7 @@
             padding: 16px;
         }
 
-        /* info-sub-row (for detail modal) */
+        /* [NEW] info-sub-row (for detail modal) */
         .info-sub-row {
             display: flex;
             justify-content: space-between;
@@ -256,13 +284,14 @@
             font-weight: 600;
         }
 
-        /* Info Section (for detail modal) */
+        /* [MODIFIED] Info Section (for detail modal) */
         .info-section {
             background: #fff;
             border: 1px solid #e8e8e9;
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 24px;
+            /* [MODIFIED] Added margin */
         }
 
         .info-section .title {
@@ -270,6 +299,7 @@
             font-weight: 600;
             color: #555;
             margin-bottom: 12px;
+            /* [MODIFIED] Added margin */
         }
 
         .info-section .balance-row {
@@ -285,7 +315,7 @@
             color: #333;
         }
 
-        /* 2-column stats for detail modal */
+        /* [NEW] 2-column stats for detail modal */
         .stats-row-2col {
             display: flex;
             flex-direction: column;
@@ -319,7 +349,7 @@
             color: #000;
         }
 
-        /* Filter Chip Section */
+        /* Filter Chip Section (from tax_issue.html) */
         .filter-chip-section {
             background: #fff;
             padding: 8px 16px;
@@ -396,7 +426,7 @@
             transform: rotate(-180deg);
         }
 
-        /* Search */
+        /* [NEW] Search (from tax_issue.html) */
         .search {
             width: 100%;
             height: 40px;
@@ -468,15 +498,6 @@
             border-bottom: 1px solid #f0f0f0;
             margin-bottom: 16px;
         }
-        
-        .transaction-list-header .checkbox-text {
-            align-items: center;
-        }
-        .transaction-list-header .checkbox-text .total-count {
-            display: inline;
-            font-size: 14px;
-            color: #555;
-        }
 
         .transaction-list-header .total-count strong {
             font-weight: 600;
@@ -522,6 +543,7 @@
             flex-direction: column;
             gap: 12px;
             margin-bottom: 24px;
+            /* Pagination 여백 */
         }
 
         .no-transactions {
@@ -531,7 +553,7 @@
             font-size: 14px;
         }
 
-        /* v12 common-table-card */
+        /* v12 common-table-card (for Tax Invoice) */
         .common-table-card {
             width: 100%;
             background: white;
@@ -542,12 +564,12 @@
             cursor: pointer;
             transition: background 0.2s, border-color 0.2s;
         }
-
+        
+        /* [NEW] Card selected state */
         .common-table-card[data-selected="true"] {
             background-color: #eef2ff;
             border-color: #4e6ee4;
         }
-
         .common-table-card:active {
             background-color: #f5f5f5;
         }
@@ -555,27 +577,24 @@
         .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            align-items: flex-start;
+            margin-bottom: 0px;
         }
-        
-        .card-header-title-group {
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-        .card-header-title-group .card-column1 {
+
+        .card-column1 {
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 500;
             color: #212121;
         }
-        .card-rep-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: #555;
+
+        .card-column2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333333;
+            margin-top: 4px;
+            margin-bottom: 15px;
         }
-        
+
         .card-divider {
             width: 100%;
             height: 1px;
@@ -615,7 +634,7 @@
             padding: 0 12px;
         }
 
-        /* v12 Checkbox */
+        /* [NEW] v12 Checkbox (from tax_request.html) */
         .checkbox {
             width: 20px;
             height: 20px;
@@ -651,20 +670,8 @@
         .checkbox:active {
             transform: scale(0.9);
         }
-        
-        .checkbox-text {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            user-select: none;
-        }
-        .checkbox-text span {
-            font-size: 14px;
-            color: #333;
-        }
 
-        /* [v17] Pagination */
+        /* [v17] Pagination (Master Guide Img) */
         .pagination {
             display: flex;
             align-items: center;
@@ -734,7 +741,7 @@
             transform: scale(0.95);
         }
 
-        /* Sticky Footer Bar */
+        /* [NEW] Sticky Footer Bar (from tax_issue.html) */
         .sticky-footer-bar {
             position: fixed;
             bottom: 0;
@@ -779,7 +786,7 @@
         }
 
 
-        /* Sticky Action Footer */
+        /* [NEW] Sticky Action Footer (from qna_list.html) */
         .sticky-action-footer {
             position: fixed;
             bottom: 0;
@@ -826,6 +833,8 @@
         }
 
         /* MODAL STYLES */
+
+        /* [NEW] Modal (from tax_issue.html) */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -836,14 +845,22 @@
             z-index: 1000;
             padding: 16px;
         }
+
         .modal-overlay.active {
             display: flex;
             animation: fadeInModal 0.2s ease-out;
         }
+
         @keyframes fadeInModal {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
+
         .modal-content {
             background: white;
             border-radius: 8px;
@@ -854,10 +871,18 @@
             flex-direction: column;
             animation: scaleUpModal 0.2s ease-out;
         }
+
         @keyframes scaleUpModal {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); }
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+            }
         }
+
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -867,12 +892,14 @@
             position: relative;
             height: 57px;
         }
+
         .modal-title {
             font-size: 16px;
             font-weight: 700;
             color: black;
             text-align: left;
         }
+
         .btn-modal-close {
             width: 24px;
             height: 24px;
@@ -883,18 +910,22 @@
             top: 50%;
             transform: translateY(-50%);
         }
+
         .btn-modal-close:hover {
             color: #000;
         }
+
         .btn-modal-close svg {
             width: 100%;
             height: 100%;
         }
+
         .modal-body {
             padding: 16px;
             overflow-y: auto;
             flex-grow: 1;
         }
+
         .modal-footer {
             padding: 16px;
             border-top: 1px solid #e8e8e9;
@@ -903,19 +934,22 @@
             gap: 8px;
             border-radius: 0 0 7px 7px;
         }
+
         .modal-footer .btn {
             flex: 1;
             height: 44px;
             font-size: 14px;
         }
 
-        /* Modal Form Elements */
+        /* [NEW] Modal Form Elements (from tax_request_write) */
         .form-group {
             margin-bottom: 20px;
         }
+
         .form-group:last-child {
             margin-bottom: 0;
         }
+
         .form-group label {
             display: block;
             font-size: 14px;
@@ -923,6 +957,7 @@
             color: #333;
             margin-bottom: 8px;
         }
+
         .input {
             width: 100%;
             min-height: 40px;
@@ -933,6 +968,7 @@
             display: flex;
             align-items: center;
         }
+
         .input input {
             width: 100%;
             background: transparent;
@@ -942,11 +978,12 @@
             color: black;
             line-height: 1.5;
         }
+
         .input input::placeholder {
             color: #c6c6c8;
         }
 
-        /* Alert Modal */
+        /* [NEW] Alert Modal (from review_after.html) */
         .alert-modal {
             background: white;
             border-radius: 6px;
@@ -956,6 +993,7 @@
             width: 100%;
             max-width: 320px;
         }
+
         .alert-modal .modal-title {
             font-size: 16px;
             font-weight: 700;
@@ -963,21 +1001,25 @@
             margin-bottom: 20px;
             text-align: center;
         }
+
         .modal-message {
             font-size: 14px;
             color: black;
             margin-bottom: 30px;
             line-height: 1.5;
         }
+
         .modal-message .highlight {
             font-weight: 600;
             color: #dc3545;
         }
+
         .modal-buttons {
             display: flex;
             gap: 10px;
             justify-content: center;
         }
+
         .modal-button {
             flex: 1;
             min-width: 90px;
@@ -992,16 +1034,19 @@
             justify-content: center;
             font-weight: 600;
         }
+
         .modal-button-primary {
             background: #dc3545;
             color: white;
             border: none;
         }
+
         .modal-button-secondary {
             background: white;
             color: #424242;
             border: 1px solid #bababa;
         }
+
         .modal-button:active {
             transform: scale(0.98);
         }
@@ -1017,21 +1062,41 @@
             z-index: 1000;
             animation: fadeIn 0.2s ease-out;
         }
+
         .bottom-sheet-overlay.active {
             display: flex;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
+
         @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
         }
+
         @keyframes slideDown {
-            from { transform: translateY(0); }
-            to { transform: translateY(100%); }
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(100%);
+            }
         }
+
         .bottom-sheet {
             width: 100%;
             max-width: 480px;
@@ -1045,9 +1110,11 @@
             display: flex;
             flex-direction: column;
         }
+
         .bottom-sheet.closing {
             animation: slideDown 0.3s ease-out;
         }
+
         .sheet-handle {
             width: 27px;
             height: 4px;
@@ -1056,9 +1123,11 @@
             margin: 10px auto;
             cursor: grab;
         }
+
         .sheet-handle:active {
             cursor: grabbing;
         }
+
         .sheet-header {
             height: 21px;
             padding: 0 20px;
@@ -1068,11 +1137,13 @@
             position: relative;
             margin-bottom: 20px;
         }
+
         .sheet-title {
             font-size: 16px;
             font-weight: 700;
             color: black;
         }
+
         .btn-close {
             position: absolute;
             right: 20px;
@@ -1082,33 +1153,40 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
+
         .btn-close:active {
             transform: scale(0.9);
         }
+
         .btn-close svg {
             width: 100%;
             height: 100%;
             color: #333;
         }
+
         .sheet-body {
             flex: 1;
             overflow-y: auto;
             padding: 0 20px 20px 20px;
         }
+
         .filter-group {
             margin-bottom: 24px;
         }
+
         .filter-group-title {
             font-size: 14px;
             font-weight: 600;
             color: #333;
             margin-bottom: 12px;
         }
+
         .filter-group-content {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
+
         .sheet-footer {
             padding: 20px;
             border-top: 1px solid #f0f0f0;
@@ -1116,11 +1194,12 @@
             display: flex;
             gap: 8px;
         }
+
         .sheet-footer .btn {
             flex: 1;
         }
 
-        /* Section Title */
+        /* [NEW] Section Title (from tax_request_write) */
         .section-title {
             font-size: 16px;
             font-weight: 600;
@@ -1128,6 +1207,7 @@
             margin-bottom: 12px;
             margin-top: 24px;
         }
+
         .form-group label.section-title {
             font-size: 16px;
             font-weight: 600;
@@ -1135,76 +1215,6 @@
             margin-bottom: 12px;
             margin-top: 0;
         }
-        
-        /* --- [NEW] Full Modal Styles (Req 3) --- */
-        .full-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: flex-start; /* Start from top */
-            justify-content: flex-end; /* Start from right */
-            z-index: 1000;
-            animation: fadeInModal 0.3s ease-out; /* Overlay fade-in */
-        }
-        .full-modal-overlay.active {
-            display: flex;
-        }
-        @keyframes slideInRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-        @keyframes slideOutRight {
-            from { transform: translateX(0); }
-            to { transform: translateX(100%); }
-        }
-        .full-modal-content {
-            background: white;
-            width: 100%;
-            max-width: 100%; /* [MODIFIED] Req 2 */
-            height: 100vh; /* Full height */
-            display: flex;
-            flex-direction: column;
-            animation: slideInRight 0.3s ease-out;
-            box-shadow: -4px 0 15px rgba(0,0,0,0.1);
-        }
-        /* Closing animation */
-        .full-modal-content.closing {
-            animation: slideOutRight 0.3s ease-out;
-        }
-        /* Full modal needs its own header/body/footer */
-        .full-modal-header {
-            /* Use app-header-sub styles */
-            height: 56px;
-            background: white;
-            border-bottom: 1px solid #cccccc;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            flex-shrink: 0;
-        }
-        .full-modal-header .header-title {
-            text-align: center;
-        }
-        .full-modal-body {
-            padding: 16px;
-            overflow-y: auto;
-            flex-grow: 1;
-            background-color: #fff; /* Match body bg */
-        }
-        .full-modal-footer {
-            padding: 16px;
-            border-top: 1px solid #e8e8e9;
-            background: #fff;
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-        .full-modal-footer .btn {
-            flex: 1;
-        }
-
     </style>
 </head>
 
@@ -1240,7 +1250,7 @@
                             <input type="text" placeholder="검색어를 입력해주세요" oninput="handleSearchInput(this)">
                             <div class="search-input-right">
                                 <div class="search-del" onclick="clearSearch(this)">
-                                    <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d" alt="지우기">
+                                    <img src="assets/images/search-del.png" alt="지우기">
                                 </div>
                                 <div class="btn-search" onclick="handleSearch(this)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
@@ -1255,13 +1265,7 @@
 
                     <section class="transaction-list-section">
                         <div class="transaction-list-header">
-                            <div class="checkbox-text" onclick="toggleSelectAll(this)">
-                                <div class="checkbox" data-checked="false" id="customer-select-all">
-                                    <div class="checkbox-off"></div>
-                                </div>
-                                <span class="total-count">총 <strong id="issue-count">5</strong>건</span>
-                            </div>
-                            
+                            <span class="total-count">총 <strong id="issue-count">5</strong>건</span>
                             <div class="view-count-select">
                                 <span class="view-count-select-text">20건씩 보기</span>
                                 <div class="view-count-select-arrow">
@@ -1275,19 +1279,17 @@
 
                         <div class="transaction-list" id="issue-list-container">
 
-                            <article class="common-table-card" onclick="showCustomerDetailModal()">
+                            <article class="common-table-card">
                                 <div class="card-header">
                                     <div style="display: flex; align-items: center; gap: 10px;">
                                         <div class="checkbox" data-checked="false"
                                             onclick="toggleCustomerCheckbox(this); event.stopPropagation();">
                                             <div class="checkbox-off"></div>
                                         </div>
-                                        <div class="card-header-title-group">
-                                            <span class="card-column1">삼성SDS</span>
-                                            <span class="card-rep-name">(김길동)</span>
-                                        </div>
+                                        <div class="card-column1">삼성SDS</div>
                                     </div>
                                 </div>
+                                <div class="card-column2">1,332,600 원</div>
                                 <div class="card-divider"></div>
                                 <div class="card-row">
                                     <div class="card-row-label">사업자등록번호</div>
@@ -1296,10 +1298,6 @@
                                 <div class="card-row">
                                     <div class="card-row-label">당해연도 접수건수</div>
                                     <div class="card-row-value">112 건</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">당해연도 거래금액</div>
-                                    <div class="card-row-value">1,332,600 원</div>
                                 </div>
                                 <div class="card-row">
                                     <div class="card-row-label">담당자명</div>
@@ -1317,19 +1315,17 @@
                                 </div>
                             </article>
 
-                            <article class="common-table-card" onclick="showCustomerDetailModal()">
+                            <article class="common-table-card">
                                 <div class="card-header">
                                     <div style="display: flex; align-items: center; gap: 10px;">
                                         <div class="checkbox" data-checked="false"
                                             onclick="toggleCustomerCheckbox(this); event.stopPropagation();">
                                             <div class="checkbox-off"></div>
                                         </div>
-                                        <div class="card-header-title-group">
-                                            <span class="card-column1">엘지디스플레이</span>
-                                            <span class="card-rep-name">(박대표)</span>
-                                        </div>
+                                        <div class="card-column1">엘지디스플레이</div>
                                     </div>
                                 </div>
+                                <div class="card-column2">1,332,600 원</div>
                                 <div class="card-divider"></div>
                                 <div class="card-row">
                                     <div class="card-row-label">사업자등록번호</div>
@@ -1338,10 +1334,6 @@
                                 <div class="card-row">
                                     <div class="card-row-label">당해연도 접수건수</div>
                                     <div class="card-row-value">112 건</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">당해연도 거래금액</div>
-                                    <div class="card-row-value">1,332,600 원</div>
                                 </div>
                                 <div class="card-row">
                                     <div class="card-row-label">담당자명</div>
@@ -1359,19 +1351,17 @@
                                 </div>
                             </article>
 
-                            <article class="common-table-card" onclick="showCustomerDetailModal()">
+                            <article class="common-table-card">
                                 <div class="card-header">
                                     <div style="display: flex; align-items: center; gap: 10px;">
                                         <div class="checkbox" data-checked="false"
                                             onclick="toggleCustomerCheckbox(this); event.stopPropagation();">
                                             <div class="checkbox-off"></div>
                                         </div>
-                                        <div class="card-header-title-group">
-                                            <span class="card-column1">형제상회</span>
-                                            <span class="card-rep-name">(김형제)</span>
-                                        </div>
+                                        <div class="card-column1">형제상회</div>
                                     </div>
                                 </div>
+                                <div class="card-column2">1,332,600 원</div>
                                 <div class="card-divider"></div>
                                 <div class="card-row">
                                     <div class="card-row-label">사업자등록번호</div>
@@ -1380,10 +1370,6 @@
                                 <div class="card-row">
                                     <div class="card-row-label">당해연도 접수건수</div>
                                     <div class="card-row-value">112 건</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">당해연도 거래금액</div>
-                                    <div class="card-row-value">1,332,600 원</div>
                                 </div>
                                 <div class="card-row">
                                     <div class="card-row-label">담당자명</div>
@@ -1479,86 +1465,78 @@
         </div>
     </div>
 
-    <div class="full-modal-overlay" id="customer-add-modal-overlay">
-        <div class="full-modal-content" id="customer-add-modal">
-            <div class="full-modal-header">
-                 <div class="header-left">
-                    <button type="button" class="header-btn" onclick="closeModal('customer-add-modal-overlay')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path d="M15 6l-6 6l6 6" />
-                        </svg>
-                    </button>
-                </div>
-                <h2 class="header-title">고객 추가</h2>
-                <div class="header-right">
+    <div class="modal-overlay" id="customer-add-modal-overlay">
+        <div class="modal-content" id="customer-add-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">고객 추가</h2>
+                <button class="btn-modal-close" onclick="closeModal('customer-add-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="customer-add-form">
+                    <div class="form-group">
+                        <label for="customer-form-company-name">기업명</label>
+                        <div class="input">
+                            <input type="text" id="customer-form-company-name" placeholder="기업명을 입력해주세요(최대 30자)">
+                        </div>
                     </div>
+                    <div class="form-group">
+                        <label for="customer-form-rep-name">대표자명(선택)</label>
+                        <div class="input">
+                            <input type="text" id="customer-form-rep-name" placeholder="대표자명을 입력해주세요">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-form-biz-num">사업자등록번호(선택)</label>
+                        <div class="input">
+                            <input type="text" id="customer-form-biz-num" placeholder="사업자등록번호 10자리를 입력해주세요">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-form-contact-name">담당자명(선택)</label>
+                        <div class="input">
+                            <input type="text" id="customer-form-contact-name" placeholder="회계담당자명을 입력해주세요">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-form-contact-email">담당자 이메일 주소(선택)</label>
+                        <div class="input">
+                            <input type="email" id="customer-form-contact-email"
+                                placeholder="회계담당자의 이메일 주소를 입력해주세요">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-form-contact-phone">담당자 연락처(선택)</label>
+                        <div class="input">
+                            <input type="tel" id="customer-form-contact-phone" placeholder="'-'을 제외한 숫자만 입력해주세요">
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="full-modal-body">
-                 <section class="form-section" style="background: #fff; padding: 0;">
-                    <form id="customer-add-form" style="padding-top: 10px;">
-                        <div class="form-group">
-                            <label for="add-customer-form-company-name">기업명</label>
-                            <div class="input">
-                                <input type="text" id="add-customer-form-company-name" placeholder="기업명을 입력해주세요(최대 30자)">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="add-customer-form-rep-name">대표자명(선택)</label>
-                            <div class="input">
-                                <input type="text" id="add-customer-form-rep-name" placeholder="대표자명을 입력해주세요">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="add-customer-form-biz-num">사업자등록번호(선택)</label>
-                            <div class="input">
-                                <input type="text" id="add-customer-form-biz-num" placeholder="사업자등록번호 10자리를 입력해주세요">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="add-customer-form-contact-name">담당자명(선택)</label>
-                            <div class="input">
-                                <input type="text" id="add-customer-form-contact-name" placeholder="회계담당자명을 입력해주세요">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="add-customer-form-contact-email">담당자 이메일 주소(선택)</label>
-                            <div class="input">
-                                <input type="email" id="add-customer-form-contact-email"
-                                    placeholder="회계담당자의 이메일 주소를 입력해주세요">
-                            </div>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label for="add-customer-form-contact-phone">담당자 연락처(선택)</label>
-                            <div class="input">
-                                <input type="tel" id="add-customer-form-contact-phone" placeholder="'-'을 제외한 숫자만 입력해주세요">
-                            </div>
-                        </div>
-                    </form>
-                </section>
-            </div>
-            <div class="full-modal-footer">
+            <div class="modal-footer">
                 <button class="btn white-button" onclick="closeModal('customer-add-modal-overlay')">취소</button>
                 <button class="btn dark-button" onclick="alert('고객이 추가되었어요')">추가하기</button>
             </div>
         </div>
     </div>
 
-    <div class="full-modal-overlay" id="customer-detail-modal-overlay">
-        <div class="full-modal-content" id="customer-detail-modal">
-            <div class="full-modal-header">
-                 <div class="header-left">
-                    <button type="button" class="header-btn" onclick="closeModal('customer-detail-modal-overlay')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path d="M15 6l-6 6l6 6" />
-                        </svg>
-                    </button>
-                </div>
-                <h2 class="header-title">고객 정보</h2>
-                <div class="header-right">
-                    </div>
+    <div class="modal-overlay" id="customer-detail-modal-overlay">
+        <div class="modal-content" id="customer-detail-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">고객 정보</h2>
+                <button class="btn-modal-close" onclick="closeModal('customer-detail-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
-            <div class="full-modal-body">
-                <div class="filter-chip-section" style="margin: 0 0 16px 0; padding: 0 0 15px 0; border-bottom: 1px solid #e9e9e9; background: transparent;">
+            <div class="modal-body">
+                <div class="filter-chip-section" style="margin: 0 0 16px 0; padding: 0 0 15px 0;">
                     <div class="filter-group-title" style="font-size: 14px; margin-bottom: 12px;">기간</div>
                     <div class="tabs-scroll-wrapper" id="detail-period-chips">
                         <div class="single-chip single-chip-on" data-value="최근 1개월" onclick="selectDetailPeriod(this)">최근
@@ -1586,7 +1564,7 @@
                     </div>
                 </section>
 
-                <section class="form-section" style="background: #fff; padding: 16px; border-radius: 8px; border: 1px solid #e8e8e9;">
+                <section class="form-section">
                     <div class="form-group">
                         <label class="section-title">기업 정보</label>
                         <div class="form-group">
@@ -1608,7 +1586,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
+                    <div class="form-group">
                         <label class="section-title">담당자 정보</label>
                         <div class="form-group">
                             <label for="detail-contact-name">담당자명(선택)</label>
@@ -1622,7 +1600,7 @@
                                 <input type="email" id="detail-contact-email" value="test@test.com">
                             </div>
                         </div>
-                        <div class="form-group" style="margin-bottom: 0;">
+                        <div class="form-group">
                             <label for="detail-contact-phone">담당자 연락처(선택)</label>
                             <div class="input">
                                 <input type="tel" id="detail-contact-phone" value="01012341234">
@@ -1631,7 +1609,7 @@
                     </div>
                 </section>
             </div>
-            <div class="full-modal-footer">
+            <div class="modal-footer">
                 <button class="btn white-button" onclick="closeModal('customer-detail-modal-overlay')">목록</button>
                 <button class="btn dark-button" onclick="alert('저장되었어요')">저장하기</button>
             </div>
@@ -1656,14 +1634,10 @@
 
 
     <script>
-        // --- Modal & Alert Logic ---
+        // --- [NEW] Modal & Alert Logic ---
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
-                const fullModalContent = overlay.querySelector('.full-modal-content');
-                if (fullModalContent) {
-                    fullModalContent.classList.remove('closing');
-                }
                 overlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
@@ -1671,23 +1645,9 @@
 
         function closeModal(overlayId) {
             const overlay = document.getElementById(overlayId);
-            if (!overlay) return;
-
-            const fullModalContent = overlay.querySelector('.full-modal-content');
-
-            if (fullModalContent) {
-                fullModalContent.classList.add('closing');
-                setTimeout(() => {
-                    overlay.classList.remove('active');
-                    fullModalContent.classList.remove('closing');
-                    const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active, .full-modal-overlay.active');
-                    if (!anyModalActive) {
-                        document.body.style.overflow = '';
-                    }
-                }, 300); // Match animation duration
-            } else {
+            if (overlay) {
                 overlay.classList.remove('active');
-                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active, .full-modal-overlay.active');
+                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
                 if (!anyModalActive) {
                     document.body.style.overflow = '';
                 }
@@ -1695,19 +1655,26 @@
         }
 
         function showCustomerAddModal() {
+            // 폼 초기화
             document.getElementById('customer-add-form').reset();
             openModal('customer-add-modal-overlay');
         }
 
         function showCustomerDetailModal() {
+            // This is a placeholder. In a real app, you'd pass data.
+            // We'll just use the data from '나의 고객_상세.pdf'
             document.getElementById('detail-company-name').value = '삼성 SDS';
             document.getElementById('detail-rep-name').value = '김길동';
             document.getElementById('detail-biz-no').value = '123-45-67890';
             document.getElementById('detail-contact-name').value = '김성원';
             document.getElementById('detail-contact-email').value = 'test@test.com';
             document.getElementById('detail-contact-phone').value = '01012341234';
+
+            // 통계 데이터
             document.getElementById('detail-stats-count').textContent = '120건 접수';
             document.getElementById('detail-stats-amount').textContent = '1,230,000원';
+
+            // 기간 칩 초기화
             selectDetailPeriod(document.querySelector('#detail-period-chips .single-chip'));
 
             openModal('customer-detail-modal-overlay');
@@ -1721,6 +1688,7 @@
         function deleteCustomer() {
             closeModal('customer-delete-alert-overlay');
             alert("삭제되었어요 (구현 필요)");
+            // TODO: Add logic to remove the card or reload the list
         }
 
         function deleteSelectedCustomers() {
@@ -1728,12 +1696,13 @@
             const checkedBoxes = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
             if (checkedBoxes.length > 0) {
                 showCustomerDeleteAlert();
+                // In a real app, deleteCustomer() would handle the selected IDs
             } else {
                 alert("삭제할 고객을 선택해주세요");
             }
         }
 
-        // --- Bottom Sheet ---
+        // --- [NEW] Bottom Sheet (v12 Standard) ---
         function setupBottomSheet(overlayId, sheetId, handleId) {
             const overlay = document.getElementById(overlayId); const sheet = document.getElementById(sheetId); const handle = document.getElementById(handleId);
             if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
@@ -1751,7 +1720,7 @@
         }
         const { openSheet: showFilterSheet, closeSheet: closeFilterSheet } = setupBottomSheet('filter-sheet-overlay', 'filter-sheet', 'filter-sheet-handle');
 
-        // --- Filter Logic ---
+        // --- [NEW] Filter Logic (from tax_issue.html) ---
         let selectedPeriodValue = "전체";
         function selectPeriod(chip) {
             const group = chip.closest('.filter-group-content');
@@ -1764,20 +1733,22 @@
             document.querySelector('#page-customer-list .text-select-button')?.classList.remove('open');
             closeFilterSheet();
             console.log("필터 적용 (고객 목록):", selectedPeriodValue);
+            // TODO: Filtering logic
         }
         function resetPeriodFilter() {
             selectPeriod(document.querySelector('#single-chip-group-period .single-chip[data-value="전체"]'));
         }
 
-        // --- Detail Modal Period Chip Logic ---
+        // --- [NEW] Detail Modal Period Chip Logic ---
         function selectDetailPeriod(chip) {
             const group = chip.closest('.tabs-scroll-wrapper');
             group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
             chip.classList.replace('single-chip-off', 'single-chip-on');
+            // TODO: Update stats based on selected period
             console.log("Detail period changed to:", chip.dataset.value);
         }
 
-        // --- Search (v12 Standard) ---
+        // --- [NEW] Search (v12 Standard) ---
         function handleSearchInput(input) {
             const searchBox = input.closest('.search');
             searchBox.classList.toggle('has-text', input.value.trim() !== '');
@@ -1791,7 +1762,7 @@
         }
         function handleSearch(btn) { console.log('Search submitted:', btn.closest('.search').querySelector('input').value); }
 
-        // --- Checkbox (v12 Standard) ---
+        // --- [NEW] Checkbox (v12 Standard) ---
         function toggleCheckbox(checkbox) {
             const isChecked = checkbox.dataset.checked === 'true';
             if (isChecked) {
@@ -1803,58 +1774,18 @@
             }
         }
 
-        // --- Card Selection & Sticky Footer Logic ---
-        function toggleSelectAll(wrapper) {
-            const mainCheckbox = wrapper.querySelector('.checkbox');
-            const isChecking = mainCheckbox.dataset.checked !== 'true'; // State it will be
-            
-            toggleCheckbox(mainCheckbox); // This toggles the UI and data-checked
-            
-            const listContainer = document.getElementById('issue-list-container');
-            listContainer.querySelectorAll('.common-table-card .checkbox').forEach(cardCheckbox => {
-                const card = cardCheckbox.closest('.common-table-card');
-                if (cardCheckbox.dataset.checked !== (isChecking ? 'true' : 'false')) {
-                    toggleCheckbox(cardCheckbox); // Toggle only if different
-                    card.dataset.selected = isChecking;
-                }
-            });
-            
-            updateSelectionFooter();
-        }
-
+        // --- [NEW] Card Selection & Sticky Footer Logic ---
         function toggleCustomerCheckbox(checkboxEl) {
+            // 1. Toggle the checkbox UI
             toggleCheckbox(checkboxEl);
             
+            // 2. Toggle the card's selected state
             const card = checkboxEl.closest('.common-table-card');
             const isSelected = checkboxEl.dataset.checked === 'true';
             card.dataset.selected = isSelected;
 
-            checkSelectAllState();
+            // 3. Update the sticky footer
             updateSelectionFooter();
-        }
-
-        function checkSelectAllState() {
-            const listContainer = document.getElementById('issue-list-container');
-            const allCardCheckboxes = listContainer.querySelectorAll('.common-table-card .checkbox');
-            if (allCardCheckboxes.length === 0) return; // No items
-            
-            const totalCards = allCardCheckboxes.length;
-            const checkedCards = listContainer.querySelectorAll('.common-table-card .checkbox[data-checked="true"]').length;
-            
-            const mainCheckbox = document.getElementById('customer-select-all');
-            if (!mainCheckbox) return;
-
-            const mainIsChecked = mainCheckbox.dataset.checked === 'true';
-
-            if (totalCards > 0 && totalCards === checkedCards) {
-                if (!mainIsChecked) {
-                    toggleCheckbox(mainCheckbox);
-                }
-            } else {
-                if (mainIsChecked) {
-                    toggleCheckbox(mainCheckbox);
-                }
-            }
         }
 
         function updateSelectionFooter() {
@@ -1880,14 +1811,10 @@
                 if (addFooter) addFooter.style.display = 'block';
                 wrap.style.paddingBottom = '100px'; // Footer height
             }
-            
-            if(count === 0 && document.getElementById('customer-select-all')) {
-                checkSelectAllState(); // Uncheck "select all" if count is 0
-            }
         }
 
 
-        // --- Pagination Logic ---
+        // --- [NEW] Pagination Logic (from tax_issue.html) ---
         let currentPage = 1; const totalPages = 1;
         function paginationGo(page) { currentPage = page; updatePagination(); }
         function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
@@ -1914,14 +1841,13 @@
         }
 
 
-        // --- Initialize ---
+        // --- [MODIFIED] Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
             updatePagination();
-            updateSelectionFooter();
-            checkSelectAllState();
+            updateSelectionFooter(); // Show "+ 고객 추가" footer by default
 
             // Modal overlay click-to-close listeners
-            document.querySelectorAll('.modal-overlay, .full-modal-overlay').forEach(overlay => {
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
                         closeModal(overlay.id);
@@ -1931,6 +1857,30 @@
         });
 
     </script>
+
+
+    <div class="disqus-thread-wrap">
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://sw-mobile.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>
 
 </html>

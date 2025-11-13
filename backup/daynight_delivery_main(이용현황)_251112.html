@@ -51,8 +51,8 @@
             color: #333;
             font-size: 16px;
             line-height: 1.6;
-            /* [MODIFIED] From hidden to visible for sticky header */
-            overflow-x: visible; 
+            overflow-x: hidden;
+            /* overflow-x: visible; */
         }
 
         ul,
@@ -153,23 +153,6 @@
             justify-content: flex-end;
             gap: 8px;
         }
-        
-        /* [NEW] Header text button style */
-        .header-text-btn {
-            font-size: 14px;
-            font-weight: 500;
-            color: #4e6ee4; /* Use primary color for action */
-            padding: 6px 8px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-        .header-text-btn:hover {
-            background-color: #f5f5f5;
-        }
-        .header-text-btn:active {
-            background-color: #eee;
-            transform: scale(0.98);
-        }
 
         /* Buttons (v12 Standard + Primary) */
         .primary-button {
@@ -261,32 +244,246 @@
             padding: 16px;
         }
         
-        /* [NEW] Hero Section */
-        .hero-section {
-            text-align: center;
-            padding: 24px 16px;
-            background-color: #fff;
+        /* [REMOVED] Hero Section */
+        
+        /* ================================================================
+        [NEW] Status Card Styles (From Request 1) 
+        ================================================================
+        */
+        .status-card {
+            background: #fff;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px; /* info-section과의 간격 */
+        }
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
             border-bottom: 1px solid #f0f0f0;
         }
-        .hero-section h2 {
-            font-size: 20px;
+        .status-title {
+            font-size: 16px;
             font-weight: 700;
             color: #212121;
-            line-height: 1.4;
         }
-        .hero-section p {
-            font-size: 14px;
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 4px;
+        }
+        .status-badge.in-use {
+            color: #4e6ee4;
+            background-color: #f0f3ff;
+            border: 1px solid #d9e2ff;
+        }
+        .status-badge.rejected {
+            color: #d9534f;
+            background-color: #fdf2f2;
+            border: 1px solid #f5c6cb;
+        }
+        .status-badge.pending {
             color: #555;
-            margin-top: 8px;
+            background-color: #f5f5f5;
+            border: 1px solid #e8e8e9;
+        }
+        .status-badge.waiting-payment {
+            color: #b98600;
+            background-color: #fffbef;
+            border: 1px solid #ffecb3;
+        }
+        .status-body {
+            padding-top: 16px;
+        }
+        .status-row {
+            display: flex;
+            font-size: 14px;
+            margin-bottom: 10px;
+            align-items: flex-start;
+        }
+        .status-row:last-child {
+            margin-bottom: 0;
+        }
+        .status-label {
+            color: #555;
+            width: 64px;
+            flex-shrink: 0;
+            font-weight: 500;
+            padding-top: 1px;
+        }
+        .status-value {
+            color: #333;
+            font-weight: 500;
+            word-break: break-all;
+            flex: 1;
             line-height: 1.5;
         }
-        .hero-section .primary-button {
-            width: 100%;
-            margin-top: 20px;
-            height: 48px;
-            font-size: 16px;
+
+        /* [NEW] Link Style per user request */
+        .status-link {
+            color: #4e6ee4; /* Key color */
+            font-weight: 600;
+            text-decoration: underline; /* Underline */
+            margin-left: 8px;
+            font-size: 13px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .status-row .status-value .status-link {
+            margin-top: 4px; /* '배송지 상세' 링크 간격 */
+            margin-left: 0;
+        }
+        .footer-info-link .status-link {
+             margin-left: 4px; /* '신청 정보' 링크 간격 */
         }
         
+        /* Progress Bar */
+        .progress-bar-section {
+            margin-top: 20px;
+        }
+        .progress-bar-track {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            background: #4e6ee4;
+            height: 100%;
+            width: 0;
+            transition: width 0.5s ease;
+        }
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #555;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .progress-bubble {
+            background: #f8f8f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 16px;
+            position: relative;
+            line-height: 1.5;
+            color: #333;
+        }
+        .progress-bubble strong {
+            color: #212121;
+        }
+        .progress-bubble-arrow-up {
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 7px solid #f8f8f9; /* 말풍선 배경색과 동일 */
+            position: absolute;
+            top: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .progress-bubble.met {
+            background: #f0f3ff;
+            color: #4e6ee4;
+            font-weight: 600;
+            border-color: #d9e2ff;
+        }
+        .progress-bubble.met .progress-bubble-arrow-up {
+            border-bottom-color: #f0f3ff;
+        }
+
+        /* Rejection */
+        .rejection-reason {
+            background: #fdf2f2;
+            border: 1px solid #f5c6cb;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .rejection-reason .status-label { /* label 재정의 */
+            width: auto;
+            margin-bottom: 4px;
+            font-weight: 600;
+            color: #721c24;
+            display: block;
+        }
+        .rejection-reason .reason-text {
+            color: #721c24;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .status-footer {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 16px;
+        }
+        .status-footer.space-between {
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-info-link {
+            font-size: 13px;
+            color: #555;
+        }
+
+        /* Payment */
+        .virtual-account-info {
+            background: #f8f8f9;
+            border-radius: 6px;
+            padding: 16px;
+        }
+        .account-row {
+            display: flex;
+            align-items: flex-start;
+        }
+        .account-row + .account-row {
+            margin-top: 12px;
+        }
+        .account-row .status-label {
+            font-size: 14px;
+            font-weight: 500;
+            padding-top: 1px;
+        }
+        .account-row .status-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .account-row .status-value.amount {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+        }
+        .no-account-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #555;
+            width: 100%;
+        }
+        .no-account-info .status-link {
+            flex-shrink: 0;
+            margin-left: 16px;
+        }
+        /* ================================================================
+        [NEW] Status Card Styles End
+        ================================================================
+        */
+
+
         /* [NEW] Info Section (from tax_request_write.html) */
         .info-section {
             background: #f8f8f9;
@@ -538,19 +735,6 @@
         @keyframes fadeInModal {
             from { opacity: 0; } to { opacity: 1; }
         }
-        
-        /* [MODIFIED] Added animations */
-        @keyframes slideInFromRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-        @keyframes slideOutToRight {
-            from { transform: translateX(0); }
-            to { transform: translateX(100%); }
-        }
-        @keyframes scaleUpModal {
-            from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; }
-        }
 
         .modal-content {
             background: white;
@@ -561,6 +745,10 @@
             display: flex;
             flex-direction: column;
             animation: scaleUpModal 0.2s ease-out;
+        }
+
+        @keyframes scaleUpModal {
+            from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; }
         }
 
         .modal-header {
@@ -633,45 +821,6 @@
             flex: 1;
             height: 44px;
             font-size: 14px;
-        }
-        
-        /* [NEW] Full Modal Style (for Request 2) */
-        .modal-overlay.full-modal {
-            align-items: flex-start; /* Align to top */
-            padding: 0;
-            overflow: hidden; /* Prevent body scroll during animation */
-        }
-        .full-modal .modal-content {
-            width: 100%;
-            /* [MODIFIED] max-width: 480px -> 100% */
-            max-width: 100%; 
-            height: 100vh; /* Full height */
-            max-height: 100vh; /* Override 90vh */
-            border-radius: 0; /* No radius for full screen */
-            /* [MODIFIED] animation: none; -> slideInFromRight */
-            animation: slideInFromRight 0.3s ease-out; 
-        }
-        /* [NEW] Closing animation */
-        .full-modal .modal-content.closing {
-            animation: slideOutToRight 0.3s ease-out;
-        }
-        
-        .full-modal .modal-header {
-            position: sticky;
-            top: 0;
-            background: #fff;
-            z-index: 10;
-        }
-        .full-modal .modal-body {
-            overflow-y: auto;
-            flex-grow: 1;
-        }
-        .full-modal .modal-footer {
-            position: sticky;
-            bottom: 0;
-            background: #fff;
-            z-index: 10;
-            border-radius: 0;
         }
         
         /* Modal Form Elements (from tax_request_write.html) */
@@ -820,22 +969,171 @@
             </div>
             <h1 class="header-title">낮·밤배송</h1>
             <div class="header-right">
-                <button type="button" class="header-text-btn" onclick="showHistoryModal()">이용 내역</button>
-            </div>
+                </div>
         </header>
 
         <main>
-            <section class="hero-section">
-                <img src="assets/images/day_night_image_example.png" alt="" style="max-width: 230px; margin: -10px auto 15px;">
-                <h2>낮·밤 원하는 시간에<br>언제나 무료배송</h2>
-                <p>월 거래금액 33만원 이상 달성하고,<br>다음 달도 무료배송 혜택 받아보세요!</p>
-                <p style="font-size: 13px; color: #4e6ee4; margin-top: 16px;">지금 신청하면, 다음 달은 무료배송!</p>
-                <button class="primary-button" onclick="location.href='daynight_delivery_apply.html'">
-                    신청하기
-                </button>
-            </section>
-            
-            <div class="sw-container" style="padding-top: 0;">
+            <div class="sw-container">
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge in-use">이용 중</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="status-row">
+                            <span class="status-label">이용기간</span>
+                            <span class="status-value">2025-09-01 ~ 2025-09-30</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">유형</span>
+                            <span class="status-value">낮배송</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">배송지</span>
+                            <span class="status-value">
+                                서울특별시 송파구 가락동 177-10 현대압구정현대압구정현대아파트 1201동 2401호
+                                <a class="status-link" onclick="showDeliveryInfoModal(); return false;">배송지 상세</a>
+                            </span>
+                        </div>
+                        
+                        <div class="progress-bar-section">
+                            <div class="progress-bar-track">
+                                <div class="progress-bar-fill" style="width: 46.16%;"></div>
+                            </div>
+                            <div class="progress-labels">
+                                <span>0원</span>
+                                <span>33만원</span>
+                            </div>
+                            <div class="progress-bubble">
+                                <div class="progress-bubble-arrow-up"></div>
+                                <strong>이번 달 거래금액 152,340원</strong><br>
+                                177,660원만 더 채우시면 다음 달도 무료배송혜택을 받으실 수 있어요!
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge in-use">이용 중</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="status-row">
+                            <span class="status-label">이용기간</span>
+                            <span class="status-value">2025-09-01 ~ 2025-09-30</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">유형</span>
+                            <span class="status-value">낮배송</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">배송지</span>
+                            <span class="status-value">
+                                서울특별시 송파구 가락동 177-10 현대압구정현대압구정현대아파트 1201동 2401호
+                                <a class="status-link" onclick="showDeliveryInfoModal(); return false;">배송지 상세</a>
+                            </span>
+                        </div>
+                        
+                        <div class="progress-bar-section">
+                            <div class="progress-bar-track">
+                                <div class="progress-bar-fill" style="width: 100%;"></div>
+                            </div>
+                            <div class="progress-labels">
+                                <span>0원</span>
+                                <span>33만원</span>
+                            </div>
+                            <div class="progress-bubble met">
+                                <div class="progress-bubble-arrow-up"></div>
+                                이번 달 거래금액 33만원 이상 달성! 다음 달에도 무료배송 혜택이 이어져요
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge rejected">반려</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="rejection-reason">
+                            <span class="status-label">반려 사유</span>
+                            <span class="reason-text">밤배송 가능한 위치가 아니에요</span>
+                        </div>
+                    </div>
+                    <div class="status-footer space-between">
+                        <span class="footer-info-link">
+                            신청일 2025-09-21
+                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
+                        </span>
+                        <button type="button" class="primary-button" style="height: 36px; padding: 0 12px; font-size: 13px;">재신청하기</button>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge pending">승인대기</span>
+                    </div>
+                    <div class="status-footer space-between" style="margin-top: 0;"> <span class="footer-info-link">
+                            신청일 2025-09-21
+                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
+                        </span>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge waiting-payment">입금대기</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="virtual-account-info">
+                            <div class="account-row">
+                                <span class="status-label">가상계좌</span>
+                                <span class="status-value">27560204147121 국민 정혜진</span>
+                            </div>
+                            <div class="account-row">
+                                <span class="status-label">입금금액</span>
+                                <span class="status-value amount">₩55,000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="status-footer space-between">
+                        <span class="footer-info-link">
+                            신청일 2025-09-21
+                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
+                        </span>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge waiting-payment">입금대기</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="virtual-account-info">
+                            <div class="account-row">
+                                <span class="status-label" style="width: 100%; margin-bottom: 4px; display: block;">가상계좌</span>
+                            </div>
+                             <div class="account-row" style="margin-top: 0;">
+                                <div class="no-account-info">
+                                    <span>등록된 가상계좌가 없어요</span>
+                                    <a href="#" class="status-link">가상계좌 등록</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="status-footer space-between">
+                        <span class="footer-info-link">
+                            신청일 2025-09-21
+                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
+                        </span>
+                    </div>
+                </section>
+
                 <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">신청비</span>
@@ -953,7 +1251,7 @@
                     <div class="delivery-info-group">
                         <h3>배송시간</h3>
                         <div class="delivery-vehicle-row">
-                            <span class="value">야간 (24시 이후) 배송을 시작해요</span>
+                            <span class="value">야간 (24시 이후) 배송 시작</span>
                         </div>
                         <ul class="disclaimer-list" style="margin-top: 12px;">
                              <li>월요일 저녁(출발)부터 토요일 새벽(도착)까지 주 5회 배송돼요 (토, 일요일, 공휴일 휴무)</li>
@@ -979,13 +1277,16 @@
                             <li>주간·야간 배송에서 누락된 상품은 다음 배송편으로 보내드려요. 퀵서비스나 택배로는 따로 배송되지 않아요</li>
                         </ul>
                     </div>
-                </section>
+                    </section>
                 
+                <div class="page-bottom-buttons">
+                    <button class="white-button" onclick="showHistoryModal()">이용 내역</button>
                 </div>
+            </div>
         </main>
     </div>
 
-    <div class="modal-overlay full-modal" id="history-modal-overlay">
+    <div class="modal-overlay" id="history-modal-overlay">
         <div class="modal-content" id="history-modal">
             <div class="modal-header">
                 <h2 class="modal-title">낮·밤배송 이용 내역</h2>
@@ -1023,10 +1324,13 @@
                     </article>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="closeModal('history-modal-overlay')">확인</button>
+            </div>
         </div>
     </div>
 
-    <div class="modal-overlay full-modal" id="delivery-info-modal-overlay">
+    <div class="modal-overlay" id="delivery-info-modal-overlay">
         <div class="modal-content" id="delivery-info-modal">
             <div class="modal-header">
                 <h2 class="modal-title">배송지 정보</h2>
@@ -1080,6 +1384,9 @@
                         <div class="readonly-value">있음 / *1343</div>
                     </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="closeModal('delivery-info-modal-overlay')">확인</button>
             </div>
         </div>
     </div>
@@ -1147,11 +1454,11 @@
                     </div>
                     <div class="form-group">
                         <label>보관장소</label>
-                        <div class="readonly-value">사무실문 앞</div>
+                        <div class="readonly-value" style="line-height: 1.6;">사무실문 앞<br>오후 2시 이후에 배송 부탁드립니다.</div>
                     </div>
                     <div class="form-group">
                         <label>배송시 상세 요청사항</label>
-                        <div class="readonly-value">오후 2시 이후에 배송 부탁드립니다.</div>
+                        <div class="readonly-value"></div>
                     </div>
                     <div class="form-group">
                         <label>공동현관 출입번호</label>
@@ -1190,7 +1497,7 @@
         }
         // --- [END MODIFICATION] ---
 
-        // --- [MODIFIED] Modal Helpers (to support full-modal animation) ---
+        // --- [NEW] Modal Helpers (from tax_request_write.html) ---
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
@@ -1201,27 +1508,9 @@
 
         function closeModal(overlayId) {
             const overlay = document.getElementById(overlayId);
-            if (!overlay) return;
-
-            const modalContent = overlay.querySelector('.modal-content');
-            
-            // Check if it's a full-modal
-            if (overlay.classList.contains('full-modal') && modalContent) {
-                modalContent.classList.add('closing');
-                
-                // Wait for animation to finish before hiding overlay
-                setTimeout(() => {
-                    overlay.classList.remove('active');
-                    modalContent.classList.remove('closing'); // Reset for next open
-                    
-                    const anyModalActive = document.querySelector('.modal-overlay.active');
-                    if (!anyModalActive) {
-                        document.body.style.overflow = '';
-                    }
-                }, 300); // Duration should match animation (0.3s)
-            } else {
-                // Original behavior for non-full-modals
+            if (overlay) {
                 overlay.classList.remove('active');
+                // Don't reset body overflow if another modal is still open
                 const anyModalActive = document.querySelector('.modal-overlay.active');
                 if (!anyModalActive) {
                     document.body.style.overflow = '';
@@ -1244,6 +1533,7 @@
         }
         
         function showApplicationInfoModal() {
+             // 이력이 아닌 신청정보 모달을 엽니다.
             openModal('application-info-modal-overlay');
         }
 
@@ -1272,8 +1562,8 @@
         <div id="disqus_thread"></div>
         <script>
             /**
-            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
             /*
             var disqus_config = function () {
             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
