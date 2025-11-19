@@ -232,22 +232,6 @@
             font-size: 13px;
             padding: 0 12px;
         }
-        
-        /* [MODIFIED] Manager Action Button Style Fix */
-        .manager-actions .btn-sm {
-            height: 32px; /* Adjusted to fit better in modal list */
-            font-size: 13px;
-            padding: 0 8px; /* Reduced padding for compact look */
-            min-width: 48px; /* Minimum width to prevent excessive squish */
-        }
-        /* [MODIFIED] Manager Actions flex alignment */
-        .manager-actions {
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-            align-items: center; /* Center buttons vertically */
-        }
-
 
         /* Main Content */
         .sw-container {
@@ -784,7 +768,6 @@
              display: flex;
              gap: 8px;
              flex-shrink: 0;
-             align-items: center;
         }
         
         /* [NEW] Manager Add Form */
@@ -818,81 +801,6 @@
             line-height: 1.5;
         }
         .input-text input::placeholder { color: #c6c6c8; }
-        
-        /* [NEW] Modal Form Elements (from v12 guide / sungwon_money) */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        
-        .input {
-            width: 100%;
-            min-height: 40px;
-            background: white;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-        }
-        .input input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: black;
-            line-height: 1.5;
-        }
-        .input input::placeholder { color: #c6c6c8; }
-        
-        /* [NEW] Readonly-value (from tax_issue) */
-        .readonly-value {
-            font-size: 14px;
-            color: #333;
-            padding: 10px 12px;
-            background: #f5f5f5;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-        }
-        .readonly-value.emphasis {
-            font-weight: 700;
-            color: #333;
-            font-size: 16px;
-        }
-        
-        /* [NEW] Item detail row (from tax_issue) */
-        .item-list { display: flex; flex-direction: column; gap: 10px; }
-        .item-row { display: flex; justify-content: space-between; align-items: flex-start; }
-        .item-name { font-size: 14px; color: #333; font-weight: 500; }
-        .item-price-wrapper { display: flex; flex-direction: column; align-items: flex-end; }
-        .item-price-total { font-size: 14px; font-weight: 500; color: #333; }
-        .item-price-details { font-size: 12px; color: #888; }
-        
-        /* [NEW] Section Title for Modals (from tax_issue) */
-        .modal-section-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 12px;
-            margin-top: 16px;
-        }
-        .modal-body .modal-section-title:first-child {
-            margin-top: 0;
-        }
 
     </style>
 </head>
@@ -1199,54 +1107,19 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <div class="bottom-sheet-overlay" id="period-custom-sheet-overlay">
-        <div class="bottom-sheet" data-name="bottom-sheet" id="period-custom-sheet">
-            <div class="sheet-handle" id="period-custom-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">기간 설정</div>
-                <div class="btn-close" onclick="closeCustomPeriodSheet()">
-                     <svg id="icon-close-custom-period" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="form-group">
-                    <label for="start-date">시작일</label>
-                    <div class="input">
-                        <input type="date" id="start-date" value="2025-10-11">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="end-date">종료일</label>
-                    <div class="input">
-                        <input type="date" id="end-date" value="2025-11-11">
-                    </div>
-                </div>
-                 <div class="form-group">
-                    <label>간편 설정</label>
-                    <div class="filter-group-content">
-                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(0)">오늘</div>
-                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(7)">1주일</div>
-                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(30)">1개월</div>
-                    </div>
-                </div>
-            </div>
             <div class="sheet-footer">
-                <button class="btn white-button" onclick="closeCustomPeriodSheet()">취소</button>
-                <button class="btn dark-button" onclick="applyCustomPeriod()">조회하기</button>
+                <button class="btn white-button" onclick="resetPeriodFilter()">초기화</button>
+                <button class="btn dark-button" onclick="applyPeriodFilter()">조회하기</button>
             </div>
         </div>
     </div>
-
     
     <div class="bottom-sheet-overlay" id="manager-filter-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="manager-filter-sheet">
             <div class="sheet-handle" id="manager-filter-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">담당자 선택</div>
-                <div class="btn-close" onclick="closeFilterSheet('manager')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
+                <div class="btn-close" onclick="closeFilterSheet('manager')"><svg><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
             </div>
             <div class="sheet-body">
                 <div class="filter-group">
@@ -1272,7 +1145,7 @@
             <div class="sheet-handle" id="customer-filter-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">대상고객 선택</div>
-                <div class="btn-close" onclick="closeFilterSheet('customer')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
+                <div class="btn-close" onclick="closeFilterSheet('customer')"><svg><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
             </div>
             <div class="sheet-body">
                 <div class="filter-group">
@@ -1297,7 +1170,7 @@
             <div class="sheet-handle" id="order-detail-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">접수 상세</div>
-                <div class="btn-close" onclick="closeOrderDetailSheet()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
+                <div class="btn-close" onclick="closeOrderDetailSheet()"><svg><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
             </div>
             <div class="sheet-body">
                 <div class="detail-item">
@@ -1567,7 +1440,6 @@
         }
 
         let openPeriodFilterSheet, closePeriodFilterSheet, openManagerFilterSheet, closeManagerFilterSheet, openCustomerFilterSheet, closeCustomerFilterSheet, openOrderDetailSheet, closeOrderDetailSheet;
-        let openCustomPeriodSheet, closeCustomPeriodSheet; // [NEW] Custom Period Sheet
 
         function initializeBottomSheets() {
             const periodSheet = setupBottomSheet('period-filter-overlay', 'period-filter-sheet', 'period-filter-handle');
@@ -1581,10 +1453,6 @@
 
             const detailSheet = setupBottomSheet('order-detail-overlay', 'order-detail-sheet', 'order-detail-handle');
             openOrderDetailSheet = detailSheet.openSheet; closeOrderDetailSheet = detailSheet.closeSheet;
-            
-            // [NEW] Custom Period Sheet Initialization
-            const customPeriodSheet = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
-            openCustomPeriodSheet = customPeriodSheet.openSheet; closeCustomPeriodSheet = customPeriodSheet.closeSheet;
         }
 
         
@@ -1600,71 +1468,15 @@
             else if (type === 'customer') closeCustomerFilterSheet();
         }
         
-        // --- [MODIFIED] Page-Specific Filter Logic ---
+        // --- [NEW] Page-Specific Filter Logic ---
 
         // 1. Period Filter (Bottom Sheet)
         let selectedPeriodValue = "최근 1개월"; 
-        
-        function setCustomPeriod(days) {
-            const endDate = new Date();
-            let startDate = new Date();
-            
-            if (days === 0) { // 오늘
-                 startDate = endDate;
-            } else if (days === 7) { // 1주일
-                startDate.setDate(endDate.getDate() - 7);
-            } else if (days === 30) { // 1개월
-                 startDate.setMonth(endDate.getMonth() - 1);
-            }
-            
-            // Format to YYYY-MM-DD
-            const isoStartDate = startDate.toISOString().split('T')[0];
-            const isoEndDate = endDate.toISOString().split('T')[0];
-
-            document.getElementById('start-date').value = isoStartDate;
-            document.getElementById('end-date').value = isoEndDate;
-        }
-
-        function applyCustomPeriod() {
-            const startDate = document.getElementById('start-date').value;
-            const endDate = document.getElementById('end-date').value;
-            
-            if (!startDate || !endDate) {
-                alert("시작일과 종료일을 모두 선택해주세요.");
-                return;
-            }
-            if (new Date(startDate) > new Date(endDate)) {
-                 alert("시작일이 종료일보다 늦을 수 없습니다.");
-                return;
-            }
-            
-            selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`;
-            
-            // Period Filter 칩의 상태도 '기간 설정'으로 변경
-            document.querySelector('#single-chip-group-period .single-chip[data-value="기간 설정"]').classList.replace('single-chip-off', 'single-chip-on');
-            
-            closeCustomPeriodSheet();
-            applyPeriodFilter(); // 메인 필터 적용
-        }
-
         function selectPeriod(chip) { 
             const group = chip.closest('.filter-group-content'); 
             group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
             chip.classList.replace('single-chip-off', 'single-chip-on'); 
             selectedPeriodValue = chip.getAttribute('data-value'); 
-            
-            if (selectedPeriodValue === "기간 설정") {
-                const endDate = new Date();
-                const startDate = new Date();
-                startDate.setMonth(endDate.getMonth() - 1); // Default to 1 month ago
-                document.getElementById('start-date').value = startDate.toISOString().split('T')[0];
-                document.getElementById('end-date').value = endDate.toISOString().split('T')[0];
-                
-                closeFilterSheet('period'); // 기간 선택 시트 닫고
-                openCustomPeriodSheet(); // 기간 설정 시트 열기
-            } else {
-                applyPeriodFilter(); // 기간 설정이 아니면 즉시 적용
-            }
         }
         function applyPeriodFilter() { 
             document.getElementById('selected-period-text').textContent = selectedPeriodValue; 
@@ -1967,11 +1779,6 @@
                  
                  openModal('manager-add-modal-overlay');
             });
-            
-            // '기간 상세 검색' 버튼 초기화 로직
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('start-date').value = today;
-            document.getElementById('end-date').value = today;
         });
 
     </script>

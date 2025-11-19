@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비회원 접수/배송 조회</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 20px;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .btn-sm {
+            height: 36px;
+            font-size: 13px;
+            padding: 0 12px;
+        }
+
+        /* Buttons (v12 Standard + Primary) */
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        /* Main Content */
+        .sw-container {
+             padding: 0 16px 16px 16px; 
+        }
+        
+        /* [NEW] Info Summary Bar (Non-Member top section) */
+        .non-member-summary-bar {
+            padding: 16px;
+            background: #f8f8f9;
+            border-bottom: 1px solid #e9e9e9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+        .non-member-summary-bar .left-group {
+             display: flex;
+             align-items: center;
+             gap: 8px;
+        }
+        .non-member-summary-bar strong {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+        .non-member-summary-bar .right-meta {
+            color: #666;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .non-member-summary-bar .right-meta svg {
+             width: 18px;
+             height: 18px;
+             color: #888;
+        }
+
+
+        /* [NEW] Group Header (for grouping related orders) */
+        .order-group-header {
+             font-size: 13px;
+             font-weight: 600;
+             color: #666;
+             padding: 16px 0 8px 0;
+        }
+
+        /* Transaction List Header */
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 12px;
+        }
+        .transaction-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+        .no-transactions { padding: 40px 16px; text-align: center; color: #888; font-size: 14px; }
+        
+        /* Order List Card */
+        .common-table-card {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 15px;
+            position: relative;
+        }
+        /* Make card clickable */
+        .common-table-card.clickable {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .common-table-card.clickable:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .card-date-order {
+            font-size: 14px;
+            font-weight: 600; 
+            color: #333; 
+        }
+        .card-status-badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-left: 8px;
+            border: 1px solid transparent;
+        }
+        
+        /* 뱃지 색상 통일 */
+        .card-status-badge.status-waiting { 
+            background-color: #fff0f0;
+            color: #dc3545;
+            border-color: #f5c6cb;
+            animation: pulse-animation 1.5s infinite;
+        }
+        .card-status-badge.status-in-progress { 
+            background-color: #e6f7ff;
+            color: #007bff;
+            border-color: #b8dfff;
+        }
+        .card-status-badge.status-complete { 
+            background-color: #f8f9fa;
+            color: #495057;
+            border-color: #dee2e6;
+        }
+
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+            70% { box-shadow: 0 0 0 4px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+
+        /* Simplified item title */
+        .item-title { 
+            font-size: 16px; 
+            font-weight: 600; 
+            color: #212121; 
+            margin-top: 8px; 
+            line-height: 1.4; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            display: -webkit-box; 
+            -webkit-line-clamp: 2; 
+            -webkit-box-orient: vertical;
+        }
+        
+        /* Simplified price row */
+        .item-price-info {
+            margin-top: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .card-footer {
+            padding-top: 15px;
+            margin-top: 15px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        
+        /* [NEW] Non-Member Action Buttons */
+        .card-footer .nm-action-group {
+             display: flex;
+             gap: 8px;
+        }
+        .card-footer .nm-action-group .white-button-sm {
+            height: 36px;
+            font-size: 13px;
+            padding: 0 10px;
+        }
+
+        /* [v12] Bottom Sheet */
+        .bottom-sheet-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: flex-end; justify-content: center; z-index: 1000; animation: fadeIn 0.2s ease-out; }
+        .bottom-sheet-overlay.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes slideDown { from { transform: translateY(0); } to { transform: translateY(100%); } }
+        .bottom-sheet { width: 100%; max-width: 480px; background: white; border-top: 1px solid #d7d7d7; border-top-left-radius: 8px; border-top-right-radius: 8px; position: relative; animation: slideUp 0.3s ease-out; max-height: 90vh; display: flex; flex-direction: column; }
+        .bottom-sheet.closing { animation: slideDown 0.3s ease-out; }
+        .sheet-handle { width: 27px; height: 4px; background: #d9d9d9; border-radius: 100px; margin: 10px auto; cursor: grab; }
+        .sheet-handle:active { cursor: grabbing; }
+        .sheet-header { height: 21px; padding: 0 20px; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 20px; }
+        .sheet-title { font-size: 16px; font-weight: 700; color: black; }
+        .btn-close { position: absolute; right: 20px; top: 0; width: 21px; height: 21px; cursor: pointer; transition: transform 0.2s; }
+        .btn-close:active { transform: scale(0.9); }
+        .btn-close svg { width: 100%; height: 100%; color: #333; }
+        .sheet-body { flex: 1; overflow-y: auto; padding: 0 20px 20px 20px; }
+        .sheet-footer { padding: 20px; border-top: 1px solid #f0f0f0; background: #fff; display: flex; gap: 8px; }
+        .sheet-footer .btn { flex: 1; }
+        
+        /* Order Detail Sheet (비회원 상세 보기) */
+        #order-detail-sheet .sheet-body {
+            /* [NEW] Body Padding 조정 (내부 요소를 위해) */
+            padding: 20px 16px 20px 16px;
+        }
+        #order-detail-sheet .detail-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        #order-detail-sheet .detail-item .label {
+            color: #666;
+            flex-shrink: 0;
+            margin-right: 16px;
+        }
+        #order-detail-sheet .detail-item .value {
+            color: #333;
+            font-weight: 500;
+            text-align: right;
+        }
+        #order-detail-sheet .detail-item .value.pending {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        #order-detail-sheet .item-spec {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-top: 4px;
+            padding-left: 10px;
+        }
+        .card-divider { width: 100%; height: 1px; background: #e8e8e9; margin: 10px 0; }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">비회원 접수/배송 조회</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="non-member-summary-bar">
+                <div class="left-group">
+                    <span style="font-size: 14px;">총 결제 금액</span>
+                    <strong id="total-amount">₩7,000</strong>
+                    <button class="white-button btn-sm" onclick="alert('결제 상세 이동')">결제 상세</button>
+                </div>
+                <div class="right-meta">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    <span id="shipping-type">착불택배</span>
+                </div>
+            </div>
+
+            <div class="sw-container">
+                <section class="transaction-list-section">
+                    <div class="order-group-header">2025-07-08 (12345678)</div>
+                    <div class="transaction-list" id="transaction-list-container">
+                        
+                        <article class="common-table-card clickable" 
+                            data-order-id="12345678-1"
+                            data-title="디지털엽서 - 김길동 고객 청접장"
+                            data-spec="옵션: 아르떼 울트라화이트 310g/208×154/양면칼라 8도/디지털인쇄(인디고) | 요청사항: 디자인 검수 후 인쇄/감리 신청/색상 샘플 발송"
+                            data-total-price="₩3,500"
+                            data-quantity="100매/2건"
+                            data-status-text="접수 대기"
+                            data-pending-price="₩500"
+                            onclick="showOrderDetailSheet(this)">
+                            
+                            <div class="card-header-row">
+                                <span class="card-date-order">12345678-1</span>
+                                <span class="card-status-badge status-in-progress">접수 대기</span>
+                            </div>
+                            <div class="item-title">디지털엽서 - 김길동 고객 청접장</div>
+                            <div class="item-price-info">
+                                <span><strong>₩3,500</strong></span>
+                            </div>
+                            
+                            <div class="card-footer">
+                                <div class="nm-action-group">
+                                    <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('디자인 보기');">디자인 보기</button>
+                                    <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('디자인 재업로드');">디자인 재업로드</button>
+                                </div>
+                                <div class="nm-action-group">
+                                    <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('접수 취소');">접수 취소</button>
+                                </div>
+                            </div>
+                        </article>
+                        
+                        <article class="common-table-card"
+                            data-order-id="12345678-2"
+                            data-title="디지털엽서 - 김길동 고객 청접장"
+                            data-spec="옵션: 아르떼 울트라화이트 310g/208×154/양면칼라 8도/디지털인쇄(인디고) | 요청사항: 디자인 검수 후 인쇄/감리 신청/색상 샘플 발송"
+                            data-total-price="₩3,500"
+                            data-quantity="100매/2건"
+                            data-status-text="접수 대기"
+                            data-pending-price="₩500"
+                            onclick="showOrderDetailSheet(this)">
+
+                            <div class="card-header-row">
+                                <span class="card-date-order">12345678-2</span>
+                                <span class="card-status-badge status-in-progress">접수 대기</span>
+                            </div>
+                            <div class="item-title">디지털엽서 - 김길동 고객 청접장</div>
+                            <div class="item-price-info">
+                                <span><strong>₩3,500</strong></span>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="nm-action-group">
+                                    <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('디자인 보기');">디자인 보기</button>
+                                    <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('디자인 재업로드');">디자인 재업로드</button>
+                                </div>
+                                <div class="nm-action-group">
+                                    <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('접수 취소');">접수 취소</button>
+                                </div>
+                            </div>
+                        </article>
+                        
+                        </div>
+
+                    <div class="no-transactions" id="no-transactions" style="display: none;">조회된 내역이 없습니다.</div>
+                </section>
+                
+            </div>
+        </main>
+
+    </div>
+
+    <div class="bottom-sheet-overlay" id="order-detail-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="order-detail-sheet">
+            <div class="sheet-handle" id="order-detail-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">접수 상세</div>
+                <div class="btn-close" onclick="closeOrderDetailSheet()"><svg><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
+            </div>
+            <div class="sheet-body">
+                <div class="detail-item">
+                    <span class="label">상위 접수번호</span>
+                    <span class="value">12345678</span>
+                </div>
+                 <div class="detail-item">
+                    <span class="label">개별 접수번호</span>
+                    <span class="value" id="detail-order-no"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">접수일</span>
+                    <span class="value" id="detail-date">2025-07-08</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">접수상태</span>
+                    <span class="value" id="detail-status">접수 대기</span>
+                </div>
+                <div class="card-divider"></div>
+                
+                <div class="detail-item">
+                    <span class="label">배송정보</span>
+                    <span class="value" id="detail-shipping">착불택배</span>
+                </div>
+                
+                <div class="card-divider"></div>
+                
+                <div class="detail-item">
+                    <span class="label">총 결제 금액</span>
+                    <span class="value" id="detail-total-price" style="font-weight: 700;"></span>
+                </div>
+                <div class="detail-item" id="detail-pending-price-row">
+                    <span class="label">결제대기 금액</span>
+                    <span class="value pending" id="detail-pending-price"></span>
+                </div>
+                
+                <div class="card-divider"></div>
+
+                <div class="detail-item">
+                    <span class="label">제품명</span>
+                    <span class="value" id="detail-title"></span>
+                </div>
+                <div class="detail-item">
+                     <span class="label">수량/건수</span>
+                    <span class="value" id="detail-quantity-price"></span>
+                </div>
+                <div class-detail-spec>
+                    <div class="detail-item" style="margin-top: 12px; font-weight: 600;">옵션 및 요청사항</div>
+                    <p class="item-spec" id="detail-spec">
+                        옵션: 아르떼 울트라화이트 310g/208×154/양면칼라 8도/디지털인쇄(인디고) | 요청사항: 디자인 검수 후 인쇄/감리 신청/색상 샘플 발송
+                    </p>
+                </div>
+                
+            </div>
+            <div class="sheet-footer" id="detail-sheet-footer">
+                 <button type="button" class="dark-button btn" onclick="closeOrderDetailSheet()">확인</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- Modal & Bottom Sheet Helpers ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                const anyActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
+                if (!anyActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+        
+        // --- [v12] Bottom Sheet JS (Setup) ---
+        function setupBottomSheet(overlayId, sheetId, handleId) {
+            const overlay = document.getElementById(overlayId); const sheet = document.getElementById(sheetId); const handle = document.getElementById(handleId);
+            if (!overlay || !sheet || !handle) return { openSheet: ()=>{}, closeSheet: ()=>{} };
+            let isDragging = false, startY = 0, currentY = 0;
+            const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
+            const closeSheet = () => { sheet.classList.add('closing'); 
+                const anyModalActive = document.querySelector('.modal-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+                setTimeout(() => { overlay.classList.remove('active'); sheet.classList.remove('closing'); sheet.style.transform = ''; }, 300); 
+            };
+            const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
+            const drag = (e) => { if (!isDragging) return; e.preventDefault(); currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; const deltaY = currentY - startY; if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; };
+            const endDrag = () => { if (!isDragging) return; isDragging = false; sheet.style.transition = ''; const deltaY = currentY - startY; if (deltaY > 100) closeSheet(); else sheet.style.transform = ''; };
+            handle.addEventListener('mousedown', startDrag); handle.addEventListener('touchstart', startDrag, { passive: false });
+            document.addEventListener('mousemove', drag); document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag);
+            overlay.addEventListener('click', (e) => { if (e.target.id === overlayId) closeSheet(); });
+            return { openSheet, closeSheet };
+        }
+
+        let openOrderDetailSheet, closeOrderDetailSheet;
+
+        function initializeBottomSheets() {
+            const detailSheet = setupBottomSheet('order-detail-overlay', 'order-detail-sheet', 'order-detail-handle');
+            openOrderDetailSheet = detailSheet.openSheet; closeOrderDetailSheet = detailSheet.closeSheet;
+        }
+
+        
+        // 5. Order Detail Sheet (Non-Member Simplified)
+        function showOrderDetailSheet(card) {
+            const data = card.dataset;
+            
+            // Populate text
+            document.getElementById('detail-order-no').textContent = data.orderId || '-';
+            document.getElementById('detail-status').textContent = data.statusText || '접수 대기'; 
+            document.getElementById('detail-title').textContent = data.title || '-'; 
+            document.getElementById('detail-total-price').textContent = data.totalPrice || '-';
+            document.getElementById('detail-quantity-price').textContent = data.quantity || '-';
+            
+            // 옵션/요청사항은 spec에 담겨있음
+            document.getElementById('detail-spec').textContent = data.spec || '-';
+
+            // 결제대기 금액
+            const pendingRow = document.getElementById('detail-pending-price-row');
+            if (data.pendingPrice) {
+                document.getElementById('detail-pending-price').textContent = data.pendingPrice;
+                pendingRow.style.display = 'flex';
+            } else {
+                pendingRow.style.display = 'none';
+            }
+            
+            openOrderDetailSheet();
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // 모든 Bottom Sheet 초기화
+            initializeBottomSheets();
+            
+            // 총 건수 설정 (2건 고정)
+            const cardCount = document.getElementById('transaction-list-container')?.children.length || 0;
+            const noResultMsg = document.getElementById('no-transactions');
+            if(noResultMsg) noResultMsg.style.display = cardCount === 0 ? 'block' : 'none';
+
+            // Modal overlay click-to-close listeners
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

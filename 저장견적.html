@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>저장 견적</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 20px;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Small Header Button for Menu */
+        .btn-icon-sm {
+            width: 18px;
+            height: 18px;
+            color: #888;
+            transition: transform 0.2s;
+        }
+
+        .btn-icon-sm:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon-sm svg {
+            width: 100%;
+            height: 100%;
+        }
+
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+        
+        .white-button-sm {
+            height: 36px;
+            font-size: 13px;
+            padding: 0 12px;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+        
+        /* Special delete button style */
+        .delete-button {
+            background: white;
+            color: #dc3545;
+            border-color: #e8e8e9;
+        }
+        .delete-button:hover {
+            background: #fefafa;
+            border-color: #dc3545;
+        }
+
+
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 16px;
+        }
+
+        /* Info Section */
+        .info-section {
+            background: #f8f8f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .info-section .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .info-section .balance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .info-section .balance {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .info-sub-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .info-sub-row .label {
+            color: #555;
+        }
+
+        .info-sub-row .value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Filter Chip Section */
+        .filter-chip-section {
+            background: #fff;
+            padding: 8px 16px;
+            margin: 0 -16px 16px -16px;
+            border-bottom: 1px solid #e9e8e9;
+        }
+
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip-section .tabs-scroll-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-chip-section .multi-chip {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        /* v12 Standard .multi-chip */
+        .multi-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .multi-chip-off {
+            background: #fdfdfd;
+            border: 1px solid #e6e4e4;
+            color: #6d6d6d;
+        }
+
+        .multi-chip-on {
+            background: #c7d3ff;
+            border: 1px solid #4e6ee4;
+            color: #4e6ee4;
+        }
+
+        .multi-chip:active {
+            transform: scale(0.95);
+        }
+
+
+        /* Filter Section (v15) */
+        .filter-section {
+            padding: 0 0 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Search (v12 Standard) - FAQ Style */
+        .search {
+            width: 100%;
+            height: 40px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            position: relative;
+        }
+
+        .search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+        }
+
+        .search input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .search-input-right {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .search-del {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .search.has-text .search-del {
+            display: flex;
+        }
+
+        .search-del svg {
+            color: #666; 
+            stroke-width: 2.5;
+        }
+
+        .search-icon,
+        .btn-search {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-search {
+            color: #AAAAAD;
+        }
+
+        .search-icon:active,
+        .btn-search:active {
+            transform: scale(0.9);
+        }
+
+
+        /* Transaction List Header */
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
+        }
+
+        .transaction-list-header .total-count strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-count-select {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+        }
+
+        .view-count-select:hover {
+            opacity: 0.8;
+        }
+
+        .view-count-select:active {
+            transform: scale(0.98);
+        }
+
+        .view-count-select-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .view-count-select-arrow {
+            width: 12px;
+            height: 12px;
+        }
+
+        .view-count-select-arrow svg {
+            transition: transform 0.2s;
+            transform: translateY(-2px);
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+            /* Pagination 여백 */
+        }
+
+        /* Estimate Card (Based on common-table-card) */
+        .common-table-card {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .common-table-card.estimate-card {
+            cursor: default; /* Card itself is not clickable */
+            transition: background 0.2s;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Center vertical */
+            margin-bottom: 8px;
+        }
+        
+        .card-header .checkbox-text {
+             flex: 1;
+             min-width: 0;
+             margin-right: 10px;
+        }
+        
+        /* Date Styling in Header */
+        .card-date {
+            font-size: 13px;
+            font-weight: 500;
+            color: #888;
+            flex-shrink: 0;
+        }
+
+        .card-divider {
+            width: 100%;
+            height: 1px;
+            background: #e8e8e9;
+            margin: 12px 0;
+        }
+        
+        /* Specs Row */
+        .estimate-specs-row {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            word-break: keep-all;
+            margin-bottom: 15px;
+        }
+        
+        /* Footer */
+        .card-footer {
+            display: flex;
+            justify-content: flex-end; /* Right align */
+            gap: 8px;
+            padding-top: 4px;
+        }
+
+
+        /* Checkbox (v12 Standard) */
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .checkbox-off {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #bdbdbd;
+            border-radius: 2px;
+        }
+
+        .checkbox-on {
+            width: 100%;
+            height: 100%;
+            background: #4e6ee4;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-on img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .checkbox:active {
+            transform: scale(0.9);
+        }
+
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-text span {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-bottom: 24px;
+        }
+
+        .pagination-arrow {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-arrow img {
+            width: 100%;
+            height: auto;
+        }
+
+        .pagination-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-numbers {
+            display: flex;
+            gap: 3px;
+        }
+
+        .pagination-number {
+            min-width: 28px;
+            height: 28px;
+            padding: 4px 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pagination-number.active {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        /* Sticky Action Footer */
+        .sticky-action-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+            padding: 16px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+            animation: slideUpFooter 0.3s ease-out;
+        }
+
+        .sticky-action-footer.active {
+            display: flex;
+        }
+
+        @keyframes slideUpFooter {
+            from {
+                transform: translate(-50%, 100%);
+            }
+
+            to {
+                transform: translate(-50%, 0);
+            }
+        }
+
+        .sticky-action-footer .left-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .sticky-action-footer .total-count {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .sticky-action-footer .action-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .sticky-action-footer .white-button {
+            height: 40px;
+            font-size: 13px;
+            padding: 0 12px;
+        }
+
+        .sticky-action-footer .dark-button {
+            height: 40px;
+            font-size: 13px;
+            padding: 0 16px;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .alert-modal {
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            margin-bottom: 15px;
+        }
+
+        .modal-message {
+            font-size: 14px;
+            color: black;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .modal-button {
+            flex: 1;
+            min-width: 90px;
+            height: 44px;
+            padding: 7px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-button-primary {
+            background: #dc3545;
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        
+        /* Special Confirm Button (Black) */
+        .modal-button-confirm {
+             background: #333;
+             color: white;
+             border: none;
+             font-weight: 600;
+        }
+
+        .modal-button-secondary {
+            background: white;
+            color: #424242;
+            border: 1px solid #bababa;
+            font-weight: 600;
+        }
+        
+        /* Disclaimer / Info Text (Reusable) */
+        .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .no-transactions {
+            padding: 40px 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">저장 견적</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="sw-container">
+
+                <section class="filter-chip-section" style="padding-top: 0; padding-bottom: 16px;">
+                    <div class="tabs-scroll-wrapper" id="category-chip-group">
+                        <div class="multi-chip multi-chip-on" data-category="전체" onclick="toggleCategoryChip(this)">✓ 전체
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="명함" onclick="toggleCategoryChip(this)">명함
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="홍보물" onclick="toggleCategoryChip(this)">홍보물
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="패키지/봉투" onclick="toggleCategoryChip(this)">
+                            패키지/봉투</div>
+                        <div class="multi-chip multi-chip-off" data-category="서식지" onclick="toggleCategoryChip(this)">서식지
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="굿즈" onclick="toggleCategoryChip(this)">굿즈
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="기획제품" onclick="toggleCategoryChip(this)">기획제품
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="별도견적" onclick="toggleCategoryChip(this)">
+                            별도견적</div>
+                    </div>
+                </section>
+
+                <section class="filter-section">
+                    <div class="search" data-name="search" id="estimate-search">
+                        <input type="text" placeholder="견적명을 입력해주세요" oninput="handleSearchInput(this)">
+                        <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                            </div>
+                            <button type="button" class="btn-search" onclick="handleSearch(this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                                    <path d="M21 21l-6 -6" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="transaction-list-section">
+                    <div class="transaction-list-header">
+                        <span class="total-count">총 <strong id="transaction-count">10</strong>건</span>
+                        <div class="view-count-select">
+                            <span class="view-count-select-text">10건씩 보기</span>
+                            <div class="view-count-select-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="transaction-list" id="transaction-list-container">
+
+                        <article class="common-table-card estimate-card" data-category="책자">
+                            <div class="card-header">
+                                <div class="checkbox-text" onclick="toggleEstimateCheckbox(this, event)">
+                                    <div class="checkbox" data-checked="false">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <span>[책자] 기업 홍보용 책자</span>
+                                </div>
+                                <span class="card-date">2026-09-10</span>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="estimate-specs-row">
+                                용지: (표지) 150g, (내지) 아트지/백색/100g | 인쇄: (표지) CMYK, (내지) 단면CMYK
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button white-button-sm" onclick="alert('견적 상세 보기 (구현 필요)')">상세보기</button>
+                                <button type="button" class="delete-button white-button-sm white-button" onclick="showDeleteAlert(event)">삭제</button>
+                            </div>
+                        </article>
+
+                        <article class="common-table-card estimate-card" data-category="명함">
+                            <div class="card-header">
+                                <div class="checkbox-text" onclick="toggleEstimateCheckbox(this, event)">
+                                    <div class="checkbox" data-checked="false">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <span>[일반 명함] 사원용 명함 견적</span>
+                                </div>
+                                <span class="card-date">2025-09-16</span>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="estimate-specs-row">
+                                용지: 아트지/150g | 인쇄: 단면CMYK
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button white-button-sm" onclick="alert('견적 상세 보기 (구현 필요)')">상세보기</button>
+                                <button type="button" class="delete-button white-button-sm white-button" onclick="showDeleteAlert(event)">삭제</button>
+                            </div>
+                        </article>
+
+                        <article class="common-table-card estimate-card" data-category="명함">
+                            <div class="card-header">
+                                <div class="checkbox-text" onclick="toggleEstimateCheckbox(this, event)">
+                                    <div class="checkbox" data-checked="false">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <span>[일반 명함] 사원용 명함 견적 (재접수 예정)</span>
+                                </div>
+                                <span class="card-date">2025-08-16</span>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="estimate-specs-row">
+                                용지: 누브지/220g | 인쇄: 양면CMYK/고급
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button white-button-sm" onclick="alert('견적 상세 보기 (구현 필요)')">상세보기</button>
+                                <button type="button" class="delete-button white-button-sm white-button" onclick="showDeleteAlert(event)">삭제</button>
+                            </div>
+                        </article>
+
+                        <article class="common-table-card estimate-card" data-category="책자">
+                            <div class="card-header">
+                                <div class="checkbox-text" onclick="toggleEstimateCheckbox(this, event)">
+                                    <div class="checkbox" data-checked="false">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <span>[책자] 기업 홍보용 책자 (마감 임박)</span>
+                                </div>
+                                <span class="card-date">2025-08-16</span>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="estimate-specs-row">
+                                용지: (표지) 스노우지 150g, (내지) 모조지 100g
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button white-button-sm" onclick="alert('견적 상세 보기 (구현 필요)')">상세보기</button>
+                                <button type="button" class="delete-button white-button-sm white-button" onclick="showDeleteAlert(event)">삭제</button>
+                            </div>
+                        </article>
+
+                    </div>
+
+                    <div class="no-transactions" style="display: none;">저장된 견적서가 없습니다.</div>
+
+                    <div class="pagination" data-name="Pagination">
+                        <div class="pagination-arrow disabled" onclick="paginationFirst()">
+                            <img src="assets/images/nnext-arrow.svg" alt="처음"
+                                style="transform: rotate(90deg);">
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationPrev()">
+                            <img src="assets/images/next-arrow.svg" alt="이전"
+                                style="transform: rotate(90deg);">
+                        </div>
+                        <div class="pagination-numbers" id="pagination-numbers">
+                            <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
+                            <div class="pagination-number" data-page="2" onclick="paginationGo(2)">2</div>
+                            <div class="pagination-number" data-page="3" onclick="paginationGo(3)">3</div>
+                            <div class="pagination-number" data-page="4" onclick="paginationGo(4)">4</div>
+                            <div class="pagination-number" data-page="5" onclick="paginationGo(5)">5</div>
+                            <div class="pagination-number" data-page="6" onclick="paginationGo(6)">6</div>
+                        </div>
+                        <div class="pagination-arrow" onclick="paginationNext()">
+                            <img src="assets/images/next-arrow.svg" alt="다음"
+                                style="transform: rotate(90deg) scaleY(-1);">
+                        </div>
+                        <div class="pagination-arrow" onclick="paginationLast()">
+                            <img src="assets/images/nnext-arrow.svg"
+                                alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="info-section">
+                    <div class="title">유의사항</div>
+                    <p class="disclaimer">* 저장된 견적서는 작성일로부터 7일이 지나면 자동으로 삭제돼요</p>
+                    <p class="disclaimer">* 견적서는 참고용이에요. 증빙이 필요하면 결제 후 마이페이지 > 출고/배송 내역에서 거래명세서를 발급해 주세요</p>
+                </section>
+
+            </div>
+        </main>
+
+        <div class="sticky-action-footer" id="estimate-action-footer">
+            <div class="left-info">
+                <span class="total-count" id="selected-count">총 0건 선택됨</span>
+            </div>
+            <div class="action-buttons">
+                <button class="white-button" id="btn-compare" onclick="alert('견적 비교 (구현 필요)')">견적 비교</button>
+                <button class="dark-button" id="btn-issue" onclick="alert('견적서 발급 (구현 필요)')">견적서 발급</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="delete-alert-overlay">
+        <div class="alert-modal" data-name="Alert">
+            <div class="modal-title">견적 삭제</div>
+            <div class="modal-message">
+                선택한 견적을 삭제하시겠습니까?<br>
+                삭제 후에는 복구할 수 없습니다.
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" onclick="closeModal('delete-alert-overlay')">취소</button>
+                <button class="modal-button modal-button-primary" onclick="deleteEstimate()">삭제하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="limit-alert-overlay">
+        <div class="alert-modal">
+            <div class="modal-title"> 견적 비교 안내</div>
+            <div class="modal-message"> 견적서는 최대 3개까지 비교할 수 있어요<br>3개 이하의 견적서를 선택해주세요</div>
+             <div class="modal-buttons">
+                <button class="modal-button modal-button-confirm" onclick="closeModal('limit-alert-overlay')">확인</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- [v12] Search Component JS ---
+        function handleSearchInput(input) {
+            const searchBox = input.closest('.search');
+            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+        }
+
+        function clearSearch(btn) {
+            const searchBox = btn.closest('.search');
+            const input = searchBox.querySelector('input');
+            input.value = '';
+            searchBox.classList.remove('has-text');
+            input.focus();
+            filterEstimateList();
+        }
+
+        function handleSearch(btn) {
+            console.log('Search submitted:', btn.closest('.search').querySelector('input').value);
+            filterEstimateList();
+        }
+
+        // --- [v12] MultiChip Component JS (for Category) ---
+        function toggleMultiChip(chip, forceState) {
+            const isCurrentlyOn = chip.classList.contains('multi-chip-on');
+            let turnOn;
+
+            if (forceState === true) { // Force On
+                turnOn = true;
+            } else if (forceState === false) { // Force Off
+                turnOn = false;
+            } else { // Toggle
+                turnOn = !isCurrentlyOn;
+            }
+
+            if (turnOn && !isCurrentlyOn) {
+                chip.classList.remove('multi-chip-off');
+                chip.classList.add('multi-chip-on');
+                chip.innerHTML = '✓ ' + chip.innerHTML.trim();
+            } else if (!turnOn && isCurrentlyOn) {
+                chip.classList.remove('multi-chip-on');
+                chip.classList.add('multi-chip-off');
+                chip.innerHTML = chip.innerHTML.replace('✓ ', '');
+            }
+        }
+
+        function toggleCategoryChip(chip) {
+            const category = chip.getAttribute('data-category');
+            const group = chip.closest('#category-chip-group');
+            const allChip = group.querySelector('[data-category="전체"]');
+
+            if (category === '전체') {
+                const isTurningOn = !chip.classList.contains('multi-chip-on');
+                toggleMultiChip(chip, isTurningOn);
+                group.querySelectorAll('.multi-chip').forEach(c => {
+                    if (c !== chip) toggleMultiChip(c, false);
+                });
+            } else {
+                toggleMultiChip(chip);
+                toggleMultiChip(allChip, false);
+                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-category="전체"])'))
+                    .some(c => c.classList.contains('multi-chip-on'));
+                if (!anyOtherOn) {
+                    toggleMultiChip(allChip, true);
+                }
+            }
+            filterEstimateList();
+        }
+
+        // --- [v12] Pagination Logic ---
+        let currentPage = 1;
+        const totalPages = 6;
+
+        function paginationGo(page) {
+            currentPage = page;
+            updatePagination();
+            console.log('Page changed to:', page);
+        }
+
+        function paginationPrev() {
+            if (currentPage > 1) paginationGo(currentPage - 1);
+        }
+
+        function paginationNext() {
+            if (currentPage < totalPages) paginationGo(currentPage + 1);
+        }
+
+        function paginationFirst() {
+            paginationGo(1);
+        }
+
+        function paginationLast() {
+            paginationGo(totalPages);
+        }
+
+        function updatePagination() {
+            const numbers = document.querySelectorAll('.pagination-number');
+            const prevArrows = document.querySelectorAll('.pagination .pagination-arrow:nth-child(-n+2)');
+            const nextArrows = document.querySelectorAll('.pagination .pagination-arrow:nth-child(n+4)');
+            numbers.forEach(num => {
+                num.classList.remove('active');
+                if (parseInt(num.dataset.page) === currentPage) num.classList.add('active');
+            });
+            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
+            nextArrows.forEach(arrow => nextArrows.classList.toggle('disabled', currentPage === totalPages));
+
+            // (TODO: 페이지 목록 동적 표시 로직 추가 필요)
+        }
+
+        // --- [NEW] Checkbox Logic ---
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+            }
+        }
+
+        function toggleEstimateCheckbox(checkboxWrapper, event) {
+            event.stopPropagation(); // prevent card click if any
+
+            const checkboxEl = checkboxWrapper.querySelector('.checkbox');
+            const isCurrentlyChecked = checkboxEl.dataset.checked === 'true';
+            
+            // Check limit before toggling on
+            if (!isCurrentlyChecked) {
+                const currentCount = document.querySelectorAll('.transaction-list .checkbox[data-checked="true"]').length;
+                // Max 3 items allowed for comparison. If user tries to select 4th, show warning.
+                if (currentCount >= 3) {
+                     openModal('limit-alert-overlay');
+                     return;
+                }
+            }
+
+            // 1. Checkbox 상태 토글
+            toggleCheckbox(checkboxEl);
+            // 2. Sticky Footer 업데이트
+            updateStickyFooter();
+        }
+
+        function updateStickyFooter() {
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
+
+            const checkedBoxes = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
+            const count = checkedBoxes.length;
+            const footer = document.getElementById('estimate-action-footer');
+            const compareBtn = document.getElementById('btn-compare');
+            const issueBtn = document.getElementById('btn-issue');
+
+            if (count > 0) {
+                footer.classList.add('active');
+                document.getElementById('selected-count').textContent = `총 ${count}건 선택됨`;
+                document.querySelector('.mobile-wrap').style.paddingBottom = '88px'; // Footer height padding
+                
+                // Dynamic Button Display Logic
+                if (count === 1) {
+                    // 1 item: Only Issue button
+                    compareBtn.style.display = 'none';
+                    issueBtn.style.display = 'inline-flex';
+                } else {
+                    // 2 or 3 items: Compare + Issue buttons
+                    compareBtn.style.display = 'inline-flex';
+                    issueBtn.style.display = 'inline-flex';
+                }
+
+            } else {
+                footer.classList.remove('active');
+                document.querySelector('.mobile-wrap').style.paddingBottom = '20px'; // Reset padding
+            }
+        }
+
+        // --- [NEW] Filtering Logic ---
+        function filterEstimateList() {
+            // 1. Get selected categories
+            const selectedCategories = [];
+            document.querySelectorAll('#category-chip-group .multi-chip-on').forEach(chip => {
+                selectedCategories.push(chip.dataset.category);
+            });
+
+            const searchTerm = document.querySelector('#estimate-search input').value.toLowerCase();
+            const isAllCategories = selectedCategories.includes('전체');
+
+            // 2. Filter Cards
+            const listContainer = document.getElementById('transaction-list-container');
+            const cards = listContainer.querySelectorAll('.estimate-card');
+            const noResultMsg = document.querySelector('.no-transactions');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardCategory = card.dataset.category;
+                const cardTitle = card.querySelector('.checkbox-text span').textContent.toLowerCase();
+
+                // Category check
+                const categoryMatch = (isAllCategories || selectedCategories.includes(cardCategory));
+
+                // Search check
+                const searchMatch = !searchTerm || cardTitle.includes(searchTerm);
+
+                if (categoryMatch && searchMatch) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // 3. Update count and no-result message
+            const countEl = document.getElementById('transaction-count');
+            if (countEl) countEl.textContent = visibleCount;
+            if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // --- [NEW] Modal Helpers ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                // 다른 모달이 열려있지 않을 때만 body 스크롤 복원
+                const anyModalActive = document.querySelector('.modal-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+
+        // --- [NEW] Delete Logic ---
+        function showDeleteAlert(event) {
+            if(event) event.stopPropagation(); // prevent card click
+            openModal('delete-alert-overlay');
+        }
+
+        function deleteEstimate() {
+            // TODO: 삭제 로직 구현
+            alert("견적이 삭제되었습니다. (구현 필요)");
+            closeModal('delete-alert-overlay');
+            // TODO: 목록 갱신
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePagination();
+            updateStickyFooter();
+            filterEstimateList();
+
+            // 모달/시트 오버레이 클릭 닫기
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

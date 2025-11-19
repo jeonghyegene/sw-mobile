@@ -4,12 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>접수/배송 내역 (모바일 최적화)</title>
+    <title>접수/배송 내역 (v12 기준)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* [v12] Master Guide CSS */
+        .disqus-thread-wrap {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 450px;
+            height: 100%;
+            overflow: auto;
+        }
+
+        @media all and (max-width: 1490px) {
+            .disqus-thread-wrap {
+                display: none;
+            }
+        }
         /* Reset & Base */
         * {
             box-sizing: border-box;
@@ -145,14 +159,6 @@
             width: 100%;
             height: 100%;
         }
-        
-        /* [NEW] Small button for header right */
-        .header-btn-sm {
-            height: 36px;
-            font-size: 13px;
-            padding: 0 12px;
-            font-weight: 500;
-        }
 
         /* Buttons (v12 Standard + Primary) */
         .primary-button {
@@ -170,6 +176,10 @@
             align-items: center;
             justify-content: center;
             min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
         }
 
         .primary-button:active {
@@ -193,6 +203,10 @@
             min-width: fit-content;
         }
 
+        .dark-button:hover {
+            background: #333;
+        }
+
         .dark-button:active {
             transform: scale(0.98);
         }
@@ -214,6 +228,10 @@
             min-width: fit-content;
         }
 
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
         .white-button:active {
             transform: scale(0.98);
         }
@@ -232,34 +250,19 @@
             font-size: 13px;
             padding: 0 12px;
         }
-        
-        /* [MODIFIED] Manager Action Button Style Fix */
-        .manager-actions .btn-sm {
-            height: 32px; /* Adjusted to fit better in modal list */
-            font-size: 13px;
-            padding: 0 8px; /* Reduced padding for compact look */
-            min-width: 48px; /* Minimum width to prevent excessive squish */
-        }
-        /* [MODIFIED] Manager Actions flex alignment */
-        .manager-actions {
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-            align-items: center; /* Center buttons vertically */
-        }
-
 
         /* Main Content */
         .sw-container {
-             padding: 0 16px 16px 16px; 
+             padding: 0 16px 16px 16px; /* [MODIFIED] No top padding */
         }
         
-        /* Filter Bar */
+        /* [MODIFIED] Filter Bar */
         .filter-bar {
             display: flex;
             gap: 8px;
             padding: 12px 16px;
             border-bottom: 1px solid #e9e9e9;
+            /* margin: 0 -16px; */
             background: #fff;
         }
 
@@ -267,6 +270,7 @@
         .filter-chip-section {
             background: #fff;
             padding: 16px;
+            /* margin: 0 -16px; */
             border-bottom: 1px solid #e9e9e9;
         }
 
@@ -287,7 +291,7 @@
             white-space: nowrap;
         }
 
-        /* Filter Section (v15) */
+        /* [MODIFIED] Filter Section (v15) */
         .filter-section {
             padding: 0 0 16px 0;
             display: flex;
@@ -301,7 +305,7 @@
             cursor: pointer;
             transition: opacity 0.2s;
             user-select: none;
-            padding: 8px 4px; 
+            padding: 8px 4px; /* Reduced padding */
             border-radius: 4px;
         }
         .text-select-button:hover { 
@@ -324,14 +328,14 @@
         .text-select-button-arrow svg { transition: transform 0.2s; }
         .text-select-button.open .text-select-button-arrow svg { transform: rotate(-180deg); }
 
-        /* Sticky Summary Bar */
+        /* [MODIFIED] Sticky Summary Bar */
         .sticky-summary-bar {
             position: sticky;
-            top: 56px; 
-            background: #eef2ff; 
+            top: 56px; /* Header height */
+            background: #eef2ff; /* Light blue */
             border-bottom: 1px solid #c7d3ff;
             z-index: 99;
-            margin: 0; 
+            margin: 0; /* Match container padding */
             padding: 12px 16px;
             display: flex;
             justify-content: space-between;
@@ -367,7 +371,7 @@
             max-width: 60%;
         }
         .summary-right span {
-            display: none; 
+            display: none; /* Hide label on mobile */
         }
         .summary-right strong {
             font-weight: 600;
@@ -396,27 +400,28 @@
         }
         .transaction-list-header .total-count strong { font-weight: 600; color: #333; }
         .view-count-select { display: inline-flex; align-items: center; gap: 2px; cursor: pointer; transition: opacity 0.2s; user-select: none; }
+        .view-count-select:hover { opacity: 0.8; }
+        .view-count-select:active { transform: scale(0.98); }
         .view-count-select-text { font-size: 14px; color: #2c2c2c; font-weight: 400; white-space: nowrap; }
         .view-count-select-arrow { width: 12px; height: 12px; }
         .view-count-select-arrow svg { transition: transform 0.2s; transform: translateY(-2px); }
         .transaction-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
         .no-transactions { padding: 40px 16px; text-align: center; color: #888; font-size: 14px; }
         
-        /* Date Divider (PDF 선례에 따라 추가) */
+        /* [NEW] Date Divider */
         .date-divider {
             font-size: 14px;
             font-weight: 600;
             color: #333;
             padding: 0 0 8px 0;
             border-bottom: 1px solid #e8e8e9;
-            margin-top: 16px;
         }
         .transaction-list .date-divider:first-child {
             margin-top: 0;
             padding-top: 0;
         }
 
-        /* Order List Card (모바일 최적화 및 간결화) */
+        /* [MODIFIED] Order List Card */
         .common-table-card {
             width: 100%;
             background: white;
@@ -425,7 +430,7 @@
             padding: 15px;
             position: relative;
         }
-        /* Make card clickable */
+        /* [NEW] Make card clickable */
         .common-table-card.clickable {
             cursor: pointer;
             transition: background-color 0.2s;
@@ -434,14 +439,15 @@
             background-color: #f9f9f9;
         }
         
+        .card-divider { width: 100%; height: 1px; background: #e8e8e9; margin: 10px 0; }
+        
         .card-header-row {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
         }
         .card-date-order {
-            /* 1순위: 접수 날짜, 접수 번호 */
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600; 
             color: #333; 
         }
@@ -454,39 +460,28 @@
             margin-left: 8px;
             border: 1px solid transparent;
         }
-        
-        /* 뱃지 색상 통일 */
-        .card-status-badge.status-waiting { 
+        .card-status-badge.waiting { 
             background-color: #fff0f0;
             color: #dc3545;
             border-color: #f5c6cb;
-            /* 결제대기 강조 애니메이션 */
-            animation: pulse-animation 1.5s infinite;
         }
-        .card-status-badge.status-in-progress { 
-            background-color: #e6f7ff;
-            color: #007bff;
-            border-color: #b8dfff;
-        }
-        .card-status-badge.status-complete { 
+        .card-status-badge.complete { 
             background-color: #f8f9fa;
             color: #495057;
             border-color: #dee2e6;
         }
-
-        @keyframes pulse-animation {
-            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
-            70% { box-shadow: 0 0 0 4px rgba(220, 53, 69, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        .card-status-badge.review { 
+            background-color: #e6f7ff;
+            color: #007bff;
+            border-color: #b8dfff;
         }
 
-        /* Simplified item title */
+        /* [NEW] Simplified item title */
         .item-title { 
             font-size: 16px; 
             font-weight: 600; 
             color: #212121; 
-            /* [MODIFIED] 메타 그룹 아래로 이동하여 상단 여백 추가 */
-            margin-top: 8px; 
+            margin-top: 10px; 
             line-height: 1.4; 
             overflow: hidden; 
             text-overflow: ellipsis; 
@@ -495,41 +490,7 @@
             -webkit-box-orient: vertical;
         }
         
-        /* [NEW] 2순위 정보 그룹 (담당자/대상고객 레벨 상향 및 좌측 정렬) */
-        .card-meta-group {
-             display: flex;
-             flex-direction: column;
-             gap: 2px; 
-             margin-top: 8px;
-        }
-        .card-meta-row {
-            /* [MODIFIED] 내부 요소 좌측 정렬 (display: flex 유지) */
-            display: flex;
-            align-items: center;
-            font-size: 13px;
-            color: #555;
-            line-height: 1.5;
-        }
-        .card-meta-row strong {
-            font-weight: 600;
-            color: #333;
-            margin-right: 8px; /* 담당자/대상고객 간격 조정 */
-        }
-        
-        /* [NEW] 배송 정보 (금액 표시 아래로 이동) */
-        .shipping-info-row {
-            font-size: 13px;
-            color: #555;
-            margin-top: 4px;
-            text-align: right;
-            line-height: 1.5;
-        }
-        .shipping-info-row strong {
-            font-weight: 600;
-            color: #333;
-        }
-
-        /* Simplified price row */
+        /* [NEW] Simplified price row */
         .item-price-info {
             margin-top: 8px;
             font-size: 16px;
@@ -545,6 +506,23 @@
             color: #dc3545;
         }
 
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #555;
+            margin-top: 8px; /* Applied to meta-info row */
+        }
+        .card-row span {
+             font-size: 12px;
+        }
+        .card-row strong {
+            font-weight: 600;
+            color: #333;
+        }
+        .shipping-info { font-size: 12px; color: #555; }
+        
         .card-footer {
             padding-top: 15px;
             margin-top: 15px;
@@ -596,10 +574,12 @@
         .search.has-text .search-del { display: flex; }
         .search-icon, .btn-search { width: 24px; height: 24px; cursor: pointer; transition: transform 0.2s; }
         .search-icon:active, .btn-search:active { transform: scale(0.9); }
+        .search-del img, .btn-search img, .search-icon img { width: 100%; height: 100%; }
 
         /* [v17] Pagination */
         .pagination { display: flex; align-items: center; justify-content: center; gap: 9px; margin-bottom: 24px; }
         .pagination-arrow { width: 15px; height: 15px; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; }
+        .pagination-arrow img { width: 100%; height: auto; }
         .pagination-arrow:active { transform: scale(0.9); }
         .pagination-arrow.disabled { opacity: 0.3; cursor: not-allowed; }
         .pagination-numbers { display: flex; gap: 3px; }
@@ -631,7 +611,7 @@
         .sheet-footer { padding: 20px; border-top: 1px solid #f0f0f0; background: #fff; display: flex; gap: 8px; }
         .sheet-footer .btn { flex: 1; }
         
-        /* Order Detail Sheet (상세 정보 노출용으로 사용) */
+        /* [NEW] Order Detail Sheet */
         #order-detail-sheet .sheet-body {
             padding: 0 16px 20px 16px;
         }
@@ -656,7 +636,6 @@
             color: #333;
             font-weight: 500;
             text-align: right;
-            word-break: break-word; 
         }
         #order-detail-sheet .detail-item .value.pending {
             color: #dc3545;
@@ -676,224 +655,6 @@
             font-weight: 600;
             margin-top: 10px;
         }
-        .card-divider { width: 100%; height: 1px; background: #e8e8e9; margin: 10px 0; }
-        
-        /* [NEW] Modal Styles (v12 Standard) */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 16px;
-            animation: fadeInModal 0.2s ease-out;
-        }
-        .modal-overlay.active { display: flex; }
-        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
-        .modal-content {
-            background: white;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 360px;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            animation: scaleUpModal 0.2s ease-out;
-        }
-        @keyframes scaleUpModal { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px;
-            border-bottom: 1px solid #e8e8e9;
-            position: relative;
-            height: 57px;
-        }
-        .modal-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: black;
-            text-align: left;
-        }
-        .btn-modal-close {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            color: #333;
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        .modal-body {
-            padding: 16px;
-            overflow-y: auto;
-            flex-grow: 1;
-        }
-        .modal-footer {
-            padding: 16px;
-            border-top: 1px solid #e8e8e9;
-            background: #fff;
-            display: flex;
-            gap: 8px;
-            border-radius: 0 0 7px 7px;
-        }
-        .modal-footer .btn {
-            flex: 1;
-            height: 44px;
-            font-size: 14px;
-        }
-        
-        /* [NEW] Manager List Specific Styles */
-        .manager-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0px;
-        }
-        .manager-item {
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .manager-item:last-child {
-             border-bottom: none;
-        }
-        .manager-info-group {
-             flex-grow: 1;
-        }
-        .manager-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-        }
-        .manager-contact {
-            font-size: 13px;
-            color: #666;
-            margin-top: 4px;
-            line-height: 1.5;
-        }
-        .manager-contact div {
-             margin-bottom: 2px;
-        }
-        .manager-actions {
-             display: flex;
-             gap: 8px;
-             flex-shrink: 0;
-             align-items: center;
-        }
-        
-        /* [NEW] Manager Add Form */
-        .form-group {
-             margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        .input-text {
-            width: 100%;
-            min-height: 40px;
-            background: white;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-        }
-        .input-text input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: black;
-            line-height: 1.5;
-        }
-        .input-text input::placeholder { color: #c6c6c8; }
-        
-        /* [NEW] Modal Form Elements (from v12 guide / sungwon_money) */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        
-        .input {
-            width: 100%;
-            min-height: 40px;
-            background: white;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-        }
-        .input input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: black;
-            line-height: 1.5;
-        }
-        .input input::placeholder { color: #c6c6c8; }
-        
-        /* [NEW] Readonly-value (from tax_issue) */
-        .readonly-value {
-            font-size: 14px;
-            color: #333;
-            padding: 10px 12px;
-            background: #f5f5f5;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-        }
-        .readonly-value.emphasis {
-            font-weight: 700;
-            color: #333;
-            font-size: 16px;
-        }
-        
-        /* [NEW] Item detail row (from tax_issue) */
-        .item-list { display: flex; flex-direction: column; gap: 10px; }
-        .item-row { display: flex; justify-content: space-between; align-items: flex-start; }
-        .item-name { font-size: 14px; color: #333; font-weight: 500; }
-        .item-price-wrapper { display: flex; flex-direction: column; align-items: flex-end; }
-        .item-price-total { font-size: 14px; font-weight: 500; color: #333; }
-        .item-price-details { font-size: 12px; color: #888; }
-        
-        /* [NEW] Section Title for Modals (from tax_issue) */
-        .modal-section-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 12px;
-            margin-top: 16px;
-        }
-        .modal-body .modal-section-title:first-child {
-            margin-top: 0;
-        }
-
     </style>
 </head>
 
@@ -911,15 +672,26 @@
             </div>
             <h1 class="header-title">접수/배송 내역</h1>
             <div class="header-right">
-                <button type="button" class="white-button btn-sm" onclick="openModal('manager-list-modal-overlay')">
-                     담당자 관리
-                 </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button>
             </div>
         </header>
 
         <main>
             <div class="filter-bar">
-                <button type="button" class="text-select-button" onclick="showFilterSheet('period')">
+                <button type="button" class="text-select-button" onclick="showFilterSheet()">
                     <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
                     <div class="text-select-button-arrow">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
@@ -927,7 +699,7 @@
                         </svg>
                     </div>
                 </button>
-                <button type="button" class="text-select-button" onclick="showFilterSheet('manager')">
+                <button type="button" class="text-select-button" onclick="showManagerFilterSheet()">
                     <span class="text-select-button-text" id="selected-manager-text">담당자 (전체)</span>
                     <div class="text-select-button-arrow">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
@@ -935,7 +707,7 @@
                         </svg>
                     </div>
                 </button>
-                <button type="button" class="text-select-button" onclick="showFilterSheet('customer')">
+                <button type="button" class="text-select-button" onclick="showCustomerFilterSheet()">
                     <span class="text-select-button-text" id="selected-customer-text">대상고객 (전체)</span>
                     <div class="text-select-button-arrow">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
@@ -945,14 +717,16 @@
                 </button>
             </div>
             
-            <div class="filter-chip-section" style="border-bottom: 1px solid #e9e9e9; margin-bottom: 0;">
+            <div class="filter-chip-section" style="border-bottom: none; margin-bottom: 0;">
                 <div class="tabs-scroll-wrapper" id="status-chip-group">
                     <div class="single-chip single-chip-on" data-status="전체" onclick="selectStatusChip(this)">전체 22
                     </div>
                     <div class="single-chip single-chip-off" data-status="결제대기" onclick="selectStatusChip(this)">
                         결제대기 5</div>
+                    <div class="single-chip single-chip-off" data-status="진행대기" onclick="selectStatusChip(this)">
+                        진행대기 10</div>
                     <div class="single-chip single-chip-off" data-status="진행 중" onclick="selectStatusChip(this)">
-                        진행 중 20</div>
+                        진행 중 10</div>
                     <div class="single-chip single-chip-off" data-status="출고/배송" onclick="selectStatusChip(this)">
                         출고/배송 2</div>
                     <div class="single-chip single-chip-off" data-status="취소" onclick="selectStatusChip(this)">
@@ -966,7 +740,7 @@
                         <input type="text" placeholder="접수번호, 접수제목, 제품명" oninput="handleSearchInput(this)">
                         <div class="search-input-right">
                             <div class="search-del" onclick="clearSearch(this)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                                <img src="assets/images/search-del.png" alt="지우기">
                             </div>
                             <div class="btn-search" onclick="handleSearch(this)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
@@ -985,7 +759,7 @@
                     <span>결제대기 금액</span>
                     <strong>₩153,500</strong>
                 </div>
-                <button type="button" class="summary-right" onclick="alert('가상계좌 복사 완료')">
+                <button type="button" class="summary-right" onclick="alert('계좌번호 복사')">
                     <span>가상계좌</span>
                     <strong>우리은행 65459011733483</strong>
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1013,7 +787,7 @@
 
                     <div class="transaction-list" id="transaction-list-container">
                         
-                        <div class="date-divider" data-date="2025-07-08">2025. 07. 08</div>
+                        <div class="date-divider">2025. 07. 08</div>
 
                         <article class="common-table-card clickable" 
                             data-status="결제대기" data-status-text="디자인 변경 대기" data-manager="김성원" data-customer="XT(내회사)"
@@ -1028,21 +802,17 @@
                             
                             <div class="card-header-row">
                                 <span class="card-date-order">2025-07-08 (SW654321)</span>
-                                <span class="card-status-badge status-waiting">결제대기</span>
-                            </div>
-                            <div class="card-meta-group">
-                                <div class="card-meta-row">
-                                    <span>담당자: <strong>김성원</strong></span>
-                                    <span style="margin-left: 12px;">대상고객: <strong>XT(내회사)</strong></span>
-                                </div>
+                                <span class="card-status-badge waiting">디자인 변경 대기</span>
                             </div>
                             <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
                             <div class="item-price-info">
                                 <span><strong>₩8,500</strong></span>
                                 <span class="pending-price">(결제대기 ₩3,500)</span>
                             </div>
-                            <div class="shipping-info-row">배송: <span>선불택배 (₩2,500)</span></div>
-                            
+                            <div class="card-row">
+                                <span>담당자: <strong>김성원</strong> / 대상고객: <strong>XT(내회사)</strong></span>
+                                <span class="shipping-info">선불택배 (₩2,500)</span>
+                            </div>
                             <div class="card-footer">
                                 <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('디자인 파일 변경');">디자인 파일 변경</button>
                                 <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('접수 취소');">접수 취소</button>
@@ -1051,31 +821,28 @@
                         
                         <article class="common-table-card clickable"
                             data-status="결제대기" data-status-text="파일 재업로드 대기" data-manager="김성원" data-customer="XT(내회사)"
-                            data-order-no="SW654322" data-date="2025-07-08" data-shipping="선불택배 (₩2,500)"
-                            data-total-price="₩8,500" data-pending-price=""
+                            data-order-no="SW654321" data-date="2025-07-08" data-shipping="선불택배 (₩2,500)"
+                            data-total-price="₩8,500" data-pending-price="₩3,500"
                             data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수"
                             data-spec="용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄"
                             data-quantity="100매 / 2건" data-item-price="₩3,500"
-                            data-file-name="원본파일.pdf"
+                            data-file-name=""
                             data-actions="re-upload,cancel"
                             onclick="showOrderDetailSheet(this)">
 
                             <div class="card-header-row">
-                                <span class="card-date-order">2025-07-08 (SW654322)</span>
-                                <span class="card-status-badge status-in-progress">파일 재업로드 대기</span>
-                            </div>
-                            <div class="card-meta-group">
-                                <div class="card-meta-row">
-                                    <span>담당자: <strong>김성원</strong></span>
-                                    <span style="margin-left: 12px;">대상고객: <strong>XT(내회사)</strong></span>
-                                </div>
+                                <span class="card-date-order">2025-07-08 (SW654321)</span>
+                                <span class="card-status-badge waiting">파일 재업로드 대기</span>
                             </div>
                             <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
                             <div class="item-price-info">
                                 <span><strong>₩8,500</strong></span>
-                                </div>
-                            <div class="shipping-info-row">배송: <span>선불택배 (₩2,500)</span></div>
-
+                                <span class="pending-price">(결제대기 ₩3,500)</span>
+                            </div>
+                            <div class="card-row">
+                                <span>담당자: <strong>김성원</strong> / 대상고객: <strong>XT(내회사)</strong></span>
+                                <span class="shipping-info">선불택배 (₩2,500)</span>
+                            </div>
                             <div class="card-footer">
                                 <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('파일 재업로드');">파일 재업로드</button>
                                 <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('접수 취소');">접수 취소</button>
@@ -1084,66 +851,59 @@
                         
                         <article class="common-table-card clickable"
                             data-status="결제대기" data-status-text="접수 대기" data-manager="김성원" data-customer="XT(내회사)"
-                            data-order-no="SW654323" data-date="2025-07-08" data-shipping="선불택배 (₩2,500)"
-                            data-total-price="₩8,500" data-pending-price=""
+                            data-order-no="SW654321" data-date="2025-07-08" data-shipping="선불택배 (₩2,500)"
+                            data-total-price="₩8,500" data-pending-price="₩3,500"
                             data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수"
                             data-spec="용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄"
                             data-quantity="100매 / 2건" data-item-price="₩3,500"
-                            data-file-name="원본파일.ai"
-                            data-actions="change-design,cancel"
+                            data-file-name=""
+                            data-actions="change-design,submit"
                             onclick="showOrderDetailSheet(this)">
 
                             <div class="card-header-row">
-                                <span class="card-date-order">2025-07-08 (SW654323)</span>
-                                <span class="card-status-badge status-in-progress">접수 대기</span>
-                            </div>
-                            <div class="card-meta-group">
-                                <div class="card-meta-row">
-                                    <span>담당자: <strong>김성원</strong></span>
-                                    <span style="margin-left: 12px;">대상고객: <strong>XT(내회사)</strong></span>
-                                </div>
+                                <span class="card-date-order">2025-07-08 (SW654321)</span>
+                                <span class="card-status-badge waiting">접수 대기</span>
                             </div>
                             <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
                             <div class="item-price-info">
                                 <span><strong>₩8,500</strong></span>
-                                </div>
-                            <div class="shipping-info-row">배송: <span>선불택배 (₩2,500)</span></div>
-
+                                <span class="pending-price">(결제대기 ₩3,500)</span>
+                            </div>
+                            <div class="card-row">
+                                <span>담당자: <strong>김성원</strong> / 대상고객: <strong>XT(내회사)</strong></span>
+                                <span class="shipping-info">선불택배 (₩2,500)</span>
+                            </div>
                             <div class="card-footer">
                                 <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('디자인 파일 변경');">디자인 파일 변경</button>
-                                <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('접수 취소');">접수 취소</button>
+                                <button type="button" class="dark-button btn-sm" onclick="event.stopPropagation(); alert('접수하기');">접수하기</button>
                             </div>
                         </article>
                         
                         <article class="common-table-card clickable"
-                            data-status="접수 완료" data-status-text="접수 완료" data-manager="김길동" data-customer="삼성SDS"
-                            data-order-no="SW654324" data-date="2025-07-08" data-shipping="선불택배 (₩2,500)"
+                            data-status="진행 중" data-status-text="디자인 검수" data-manager="김길동" data-customer="삼성SDS"
+                            data-order-no="SW654321" data-date="2025-07-08" data-shipping="선불택배 (₩2,500)"
                             data-total-price="₩8,500" data-pending-price=""
                             data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수"
                             data-spec="용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄"
                             data-quantity="100매 / 2건" data-item-price="₩3,500"
-                            data-file-name="디자인_최종.pdf"
-                            data-actions="cancel"
+                            data-file-name=""
+                            data-actions="submit-complete"
                             onclick="showOrderDetailSheet(this)">
                             
                             <div class="card-header-row">
-                                <span class="card-date-order">2025-07-08 (SW654324)</span>
-                                <span class="card-status-badge status-complete">접수 완료</span>
-                            </div>
-                            <div class="card-meta-group">
-                                <div class="card-meta-row">
-                                    <span>담당자: <strong>김길동</strong></span>
-                                    <span style="margin-left: 12px;">대상고객: <strong>삼성SDS</strong></span>
-                                </div>
+                                <span class="card-date-order">2025-07-08 (SW654321)</span>
+                                <span class="card-status-badge review">디자인 검수</span>
                             </div>
                             <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
                             <div class="item-price-info">
                                 <span><strong>₩8,500</strong></span>
-                                </div>
-                            <div class="shipping-info-row">배송: <span>선불택배 (₩2,500)</span></div>
-
+                            </div>
+                            <div class="card-row">
+                                <span>담당자: <strong>김길동</strong> / 대상고객: <strong>삼성SDS</strong></span>
+                                <span class="shipping-info">선불택배 (₩2,500)</span>
+                            </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('접수 취소');">접수 취소</button>
+                                <button type="button" class="white-button btn-sm" disabled>접수 완료</button>
                             </div>
                         </article>
                         
@@ -1153,19 +913,23 @@
 
                     <div class="pagination" data-name="Pagination">
                         <div class="pagination-arrow disabled" onclick="paginationFirst()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(90deg);"><path d="M15 6l-6 6l6 6"/></svg>
+                            <img src="assets/images/nnext-arrow.svg" alt="처음"
+                                style="transform: rotate(90deg);">
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationPrev()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(90deg);"><path d="M6 9l6 6l6 -6"/></svg>
+                            <img src="assets/images/next-arrow.svg" alt="이전"
+                                style="transform: rotate(90deg);">
                         </div>
                         <div class="pagination-numbers" id="pagination-numbers">
                             <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationNext()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(-90deg);"><path d="M6 9l6 6l6 -6"/></svg>
+                            <img src="assets/images/next-arrow.svg" alt="다음"
+                                style="transform: rotate(90deg) scaleY(-1);">
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationLast()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(-90deg);"><path d="M15 6l-6 6l6 6"/></svg>
+                            <img src="assets/images/nnext-arrow.svg"
+                                alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
                         </div>
                     </div>
                 </section>
@@ -1175,12 +939,13 @@
 
     </div>
 
-    <div class="bottom-sheet-overlay" id="period-filter-overlay">
-        <div class="bottom-sheet" data-name="bottom-sheet" id="period-filter-sheet">
-            <div class="sheet-handle" id="period-filter-handle"></div>
+    <div class="bottom-sheet-overlay" id="filter-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="filter-sheet">
+            <div class="sheet-handle" id="filter-sheet-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">기간 상세검색</div>
-                <div class="btn-close" onclick="closeFilterSheet('period')"><svg id="icon-close"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
+                <div class="btn-close" onclick="closeFilterSheet()"><svg id="icon-close">
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
             </div>
             <div class="sheet-body" id="filter-sheet-body">
                 <div class="filter-group" id="single-chip-group-period">
@@ -1199,63 +964,28 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <div class="bottom-sheet-overlay" id="period-custom-sheet-overlay">
-        <div class="bottom-sheet" data-name="bottom-sheet" id="period-custom-sheet">
-            <div class="sheet-handle" id="period-custom-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">기간 설정</div>
-                <div class="btn-close" onclick="closeCustomPeriodSheet()">
-                     <svg id="icon-close-custom-period" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="form-group">
-                    <label for="start-date">시작일</label>
-                    <div class="input">
-                        <input type="date" id="start-date" value="2025-10-11">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="end-date">종료일</label>
-                    <div class="input">
-                        <input type="date" id="end-date" value="2025-11-11">
-                    </div>
-                </div>
-                 <div class="form-group">
-                    <label>간편 설정</label>
-                    <div class="filter-group-content">
-                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(0)">오늘</div>
-                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(7)">1주일</div>
-                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(30)">1개월</div>
-                    </div>
-                </div>
-            </div>
             <div class="sheet-footer">
-                <button class="btn white-button" onclick="closeCustomPeriodSheet()">취소</button>
-                <button class="btn dark-button" onclick="applyCustomPeriod()">조회하기</button>
+                <button class="btn white-button" onclick="resetPeriodFilter()">초기화</button>
+                <button class="btn dark-button" onclick="applyPeriodFilter()">조회하기</button>
             </div>
         </div>
     </div>
-
     
     <div class="bottom-sheet-overlay" id="manager-filter-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="manager-filter-sheet">
             <div class="sheet-handle" id="manager-filter-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">담당자 선택</div>
-                <div class="btn-close" onclick="closeFilterSheet('manager')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
+                <div class="btn-close" onclick="closeManagerFilterSheet()"><svg><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
             </div>
             <div class="sheet-body">
                 <div class="filter-group">
                     <div class="filter-group-content" id="manager-filter-chips">
                         <div class="multi-chip multi-chip-on" data-category="전체" onclick="toggleFilterChip(this, 'manager-filter-chips')">✓ 전체</div>
                         <div class="multi-chip multi-chip-off" data-category="김성원" onclick="toggleFilterChip(this, 'manager-filter-chips')">김성원</div>
-                        <div class="multi-chip multi-chip-off" data-category="김디자이너" onclick="toggleFilterChip(this, 'manager-filter-chips')">김디자이너</div>
-                        <div class="multi-chip multi-chip-off" data-category="정혜진" onclick="toggleFilterChip(this, 'manager-filter-chips')">정혜진</div>
-                        <div class="multi-chip multi-chip-off" data-category="정지수" onclick="toggleFilterChip(this, 'manager-filter-chips')">정지수</div>
+                        <div class="multi-chip multi-chip-off" data-category="김길동" onclick="toggleFilterChip(this, 'manager-filter-chips')">김길동</div>
+                        <div class="multi-chip multi-chip-off" data-category="정길동" onclick="toggleFilterChip(this, 'manager-filter-chips')">정길동</div>
+                        <div class="multi-chip multi-chip-off" data-category="최길동" onclick="toggleFilterChip(this, 'manager-filter-chips')">최길동</div>
                         <div class="multi-chip multi-chip-off" data-category="이길동" onclick="toggleFilterChip(this, 'manager-filter-chips')">이길동</div>
                     </div>
                 </div>
@@ -1272,12 +1002,13 @@
             <div class="sheet-handle" id="customer-filter-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">대상고객 선택</div>
-                <div class="btn-close" onclick="closeFilterSheet('customer')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
+                <div class="btn-close" onclick="closeCustomerFilterSheet()"><svg><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
             </div>
             <div class="sheet-body">
                 <div class="filter-group">
                     <div class="filter-group-content" id="customer-filter-chips">
                         <div class="multi-chip multi-chip-on" data-category="전체" onclick="toggleFilterChip(this, 'customer-filter-chips')">✓ 전체</div>
+                        <div class="multi-chip multi-chip-off" data-category="김성원" onclick="toggleFilterChip(this, 'customer-filter-chips')">김성원</div>
                         <div class="multi-chip multi-chip-off" data-category="XT(내회사)" onclick="toggleFilterChip(this, 'customer-filter-chips')">XT(내회사)</div>
                         <div class="multi-chip multi-chip-off" data-category="삼성SDS" onclick="toggleFilterChip(this, 'customer-filter-chips')">삼성SDS</div>
                         <div class="multi-chip multi-chip-off" data-category="LG CNS" onclick="toggleFilterChip(this, 'customer-filter-chips')">LG CNS</div>
@@ -1297,7 +1028,7 @@
             <div class="sheet-handle" id="order-detail-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">접수 상세</div>
-                <div class="btn-close" onclick="closeOrderDetailSheet()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
+                <div class="btn-close" onclick="closeOrderDetailSheet()"><svg><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
             </div>
             <div class="sheet-body">
                 <div class="detail-item">
@@ -1305,16 +1036,9 @@
                     <span class="value" id="detail-order-no"></span>
                 </div>
                 <div class="detail-item">
-                    <span class="label">접수일</span>
-                    <span class="value" id="detail-date"></span>
-                </div>
-                <div class="detail-item">
                     <span class="label">접수상태</span>
                     <span class="value" id="detail-status"></span>
                 </div>
-                <div class="card-divider"></div>
-                
-                <div class="detail-section-title">주문 정보</div>
                 <div class="detail-item">
                     <span class="label">담당자</span>
                     <span class="value" id="detail-manager"></span>
@@ -1327,25 +1051,16 @@
                     <span class="label">배송정보</span>
                     <span class="value" id="detail-shipping"></span>
                 </div>
-                
                 <div class="card-divider"></div>
                 
                 <div class="detail-section-title">상품 정보</div>
-                <div class="detail-item">
-                    <span class="label">제품명</span>
-                    <span class="value" id="detail-title"></span>
-                </div>
                 <p class="item-spec" id="detail-spec" style="margin-top: 4px;"></p>
-                
-                <div class="detail-item">
-                    <span class="label">수량/건수</span>
-                    <span class="value" id="detail-quantity-price"></span>
-                </div>
-                
                 <button class="file-download-btn" id="detail-file-btn" onclick="alert('파일 다운로드')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
                     <span id="detail-file-name"></span>
                 </button>
+                <div class="item-quantity" id="detail-quantity-price">
+                    </div>
                 
                 <div class="card-divider" style="margin-top: 10px;"></div>
                 
@@ -1366,142 +1081,8 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="manager-list-modal-overlay">
-        <div class="modal-content" id="manager-list-modal">
-            <div class="modal-header">
-                <h2 class="modal-title">담당자 관리</h2>
-                <button class="btn-modal-close" onclick="closeModal('manager-list-modal-overlay')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="manager-list">
-                    <div class="manager-item">
-                        <div class="manager-info-group">
-                            <div class="manager-name">김디자이너</div>
-                            <div class="manager-contact">
-                                <div>010-1234-5678</div>
-                                <div>kimdesigner@gmail.com</div>
-                            </div>
-                        </div>
-                        <div class="manager-actions">
-                            <button class="white-button btn-sm" onclick="showManagerEditModal('김디자이너', '010-1234-5678', 'kimdesigner@gmail.com')">수정</button>
-                            <button class="white-button btn-sm" style="color:#dc3545; border-color:#dc3545;" onclick="alert('김디자이너 담당자 삭제')">삭제</button>
-                        </div>
-                    </div>
-                    <div class="manager-item">
-                        <div class="manager-info-group">
-                            <div class="manager-name">정혜진</div>
-                            <div class="manager-contact">
-                                <div>010-1234-5678</div>
-                                <div>jeonghyegene@gmail.com</div>
-                            </div>
-                        </div>
-                        <div class="manager-actions">
-                            <button class="white-button btn-sm" onclick="showManagerEditModal('정혜진', '010-1234-5678', 'jeonghyegene@gmail.com')">수정</button>
-                            <button class="white-button btn-sm" style="color:#dc3545; border-color:#dc3545;" onclick="alert('정혜진 담당자 삭제')">삭제</button>
-                        </div>
-                    </div>
-                    <div class="manager-item">
-                         <div class="manager-info-group">
-                            <div class="manager-name">정지수</div>
-                            <div class="manager-contact">
-                                <div>010-1234-5678</div>
-                                <div>jisu@gmail.com</div>
-                            </div>
-                        </div>
-                        <div class="manager-actions">
-                            <button class="white-button btn-sm" onclick="showManagerEditModal('정지수', '010-1234-5678', 'jisu@gmail.com')">수정</button>
-                            <button class="white-button btn-sm" style="color:#dc3545; border-color:#dc3545;" onclick="alert('정지수 담당자 삭제')">삭제</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-             <div class="modal-footer">
-                <button class="btn dark-button" style="width: 100%;" onclick="openModal('manager-add-modal-overlay')">담당자 추가</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="modal-overlay" id="manager-add-modal-overlay">
-        <div class="modal-content" id="manager-add-modal">
-            <div class="modal-header">
-                <h2 class="modal-title" id="manager-add-title">담당자 추가</h2>
-                <button class="btn-modal-close" onclick="closeModal('manager-add-modal-overlay')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="manager-form-name">이름</label>
-                    <div class="input-text">
-                        <input type="text" id="manager-form-name" placeholder="이름을 입력하세요">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="manager-form-email">이메일</label>
-                    <div class="input-text">
-                        <input type="email" id="manager-form-email" placeholder="이메일을 입력하세요">
-                    </div>
-                </div>
-                 <div class="form-group">
-                    <label for="manager-form-phone">휴대폰 번호</label>
-                    <div class="input-text">
-                        <input type="tel" id="manager-form-phone" placeholder="휴대폰 번호를 입력하세요">
-                    </div>
-                </div>
-            </div>
-             <div class="modal-footer">
-                <button class="btn white-button" onclick="closeModal('manager-add-modal-overlay')">취소</button>
-                <button class="btn dark-button" id="manager-form-submit-btn" onclick="submitManagerForm()">추가하기</button>
-            </div>
-        </div>
-    </div>
-
 
     <script>
-        // --- Modal & Bottom Sheet Helpers ---
-        function openModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (overlay) {
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        function closeModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (overlay) {
-                overlay.classList.remove('active');
-                const anyActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
-                if (!anyActive) {
-                    document.body.style.overflow = '';
-                }
-            }
-        }
-        
-        // --- [NEW] Manager Edit/Add Logic ---
-        function showManagerEditModal(name, phone, email) {
-            // 1. 모달 폼 채우기
-            document.getElementById('manager-add-title').textContent = '담당자 수정';
-            document.getElementById('manager-form-name').value = name;
-            document.getElementById('manager-form-phone').value = phone.replace(/-/g, '');
-            document.getElementById('manager-form-email').value = email;
-            
-            const submitBtn = document.getElementById('manager-form-submit-btn');
-            submitBtn.textContent = '수정하기';
-            submitBtn.onclick = () => alert(`${name} 담당자 정보 수정 완료 (구현 필요)`);
-
-            // 2. 모달 열기
-            openModal('manager-add-modal-overlay');
-        }
-
-        function submitManagerForm() {
-             // 이 함수는 '담당자 추가'와 '담당자 수정' 버튼의 onclick 이벤트에서 개별적으로 정의됨
-             // 기본적으로는 alert를 띄웁니다.
-             alert('폼 제출 로직 (추가 또는 수정)이 실행되었습니다.');
-        }
-
         // --- [v12] Search Component JS ---
         function handleSearchInput(input) {
             const searchBox = input.closest('.search');
@@ -1524,11 +1105,11 @@
             const isCurrentlyOn = chip.classList.contains('multi-chip-on');
             let turnOn;
 
-            if (forceState === true) { 
+            if (forceState === true) { // Force On
                 turnOn = true;
-            } else if (forceState === false) { 
+            } else if (forceState === false) { // Force Off
                 turnOn = false;
-            } else { 
+            } else { // Toggle
                 turnOn = !isCurrentlyOn;
             }
 
@@ -1543,19 +1124,13 @@
             }
         }
         
-        // --- [v12] Bottom Sheet JS (Setup) ---
+        // --- [v12] Bottom Sheet JS ---
         function setupBottomSheet(overlayId, sheetId, handleId) {
             const overlay = document.getElementById(overlayId); const sheet = document.getElementById(sheetId); const handle = document.getElementById(handleId);
             if (!overlay || !sheet || !handle) return { openSheet: ()=>{}, closeSheet: ()=>{} };
             let isDragging = false, startY = 0, currentY = 0;
             const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
-            const closeSheet = () => { sheet.classList.add('closing'); 
-                const anyModalActive = document.querySelector('.modal-overlay.active');
-                if (!anyModalActive) {
-                    document.body.style.overflow = '';
-                }
-                setTimeout(() => { overlay.classList.remove('active'); sheet.classList.remove('closing'); sheet.style.transform = ''; }, 300); 
-            };
+            const closeSheet = () => { sheet.classList.add('closing'); document.body.style.overflow = ''; setTimeout(() => { overlay.classList.remove('active'); sheet.classList.remove('closing'); }, 300); };
             const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
             const drag = (e) => { if (!isDragging) return; e.preventDefault(); currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; const deltaY = currentY - startY; if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; };
             const endDrag = () => { if (!isDragging) return; isDragging = false; sheet.style.transition = ''; const deltaY = currentY - startY; if (deltaY > 100) closeSheet(); else sheet.style.transform = ''; };
@@ -1565,111 +1140,28 @@
             overlay.addEventListener('click', (e) => { if (e.target.id === overlayId) closeSheet(); });
             return { openSheet, closeSheet };
         }
-
-        let openPeriodFilterSheet, closePeriodFilterSheet, openManagerFilterSheet, closeManagerFilterSheet, openCustomerFilterSheet, closeCustomerFilterSheet, openOrderDetailSheet, closeOrderDetailSheet;
-        let openCustomPeriodSheet, closeCustomPeriodSheet; // [NEW] Custom Period Sheet
-
-        function initializeBottomSheets() {
-            const periodSheet = setupBottomSheet('period-filter-overlay', 'period-filter-sheet', 'period-filter-handle');
-            openPeriodFilterSheet = periodSheet.openSheet; closePeriodFilterSheet = periodSheet.closeSheet;
-            
-            const managerSheet = setupBottomSheet('manager-filter-overlay', 'manager-filter-sheet', 'manager-filter-handle');
-            openManagerFilterSheet = managerSheet.openSheet; closeManagerFilterSheet = managerSheet.closeSheet;
-
-            const customerSheet = setupBottomSheet('customer-filter-overlay', 'customer-filter-sheet', 'customer-filter-handle');
-            openCustomerFilterSheet = customerSheet.openSheet; closeCustomerFilterSheet = customerSheet.closeSheet;
-
-            const detailSheet = setupBottomSheet('order-detail-overlay', 'order-detail-sheet', 'order-detail-handle');
-            openOrderDetailSheet = detailSheet.openSheet; closeOrderDetailSheet = detailSheet.closeSheet;
-            
-            // [NEW] Custom Period Sheet Initialization
-            const customPeriodSheet = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
-            openCustomPeriodSheet = customPeriodSheet.openSheet; closeCustomPeriodSheet = customPeriodSheet.closeSheet;
-        }
+        
+        // [MODIFIED] Setup all bottom sheets
+        const { openSheet: showFilterSheet, closeSheet: closeFilterSheet } = setupBottomSheet('filter-sheet-overlay', 'filter-sheet', 'filter-sheet-handle');
+        const { openSheet: showManagerFilterSheet, closeSheet: closeManagerFilterSheet } = setupBottomSheet('manager-filter-overlay', 'manager-filter-sheet', 'manager-filter-handle');
+        const { openSheet: showCustomerFilterSheet, closeSheet: closeCustomerFilterSheet } = setupBottomSheet('customer-filter-overlay', 'customer-filter-sheet', 'customer-filter-handle');
+        const { openSheet: openOrderDetailSheet, closeSheet: closeOrderDetailSheet } = setupBottomSheet('order-detail-overlay', 'order-detail-sheet', 'order-detail-handle');
 
         
-        function showFilterSheet(type) {
-            if (type === 'period') openPeriodFilterSheet();
-            else if (type === 'manager') openManagerFilterSheet();
-            else if (type === 'customer') openCustomerFilterSheet();
-        }
-
-        function closeFilterSheet(type) {
-            if (type === 'period') closePeriodFilterSheet();
-            else if (type === 'manager') closeManagerFilterSheet();
-            else if (type === 'customer') closeCustomerFilterSheet();
-        }
-        
-        // --- [MODIFIED] Page-Specific Filter Logic ---
+        // --- [NEW] Page-Specific Filter Logic ---
 
         // 1. Period Filter (Bottom Sheet)
         let selectedPeriodValue = "최근 1개월"; 
-        
-        function setCustomPeriod(days) {
-            const endDate = new Date();
-            let startDate = new Date();
-            
-            if (days === 0) { // 오늘
-                 startDate = endDate;
-            } else if (days === 7) { // 1주일
-                startDate.setDate(endDate.getDate() - 7);
-            } else if (days === 30) { // 1개월
-                 startDate.setMonth(endDate.getMonth() - 1);
-            }
-            
-            // Format to YYYY-MM-DD
-            const isoStartDate = startDate.toISOString().split('T')[0];
-            const isoEndDate = endDate.toISOString().split('T')[0];
-
-            document.getElementById('start-date').value = isoStartDate;
-            document.getElementById('end-date').value = isoEndDate;
-        }
-
-        function applyCustomPeriod() {
-            const startDate = document.getElementById('start-date').value;
-            const endDate = document.getElementById('end-date').value;
-            
-            if (!startDate || !endDate) {
-                alert("시작일과 종료일을 모두 선택해주세요.");
-                return;
-            }
-            if (new Date(startDate) > new Date(endDate)) {
-                 alert("시작일이 종료일보다 늦을 수 없습니다.");
-                return;
-            }
-            
-            selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`;
-            
-            // Period Filter 칩의 상태도 '기간 설정'으로 변경
-            document.querySelector('#single-chip-group-period .single-chip[data-value="기간 설정"]').classList.replace('single-chip-off', 'single-chip-on');
-            
-            closeCustomPeriodSheet();
-            applyPeriodFilter(); // 메인 필터 적용
-        }
-
         function selectPeriod(chip) { 
             const group = chip.closest('.filter-group-content'); 
             group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
             chip.classList.replace('single-chip-off', 'single-chip-on'); 
             selectedPeriodValue = chip.getAttribute('data-value'); 
-            
-            if (selectedPeriodValue === "기간 설정") {
-                const endDate = new Date();
-                const startDate = new Date();
-                startDate.setMonth(endDate.getMonth() - 1); // Default to 1 month ago
-                document.getElementById('start-date').value = startDate.toISOString().split('T')[0];
-                document.getElementById('end-date').value = endDate.toISOString().split('T')[0];
-                
-                closeFilterSheet('period'); // 기간 선택 시트 닫고
-                openCustomPeriodSheet(); // 기간 설정 시트 열기
-            } else {
-                applyPeriodFilter(); // 기간 설정이 아니면 즉시 적용
-            }
         }
         function applyPeriodFilter() { 
             document.getElementById('selected-period-text').textContent = selectedPeriodValue; 
-            document.querySelector('.filter-bar button:nth-child(1)')?.classList.remove('open'); 
-            closeFilterSheet('period'); 
+            document.querySelector('.text-select-button')?.classList.remove('open'); 
+            closeFilterSheet(); 
             filterOrderList();
         }
          function resetPeriodFilter() { 
@@ -1714,8 +1206,7 @@
                 selected.push(chip.dataset.category);
             });
             updateFilterText('selected-manager-text', '담당자', selected);
-            document.querySelector('.filter-bar button:nth-child(2)')?.classList.remove('open'); 
-            closeFilterSheet('manager');
+            closeManagerFilterSheet();
             filterOrderList();
         }
         
@@ -1736,8 +1227,7 @@
                 selected.push(chip.dataset.category);
             });
             updateFilterText('selected-customer-text', '대상고객', selected);
-            document.querySelector('.filter-bar button:nth-child(3)')?.classList.remove('open'); 
-            closeFilterSheet('customer');
+            closeCustomerFilterSheet();
             filterOrderList();
         }
 
@@ -1765,6 +1255,8 @@
 
         // 4. Main Filter Function
         function filterOrderList() {
+            // Get all filter values
+            const period = selectedPeriodValue;
             const statusChip = document.querySelector('#status-chip-group .single-chip-on');
             const status = statusChip ? statusChip.dataset.status : '전체';
             
@@ -1780,6 +1272,9 @@
             
             const searchTerm = document.querySelector('#qna-search input').value.toLowerCase();
             
+            console.log("Filtering Order List:", { period, status, selectedManagers, selectedCustomers, searchTerm });
+
+            // Apply filtering logic
             const listContainer = document.getElementById('transaction-list-container'); 
             if (!listContainer) return; 
             
@@ -1788,8 +1283,9 @@
             let visibleCount = 0;
             const isAllManagers = selectedManagers.includes('전체');
             const isAllCustomers = selectedCustomers.includes('전체');
-            
-            document.querySelectorAll('.date-divider').forEach(d => d.style.display = 'none'); 
+
+            let currentDividerDate = null;
+            document.querySelectorAll('.date-divider').forEach(d => d.style.display = 'none'); // Hide all dividers initially
 
             cards.forEach(card => { 
                 const cardStatus = card.dataset.status; 
@@ -1797,36 +1293,38 @@
                 const cardCustomer = card.dataset.customer;
                 const cardTitle = card.dataset.title.toLowerCase();
                 const cardOrderNo = card.dataset.orderNo.toLowerCase();
+                const cardDate = card.dataset.date;
                 
+                // Status check
                 const statusMatch = (status === '전체' || cardStatus === status);
+                // Manager check
                 const managerMatch = (isAllManagers || selectedManagers.includes(cardManager));
+                // Customer check
                 const customerMatch = (isAllCustomers || selectedCustomers.includes(cardCustomer));
+                // Search check
                 let searchMatch = true;
                 if (searchTerm) {
                     searchMatch = cardTitle.includes(searchTerm) || cardOrderNo.includes(searchTerm);
                 }
                 
+                // TODO: Add period filtering logic here when data is dynamic
+                
                 if (statusMatch && managerMatch && customerMatch && searchMatch) { 
                     card.style.display = 'block'; 
                     visibleCount++; 
+                    
+                    // Show date divider if it's new
+                    const divider = card.previousElementSibling;
+                    if (divider && divider.classList.contains('date-divider')) {
+                        if (divider.dataset.date !== currentDividerDate) {
+                            divider.style.display = 'block';
+                            currentDividerDate = divider.dataset.date;
+                        }
+                    }
+
                 } else { 
                     card.style.display = 'none'; 
                 } 
-            });
-
-            // After filtering cards, manage date dividers
-            const allItems = Array.from(listContainer.children);
-            let currentDivider = null;
-
-            allItems.forEach(item => {
-                if (item.classList.contains('date-divider')) {
-                    currentDivider = item;
-                } else if (item.classList.contains('common-table-card')) {
-                    if (item.style.display === 'block' && currentDivider) {
-                        currentDivider.style.display = 'block';
-                        currentDivider = null; // 다음 구분자를 찾기 위해 초기화
-                    }
-                }
             });
             
             const countEl = document.getElementById('transaction-count');
@@ -1834,48 +1332,8 @@
             if(noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
         }
 
-        // 5. Order Detail Sheet
-        function showOrderDetailSheet(card) {
-            const data = card.dataset;
-            
-            // Populate text
-            document.getElementById('detail-order-no').textContent = data.orderNo || '-';
-            document.getElementById('detail-date').textContent = data.date || '-';
-            document.getElementById('detail-status').textContent = data.statusText || '-';
-            document.getElementById('detail-manager').textContent = data.manager || '-';
-            document.getElementById('detail-customer').textContent = data.customer || '-';
-            document.getElementById('detail-shipping').textContent = data.shipping || '-';
-            document.getElementById('detail-title').textContent = data.title || '-'; 
-            document.getElementById('detail-spec').textContent = data.spec || '-';
-            
-            // Populate quantity/price
-            const quantityPriceEl = document.getElementById('detail-quantity-price');
-            quantityPriceEl.textContent = `${data.quantity}`;
-            
-            document.getElementById('detail-total-price').textContent = data.totalPrice || '-';
-            
-            const pendingPriceEl = document.getElementById('detail-pending-price');
-            pendingPriceEl.textContent = data.pendingPrice || '-';
-            // 결제대기 금액이 비어있으면 숨김
-            pendingPriceEl.parentElement.style.display = data.pendingPrice ? 'flex' : 'none';
-
-            // Populate file (요청 2 반영)
-            const fileBtn = document.getElementById('detail-file-btn');
-            const fileName = data.fileName || `${data.orderNo}_디자인파일.ai`; 
-            
-            document.getElementById('detail-file-name').textContent = fileName;
-            fileBtn.style.display = 'inline-flex';
-            
-            // Populate footer buttons
-            const footer = document.getElementById('detail-sheet-footer');
-            footer.innerHTML = '<button type="button" class="dark-button btn" onclick="closeOrderDetailSheet()">확인</button>'; 
-            
-            openOrderDetailSheet();
-        }
-
-
         // --- [v12] Pagination Logic ---
-        let currentPage = 1; const totalPages = 1; 
+        let currentPage = 1; const totalPages = 1; // [MODIFIED] Total pages
         function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); }
         function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
         function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
@@ -1884,7 +1342,7 @@
         function updatePagination() {
             const numbersContainer = document.getElementById('pagination-numbers');
             if (!numbersContainer) return;
-            numbersContainer.innerHTML = ''; 
+            numbersContainer.innerHTML = ''; // Clear
             for (let i = 1; i <= totalPages; i++) {
                 const numEl = document.createElement('div');
                 numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
@@ -1900,21 +1358,59 @@
             prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
             nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
         }
+        
+        // --- [NEW] Order Detail Sheet Logic ---
+        function showOrderDetailSheet(card) {
+            const data = card.dataset;
+            
+            // Populate text
+            document.getElementById('detail-order-no').textContent = data.orderNo || '-';
+            document.getElementById('detail-status').textContent = data.statusText || '-';
+            document.getElementById('detail-manager').textContent = data.manager || '-';
+            document.getElementById('detail-customer').textContent = data.customer || '-';
+            document.getElementById('detail-shipping').textContent = data.shipping || '-';
+            document.getElementById('detail-title').textContent = data.title || '-';
+            document.getElementById('detail-spec').textContent = data.spec || '-';
+            
+            // [MODIFIED] Populate quantity/price
+            const quantityPriceEl = document.getElementById('detail-quantity-price');
+            quantityPriceEl.innerHTML = `<strong>${data.itemPrice}</strong> (${data.quantity})`;
+            
+            document.getElementById('detail-total-price').textContent = data.totalPrice || '-';
+            
+            const pendingPriceEl = document.getElementById('detail-pending-price');
+            pendingPriceEl.textContent = data.pendingPrice || '-';
+            pendingPriceEl.parentElement.style.display = data.pendingPrice ? 'flex' : 'none';
+
+            // Populate file
+            const fileBtn = document.getElementById('detail-file-btn');
+            if (data.fileName) {
+                document.getElementById('detail-file-name').textContent = data.fileName;
+                fileBtn.style.display = 'inline-flex';
+            } else {
+                fileBtn.style.display = 'none';
+            }
+            
+            // Populate footer buttons
+            const footer = document.getElementById('detail-sheet-footer');
+            footer.innerHTML = '<button type="button" class="dark-button btn" onclick="closeOrderDetailSheet()">확인</button>'; // Default button
+            
+            openOrderDetailSheet();
+        }
+
 
         // --- Initialize ---
         document.addEventListener('DOMContentLoaded', () => {
-            // 모든 Bottom Sheet 초기화 (기능 복구)
-            initializeBottomSheets();
-
             updatePagination();
             
             const list = document.getElementById('transaction-list-container');
             const items = Array.from(list.querySelectorAll('.common-table-card'));
+            let lastDate = null;
             
-            // Group items by date first (Re-using logic from original order_list.html)
+            // Group items by date first
             const groupedByDate = {};
             items.forEach(item => {
-                const itemDate = item.dataset.date; 
+                const itemDate = item.dataset.date; // Use data attribute
                 if (!groupedByDate[itemDate]) {
                     groupedByDate[itemDate] = [];
                 }
@@ -1923,12 +1419,12 @@
 
             // Re-order DOM with dividers
             list.innerHTML = ''; // Clear list
-            const sortedDates = Object.keys(groupedByDate).sort().reverse(); 
+            const sortedDates = Object.keys(groupedByDate).sort().reverse(); // Sort dates descending
             
             sortedDates.forEach(date => {
                 const divider = document.createElement('div');
                 divider.className = 'date-divider';
-                divider.textContent = date.replace(/-/g, '. '); 
+                divider.textContent = date.replace(/-/g, '. '); // Format 2025-07-08 -> 2025. 07. 08
                 divider.dataset.date = date;
                 list.appendChild(divider);
                 
@@ -1938,43 +1434,45 @@
             });
 
             filterOrderList(); // Initial filter
-
-            // Modal overlay click-to-close listeners
-            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            
+            // Modal/Sheet overlay click listeners
+            document.querySelectorAll('.bottom-sheet-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
-                        closeModal(overlay.id);
+                        if (overlay.id.includes('filter')) closeFilterSheet();
+                        if (overlay.id.includes('manager')) closeManagerFilterSheet();
+                        if (overlay.id.includes('customer')) closeCustomerFilterSheet();
+                        if (overlay.id.includes('order-detail')) closeOrderDetailSheet();
                     }
                 });
             });
-            
-            // '담당자 추가' 버튼 초기화 로직 (DOM 로드 후 한 번만 실행)
-            document.querySelector('.modal-footer .dark-button[onclick*="manager-add-modal-overlay"]').addEventListener('click', (e) => {
-                 // Prevent default modal behavior (just close the current modal)
-                 e.preventDefault();
-                 e.stopPropagation();
-                 closeModal('manager-list-modal-overlay');
-                 
-                 // Initialize form for 'Add'
-                 document.getElementById('manager-add-title').textContent = '담당자 추가';
-                 document.getElementById('manager-form-name').value = '';
-                 document.getElementById('manager-form-phone').value = '';
-                 document.getElementById('manager-form-email').value = '';
-                 
-                 const submitBtn = document.getElementById('manager-form-submit-btn');
-                 submitBtn.textContent = '추가하기';
-                 submitBtn.onclick = () => alert('담당자 추가 완료 (구현 필요)');
-                 
-                 openModal('manager-add-modal-overlay');
-            });
-            
-            // '기간 상세 검색' 버튼 초기화 로직
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('start-date').value = today;
-            document.getElementById('end-date').value = today;
         });
 
     </script>
+
+
+    <div class="disqus-thread-wrap">
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://sw-mobile.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>
 
 </html>
