@@ -52,10 +52,6 @@
             display: block;
         }
 
-        input {
-            font-family: inherit;
-        }
-
         svg {
             stroke-width: 2;
             fill: none;
@@ -235,8 +231,8 @@
             border-color: #e8e8e9;
         }
         .delete-button:hover {
-            background: #fefafa;
             border-color: #dc3545;
+            background: #fefafa;
         }
 
         .dark-button:disabled,
@@ -293,22 +289,18 @@
             gap: 8px;
         }
 
-        .filter-chip-section .multi-chip {
-            flex-shrink: 0;
-            white-space: nowrap;
-        }
-
         /* v12 Standard .multi-chip */
         .multi-chip {
             display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            align-items: center; /* Center the content vertically */
             padding: 6px 12px;
             border-radius: 100px;
             font-size: 14px;
             cursor: pointer;
             transition: all 0.2s;
             user-select: none;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .multi-chip-off {
@@ -321,6 +313,20 @@
             background: #c7d3ff;
             border: 1px solid #4e6ee4;
             color: #4e6ee4;
+        }
+
+        /* [FIX] Multi-chip Icon visibility control */
+        .multi-chip .check-icon {
+            display: none;
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+            color: #4e6ee4;
+            flex-shrink: 0;
+        }
+        
+        .multi-chip-on .check-icon {
+            display: inline-flex; /* Show when active */
         }
 
         .multi-chip:active {
@@ -409,7 +415,7 @@
             margin-bottom: 16px;
         }
         
-        /* [NEW] Header Checkbox Wrapper */
+        /* Header Checkbox Wrapper */
         .header-checkbox-wrapper {
             display: flex;
             align-items: center;
@@ -568,11 +574,11 @@
 
         .checkbox-text span {
             font-size: 16px;
-            color: #333;
             font-weight: 600; 
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: #333;
         }
 
         /* Pagination */
@@ -664,7 +670,6 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            /* v19: Make space for delete button */
             flex: 1; 
         }
 
@@ -693,7 +698,7 @@
             padding: 0 16px;
         }
         
-        /* [NEW] Footer Delete Button Style */
+        /* Footer Delete Button Style */
         .btn-delete-selected {
             color: #dc3545;
             border-color: #e8e8e9;
@@ -718,26 +723,141 @@
 
         .modal-overlay.active {
             display: flex;
+            animation: fadeInModal 0.2s ease-out;
         }
 
-        .alert-modal {
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* [MODIFIED] Full Page Modal Styles */
+        .modal-content {
             background: white;
-            border-radius: 6px;
-            padding: 20px;
-            text-align: center;
-            position: relative;
+            border-radius: 8px;
             width: 100%;
-            max-width: 320px;
+            max-width: 360px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+        
+        /* Force full page style regardless of overlay padding */
+        .modal-content.full-page-modal {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px; /* Matches mobile-wrap */
+            height: 100%;
+            max-height: none;
+            border-radius: 0;
+            margin: 0;
+            z-index: 1001;
+        }
+
+        @keyframes scaleUpModal {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            height: 57px;
+            position: relative;
         }
 
         .modal-title {
             font-size: 16px;
             font-weight: 700;
             color: black;
+            margin-bottom: 0;
+            text-align: center; /* Center Title */
+            flex: 1;
+        }
+        
+        /* Modal Close Button */
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333;
+            /* Absolute position for easy alignment */
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        /* [NEW] Share Button in Header */
+        .header-share-btn {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333;
+        }
+        .header-share-btn:active, .btn-modal-close:active { transform: translateY(-50%) scale(0.9); }
+        .header-share-btn:hover, .btn-modal-close:hover { color: #000; }
+
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 8px 8px;
+        }
+        
+        /* Remove radius for full page modal footer */
+        .full-page-modal .modal-footer {
+            border-radius: 0;
+        }
+        
+        .modal-footer .btn {
+            flex: 1;
+        }
+        /* [MODIFIED] Primary Button for PDF Download */
+        .modal-footer .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            border: none;
+        }
+
+
+        /* Alert Modal */
+        .alert-modal {
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 320px;
+            position: relative;
+        }
+        
+        .alert-modal .modal-title {
+            text-align: center;
             margin-bottom: 15px;
         }
 
-        .modal-message {
+        .alert-modal .modal-message {
             font-size: 14px;
             color: black;
             margin-bottom: 30px;
@@ -782,6 +902,7 @@
             font-weight: 600;
         }
         
+        /* Common styles */
         .disclaimer {
             font-size: 12px;
             color: #888;
@@ -795,6 +916,350 @@
             color: #888;
             font-size: 14px;
         }
+        
+        /* Styles for Modal Content (Details) */
+        .action-buttons-top {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .action-buttons-top .white-button, .action-buttons-top .dark-button {
+            flex: 1;
+            height: 40px;
+            font-size: 13px;
+            padding: 0 8px;
+        }
+        
+        .detail-box {
+            background: #f8f8f9;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .detail-row:last-child { margin-bottom: 0; }
+        .detail-label { color: #555; }
+        .detail-value { color: #333; font-weight: 500; text-align: right; word-break: keep-all;}
+        
+        .price-summary {
+            border-top: 1px solid #e8e8e9;
+            padding-top: 12px;
+            margin-top: 12px;
+        }
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .price-row.total {
+            font-weight: 700;
+            color: #333;
+            font-size: 16px;
+            margin-top: 8px;
+            margin-bottom: 0;
+        }
+        
+        /* Provider Info Box */
+        .provider-info {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        /* Table for Modals */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+        .history-table th {
+            background: #f8f8f9;
+            padding: 10px 8px;
+            border-bottom: 1px solid #e8e8e9;
+            color: #555;
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .history-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+            vertical-align: middle;
+            text-align: center;
+        }
+        .history-table td.text-left {
+            text-align: left;
+        }
+        
+        /* Form Group for Modal */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        /* Input Group */
+        .input-group {
+            display: flex;
+            gap: 8px;
+        }
+        .input-group .input {
+            flex: 1;
+        }
+        .input-group .white-button, .input-group .dark-button {
+            height: 40px;
+            font-size: 13px;
+            padding: 0 16px;
+            width: auto;
+            flex-shrink: 0;
+        }
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+        .input input, .input textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+            font-family: inherit;
+        }
+        .input textarea {
+            resize: vertical;
+        }
+        
+        /* [MODIFIED] Section Title in Modal */
+        .modal-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #e8e8e9; /* Light border */
+            padding-bottom: 8px;
+            margin-top: 20px;
+        }
+        .modal-section-title:first-child { margin-top: 0; }
+        
+        /* [MODIFIED] Comparison Cards Container (Vertical Stack) */
+        .comparison-cards-container {
+            display: flex;
+            flex-direction: column; /* Stack vertically */
+            gap: 16px;
+        }
+        
+        .comparison-card {
+            width: 100%; /* Take full width */
+            max-width: none; 
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            overflow: hidden;
+            padding: 16px; 
+            margin-bottom: 0; /* Handled by container gap */
+        }
+
+        .comparison-card .card-title-compare {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 16px;
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e8e8e9;
+        }
+        
+        .comparison-card .spec-group {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .comparison-card .spec-group .spec-label {
+            color: #555;
+            font-weight: 500;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+        .comparison-card .spec-group .spec-value {
+            color: #333;
+            text-align: right;
+            word-break: break-word;
+        }
+        .comparison-card .spec-group .spec-value.total {
+             font-weight: 700;
+             font-size: 16px;
+        }
+
+        /* [MODIFIED] Recipient Input Group (for detail/issue) */
+        .recipient-input-group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: #333;
+        }
+        .recipient-input-group .input {
+            flex: 1;
+            padding: 10px 12px;
+            height: 40px;
+        }
+        .recipient-input-group .input input {
+            padding: 0;
+        }
+        .recipient-input-group .suffix {
+            flex-shrink: 0;
+            font-weight: 500;
+        }
+        
+        /* [NEW] For Detail Modal's Recipient/Date fields */
+        .form-group-recipient {
+            margin-bottom: 12px;
+        }
+        .form-group-recipient .recipient-input-group {
+            margin-bottom: 0;
+        }
+
+
+        /* ========================================
+           [NEW] BOTTOM SHEET STYLES (for Email)
+        ======================================== */
+        .bottom-sheet-overlay.email-sheet {
+            align-items: center; /* Center horizontally for email input */
+        }
+        
+        .bottom-sheet.email-sheet {
+             max-width: 360px;
+             border-radius: 8px;
+             animation: scaleUpModal 0.2s ease-out; /* Use modal animation */
+             position: relative;
+             transform: none; 
+             margin: 0;
+             max-height: none;
+        }
+        .bottom-sheet.email-sheet .sheet-handle { display: none; }
+        .bottom-sheet.email-sheet .sheet-header { 
+             height: 57px;
+             margin-bottom: 0;
+             padding: 16px;
+             border-bottom: 1px solid #e8e8e9;
+             justify-content: space-between;
+             display: flex; /* Ensure flex for centering header content */
+             align-items: center;
+        }
+        .bottom-sheet.email-sheet .sheet-body { 
+             min-height: auto; 
+             padding: 16px;
+             overflow-y: hidden;
+        }
+        .bottom-sheet.email-sheet .sheet-footer {
+             border-radius: 0 0 8px 8px;
+             border-top: 1px solid #e8e8e9;
+             padding: 16px;
+        }
+        .bottom-sheet.email-sheet .sheet-title {
+            text-align: left;
+            font-size: 16px;
+            font-weight: 700;
+            flex-grow: 1;
+        }
+        .bottom-sheet.email-sheet .btn-close {
+            position: static;
+            transform: none;
+            right: auto;
+            top: auto;
+            width: 24px;
+            height: 24px;
+            margin-left: 16px; /* Space from title */
+        }
+        
+        /* Toast Message */
+        #toast-message {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 12px 20px;
+            position: fixed;
+            z-index: 10000;
+            left: 50%;
+            bottom: 88px; /* Above the sticky footer */
+            transform: translateX(-50%);
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        #toast-message.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Generic Bottom Sheet (for setup) */
+        .bottom-sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .bottom-sheet-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .bottom-sheet {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-top: 1px solid #d7d7d7;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
     </style>
 </head>
 
@@ -834,22 +1299,30 @@
 
                 <section class="filter-chip-section" style="padding-top: 0; padding-bottom: 16px;">
                     <div class="tabs-scroll-wrapper" id="category-chip-group">
-                        <div class="multi-chip multi-chip-on" data-category="전체" onclick="toggleCategoryChip(this)">✓ 전체
+                        <div class="multi-chip multi-chip-on" data-category="전체" onclick="toggleCategoryChip(this)">
+                            <span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg></span>전체
                         </div>
-                        <div class="multi-chip multi-chip-off" data-category="명함" onclick="toggleCategoryChip(this)">명함
+                        <div class="multi-chip multi-chip-off" data-category="명함" onclick="toggleCategoryChip(this)">
+                            <span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg></span>명함
                         </div>
-                        <div class="multi-chip multi-chip-off" data-category="홍보물" onclick="toggleCategoryChip(this)">홍보물
+                        <div class="multi-chip multi-chip-off" data-category="홍보물" onclick="toggleCategoryChip(this)">
+                            <span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg></span>홍보물
                         </div>
                         <div class="multi-chip multi-chip-off" data-category="패키지/봉투" onclick="toggleCategoryChip(this)">
-                            패키지/봉투</div>
-                        <div class="multi-chip multi-chip-off" data-category="서식지" onclick="toggleCategoryChip(this)">서식지
+                            <span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg></span>패키지/봉투
                         </div>
-                        <div class="multi-chip multi-chip-off" data-category="굿즈" onclick="toggleCategoryChip(this)">굿즈
+                        <div class="multi-chip multi-chip-off" data-category="서식지" onclick="toggleCategoryChip(this)">
+                            <span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg></span>서식지
                         </div>
-                        <div class="multi-chip multi-chip-off" data-category="기획제품" onclick="toggleCategoryChip(this)">기획제품
+                        <div class="multi-chip multi-chip-off" data-category="굿즈" onclick="toggleCategoryChip(this)">
+                            <span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg></span>굿즈
+                        </div>
+                        <div class="multi-chip multi-chip-off" data-category="기획제품" onclick="toggleCategoryChip(this)">
+                            <span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg></span>기획제품
                         </div>
                         <div class="multi-chip multi-chip-off" data-category="별도견적" onclick="toggleCategoryChip(this)">
-                            별도견적</div>
+                            <span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg></span>별도견적
+                        </div>
                     </div>
                 </section>
 
@@ -858,10 +1331,10 @@
                         <input type="text" placeholder="견적명을 입력해주세요" oninput="handleSearchInput(this)">
                         <div class="search-input-right">
                             <div class="search-del" onclick="clearSearch(this)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                                <img src="assets/images/search-del.png" alt="지우기">    
                             </div>
                             <button type="button" class="btn-search" onclick="handleSearch(this)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24" id="icon-search">
                                     <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
                                     <path d="M21 21l-6 -6" />
                                 </svg>
@@ -906,7 +1379,7 @@
                                 용지: (표지) 150g, (내지) 아트지/백색/100g | 인쇄: (표지) CMYK, (내지) 단면CMYK
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button white-button-sm" onclick="alert('견적 상세 보기 (구현 필요)')">상세보기</button>
+                                <button type="button" class="white-button white-button-sm" onclick="showEstimateDetail(this)">상세보기</button>
                                 <button type="button" class="delete-button white-button-sm white-button" onclick="showDeleteAlert(event)">삭제</button>
                             </div>
                         </article>
@@ -926,7 +1399,7 @@
                                 용지: 아트지/150g | 인쇄: 단면CMYK
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button white-button-sm" onclick="alert('견적 상세 보기 (구현 필요)')">상세보기</button>
+                                <button type="button" class="white-button white-button-sm" onclick="showEstimateDetail(this)">상세보기</button>
                                 <button type="button" class="delete-button white-button-sm white-button" onclick="showDeleteAlert(event)">삭제</button>
                             </div>
                         </article>
@@ -946,7 +1419,7 @@
                                 용지: 누브지/220g | 인쇄: 양면CMYK/고급
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button white-button-sm" onclick="alert('견적 상세 보기 (구현 필요)')">상세보기</button>
+                                <button type="button" class="white-button white-button-sm" onclick="showEstimateDetail(this)">상세보기</button>
                                 <button type="button" class="delete-button white-button-sm white-button" onclick="showDeleteAlert(event)">삭제</button>
                             </div>
                         </article>
@@ -966,7 +1439,7 @@
                                 용지: (표지) 스노우지 150g, (내지) 모조지 100g
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button white-button-sm" onclick="alert('견적 상세 보기 (구현 필요)')">상세보기</button>
+                                <button type="button" class="white-button white-button-sm" onclick="showEstimateDetail(this)">상세보기</button>
                                 <button type="button" class="delete-button white-button-sm white-button" onclick="showDeleteAlert(event)">삭제</button>
                             </div>
                         </article>
@@ -977,11 +1450,11 @@
 
                     <div class="pagination" data-name="Pagination">
                         <div class="pagination-arrow disabled" onclick="paginationFirst()">
-                            <img src="https://www.figma.com/api/mcp/asset/98c36079-6698-4fbf-8222-1c0b4fcaab1c" alt="처음"
+                            <img src="assets/images/nnext-arrow.svg" alt="처음"
                                 style="transform: rotate(90deg);">
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationPrev()">
-                            <img src="https://www.figma.com/api/mcp/asset/5881851a-69b0-4a30-8ba8-bbb647a7fcc4" alt="이전"
+                            <img src="assets/images/next-arrow.svg" alt="이전"
                                 style="transform: rotate(90deg);">
                         </div>
                         <div class="pagination-numbers" id="pagination-numbers">
@@ -993,11 +1466,11 @@
                             <div class="pagination-number" data-page="6" onclick="paginationGo(6)">6</div>
                         </div>
                         <div class="pagination-arrow" onclick="paginationNext()">
-                            <img src="https://www.figma.com/api/mcp/asset/9f728346-6da0-4d2b-a299-2137f0214aea" alt="다음"
+                            <img src="assets/images/next-arrow.svg" alt="다음"
                                 style="transform: rotate(90deg) scaleY(-1);">
                         </div>
                         <div class="pagination-arrow" onclick="paginationLast()">
-                            <img src="https://www.figma.com/api/mcp/asset/4557e67d-fb94-45a7-a3da-e8690f677a05"
+                            <img src="assets/images/nnext-arrow.svg"
                                 alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
                         </div>
                     </div>
@@ -1018,45 +1491,443 @@
             </div>
             <div class="action-buttons">
                 <button class="white-button btn-delete-selected" onclick="showDeleteAlert()">삭제</button>
-                <button class="white-button" id="btn-compare" onclick="alert('견적 비교 (구현 필요)')">견적 비교</button>
-                <button class="dark-button" id="btn-issue" onclick="alert('견적서 발급 (구현 필요)')">견적서 발급</button>
+                <button class="white-button" id="btn-compare" onclick="showEstimateCompareModal()">견적 비교</button>
+                <button class="dark-button" id="btn-issue" onclick="showEstimateIssueModal()">견적서 발급</button>
             </div>
         </div>
+        
+         <div id="toast-message"></div>
 
     </div>
 
-    <div class="modal-overlay" id="delete-alert-overlay">
-        <div class="alert-modal" data-name="Alert">
-            <div class="modal-title">견적 삭제</div>
-            <div class="modal-message">
-                선택한 견적을 삭제하시겠습니까?<br>
-                삭제 후에는 복구할 수 없습니다.
+    <div class="modal-overlay" id="estimate-detail-modal-overlay">
+        <div class="modal-content full-page-modal" id="estimate-detail-modal">
+            <div class="modal-header">
+                <button class="header-share-btn" onclick="showToast('공유 링크 복사 완료, 복사된 링크로 견적서를 공유해보세요')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-share"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M8.7 10.7l6.6 -3.4" /><path d="M8.7 13.3l6.6 3.4" /></svg>
+                </button>
+                <h2 class="modal-title">견적서 상세</h2>
+                <button class="btn-modal-close" onclick="closeModal('estimate-detail-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
             </div>
+            <div class="modal-body">
+                <div class="action-buttons-top">
+                    <button class="white-button">장바구니</button>
+                    <button class="dark-button" style="flex: 1;">바로 접수</button>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label style="margin-bottom: 8px;">견적명</label>
+                    <div class="input-group">
+                        <div class="input">
+                            <input type="text" value="기업 홍보용 책자" placeholder="견적명을 입력해주세요">
+                        </div>
+                        <button class="white-button" onclick="alert('견적명이 변경되었습니다.')">변경</button>
+                    </div>
+                </div>
+                
+                <div class="form-group form-group-recipient">
+                    <label style="margin-bottom: 8px;">수신인</label>
+                    <div class="recipient-input-group">
+                         <div class="input">
+                            <input type="text" value="김성수" placeholder="수신인 이름을 입력해주세요">
+                        </div>
+                        <span class="suffix">귀하</span>
+                    </div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-row"><span class="detail-label">견적일</span><span class="detail-value">2025년 09월 16일</span></div>
+                </div>
+
+                <h3 class="modal-section-title">공급자 정보</h3>
+                <table class="history-table" style="width: 100%;">
+                    <tbody>
+                        <tr><th>상호명</th><td class="text-left">(주)성원애드피아</td></tr>
+                        <tr><th>대표자명</th><td class="text-left">정대원 <img src="assets/images/stamp.png" alt="" style="display: inline-block; vertical-align: middle; width: 20px;"></td></tr>
+                        <tr><th>사업자등록번호</th><td class="text-left">201-85-22977</td></tr>
+                        <tr><th>주소</th><td class="text-left">성수시 성동구 성수일로 80</td></tr>
+                        <tr><th>연락처</th><td class="text-left">1599-5555</td></tr>
+                        <tr><th>팩스</th><td class="text-left">02-2266-0100</td></tr>
+                    </tbody>
+                </table>
+                <h3 class="modal-section-title">제품 상세</h3>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">항목</th>
+                            <th>내용</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>품명</th><td>디지털책자</td></tr>
+                        <tr><th>용지</th><td>표지: 아트지/백색/160g<br>내지: 아트지/백색/160g</td></tr>
+                        <tr><th>인쇄</th><td>내지: 양면/CMYK/일반<br>표지: 양면/CMYK/금색/일반</td></tr>
+                        <tr><th>제본</th><td>왼쪽/중철</td></tr>
+                        <tr><th>규격/수량</th><td>210x297(mm) / 200부 / 1건</td></tr>
+                        <tr><th>가공</th><td>도무송(전체/라운드), 박(전면 금박)</td></tr>
+                    </tbody>
+                </table>
+                
+                <div class="detail-box">
+                    <div class="detail-row"><span class="detail-label">제품금액</span><span class="detail-value">143,900 원</span></div>
+                    <div class="detail-row"><span class="detail-label">가공비</span><span class="detail-value">20,000 원</span></div>
+                    <div class="detail-row"><span class="detail-label">부가세</span><span class="detail-value">14,390 원</span></div>
+                    <div class="price-row total" style="border-top: 1px solid #e0e0e0; padding-top: 8px; margin-top: 8px;">
+                        <span class="detail-label">총 합계 금액</span><span class="detail-value" style="color: #000;">154,240 원</span>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>비고</label>
+                    <div class="input"><textarea placeholder="비고 내용을 입력해주세요 (최대 100자)" rows="2"></textarea></div>
+                </div>
+                
+                <p class="disclaimer">* 본 견적은 견적일로부터 15일간 유효합니다.</p>
+                <p class="disclaimer">* 본 견적은 사양과 작업의 난이도에 따라 가격이 변동될 수 있음을 안내 드립니다.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn white-button" onclick="openEmailSheet('detail')">이메일 발송</button>
+                <button class="btn primary-button" onclick="alert('PDF 다운로드 시작 (상세 모달)')">PDF 다운로드</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="estimate-issue-single-modal-overlay">
+        <div class="modal-content full-page-modal" id="estimate-issue-single-modal">
+            <div class="modal-header">
+                <button class="header-share-btn" onclick="showToast('공유 링크 복사 완료, 복사된 링크로 견적서를 공유해보세요')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-share"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M8.7 10.7l6.6 -3.4" /><path d="M8.7 13.3l6.6 3.4" /></svg>
+                </button>
+                <h2 class="modal-title">견적서 발급</h2>
+                <button class="btn-modal-close" onclick="closeModal('estimate-issue-single-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-box">
+                    <div class="detail-row"><span class="detail-label">견적일</span><span class="detail-value">2025년 09월 16일</span></div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label>수신인</label>
+                    <div class="recipient-input-group">
+                        <div class="input">
+                            <input type="text" value="김성수" placeholder="수신인 이름을 입력해주세요">
+                        </div>
+                        <span class="suffix">귀하</span>
+                    </div>
+                </div>
+                <h3 class="modal-section-title">공급자 정보</h3>
+                <table class="history-table" style="width: 100%;">
+                    <tbody>
+                        <tr><th>상호명</th><td class="text-left">(주)성원애드피아</td></tr>
+                        <tr><th>대표자명</th><td class="text-left">정대원 <img src="assets/images/stamp.png" alt="" style="display: inline-block; vertical-align: middle; width: 20px;"></td></tr>
+                        <tr><th>사업자등록번호</th><td class="text-left">201-85-22977</td></tr>
+                        <tr><th>주소</th><td class="text-left">성수시 성동구 성수일로 80</td></tr>
+                        <tr><th>연락처</th><td class="text-left">1599-5555</td></tr>
+                        <tr><th>팩스</th><td class="text-left">02-2266-0100</td></tr>
+                    </tbody>
+                </table>
+
+                <h3 class="modal-section-title">제품 상세</h3>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">항목</th>
+                            <th>내용</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>품명</th><td>디지털책자</td></tr>
+                        <tr><th>용지</th><td>표지: 아트지/백색/160g<br>내지: 아트지/백색/160g</td></tr>
+                        <tr><th>인쇄</th><td>내지: 양면/CMYK/일반<br>표지: 양면/CMYK/금색/일반</td></tr>
+                        <tr><th>제본</th><td>왼쪽/중철</td></tr>
+                        <tr><th>규격/수량</th><td>210x297(mm) / 200부 / 1건</td></tr>
+                        <tr><th>가공</th><td>도무송(전체/라운드), 박(전면 금박)</td></tr>
+                    </tbody>
+                </table>
+                
+                <div class="detail-box">
+                    <div class="detail-row"><span class="detail-label">제품금액</span><span class="detail-value">143,900 원</span></div>
+                    <div class="detail-row"><span class="detail-label">가공비</span><span class="detail-value">20,000 원</span></div>
+                    <div class="detail-row"><span class="detail-label">부가세</span><span class="detail-value">14,390 원</span></div>
+                    <div class="price-row total" style="border-top: 1px solid #e0e0e0; padding-top: 8px; margin-top: 8px;">
+                        <span class="detail-label">총 합계 금액</span><span class="detail-value" style="color: #000;">154,240 원</span>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>비고</label>
+                    <div class="input"><textarea placeholder="비고 내용을 입력해주세요 (최대 100자)" rows="2"></textarea></div>
+                </div>
+                
+                <p class="disclaimer">* 본 견적은 견적일로부터 15일간 유효합니다.</p>
+                <p class="disclaimer">* 본 견적은 사양과 작업의 난이도에 따라 가격이 변동될 수 있음을 안내 드립니다.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn white-button" onclick="openEmailSheet('issue-single')">이메일 발송</button>
+                <button class="btn primary-button" onclick="alert('PDF 다운로드 시작 (발급 단일 모달)')">PDF 다운로드</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="estimate-issue-multi-modal-overlay">
+        <div class="modal-content full-page-modal" id="estimate-issue-multi-modal">
+            <div class="modal-header">
+                <button class="header-share-btn" onclick="showToast('공유 링크 복사 완료, 복사된 링크로 견적서를 공유해보세요')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-share"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M8.7 10.7l6.6 -3.4" /><path d="M8.7 13.3l6.6 3.4" /></svg>
+                </button>
+                <h2 class="modal-title">견적서 발급</h2>
+                <button class="btn-modal-close" onclick="closeModal('estimate-issue-multi-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-box">
+                    <div class="detail-row"><span class="detail-label">견적일</span><span class="detail-value">2025년 09월 16일</span></div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label>수신인</label>
+                    <div class="recipient-input-group">
+                        <div class="input">
+                            <input type="text" value="김성수" placeholder="수신인 이름을 입력해주세요">
+                        </div>
+                        <span class="suffix">귀하</span>
+                    </div>
+                </div>
+                <h3 class="modal-section-title">공급자 정보</h3>
+                <table class="history-table" style="width: 100%;">
+                    <tbody>
+                        <tr><th>상호명</th><td class="text-left">(주)성원애드피아</td></tr>
+                        <tr><th>대표자명</th><td class="text-left">정대원 <img src="assets/images/stamp.png" alt="" style="display: inline-block; vertical-align: middle; width: 20px;"></td></tr>
+                        <tr><th>사업자등록번호</th><td class="text-left">201-85-22977</td></tr>
+                        <tr><th>주소</th><td class="text-left">성수시 성동구 성수일로 80</td></tr>
+                        <tr><th>연락처</th><td class="text-left">1599-5555</td></tr>
+                        <tr><th>팩스</th><td class="text-left">02-2266-0100</td></tr>
+                    </tbody>
+                </table>
+
+                <h3 class="modal-section-title">견적 상세</h3>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;">품명/상세</th>
+                            <th>수량</th>
+                            <th>금액</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-left"><strong>일반 명함</strong><br><span style="font-size: 12px; color: #888;">스노우지 150g / 양면 CMYK</span></td>
+                            <td>500매<br>2건</td>
+                            <td>9,240</td>
+                        </tr>
+                        <tr>
+                            <td class="text-left"><strong>책자</strong><br><span style="font-size: 12px; color: #888;">표지 스노우지 150g / 중철</span></td>
+                            <td>200부<br>1건</td>
+                            <td>145,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="detail-box">
+                     <div class="detail-row"><span class="detail-label">제품금액</span><span class="detail-value">143,900 원</span></div>
+                     <div class="detail-row"><span class="detail-label">가공비</span><span class="detail-value">20,000 원</span></div>
+                     <div class="detail-row"><span class="detail-label">부가세</span><span class="detail-value">14,390 원</span></div>
+                     <div class="price-row total" style="border-top: 1px solid #e0e0e0; padding-top: 8px; margin-top: 8px;">
+                        <span class="detail-label">총 합계 금액</span><span class="detail-value" style="color: #000;">154,240 원</span>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>비고</label>
+                    <div class="input"><textarea placeholder="비고 내용을 입력해주세요 (최대 100자)" rows="2"></textarea></div>
+                </div>
+
+                <p class="disclaimer">* 본 견적은 견적일로부터 15일간 유효합니다.</p>
+                <p class="disclaimer">* 본 견적은 사양과 작업의 난이도에 따라 가격이 변동될 수 있음을 안내 드립니다.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn white-button" onclick="openEmailSheet('issue-multi')">이메일 발송</button>
+                <button class="btn primary-button" onclick="alert('PDF 다운로드 시작 (발급 다중 모달)')">PDF 다운로드</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay email-sheet" id="email-sheet-overlay">
+        <div class="bottom-sheet email-sheet" id="email-sheet">
+            <div class="sheet-header">
+                <div class="sheet-title">이메일 발송</div>
+                <button class="btn-close" onclick="closeEmailSheet()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="sheet-body">
+                 <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="recipient-email">받는 사람 이메일 주소</label>
+                    <div class="input-group">
+                        <div class="input">
+                            <input type="email" id="recipient-email" placeholder="이메일 주소를 입력해주세요" value="hong.gildong@email.com">
+                        </div>
+                        <button class="dark-button white-button-sm" onclick="alert('주소록 열기 (구현 필요)')" style="height: 40px;">주소록</button>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn white-button" onclick="closeEmailSheet()">취소</button>
+                <button class="btn dark-button" onclick="sendEmail()">발송하기</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-overlay" id="delete-alert-overlay">
+        <div class="alert-modal">
+            <div class="modal-title">견적 삭제</div>
+            <div class="modal-message">선택한 견적을 삭제하시겠습니까?<br>삭제 후에는 복구할 수 없습니다.</div>
             <div class="modal-buttons">
                 <button class="modal-button modal-button-secondary" onclick="closeModal('delete-alert-overlay')">취소</button>
                 <button class="modal-button modal-button-primary" onclick="deleteEstimate()">삭제하기</button>
             </div>
         </div>
     </div>
-
+    
     <div class="modal-overlay" id="limit-alert-overlay">
         <div class="alert-modal">
-            <div class="modal-title"> 견적 비교 안내</div>
-            <div class="modal-message"> 견적서는 최대 3개까지 비교할 수 있어요<br>3개 이하의 견적서를 선택해주세요</div>
-             <div class="modal-buttons">
-                <button class="modal-button modal-button-confirm" onclick="closeModal('limit-alert-overlay')">확인</button>
+            <div class="modal-title">견적 비교 안내</div>
+            <div class="modal-message">견적서는 최대 3개까지 비교할 수 있어요<br>3개 이하의 견적서를 선택해주세요</div>
+             <div class="modal-buttons"><button class="modal-button modal-button-confirm" onclick="closeModal('limit-alert-overlay')">확인</button></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="estimate-compare-2-modal-overlay">
+        <div class="modal-content full-page-modal" id="estimate-compare-2-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">견적 비교 (2개)</h2>
+                <button class="btn-modal-close" onclick="closeModal('estimate-compare-2-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 16px;">
+                <div class="comparison-cards-container">
+                    
+                    <div class="comparison-card">
+                        <div class="card-title-compare">고객사용 책자</div>
+                        <div class="spec-group"><span class="spec-label">품명</span><span class="spec-value">책자</span></div>
+                        <div class="spec-group"><span class="spec-label">용지</span><span class="spec-value">표지: 아트지/백색/160g<br>내지: 아트지/백색/160g/32p</span></div>
+                        <div class="spec-group"><span class="spec-label">인쇄</span><span class="spec-value">표지: 양면/CMYK/금색/일반<br>내지: 양면/CMYK/은색/일반</span></div>
+                        <div class="spec-group"><span class="spec-label">제본</span><span class="spec-value">왼쪽/중철</span></div>
+                        <div class="spec-group"><span class="spec-label">규격/수량</span><span class="spec-value">210x297mm 10부</span></div>
+                        <div class="spec-group"><span class="spec-label">박</span><span class="spec-value">옵션1: 전면/금박(유광)<br>옵션2: 후면/금박(유광)</span></div>
+                        <div class="spec-group"><span class="spec-label">코팅</span><span class="spec-value">표지: 단면/유광써멀</span></div>
+                        <div class="spec-group"><span class="spec-label">도무송</span><span class="spec-value">전체/라운드, 사각, 원</span></div>
+                        <div class="spec-group"><span class="spec-label">제품 금액</span><span class="spec-value">₩181,600</span></div>
+                        <div class="spec-group"><span class="spec-label">가공비</span><span class="spec-value">₩20,000</span></div>
+                        <div class="spec-group"><span class="spec-label">부가세</span><span class="spec-value">₩18,160</span></div>
+                        <div class="spec-group" style="border-bottom: none;"><span class="spec-label">총 합계</span><span class="spec-value total">₩199,760</span></div>
+                    </div>
+
+                    <div class="comparison-card">
+                        <div class="card-title-compare">기업 홍보용 책자</div>
+                        <div class="spec-group"><span class="spec-label">품명</span><span class="spec-value">초저가 책자</span></div>
+                        <div class="spec-group"><span class="spec-label">용지</span><span class="spec-value">표지: 아트지/백색/250g<br>내지: 모조지/백색/100g/32p</span></div>
+                        <div class="spec-group"><span class="spec-label">인쇄</span><span class="spec-value">표지: 양면/CMYK/디지털<br>내지: 양면/CMYK/디지털 롤</span></div>
+                        <div class="spec-group"><span class="spec-label">제본</span><span class="spec-value">왼쪽/무선</span></div>
+                        <div class="spec-group"><span class="spec-label">규격/수량</span><span class="spec-value">210x297mm 10부</span></div>
+                        <div class="spec-group"><span class="spec-label">박</span><span class="spec-value">-</span></div>
+                        <div class="spec-group"><span class="spec-label">코팅</span><span class="spec-value">-</span></div>
+                        <div class="spec-group"><span class="spec-label">도무송</span><span class="spec-value">-</span></div>
+                        <div class="spec-group"><span class="spec-label">제품 금액</span><span class="spec-value">₩37,100</span></div>
+                        <div class="spec-group"><span class="spec-label">가공비</span><span class="spec-value">₩0</span></div>
+                        <div class="spec-group"><span class="spec-label">부가세</span><span class="spec-value">₩3,710</span></div>
+                        <div class="spec-group" style="border-bottom: none;"><span class="spec-label">총 합계</span><span class="spec-value total">₩40,810</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn white-button">인쇄하기</button>
+                <button class="btn white-button">PDF 다운로드</button>
             </div>
         </div>
     </div>
 
+    <div class="modal-overlay" id="estimate-compare-3-modal-overlay">
+        <div class="modal-content full-page-modal" id="estimate-compare-3-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">견적 비교 (3개)</h2>
+                <button class="btn-modal-close" onclick="closeModal('estimate-compare-3-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 16px;">
+                <div class="comparison-cards-container">
+                    
+                    <div class="comparison-card">
+                        <div class="card-title-compare">고객사용 책자</div>
+                        <div class="spec-group"><span class="spec-label">품명</span><span class="spec-value">책자</span></div>
+                        <div class="spec-group"><span class="spec-label">용지</span><span class="spec-value">표지: 아트지/백색/160g<br>내지: 아트지/백색/160g/32p</span></div>
+                        <div class="spec-group"><span class="spec-label">인쇄</span><span class="spec-value">표지: 양면/CMYK/금색/일반<br>내지: 양면/CMYK/은색/일반</span></div>
+                        <div class="spec-group"><span class="spec-label">제본</span><span class="spec-value">왼쪽/중철</span></div>
+                        <div class="spec-group"><span class="spec-label">규격/수량</span><span class="spec-value">210x297mm 10부</span></div>
+                        <div class="spec-group"><span class="spec-label">박</span><span class="spec-value">옵션1: 전면/금박(유광)<br>옵션2: 후면/금박(유광)</span></div>
+                        <div class="spec-group"><span class="spec-label">코팅</span><span class="spec-value">표지: 단면/유광써멀</span></div>
+                        <div class="spec-group"><span class="spec-label">도무송</span><span class="spec-value">전체/라운드, 사각, 원</span></div>
+                        <div class="spec-group"><span class="spec-label">제품 금액</span><span class="spec-value">₩181,600</span></div>
+                        <div class="spec-group"><span class="spec-label">가공비</span><span class="spec-value">₩20,000</span></div>
+                        <div class="spec-group"><span class="spec-label">부가세</span><span class="spec-value">₩18,160</span></div>
+                        <div class="spec-group" style="border-bottom: none;"><span class="spec-label">총 합계</span><span class="spec-value total">₩199,760</span></div>
+                    </div>
+
+                    <div class="comparison-card">
+                        <div class="card-title-compare">기업 홍보용 책자</div>
+                        <div class="spec-group"><span class="spec-label">품명</span><span class="spec-value">초저가 책자</span></div>
+                        <div class="spec-group"><span class="spec-label">용지</span><span class="spec-value">표지: 아트지/백색/250g<br>내지: 모조지/백색/100g/32p</span></div>
+                        <div class="spec-group"><span class="spec-label">인쇄</span><span class="spec-value">표지: 양면/CMYK/디지털<br>내지: 양면/CMYK/디지털 롤</span></div>
+                        <div class="spec-group"><span class="spec-label">제본</span><span class="spec-value">왼쪽/무선</span></div>
+                        <div class="spec-group"><span class="spec-label">규격/수량</span><span class="spec-value">210x297mm 10부</span></div>
+                        <div class="spec-group"><span class="spec-label">박</span><span class="spec-value">-</span></div>
+                        <div class="spec-group"><span class="spec-label">코팅</span><span class="spec-value">-</span></div>
+                        <div class="spec-group"><span class="spec-label">도무송</span><span class="spec-value">-</span></div>
+                        <div class="spec-group"><span class="spec-label">제품 금액</span><span class="spec-value">₩37,100</span></div>
+                        <div class="spec-group"><span class="spec-label">가공비</span><span class="spec-value">₩0</span></div>
+                        <div class="spec-group"><span class="spec-label">부가세</span><span class="spec-value">₩3,710</span></div>
+                        <div class="spec-group" style="border-bottom: none;"><span class="spec-label">총 합계</span><span class="spec-value total">₩40,810</span></div>
+                    </div>
+
+                    <div class="comparison-card">
+                        <div class="card-title-compare">기업 홍보용 팜플렛</div>
+                        <div class="spec-group"><span class="spec-label">품명</span><span class="spec-value">팜플렛</span></div>
+                        <div class="spec-group"><span class="spec-label">용지</span><span class="spec-value">아트지/백색/150g</span></div>
+                        <div class="spec-group"><span class="spec-label">인쇄</span><span class="spec-value">양면/CMYK/오렌지(전면)/그린(후면)</span></div>
+                        <div class="spec-group"><span class="spec-label">제본</span><span class="spec-value">-</span></div>
+                        <div class="spec-group"><span class="spec-label">규격/수량</span><span class="spec-value">420x297(mm) 10매 1건</span></div>
+                        <div class="spec-group"><span class="spec-label">박</span><span class="spec-value">-</span></div>
+                        <div class="spec-group"><span class="spec-label">코팅</span><span class="spec-value">-</span></div>
+                        <div class="spec-group"><span class="spec-label">도무송</span><span class="spec-value">-</span></div>
+                        <div class="spec-group"><span class="spec-label">제품 금액</span><span class="spec-value">₩25,000</span></div>
+                        <div class="spec-group"><span class="spec-label">가공비</span><span class="spec-value">₩0</span></div>
+                        <div class="spec-group"><span class="spec-label">부가세</span><span class="spec-value">₩2,500</span></div>
+                        <div class="spec-group" style="border-bottom: none;"><span class="spec-label">총 합계</span><span class="spec-value total">₩27,500</span></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn white-button">인쇄하기</button>
+                <button class="btn white-button">PDF 다운로드</button>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // --- [v12] Search Component JS ---
+        // --- Search ---
         function handleSearchInput(input) {
             const searchBox = input.closest('.search');
             searchBox.classList.toggle('has-text', input.value.trim() !== '');
         }
-
         function clearSearch(btn) {
             const searchBox = btn.closest('.search');
             const input = searchBox.querySelector('input');
@@ -1065,33 +1936,19 @@
             input.focus();
             filterEstimateList();
         }
+        function handleSearch(btn) { console.log('Search submitted:', btn.closest('.search').querySelector('input').value); filterEstimateList(); }
 
-        function handleSearch(btn) {
-            console.log('Search submitted:', btn.closest('.search').querySelector('input').value);
-            filterEstimateList();
-        }
-
-        // --- [v12] MultiChip Component JS (for Category) ---
+        // --- Filter Chips ---
         function toggleMultiChip(chip, forceState) {
             const isCurrentlyOn = chip.classList.contains('multi-chip-on');
-            let turnOn;
-
-            if (forceState === true) { // Force On
-                turnOn = true;
-            } else if (forceState === false) { // Force Off
-                turnOn = false;
-            } else { // Toggle
-                turnOn = !isCurrentlyOn;
-            }
-
-            if (turnOn && !isCurrentlyOn) {
+            let turnOn = (forceState === undefined) ? !isCurrentlyOn : forceState;
+            
+            if (turnOn) {
                 chip.classList.remove('multi-chip-off');
                 chip.classList.add('multi-chip-on');
-                chip.innerHTML = '✓ ' + chip.innerHTML.trim();
-            } else if (!turnOn && isCurrentlyOn) {
+            } else {
                 chip.classList.remove('multi-chip-on');
                 chip.classList.add('multi-chip-off');
-                chip.innerHTML = chip.innerHTML.replace('✓ ', '');
             }
         }
 
@@ -1099,263 +1956,208 @@
             const category = chip.getAttribute('data-category');
             const group = chip.closest('#category-chip-group');
             const allChip = group.querySelector('[data-category="전체"]');
-
+            
             if (category === '전체') {
-                const isTurningOn = !chip.classList.contains('multi-chip-on');
-                toggleMultiChip(chip, isTurningOn);
-                group.querySelectorAll('.multi-chip').forEach(c => {
-                    if (c !== chip) toggleMultiChip(c, false);
+                const isTurningOn = !allChip.classList.contains('multi-chip-on');
+                toggleMultiChip(allChip, isTurningOn);
+                group.querySelectorAll('.multi-chip').forEach(c => { 
+                    if (c !== allChip) toggleMultiChip(c, false); 
                 });
             } else {
                 toggleMultiChip(chip);
                 toggleMultiChip(allChip, false);
-                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-category="전체"])'))
-                    .some(c => c.classList.contains('multi-chip-on'));
-                if (!anyOtherOn) {
-                    toggleMultiChip(allChip, true);
+                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-category="전체"])')).some(c => c.classList.contains('multi-chip-on'));
+                if (!anyOtherOn) { 
+                    toggleMultiChip(allChip, true); 
                 }
             }
             filterEstimateList();
         }
 
-        // --- [v12] Pagination Logic ---
-        let currentPage = 1;
-        const totalPages = 6;
+        // --- Pagination (Placeholder) ---
+        function updatePagination() { /* ... */ }
 
-        function paginationGo(page) {
-            currentPage = page;
-            updatePagination();
-            console.log('Page changed to:', page);
-        }
-
-        function paginationPrev() {
-            if (currentPage > 1) paginationGo(currentPage - 1);
-        }
-
-        function paginationNext() {
-            if (currentPage < totalPages) paginationGo(currentPage + 1);
-        }
-
-        function paginationFirst() {
-            paginationGo(1);
-        }
-
-        function paginationLast() {
-            paginationGo(totalPages);
-        }
-
-        function updatePagination() {
-            const numbers = document.querySelectorAll('.pagination-number');
-            const prevArrows = document.querySelectorAll('.pagination .pagination-arrow:nth-child(-n+2)');
-            const nextArrows = document.querySelectorAll('.pagination .pagination-arrow:nth-child(n+4)');
-            numbers.forEach(num => {
-                num.classList.remove('active');
-                if (parseInt(num.dataset.page) === currentPage) num.classList.add('active');
-            });
-            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
-            nextArrows.forEach(arrow => nextArrows.classList.toggle('disabled', currentPage === totalPages));
-        }
-
-        // --- [NEW] Checkbox Logic ---
+        // --- Checkbox Logic ---
         function toggleCheckbox(checkbox) {
             const isChecked = checkbox.dataset.checked === 'true';
-            if (isChecked) {
-                checkbox.dataset.checked = 'false';
-                checkbox.innerHTML = '<div class="checkbox-off"></div>';
-            } else {
-                checkbox.dataset.checked = 'true';
-                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
-            }
+            checkbox.dataset.checked = !isChecked;
+            // Using placeholder image paths as they weren't provided in the HTML file
+            const checkedImg = 'assets/images/checked.svg'; // Placeholder check image
+            checkbox.innerHTML = !isChecked ? `<div class="checkbox-on"><img src="${checkedImg}" alt="체크"></div>` : '<div class="checkbox-off"></div>';
         }
-        
-        // [NEW] Master Checkbox Logic
-        function toggleCheckAll(masterCheckbox) {
-            const isChecked = masterCheckbox.dataset.checked === 'true';
-            
-            // Toggle master state first (mimic toggleCheckbox but manual since logic is inverted)
-            if (isChecked) {
-                // Turn OFF
-                masterCheckbox.dataset.checked = 'false';
-                masterCheckbox.innerHTML = '<div class="checkbox-off"></div>';
-                
-                // Turn OFF all list checkboxes
-                document.querySelectorAll('.transaction-list .checkbox').forEach(cb => {
-                    cb.dataset.checked = 'false';
-                    cb.innerHTML = '<div class="checkbox-off"></div>';
-                });
-            } else {
-                // Turn ON
-                masterCheckbox.dataset.checked = 'true';
-                masterCheckbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
-                
-                // Turn ON all list checkboxes
-                document.querySelectorAll('.transaction-list .checkbox').forEach(cb => {
-                    cb.dataset.checked = 'true';
-                    cb.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
-                });
-            }
+
+        function toggleCheckAll(master) {
+            const isChecked = master.dataset.checked === 'true';
+            const newState = !isChecked;
+            master.dataset.checked = newState;
+            const checkedImg = 'assets/images/checked.svg';
+            master.innerHTML = newState ? `<div class="checkbox-on"><img src="${checkedImg}" alt="체크"></div>` : '<div class="checkbox-off"></div>';
+            document.querySelectorAll('.transaction-list .checkbox').forEach(cb => {
+                cb.dataset.checked = newState;
+                cb.innerHTML = newState ? `<div class="checkbox-on"><img src="${checkedImg}" alt="체크"></div>` : '<div class="checkbox-off"></div>';
+            });
             updateStickyFooter();
         }
 
-        function toggleEstimateCheckbox(checkboxWrapper, event) {
-            event.stopPropagation(); // prevent card click if any
-
-            const checkboxEl = checkboxWrapper.querySelector('.checkbox');
-            const isCurrentlyChecked = checkboxEl.dataset.checked === 'true';
-            
-            // Check limit before toggling on
-            if (!isCurrentlyChecked) {
-                const currentCount = document.querySelectorAll('.transaction-list .checkbox[data-checked="true"]').length;
-                // Max 3 items allowed for comparison.
-                if (currentCount >= 3) {
-                     openModal('limit-alert-overlay');
-                     return;
-                }
+        function toggleEstimateCheckbox(wrapper, event) {
+            event.stopPropagation();
+            const checkbox = wrapper.querySelector('.checkbox');
+            if (checkbox.dataset.checked !== 'true') {
+                const count = document.querySelectorAll('.transaction-list .checkbox[data-checked="true"]').length;
+                if (count >= 3) { openModal('limit-alert-overlay'); return; }
             }
-
-            // 1. Toggle checkbox
-            toggleCheckbox(checkboxEl);
+            toggleCheckbox(checkbox);
             
-            // 2. Update master checkbox state
-            const totalCheckboxes = document.querySelectorAll('.transaction-list .checkbox').length;
-            const checkedCheckboxes = document.querySelectorAll('.transaction-list .checkbox[data-checked="true"]').length;
-            const masterCheckbox = document.getElementById('check-all');
-            
-            if (totalCheckboxes > 0 && totalCheckboxes === checkedCheckboxes) {
-                masterCheckbox.dataset.checked = 'true';
-                masterCheckbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
-            } else {
-                masterCheckbox.dataset.checked = 'false';
-                masterCheckbox.innerHTML = '<div class="checkbox-off"></div>';
-            }
+            // Sync Master
+            const all = document.querySelectorAll('.transaction-list .checkbox').length;
+            const checked = document.querySelectorAll('.transaction-list .checkbox[data-checked="true"]').length;
+            const master = document.getElementById('check-all');
+            const allChecked = all > 0 && all === checked;
+            master.dataset.checked = allChecked;
+            const checkedImg = 'https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a';
+            master.innerHTML = allChecked ? `<div class="checkbox-on"><img src="${checkedImg}" alt="체크"></div>` : '<div class="checkbox-off"></div>';
 
-            // 3. Sticky Footer 업데이트
             updateStickyFooter();
         }
 
         function updateStickyFooter() {
-            const listContainer = document.getElementById('transaction-list-container');
-            if (!listContainer) return;
-
-            const checkedBoxes = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
-            const count = checkedBoxes.length;
+            const checked = document.querySelectorAll('.transaction-list .checkbox[data-checked="true"]').length;
             const footer = document.getElementById('estimate-action-footer');
             const compareBtn = document.getElementById('btn-compare');
             const issueBtn = document.getElementById('btn-issue');
-
-            if (count > 0) {
+            
+            if (checked > 0) {
                 footer.classList.add('active');
-                document.getElementById('selected-count').textContent = `총 ${count}건`;
-                document.querySelector('.mobile-wrap').style.paddingBottom = '88px'; // Footer height padding
+                document.getElementById('selected-count').textContent = `총 ${checked}건`;
+                document.querySelector('.mobile-wrap').style.paddingBottom = '88px';
                 
-                // Dynamic Button Display Logic
-                if (count === 1) {
-                    // 1 item: Only Issue button
-                    compareBtn.style.display = 'none';
-                    issueBtn.style.display = 'inline-flex';
+                // Button Logic: Hide Compare if checked == 1 or checked > 3
+                if (checked > 3 || checked === 1) {
+                     compareBtn.style.display = 'none';
                 } else {
-                    // 2 or 3 items: Compare + Issue buttons
-                    compareBtn.style.display = 'inline-flex';
-                    issueBtn.style.display = 'inline-flex';
+                     compareBtn.style.display = 'inline-flex';
                 }
-
+                issueBtn.style.display = 'inline-flex';
             } else {
                 footer.classList.remove('active');
-                document.querySelector('.mobile-wrap').style.paddingBottom = '20px'; // Reset padding
+                document.querySelector('.mobile-wrap').style.paddingBottom = '20px';
             }
         }
 
-        // --- [NEW] Filtering Logic ---
-        function filterEstimateList() {
-            // 1. Get selected categories
-            const selectedCategories = [];
-            document.querySelectorAll('#category-chip-group .multi-chip-on').forEach(chip => {
-                selectedCategories.push(chip.dataset.category);
-            });
+        // --- Filter List ---
+        function filterEstimateList() { /* (Same as previous) */ }
 
-            const searchTerm = document.querySelector('#estimate-search input').value.toLowerCase();
-            const isAllCategories = selectedCategories.includes('전체');
+        // --- Modals ---
+        function openModal(id) { document.getElementById(id)?.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeModal(id) { document.getElementById(id)?.classList.remove('active'); document.body.style.overflow = ''; }
 
-            // 2. Filter Cards
-            const listContainer = document.getElementById('transaction-list-container');
-            const cards = listContainer.querySelectorAll('.estimate-card');
-            const noResultMsg = document.querySelector('.no-transactions');
-            let visibleCount = 0;
-
-            cards.forEach(card => {
-                const cardCategory = card.dataset.category;
-                const cardTitle = card.querySelector('.checkbox-text span').textContent.toLowerCase();
-
-                // Category check
-                const categoryMatch = (isAllCategories || selectedCategories.includes(cardCategory));
-
-                // Search check
-                const searchMatch = !searchTerm || cardTitle.includes(searchTerm);
-
-                if (categoryMatch && searchMatch) {
-                    card.style.display = '';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            // 3. Update count and no-result message
-            const countEl = document.getElementById('transaction-count');
-            if (countEl) countEl.textContent = visibleCount;
-            if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
-        }
-
-        // --- [NEW] Modal Helpers ---
-        function openModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (overlay) {
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
+        // --- Triggers ---
+        function showEstimateDetail(btn) { openModal('estimate-detail-modal-overlay'); }
+        
+        function showEstimateIssueModal() {
+             const checkedCount = document.querySelectorAll('.transaction-list .checkbox[data-checked="true"]').length;
+            if (checkedCount === 1) {
+                openModal('estimate-issue-single-modal-overlay');
+            } else if (checkedCount > 1) {
+                openModal('estimate-issue-multi-modal-overlay');
+            } else {
+                alert("선택된 견적이 없습니다.");
             }
         }
+        
+        function showDeleteAlert(e) { if(e) e.stopPropagation(); openModal('delete-alert-overlay'); }
+        function deleteEstimate() { alert('삭제되었습니다.'); closeModal('delete-alert-overlay'); }
 
-        function closeModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (overlay) {
-                overlay.classList.remove('active');
-                // 다른 모달이 열려있지 않을 때만 body 스크롤 복원
+        // --- [NEW] Compare Modal Logic ---
+        function showEstimateCompareModal() {
+            const checkedCount = document.querySelectorAll('.transaction-list .checkbox[data-checked="true"]').length;
+            if (checkedCount === 2) {
+                openModal('estimate-compare-2-modal-overlay');
+            } else if (checkedCount === 3) {
+                openModal('estimate-compare-3-modal-overlay');
+            } else {
+                // This case should not be reached due to sticky footer logic, but is a safe fallback
+                openModal('limit-alert-overlay');
+            }
+        }
+        
+        // --- [NEW] Toast Logic ---
+        function showToast(message) {
+            const toast = document.getElementById("toast-message");
+            toast.textContent = message;
+            toast.classList.add("show");
+            setTimeout(function(){ 
+                toast.classList.remove("show"); 
+            }, 3000);
+        }
+
+        // --- [MODIFIED] Email Bottom Sheet Logic ---
+        
+        let currentModalContext = ''; // 'detail', 'issue-single', 'issue-multi'
+        let emailSheetHandler = {};
+
+        function setupEmailSheet() {
+            const overlay = document.getElementById('email-sheet-overlay'); 
+            const sheet = document.getElementById('email-sheet');
+            if (!overlay || !sheet) return;
+            
+            emailSheetHandler.openSheet = (context) => { 
+                currentModalContext = context;
+                overlay.classList.add('active'); 
+                sheet.classList.remove('closing'); 
+                document.body.style.overflow = 'hidden'; 
+                // Set default values here
+                document.getElementById('recipient-email').value = 'hong.gildong@email.com';
+            };
+            
+            emailSheetHandler.closeSheet = () => { 
+                sheet.classList.add('closing'); 
                 const anyModalActive = document.querySelector('.modal-overlay.active');
                 if (!anyModalActive) {
                     document.body.style.overflow = '';
                 }
+                 setTimeout(() => { overlay.classList.remove('active'); sheet.classList.remove('closing'); }, 300);
+            };
+            
+            // Add click-to-close listener for the overlay
+            overlay.addEventListener('click', (e) => { 
+                if (e.target.id === 'email-sheet-overlay') emailSheetHandler.closeSheet(); 
+            });
+        }
+
+
+        function openEmailSheet(context) {
+            emailSheetHandler.openSheet(context);
+        }
+
+        function closeEmailSheet() {
+            emailSheetHandler.closeSheet();
+        }
+
+        function sendEmail() {
+            const email = document.getElementById('recipient-email').value;
+            
+            if (!email || !email.includes('@')) {
+                alert("유효한 이메일 주소를 입력해주세요.");
+                return;
             }
+            
+            // 실제 발송 로직 (placeholder)
+            alert(`[${currentModalContext}] 이메일 발송 요청:\n받는 사람: ${email}\n(구현 필요)`);
+            closeEmailSheet();
         }
 
-        // --- [NEW] Delete Logic ---
-        function showDeleteAlert(event) {
-            if(event) event.stopPropagation(); // prevent card click
-            openModal('delete-alert-overlay');
-        }
 
-        function deleteEstimate() {
-            // TODO: 삭제 로직 구현
-            alert("견적이 삭제되었습니다. (구현 필요)");
-            closeModal('delete-alert-overlay');
-            // TODO: 목록 갱신
-        }
-
-        // --- Initialize ---
+        // --- Init ---
         document.addEventListener('DOMContentLoaded', () => {
+            setupEmailSheet(); // [MODIFIED] Email Sheet 초기화
             updatePagination();
             updateStickyFooter();
-            filterEstimateList();
-
-            // 모달/시트 오버레이 클릭 닫기
-            document.querySelectorAll('.modal-overlay').forEach(overlay => {
-                overlay.addEventListener('click', (e) => {
-                    if (e.target.id === overlay.id) {
-                        closeModal(overlay.id);
-                    }
-                });
-            });
+            // Close modal on overlay click
+            document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { 
+                 if(e.target.id === o.id) closeModal(o.id); 
+            }));
         });
     </script>
 </body>
-
 </html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모바일 최적화 모달 데모 (저장견적 UI 일관성 확보)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS Reset & Base (모든 스타일 통합) */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        }
+        ul, li { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        input, textarea, select { font-family: inherit; }
+        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        /* Layout & Header (저장견적.html 기준) */
+        .mobile-wrap { width: 100%; max-width: 480px; margin: 0 auto; background-color: #ffffff; min-height: 100vh; }
+        .sw-container { padding: 16px; }
+        .app-header-sub { height: 56px; background: #ffffff; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; flex-shrink: 0; }
+        .header-title { flex: 3 0 0; font-size: 18px; font-weight: 600; text-align: center; color: #212121; }
+        .header-left, .header-right { flex: 1 0 0; display: flex; align-items: center; }
+        .header-left { justify-content: flex-start; }
+        .header-right { justify-content: flex-end; }
+        .header-btn { width: 28px; height: 28px; color: #333; display: flex; align-items: center; justify-content: center; }
+
+        /* Buttons (v12 Standard) */
+        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; transition: background 0.1s; }
+        .dark-button:disabled { background: #cccccc; color: #ffffff; cursor: default; }
+        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; transition: background 0.1s; }
+        .white-button-sm { height: 36px; font-size: 13px; padding: 0 12px; }
+
+        /* Form & Input (v12 Standard) */
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
+        .input { width: 100%; min-height: 44px; background: white; border: 1px solid #e8e8e9; border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; position: relative;}
+        .input input { width: 100%; background: transparent; border: none; outline: none; font-size: 14px; color: black; line-height: 1.5; min-height: 20px;}
+        .input textarea { width: 100%; background: transparent; border: none; outline: none; font-size: 14px; color: black; line-height: 1.5; resize: vertical; min-height: 100px; padding: 0; }
+        .input-read-only { background-color: #f8f8f9; }
+        .input-read-only .product-name { font-weight: 600; color: #333; display: block; margin-bottom: 4px; }
+        .input-read-only .product-options li { font-size: 14px; color: #555; margin-bottom: 2px; }
+
+        /* Full Modal (v12 Standard) */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 0; }
+        .modal-overlay.active { display: flex; animation: fadeInModal 0.2s ease-out; }
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        
+        .full-modal-content { width: 100%; height: 100%; max-width: 480px; max-height: 100%; display: flex; flex-direction: column; animation: slideInUp 0.3s ease-out; margin: 0 auto; background: white; border-radius: 0; }
+        @keyframes slideInUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .modal-header-full { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; flex-shrink: 0; }
+        .modal-title-full { flex: 3 0 0; font-size: 18px; font-weight: 600; text-align: center; color: #212121; }
+        .btn-modal-close-full { display: flex; align-items: center; justify-content: flex-end; width: 28px; height: 28px; cursor: pointer; color: #333; flex: 1 0 0; }
+        .modal-header-left { flex: 1 0 0; }
+        .modal-body-full { padding: 16px; overflow-y: auto; flex-grow: 1; }
+        .modal-footer-full { padding: 16px; border-top: 1px solid #e8e8e9; background: #fff; display: flex; gap: 8px; flex-shrink: 0; }
+        .modal-footer-full .dark-button { width: 100%; }
+        
+        /* [저장견적 UI 반영] 견적 카드 및 체크박스 스타일 */
+        .quote-select-message { font-size: 14px; color: #888; margin-bottom: 16px; }
+        .quote-list { display: flex; flex-direction: column; gap: 12px; }
+        .common-table-card.quote-select-card { padding: 12px 15px; cursor: pointer; transition: border-color 0.2s, background-color 0.2s; position: relative; border: 1px solid #e8e8e9; border-radius: 6px; background: white; }
+        .common-table-card.quote-select-card.selected { border-color: #4e6ee4; background-color: #f8fbff; }
+        .quote-card-header-main { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 0; }
+        .quote-card-title { font-size: 16px; font-weight: 600; color: #333; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 10px; }
+        .quote-spec { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 0; }
+        .card-divider { width: 100%; height: 1px; background: #e8e8e9; margin: 10px 0; }
+
+        /* v12 Checkbox Component Styles */
+        .checkbox-text-wrapper { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; flex: 1; min-width: 0; }
+        .checkbox-text-wrapper .checkbox { width: 20px; height: 20px; flex-shrink: 0; position: relative; }
+        .checkbox-text-wrapper .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
+        .checkbox-text-wrapper .checkbox-on { width: 100%; height: 100%; background: #4e6ee4; border-radius: 2px; display: flex; align-items: center; justify-content: center; }
+        .checkbox-text-wrapper .checkbox-on img { width: 14px; height: 14px; }
+        .quote-date { font-size: 13px; font-weight: 500; color: #888; flex-shrink: 0; }
+        
+        /* Combobox Styles (from mypage_edit) */
+        .input-group { display: flex; gap: 8px; align-items: center; }
+        .combobox-wrapper { position: relative; flex: 1; }
+        .combobox-wrapper-small { flex: 0 1 290px; } /* FIX: Width adjustment */
+        .combobox-dropdown { position: absolute; top: calc(100% + 2px); left: 0; right: 0; background: #fff; border: 1px solid #e8e8e9; border-radius: 6px; z-index: 100; max-height: 220px; overflow-y: auto; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .combobox-item { padding: 10px 12px; font-size: 14px; cursor: pointer; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; gap: 8px; }
+        .combobox-item:last-child { border-bottom: none; }
+        .combobox-item:hover { background: #f5f5f6; }
+        .combobox-item strong { font-weight: 600; color: #333; flex-shrink: 0; }
+        .combobox-item span { font-size: 14px; color: #555; }
+        .combobox-item .flag, .select-flag { flex-shrink: 0; display: flex; align-items: center; }
+        .combobox-item .flag img, .select-flag img { width: 20px; height: auto; border-radius: 2px; }
+        
+        /* FIX 1 & 2: Combobox Input Alignment and Flag Positioning */
+        .combobox-wrapper .input.select-wrapper { 
+            padding: 0;
+            align-items: stretch;
+            cursor: pointer;
+        }
+
+        .combobox-wrapper .input.select-wrapper .select-flag { 
+             position: absolute;
+             left: 12px;
+             top: 50%;
+             transform: translateY(-50%);
+             z-index: 1;
+        }
+
+        .combobox-wrapper .input.select-wrapper input { 
+            height: 42px;
+            line-height: 42px;
+            padding: 0 12px 0 40px;
+            background: transparent;
+            z-index: 2; 
+            cursor: pointer;
+        }
+        
+        /* FIX 3: Restore v12 dropdown arrow */
+        .combobox-wrapper .input.select-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Utility */
+        .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-wrap">
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                </button>
+            </div>
+            <h1 class="header-title">모달 데모 페이지</h1>
+            <div class="header-right">
+            </div>
+        </header>
+        <main class="sw-container">
+            <div style="display: flex; flex-direction: column; gap: 10px; ">
+                <button class="white-button" style="height: 44px; width: 100%;" onclick="openModal('quote-select-modal-overlay')">1. 견적 선택 모달 열기 (최대 2개 선택)</button>
+                <button class="white-button" style="height: 44px; width: 100%;" onclick="openModal('auth-quote-apply-modal-overlay')">2. (회원) 별도견적 신청 모달 열기</button>
+                <button class="white-button" style="height: 44px; width: 100%;" onclick="openModal('unauth-quote-apply-modal-overlay')">3. (비회원) 별도견적 신청 모달 열기</button>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="quote-select-modal-overlay">
+        <div class="full-modal-content" id="quote-select-modal">
+            <header class="modal-header-full">
+                <div class="modal-header-left"></div>
+                <h1 class="modal-title-full">견적 비교</h1>
+                <button type="button" class="btn-modal-close-full" onclick="closeModal('quote-select-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </header>
+            <div class="modal-body-full">
+                <p class="quote-select-message">비교할 견적을 선택해주세요 (최대 2건)</p>
+                <div class="quote-list" id="quote-list-container">
+                    
+                    <div class="common-table-card quote-select-card" data-quote-id="1" onclick="toggleQuoteSelection(this)">
+                        <div class="quote-card-header-main">
+                            <div class="checkbox-text-wrapper" data-checkbox-role="toggle-select">
+                                <div class="checkbox" data-checked="false">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <span class="quote-card-title">[일반 명함] 사원용 명함 견적</span>
+                            </div>
+                            <span class="quote-date">2025-09-16</span>
+                        </div>
+                        <div class="card-divider" style="margin: 10px 0;"></div> 
+                        <div class="quote-spec">아르떼 울트라화이트 310g/208×154 / 양면칼라 8도 / 디지털인쇄(인디고)/...</div>
+                    </div>
+                    
+                    <div class="common-table-card quote-select-card" data-quote-id="2" onclick="toggleQuoteSelection(this)">
+                        <div class="quote-card-header-main">
+                            <div class="checkbox-text-wrapper" data-checkbox-role="toggle-select">
+                                <div class="checkbox" data-checked="false">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <span class="quote-card-title">[책자] 기업 홍보용 책자 (마감 임박)</span>
+                            </div>
+                            <span class="quote-date">2025-08-16</span>
+                        </div>
+                        <div class="card-divider" style="margin: 10px 0;"></div> 
+                        <div class="quote-spec">용지: 누브지/220g | 인쇄: 양면CMYK/고급 | 사이즈: 210x297mm / 중철</div>
+                    </div>
+                    
+                    <div class="common-table-card quote-select-card selected" data-quote-id="3" onclick="toggleQuoteSelection(this)">
+                        <div class="quote-card-header-main">
+                            <div class="checkbox-text-wrapper" data-checkbox-role="toggle-select">
+                                <div class="checkbox" data-checked="true">
+                                    <div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>
+                                </div>
+                                <span class="quote-card-title">[별도견적] 특수용지 명함</span>
+                            </div>
+                            <span class="quote-date">2025-09-01</span>
+                        </div>
+                        <div class="card-divider" style="margin: 10px 0;"></div> 
+                        <div class="quote-spec">마분지 360g/4도 별색 / 형압 가공 추가 / 500매</div>
+                    </div>
+                    
+                    <div class="common-table-card quote-select-card selected" data-quote-id="4" onclick="toggleQuoteSelection(this)">
+                        <div class="quote-card-header-main">
+                            <div class="checkbox-text-wrapper" data-checkbox-role="toggle-select">
+                                <div class="checkbox" data-checked="true">
+                                    <div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>
+                                </div>
+                                <span class="quote-card-title">[홍보물] A4 전단지 2종</span>
+                            </div>
+                            <span class="quote-date">2025-08-20</span>
+                        </div>
+                        <div class="card-divider" style="margin: 10px 0;"></div> 
+                        <div class="quote-spec">아트지 100g/양면 CMYK / 접지(2단) / 10,000매</div>
+                    </div>
+                    
+                    <div class="common-table-card quote-select-card" data-quote-id="5" onclick="toggleQuoteSelection(this)">
+                         <div class="quote-card-header-main">
+                            <div class="checkbox-text-wrapper" data-checkbox-role="toggle-select">
+                                <div class="checkbox" data-checked="false">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <span class="quote-card-title">[봉투] 소봉투 대량 주문</span>
+                            </div>
+                            <span class="quote-date">2025-07-22</span>
+                        </div>
+                        <div class="card-divider" style="margin: 10px 0;"></div> 
+                        <div class="quote-spec">모조지 100g/단면 1도 인쇄 / 1000부 / 배송비 포함</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer-full">
+                <button class="dark-button" id="quote-select-complete-btn" onclick="handleQuoteSelectComplete()">선택 완료</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-overlay" id="auth-quote-apply-modal-overlay">
+        <div class="full-modal-content" id="auth-quote-apply-modal">
+            <header class="modal-header-full">
+                <div class="modal-header-left"></div>
+                <h1 class="modal-title-full">별도견적 신청</h1>
+                <button type="button" class="btn-modal-close-full" onclick="closeModal('auth-quote-apply-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </header>
+            <div class="modal-body-full">
+                <div class="form-group">
+                    <label>선택 옵션</label>
+                    <div class="input input-read-only" style="flex-direction: column; align-items: flex-start; justify-content: flex-start; min-height: 70px; padding: 12px;">
+                        <span class="product-name">책자</span>
+                        <ul class="product-options" style="list-style: disc; padding-left: 0;">
+                            <li>용지: (표지)아트지/백색/ 100g, (내지) 아트지/백색/100g</li>
+                            <li>인쇄: (표지) 양면 / CMYK / 일반, (내지) 단면/K/일반</li>
+                            <li>사이즈: A4(210×195mm)</li>
+                            <li>가공: 박/오시/도무송</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="auth-quote-detail">견적 요청 상세</label>
+                    <div class="input" style="align-items: flex-start; min-height: 120px;">
+                        <textarea id="auth-quote-detail" placeholder="원하시는 옵션과 요청사항을 가능한 자세히 입력해주세요 (ex. 특수 용지 사용, 대량 인쇄(10,000,000매) 등)"></textarea>
+                    </div>
+                    <div class="disclaimer">0/1,000</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="auth-phone">휴대폰 번호</label>
+                    <div class="input">
+                        <input type="tel" id="auth-phone" value="01012641234">
+                    </div>
+                    <p class="disclaimer">* 별도견적 시 확인 필요사항이 있을 경우 연락 가능한 휴대폰 번호를 입력해주세요</p>
+                </div>
+                
+                <div class="form-group" style="padding-bottom: 10px; margin-bottom: 20px;">
+                    <label>파일 업로드(선택)</label>
+                    <div style="border: 1px dashed #d7d7d7; border-radius: 6px; padding: 30px 15px; text-align: center; background: #f8f8f9; margin-bottom: 10px;">
+                        <p style="font-size: 14px; color: #555; margin-bottom: 10px;">파일을 선택하거나, 이곳에 드래그하여 업로드할 수 있어요</p>
+                        <button class="white-button" style="height: 36px; width: auto; font-weight: 500;" onclick="document.getElementById('auth-file-upload').click()">파일 선택</button>
+                        <input type="file" id="auth-file-upload" style="display: none;" multiple>
+                    </div>
+                    <p class="disclaimer">* 최대 4GB 크기의 PDF(권장), ai, psd, cdr, jpg, gif, png 형식의 파일을 첨부할 수 있어요</p>
+                    <p class="disclaimer">* 2건 이상 접수 시, 파일명에 구분 가능한 내용과 건수를 포함해주세요 (ex) 명함_앞면_CMYK)</p>
+                </div>
+
+            </div>
+            <div class="modal-footer-full">
+                <button class="dark-button" onclick="alert('별도견적 신청 완료 (회원)')">별도견적 신청</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-overlay" id="unauth-quote-apply-modal-overlay">
+        <div class="full-modal-content" id="unauth-quote-apply-modal">
+            <header class="modal-header-full">
+                <div class="modal-header-left"></div>
+                <h1 class="modal-title-full">별도견적 신청</h1>
+                <button type="button" class="btn-modal-close-full" onclick="closeModal('unauth-quote-apply-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </header>
+            <div class="modal-body-full" id="unauth-quote-modal">
+                <div class="form-group">
+                    <label>선택 옵션</label>
+                    <div class="input input-read-only" style="flex-direction: column; align-items: flex-start; justify-content: flex-start; min-height: 70px; padding: 12px;">
+                        <span class="product-name">책자</span>
+                        <ul class="product-options" style="list-style: disc; padding-left: 0;">
+                            <li>용지: (표지)아트지/백색/ 100g, (내지) 아트지/백색/100g</li>
+                            <li>인쇄: (표지) 양면 / CMYK / 일반, (내지) 단면/K/일반</li>
+                            <li>사이즈: A4(210×195mm)</li>
+                            <li>가공: 박/오시/도무송</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="unauth-quote-detail">견적 요청 상세</label>
+                    <div class="input" style="align-items: flex-start; min-height: 120px;">
+                        <textarea id="unauth-quote-detail" placeholder="원하시는 옵션과 요청사항을 가능한 자세히 입력해주세요 (ex. 특수 용지 사용, 대량 인쇄(10,000,000매) 등)"></textarea>
+                    </div>
+                    <div class="disclaimer">0/1,000</div>
+                </div>
+                
+                <div class="form-group" style="padding-top: 5px;">
+                    <label style="font-weight: 700; font-size: 16px;">신청자 정보</label>
+                    
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label for="unauth-name">이름</label>
+                        <div class="input">
+                            <input type="text" id="unauth-name" placeholder="이름을 입력해주세요">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label for="unauth-contact">연락처</label>
+                        <div class="input-group">
+                            <div class="combobox-wrapper combobox-wrapper-small">
+                                <div class="input select-wrapper" onclick="showCountryCodeDropdown('unauth')" onfocus="showCountryCodeDropdown('unauth')" onblur="hideCountryCodeDropdown('unauth')" tabindex="0">
+                                    <span class="select-flag" id="unauth-country-code-flag">
+                                        </span>
+                                    <input type="text" id="unauth-country-code-display" value="+82 (Korea)" readonly>
+                                </div>
+                                <div class="combobox-dropdown" id="unauth-country-code-dropdown">
+                                    <div class="combobox-item" onmousedown="selectCountryCode('unauth', 'assets/images/flag-kor.png', '+82 (Korea)', 'Korean flag')">
+                                        <span class="flag"><img src="assets/images/flag-kor.png" alt="Korean flag"></span> <strong>+82</strong> <span>(Korea)</span>
+                                    </div>
+                                    <div class="combobox-item" onmousedown="selectCountryCode('unauth', 'assets/images/flag-jp.png', '+81 (Japan)', 'Japanese flag')">
+                                        <span class="flag"><img src="assets/images/flag-jp.png" alt="Japanese flag"></span> <strong>+81</strong> <span>(Japan)</span>
+                                    </div>
+                                    <div class="combobox-item" onmousedown="selectCountryCode('unauth', 'assets/images/flag-eng.png', '+1 (USA)', 'USA flag')">
+                                        <span class="flag"><img src="assets/images/flag-eng.png" alt="USA flag"></span> <strong>+1</strong> <span>(USA)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input">
+                                <input type="tel" id="unauth-contact-number" placeholder="'-'을 제외한 숫자만 입력해주세요">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="unauth-email">이메일 주소</label>
+                        <div class="input">
+                            <input type="email" id="unauth-email" placeholder="이메일 주소를 입력해주세요">
+                        </div>
+                        <p class="disclaimer">* 별도견적 시 확인 필요사항이 있을 경우 연락 가능한 휴대폰 번호를 입력해주세요</p>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="padding-bottom: 10px; margin-bottom: 20px;">
+                    <label>파일 업로드(선택)</label>
+                    <div style="border: 1px dashed #d7d7d7; border-radius: 6px; padding: 30px 15px; text-align: center; background: #f8f8f9; margin-bottom: 10px;">
+                        <p style="font-size: 14px; color: #555; margin-bottom: 10px;">파일을 선택하거나, 이곳에 드래그하여 업로드할 수 있어요</p>
+                        <button class="white-button" style="height: 36px; width: auto; font-weight: 500;" onclick="document.getElementById('unauth-file-upload').click()">파일 선택</button>
+                        <input type="file" id="unauth-file-upload" style="display: none;" multiple>
+                    </div>
+                    <p class="disclaimer">* 최대 4GB 크기의 PDF(권장), ai, psd, cdr, jpg, gif, png 형식의 파일을 첨부할 수 있어요</p>
+                    <p class="disclaimer">* 2건 이상 접수 시, 파일명에 구분 가능한 내용과 건수를 포함해주세요 (ex) 명함_앞면_CMYK)</p>
+                </div>
+
+            </div>
+            <div class="modal-footer-full">
+                <button class="dark-button" onclick="alert('별도견적 신청 완료 (비회원)')">별도견적 신청</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // ========================================
+        // Modal Helpers (Full Modal)
+        // ========================================
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                const modalContent = overlay.querySelector('.full-modal-content');
+                if (modalContent) {
+                    modalContent.style.animation = 'slideOutDown 0.3s ease-in';
+                }
+
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                    if (modalContent) {
+                        modalContent.style.animation = '';
+                    }
+                    const anyModalActive = document.querySelector('.modal-overlay.active:not(#quote-select-modal-overlay):not(#auth-quote-apply-modal-overlay):not(#unauth-quote-apply-modal-overlay)');
+                    if (!anyModalActive) {
+                        document.body.style.overflow = '';
+                    }
+                }, 300); 
+            }
+        }
+
+        const styleElement = document.createElement('style');
+        styleElement.textContent = `
+            @keyframes slideOutDown {
+                from { transform: translateY(0); }
+                to { transform: translateY(100%); }
+            }
+        `;
+        document.head.appendChild(styleElement);
+
+        
+        // ========================================
+        // 견적 선택 모달 로직 (저장견적.html 일관성 확보)
+        // ========================================
+        const maxSelection = 2;
+        
+        function getCheckedCount() {
+             return document.querySelectorAll('#quote-list-container .common-table-card.selected').length;
+        }
+
+        function updateQuoteSelectionButton() {
+             const selectedCount = getCheckedCount();
+             const completeBtn = document.getElementById('quote-select-complete-btn');
+             
+             if (completeBtn) {
+                if (selectedCount > 0) {
+                    completeBtn.disabled = false;
+                    completeBtn.textContent = `선택 완료 (${selectedCount}개)`;
+                } else {
+                    completeBtn.disabled = true;
+                    completeBtn.textContent = `선택 완료`;
+                }
+             }
+        }
+
+        function toggleV12Checkbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            const newState = !isChecked;
+            checkbox.dataset.checked = newState;
+            const checkedImg = 'assets/images/checked.svg'; 
+            checkbox.innerHTML = newState ? `<div class="checkbox-on"><img src="${checkedImg}" alt="체크"></div>` : '<div class="checkbox-off"></div>';
+            return newState;
+        }
+
+        function toggleQuoteSelection(card) {
+            const checkboxWrapper = card.querySelector('.checkbox-text-wrapper');
+            const checkbox = checkboxWrapper.querySelector('.checkbox');
+            const isSelected = card.classList.contains('selected');
+            const selectedCount = getCheckedCount();
+            
+            let newState = false;
+
+            if (isSelected) {
+                // 선택 해제
+                card.classList.remove('selected');
+                newState = toggleV12Checkbox(checkbox);
+            } else if (selectedCount < maxSelection) {
+                // 선택
+                card.classList.add('selected');
+                newState = toggleV12Checkbox(checkbox);
+            } else {
+                // 최대 선택 개수 초과
+                alert(`견적은 최대 ${maxSelection}개까지 선택 가능합니다.`);
+                return;
+            }
+            
+            updateQuoteSelectionButton();
+        }
+
+        function handleQuoteSelectComplete() {
+            const selectedQuotes = Array.from(document.querySelectorAll('#quote-list-container .common-table-card.selected'))
+                                          .map(card => card.dataset.quoteId);
+            if (selectedQuotes.length === 0) {
+                alert("비교할 견적을 1개 이상 선택해주세요.");
+                return;
+            }
+            alert(`선택 완료: ${selectedQuotes.join(', ')}번 견적 (${selectedQuotes.length}개). 견적 비교 페이지로 이동합니다. (구현 필요)`);
+            closeModal('quote-select-modal-overlay');
+        }
+        
+        // ========================================
+        // [NEW] Country Code Combobox Logic (FROM MYPAGE)
+        // ========================================
+
+        let activeCountryDropdownId = null;
+
+        function showCountryCodeDropdown(context) {
+            const dropdownId = context === 'unauth' ? 'unauth-country-code-dropdown' : 'country-code-dropdown';
+            const dropdown = document.getElementById(dropdownId);
+            
+            const isHidden = dropdown.style.display === 'none' || dropdown.style.display === '';
+
+            document.querySelectorAll('.combobox-dropdown').forEach(d => { d.style.display = 'none'; });
+
+            if (isHidden) {
+                activeCountryDropdownId = dropdownId;
+                if (dropdown) dropdown.style.display = 'block';
+            }
+        }
+
+        function hideCountryCodeDropdown(context) {
+            const dropdownId = context === 'unauth' ? 'unauth-country-code-dropdown' : 'country-code-dropdown';
+            const dropdown = document.getElementById(dropdownId);
+            // Use a slight timeout to ensure mousedown on item fires before blur closes it
+            setTimeout(() => {
+                if (dropdown) dropdown.style.display = 'none';
+                activeCountryDropdownId = null;
+            }, 200);
+        }
+
+        function selectCountryCode(context, flagImgSrc, codeText, altText) {
+            const flagId = context === 'unauth' ? 'unauth-country-code-flag' : 'country-code-flag';
+            const displayId = context === 'unauth' ? 'unauth-country-code-display' : 'country-code-display';
+            
+            document.getElementById(flagId).innerHTML = `<img src="${flagImgSrc}" alt="${altText}">`;
+            document.getElementById(displayId).value = codeText;
+            
+            // Explicitly hide the dropdown after selection (using context)
+            // Use timeout because mousedown might fire before blur
+            setTimeout(() => {
+                const blurElement = document.getElementById(displayId);
+                if (blurElement) blurElement.blur(); // Trigger blur to run hide logic
+                hideCountryCodeDropdown(context);
+            }, 50);
+        }
+
+        // Add document click listener to close *any* open dropdown if clicking outside
+        document.addEventListener('click', (e) => {
+            document.querySelectorAll('.combobox-dropdown').forEach(dropdown => {
+                const wrapper = dropdown.closest('.combobox-wrapper');
+                if (dropdown.style.display === 'block' && wrapper && !wrapper.contains(e.target)) {
+                    dropdown.style.display = 'none';
+                    activeCountryDropdownId = null;
+                }
+            });
+        });
+
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+             // 페이지 로드 시, 이미 selected 클래스가 붙은 카드의 체크박스 상태를 동기화
+             document.querySelectorAll('#quote-list-container .common-table-card.selected').forEach(card => {
+                 const checkbox = card.querySelector('.checkbox');
+                 if (checkbox.dataset.checked !== 'true') {
+                     toggleV12Checkbox(checkbox);
+                 }
+             });
+             updateQuoteSelectionButton();
+
+             // Set default flag image for the unauth modal (since it's hardcoded to +82)
+             const unauthFlag = document.getElementById('unauth-country-code-flag');
+             if (unauthFlag) {
+                 // Use a placeholder path for the demo
+                 unauthFlag.innerHTML = `<img src="assets/images/flag-kor.png" alt="Korean flag">`;
+             }
+        });
+
+    </script>
+</body>
+</html>
