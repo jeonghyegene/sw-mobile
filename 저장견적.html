@@ -146,24 +146,6 @@
             height: 100%;
         }
 
-        /* Small Header Button for Menu */
-        .btn-icon-sm {
-            width: 18px;
-            height: 18px;
-            color: #888;
-            transition: transform 0.2s;
-        }
-
-        .btn-icon-sm:active {
-            transform: scale(0.9);
-        }
-
-        .btn-icon-sm svg {
-            width: 100%;
-            height: 100%;
-        }
-
-
         /* Buttons (v12 Standard + Primary) */
         .primary-button {
             background-color: #4e6ee4;
@@ -257,7 +239,6 @@
             border-color: #dc3545;
         }
 
-
         .dark-button:disabled,
         .white-button:disabled,
         .primary-button:disabled {
@@ -286,36 +267,6 @@
             font-weight: 600;
             color: #666;
             margin-bottom: 8px;
-        }
-
-        .info-section .balance-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .info-section .balance {
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .info-sub-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            font-size: 14px;
-        }
-
-        .info-sub-row .label {
-            color: #555;
-        }
-
-        .info-sub-row .value {
-            color: #333;
-            font-weight: 600;
         }
 
         /* Filter Chip Section */
@@ -385,7 +336,7 @@
             align-items: center;
         }
 
-        /* Search (v12 Standard) - FAQ Style */
+        /* Search (v12 Standard) */
         .search {
             width: 100%;
             height: 40px;
@@ -428,11 +379,6 @@
             display: flex;
         }
 
-        .search-del svg {
-            color: #666; 
-            stroke-width: 2.5;
-        }
-
         .search-icon,
         .btn-search {
             width: 24px;
@@ -440,7 +386,7 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
-
+        
         .btn-search {
             color: #AAAAAD;
         }
@@ -461,6 +407,13 @@
             color: #555;
             border-bottom: 1px solid #f0f0f0;
             margin-bottom: 16px;
+        }
+        
+        /* [NEW] Header Checkbox Wrapper */
+        .header-checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .transaction-list-header .total-count strong {
@@ -521,14 +474,14 @@
         }
 
         .common-table-card.estimate-card {
-            cursor: default; /* Card itself is not clickable */
+            cursor: default; 
             transition: background 0.2s;
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: center; /* Center vertical */
+            align-items: center; 
             margin-bottom: 8px;
         }
         
@@ -538,7 +491,6 @@
              margin-right: 10px;
         }
         
-        /* Date Styling in Header */
         .card-date {
             font-size: 13px;
             font-weight: 500;
@@ -553,7 +505,6 @@
             margin: 12px 0;
         }
         
-        /* Specs Row */
         .estimate-specs-row {
             font-size: 13px;
             color: #666;
@@ -562,10 +513,9 @@
             margin-bottom: 15px;
         }
         
-        /* Footer */
         .card-footer {
             display: flex;
-            justify-content: flex-end; /* Right align */
+            justify-content: flex-end; 
             gap: 8px;
             padding-top: 4px;
         }
@@ -714,13 +664,15 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            /* v19: Make space for delete button */
+            flex: 1; 
         }
 
         .sticky-action-footer .total-count {
             font-size: 14px;
             font-weight: 600;
             color: #333;
-            margin-bottom: 4px;
+            margin-bottom: 0;
         }
 
         .sticky-action-footer .action-buttons {
@@ -739,6 +691,17 @@
             height: 40px;
             font-size: 13px;
             padding: 0 16px;
+        }
+        
+        /* [NEW] Footer Delete Button Style */
+        .btn-delete-selected {
+            color: #dc3545;
+            border-color: #e8e8e9;
+            font-weight: 600;
+        }
+        .btn-delete-selected:hover {
+            border-color: #dc3545;
+            background: #fefafa;
         }
         
         /* Modal */
@@ -805,7 +768,6 @@
             font-weight: 600;
         }
         
-        /* Special Confirm Button (Black) */
         .modal-button-confirm {
              background: #333;
              color: white;
@@ -820,7 +782,6 @@
             font-weight: 600;
         }
         
-        /* Disclaimer / Info Text (Reusable) */
         .disclaimer {
             font-size: 12px;
             color: #888;
@@ -911,7 +872,13 @@
 
                 <section class="transaction-list-section">
                     <div class="transaction-list-header">
-                        <span class="total-count">총 <strong id="transaction-count">10</strong>건</span>
+                        <div class="header-checkbox-wrapper">
+                            <div class="checkbox" id="check-all" onclick="toggleCheckAll(this)">
+                                <div class="checkbox-off"></div>
+                            </div>
+                            <span class="total-count">총 <strong id="transaction-count">10</strong>건</span>
+                        </div>
+                        
                         <div class="view-count-select">
                             <span class="view-count-select-text">10건씩 보기</span>
                             <div class="view-count-select-arrow">
@@ -1010,11 +977,11 @@
 
                     <div class="pagination" data-name="Pagination">
                         <div class="pagination-arrow disabled" onclick="paginationFirst()">
-                            <img src="assets/images/nnext-arrow.svg" alt="처음"
+                            <img src="https://www.figma.com/api/mcp/asset/98c36079-6698-4fbf-8222-1c0b4fcaab1c" alt="처음"
                                 style="transform: rotate(90deg);">
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationPrev()">
-                            <img src="assets/images/next-arrow.svg" alt="이전"
+                            <img src="https://www.figma.com/api/mcp/asset/5881851a-69b0-4a30-8ba8-bbb647a7fcc4" alt="이전"
                                 style="transform: rotate(90deg);">
                         </div>
                         <div class="pagination-numbers" id="pagination-numbers">
@@ -1026,11 +993,11 @@
                             <div class="pagination-number" data-page="6" onclick="paginationGo(6)">6</div>
                         </div>
                         <div class="pagination-arrow" onclick="paginationNext()">
-                            <img src="assets/images/next-arrow.svg" alt="다음"
+                            <img src="https://www.figma.com/api/mcp/asset/9f728346-6da0-4d2b-a299-2137f0214aea" alt="다음"
                                 style="transform: rotate(90deg) scaleY(-1);">
                         </div>
                         <div class="pagination-arrow" onclick="paginationLast()">
-                            <img src="assets/images/nnext-arrow.svg"
+                            <img src="https://www.figma.com/api/mcp/asset/4557e67d-fb94-45a7-a3da-e8690f677a05"
                                 alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
                         </div>
                     </div>
@@ -1047,9 +1014,10 @@
 
         <div class="sticky-action-footer" id="estimate-action-footer">
             <div class="left-info">
-                <span class="total-count" id="selected-count">총 0건 선택됨</span>
+                <span class="total-count" id="selected-count">총 0건</span>
             </div>
             <div class="action-buttons">
+                <button class="white-button btn-delete-selected" onclick="showDeleteAlert()">삭제</button>
                 <button class="white-button" id="btn-compare" onclick="alert('견적 비교 (구현 필요)')">견적 비교</button>
                 <button class="dark-button" id="btn-issue" onclick="alert('견적서 발급 (구현 필요)')">견적서 발급</button>
             </div>
@@ -1186,8 +1154,6 @@
             });
             prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
             nextArrows.forEach(arrow => nextArrows.classList.toggle('disabled', currentPage === totalPages));
-
-            // (TODO: 페이지 목록 동적 표시 로직 추가 필요)
         }
 
         // --- [NEW] Checkbox Logic ---
@@ -1198,8 +1164,37 @@
                 checkbox.innerHTML = '<div class="checkbox-off"></div>';
             } else {
                 checkbox.dataset.checked = 'true';
-                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
             }
+        }
+        
+        // [NEW] Master Checkbox Logic
+        function toggleCheckAll(masterCheckbox) {
+            const isChecked = masterCheckbox.dataset.checked === 'true';
+            
+            // Toggle master state first (mimic toggleCheckbox but manual since logic is inverted)
+            if (isChecked) {
+                // Turn OFF
+                masterCheckbox.dataset.checked = 'false';
+                masterCheckbox.innerHTML = '<div class="checkbox-off"></div>';
+                
+                // Turn OFF all list checkboxes
+                document.querySelectorAll('.transaction-list .checkbox').forEach(cb => {
+                    cb.dataset.checked = 'false';
+                    cb.innerHTML = '<div class="checkbox-off"></div>';
+                });
+            } else {
+                // Turn ON
+                masterCheckbox.dataset.checked = 'true';
+                masterCheckbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+                
+                // Turn ON all list checkboxes
+                document.querySelectorAll('.transaction-list .checkbox').forEach(cb => {
+                    cb.dataset.checked = 'true';
+                    cb.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+                });
+            }
+            updateStickyFooter();
         }
 
         function toggleEstimateCheckbox(checkboxWrapper, event) {
@@ -1211,16 +1206,30 @@
             // Check limit before toggling on
             if (!isCurrentlyChecked) {
                 const currentCount = document.querySelectorAll('.transaction-list .checkbox[data-checked="true"]').length;
-                // Max 3 items allowed for comparison. If user tries to select 4th, show warning.
+                // Max 3 items allowed for comparison.
                 if (currentCount >= 3) {
                      openModal('limit-alert-overlay');
                      return;
                 }
             }
 
-            // 1. Checkbox 상태 토글
+            // 1. Toggle checkbox
             toggleCheckbox(checkboxEl);
-            // 2. Sticky Footer 업데이트
+            
+            // 2. Update master checkbox state
+            const totalCheckboxes = document.querySelectorAll('.transaction-list .checkbox').length;
+            const checkedCheckboxes = document.querySelectorAll('.transaction-list .checkbox[data-checked="true"]').length;
+            const masterCheckbox = document.getElementById('check-all');
+            
+            if (totalCheckboxes > 0 && totalCheckboxes === checkedCheckboxes) {
+                masterCheckbox.dataset.checked = 'true';
+                masterCheckbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+            } else {
+                masterCheckbox.dataset.checked = 'false';
+                masterCheckbox.innerHTML = '<div class="checkbox-off"></div>';
+            }
+
+            // 3. Sticky Footer 업데이트
             updateStickyFooter();
         }
 
@@ -1236,7 +1245,7 @@
 
             if (count > 0) {
                 footer.classList.add('active');
-                document.getElementById('selected-count').textContent = `총 ${count}건 선택됨`;
+                document.getElementById('selected-count').textContent = `총 ${count}건`;
                 document.querySelector('.mobile-wrap').style.paddingBottom = '88px'; // Footer height padding
                 
                 // Dynamic Button Display Logic
