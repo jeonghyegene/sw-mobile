@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파일 재업로드 (v12)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           [v12] Master Guide CSS Reset & Base
+           ========================================= */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        }
+        ul, li { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        input, textarea, select { font-family: inherit; }
+        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        /* Layout & Header */
+        .mobile-wrap { width: 100%; max-width: 480px; margin: 0 auto; background-color: #ffffff; min-height: 100vh; }
+        .sw-container { padding: 16px; }
+        
+        /* Header (Background Context) */
+        .app-header-sub { height: 56px; background: #ffffff; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; flex-shrink: 0; }
+        .header-title { flex: 3 0 0; font-size: 18px; font-weight: 600; text-align: center; color: #212121; }
+        .header-left, .header-right { flex: 1 0 0; display: flex; align-items: center; }
+        .header-left { justify-content: flex-start; }
+        .header-right { justify-content: flex-end; }
+        .header-btn { width: 28px; height: 28px; color: #333; display: flex; align-items: center; justify-content: center; }
+
+        /* Buttons */
+        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; transition: background 0.1s; width: 100%; }
+        .dark-button:disabled { background: #cccccc; color: #ffffff; cursor: default; }
+        
+        /* Typography & Spacing */
+        .page-title { font-size: 20px; font-weight: 700; color: #212121; margin-bottom: 8px; }
+        .page-desc { font-size: 14px; color: #666; margin-bottom: 24px; line-height: 1.5; }
+        
+        /* Form Elements */
+        .form-group { margin-bottom: 24px; }
+        .form-group label { display: block; font-size: 16px; font-weight: 700; color: #333; margin-bottom: 12px; }
+        .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; padding-left: 8px; position: relative; }
+        .disclaimer::before { content: '*'; position: absolute; left: 0; top: 0; }
+
+        /* [NEW] Design Notice Link Style */
+        .design-notice-link {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 14px;
+            color: #333;
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* =========================================
+           Full Modal Standard (v12)
+           ========================================= */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 0; }
+        .modal-overlay.active { display: flex; animation: fadeInModal 0.2s ease-out; }
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        
+        .full-modal-content { width: 100%; height: 100%; max-width: 480px; max-height: 100%; display: flex; flex-direction: column; animation: slideInUp 0.3s ease-out; margin: 0 auto; background: white; border-radius: 0; }
+        @keyframes slideInUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        /* [MODIFIED] Header Style for Left Alignment */
+        .modal-header-full { 
+            height: 56px; 
+            background: white; 
+            border-bottom: 1px solid #cccccc; 
+            display: flex; 
+            align-items: center; 
+            padding: 0 16px; 
+            flex-shrink: 0; 
+            position: relative; /* Added for absolute positioning of close button */
+        }
+        .modal-title-full { 
+            font-size: 18px; 
+            font-weight: 700; /* Changed 600 -> 700 */
+            text-align: left; /* Changed center -> left */
+            color: #212121; 
+        }
+        .btn-modal-close-full { 
+            width: 24px; 
+            height: 24px; 
+            cursor: pointer; 
+            color: #333; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            position: absolute; /* Positioned absolute to right */
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .modal-body-full { padding: 20px 16px; overflow-y: auto; flex-grow: 1; }
+        .modal-footer-full { padding: 16px; border-top: 1px solid #e8e8e9; background: #fff; display: flex; gap: 8px; flex-shrink: 0; }
+
+        /* =========================================
+           [UI Component] File Upload (Visual Match)
+           ========================================= */
+        /* Custom File Upload Button styling based on image_c70d9b.png */
+        .form-group label.file-upload-box {
+            width: 100%;
+            height: 52px;
+            background-color: #ffffff;
+            border: 1px solid #d7d7d7;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            gap: 6px;
+        }
+        .form-group label.file-upload-box:hover {
+            background-color: #f9f9f9;
+        }
+        .form-group label.file-upload-box svg {
+            width: 20px;
+            height: 20px;
+            color: #333;
+        }
+        .form-group label.file-upload-box span {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* File List Styling */
+        .file-list-container {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            margin-top: 12px;
+            display: none; /* Initial hidden */
+            background-color: #fff;
+        }
+        .file-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            border-bottom: 1px solid #e8e8e9;
+            background-color: #f8f8f9;
+            border-radius: 6px 6px 0 0;
+        }
+        .file-list-header .total-count { font-size: 13px; font-weight: 600; color: #333; }
+        .file-list-header .total-size { font-size: 13px; color: #888; }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .file-item:last-child { border-bottom: none; }
+        .file-item .file-name {
+            flex: 1;
+            font-size: 14px;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .file-item .file-size { font-size: 12px; color: #888; flex-shrink: 0; }
+        .file-item .remove-btn { 
+            width: 24px; height: 24px; 
+            color: #bbb; 
+            flex-shrink: 0; 
+            cursor: pointer; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .file-item .remove-btn:hover { color: #dc3545; }
+
+        /* Order Item Info (Context) */
+        .order-info-box {
+            background: #f8f8f9;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+        .order-info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+        .order-info-row:last-child { margin-bottom: 0; }
+        .order-info-label { color: #666; }
+        .order-info-value { color: #333; font-weight: 600; }
+
+    </style>
+</head>
+<body>
+
+    <div class="mobile-wrap">
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 6l-6 6l6 6" /></svg></button>
+            </div>
+            <h1 class="header-title">주문 내역</h1>
+            <div class="header-right"></div>
+        </header>
+        <main class="sw-container">
+            </main>
+    </div>
+
+    <div class="modal-overlay active" id="file-reupload-modal-overlay">
+        <div class="full-modal-content" id="file-reupload-modal">
+            <header class="modal-header-full">
+                <h1 class="modal-title-full">파일 재업로드</h1>
+                <button type="button" class="btn-modal-close-full" onclick="closeModal('file-reupload-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </header>
+            
+            <div class="modal-body-full">
+                <h2 class="page-title">파일 재업로드</h2>
+                <p class="page-desc">작업 가이드 기준에 맞게 작업된 파일을 업로드해주세요</p>
+
+                <div class="form-group">
+                
+                    <label for="file-upload-input" class="file-upload-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                            <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                            <path d="M12 11v6" />
+                            <path d="M9 14l3 -3l3 3" />
+                        </svg>
+                        <span>파일 선택</span>
+                    </label>
+                    <input type="file" id="file-upload-input" style="display: none;" multiple onchange="handleFileSelect(event)">
+
+                    <div class="file-list-container" id="file-list-area">
+                        <div class="file-list-header">
+                            <span class="total-count" id="file-total-count">총 0개</span>
+                            <span class="total-size" id="file-total-size">0KB/1GB</span>
+                        </div>
+                        <div id="file-list-items">
+                            </div>
+                    </div>
+
+                    <div style="margin-top: 12px;">
+                        <p class="disclaimer">최대 4GB 크기의 PDF(권장), ai, psd, cdr, jpg, gif, png 형식의 파일을 첨부할 수 있어요.</p>
+                        <p class="disclaimer">2건 이상 필수 시, 파일명에 구분 가능한 내용과 건수 포함해주세요 (ex) 명함 일면 CMYK)</p>
+                        <a href="#" class="design-notice-link" onclick="alert('디자인 작업 시 주의사항 팝업')">* 디자인 작업 시 주의사항을 꼭 확인해주세요! ></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer-full">
+                <button class="dark-button" id="submit-button" disabled onclick="alert('파일이 전송되었습니다.')">파일 재업로드</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // Modal Logic (v12 Standard)
+        // ========================================
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                const modalContent = overlay.querySelector('.full-modal-content');
+                if (modalContent) {
+                    modalContent.style.animation = 'slideOutDown 0.3s ease-in';
+                }
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                    if (modalContent) modalContent.style.animation = '';
+                    // Go back logic if needed
+                    // history.back(); 
+                }, 300);
+            }
+        }
+
+        // Add close animation style dynamically
+        const styleElement = document.createElement('style');
+        styleElement.textContent = `
+            @keyframes slideOutDown {
+                from { transform: translateY(0); }
+                to { transform: translateY(100%); }
+            }
+        `;
+        document.head.appendChild(styleElement);
+
+        // ========================================
+        // File Upload Logic
+        // ========================================
+        let selectedFiles = [];
+        const maxTotalSize = 1024 * 1024 * 1024; // 1GB
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+        }
+
+        function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            if (!files.length) return;
+
+            files.forEach(file => {
+                // Check for duplicates based on name
+                if (!selectedFiles.some(f => f.name === file.name)) {
+                    selectedFiles.push(file);
+                }
+            });
+
+            updateFileUI();
+            event.target.value = null; // Reset input
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updateFileUI();
+        }
+
+        function updateFileUI() {
+            const container = document.getElementById('file-list-area');
+            const itemsContainer = document.getElementById('file-list-items');
+            const countEl = document.getElementById('file-total-count');
+            const sizeEl = document.getElementById('file-total-size');
+            const submitBtn = document.getElementById('submit-button');
+
+            // Toggle Visibility
+            if (selectedFiles.length === 0) {
+                container.style.display = 'none';
+                submitBtn.disabled = true;
+                return;
+            } else {
+                container.style.display = 'block';
+                submitBtn.disabled = false;
+            }
+
+            // Update List
+            itemsContainer.innerHTML = '';
+            let currentTotalSize = 0;
+
+            selectedFiles.forEach((file, index) => {
+                currentTotalSize += file.size;
+                
+                const div = document.createElement('div');
+                div.className = 'file-item';
+                div.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" style="color:#888; flex-shrink:0; margin-right:8px;">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                    </svg>
+                    <span class="file-name">${file.name}</span>
+                    <span class="file-size">${formatBytes(file.size)}</span>
+                    <button type="button" class="remove-btn" onclick="removeFile(${index})">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M18 6l-12 12" />
+                            <path d="M6 6l12 12" />
+                        </svg>
+                    </button>
+                `;
+                itemsContainer.appendChild(div);
+            });
+
+            // Update Headers
+            countEl.textContent = `총 ${selectedFiles.length}개`;
+            sizeEl.textContent = `${formatBytes(currentTotalSize)}/1GB`;
+            
+            if (currentTotalSize > maxTotalSize) {
+                sizeEl.style.color = '#dc3545';
+                submitBtn.disabled = true;
+            } else {
+                sizeEl.style.color = '#888';
+            }
+        }
+
+        // --- Auto-open logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // The modal is open by default via class="active" in HTML
+        });
+
+    </script>
+</body>
+</html>
