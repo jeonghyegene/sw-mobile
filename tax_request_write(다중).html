@@ -56,7 +56,6 @@
             font-weight: 600; 
             text-align: center; 
             color: #212121; 
-            /* [MODIFIED] 줄 바꿈 방지 및 말줄임표 처리 */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -151,7 +150,7 @@
             font-weight: 600;
         }
         
-        /* [NEW] Item detail row (for Request 1) */
+        /* Item detail row */
         .item-list { display: flex; flex-direction: column; gap: 10px; }
         .item-row { display: flex; justify-content: space-between; align-items: flex-start; }
         .item-name { font-size: 14px; color: #333; font-weight: 500; }
@@ -159,7 +158,7 @@
         .item-price-total { font-size: 14px; font-weight: 500; color: #333; }
         .item-price-details { font-size: 12px; color: #888; }
         
-        /* [NEW] 합산 (single card) item row */
+        /* 합산 (single card) item row */
         .aggregate-item-row {
             padding-bottom: 10px;
             margin-bottom: 10px;
@@ -241,7 +240,7 @@
             font-weight: 500;
         }
         .modal-tab-nav .single-chip-on {
-             background: #4e6ee4; /* Master Guide blue */
+             background: #4e6ee4; 
              color: white;
         }
         
@@ -251,17 +250,15 @@
         .single-chip-on { background: #4e6ee4; color: white; }
         .single-chip:active { transform: scale(0.95); }
         
-        /* [NEW] v12 standard filter-group-content */
         .filter-group-content {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
         
-        /* [NEW] v12 standard disclaimer */
         .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
 
-        /* [NEW] Sticky Form Footer */
+        /* Sticky Form Footer */
         .sticky-form-footer {
             position: fixed;
             bottom: 0;
@@ -289,7 +286,6 @@
              flex-grow: 2; /* 신청하기 버튼을 더 크게 */
         }
         
-        /* [NEW] Form group for customer list button */
         .form-group-button {
              margin-bottom: 20px;
         }
@@ -306,10 +302,7 @@
             stroke-width: 2.5;
         }
         
-        /* ========================================
-           [NEW] SEARCH STYLES (For Request 3)
-        ======================================== */
-        
+        /* SEARCH STYLES */
         .filter-section { padding: 0 0 16px 0; display: flex; justify-content: flex-start; align-items: center; }
         
         .search {
@@ -339,7 +332,6 @@
         .search-icon:active, .btn-search:active { transform: scale(0.9); }
         .search-del img, .btn-search img, .search-icon img { width: 100%; height: 100%; }
         
-        /* [NEW] Transaction List Header (for modal) */
         .transaction-list-header { 
             display: flex; 
             justify-content: space-between; 
@@ -353,10 +345,7 @@
         .transaction-list-header .total-count strong { font-weight: 600; color: #333; }
         
         
-        /* ========================================
-           [MODIFIED] MODAL STYLES (For Request 3)
-        ======================================== */
-
+        /* MODAL STYLES */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -366,13 +355,11 @@
             justify-content: center;
             z-index: 1000;
             padding: 16px;
-            /* [MODIFIED] Animation on overlay */
             animation: fadeInModal 0.3s ease-out; 
         }
         .modal-overlay.active {
             display: flex;
         }
-        /* [NEW] Closing animation for overlay */
         .modal-overlay.closing {
             animation: fadeOutModal 0.35s ease-out forwards;
         }
@@ -381,7 +368,6 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        /* [NEW] Keyframe for overlay fade out */
         @keyframes fadeOutModal {
             from { opacity: 1; }
             to { opacity: 0; }
@@ -395,7 +381,6 @@
             max-height: 90vh; /* Limit height */
             display: flex;
             flex-direction: column;
-            /* [MODIFIED] Default animation */
             animation: scaleUpModal 0.3s ease-out; 
         }
         @keyframes scaleUpModal {
@@ -403,7 +388,6 @@
             to { transform: scale(1); opacity: 1; }
         }
         
-        /* [NEW] Default closing animation */
         .modal-overlay.closing .modal-content {
              animation: scaleDownModal 0.3s ease-out forwards;
         }
@@ -412,7 +396,7 @@
             to { transform: scale(0.9); opacity: 0; }
         }
 
-        /* [NEW] Full Modal Animations (Right to Left) */
+        /* Full Modal Animations (Right to Left) */
         @keyframes slideInFromRight {
             from { transform: translateX(100%); }
             to { transform: translateX(0); }
@@ -422,9 +406,9 @@
             to { transform: translateX(100%); }
         }
 
-        /* [MODIFIED] Override for Full Modal (Customer List & Edit) */
+        /* Override for Full Modal (Customer List & Edit) */
         #customer-list-modal-overlay,
-        #customer-edit-modal-overlay { /* <-- ADDED #customer-edit-modal-overlay */
+        #customer-edit-modal-overlay { 
             padding: 0; /* Remove padding */
             align-items: stretch; /* Stretch to fill */
             justify-content: stretch; /* Stretch to fill */
@@ -433,7 +417,7 @@
         }
 
         #customer-list-modal,
-        #customer-edit-modal { /* <-- ADDED #customer-edit-modal */
+        #customer-edit-modal { 
             width: 100%;
             height: 100%;
             max-width: 100%;
@@ -446,25 +430,25 @@
             animation: none; /* Disable default scale */
         }
 
-        /* [MODIFIED] Apply slide animations to full modals */
+        /* Apply slide animations to full modals */
         #customer-list-modal-overlay.active #customer-list-modal,
-        #customer-edit-modal-overlay.active #customer-edit-modal { /* <-- ADDED #customer-edit-modal */
+        #customer-edit-modal-overlay.active #customer-edit-modal { 
             animation: slideInFromRight 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
-        /* [MODIFIED] Override closing animation for full modals */
+        /* Override closing animation for full modals */
         #customer-list-modal-overlay.closing #customer-list-modal,
-        #customer-edit-modal-overlay.closing #customer-edit-modal { /* <-- ADDED #customer-edit-modal */
+        #customer-edit-modal-overlay.closing #customer-edit-modal { 
             animation: slideOutToRight 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
-        /* [MODIFIED] Override overlay background for full modals */
+        /* Override overlay background for full modals */
         #customer-list-modal-overlay.active,
-        #customer-edit-modal-overlay.active { /* <-- ADDED #customer-edit-modal-overlay */
+        #customer-edit-modal-overlay.active { 
             background: rgba(0, 0, 0, 0.5);
             animation: fadeInModal 0.35s ease-out;
         }
         #customer-list-modal-overlay.closing,
-        #customer-edit-modal-overlay.closing { /* <-- ADDED #customer-edit-modal-overlay */
+        #customer-edit-modal-overlay.closing { 
             background: rgba(0, 0, 0, 0.5); /* Start with background */
             animation: fadeOutModal 0.35s ease-out forwards;
         }
@@ -477,7 +461,7 @@
             border-bottom: 1px solid #e8e8e9;
             position: relative; /* For close button */
             height: 57px; /* Match v12 modal header */
-            flex-shrink: 0; /* [NEW] Prevent header from shrinking */
+            flex-shrink: 0; /* Prevent header from shrinking */
         }
         .modal-title {
             font-size: 16px;
@@ -509,9 +493,9 @@
             display: flex;
             gap: 8px;
             border-radius: 0 0 7px 7px;
-            flex-shrink: 0; /* [NEW] Prevent footer from shrinking */
+            flex-shrink: 0; /* Prevent footer from shrinking */
         }
-        /* [NEW] Remove border-radius for full modals */
+        /* Remove border-radius for full modals */
         #customer-list-modal .modal-footer,
         #customer-edit-modal .modal-footer {
             border-radius: 0;
@@ -561,7 +545,7 @@
             font-weight: 500;
             color: #333;
         }
-        /* [NEW] Customer card footer */
+        /* Customer card footer */
         .customer-item-footer {
             margin-top: 12px;
             padding-top: 12px;
@@ -613,26 +597,26 @@
                     
                     <section class="info-section">
                         <div class="title">발급 정보</div>
-                        <div class="balance-row">
-                            <span class="label" style="font-size: 14px;">총 합계</span>
-                            <span class="balance">1,022,220 원</span>
-                        </div>
-                        <div class="info-sub-row">
-                            <span class="label">공급가액</span>
-                            <span class="value">1,000,000 원</span>
-                        </div>
-                        <div class="info-sub-row" style="border-bottom: 1px solid #f0f0f0; padding-bottom: 12px; margin-bottom: 8px;">
-                            <span class="label">부가세액</span>
-                            <span class="value">22,220 원</span>
-                        </div>
                         <div class="info-sub-row">
                             <span class="label">발급 신청 건</span>
                             <span class="value">5 건</span>
                         </div>
+                        <div class="info-sub-row">
+                            <span class="label">공급가액</span>
+                            <span class="value">₩1,000,000</span>
+                        </div>
+                        <div class="info-sub-row" style="border-bottom: 1px solid #f0f0f0; padding-bottom: 12px; margin-bottom: 8px;">
+                            <span class="label">부가세액</span>
+                            <span class="value">₩22,220</span>
+                        </div>
+                        <div class="balance-row">
+                            <span class="label" style="font-size: 14px;">총 합계</span>
+                            <span class="balance">₩1,022,220</span>
+                        </div>
                     </section>
                     
                     <h2 class="section-title">신청 상세</h2>
-                    <div class="section-subtitle">총 1장의 세금계산서로 발급돼요</div>
+                    <!-- <div class="section-subtitle">총 1장의 세금계산서로 발급돼요</div> -->
                     
                     <section class="transaction-list">
                         <article class="common-table-card">
@@ -640,13 +624,13 @@
                                 <div class="aggregate-item-row">
                                     <div class="aggregate-item-header">
                                         <div class="aggregate-item-id">sw456426</div>
-                                        <div class="aggregate-item-date">2025-08-12</div>
+                                        <div class="aggregate-item-date">작성일 2025-08-12</div>
                                     </div>
                                     <div class="item-list">
                                         <div class="item-row">
                                             <span class="item-name">한단지</span>
                                             <div class="item-price-wrapper">
-                                                <span class="item-price-total">2,500 원</span>
+                                                <span class="item-price-total">₩2,500</span>
                                                 <span class="item-price-details">(공급가액: 2,273 / 부가세액: 227)</span>
                                             </div>
                                         </div>
@@ -655,13 +639,13 @@
                                 <div class="aggregate-item-row">
                                     <div class="aggregate-item-header">
                                         <div class="aggregate-item-id">sw765642</div>
-                                        <div class="aggregate-item-date">2025-08-12</div>
+                                        <div class="aggregate-item-date">작성일 2025-08-12</div>
                                     </div>
                                     <div class="item-list">
                                         <div class="item-row">
                                             <span class="item-name">전단지</span>
                                             <div class="item-price-wrapper">
-                                                <span class="item-price-total">31,020 원</span>
+                                                <span class="item-price-total">₩31,020</span>
                                                 <span class="item-price-details">(공급가액: 28,200 / 부가세액: 2,820)</span>
                                             </div>
                                         </div>
@@ -670,27 +654,27 @@
                                 <div class="aggregate-item-row">
                                     <div class="aggregate-item-header">
                                         <div class="aggregate-item-id">sw567421</div>
-                                        <div class="aggregate-item-date">2025-08-12</div>
+                                        <div class="aggregate-item-date">작성일 2025-08-12</div>
                                     </div>
                                     <div class="item-list">
                                         <div class="item-row">
                                             <span class="item-name">대봉투</span>
                                             <div class="item-price-wrapper">
-                                                <span class="item-price-total">6,520 원</span>
+                                                <span class="item-price-total">₩6,520</span>
                                                 <span class="item-price-details">(공급가액: 5,927 / 부가세액: 593)</span>
                                             </div>
                                         </div>
                                         <div class="item-row">
                                             <span class="item-name">전단지</span>
                                             <div class="item-price-wrapper">
-                                                <span class="item-price-total">13,200 원</span>
+                                                <span class="item-price-total">₩13,200</span>
                                                 <span class="item-price-details">(공급가액: 12,000 / 부가세액: 1,200)</span>
                                             </div>
                                         </div>
                                         <div class="item-row">
                                             <span class="item-name">택배비</span>
                                             <div class="item-price-wrapper">
-                                                <span class="item-price-total">2,500 원</span>
+                                                <span class="item-price-total">₩2,500</span>
                                                 <span class="item-price-details">(공급가액: 2,273 / 부가세액: 227)</span>
                                             </div>
                                         </div>
@@ -699,13 +683,13 @@
                                 <div class="aggregate-item-row">
                                     <div class="aggregate-item-header">
                                         <div class="aggregate-item-id">sw111111</div>
-                                        <div class="aggregate-item-date">2025-08-11</div>
+                                        <div class="aggregate-item-date">작성일 2025-08-11</div>
                                     </div>
                                     <div class="item-list">
                                         <div class="item-row">
                                             <span class="item-name">스티커</span>
                                             <div class="item-price-wrapper">
-                                                <span class="item-price-total">110,000 원</span>
+                                                <span class="item-price-total">₩110,000</span>
                                                 <span class="item-price-details">(공급가액: 100,000 / 부가세액: 10,000)</span>
                                             </div>
                                         </div>
@@ -714,13 +698,13 @@
                                 <div class="aggregate-item-row">
                                     <div class="aggregate-item-header">
                                         <div class="aggregate-item-id">sw222222</div>
-                                        <div class="aggregate-item-date">2025-08-10</div>
+                                        <div class="aggregate-item-date">작성일 2025-08-10</div>
                                     </div>
                                     <div class="item-list">
                                         <div class="item-row">
                                             <span class="item-name">명함</span>
                                             <div class="item-price-wrapper">
-                                                <span class="item-price-total">808,000 원</span>
+                                                <span class="item-price-total">₩808,000</span>
                                                 <span class="item-price-details">(공급가액: 800,000 / 부가세액: 8,000)</span>
                                             </div>
                                         </div>
@@ -731,7 +715,7 @@
                             <div class="card-divider" style="margin-top: 20px;"></div>
                             <div class="card-row-total" style="margin-top: 15px;">
                                 <div class="label">총 합계</div>
-                                <div class="value">1,022,220 원</div>
+                                <div class="value">₩1,022,220</div>
                             </div>
                         </article>
 
@@ -862,135 +846,135 @@
                     
                     <section class="info-section">
                         <div class="title">발급 정보</div>
-                        <div class="balance-row">
-                            <span class="label" style="font-size: 14px;">총 합계</span>
-                            <span class="balance">1,022,220 원</span>
-                        </div>
-                        <div class="info-sub-row">
-                            <span class="label">공급가액</span>
-                            <span class="value">1,000,000 원</span>
-                        </div>
-                        <div class="info-sub-row" style="border-bottom: 1px solid #f0f0f0; padding-bottom: 12px; margin-bottom: 8px;">
-                            <span class="label">부가세액</span>
-                            <span class="value">22,220 원</span>
-                        </div>
                         <div class="info-sub-row">
                             <span class="label">발급 신청 건</span>
                             <span class="value">5 건</span>
                         </div>
+                        <div class="info-sub-row">
+                            <span class="label">공급가액</span>
+                            <span class="value">₩1,000,000</span>
+                        </div>
+                        <div class="info-sub-row" style="border-bottom: 1px solid #f0f0f0; padding-bottom: 12px; margin-bottom: 8px;">
+                            <span class="label">부가세액</span>
+                            <span class="value">₩22,220</span>
+                        </div>
+                        <div class="balance-row">
+                            <span class="label" style="font-size: 14px;">총 합계</span>
+                            <span class="balance">₩1,022,220</span>
+                        </div>
                     </section>
                     
                     <h2 class="section-title">신청 상세</h2>
-                    <div class="section-subtitle">총 5장의 세금계산서로 발급돼요</div>
+                    <!-- <div class="section-subtitle">총 5장의 세금계산서로 발급돼요</div> -->
                     
                     <section class="transaction-list">
                          <article class="common-table-card">
                             <div class="card-header">
                                 <div class="card-column1">sw456426</div>
-                                <div class="card-row-value">2025-08-12</div>
+                                <div class="card-row-value">작성일 2025-08-12</div>
                             </div>
                             <div class="card-divider"></div>
                             <div class="item-list">
                                 <div class="item-row">
                                     <span class="item-name">한단지</span>
                                     <div class="item-price-wrapper">
-                                        <span class="item-price-total">2,500 원</span>
+                                        <span class="item-price-total">₩2,500</span>
                                         <span class="item-price-details">(공급가액: 2,273 / 부가세액: 227)</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-divider"></div>
-                            <div class="card-row-total"><div class="label">합계</div><div class="value">2,500 원</div></div>
+                            <div class="card-row-total"><div class="label">합계</div><div class="value">₩2,500</div></div>
                         </article>
                         
                         <article class="common-table-card">
                             <div class="card-header">
                                 <div class="card-column1">sw765642</div>
-                                <div class="card-row-value">2025-08-12</div>
+                                <div class="card-row-value">작성일 2025-08-12</div>
                             </div>
                             <div class="card-divider"></div>
                              <div class="item-list">
                                 <div class="item-row">
                                     <span class="item-name">전단지</span>
                                     <div class="item-price-wrapper">
-                                        <span class="item-price-total">31,020 원</span>
+                                        <span class="item-price-total">₩31,020</span>
                                         <span class="item-price-details">(공급가액: 28,200 / 부가세액: 2,820)</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-divider"></div>
-                            <div class="card-row-total"><div class="label">합계</div><div class="value">31,020 원</div></div>
+                            <div class="card-row-total"><div class="label">합계</div><div class="value">₩31,020</div></div>
                         </article>
                         
                         <article class="common-table-card">
                             <div class="card-header">
                                 <div class="card-column1">sw567421</div>
-                                <div class="card-row-value">2025-08-12</div>
+                                <div class="card-row-value">작성일 2025-08-12</div>
                             </div>
                             <div class="card-divider"></div>
                              <div class="item-list">
                                 <div class="item-row">
                                     <span class="item-name">대봉투</span>
                                     <div class="item-price-wrapper">
-                                        <span class="item-price-total">6,520 원</span>
+                                        <span class="item-price-total">₩6,520</span>
                                         <span class="item-price-details">(공급가액: 5,927 / 부가세액: 593)</span>
                                     </div>
                                 </div>
                                 <div class="item-row">
                                     <span class="item-name">전단지</span>
                                     <div class="item-price-wrapper">
-                                        <span class="item-price-total">13,200 원</span>
+                                        <span class="item-price-total">₩13,200</span>
                                         <span class="item-price-details">(공급가액: 12,000 / 부가세액: 1,200)</span>
                                     </div>
                                 </div>
                                 <div class="item-row">
                                     <span class="item-name">택배비</span>
                                     <div class="item-price-wrapper">
-                                        <span class="item-price-total">2,500 원</span>
+                                        <span class="item-price-total">₩2,500</span>
                                         <span class="item-price-details">(공급가액: 2,273 / 부가세액: 227)</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-divider"></div>
-                            <div class="card-row-total"><div class="label">합계</div><div class="value">22,220 원</div></div>
+                            <div class="card-row-total"><div class="label">합계</div><div class="value">₩22,220</div></div>
                         </article>
                         
                         <article class="common-table-card">
                             <div class="card-header">
                                 <div class="card-column1">sw111111</div>
-                                <div class="card-row-value">2025-08-11</div>
+                                <div class="card-row-value">작성일 2025-08-11</div>
                             </div>
                             <div class="card-divider"></div>
                              <div class="item-list">
                                 <div class="item-row">
                                     <span class="item-name">스티커</span>
                                     <div class="item-price-wrapper">
-                                        <span class="item-price-total">110,000 원</span>
+                                        <span class="item-price-total">₩110,000</span>
                                         <span class="item-price-details">(공급가액: 100,000 / 부가세액: 10,000)</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-divider"></div>
-                            <div class="card-row-total"><div class="label">합계</div><div class="value">110,000 원</div></div>
+                            <div class="card-row-total"><div class="label">합계</div><div class="value">₩110,000</div></div>
                         </article>
                         
                         <article class="common-table-card">
                             <div class="card-header">
                                 <div class="card-column1">sw222222</div>
-                                <div class="card-row-value">2025-08-10</div>
+                                <div class="card-row-value">작성일 2025-08-10</div>
                             </div>
                             <div class="card-divider"></div>
                              <div class="item-list">
                                 <div class="item-row">
                                     <span class="item-name">명함</span>
                                     <div class="item-price-wrapper">
-                                        <span class="item-price-total">808,000 원</span>
+                                        <span class="item-price-total">₩808,000</span>
                                         <span class="item-price-details">(공급가액: 800,000 / 부가세액: 8,000)</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-divider"></div>
-                            <div class="card-row-total"><div class="label">합계</div><div class="value">808,000 원</div></div>
+                            <div class="card-row-total"><div class="label">합계</div><div class="value">₩808,000</div></div>
                         </article>
                         
                         <p class="disclaimer" id="disclaimer-합산" style="margin-top: 8px;">* 세금계산서 작성일은 선택한 접수건 중 가장 늦은 날짜로 자동 설정돼요.

@@ -89,115 +89,229 @@
 
         /* v12 Standard .disclaimer */
         .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
-        .disclaimer.error { color: #dc3545; }
-        .disclaimer.success { color: #007bff; }
+        
+        /* [NEW] Add error style based on PDF */
+        .disclaimer.error {
+            color: #dc3545; /* Standard red for errors */
+        }
+
+        /* [NEW] Add success style for message */
+        .disclaimer.success {
+            color: #007bff; /* Standard blue for info */
+        }
         
         /* Form Styles (v12 guide) */
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
-        .input { width: 100%; min-height: 40px; background: white; border: 1px solid #e8e8e9; border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; transition: border-color 0.2s; }
-        .input.error { border-color: #dc3545; }
-        .input input { width: 100%; background: transparent; border: none; outline: none; font-size: 14px; color: black; line-height: 1.5; }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            transition: border-color 0.2s;
+        }
+        /* [NEW] Add error style for input border */
+        .input.error {
+            border-color: #dc3545;
+        }
+        
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
         .input input::placeholder { color: #c6c6c8; }
-        .input input[readonly], .input.readonly { background-color: #f5f5f5; color: #888; cursor: not-allowed; }
-        .input .timer { color: #dc3545; font-size: 14px; font-weight: 500; margin-left: 8px; flex-shrink: 0; }
-        .resend-button { font-size: 14px; color: #555; text-decoration: underline; margin-top: 8px; text-align: left; }
-        .resend-button:disabled { color: #aaa; text-decoration: none; cursor: not-allowed; }
         
-        /* Modal Styles (v12 Standard) */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; animation: fadeInModal 0.2s ease-out; }
+        /* [NEW] Readonly input style */
+        .input input[readonly] {
+            background-color: #f5f5f5;
+            color: #888;
+            cursor: not-allowed;
+        }
+        .input.readonly {
+            background-color: #f5f5f5;
+        }
+
+        /* [NEW] Timer and Resend button styles */
+        .input .timer {
+            color: #dc3545;
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+        .resend-button {
+            font-size: 14px; 
+            color: #555; 
+            text-decoration: underline; 
+            margin-top: 8px; 
+            text-align: left;
+        }
+        .resend-button:disabled {
+            color: #aaa;
+            text-decoration: none;
+            cursor: not-allowed;
+        }
+        
+        /* ========================================
+           [NEW] MODAL STYLES (v12 Standard)
+        ======================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            animation: fadeInModal 0.2s ease-out;
+        }
         .modal-overlay.active { display: flex; }
-        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
-        
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
         .modal-content {
             background: white;
             border-radius: 8px;
             width: 100%;
-            max-width: 360px;
-            max-height: 90vh;
+            max-width: 360px; /* Modal max width */
+            max-height: 90vh; /* Limit height */
             display: flex;
             flex-direction: column;
             animation: scaleUpModal 0.2s ease-out;
-            /* [MODIFIED] Fixed Height for Stability (Reduced due to removed fields) */
-            min-height: 500px; 
         }
-        @keyframes scaleUpModal { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #e8e8e9; position: relative; height: 57px; }
-        .modal-title { font-size: 16px; font-weight: 700; color: black; text-align: left; }
-        .btn-modal-close { width: 24px; height: 24px; cursor: pointer; color: #333; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); }
+        @keyframes scaleUpModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative; /* For close button */
+            height: 57px; /* Match v12 modal header */
+        }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            text-align: left; 
+        }
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333; /* v12 guide color */
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .btn-modal-close:hover { color: #000; }
         .btn-modal-close svg { width: 100%; height: 100%; }
-        .modal-body { padding: 16px; overflow-y: auto; flex-grow: 1; }
-        .modal-footer { padding: 16px; border-top: 1px solid #e8e8e9; background: #fff; display: flex; gap: 8px; border-radius: 0 0 7px 7px; }
-        .modal-footer .btn { flex: 1; height: 44px; font-size: 14px; }
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
         
-        /* Alert Modal */
-        .alert-modal { padding: 20px; text-align: center; min-height: auto; }
-        .alert-modal .modal-title { text-align: center; margin-bottom: 15px; }
-        .alert-modal .modal-message { font-size: 14px; color: black; margin-bottom: 30px; line-height: 1.5; }
+        /* Alert Modal Specifics (from v12 guide) */
+        .alert-modal {
+            padding: 20px;
+            text-align: center;
+        }
+        .alert-modal .modal-title {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .alert-modal .modal-message {
+            font-size: 14px;
+            color: black;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
         .alert-modal .modal-buttons { display: flex; gap: 10px; justify-content: center; }
-        .alert-modal .modal-button { flex: 1; height: 44px; padding: 7px; border-radius: 6px; font-size: 14px; cursor: pointer; transition: all 0.2s; }
+        .alert-modal .modal-button {
+            flex: 1;
+            height: 44px;
+            padding: 7px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
         .alert-modal .modal-button-primary { background: #424242; color: white; border: none; }
         .alert-modal .modal-button-secondary { background: white; color: #424242; border: 1px solid #e8e8e9; }
         .alert-modal .modal-button:active { transform: scale(0.98); }
-
-        /* Type Tabs (Scrollable) */
-        .type-tabs {
+        
+        /* Modal Tab Navigation (Tab Style) */
+        .modal-tab-nav-tabs {
             width: 100%;
             height: 44px;
             background: white;
             border-bottom: 1px solid #e8e8e9;
             display: flex;
             align-items: flex-end;
-            padding: 0 16px 1px 16px;
-            overflow-x: auto;
-            white-space: nowrap;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            flex-shrink: 0;
+            margin-bottom: 20px; 
         }
-        .type-tabs::-webkit-scrollbar { display: none; }
-        .type-tab-item {
+        .modal-tab-item {
+            flex: 1; /* Make tabs equal width */
             height: 42px;
             padding: 10px 4px;
-            font-size: 14px;
+            font-size: 14px; /* Slightly smaller for 2 tabs */
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            margin-right: 16px;
             position: relative;
+            text-align: center; /* Center text */
+            white-space: nowrap;
+        }
+        .modal-tab-item.active {
+            color: black;
+            border-bottom: 2px solid black;
+        }
+        .modal-tab-item.inactive {
             color: #bcbcbc;
             border-bottom: 2px solid transparent;
-            flex-shrink: 0;
-            text-align: center;
         }
-        .type-tab-item.active { color: #212121; border-bottom: 2px solid #212121; }
-
-        /* Chip Navigation */
-        .modal-tab-nav-chips {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px; 
-            padding-bottom: 0px; 
-            justify-content: flex-start;
-        }
-        .single-chip {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px 12px;
-            border-radius: 100px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
-        .single-chip-on { background: #4e6ee4; color: white; }
-        .single-chip:active { transform: scale(0.95); }
         
-        /* No Result Modal Styles */
+        /* [NEW] ID Result Modal Styles */
+        #id-result-modal .modal-body {
+            padding: 24px 16px; /* More padding for result list */
+        }
         .id-result-message {
             font-size: 16px;
             font-weight: 600;
@@ -205,8 +319,40 @@
             margin-bottom: 20px;
             text-align: center;
         }
-        #id-no-result-modal {
-            min-height: auto;
+        .id-result-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 16px 0;
+        }
+        .id-result-item {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+        .id-result-item .id-value {
+            font-weight: 600;
+        }
+        .id-result-item .id-type {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            border-radius: 50%;
+            background: #4e6ee4;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+        .id-result-item .id-date {
+            font-size: 12px;
+            color: #888;
+            margin-left: 4px;
         }
 
     </style>
@@ -251,22 +397,19 @@
                     </svg>
                 </button>
             </div>
-            
-            <nav class="type-tabs" id="find-pw-type-tabs">
-                <div class="type-tab-item" onclick="switchFindPwType(this, 'personal')">개인회원</div>
-                <div class="type-tab-item active" onclick="switchFindPwType(this, 'business')">기업회원</div>
-                <div class="type-tab-item" onclick="switchFindPwType(this, 'foreign')">외국인회원</div>
-            </nav>
-
             <div class="modal-body">
-                <nav class="modal-tab-nav-chips" id="find-pw-tabs">
-                    <div class="single-chip single-chip-on" data-tab="phone"
-                        onclick="switchFindPwTab(this, 'phone')">휴대폰 번호 인증</div>
-                    <div class="single-chip single-chip-off" data-tab="email"
-                        onclick="switchFindPwTab(this, 'email')">이메일 주소 인증</div>
+                <nav class="modal-tab-nav-tabs" id="find-pw-tabs">
+                    <div class="modal-tab-item active" data-tab="phone"
+                        onclick="switchFindPwTab(this, 'phone')">휴대폰 번호</div>
+                    <div class="modal-tab-item inactive" data-tab="email"
+                        onclick="switchFindPwTab(this, 'email')">이메일 주소</div>
                 </nav>
 
                 <form id="find-pw-form">
+                    <p class="disclaimer" style="margin-bottom: 20px; margin-top: -8px;">
+                        ① 2026년 6월 이후에 가입하신 경우, 이메일 주소로 찾기를 이용해주세요.
+                    </p>
+                    
                     <div class="form-fields-wrapper" data-tab-content="phone" style="display: block;">
                          <div class="form-group">
                             <label for="find-pw-id-phone">아이디</label>
@@ -276,12 +419,18 @@
                             <p class="disclaimer error" id="error-id-phone" style="display: none;"></p>
                         </div>
                         <div class="form-group">
+                            <label for="find-pw-biznum-phone">사업자등록번호</label>
+                            <div class="input">
+                                <input type="tel" id="find-pw-biznum-phone" placeholder="사업자등록번호 10자리를 입력해주세요">
+                            </div>
+                            <p class="disclaimer error" id="error-biznum-phone" style="display: none;"></p>
+                        </div>
+                        <div class="form-group">
                             <label for="find-pw-phone">휴대폰 번호</label>
                             <div class="input">
                                 <input type="tel" id="find-pw-phone" placeholder="'-'을 제외한 숫자만 입력해주세요">
                             </div>
                             <p class="disclaimer error" id="error-phone" style="display: none;"></p>
-                            <p class="disclaimer">* 휴대폰 번호 변경, 담당자 퇴사 등으로 인증이 어려운 경우, 고객센터로 문의해주세요 (1599-5555)</p>
                         </div>
                         
                         <div class="form-group" id="verification-code-group-biz" style="display: none;">
@@ -306,6 +455,13 @@
                             <p class="disclaimer error" id="error-id-email" style="display: none;"></p>
                         </div>
                         <div class="form-group">
+                            <label for="find-pw-biznum-email">사업자등록번호</label>
+                            <div class="input">
+                                <input type="tel" id="find-pw-biznum-email" placeholder="사업자등록번호 10자리를 입력해주세요">
+                            </div>
+                            <p class="disclaimer error" id="error-biznum-email" style="display: none;"></p>
+                        </div>
+                        <div class="form-group">
                             <label for="find-pw-email">이메일 주소</label>
                             <div class="input">
                                 <input type="email" id="find-pw-email" placeholder="이메일 주소를 입력해주세요">
@@ -326,6 +482,7 @@
                             </button>
                         </div>
                     </div>
+                    
                 </form>
             </div>
             <div class="modal-footer" id="find-pw-footer" style="display: flex;">
@@ -376,7 +533,7 @@
 
 
     <script>
-        // --- Form Dirty Check & Exit Alert ---
+        // --- [NEW] Form Dirty Check & Exit Alert ---
         let isFormDirty = false;
         
         function checkBeforeExit() {
@@ -388,7 +545,7 @@
         }
         
         function confirmExit() {
-            isFormDirty = false; 
+            isFormDirty = false; // Reset flag
             closeModal('exit-alert-modal');
             goBack();
         }
@@ -397,7 +554,7 @@
              history.back();
         }
 
-        // --- Modal Helpers ---
+        // --- Modal Helpers (v12 Standard) ---
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
@@ -417,25 +574,29 @@
             }
         }
         
-        // --- Find Password Modal Logic for Corporate ---
+        // --- [MODIFIED] Find Password Modal Logic for Corporate ---
         const findPwForm = document.getElementById('find-pw-form');
         const findPwSubmitBtn = document.getElementById('find-pw-submit-btn');
         const findPwFooter = document.getElementById('find-pw-footer');
-        let activeFindPwTab = 'phone'; 
+        let activeFindPwTab = 'phone'; // Track active tab, default to phone
 
-        // Input fields (Biz Num removed)
+        // Input fields
         const idPhone = document.getElementById('find-pw-id-phone');
+        const bizNumPhone = document.getElementById('find-pw-biznum-phone');
         const phone = document.getElementById('find-pw-phone');
         const idEmail = document.getElementById('find-pw-id-email');
+        const bizNumEmail = document.getElementById('find-pw-biznum-email'); // [NEW]
         const email = document.getElementById('find-pw-email');
 
-        // Error message fields (Biz Num removed)
+        // Error message fields
         const errorIdPhone = document.getElementById('error-id-phone');
+        const errorBizNumPhone = document.getElementById('error-biznum-phone');
         const errorPhone = document.getElementById('error-phone');
         const errorIdEmail = document.getElementById('error-id-email');
+        const errorBizNumEmail = document.getElementById('error-biznum-email'); // [NEW]
         const errorEmail = document.getElementById('error-email');
         
-        // Phone Verification fields
+        // [NEW] Phone Verification fields
         let verificationTimerBiz;
         let timeRemainingBiz = 180;
         const verificationCodeGroupBiz = document.getElementById('verification-code-group-biz');
@@ -445,10 +606,11 @@
         const errorVerificationCodeBiz = document.getElementById('error-verification-code-biz');
         
         resendCodeBtnBiz.addEventListener('click', () => {
-             startBizVerificationProcess(true); 
+             startBizVerificationProcess(true); // Resend logic
+             console.log('휴대폰 인증번호 재발송 (구현 필요)');
         });
 
-        // Email Verification fields
+        // [NEW] Email Verification fields
         let emailVerificationTimerBiz;
         let emailTimeRemainingBiz = 600;
         const emailVerificationCodeGroupBiz = document.getElementById('email-verification-code-group-biz');
@@ -462,51 +624,43 @@
             startBizEmailVerificationProcess(true);
         });
 
-        // [Type Tab Logic]
-        function switchFindPwType(tabEl, typeName) {
-            const tabNav = tabEl.closest('.type-tabs'); 
-            tabNav.querySelectorAll('.type-tab-item').forEach(c => c.classList.remove('active')); 
-            tabEl.classList.add('active');
-            
-            if(typeName !== 'business') {
-                alert('해당 회원 유형 페이지로 이동 (구현 필요)');
-                setTimeout(() => {
-                    tabNav.querySelectorAll('.type-tab-item').forEach(c => c.classList.remove('active'));
-                    tabNav.querySelector('.type-tab-item:nth-child(2)').classList.add('active');
-                }, 100);
-            }
-        }
 
-        // [Chip Tab Logic]
         function switchFindPwTab(tabEl, tabName) {
-            activeFindPwTab = tabName; 
+            activeFindPwTab = tabName; // Store the active tab
             
-            // 1. 칩 활성화
-            const tabNav = tabEl.closest('.modal-tab-nav-chips'); 
-            tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
-            tabEl.classList.replace('single-chip-off', 'single-chip-on'); 
+            // 1. 탭 활성화
+            const tabNav = tabEl.closest('.modal-tab-nav-tabs'); 
+            tabNav.querySelectorAll('.modal-tab-item').forEach(c => c.classList.replace('active', 'inactive')); 
+            tabEl.classList.replace('inactive', 'active'); 
 
-            // 2. 폼 필드 보이기/숨기기
+            // 2. 모든 폼 필드 래퍼 숨기기
             findPwForm.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
                 wrapper.style.display = 'none';
             });
+            
+            // 3. 해당 탭의 폼 필드 보이기
             findPwForm.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
 
-            // 3. 상태 초기화
+            // 4. [MODIFIED] 푸터 버튼 및 상태 변경, 타이머/상태 초기화
             stopBizVerificationTimer();
             stopBizEmailVerificationTimer();
             verificationCodeGroupBiz.style.display = 'none';
             emailVerificationCodeGroupBiz.style.display = 'none';
             emailSentMessageBiz.style.display = 'none';
             
-            // Reset fields
+            // Reset phone tab readonly state
             idPhone.readOnly = false;
             idPhone.closest('.input').classList.remove('readonly');
+            bizNumPhone.readOnly = false;
+            bizNumPhone.closest('.input').classList.remove('readonly');
             phone.readOnly = false;
             phone.closest('.input').classList.remove('readonly');
             
+            // Reset email tab readonly state
             idEmail.readOnly = false;
             idEmail.closest('.input').classList.remove('readonly');
+            bizNumEmail.readOnly = false;
+            bizNumEmail.closest('.input').classList.remove('readonly');
             email.readOnly = false;
             email.closest('.input').classList.remove('readonly');
             
@@ -514,27 +668,35 @@
             findPwSubmitBtn.textContent = '인증번호 발송';
             findPwFooter.style.display = 'flex';
             
+            // 5. 탭 변경 시 모든 에러 숨기기
             hideAllErrors();
         }
 
+        // [MODIFIED] Validation logic
         function validateAndSubmitFindPw() {
-            hideAllErrors(); 
+            hideAllErrors(); // Reset errors
 
             if (activeFindPwTab === 'phone') {
                 const verificationVisible = (verificationCodeGroupBiz.style.display === 'block');
                 
                 if (verificationVisible) {
+                    // State 2: "인증 완료" (Verify Code)
                     if (validateBizPhoneTab(true)) {
+                        // --- FAKE SUCCESS LOGIC (Test with '123456') ---
                         if (verificationCodeInputBiz.value.trim() === '123456') {
                             stopBizVerificationTimer();
                             alert('인증 성공! 비밀번호 재설정 페이지로 이동할게요');
                             closeModal('find-pw-modal-overlay');
+                            // window.location.href = '/reset-password-page'; 
                         } else {
                             showError(verificationCodeInputBiz, errorVerificationCodeBiz, '인증번호가 일치하지 않아요');
                         }
                     }
                 } else {
+                    // State 1: "인증 발송" (Send Code)
                     if (validateBizPhoneTab(false)) {
+                        // FAKE: Check if user exists before sending code. 
+                        // If not: showNoResultModal(); return;
                         startBizVerificationProcess(false);
                     }
                 }
@@ -543,30 +705,39 @@
                 const verificationVisible = (emailVerificationCodeGroupBiz.style.display === 'block');
                 
                 if (verificationVisible) {
+                     // State 2: "비밀번호 찾기" (Verify Code)
                      if (validateBizEmailTab(true)) {
-                        if (emailVerificationCodeInputBiz.value.trim() === '123456') { 
+                        if (emailVerificationCodeInputBiz.value.trim() === '123456') { // FAKE SUCCESS
                             stopBizEmailVerificationTimer();
                             alert('인증 성공! 비밀번호 재설정 페이지로 이동할게요');
                             closeModal('find-pw-modal-overlay');
+                            // window.location.href = '/reset-password-page'; 
                         } else {
                             showError(emailVerificationCodeInputBiz, errorVerificationCodeEmailBiz, '인증번호가 일치하지 않아요');
                         }
                     }
                 } else {
+                    // State 1: "인증 발송" (Send Code)
                     if (validateBizEmailTab(false)) {
+                        // FAKE: Check if user exists before sending code. 
+                        // If not: showNoResultModal(); return;
                         startBizEmailVerificationProcess(false);
                     }
                 }
             }
         }
         
+        // [NEW] Business Phone Tab Validator
         function validateBizPhoneTab(checkCode) {
             let isValid = true;
             if (idPhone.value.trim() === '') {
                 showError(idPhone, errorIdPhone, '아이디를 입력해주세요');
                 isValid = false;
             }
-            // Biz Num Check Removed
+            if (bizNumPhone.value.trim() === '' || !/^\d{10}$/.test(bizNumPhone.value.trim())) {
+                showError(bizNumPhone, errorBizNumPhone, '사업자등록번호 10자리를 입력해주세요');
+                isValid = false;
+            }
             if (phone.value.trim() === '') {
                 showError(phone, errorPhone, '휴대폰 번호를 입력해주세요');
                 isValid = false;
@@ -587,13 +758,17 @@
             return isValid;
         }
 
+        // [NEW] Business Email Tab Validator
         function validateBizEmailTab(checkCode) {
             let isValid = true;
             if (idEmail.value.trim() === '') {
                 showError(idEmail, errorIdEmail, '아이디를 입력해주세요');
                 isValid = false;
             }
-            // Biz Num Check Removed
+            if (bizNumEmail.value.trim() === '' || !/^\d{10}$/.test(bizNumEmail.value.trim())) {
+                showError(bizNumEmail, errorBizNumEmail, '사업자등록번호 10자리를 입력해주세요');
+                isValid = false;
+            }
             if (email.value.trim() === '') {
                 showError(email, errorEmail, '이메일 주소를 입력해주세요');
                 isValid = false;
@@ -614,6 +789,7 @@
             return isValid;
         }
 
+        // [NEW] Start Business Phone Verification Process
         function startBizVerificationProcess(isResend = false) {
             console.log('기업 휴대폰 인증번호 발송 (구현 필요)');
             verificationCodeGroupBiz.style.display = 'block';
@@ -621,16 +797,18 @@
             
             idPhone.readOnly = true;
             idPhone.closest('.input').classList.add('readonly');
-            // Biz Num Readonly Removed
+            bizNumPhone.readOnly = true;
+            bizNumPhone.closest('.input').classList.add('readonly');
             phone.readOnly = true;
             phone.closest('.input').classList.add('readonly');
 
             startBizVerificationTimer();
         }
         
+        // [NEW] Start Business Phone Timer
         function startBizVerificationTimer() {
             stopBizVerificationTimer(); 
-            timeRemainingBiz = 180; 
+            timeRemainingBiz = 180; // 3 minutes
             verificationTimerElBiz.textContent = '03:00';
             verificationTimerElBiz.style.color = '#dc3545';
             verificationCodeInputBiz.value = '';
@@ -660,6 +838,7 @@
             clearInterval(verificationTimerBiz);
         }
 
+        // [NEW] Start Business Email Verification Process
         function startBizEmailVerificationProcess(isResend) {
             console.log('기업 이메일 인증번호 발송 (구현 필요)');
             emailVerificationCodeGroupBiz.style.display = 'block';
@@ -674,18 +853,20 @@
 
             idEmail.readOnly = true;
             idEmail.closest('.input').classList.add('readonly');
-            // Biz Num Readonly Removed
+            bizNumEmail.readOnly = true;
+            bizNumEmail.closest('.input').classList.add('readonly');
             email.readOnly = true;
             email.closest('.input').classList.add('readonly');
             
-            findPwSubmitBtn.textContent = '인증 완료'; 
+            findPwSubmitBtn.textContent = '비밀번호 찾기'; // Or '인증 완료'
 
             startBizEmailVerificationTimer();
         }
 
+        // [NEW] Start Business Email Timer
         function startBizEmailVerificationTimer() {
             stopBizEmailVerificationTimer();
-            emailTimeRemainingBiz = 600; 
+            emailTimeRemainingBiz = 600; // 10 minutes
             emailVerificationTimerElBiz.textContent = '10:00';
             emailVerificationTimerElBiz.style.color = '#dc3545';
             emailVerificationCodeInputBiz.value = '';
@@ -694,7 +875,7 @@
             emailVerificationCodeInputBiz.closest('.input').classList.remove('error');
 
             findPwSubmitBtn.disabled = false;
-            resendCodeBtnEmailBiz.disabled = true; 
+            resendCodeBtnEmailBiz.disabled = true; // Disable resend initially
            
             emailVerificationTimerBiz = setInterval(() => {
                 emailTimeRemainingBiz--;
@@ -707,8 +888,8 @@
                     emailVerificationTimerElBiz.textContent = '00:00';
                     showError(emailVerificationCodeInputBiz, errorVerificationCodeEmailBiz, '인증 시간이 초과되었어요, 인증번호를 재발송 해주세요');
                     findPwSubmitBtn.disabled = true;
-                    resendCodeBtnEmailBiz.disabled = false; 
-                } else if (emailTimeRemainingBiz <= (600 - 10)) { 
+                    resendCodeBtnEmailBiz.disabled = false; // Enable resend
+                } else if (emailTimeRemainingBiz <= (600 - 10)) { // Enable resend after 10 sec (example)
                     resendCodeBtnEmailBiz.disabled = false;
                 }
             }, 1000);
@@ -718,6 +899,7 @@
             clearInterval(emailVerificationTimerBiz);
         }
         
+        // [NEW] Helper functions for validation
         function showError(inputEl, errorEl, message) {
             inputEl.closest('.input').classList.add('error');
             errorEl.textContent = message;
@@ -725,9 +907,9 @@
         }
 
         function hideAllErrors() {
-            // [Updated inputs list]
-            const inputs = [idPhone, phone, idEmail, email, verificationCodeInputBiz, emailVerificationCodeInputBiz];
-            const errors = [errorIdPhone, errorPhone, errorIdEmail, errorEmail, errorVerificationCodeBiz, errorVerificationCodeEmailBiz];
+            // [MODIFIED] Updated input and error arrays
+            const inputs = [idPhone, bizNumPhone, phone, idEmail, bizNumEmail, email, verificationCodeInputBiz, emailVerificationCodeInputBiz];
+            const errors = [errorIdPhone, errorBizNumPhone, errorPhone, errorIdEmail, errorBizNumEmail, errorEmail, errorVerificationCodeBiz, errorVerificationCodeEmailBiz];
             
             inputs.forEach(input => {
                 if (input) input.closest('.input').classList.remove('error');
@@ -735,7 +917,7 @@
             errors.forEach(error => {
                 if (error) error.style.display = 'none';
             });
-            emailSentMessageBiz.style.display = 'none'; 
+            emailSentMessageBiz.style.display = 'none'; // Also hide success message
         }
         
         function validateEmail(email) {
@@ -743,24 +925,31 @@
             return re.test(String(email).toLowerCase());
         }
         
+        // [NEW] ID No Result Modal Logic
         function showNoResultModal() {
             openModal('id-no-result-modal-overlay');
         }
+        
+        // (This function is not used in this flow but included for completion)
+        function simulateAuthFailure() {
+            console.log("본인인증 시도... (실패 시뮬레이션)");
+            closeModal('find-pw-modal-overlay');
+            showNoResultModal();
+        }
 
+        // --- Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Default Type: Business
-            const defaultType = document.querySelector('#find-pw-type-tabs .type-tab-item:nth-child(2)');
-            if(defaultType) switchFindPwType(defaultType, 'business');
-            
-            // Default Tab: Phone
-            const defaultTab = document.querySelector('#find-pw-tabs .single-chip[data-tab="phone"]');
+            // [MODIFIED] Set default tab to 'phone'
+            const defaultTab = document.querySelector('#find-pw-tabs .modal-tab-item[data-tab="phone"]');
             if (defaultTab) {
                 switchFindPwTab(defaultTab, 'phone');
             }
             
+            // Modal overlay click-to-close listeners
             document.querySelectorAll('.modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
+                         // Do not close find-id modal if result modal is open on top
                         if (overlay.id === 'find-pw-modal-overlay' && (document.getElementById('id-no-result-modal-overlay').classList.contains('active'))) {
                            return;
                         }
@@ -769,6 +958,7 @@
                 });
             });
             
+            // [MODIFIED] Add event listeners for form dirty check
             document.querySelectorAll('#find-pw-form input').forEach(el => {
                 el.addEventListener('input', () => { 
                     isFormDirty = true;
@@ -776,12 +966,16 @@
                     let currentTimerRemaining = (activeFindPwTab === 'email') ? emailTimeRemainingBiz : timeRemainingBiz;
                     
                     if (el.id.includes('verification-code') && currentTimerRemaining <= 0) {
+                        // Don't clear error
                     } else {
                         el.closest('.input').classList.remove('error');
                         const errorEl = el.closest('.form-group').querySelector('.disclaimer.error');
-                        if (errorEl) errorEl.style.display = 'none';
+                        if (errorEl) {
+                            errorEl.style.display = 'none';
+                        }
                     }
                     
+                    // [NEW] Enable submit button if code is entered and timer is active
                     if (el.id.includes('verification-code') && currentTimerRemaining > 0) {
                         findPwSubmitBtn.disabled = false;
                     }
@@ -796,7 +990,16 @@
     <div class="disqus-thread-wrap">
         <div id="disqus_thread"></div>
         <script>
-            (function() { 
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
             s.src = 'https://sw-mobile.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());

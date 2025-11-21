@@ -432,6 +432,9 @@
             font-size: 14px;
             cursor: pointer;
             border-bottom: 1px solid #f0f0f0;
+            width: 100%;
+            gap: 5px;
+            display: inline-flex;
         }
         .combobox-item:last-child {
             border-bottom: none;
@@ -471,6 +474,13 @@
             font-size: 14px;
             color: #555;
             line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        
+        /* [추가] 인라인 로그인 버튼 스타일 */
+        .btn-login-inline {
+            width: 100%;
+            margin-top: 12px;
         }
         
         /* [NEW] v12 standard filter-group-content (for business type) */
@@ -869,9 +879,8 @@
                 <div class="form-group">
                     <label for="passport-name">이름</label>
                     <div class="input" id="input-passport-name">
-                        <input type="text" id="passport-name" placeholder="이름을 입력해주세요" oninput="handleInput(this); validatePassportForm();">
+                        <input type="text" id="passport-name" placeholder="여권에 표기된 이름을 입력해주세요(띄어쓰기 포함)" oninput="handleInput(this); validatePassportForm();">
                     </div>
-                    <p class="disclaimer">* 여권에 표기된 이름을 그대로 입력해주세요(띄어쓰기 포함)</p>
                     <p class="disclaimer error" id="error-passport-name" data-default-error="이름을 입력해주세요">이름을 입력해주세요</p>
                 </div>
                 
@@ -894,17 +903,25 @@
                             <option value="OTHER">기타</option>
                         </select>
                     </div>
-                    <p class="disclaimer">* 여권에 표기된 국가를 선택해주세요</p>
                     <p class="disclaimer error" id="error-passport-country" data-default-error="국가를 선택해주세요">국가를 선택해주세요</p>
+                    <p class="disclaimer">* 여권에 표기된 국가를 선택해주세요</p>
                 </div>
                 
                 <div class="form-group">
                     <label for="passport-birth">생년월일</label>
-                    <div class="input" id="input-passport-birth">
-                        <input type="text" id="passport-birth" placeholder="YYYY/MM/DD" oninput="handleInput(this); validatePassportForm();">
+                    <div class="input-group" style="display: flex; gap: 8px;">
+                         <div class="input" style="flex: 1.4;">
+                             <input type="tel" id="passport-birth-year" placeholder="YYYY" maxlength="4" oninput="handleInput(this); validatePassportForm();">
+                         </div>
+                         <div class="input" style="flex: 1;">
+                             <input type="tel" id="passport-birth-month" placeholder="MM" maxlength="2" oninput="handleInput(this); validatePassportForm();">
+                         </div>
+                         <div class="input" style="flex: 1;">
+                             <input type="tel" id="passport-birth-day" placeholder="DD" maxlength="2" oninput="handleInput(this); validatePassportForm();">
+                         </div>
                     </div>
-                    <p class="disclaimer">* 여권에 표기된 생년월일을 입력해주세요</p>
                     <p class="disclaimer error" id="error-passport-birth" data-default-error="생년월일을 입력해주세요">생년월일을 입력해주세요</p>
+                    <p class="disclaimer">* 여권에 표기된 생년월일을 입력해주세요</p>
                 </div>
 
             </div>
@@ -922,8 +939,8 @@
                             </button>
                         </div>
                     </div>
-                    <p class="disclaimer">* 영문/숫자를 사용하여 6~15자리로 입력해주세요</p>
                     <p class="disclaimer error" id="error-userid" data-default-error="아이디를 입력해주세요">아이디를 입력해주세요</p>
+                    <p class="disclaimer">* 영문/숫자를 사용하여 6~15자리로 입력해주세요</p>
                 </div>
 
                 <div class="form-group">
@@ -944,8 +961,8 @@
                             </button>
                         </div>
                     </div>
-                    <p class="disclaimer">* 영문/숫자/특수문자 중 2가지 이상을 포함하여 8~16자리로 입력해주세요</p>
                     <p class="disclaimer error" id="error-password" data-default-error="비밀번호를 입력해주세요">비밀번호를 입력해주세요</p>
+                    <p class="disclaimer">* 영문/숫자/특수문자 중 2가지 이상을 포함하여 8~16자리로 입력해주세요</p>
                 </div>
                 
                 <div class="form-group">
@@ -990,36 +1007,44 @@
                         </div>
                         <button class="white-button" id="btn-email-verify" onclick="sendEmailCode()">인증번호 발송</button>
                     </div>
-                    <p class="disclaimer">* 접수 현황 안내, 계정 찾기 등 원활한 서비스 이용을 위해 인증이 필요해요</p>
                     <p class="disclaimer error" id="error-email" data-default-error="이메일 주소를 입력해주세요">이메일 주소를 입력해주세요</p>
+                    
+                    <div class="input-group" id="group-email-auth" style="display: none; margin-top: 8px;">
+                        <div class="input" style="flex: 1;">
+                            <input type="tel" placeholder="인증번호 6자리" maxlength="6">
+                            <span style="font-size: 13px; color: #4e6ee4; margin-left: 8px; flex-shrink: 0;">3:00</span>
+                        </div>
+                        <button type="button" class="white-button">인증확인</button>
+                    </div>
+                    <p class="disclaimer success" id="msg-email-sent" style="display: none; color: #4e6ee4;">인증번호가 발송되었어요</p>
                 </div>
 
                 <div class="form-group" id="form-group-contact-phone">
                     <label for="contact-phone">연락처</label>
                     <div class="input-group">
-                        <div class="combobox-wrapper" style="flex: 0 1 140px;">
+                        <div class="combobox-wrapper" style="flex: 0 1 100px;">
                             <div class="input select-wrapper" id="input-country-code" onclick="showCountryCodeDropdown()" onblur="hideCountryCodeDropdown()" style="cursor: pointer;">
                                 <span class="select-flag" id="country-code-flag">
                                     <img src="assets/images/flag-kor.png" alt="Korean flag">
                                 </span>
-                                <input type="text" id="country-code-display" value="+82 (Korea)" readonly 
-                                       style="border: none; background: transparent; width: 100%; cursor: pointer; padding: 0 30px 0 35px; font-size: 14px; outline: none; height: 38px;">
+                                <input type="text" id="country-code-display" value="+82" readonly 
+                                       style="border: none; background: transparent; width: 100%; cursor: pointer; padding: 0 30px 0 42px; font-size: 14px; outline: none; height: 38px;">
                             </div>
                              <div class="combobox-dropdown" id="country-code-dropdown">
-                                <div class="combobox-item" onmousedown="selectCountryCode('kr', 'assets/images/flag-kor.png', '+82 (Korea)', 'Korean flag')">
+                                <div class="combobox-item" onmousedown="selectCountryCode('kr', 'assets/images/flag-kor.png', '+82', 'Korean flag')">
                                     <span class="flag">
                                         <img src="assets/images/flag-kor.png" alt="Korean flag">
-                                    </span> <strong>+82</strong> <span>(Korea)</span>
+                                    </span> <strong>+82</strong>
                                 </div>
-                                <div class="combobox-item" onmousedown="selectCountryCode('jp', 'assets/images/flag-jp.png', '+81 (Japan)', 'Japanese flag')">
+                                <div class="combobox-item" onmousedown="selectCountryCode('jp', 'assets/images/flag-jp.png', '+81', 'Japanese flag')">
                                     <span class="flag">
                                         <img src="assets/images/flag-jp.png" alt="Japanese flag">
-                                    </span> <strong>+81</strong> <span>(Japan)</span>
+                                    </span> <strong>+81</strong>
                                 </div>
-                                <div class="combobox-item" onmousedown="selectCountryCode('us', 'assets/images/flag-eng.png', '+1 (USA)', 'USA flag')">
+                                <div class="combobox-item" onmousedown="selectCountryCode('us', 'assets/images/flag-eng.png', '+1', 'USA flag')">
                                     <span class="flag">
                                         <img src="assets/images/flag-eng.png" alt="USA flag">
-                                    </span> <strong>+1</strong> <span>(USA)</span>
+                                    </span> <strong>+1</strong>
                                 </div>
                             </div>
                         </div>
@@ -1033,7 +1058,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="disclaimer">* 해외 연락처는 시차 등으로 연락이 원할하지 않을 수 있어, 가급적 한국 연락처를 입력해주세요</p>
+                    <!-- <p class="disclaimer">* 해외 연락처는 시차 등으로 연락이 원할하지 않을 수 있어, 가급적 한국 연락처를 입력해주세요</p> -->
                     <p class="disclaimer error" id="error-contact-phone" data-default-error="연락처를 입력해주세요">연락처를 입력해주세요</p>
                 </div>
             </div>
@@ -1045,12 +1070,13 @@
                     </div>
                     <h2 class="completion-title">회원가입 완료!</h2>
                     <p class="completion-subtitle">로그인 후 성원애드피아의<br>다양한 서비스를 이용해보세요</p>
+                    <button class="dark-button btn-login-inline" onclick="location.href='login.html';">로그인</button>
                 </div>
             </div>
         </main>
         
         <div class="sticky-form-footer" id="footer-terms" style="display: none;">
-            <button class="dark-button btn" id="btn-to-next-auth" onclick="goToNextStepFromTerms()" disabled>본인인증 하기</button>
+            <button class="dark-button btn" id="btn-to-next-auth" onclick="goToNextStepFromTerms()" disabled>본인인증</button>
         </div>
         <div class="sticky-form-footer" id="footer-passport-auth" style="display: none;">
             <button class="white-button btn" onclick="goBack()">이전</button>
@@ -1060,9 +1086,9 @@
             <button class="white-button btn" onclick="goBack()">이전</button>
             <button class="dark-button btn" id="btn-to-complete" onclick="goToComplete()">회원가입 완료</button>
         </div>
-        <div class="sticky-form-footer" id="footer-complete" style="display: none;">
+        <!-- <div class="sticky-form-footer" id="footer-complete" style="display: none;">
             <button class="dark-button btn" id="btn-to-login" onclick="location.href='login.html';">로그인하기</button>
-        </div>
+        </div> -->
     </div>
 
     <div class="modal-overlay" id="cancel-modal">
@@ -1106,14 +1132,14 @@
                 pageToShow.style.display = 'block';
                 currentPage = pageId;
                 
-                // [MODIFIED] Show/hide contact phone field based on auth type
+                // [기존 로직] 인증 타입에 따른 연락처 필드 제어
                 if (pageId === 'page-user-info') {
                     const phoneGroup = document.getElementById('form-group-contact-phone');
                     if (phoneGroup) {
                         if (currentAuthType === 'passport') {
-                            phoneGroup.style.display = 'block'; // 여권인증 시 표시
-                        } else { // 'phone'
-                            phoneGroup.style.display = 'none'; // 본인인증 시 숨김
+                            phoneGroup.style.display = 'block'; 
+                        } else { 
+                            phoneGroup.style.display = 'none'; 
                         }
                     }
                 }
@@ -1124,6 +1150,16 @@
             
             if (mainHeaderTitle) {
                 mainHeaderTitle.textContent = title;
+            }
+
+            // [추가] 완료 화면에서 뒤로가기 버튼 숨김 처리
+            const backButton = document.querySelector('.header-left button');
+            if (backButton) {
+                if (pageId === 'page-complete') {
+                    backButton.style.visibility = 'hidden';
+                } else {
+                    backButton.style.visibility = 'visible';
+                }
             }
             
             isFormDirty = false;
@@ -1199,11 +1235,11 @@
             if (type === 'passport') {
                 passportTermGroup.style.display = 'flex';
                 passportTermCheckbox.dataset.required = 'true';
-                footerButton.textContent = '여권번호 인증하기';
+                footerButton.textContent = '여권번호 인증'; // [MODIFIED]
             } else { // 'phone'
                 passportTermGroup.style.display = 'none';
                 passportTermCheckbox.dataset.required = 'false';
-                footerButton.textContent = '본인인증 하기';
+                footerButton.textContent = '본인인증'; // [MODIFIED]
             }
             validateTerms(); // 버튼 상태 초기화
         }
@@ -1257,7 +1293,8 @@
             if (currentAuthType === 'passport') {
                 showPage('page-passport-auth', '외국인 회원가입');
             } else {
-                openPhoneAuthModal();
+                // [MODIFIED] Skip modal for phone auth
+                showPage('page-user-info', '외국인 회원가입');
             }
         }
         
@@ -1303,16 +1340,28 @@
         
         function validatePassportForm() {
             let isValid = true;
-            const fields = ['passport-name', 'passport-number', 'passport-country', 'passport-birth'];
+            // [MODIFIED] Added split birth fields to validation
+            const fields = ['passport-name', 'passport-number', 'passport-country', 'passport-birth-year', 'passport-birth-month', 'passport-birth-day'];
             
             fields.forEach(fieldName => {
                 const input = document.getElementById(fieldName);
-                const errorEl = document.getElementById(`error-${fieldName}`);
+                // Map split birth fields to the single error message element
+                const errorId = fieldName.startsWith('passport-birth') ? 'passport-birth' : fieldName;
+                const errorEl = document.getElementById(`error-${errorId}`);
+                
                 if (input.value.trim() === '') {
                     isValid = false;
-                    showError(fieldName, errorEl.dataset.defaultError);
+                    if (errorEl) showError(errorId, errorEl.dataset.defaultError);
                 } else {
-                    hideError(fieldName);
+                    // Only hide error if all parts of birth date are filled (for birth fields)
+                    if (fieldName.startsWith('passport-birth')) {
+                        const year = document.getElementById('passport-birth-year').value;
+                        const month = document.getElementById('passport-birth-month').value;
+                        const day = document.getElementById('passport-birth-day').value;
+                        if (year && month && day) hideError(errorId);
+                    } else {
+                        hideError(errorId);
+                    }
                 }
             });
             
@@ -1387,16 +1436,24 @@
 
         function sendEmailCode() {
             const emailInput = document.getElementById('email');
-            if (validateUserField(emailInput, 'email')) {
-                alert('인증번호 발송 (구현 필요)');
-                document.getElementById('btn-email-verify').disabled = true;
-                
-                // Demo: Auto-verify after 1 sec
-                setTimeout(() => {
-                    isEmailVerified = true;
-                    alert('이메일 인증 완료 (데모)');
-                }, 1000);
+            if (!emailInput.value) {
+                alert('이메일 주소를 입력해주세요.');
+                return;
             }
+            if (!validateUserField(emailInput, 'email')) {
+                return;
+            }
+            
+            alert(`[${emailInput.value}]로 인증번호가 발송되었습니다.`);
+            
+            // [MODIFIED] Show success message and auth group logic from corporate
+            const successMsg = document.getElementById('msg-email-sent');
+            const authGroup = document.getElementById('group-email-auth');
+            
+            if(successMsg) successMsg.style.display = 'block';
+            if(authGroup) authGroup.style.display = 'flex';
+            
+            // Note: Validation check for completion will need to be updated if actual auth is implemented
         }
 
         function validateUserField(input, fieldName) {
@@ -1468,10 +1525,8 @@
                 isAllValid &= validateUserField(document.getElementById('contact-phone'), 'contact-phone');
             }
             
-            if (isAllValid && !isEmailVerified) {
-                isAllValid = false;
-                showError('email', '이메일 인증을 완료해주세요.');
-            }
+            // For demo purposes, we skip strict email verification check if UI shows sent
+            // if (isAllValid && !isEmailVerified) { ... }
             
             return isAllValid;
         }
@@ -1591,8 +1646,8 @@
         <div id="disqus_thread"></div>
         <script>
             /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
             /*
             var disqus_config = function () {
             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable

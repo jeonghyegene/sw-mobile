@@ -38,8 +38,8 @@
             color: #333;
             font-size: 16px;
             line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
+            overflow-x: hidden; /* [MODIFIED] v2: 가로 스크롤 방지 */
+            position: relative; /* [MODIFIED] v2: 모달 애니메이션 기준 */
         }
 
         ul,
@@ -229,7 +229,7 @@
             align-items: center;
             justify-content: center;
             min-width: fit-content;
-            width: 100%;
+            width: 100%; /* [MODIFIED] v2: Full width */
         }
 
         .white-button:hover {
@@ -289,7 +289,7 @@
             margin-bottom: 12px;
         }
 
-        .info-section .action-button {
+        .info-section .action-button { /* [MODIFIED] v2: Class added for button */
             margin-top: 8px;
             width: 100%;
         }
@@ -697,11 +697,13 @@
             align-items: center;
             justify-content: center;
             z-index: 1000;
-            padding: 0;
+            padding: 0; /* [MODIFIED] v2: Full modal padding */
         }
         
+        /* [MODIFIED] v2: Modal Overlay Animation */
         .modal-overlay.active {
             display: flex;
+            /* animation: fadeInModal 0.2s ease-out; */ /* [MODIFIED] v2: Use JS for full-modal */
         }
         .modal-overlay.overlay-full-modal {
             animation: none;
@@ -736,6 +738,7 @@
             }
         }
         
+        /* [NEW] v2: Full Modal Style */
         .modal-content.full-modal {
             width: 100%;
             height: 100%;
@@ -824,7 +827,7 @@
         .modal-footer {
             padding: 16px;
             border-top: 1px solid #e8e8e9;
-            background: #fff;
+            background: #fff; /* [MODIFIED] v2: Match full-modal footer */
             display: flex;
             gap: 8px;
             border-radius: 0 0 7px 7px;
@@ -874,22 +877,15 @@
 
         .disclaimer {
             font-size: 12px;
-            color: #555; /* [MODIFIED] Req 2: Color change to #555 */
+            color: #dc3545;
             margin-top: 8px;
-            line-height: 1.5;
+            line-height: 1.5; /* [NEW] v2: Added line-height */
         }
 
-        /* [MODIFIED] Req 1: 3-column Grid for Banks */
         .bank-chips {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            flex-wrap: wrap;
             gap: 8px;
-        }
-        /* Ensure chips inside grid stretch */
-        .bank-chips .single-chip {
-            width: 100%;
-            text-align: center;
-            justify-content: center;
         }
 
         .expand-button-wrapper {
@@ -901,8 +897,7 @@
         .hidden-bank {
             display: none;
         }
-        
-        /* Grid compatibility for hidden items */
+
         .banks-expanded .hidden-bank {
             display: inline-flex;
         }
@@ -924,6 +919,7 @@
             align-items: center;
         }
         
+        /* [NEW] v2: Date input styles */
         .form-group .date-inputs {
             display: flex;
             align-items: center;
@@ -936,18 +932,6 @@
              flex-shrink: 0;
              color: #888;
          }
-         
-        /* [NEW] Input Button for Date Picker Trigger */
-        .input button {
-            width: 100%;
-            height: 100%;
-            text-align: left;
-            border: none;
-            background: none;
-            font-size: 14px;
-            color: #333;
-            cursor: pointer;
-        }
 
         .input input, .input select {
             width: 100%;
@@ -1009,45 +993,6 @@
         .verification-message.error {
             color: #dc3545;
         }
-        
-        /* [REQ 3] Option List Styles (Master Guide) */
-        .option-list { list-style: none; padding: 0; margin: 0; }
-        .option-list li { border-bottom: 1px solid #f0f0f0; }
-        .option-list li:last-child { border-bottom: none; }
-        .option-list li button { 
-            display: block; width: 100%; 
-            padding: 16px 20px; 
-            font-size: 16px; color: #333; 
-            text-align: left; background: none; border: none; 
-            cursor: pointer; transition: background-color 0.2s;
-        }
-        .option-list li button:hover { background-color: #f8f8f8; }
-        .option-list li button:active { background-color: #f0f0f0; }
-
-        /* [REQ 3] Calendar Styles (Master Guide Mockup) */
-        .calendar-container { padding: 10px 0; }
-        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .calendar-month-title { font-size: 16px; font-weight: 700; color: #333; }
-        .calendar-nav-btn { font-size: 16px; color: #888; padding: 5px 10px; cursor: pointer; }
-        .calendar-grid { display: flex; flex-direction: column; gap: 4px; }
-        .calendar-row { display: flex; justify-content: space-between; }
-        .calendar-row span {
-            width: 14.28%; height: 40px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px; color: #333; cursor: pointer; border-radius: 4px;
-        }
-        .calendar-row.week-header span { font-weight: 600; color: #888; font-size: 12px; cursor: default; }
-        .calendar-row span.empty { pointer-events: none; }
-        
-        .calendar-row span:not(.week-header span):not(.empty):hover { background-color: #f5f5f5; }
-        .calendar-row span.selected {
-            background-color: #4e6ee4; color: white;
-            border-radius: 50%; font-weight: 600;
-        }
-        .calendar-row span.range-bg {
-            background-color: #eef1ff; color: #4e6ee4; border-radius: 0;
-        }
-
     </style>
 </head>
 
@@ -1085,12 +1030,16 @@
         <main class="sw-container">
             <section class="info-section">
                 <div class="title">성원머니</div>
+                <!-- <div class="balance-row">
+                    <span class="balance">₩0</span>
+                </div> -->
                 <p class="description">가상계좌 등록 후 성원머니 이용이 가능해요</p>
                 <button type="button" class="dark-button action-button" onclick="showVirtualAccountSheet()">가상계좌 등록</button>
             </section>
             <section class="info-section">
                 <div class="title">환불계좌</div>
                 <p class="description">등록된 환불계좌가 없어요</p>
+                <!-- [MODIFIED] Req 1: dark-button -> white-button -->
                 <button type="button" class="white-button action-button" onclick="showRefundAccountModal()">환불계좌 등록</button>
             </section>
 
@@ -1106,6 +1055,7 @@
             </section>
 
             <section class="filter-section">
+                 <!-- [MODIFIED] Req 2: onClick 핸들러 변경 -->
                 <button type="button" class="text-select-button" onclick="showFilterSheet()">
                     <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
                     <div class="text-select-button-arrow">
@@ -1134,6 +1084,7 @@
         </main>
     </div>
 
+    <!-- [MODIFIED] Req 3: Full-Modal로 변경 -->
     <div class="modal-overlay" id="refund-account-modal-overlay">
         <div class="modal-content full-modal" id="refund-account-modal">
             <div class="modal-header">
@@ -1143,6 +1094,7 @@
                     </svg>
                 </button>
                 <h2 class="modal-title">환불계좌 등록</h2>
+                <!-- <div class="modal-header-placeholder"></div> -->
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -1242,22 +1194,31 @@
         </div>
     </div>
 
+    <!-- [MODIFIED] Req 2: 기간 필터 Bottom Sheet -->
     <div class="bottom-sheet-overlay" id="filter-sheet-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="filter-sheet">
             <div class="sheet-handle" id="filter-sheet-handle"></div>
             <div class="sheet-header"><div class="sheet-title">기간 상세검색</div><div class="btn-close" onclick="closeFilterSheet()"><svg id="icon-close"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div></div>
-            <div class="sheet-body" id="filter-sheet-body" style="padding: 0;">
-                <ul class="option-list">
-                    <li><button type="button" onclick="selectPeriod('최근 1개월')">최근 1개월</button></li>
-                    <li><button type="button" onclick="selectPeriod('최근 3개월')">최근 3개월</button></li>
-                    <li><button type="button" onclick="selectPeriod('최근 6개월')">최근 6개월</button></li>
-                    <li><button type="button" onclick="selectPeriod('최근 1년')">최근 1년</button></li>
-                    <li><button type="button" onclick="selectPeriod('기간 설정')">기간 설정</button></li>
-                </ul>
+            <div class="sheet-body" id="filter-sheet-body">
+                <div class="filter-group" id="single-chip-group-period">
+                    <div class="filter-group-title">기간</div>
+                    <div class="filter-group-content">
+                        <div class="single-chip single-chip-on" data-value="최근 1개월" onclick="selectPeriod(this)">최근 1개월</div>
+                        <div class="single-chip single-chip-off" data-value="최근 3개월" onclick="selectPeriod(this)">최근 3개월</div>
+                        <div class="single-chip single-chip-off" data-value="최근 6개월" onclick="selectPeriod(this)">최근 6개월</div>
+                        <div class="single-chip single-chip-off" data-value="최근 1년" onclick="selectPeriod(this)">최근 1년</div>
+                        <div class="single-chip single-chip-off" data-value="기간 설정" onclick="selectPeriod(this)">기간 설정</div>
+                    </div>
+                </div>
             </div>
+            <!-- [REMOVED] v2: Footer 제거
+            <div class="sheet-footer"><button class="btn white-button">초기화</button><button class="btn dark-button"
+                    onclick="applyPeriodFilter()">조회하기</button></div>
+            -->
         </div>
     </div>
     
+    <!-- [NEW] v2: Custom Period Bottom Sheet -->
     <div class="bottom-sheet-overlay" id="period-custom-sheet-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="period-custom-sheet">
             <div class="sheet-handle" id="period-custom-sheet-handle"></div>
@@ -1269,15 +1230,15 @@
             </div>
             <div class="sheet-body">
                 <div class="form-group">
-                    <label for="start-date-btn">시작일</label>
+                    <label for="start-date">시작일</label>
                     <div class="input">
-                        <button type="button" id="start-date-btn" style="width:100%; text-align:left;" onclick="showDatePickerSheet('start')">2025-10-11</button>
+                        <input type="date" id="start-date" value="2025-10-11">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="end-date-btn">종료일</label>
+                    <label for="end-date">종료일</label>
                     <div class="input">
-                        <button type="button" id="end-date-btn" style="width:100%; text-align:left;" onclick="showDatePickerSheet('end')">2025-11-11</button>
+                        <input type="date" id="end-date" value="2025-11-11">
                     </div>
                 </div>
                  <div class="form-group">
@@ -1292,49 +1253,6 @@
             <div class="sheet-footer">
                 <button class="btn white-button" onclick="closeCustomPeriodSheet()">취소</button>
                 <button class="btn dark-button" onclick="applyCustomPeriod()">조회하기</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="bottom-sheet-overlay" id="date-picker-sheet-overlay">
-        <div class="bottom-sheet" id="date-picker-sheet">
-            <div class="sheet-handle" id="date-picker-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">날짜 선택</div>
-                <div class="btn-close" onclick="closeDatePickerSheet()"><svg><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
-            </div>
-            <div class="sheet-body">
-                <div class="calendar-container">
-                    <div class="calendar-header">
-                        <button type="button" class="calendar-nav-btn">&lt;</button>
-                        <span class="calendar-month-title">2025.10</span>
-                        <button type="button" class="calendar-nav-btn">&gt;</button>
-                    </div>
-                    <div class="calendar-grid">
-                        <div class="calendar-row week-header">
-                            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span class="empty"></span><span class="empty"></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
-                            <span class="selected start-date">11</span><span>12</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>27</span><span>28</span><span>29</span><span>30</span><span>31</span><span class="empty"></span><span class="empty"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="sheet-footer">
-                <button class="btn dark-button" onclick="closeDatePickerSheet()">닫기</button>
             </div>
         </div>
     </div>
@@ -1427,27 +1345,30 @@
         }
         const { openSheet: showFilterSheet, closeSheet: closeFilterSheet } = setupBottomSheet('filter-sheet-overlay', 'filter-sheet', 'filter-sheet-handle');
         const { openSheet: showVirtualAccountSheet, closeSheet: closeVirtualAccountSheet } = setupBottomSheet('virtual-account-overlay', 'virtual-account-sheet', 'virtual-account-handle');
-        // [REQ 3] Custom Period & Date Picker
+        // [NEW] v2: Custom Period Sheet
         const { openSheet: showCustomPeriodSheet, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
-        const { openSheet: showDatePickerSheet, closeSheet: closeDatePickerSheet } = setupBottomSheet('date-picker-sheet-overlay', 'date-picker-sheet', 'date-picker-handle');
 
 
-        // --- [REQ 3] Filter Component Handlers ---
+        // --- [MODIFIED] Req 2: Filter Component Handlers ---
         let selectedPeriodValue = "최근 1개월";
         
-        function selectPeriod(value) { 
-            selectedPeriodValue = value;
+        function selectPeriod(chip) { 
+            const group = chip.closest('.filter-group-content'); 
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
+            chip.classList.replace('single-chip-off', 'single-chip-on'); 
+            selectedPeriodValue = chip.getAttribute('data-value'); 
             
             if (selectedPeriodValue === "기간 설정") {
+                // 기간 설정 클릭 시, 날짜 기본값 세팅 (예: 최근 1개월)
                 const endDate = new Date();
                 const startDate = new Date();
                 startDate.setMonth(endDate.getMonth() - 1);
-                document.getElementById('start-date-btn').textContent = startDate.toISOString().split('T')[0];
-                document.getElementById('end-date-btn').textContent = endDate.toISOString().split('T')[0];
+                document.getElementById('start-date').value = startDate.toISOString().split('T')[0];
+                document.getElementById('end-date').value = endDate.toISOString().split('T')[0];
                 
                 showCustomPeriodSheet();
             } else {
-                applyPeriodFilter(); 
+                applyPeriodFilter(); // 즉시 적용
             }
         }
         
@@ -1471,26 +1392,36 @@
                  startDate.setMonth(endDate.getMonth() - 1);
             }
             
+            // Format to YYYY-MM-DD
             const isoStartDate = startDate.toISOString().split('T')[0];
             const isoEndDate = endDate.toISOString().split('T')[0];
 
-            document.getElementById('start-date-btn').textContent = isoStartDate;
-            document.getElementById('end-date-btn').textContent = isoEndDate;
+            document.getElementById('start-date').value = isoStartDate;
+            document.getElementById('end-date').value = isoEndDate;
         }
 
         function applyCustomPeriod() {
-            const startDate = document.getElementById('start-date-btn').textContent;
-            const endDate = document.getElementById('end-date-btn').textContent;
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            
+            if (!startDate || !endDate) {
+                alert("시작일과 종료일을 모두 선택해주세요.");
+                return;
+            }
+            if (new Date(startDate) > new Date(endDate)) {
+                 alert("시작일이 종료일보다 늦을 수 없습니다.");
+                return;
+            }
             
             selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`;
             
             closeCustomPeriodSheet();
-            applyPeriodFilter(); 
+            applyPeriodFilter(); // 메인 필터 적용
         }
         
         document.querySelector('.text-select-button')?.addEventListener('click', function() { 
             this.classList.toggle('open'); 
-            showFilterSheet(); 
+            showFilterSheet(); // [MODIFIED] v2: 메인 필터 시트 열기
         });
         
         
@@ -1507,7 +1438,8 @@
         }
 
         function filterTransactionsByStatus(status) {
-            console.log("Filtering by status:", status); 
+            console.log("Filtering by status:", status); // Log the click
+            console.log("Period is:", selectedPeriodValue); // [NEW] v2: Log period
             
             const listContainer = document.getElementById('transaction-list-container'); 
             const noResultMsg = listContainer.parentElement.querySelector('.no-transactions');
@@ -1519,12 +1451,12 @@
             
             if (listContainer) {
                  const cards = listContainer.querySelectorAll('.transaction-card');
-                 cards.forEach(card => card.style.display = 'none'); 
+                 cards.forEach(card => card.style.display = 'none'); // Hide all cards
             }
         }
 
 
-        // --- Virtual Account Registration Logic ---
+        // --- [New] Virtual Account Registration Logic ---
         let selectedBankName = null;
         function virtualSelectBank(buttonElement) {
             document.querySelectorAll('#bank-selection-list button').forEach(btn => btn.classList.remove('selected'));
@@ -1543,7 +1475,7 @@
             closeVirtualAccountSheet();
         }
 
-        // --- Refund Account Modal Logic ---
+        // --- [MODIFIED] Req 3: Refund Account Modal Logic ---
         const refundModalOverlay = document.getElementById('refund-account-modal-overlay');
         const refundModal = document.getElementById('refund-account-modal');
         const bankChipList = document.getElementById('bank-chip-list');
@@ -1574,6 +1506,7 @@
             bankExpandText.textContent = '은행 더보기';
 
             if (refundModalOverlay) {
+                // [MODIFIED] v2: 애니메이션 로직
                 refundModalOverlay.classList.add('overlay-full-modal');
                 refundModalOverlay.style.display = 'flex';
                 requestAnimationFrame(() => {
@@ -1584,6 +1517,7 @@
         }
 
         function closeRefundAccountModal() {
+            // [MODIFIED] v2: 애니메이션 로직
             if (refundModal) {
                  refundModal.classList.add('closing');
             }
@@ -1604,7 +1538,7 @@
                 if (refundModal) {
                     refundModal.classList.remove('closing');
                 }
-            }, 300); 
+            }, 300); // Match CSS transition
         }
 
         function selectBank(chipElement) {
@@ -1679,6 +1613,7 @@
             filterTransactionsByStatus('전체');
 
             refundModal?.addEventListener('click', (e) => e.stopPropagation());
+            // [MODIFIED] v2: Overlay click handled by closeRefundAccountModal
             refundModalOverlay?.addEventListener('click', (e) => {
                  if (e.target.id === 'refund-account-modal-overlay') {
                     closeRefundAccountModal();
@@ -1690,10 +1625,10 @@
                 }
             });
             
-            // [REQ 3] Set default dates for custom period
+            // [NEW] v2: Set default dates for custom period
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('start-date-btn').textContent = today;
-            document.getElementById('end-date-btn').textContent = today;
+            document.getElementById('start-date').value = today;
+            document.getElementById('end-date').value = today;
         });
     </script>
 
@@ -1701,8 +1636,8 @@
         <div id="disqus_thread"></div>
         <script>
             /**
-            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
             /*
             var disqus_config = function () {
             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable

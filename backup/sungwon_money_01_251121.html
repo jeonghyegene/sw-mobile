@@ -99,26 +99,11 @@
         }
         
         .account-settings-icon {
-            width: 24px;
-            height: 24px;
-            color: #555;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* [REQ 2] Copy Button Style */
-        .btn-copy {
             width: 20px;
             height: 20px;
-            color: #888;
-            margin-left: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: #555;
+            flex-shrink: 0;
         }
-        .btn-copy:active { transform: scale(0.9); color: #333; }
 
         /* Filter Chip Section (v12) */
         .filter-chip-section {
@@ -188,10 +173,7 @@
         .card-amount { font-size: 16px; font-weight: 700; white-space: nowrap; }
         .card-amount.plus { color: #007bff; }
         .card-amount.minus { color: #dc3545; }
-        
-        /* [REQ 3] Fail Reason Color Change */
-        .card-status-fail { font-size: 13px; color: #333; margin-top: 4px; }
-        
+        .card-status-fail { font-size: 13px; color: #dc3545; margin-top: 4px; }
         .card-divider { height: 1px; background-color: #f0f0f0; margin: 12px 0; }
         .card-bottom { display: flex; justify-content: space-between; align-items: center; }
         .card-meta { font-size: 13px; color: #666; }
@@ -631,123 +613,6 @@
             border-bottom: none;
         }
 
-        /* [REQ 4] Mock Date Picker Wheel Style */
-        .date-picker-wheel {
-            display: flex;
-            justify-content: center;
-            height: 200px;
-            position: relative;
-            overflow: hidden;
-            background: #fff;
-        }
-        .date-picker-wheel::before, .date-picker-wheel::after {
-            content: '';
-            position: absolute;
-            left: 0; right: 0;
-            height: 80px;
-            z-index: 1;
-            pointer-events: none;
-        }
-        .date-picker-wheel::before {
-            top: 0;
-            background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0));
-        }
-        .date-picker-wheel::after {
-            bottom: 0;
-            background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
-        }
-        .date-picker-column {
-            flex: 1;
-            overflow-y: auto;
-            text-align: center;
-            padding: 80px 0;
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
-        .date-picker-column::-webkit-scrollbar {
-            display: none;
-        }
-        .date-picker-item {
-            height: 40px;
-            line-height: 40px;
-            font-size: 16px;
-            color: #ccc;
-            transition: color 0.2s;
-        }
-        .date-picker-item.selected {
-            color: #333;
-            font-weight: 600;
-            font-size: 18px;
-        }
-        .date-picker-highlight {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            left: 0; right: 0;
-            height: 40px;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
-            pointer-events: none;
-        }
-
-        /* [REQ 4] Calendar Styles (Mockup) */
-        .calendar-container {
-            padding: 10px 0;
-        }
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .calendar-month-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
-        }
-        .calendar-nav-btn {
-            font-size: 16px;
-            color: #888;
-            padding: 5px 10px;
-        }
-        .calendar-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .calendar-row {
-            display: flex;
-            justify-content: space-between;
-        }
-        .calendar-row span {
-            width: 14.28%;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #333;
-        }
-        .calendar-row.week-header span {
-            font-weight: 600;
-            color: #888;
-            font-size: 12px;
-        }
-        /* Visual Range Selection Mockup */
-        .calendar-row span.selected {
-            background-color: #4e6ee4;
-            color: white;
-            border-radius: 50%; /* Start/End date circle */
-            font-weight: 600;
-        }
-        .calendar-row span.range-bg {
-            background-color: #eef1ff; /* Range background color */
-            border-radius: 0;
-            color: #4e6ee4;
-        }
-        .calendar-row span.empty {
-            pointer-events: none;
-        }
     </style>
 </head>
 <body>
@@ -781,16 +646,12 @@
                 <div class="account-info-row" onclick="showAccountOptionsSheet()">
                     <div class="account-info">
                         <img src="assets/images/bank-logo.png" class="bank-logo-icon" alt="우리은행">
-                        <strong style="cursor: pointer;" onclick="event.stopPropagation(); copyVaNumber('65459011733483')">우리은행 65459011733483 정혜진</strong>
-                        <button type="button" class="btn-copy" onclick="event.stopPropagation(); copyVaNumber('65459011733483')">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-copy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg>
-                        </button>
+                        <strong>우리은행 65459011733483 정혜진</strong>
                     </div>
-                    <div style="width: 1px; height: 14px; background: #e0e0e0; margin-right: 10px;"></div>
                     <div class="account-settings-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37a1.724 1.724 0 0 0 2.572 -1.065z" />
-                        <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                           <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37a1.724 1.724 0 0 0 2.572 -1.065z" />
+                           <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
                         </svg>
                     </div>
                 </div>
@@ -930,22 +791,16 @@
         
     </div>
 
+    <!-- Period Filter Bottom Sheet -->
     <div class="bottom-sheet-overlay" id="filter-sheet-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="filter-sheet">
             <div class="sheet-handle" id="filter-sheet-handle"></div>
             <div class="sheet-header"><div class="sheet-title">기간 상세검색</div><div class="btn-close" onclick="closeFilterSheet()"><svg id="icon-close"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div></div>
-            <div class="sheet-body" id="filter-sheet-body" style="padding: 0;">
-                <ul class="option-list">
-                    <li><button type="button" onclick="selectPeriod('최근 1개월')">최근 1개월</button></li>
-                    <li><button type="button" onclick="selectPeriod('최근 3개월')">최근 3개월</button></li>
-                    <li><button type="button" onclick="selectPeriod('최근 6개월')">최근 6개월</button></li>
-                    <li><button type="button" onclick="selectPeriod('최근 1년')">최근 1년</button></li>
-                    <li><button type="button" onclick="selectPeriod('기간 설정')">기간 설정</button></li>
-                </ul>
-            </div>
+            <div class="sheet-body" id="filter-sheet-body"><div class="filter-group" id="single-chip-group-period"><div class="filter-group-title">기간</div><div class="filter-group-content"><div class="single-chip single-chip-on" data-value="최근 1개월" onclick="selectPeriod(this)">최근 1개월</div><div class="single-chip single-chip-off" data-value="최근 3개월" onclick="selectPeriod(this)">최근 3개월</div><div class="single-chip single-chip-off" data-value="최근 6개월" onclick="selectPeriod(this)">최근 6개월</div><div class="single-chip single-chip-off" data-value="최근 1년" onclick="selectPeriod(this)">최근 1년</div><div class="single-chip single-chip-off" data-value="기간 설정" onclick="selectPeriod(this)">기간 설정</div></div></div></div>
         </div>
     </div>
     
+    <!-- Custom Period Bottom Sheet -->
     <div class="bottom-sheet-overlay" id="period-custom-sheet-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="period-custom-sheet">
             <div class="sheet-handle" id="period-custom-sheet-handle"></div>
@@ -957,15 +812,15 @@
             </div>
             <div class="sheet-body">
                 <div class="form-group">
-                    <label for="start-date-btn">시작일</label>
+                    <label for="start-date">시작일</label>
                     <div class="input">
-                        <button type="button" id="start-date-btn" style="width:100%; text-align:left;" onclick="showDatePickerSheet('start')">2025-10-11</button>
+                        <input type="date" id="start-date" value="2025-10-11">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="end-date-btn">종료일</label>
+                    <label for="end-date">종료일</label>
                     <div class="input">
-                        <button type="button" id="end-date-btn" style="width:100%; text-align:left;" onclick="showDatePickerSheet('end')">2025-11-11</button>
+                        <input type="date" id="end-date" value="2025-11-11">
                     </div>
                 </div>
                  <div class="form-group">
@@ -980,46 +835,6 @@
             <div class="sheet-footer">
                 <button class="btn white-button" onclick="closeCustomPeriodSheet()">취소</button>
                 <button class="btn dark-button" onclick="applyCustomPeriod()">조회하기</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="bottom-sheet-overlay" id="date-picker-sheet-overlay">
-        <div class="bottom-sheet" id="date-picker-sheet">
-            <div class="sheet-handle" id="date-picker-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">날짜 선택</div>
-                <div class="btn-close" onclick="closeDatePickerSheet()"><svg><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
-            </div>
-            <div class="sheet-body">
-                <div class="calendar-container">
-                    <div class="calendar-header">
-                        <button type="button" class="calendar-nav-btn">&lt;</button>
-                        <span class="calendar-month-title">2025.10</span>
-                        <button type="button" class="calendar-nav-btn">&gt;</button>
-                    </div>
-                    <div class="calendar-grid">
-                        <div class="calendar-row week-header">
-                            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span class="empty"></span><span class="empty"></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
-                            <span class="selected start-date">11</span><span>12</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>27</span><span>28</span><span>29</span><span>30</span><span>31</span><span class="empty"></span><span class="empty"></span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -1049,6 +864,7 @@
     </div>
 
 
+    <!-- Refund Account Full Modal -->
     <div class="modal-overlay" id="refund-account-modal-overlay">
         <div class="modal-content full-modal" id="refund-account-modal">
             <div class="modal-header">
@@ -1058,7 +874,8 @@
                     </svg>
                 </button>
                 <h2 class="modal-title">환불계좌 변경</h2>
-                </div>
+                <!-- <div class="modal-header-placeholder"></div> -->
+            </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label>예금주</label>
@@ -1157,6 +974,7 @@
         </div>
     </div>
 
+    <!-- [MODIFIED] v6: 출금 신청 (Full Modal) -->
     <div class="modal-overlay" id="withdrawal-modal-overlay">
         <div class="modal-content full-modal" id="withdrawal-modal">
             <div class="modal-header">
@@ -1166,7 +984,8 @@
                     </svg>
                 </button>
                 <h2 class="modal-title">출금 신청</h2>
-                </div>
+                <!-- <div class="modal-header-placeholder"></div> -->
+            </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label>현재 출금 가능 잔액</label>
@@ -1223,6 +1042,7 @@
         </div>
     </div>
 
+    <!-- VA History Modal -->
     <div class="modal-overlay" id="va-history-modal-overlay">
         <div class="modal-content" id="va-history-modal">
             <div class="modal-header">
@@ -1259,6 +1079,7 @@
         </div>
     </div>
 
+    <!-- VA Change Bottom Sheet -->
     <div class="bottom-sheet-overlay" id="va-change-sheet-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="va-change-sheet">
             <div class="sheet-handle" id="va-change-sheet-handle"></div>
@@ -1324,25 +1145,26 @@
         const { openSheet: showFilterSheet, closeSheet: closeFilterSheet } = setupBottomSheet('filter-sheet-overlay', 'filter-sheet', 'filter-sheet-handle');
         const { openSheet: showAccountOptionsSheet, closeSheet: closeAccountOptionsSheet } = setupBottomSheet('account-options-overlay', 'account-options-sheet', 'account-options-handle');
         const { openSheet: _showWithdrawalDetailsSheet, closeSheet: closeWithdrawalDetailsSheet } = setupBottomSheet('withdrawal-details-overlay', 'withdrawal-details-sheet', 'withdrawal-details-handle'); 
+        // [REMOVED] v6: setupBottomSheet for withdrawal-sheet
         const { openSheet: showVaChangeSheet, closeSheet: closeVaChangeSheet } = setupBottomSheet('va-change-sheet-overlay', 'va-change-sheet', 'va-change-sheet-handle');
         const { openSheet: showCustomPeriodSheet, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
-        const { openSheet: showDatePickerSheet, closeSheet: closeDatePickerSheet } = setupBottomSheet('date-picker-sheet-overlay', 'date-picker-sheet', 'date-picker-handle');
 
 
         // --- Filter Component Handlers ---
         let selectedPeriodValue = "최근 1개월"; 
         
-        // [REQ 1] Logic updated for list buttons
-        function selectPeriod(value) { 
-            selectedPeriodValue = value;
+        function selectPeriod(chip) { 
+            const group = chip.closest('.filter-group-content'); 
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
+            chip.classList.replace('single-chip-off', 'single-chip-on'); 
+            selectedPeriodValue = chip.getAttribute('data-value'); 
             
             if (selectedPeriodValue === "기간 설정") {
                 const endDate = new Date();
                 const startDate = new Date();
-                startDate.setMonth(endDate.getMonth() - 1); 
-                // Date initialization to button text
-                document.getElementById('start-date-btn').textContent = startDate.toISOString().split('T')[0];
-                document.getElementById('end-date-btn').textContent = endDate.toISOString().split('T')[0];
+                startDate.setMonth(endDate.getMonth() - 1); // Default to 1 month ago
+                document.getElementById('start-date').value = startDate.toISOString().split('T')[0];
+                document.getElementById('end-date').value = endDate.toISOString().split('T')[0];
                 
                 showCustomPeriodSheet();
             } else {
@@ -1355,56 +1177,53 @@
             document.querySelector('.text-select-button')?.classList.remove('open'); 
             closeFilterSheet(); 
             console.log("기간 필터 적용:", selectedPeriodValue); 
+            /* TODO: Filtering logic */ 
         }
 
         function setCustomPeriod(days) {
             const endDate = new Date();
             let startDate = new Date();
             
-            if (days === 0) { 
+            if (days === 0) { // 오늘
                  startDate = endDate;
-            } else if (days === 7) { 
+            } else if (days === 7) { // 1주일
                 startDate.setDate(endDate.getDate() - 7);
-            } else if (days === 30) { 
+            } else if (days === 30) { // 1개월
                  startDate.setMonth(endDate.getMonth() - 1);
             }
             
+            // Format to YYYY-MM-DD
             const isoStartDate = startDate.toISOString().split('T')[0];
             const isoEndDate = endDate.toISOString().split('T')[0];
 
-            document.getElementById('start-date-btn').textContent = isoStartDate;
-            document.getElementById('end-date-btn').textContent = isoEndDate;
+            document.getElementById('start-date').value = isoStartDate;
+            document.getElementById('end-date').value = isoEndDate;
         }
 
         function applyCustomPeriod() {
-            const startDate = document.getElementById('start-date-btn').textContent;
-            const endDate = document.getElementById('end-date-btn').textContent;
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            
+            if (!startDate || !endDate) {
+                alert("시작일과 종료일을 모두 선택해주세요.");
+                return;
+            }
+            if (new Date(startDate) > new Date(endDate)) {
+                 alert("시작일이 종료일보다 늦을 수 없습니다.");
+                return;
+            }
             
             selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`;
             
             closeCustomPeriodSheet();
-            applyPeriodFilter(); 
+            applyPeriodFilter(); // 메인 필터 적용
         }
-
-        // [REQ 4] Date Picker Mock Logic
-        let currentDatePickerTarget = '';
-        function confirmDatePicker() {
-             // Mock confirmation: Just keeps the default values for demo
-             closeDatePickerSheet();
-        }
-        // Note: showDatePickerSheet is handled by setupBottomSheet, but we could add logic here to set initial values.
         
         document.querySelector('.text-select-button')?.addEventListener('click', function() { 
             this.classList.toggle('open'); 
             showFilterSheet();
         });
 
-        // [REQ 2] Copy to Clipboard Logic
-        function copyVaNumber(number) {
-             // Placeholder for copy logic
-             console.log("Copied VA Number:", number);
-             alert("가상계좌 번호가 복사되었어요");
-        }
         
         // --- Transaction List Filtering ---
         function selectStatusChip(chip) {
@@ -1573,6 +1392,8 @@
             console.log(`출금 신청: ${amount}원, 사유: ${reason}`);
             alert("출금 신청이 완료되었어요 (구현 필요)");
             closeWithdrawalSheet(); 
+            
+            // 폼 초기화는 showWithdrawalSheet에서 하므로 중복 제거
         }
 
         // --- 2. VA Change History Modal Logic (Req 5) ---
@@ -1788,8 +1609,8 @@
             });
             
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('start-date-btn').textContent = today;
-            document.getElementById('end-date-btn').textContent = today;
+            document.getElementById('start-date').value = today;
+            document.getElementById('end-date').value = today;
         });
 
     </script>
@@ -1798,8 +1619,8 @@
         <div id="disqus_thread"></div>
         <script>
             /**
-            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
             /*
             var disqus_config = function () {
             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable

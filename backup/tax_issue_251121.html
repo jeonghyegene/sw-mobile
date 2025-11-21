@@ -1596,29 +1596,6 @@
         .common-table-card.clickable:hover {
             background: #f9f9f9;
         }
-        
-        /* [NEW] Accordion Styles (Req: Change card interaction to accordion) */
-        .card-accordion-content {
-            display: none;
-            padding-top: 10px;
-            border-top: 1px solid #e8e8e9; /* Divider style */
-            margin-top: 10px;
-        }
-        
-        .common-table-card.active .card-accordion-content {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        /* [MODIFIED] Chevron Icon Rotation */
-        .common-table-card .card-chevron-icon svg {
-            transition: transform 0.3s;
-            /* 초기 상태는 HTML SVG가 Down 방향이므로 transform 없음 */
-        }
-        
-        .common-table-card.active .card-chevron-icon svg {
-            transform: rotate(180deg); /* Down -> Up (180도 회전) */
-        }
     </style>
 </head>
 
@@ -1723,7 +1700,12 @@
     
                         <div class="transaction-list" id="issue-list-container">
     
-                            <article class="common-table-card clickable" data-type="합산" onclick="toggleAccordion(this)">
+                            <article class="common-table-card clickable" data-type="합산" onclick="showIssueSimpleDetails({
+                                        orderNo: 'sw675541 외 999건+',
+                                        company: '주식회사티엑스',
+                                        bizNo: '123-45-23155',
+                                        writeDate: '2025-08-02'
+                                    })">
                                 <div class="card-header">
                                     <button type="button" class="card-column1-button" onclick="event.stopPropagation(); showIssueFullDetailsModal({
                                         issueNo: '324111',
@@ -1748,7 +1730,7 @@
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <div class="card-badge" data-type="합산">합산</div>
                                         <div class="card-chevron-icon">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
                                         </div>
                                     </div>
                                 </div>
@@ -1771,32 +1753,17 @@
                                     <div class="card-row-label">발급일</div>
                                     <div class="card-row-value">2025-08-01</div>
                                 </div>
-
-                                <div class="card-accordion-content">
-                                    <div class="card-row">
-                                        <div class="card-row-label">접수번호</div>
-                                        <div class="card-row-value">sw675541 외 999건+</div>
-                                    </div>
-                                    <div class="card-row">
-                                        <div class="card-row-label">기업명</div>
-                                        <div class="card-row-value">주식회사티엑스</div>
-                                    </div>
-                                    <div class="card-row">
-                                        <div class="card-row-label">사업자등록번호</div>
-                                        <div class="card-row-value">123-45-23155</div>
-                                    </div>
-                                    <div class="card-row">
-                                        <div class="card-row-label">작성일</div>
-                                        <div class="card-row-value">2025-08-02</div>
-                                    </div>
-                                </div>
-
                                 <div class="card-footer">
                                     <button type="button" class="white-button btn" onclick="event.stopPropagation(); alert('PC 에서만 가능합니다')">출력</button>
                                 </div>
                             </article>
                             
-                            <article class="common-table-card clickable" data-type="건별" onclick="toggleAccordion(this)">
+                            <article class="common-table-card clickable" data-type="건별" onclick="showIssueSimpleDetails({
+                                        orderNo: 'sw243222',
+                                        company: '주식회사티엑스',
+                                        bizNo: '123-45-23155',
+                                        writeDate: '2025-08-12'
+                                    })">
                                 <div class="card-header">
                                     <button type="button" class="card-column1-button" onclick="event.stopPropagation(); showIssueFullDetailsModal({
                                         issueNo: '102032',
@@ -1821,7 +1788,7 @@
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <div class="card-badge" data-type="건별">건별</div>
                                         <div class="card-chevron-icon">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
                                         </div>
                                     </div>
                                 </div>
@@ -1844,32 +1811,17 @@
                                     <div class="card-row-label">발급일</div>
                                     <div class="card-row-value">2025-08-13</div>
                                 </div>
-
-                                <div class="card-accordion-content">
-                                    <div class="card-row">
-                                        <div class="card-row-label">접수번호</div>
-                                        <div class="card-row-value">sw243222</div>
-                                    </div>
-                                    <div class="card-row">
-                                        <div class="card-row-label">기업명</div>
-                                        <div class="card-row-value">주식회사티엑스</div>
-                                    </div>
-                                    <div class="card-row">
-                                        <div class="card-row-label">사업자등록번호</div>
-                                        <div class="card-row-value">123-45-23155</div>
-                                    </div>
-                                    <div class="card-row">
-                                        <div class="card-row-label">작성일</div>
-                                        <div class="card-row-value">2025-08-12</div>
-                                    </div>
-                                </div>
-
                                 <div class="card-footer">
                                     <button type="button" class="white-button btn" onclick="event.stopPropagation(); alert('PC 에서만 가능합니다')">출력</button>
                                 </div>
                             </article>
                             
-                            <article class="common-table-card clickable" data-type="건별" onclick="toggleAccordion(this)">
+                            <article class="common-table-card clickable" data-type="건별" onclick="showIssueSimpleDetails({
+                                        orderNo: 'sw645721',
+                                        company: '주식회사티엑스',
+                                        bizNo: '123-45-23155',
+                                        writeDate: '2025-08-15'
+                                    })">
                                 <div class="card-header">
                                     <button type="button" class="card-column1-button" onclick="event.stopPropagation(); showIssueFullDetailsModal({
                                         issueNo: '102032',
@@ -1894,7 +1846,7 @@
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <div class="card-badge" data-type="건별">건별</div>
                                         <div class="card-chevron-icon">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
                                         </div>
                                     </div>
                                 </div>
@@ -1917,26 +1869,6 @@
                                     <div class="card-row-label">발급일</div>
                                     <div class="card-row-value">2025-08-20</div>
                                 </div>
-
-                                <div class="card-accordion-content">
-                                    <div class="card-row">
-                                        <div class="card-row-label">접수번호</div>
-                                        <div class="card-row-value">sw645721</div>
-                                    </div>
-                                    <div class="card-row">
-                                        <div class="card-row-label">기업명</div>
-                                        <div class="card-row-value">주식회사티엑스</div>
-                                    </div>
-                                    <div class="card-row">
-                                        <div class="card-row-label">사업자등록번호</div>
-                                        <div class="card-row-value">123-45-23155</div>
-                                    </div>
-                                    <div class="card-row">
-                                        <div class="card-row-label">작성일</div>
-                                        <div class="card-row-value">2025-08-15</div>
-                                    </div>
-                                </div>
-
                                 <div class="card-footer">
                                     <button type="button" class="white-button btn" onclick="event.stopPropagation(); alert('PC 에서만 가능합니다')">출력</button>
                                 </div>
@@ -2091,16 +2023,49 @@
     </div>
 
     
+    <div class="bottom-sheet-overlay" id="issue-simple-details-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="issue-simple-details-sheet">
+            <div class="sheet-handle" id="issue-simple-details-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">발급 상세 정보</div>
+                <div class="btn-close" onclick="closeIssueSimpleDetailsSheet()">
+                    <svg id="icon-close-details"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </div>
+            </div>
+            <div class="sheet-body" style="padding: 20px;">
+                <div class="detail-item">
+                    <span class="label">접수번호</span>
+                    <span class="value" id="simple-detail-order-no"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">기업명</span>
+                    <span class="value" id="simple-detail-company-name"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">사업자등록번호</span>
+                    <span class="value" id="simple-detail-biz-no"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">작성일</span>
+                    <span class="value" id="simple-detail-write-date"></span>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="closeIssueSimpleDetailsSheet()">확인</button>
+            </div>
+        </div>
+    </div>
+    
     <div class="modal-overlay" id="issue-full-details-modal-overlay">
         <div class="modal-content full-modal" id="issue-full-details-modal">
             <div class="modal-header">
-                <div style="width: 28px;"></div>
-                <h2 class="modal-title">발급 정보</h2>
                 <button class="btn-modal-close" onclick="closeModal('issue-full-details-modal-overlay')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6L6 18M6 6l12 12" />
+                        <path d="M15 6l-6 6l6 6" />
                     </svg>
                 </button>
+                <h2 class="modal-title">발급 정보</h2>
+                <!-- <div class="modal-header-placeholder" style="flex: 1 0 0; display: flex; justify-content: flex-end; width: 28px;"></div> -->
             </div>
             <div class="modal-body">
                 
@@ -2408,9 +2373,16 @@
         const { openSheet: showCustomPeriodSheet, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
         const { openSheet: showMonthlyPeriodSheet, closeSheet: closeMonthlyPeriodSheet } = setupBottomSheet('period-monthly-sheet-overlay', 'period-monthly-sheet', 'period-monthly-sheet-handle');
 
-        // [NEW] Accordion Toggle
-        function toggleAccordion(card) {
-            card.classList.toggle('active');
+        
+        // [MODIFIED] '발급 내역' 간단 상세 Bottom Sheet (Req 2)
+        const { openSheet: openIssueSimpleDetailsSheet, closeSheet: closeIssueSimpleDetailsSheet } = setupBottomSheet('issue-simple-details-overlay', 'issue-simple-details-sheet', 'issue-simple-details-handle');
+        
+        function showIssueSimpleDetails(details) {
+            document.getElementById('simple-detail-order-no').textContent = details.orderNo || '-';
+            document.getElementById('simple-detail-company-name').textContent = details.company || '-';
+            document.getElementById('simple-detail-biz-no').textContent = details.bizNo || '-';
+            document.getElementById('simple-detail-write-date').textContent = details.writeDate || '-';
+            openIssueSimpleDetailsSheet(); 
         }
 
         // [MODIFIED] '발급 내역' 전체 상세 Modal (Req 3 & 4)

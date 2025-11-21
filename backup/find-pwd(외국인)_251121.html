@@ -89,123 +89,232 @@
 
         /* v12 Standard .disclaimer */
         .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
-        .disclaimer.error { color: #dc3545; }
-        .disclaimer.success { color: #007bff; }
+        
+        /* [MODIFIED] Add error style based on PDF */
+        .disclaimer.error {
+            color: #dc3545; /* Standard red for errors */
+        }
+
+        /* [NEW] Add success style for message */
+        .disclaimer.success {
+            color: #007bff; /* Standard blue for info */
+        }
         
         /* Form Styles (v12 guide) */
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
-        .input { width: 100%; min-height: 40px; background: white; border: 1px solid #e8e8e9; border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; transition: border-color 0.2s; }
-        .input.error { border-color: #dc3545; }
-        .input input { width: 100%; background: transparent; border: none; outline: none; font-size: 14px; color: black; line-height: 1.5; }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            transition: border-color 0.2s;
+        }
+        /* [NEW] Add error style for input border */
+        .input.error {
+            border-color: #dc3545;
+        }
+        
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
         .input input::placeholder { color: #c6c6c8; }
-        .input input[readonly], .input.readonly { background-color: #f5f5f5; color: #888; cursor: not-allowed; }
-        .input .timer { color: #dc3545; font-size: 14px; font-weight: 500; margin-left: 8px; flex-shrink: 0; }
-        .resend-button { font-size: 14px; color: #555; text-decoration: underline; margin-top: 8px; text-align: left; }
-        .resend-button:disabled { color: #aaa; text-decoration: none; cursor: not-allowed; }
         
-        /* Modal Styles (v12 Standard) */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; animation: fadeInModal 0.2s ease-out; }
+        /* [NEW] Readonly input style */
+        .input input[readonly] {
+            background-color: #f5f5f5;
+            color: #888;
+            cursor: not-allowed;
+        }
+        .input.readonly {
+            background-color: #f5f5f5;
+        }
+
+        /* [NEW] Timer and Resend button styles */
+        .input .timer {
+            color: #dc3545;
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+        .resend-button {
+            font-size: 14px; 
+            color: #555; 
+            text-decoration: underline; 
+            margin-top: 8px; 
+            text-align: left;
+        }
+        .resend-button:disabled {
+            color: #aaa;
+            text-decoration: none;
+            cursor: not-allowed;
+        }
+        
+        /* ========================================
+           [NEW] MODAL STYLES (v12 Standard)
+        ======================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            animation: fadeInModal 0.2s ease-out;
+        }
         .modal-overlay.active { display: flex; }
-        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
-        
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
         .modal-content {
             background: white;
             border-radius: 8px;
             width: 100%;
-            max-width: 360px;
-            max-height: 90vh;
+            max-width: 360px; /* Modal max width */
+            max-height: 90vh; /* Limit height */
             display: flex;
             flex-direction: column;
             animation: scaleUpModal 0.2s ease-out;
-            min-height: 570px;
         }
-        @keyframes scaleUpModal { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #e8e8e9; position: relative; height: 57px; }
-        .modal-title { font-size: 16px; font-weight: 700; color: black; text-align: left; }
-        .btn-modal-close { width: 24px; height: 24px; cursor: pointer; color: #333; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); }
+        @keyframes scaleUpModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative; /* For close button */
+            height: 57px; /* Match v12 modal header */
+        }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            text-align: left; 
+        }
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333; /* v12 guide color */
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .btn-modal-close:hover { color: #000; }
         .btn-modal-close svg { width: 100%; height: 100%; }
-        .modal-body { padding: 16px; overflow-y: auto; flex-grow: 1; }
-        .modal-footer { padding: 16px; border-top: 1px solid #e8e8e9; background: #fff; display: flex; gap: 8px; border-radius: 0 0 7px 7px; }
-        .modal-footer .btn { flex: 1; height: 44px; font-size: 14px; }
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
         
-        /* Alert Modal */
-        .alert-modal { padding: 20px; text-align: center; min-height: auto; }
-        .alert-modal .modal-title { text-align: center; margin-bottom: 15px; }
-        .alert-modal .modal-message { font-size: 14px; color: black; margin-bottom: 30px; line-height: 1.5; }
+        /* Alert Modal Specifics (from v12 guide) */
+        .alert-modal {
+            padding: 20px;
+            text-align: center;
+        }
+        .alert-modal .modal-title {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .alert-modal .modal-message {
+            font-size: 14px;
+            color: black;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
         .alert-modal .modal-buttons { display: flex; gap: 10px; justify-content: center; }
-        .alert-modal .modal-button { flex: 1; height: 44px; padding: 7px; border-radius: 6px; font-size: 14px; cursor: pointer; transition: all 0.2s; }
+        .alert-modal .modal-button {
+            flex: 1;
+            height: 44px;
+            padding: 7px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
         .alert-modal .modal-button-primary { background: #424242; color: white; border: none; }
         .alert-modal .modal-button-secondary { background: white; color: #424242; border: 1px solid #e8e8e9; }
         .alert-modal .modal-button:active { transform: scale(0.98); }
-
-        /* Type Tabs (Scrollable) */
-        .type-tabs {
+        
+        /* Modal Tab Navigation (Tab Style) */
+        .modal-tab-nav-tabs {
             width: 100%;
             height: 44px;
             background: white;
             border-bottom: 1px solid #e8e8e9;
             display: flex;
             align-items: flex-end;
-            padding: 0 16px 1px 16px;
-            overflow-x: auto;
-            white-space: nowrap;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            flex-shrink: 0;
+            margin-bottom: 20px; 
         }
-        .type-tabs::-webkit-scrollbar { display: none; }
-        .type-tab-item {
+        .modal-tab-item {
+            flex: 1; /* Make tabs equal width */
             height: 42px;
             padding: 10px 4px;
-            font-size: 14px;
+            font-size: 14px; /* Slightly smaller for 2 tabs */
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            margin-right: 16px;
             position: relative;
+            text-align: center; /* Center text */
+            white-space: nowrap;
+        }
+        .modal-tab-item.active {
+            color: black;
+            border-bottom: 2px solid black;
+        }
+        .modal-tab-item.inactive {
             color: #bcbcbc;
             border-bottom: 2px solid transparent;
-            flex-shrink: 0;
-            text-align: center;
         }
-        .type-tab-item.active { color: #212121; border-bottom: 2px solid #212121; }
-
-        /* Chip Navigation */
-        .modal-tab-nav-chips {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px; 
-            padding-bottom: 0px; 
-            justify-content: flex-start;
-        }
-        .single-chip {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px 12px;
-            border-radius: 100px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
-        .single-chip-on { background: #4e6ee4; color: white; }
-        .single-chip:active { transform: scale(0.95); }
         
-        /* No Result Modal Styles */
+        /* [NEW] ID Result Modal Styles (for 'no result') */
         .id-result-message {
             font-size: 16px;
             font-weight: 600;
             color: #333;
             margin-bottom: 20px;
             text-align: center;
-        }
-        #id-no-result-modal {
-            min-height: auto;
         }
 
     </style>
@@ -250,66 +359,25 @@
                     </svg>
                 </button>
             </div>
-            
-            <nav class="type-tabs" id="find-pw-type-tabs">
-                <div class="type-tab-item" onclick="switchFindPwType(this, 'personal')">개인회원</div>
-                <div class="type-tab-item" onclick="switchFindPwType(this, 'business')">기업회원</div>
-                <div class="type-tab-item active" onclick="switchFindPwType(this, 'foreign')">외국인회원</div>
-            </nav>
-
             <div class="modal-body">
-                <nav class="modal-tab-nav-chips" id="find-pw-tabs">
-                    <div class="single-chip single-chip-on" data-tab="auth"
+                <nav class="modal-tab-nav-tabs" id="find-pw-tabs">
+                    <div class="modal-tab-item active" data-tab="auth"
                         onclick="switchFindPwTab(this, 'auth')">본인인증</div>
-                    <div class="single-chip single-chip-off" data-tab="phone"
-                        onclick="switchFindPwTab(this, 'phone')">휴대폰 번호 인증</div>
-                    <div class="single-chip single-chip-off" data-tab="email"
-                        onclick="switchFindPwTab(this, 'email')">이메일 주소 인증</div>
+                    <div class="modal-tab-item inactive" data-tab="email"
+                        onclick="switchFindPwTab(this, 'email')">이메일 주소</div>
                 </nav>
 
                 <form id="find-pw-form">
                     <div class="form-fields-wrapper" data-tab-content="auth" style="display: block;">
-                        <div class="form-group">
+                         <div class="form-group">
                             <label for="find-pw-id-auth">아이디</label>
                             <div class="input">
                                 <input type="text" id="find-pw-id-auth" placeholder="아이디를 입력해주세요">
                             </div>
                             <p class="disclaimer error" id="error-id-auth" style="display: none;"></p>
                         </div>
-                        
-                    </div>
+                        </div>
                     
-                    <div class="form-fields-wrapper" data-tab-content="phone" style="display: none;">
-                        <div class="form-group">
-                            <label for="find-pw-id-phone">아이디</label>
-                            <div class="input">
-                                <input type="text" id="find-pw-id-phone" placeholder="아이디를 입력해주세요">
-                            </div>
-                            <p class="disclaimer error" id="error-id-phone" style="display: none;"></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="find-pw-phone">휴대폰 번호</label>
-                            <div class="input">
-                                <input type="tel" id="find-pw-phone" placeholder="휴대폰 번호를 입력해주세요 (-없이 입력)">
-                            </div>
-                            <p class="disclaimer">* 휴대폰 번호가 변경되어 인증이 어려운 경우 고객센터로 문의해주세요(1599-5555)</p>
-                            <p class="disclaimer error" id="error-phone" style="display: none;"></p>
-                        </div>
-                        
-                        <div class="form-group" id="phone-verification-code-group" style="display: none;">
-                            <label for="find-pw-verification-code-phone">인증번호</label>
-                            <div class="input" id="phone-verification-code-input-wrapper">
-                                <input type="tel" id="find-pw-verification-code-phone" placeholder="인증번호 6자리를 입력해주세요">
-                                <span class="timer" id="phone-verification-timer">03:00</span>
-                            </div>
-                            <p class="disclaimer success" id="phone-sent-message" style="display: none;">인증번호를 발송해 드렸어요</p>
-                            <p class="disclaimer error" id="error-verification-code-phone" style="display: none;"></p>
-                            <button type="button" class="resend-button" id="resend-code-btn-phone">
-                                인증번호 재발송
-                            </button>
-                        </div>
-                    </div>
-
                     <div class="form-fields-wrapper" data-tab-content="email" style="display: none;">
                         <div class="form-group">
                             <label for="find-pw-id-email">아이디</label>
@@ -324,6 +392,7 @@
                                 <input type="email" id="find-pw-email" placeholder="이메일 주소를 입력해주세요">
                             </div>
                             <p class="disclaimer error" id="error-email" style="display: none;"></p>
+                            <p class="disclaimer success" id="email-sent-message" style="display: none;">이메일 주소로 인증번호를 발송해 드렸어요</p>
                         </div>
                         
                         <div class="form-group" id="email-verification-code-group" style="display: none;">
@@ -332,19 +401,18 @@
                                 <input type="tel" id="find-pw-verification-code-email" placeholder="인증번호 6자리를 입력해주세요">
                                 <span class="timer" id="email-verification-timer">10:00</span>
                             </div>
-                            <p class="disclaimer success" id="email-sent-message" style="display: none;">이메일 주소로 인증번호를 발송해 드렸어요</p>
                             <p class="disclaimer error" id="error-verification-code-email" style="display: none;"></p>
                             <button type="button" class="resend-button" id="resend-code-btn-email">
                                 인증번호 재발송
                             </button>
                         </div>
                     </div>
+                    
                 </form>
             </div>
             <div class="modal-footer" id="find-pw-footer" style="display: flex;">
                 <button class="btn dark-button" style="width: 100%;" id="find-pw-submit-btn" onclick="validateAndSubmitFindPw()">
-                    본인인증 하기
-                </button>
+                    </button>
             </div>
         </div>
     </div>
@@ -389,7 +457,7 @@
 
 
     <script>
-        // --- Form Dirty Check & Exit Alert ---
+        // --- [NEW] Form Dirty Check & Exit Alert ---
         let isFormDirty = false;
         
         function checkBeforeExit() {
@@ -401,7 +469,7 @@
         }
         
         function confirmExit() {
-            isFormDirty = false; 
+            isFormDirty = false; // Reset flag
             closeModal('exit-alert-modal');
             goBack();
         }
@@ -410,7 +478,7 @@
              history.back();
         }
 
-        // --- Modal Helpers ---
+        // --- Modal Helpers (v12 Standard) ---
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
@@ -430,33 +498,23 @@
             }
         }
         
-        // --- Find Password Modal Logic for Foreigner ---
+        // --- [MODIFIED] Find Password Modal Logic for Foreigner ---
         const findPwForm = document.getElementById('find-pw-form');
         const findPwSubmitBtn = document.getElementById('find-pw-submit-btn');
         const findPwFooter = document.getElementById('find-pw-footer');
-        let activeFindPwTab = 'auth'; 
+        let activeFindPwTab = 'auth'; // Track active tab, default to auth
 
         // Input fields
         const idAuth = document.getElementById('find-pw-id-auth');
-        
-        // Phone Inputs (Name Removed)
-        const idPhone = document.getElementById('find-pw-id-phone');
-        const phone = document.getElementById('find-pw-phone');
-        
         const idEmail = document.getElementById('find-pw-id-email');
         const email = document.getElementById('find-pw-email');
 
         // Error message fields
         const errorIdAuth = document.getElementById('error-id-auth');
-        
-        // Phone Errors (Name Error Removed)
-        const errorIdPhone = document.getElementById('error-id-phone');
-        const errorPhone = document.getElementById('error-phone');
-        
         const errorIdEmail = document.getElementById('error-id-email');
         const errorEmail = document.getElementById('error-email');
         
-        // Email Verification fields
+        // [NEW] Email Verification fields
         let emailVerificationTimer;
         let emailTimeRemaining = 600;
         const emailVerificationCodeGroup = document.getElementById('email-verification-code-group');
@@ -469,94 +527,56 @@
         resendCodeBtnEmail.addEventListener('click', () => {
             startEmailVerificationProcess(true);
         });
-        
-        // Phone Verification fields
-        let phoneVerificationTimer;
-        let phoneTimeRemaining = 180; // 3 minutes for phone
-        const phoneVerificationCodeGroup = document.getElementById('phone-verification-code-group');
-        const phoneVerificationCodeInput = document.getElementById('find-pw-verification-code-phone');
-        const phoneVerificationTimerEl = document.getElementById('phone-verification-timer');
-        const resendCodeBtnPhone = document.getElementById('resend-code-btn-phone');
-        const errorVerificationCodePhone = document.getElementById('error-verification-code-phone');
-        const phoneSentMessage = document.getElementById('phone-sent-message');
-        
-        resendCodeBtnPhone.addEventListener('click', () => {
-            startPhoneVerificationProcess(true);
-        });
 
-        // Type Tab Logic
-        function switchFindPwType(tabEl, typeName) {
-            const tabNav = tabEl.closest('.type-tabs'); 
-            tabNav.querySelectorAll('.type-tab-item').forEach(c => c.classList.remove('active')); 
-            tabEl.classList.add('active');
-            
-            if(typeName !== 'foreign') {
-                alert('해당 회원 유형 페이지로 이동 (구현 필요)');
-                setTimeout(() => {
-                    tabNav.querySelectorAll('.type-tab-item').forEach(c => c.classList.remove('active'));
-                    tabNav.querySelector('.type-tab-item:last-child').classList.add('active');
-                }, 100);
-            }
-        }
 
-        // Chip Tab Logic
         function switchFindPwTab(tabEl, tabName) {
-            activeFindPwTab = tabName; 
+            activeFindPwTab = tabName; // Store the active tab
             
-            // 1. 칩 활성화
-            const tabNav = tabEl.closest('.modal-tab-nav-chips'); 
-            tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
-            tabEl.classList.replace('single-chip-off', 'single-chip-on'); 
+            // 1. 탭 활성화
+            const tabNav = tabEl.closest('.modal-tab-nav-tabs'); 
+            tabNav.querySelectorAll('.modal-tab-item').forEach(c => c.classList.replace('active', 'inactive')); 
+            tabEl.classList.replace('inactive', 'active'); 
 
-            // 2. 폼 필드 보이기/숨기기
+            // 2. 모든 폼 필드 래퍼 숨기기
             findPwForm.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
                 wrapper.style.display = 'none';
             });
+            
+            // 3. 해당 탭의 폼 필드 보이기
             findPwForm.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
 
-            // 3. 상태 초기화 (Email)
+            // 4. [MODIFIED] 푸터 버튼 및 상태 변경, 타이머/상태 초기화
             stopEmailVerificationTimer();
             emailVerificationCodeGroup.style.display = 'none';
             emailSentMessage.style.display = 'none';
-            if(idEmail) {
-                idEmail.readOnly = false;
-                idEmail.closest('.input').classList.remove('readonly');
-            }
-            if(email) {
-                email.readOnly = false;
-                email.closest('.input').classList.remove('readonly');
-            }
-
-            // 3. 상태 초기화 (Phone - Modified)
-            stopPhoneVerificationTimer();
-            phoneVerificationCodeGroup.style.display = 'none';
-            phoneSentMessage.style.display = 'none';
-            if(idPhone) {
-                idPhone.readOnly = false;
-                idPhone.closest('.input').classList.remove('readonly');
-            }
-            if(phone) {
-                phone.readOnly = false;
-                phone.closest('.input').classList.remove('readonly');
-            }
-
+            
+            // Reset email tab readonly state
+            idEmail.readOnly = false;
+            idEmail.closest('.input').classList.remove('readonly');
+            email.readOnly = false;
+            email.closest('.input').classList.remove('readonly');
+            
             findPwSubmitBtn.disabled = false;
             findPwFooter.style.display = 'flex';
             
-            if (tabName === 'email' || tabName === 'phone') {
+            if (tabName === 'email') {
                 findPwSubmitBtn.textContent = '인증번호 발송';
             } else if (tabName === 'auth') {
                 findPwSubmitBtn.textContent = '본인인증 하기';
             }
             
+            // 5. 탭 변경 시 모든 에러 숨기기
             hideAllErrors();
         }
 
+        // [MODIFIED] Validation logic
         function validateAndSubmitFindPw() {
-            hideAllErrors(); 
+            hideAllErrors(); // Reset errors
             
             if (activeFindPwTab === 'auth') {
+                // Validate Auth Tab
                 if (validateAuthTab()) {
+                    // --- FAKE USER CHECK ---
                     if (idAuth.value.trim() === 'fail') {
                          showNoResultModal();
                     } else {
@@ -564,44 +584,27 @@
                     }
                 }
 
-            } else if (activeFindPwTab === 'phone') { // Phone Validation Logic
-                 const verificationVisible = (phoneVerificationCodeGroup.style.display === 'block');
-                
-                if (verificationVisible) {
-                     if (validatePhoneTab(true)) { 
-                        if (phoneVerificationCodeInput.value.trim() === '123456') {
-                            stopPhoneVerificationTimer();
-                            alert('인증 성공! 비밀번호 찾기 링크로 이동할게요');
-                            closeModal('find-pw-modal-overlay');
-                        } else {
-                            showError(phoneVerificationCodeInput, errorVerificationCodePhone, '인증번호가 일치하지 않아요');
-                        }
-                    }
-                } else {
-                    if (validatePhoneTab(false)) {
-                        if (idPhone.value.trim() === 'fail') {
-                            showNoResultModal();
-                        } else {
-                            startPhoneVerificationProcess(false);
-                        }
-                    }
-                }
-
             } else if (activeFindPwTab === 'email') {
                 const verificationVisible = (emailVerificationCodeGroup.style.display === 'block');
                 
                 if (verificationVisible) {
-                     if (validateEmailTab(true)) { 
+                     // State 2: "비밀번호 찾기" (Verify Code)
+                     if (validateEmailTab(true)) { // Validates all fields including code
+                        // --- FAKE SUCCESS LOGIC (Test with '123456') ---
                         if (emailVerificationCodeInput.value.trim() === '123456') {
                             stopEmailVerificationTimer();
+                            // [MODIFIED] Show success alert
                             alert('인증 성공! 비밀번호 찾기 링크로 이동할게요');
                             closeModal('find-pw-modal-overlay');
+                            // window.location.href = '/reset-password-page'; 
                         } else {
                             showError(emailVerificationCodeInput, errorVerificationCodeEmail, '인증번호가 일치하지 않아요');
                         }
                     }
                 } else {
-                    if (validateEmailTab(false)) {
+                    // State 1: "인증 발송" (Send Code)
+                    if (validateEmailTab(false)) { // Validates id/email
+                         // --- FAKE USER CHECK ---
                         if (idEmail.value.trim() === 'fail') {
                             showNoResultModal();
                         } else {
@@ -612,6 +615,7 @@
             }
         }
         
+        // [NEW] Auth Tab Validator
         function validateAuthTab() {
              let isValid = true;
              if (idAuth.value.trim() === '') {
@@ -621,6 +625,7 @@
             return isValid;
         }
 
+        // [NEW] Email Tab Validator
         function validateEmailTab(checkCode) {
             let isValid = true;
             if (idEmail.value.trim() === '') {
@@ -647,30 +652,7 @@
             return isValid;
         }
 
-        // Phone Tab Validation (Name Check Removed)
-        function validatePhoneTab(checkCode) {
-             let isValid = true;
-            if (idPhone.value.trim() === '') {
-                showError(idPhone, errorIdPhone, '아이디를 입력해주세요');
-                isValid = false;
-            }
-            if (phone.value.trim() === '') {
-                showError(phone, errorPhone, '휴대폰 번호를 입력해주세요');
-                isValid = false;
-            }
-            
-            if (checkCode) {
-                if (phoneTimeRemaining <= 0) {
-                    showError(phoneVerificationCodeInput, errorVerificationCodePhone, '인증 시간이 초과되었어요, 인증번호를 재발송 해주세요');
-                    isValid = false;
-                } else if (phoneVerificationCodeInput.value.trim() === '') {
-                    showError(phoneVerificationCodeInput, errorVerificationCodePhone, '인증번호를 입력해주세요');
-                    isValid = false;
-                }
-            }
-            return isValid;
-        }
-
+        // [NEW] Start Email Verification Process
         function startEmailVerificationProcess(isResend) {
             console.log('이메일 인증번호 발송 (구현 필요)');
             emailVerificationCodeGroup.style.display = 'block';
@@ -688,37 +670,15 @@
             email.readOnly = true;
             email.closest('.input').classList.add('readonly');
             
-            findPwSubmitBtn.textContent = '비밀번호 찾기'; 
+            findPwSubmitBtn.textContent = '비밀번호 찾기'; // Or '인증 완료'
 
             startEmailVerificationTimer();
         }
-        
-        // Phone Verification Process (Name ReadOnly Removed)
-        function startPhoneVerificationProcess(isResend) {
-            console.log('휴대폰 인증번호 발송 (구현 필요)');
-            phoneVerificationCodeGroup.style.display = 'block';
-            resendCodeBtnPhone.style.display = 'block';
-            
-            if (isResend) {
-                phoneSentMessage.textContent = '인증번호를 다시 발송해 드렸어요';
-            } else {
-                phoneSentMessage.textContent = '인증번호를 발송해 드렸어요';
-            }
-            phoneSentMessage.style.display = 'block';
 
-            idPhone.readOnly = true;
-            idPhone.closest('.input').classList.add('readonly');
-            phone.readOnly = true;
-            phone.closest('.input').classList.add('readonly');
-            
-            findPwSubmitBtn.textContent = '비밀번호 찾기'; 
-
-            startPhoneVerificationTimer();
-        }
-
+        // [NEW] Start Email Timer
         function startEmailVerificationTimer() {
             stopEmailVerificationTimer();
-            emailTimeRemaining = 600; 
+            emailTimeRemaining = 600; // 10 minutes (PDF 기준 10:00)
             emailVerificationTimerEl.textContent = '10:00';
             emailVerificationTimerEl.style.color = '#dc3545';
             emailVerificationCodeInput.value = '';
@@ -727,7 +687,7 @@
             emailVerificationCodeInput.closest('.input').classList.remove('error');
 
             findPwSubmitBtn.disabled = false;
-            resendCodeBtnEmail.disabled = true; 
+            resendCodeBtnEmail.disabled = true; // Disable resend initially
            
             emailVerificationTimer = setInterval(() => {
                 emailTimeRemaining--;
@@ -740,41 +700,9 @@
                     emailVerificationTimerEl.textContent = '00:00';
                     showError(emailVerificationCodeInput, errorVerificationCodeEmail, '인증 시간이 초과되었어요, 인증번호를 재발송 해주세요');
                     findPwSubmitBtn.disabled = true;
-                    resendCodeBtnEmail.disabled = false; 
-                } else if (emailTimeRemaining <= (600 - 10)) { 
+                    resendCodeBtnEmail.disabled = false; // Enable resend
+                } else if (emailTimeRemaining <= (600 - 10)) { // Enable resend after 10 sec (example)
                     resendCodeBtnEmail.disabled = false;
-                }
-            }, 1000);
-        }
-        
-        // Phone Timer Logic
-        function startPhoneVerificationTimer() {
-            stopPhoneVerificationTimer();
-            phoneTimeRemaining = 180; // 3 minutes
-            phoneVerificationTimerEl.textContent = '03:00';
-            phoneVerificationTimerEl.style.color = '#dc3545';
-            phoneVerificationCodeInput.value = '';
-
-            errorVerificationCodePhone.style.display = 'none';
-            phoneVerificationCodeInput.closest('.input').classList.remove('error');
-
-            findPwSubmitBtn.disabled = false;
-            resendCodeBtnPhone.disabled = true; 
-           
-            phoneVerificationTimer = setInterval(() => {
-                phoneTimeRemaining--;
-                const minutes = Math.floor(phoneTimeRemaining / 60);
-                const seconds = phoneTimeRemaining % 60;
-                phoneVerificationTimerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (phoneTimeRemaining <= 0) {
-                    stopPhoneVerificationTimer();
-                    phoneVerificationTimerEl.textContent = '00:00';
-                    showError(phoneVerificationCodeInput, errorVerificationCodePhone, '인증 시간이 초과되었어요, 인증번호를 재발송 해주세요');
-                    findPwSubmitBtn.disabled = true;
-                    resendCodeBtnPhone.disabled = false; 
-                } else if (phoneTimeRemaining <= (180 - 10)) { 
-                    resendCodeBtnPhone.disabled = false;
                 }
             }, 1000);
         }
@@ -783,10 +711,7 @@
             clearInterval(emailVerificationTimer);
         }
         
-        function stopPhoneVerificationTimer() {
-             clearInterval(phoneVerificationTimer);
-        }
-        
+        // [NEW] Helper functions for validation
         function showError(inputEl, errorEl, message) {
             inputEl.closest('.input').classList.add('error');
             errorEl.textContent = message;
@@ -794,9 +719,8 @@
         }
 
         function hideAllErrors() {
-            // Removed namePhone/errorNamePhone from arrays
-            const inputs = [idAuth, idEmail, email, emailVerificationCodeInput, idPhone, phone, phoneVerificationCodeInput];
-            const errors = [errorIdAuth, errorIdEmail, errorEmail, errorVerificationCodeEmail, errorIdPhone, errorPhone, errorVerificationCodePhone];
+            const inputs = [idAuth, idEmail, email, emailVerificationCodeInput];
+            const errors = [errorIdAuth, errorIdEmail, errorEmail, errorVerificationCodeEmail];
             
             inputs.forEach(input => {
                 if (input) input.closest('.input').classList.remove('error');
@@ -805,7 +729,6 @@
                 if (error) error.style.display = 'none';
             });
             emailSentMessage.style.display = 'none';
-            phoneSentMessage.style.display = 'none';
         }
         
         function validateEmail(email) {
@@ -813,24 +736,24 @@
             return re.test(String(email).toLowerCase());
         }
 
+        // [NEW] ID No Result Modal Logic
         function showNoResultModal() {
             openModal('id-no-result-modal-overlay');
         }
 
+        // --- Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Default Type: Foreigner
-            const defaultType = document.querySelector('#find-pw-type-tabs .type-tab-item:last-child');
-            if(defaultType) switchFindPwType(defaultType, 'foreign');
-
-            // Default Tab: Auth
-            const defaultTab = document.querySelector('#find-pw-tabs .single-chip[data-tab="auth"]');
+            // [MODIFIED] Set default tab to 'auth'
+            const defaultTab = document.querySelector('#find-pw-tabs .modal-tab-item[data-tab="auth"]');
             if (defaultTab) {
                 switchFindPwTab(defaultTab, 'auth');
             }
             
+            // Modal overlay click-to-close listeners
             document.querySelectorAll('.modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
+                         // Do not close find-id modal if result modal is open on top
                         if (overlay.id === 'find-pw-modal-overlay' && (document.getElementById('id-no-result-modal-overlay').classList.contains('active'))) {
                            return;
                         }
@@ -839,14 +762,15 @@
                 });
             });
             
+            // [MODIFIED] Add event listeners for form dirty check
             document.querySelectorAll('#find-pw-form input').forEach(el => {
                 el.addEventListener('input', () => { 
                     isFormDirty = true;
                     
-                    let currentTimerRemaining = (activeFindPwTab === 'email') ? emailTimeRemaining : phoneTimeRemaining;
+                    let currentTimerRemaining = emailTimeRemaining;
                     
                     if (el.id.includes('verification-code') && currentTimerRemaining <= 0) {
-                        // Timer expired, input ignored
+                        // Don't clear error
                     } else {
                         el.closest('.input').classList.remove('error');
                         const errorEl = el.closest('.form-group').querySelector('.disclaimer.error');
@@ -855,7 +779,8 @@
                         }
                     }
 
-                    if (el.id.includes('verification-code') && currentTimerRemaining > 0) {
+                    // [NEW] Enable submit button if code is entered and timer is active
+                    if (el.id === 'find-pw-verification-code-email' && emailTimeRemaining > 0) {
                         findPwSubmitBtn.disabled = false;
                     }
                 });
@@ -869,7 +794,16 @@
     <div class="disqus-thread-wrap">
         <div id="disqus_thread"></div>
         <script>
-            (function() { 
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
             s.src = 'https://sw-mobile.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());

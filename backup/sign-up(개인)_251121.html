@@ -112,7 +112,7 @@
             padding: 10px 12px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-between; /* [MODIFIED] Added */
         }
         .input input {
             width: 100%;
@@ -122,8 +122,8 @@
             font-size: 14px;
             color: black;
             line-height: 1.5;
-            flex: 1;
-            min-width: 0;
+            flex: 1; /* [MODIFIED] Added */
+            min-width: 0; /* [MODIFIED] Added */
         }
         .input input::placeholder { color: #c6c6c8; }
         
@@ -132,7 +132,7 @@
             border-color: #dc3545;
         }
 
-        /* [NEW] v12 마스터 가이드 'Search' 컴포넌트 패턴 */
+        /* [NEW] v12 마스터 가이드 'Search' 컴포넌트 패턴 (login.html 선례) */
         .input-icon-right {
             display: flex;
             gap: 4px;
@@ -143,7 +143,7 @@
             width: 18px;
             height: 18px;
             cursor: pointer;
-            display: none;
+            display: none; /* Hidden by default */
         }
         .btn-input-clear img {
             width: 100%;
@@ -203,15 +203,15 @@
             color: #333;
         }
         
-        /* Terms Agreement Layout */
+        /* [MODIFIED] Terms Agreement Layout (Request 5) */
         .terms-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 10px; /* [MODIFIED] Space between items */
         }
         .terms-group.optional {
-            margin-top: 20px;
-            padding-top: 20px;
+            margin-top: 20px; /* [MODIFIED] */
+            padding-top: 20px; /* [MODIFIED] */
             border-top: 1px solid #f0f0f0;
         }
 
@@ -227,7 +227,7 @@
             font-size: 13px;
             font-weight: 600;
             color: #555;
-            margin-bottom: 12px;
+            margin-bottom: 12px; /* [MODIFIED] */
         }
         
         .terms-item {
@@ -249,17 +249,17 @@
             display: flex;
             gap: 16px;
             margin-top: 12px;
-            padding-left: 28px;
+            padding-left: 28px; /* Indent under parent checkbox */
         }
 
-        /* Sticky Form Footer */
+        /* Sticky Form Footer (from precedents) */
         .sticky-form-footer {
             position: fixed;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
-            max-width: 480px;
+            max-width: 480px; /* Match .mobile-wrap */
             background: #ffffff;
             border-top: 1px solid #e0e0e0;
             box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
@@ -297,16 +297,17 @@
             border-radius: 8px;
             width: 100%;
             max-width: 360px;
-            max-height: 90vh;
+            max-height: 90vh; /* Limit height */
             display: flex;
             flex-direction: column;
             animation: scaleUpModal 0.2s ease-out;
-            overflow: hidden;
+            overflow: hidden; /* [MODIFIED] Added */
         }
         @keyframes scaleUpModal {
             from { transform: scale(0.9); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
+        /* [MODIFIED] v12 Standard Modal Header */
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -316,6 +317,7 @@
             position: relative;
             height: 57px;
         }
+        /* [MODIFIED] No title in header for login/signup */
         .modal-header.no-title {
             justify-content: flex-end;
             padding: 12px 12px 0 12px;
@@ -339,7 +341,7 @@
             transform: translateY(-50%);
         }
         .modal-header.no-title .btn-modal-close {
-            position: static;
+            position: static; /* [MODIFIED] */
             transform: none;
             color: #888;
         }
@@ -350,12 +352,13 @@
             overflow-y: auto;
             flex-grow: 1;
         }
+        /* [MODIFIED] Body padding for login/signup */
         .modal-body.form-modal {
              padding: 16px 24px 32px 24px;
         }
 
 
-        /* Alert Modal Specifics */
+        /* Alert Modal Specifics (from v12 guide) */
         .alert-modal {
             padding: 20px;
             text-align: center;
@@ -381,6 +384,7 @@
             cursor: pointer;
             transition: all 0.2s;
             font-weight: 600;
+            /* [MODIFIED] Added flex centering */
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -389,19 +393,19 @@
         .alert-modal .modal-button-secondary { background: white; color: #424242; border: 1px solid #e8e8e9; }
         .alert-modal .modal-button:active { transform: scale(0.98); }
 
-        /* Email Combobox */
+        /* [MODIFIED] Email Combobox (Request 4) */
         .combobox-wrapper {
             position: relative;
         }
         .combobox-dropdown {
             position: absolute;
-            top: calc(100% + 2px);
+            top: calc(100% + 2px); /* Position below the input */
             left: 0;
             right: 0;
             background: #fff;
             border: 1px solid #e8e8e9;
             border-radius: 6px;
-            z-index: 600;
+            z-index: 600; /* [MODIFIED] Higher than sticky footer */
             max-height: 220px;
             overflow-y: auto;
             display: none;
@@ -451,15 +455,9 @@
             font-size: 14px;
             color: #555;
             line-height: 1.6;
-            margin-bottom: 24px;
-        }
-        /* Login Button in Completion Screen */
-        .btn-login-inline {
-            width: 100%;
-            margin-top: 12px;
         }
         
-        /* Signup Type Modal */
+        /* [MODIFIED] Signup Type Modal (Request 1 & 6) */
         .login-title {
             font-size: 20px;
             font-weight: 700;
@@ -477,8 +475,9 @@
         .signup-options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 12px; /* [MODIFIED] Space between buttons */
         }
+        /* [NEW] Signup Option Button Style (Request 6) */
         .signup-option-button {
             display: flex;
             align-items: center;
@@ -500,7 +499,7 @@
         .signup-icon {
             width: 24px;
             height: 24px;
-            color: #4e6ee4;
+            color: #4e6ee4; /* Main brand color for icon */
             flex-shrink: 0;
         }
         .signup-icon svg {
@@ -526,7 +525,7 @@
              stroke-width: 2.5;
         }
         
-        /* Divider Text */
+        /* 텍스트 구분선 (login.html 선례) */
         .divider-text {
             display: flex;
             align-items: center;
@@ -547,7 +546,7 @@
         .divider-text:not(:empty)::after {
             margin-left: .5em;
         }
-        /* Social Login */
+        /* 소셜 로그인 (login.html 선례) */
         .social-login-list {
             display: flex;
             justify-content: center;
@@ -698,8 +697,8 @@
                             </button>
                         </div>
                     </div>
-                    <p class="disclaimer error" id="error-userid">아이디를 입력해주세요</p>
                     <p class="disclaimer">* 영문/숫자를 사용하여 6~15자리로 입력해주세요</p>
+                    <p class="disclaimer error" id="error-userid">아이디를 입력해주세요</p>
                 </div>
 
                 <div class="form-group">
@@ -720,8 +719,8 @@
                             </button>
                         </div>
                     </div>
-                    <p class="disclaimer error" id="error-password">비밀번호를 입력해주세요</p>
                     <p class="disclaimer">* 영문/숫자/특수문자 중 2가지 이상을 포함하여 8~16자리로 입력해주세요</p>
+                    <p class="disclaimer error" id="error-password">비밀번호를 입력해주세요</p>
                 </div>
                 
                 <div class="form-group">
@@ -774,18 +773,20 @@
                     </div>
                     <h2 class="completion-title">회원가입 완료!</h2>
                     <p class="completion-subtitle">로그인 후 성원애드피아의<br>다양한 서비스를 이용해보세요</p>
-                    <button class="dark-button btn-login-inline" onclick="location.href='login.html';">로그인</button>
                 </div>
             </div>
         </main>
         
         <div class="sticky-form-footer" id="footer-terms" style="display: none;">
-            <button class="dark-button btn" id="btn-to-auth" onclick="completeAuth()" disabled>본인인증</button>
+            <button class="dark-button btn" id="btn-to-auth" onclick="openAuthModal()" disabled>본인인증 하기</button>
         </div>
         <div class="sticky-form-footer" id="footer-info" style="display: none;">
             <button class="dark-button btn" id="btn-to-complete" onclick="validateInfoForm()">회원가입 완료</button>
         </div>
+        <div class="sticky-form-footer" id="footer-complete" style="display: none;">
+            <button class="dark-button btn" id="btn-to-login" onclick="location.href='login.html';">로그인하기</button>
         </div>
+    </div>
 
     <div class="modal-overlay" id="signup-type-modal">
         <div class="modal-content">
@@ -830,7 +831,7 @@
                     </button>
                 </div>
                 
-                <div class="divider-text">간편 회원가입</div>
+                <div class="divider-text">간편 로그인/회원가입</div>
 
                 <div class="social-login-list">
                     <div class="social-login-item" onclick="alert('카카오 로그인')">
@@ -853,6 +854,17 @@
         </div>
     </div>
 
+
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-content alert-modal" data-name="Alert">
+            <div class="modal-title">본인인증</div>
+            <div class="modal-message">본인인증이 완료되었어요</div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-primary" onclick="completeAuth()">확인</button>
+            </div>
+        </div>
+    </div>
+    
     <div class="modal-overlay" id="cancel-modal">
         <div class="modal-content alert-modal" data-name="Alert">
             <div class="modal-title">안내</div>
@@ -869,7 +881,7 @@
         let isFormDirty = false;
         const mainHeaderTitle = document.getElementById('main-header-title');
 
-        // --- Page Navigation ---
+        // --- [NEW] Page Navigation ---
         function showPage(pageId, title) {
             // 1. Hide all pages and footers
             document.querySelectorAll('.page-content').forEach(page => page.style.display = 'none');
@@ -877,7 +889,6 @@
 
             // 2. Show the target page and its footer
             const pageToShow = document.getElementById(pageId);
-            // Completion page has no sticky footer in this modified version
             const footerToShow = document.getElementById(pageId.replace('page-', 'footer-'));
             
             if (pageToShow) {
@@ -892,18 +903,8 @@
             if (mainHeaderTitle) {
                 mainHeaderTitle.textContent = title;
             }
-
-            // 4. [NEW] Toggle Back Button Visibility for Completion Page
-            const backButton = document.querySelector('.header-left button');
-            if (backButton) {
-                if (pageId === 'page-complete') {
-                    backButton.style.visibility = 'hidden';
-                } else {
-                    backButton.style.visibility = 'visible';
-                }
-            }
             
-            // 5. Reset dirty flag when moving to a new page
+            // 4. Reset dirty flag when moving to a new page
             isFormDirty = false;
         }
         
@@ -921,7 +922,6 @@
             if (currentPage === 'page-info') {
                 showPage('page-terms', '개인 회원가입');
             } else if (currentPage === 'page-complete') {
-                 // Should not happen as back button is hidden, but for safety
                  showPage('page-info', '개인 회원가입');
             } else if (currentPage === 'page-terms') {
                 // 약관 동의 페이지에서 뒤로가면 다시 회원가입 유형 선택 모달
@@ -1033,16 +1033,19 @@
             document.getElementById('btn-to-auth').disabled = !allRequiredChecked;
         }
         
-        // --- [MODIFIED] Auth Logic ---
-        // [Request 1] Modal Removed, direct transition
+        // --- [MODAL] Auth Logic ---
+        function openAuthModal() {
+            openModal('auth-modal');
+        }
+        
         function completeAuth() {
-            // Skip modal, go directly to next page
+            closeModal('auth-modal');
             showPage('page-info', '개인 회원가입');
         }
 
         // --- [PAGE 2] Info Form Logic ---
         
-        // Input clear and visibility toggle (from login.html)
+        // [NEW] Input clear and visibility toggle (from login.html)
         function handleInput(input) {
             const wrapper = input.closest('.input');
             wrapper.classList.toggle('has-text', input.value.trim() !== '');
@@ -1151,7 +1154,7 @@
             }
         }
 
-        // Email Combobox Logic
+        // [MODIFIED] Email Combobox Logic (Request 4)
         const emailDomains = ['naver.com', 'gmail.com', 'daum.net', 'hanmail.net'];
         const emailInput = document.getElementById('email');
         const emailDropdown = document.getElementById('email-dropdown');
@@ -1194,8 +1197,8 @@
         function selectEmailSuggestion(fullEmail) {
             emailInput.value = fullEmail;
             emailDropdown.style.display = 'none';
-            handleInput(emailInput); 
-            validateField(emailInput, 'email'); 
+            handleInput(emailInput); // [MODIFIED] Update clear button state
+            validateField(emailInput, 'email'); // Re-validate
         }
         
         function showEmailDropdown() {
@@ -1212,6 +1215,7 @@
 
         // --- Initialize ---
         document.addEventListener('DOMContentLoaded', () => {
+            // [MODIFIED] Show the signup type modal first (Request 1)
             mainHeaderTitle.textContent = ''; // 초기 헤더 타이틀 비우기
             openModal('signup-type-modal');
             
@@ -1220,8 +1224,8 @@
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
                          if (e.target.id === 'signup-type-modal') {
-                             closeModal(overlay.id); 
-                         } else if (e.target.id !== 'auth-modal') { // auth-modal removed from usage but keeping safe check
+                             closeModal(overlay.id); // If they close the first modal, go back
+                         } else if (e.target.id !== 'auth-modal') {
                              closeModal(overlay.id);
                          }
                     }
@@ -1241,8 +1245,8 @@
         <div id="disqus_thread"></div>
         <script>
             /**
-            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
             /*
             var disqus_config = function () {
             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
