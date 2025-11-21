@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문/접수 상태별 케이스 정의 (입고/배송 상세 추가)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS & Order List Precedent */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        }
+        ul, li { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%; max-width: 480px; margin: 0 auto; background-color: #ffffff; padding-bottom: 40px; min-height: 100vh;
+        }
+
+        /* Header */
+        .app-header-sub {
+            height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100;
+        }
+        .header-left { flex: 1; display: flex; justify-content: flex-start; }
+        .header-title { flex: 3; font-size: 18px; font-weight: 600; text-align: center; color: #212121; }
+        .header-right { flex: 1; display: flex; justify-content: flex-end; }
+        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; color: #333; }
+
+        /* Container */
+        .sw-container { padding: 16px; }
+
+        /* Guide Titles */
+        .guide-section-title {
+            font-size: 15px; font-weight: 700; color: #212121; margin: 32px 0 12px 0; border-bottom: 2px solid #333; padding-bottom: 8px;
+        }
+        .guide-section-title:first-child { margin-top: 0; }
+        .guide-subtitle {
+            font-size: 13px; color: #666; margin-bottom: 8px; display: block; font-weight: 500;
+        }
+
+        /* [Core Component] Common Table Card */
+        .common-table-card {
+            width: 100%; background: white; border: 1px solid #e8e8e9; border-radius: 6px; padding: 15px; position: relative; margin-bottom: 12px; cursor: pointer; transition: background-color 0.2s;
+        }
+        .common-table-card:hover { background-color: #f9f9f9; }
+
+        /* Header Row */
+        .card-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
+        
+        /* Date & Order Number Link */
+        .card-date-order { font-size: 14px; color: #333; font-weight: 400; }
+        .order-link {
+            font-weight: 700;
+            color: #4e6ee4; /* Link Blue */
+            text-decoration: underline;
+            margin-left: 4px;
+            cursor: pointer;
+        }
+        
+        /* Badges - General Style */
+        .card-status-badge {
+            font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 4px; flex-shrink: 0; margin-left: 8px; border: 1px solid transparent;
+            display: inline-flex; align-items: center; gap: 4px; /* For dot alignment */
+        }
+
+        /* Badge: Status Waiting (Blinking Dot) */
+        .card-status-badge.status-waiting { 
+            background-color: #fff0f0; color: #dc3545; border-color: #f5c6cb; 
+        }
+        .card-status-badge.status-waiting::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #dc3545;
+            animation: dot-blink 1.2s infinite ease-in-out;
+        }
+        
+        /* Keyframes for Blinking */
+        @keyframes dot-blink {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Other Badges */
+        .card-status-badge.status-in-progress { background-color: #e6f7ff; color: #007bff; border-color: #b8dfff; }
+        .card-status-badge.status-complete { background-color: #f8f9fa; color: #495057; border-color: #dee2e6; }
+        .card-status-badge.status-shipping { background-color: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
+        .card-status-badge.status-special { background-color: #f3e8ff; color: #7e22ce; border-color: #d8b4fe; }
+        /* [NEW] Black Badge */
+        .card-status-badge.status-black {
+            background-color: #333; color: white; border-color: #333;
+        }
+        /* [NEW] Category Badge (별도견적 등) */
+        .card-status-badge.status-category {
+            background-color: #f5f5f6; color: #555; border-color: #e0e0e0;
+        }
+
+        /* Status Payment (Blue Outline + Blinking Dot) */
+        .card-status-badge.status-payment {
+            background-color: white; color: #4e6ee4; border: 1px solid #4e6ee4;
+        }
+        .card-status-badge.status-payment::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #4e6ee4;
+            animation: dot-blink-blue 1.2s infinite ease-in-out;
+        }
+        @keyframes dot-blink-blue {
+            0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; }
+        }
+
+
+        /* Meta Info Group */
+        .card-meta-group { 
+            display: flex; flex-direction: column; gap: 2px; margin-top: 8px; 
+            padding-bottom: 8px; border-bottom: 1px dashed #f0f0f0; margin-bottom: 8px;
+        }
+        .card-meta-row { display: flex; align-items: center; font-size: 13px; color: #555; line-height: 1.5; }
+        .card-meta-row strong { font-weight: 600; color: #333; margin-right: 8px; }
+        .meta-label { color: #888; margin-right: 4px; }
+
+        /* Title & Price */
+        .item-title {
+            font-size: 16px; font-weight: 600; color: #212121; line-height: 1.4;
+            overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        }
+        .item-price-info { margin-top: 8px; font-size: 16px; font-weight: 700; color: #212121; display: flex; justify-content: space-between; align-items: baseline; }
+        
+        .item-price-info .pending-price { font-size: 14px; font-weight: 600; color: #dc3545; }
+        .item-price-info .add-price { font-size: 14px; font-weight: 600; color: #dc3545; }
+        .item-price-info .price-text-blue { font-size: 13px; font-weight: 600; color: #4e6ee4; }
+
+        /* [NEW] Placeholder text for quote waiting */
+        .price-placeholder {
+            font-size: 13px;
+            color: #888;
+            font-weight: 400;
+        }
+
+        /* Shipping Info */
+        .shipping-info-row { 
+            font-size: 13px; color: #555; margin-top: 4px; line-height: 1.5;
+            display: flex; align-items: center; justify-content: flex-end; gap: 4px; 
+        }
+        .shipping-info-row strong { font-weight: 600; color: #333; }
+        .shipping-info-row svg { width: 15px; height: 15px; color: #888; }
+
+        /* [NEW] Status Text Row (For Design Request) */
+        .status-text-row {
+            font-size: 13px;
+            color: #4e6ee4; /* Primary Blue */
+            font-weight: 500;
+            margin-top: 4px;
+            display: block;
+        }
+        .status-text-row span { color: #333; }
+
+        /* [NEW] Mini Button for Details */
+        .btn-mini {
+            font-size: 11px;
+            padding: 2px 6px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid #d7d7d7;
+            background-color: white;
+            color: #555;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 400;
+            margin-left: 2px;
+        }
+
+        /* Footer */
+        .card-footer { 
+            padding-top: 15px; margin-top: 15px; border-top: 1px solid #f0f0f0; 
+            display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap;
+        }
+        .white-button {
+            background: white; color: #424242; border: 1px solid #e8e8e9; border-radius: 6px;
+            font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+            display: inline-flex; align-items: center; justify-content: center;
+            height: 36px; padding: 0 12px;
+        }
+        .white-button:active { transform: scale(0.98); background: #f9f9f9; }
+        
+        /* Disabled Button Style */
+        .white-button:disabled,
+        .white-button.disabled {
+            background-color: #f5f5f5;
+            color: #a0a0a0;
+            border-color: #e0e0e0;
+            cursor: not-allowed;
+        }
+        .white-button:disabled:active { transform: none; }
+
+        .primary-button {
+            background: #4e6ee4; color: white; border: none; border-radius: 6px;
+            font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+            display: inline-flex; align-items: center; justify-content: center;
+            height: 36px; padding: 0 12px;
+        }
+        .primary-button:active { transform: scale(0.98); background: #3d5dd3; }
+        
+        /* Dark Button (Black) for Special Actions */
+        .dark-button {
+            background: #222; color: white; border: none; border-radius: 6px;
+            font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+            display: inline-flex; align-items: center; justify-content: center;
+            height: 36px; padding: 0 12px;
+        }
+        .dark-button:active { transform: scale(0.98); background: #000; }
+
+        .btn-alert { color: #dc3545; border-color: #f5c6cb; }
+
+        /* Disabled Card */
+        .common-table-card.disabled { opacity: 0.6; background-color: #f9f9f9; }
+        .common-table-card.disabled .item-title { color: #888; text-decoration: line-through; }
+
+        /* [NEW] 3순위 버튼 (회색 배경 - 취소/삭제 등 낮은 중요도) */
+        .gray-button {
+            background: #fff;
+            color: #8d8d8d;
+            border: 1px solid #e6e6e6;
+            border-radius: 6px;
+            font-size: 13px; /* v12 표준 */
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px; /* v12 표준 높이 */
+            padding: 0 12px;
+            min-width: fit-content;
+        }
+        .gray-button:hover { background: #eeeeee; }
+        .gray-button:active { transform: scale(0.98); background: #e0e0e0; }
+        
+        /* 비활성화 상태 */
+        .gray-button:disabled,
+        .gray-button.disabled {
+            background-color: #fafafa;
+            color: #cccccc;
+            cursor: not-allowed;
+        }
+        .gray-button:disabled:active { transform: none; }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 6l-6 6l6 6" /></svg>
+                </button>
+            </div>
+            <h1 class="header-title">주문 상태별 케이스 정의</h1>
+            <div class="header-right"></div>
+        </header>
+
+        <main class="sw-container">
+
+            <div class="guide-section-title">[결제]</div>
+            
+            <span class="guide-subtitle">Case 1-1. 결제 대기 (기본)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <span class="card-status-badge status-payment">결제대기</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>삼성SDS</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info">
+                    <span><strong>₩8,500</strong></span>
+                    <span class="price-text-blue">(결제대기 금액 ₩3,500)</span>
+                </div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                    <button type="button" class="white-button">디자인 파일 변경</button>
+                    <button type="button" class="primary-button">결제하기</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 1-2. 추가결제 대기</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <span class="card-status-badge status-payment">추가결제 대기</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>삼성SDS</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info">
+                    <span><strong>₩8,500</strong></span>
+                    <span class="price-text-blue">(추가결제 대기 금액 ₩3,500)</span>
+                </div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                    <button type="button" class="white-button">디자인 파일 변경</button>
+                    <button type="button" class="primary-button">결제하기</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 1-3. 동일 접수번호 분할</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321-01</a></span>
+                    <span class="card-status-badge status-payment">결제대기</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[명함] 일반명함 스노우 250g (홍길동)</div>
+                <div class="item-price-info">
+                    <span><strong>₩10,000</strong></span>
+                    <span class="price-text-blue">(결제대기 금액 ₩10,000)</span>
+                </div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    배송: <span>택배 (착불)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                    <button type="button" class="white-button">디자인 파일 변경</button>
+                    <button type="button" class="primary-button">결제하기</button>
+                </div>
+            </article>
+            
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321-02</a></span>
+                    <span class="card-status-badge status-payment">결제대기</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[명함] 일반명함 스노우 250g (이순신)</div>
+                <div class="item-price-info">
+                    <span><strong>₩10,000</strong></span>
+                    <span class="price-text-blue">(결제대기 금액 ₩10,000)</span>
+                </div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    배송: <span>택배 (착불)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                    <button type="button" class="white-button">디자인 파일 변경</button>
+                    <button type="button" class="primary-button">결제하기</button>
+                </div>
+            </article>
+
+
+            <div class="guide-section-title">[접수]</div>
+
+            <span class="guide-subtitle">Case 2-1. 접수 대기</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654304</a></span>
+                    <span class="card-status-badge status-in-progress">접수대기</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>(배정중)</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객:</span> <strong>LG CNS</strong>
+                    </div>
+                </div>
+                <div class="item-title">[봉투] 대봉투 모조 120g 흑백</div>
+                <div class="item-price-info"><span><strong>₩65,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                    <button type="button" class="white-button">디자인 파일 변경</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 2-2. 접수완료</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-07 <a href="#" class="order-link">SW654305</a></span>
+                    <span class="card-status-badge status-in-progress">접수완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                    <button type="button" class="white-button">1:1 문의</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 2-3. 파일 재업로드 대기</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654303</a></span>
+                    <span class="card-status-badge status-waiting">파일 재업로드 대기</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                    <button type="button" class="primary-button">파일 재업로드</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 2-4. 파일 재업로드 완료</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654303</a></span>
+                    <span class="card-status-badge status-in-progress">접수완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                    <button type="button" class="white-button" disabled>재업로드 완료</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 2-5. 파일 검수 대기</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <span class="card-status-badge status-in-progress">파일 검수 대기</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>삼성SDS</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                    <button type="button" class="white-button">파일 검수</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 2-6. 파일 검수 완료</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <span class="card-status-badge status-in-progress">접수완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>삼성SDS</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                    <button type="button" class="white-button" disabled>파일 검수 완료</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 2-7. 완제품 상품 준비 중 (인커밍/자재)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654322</a></span>
+                    <span class="card-status-badge status-in-progress">상품준비중</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[MD] 기성품 봉투 (100매 묶음)</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">주문 취소</button>
+                    <button type="button" class="white-button">재주문</button>
+                </div>
+            </article>
+
+            <div class="guide-section-title">[생산]</div>
+
+            <span class="guide-subtitle">Case 3-1. 생산 중 (조판)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-06 <a href="#" class="order-link">SW654306</a></span>
+                    <span class="card-status-badge status-in-progress">생산 중(조판)</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>박제작</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>현대오토에버</strong>
+                    </div>
+                </div>
+                <div class="item-title">[명함] 엑스트라 누보 350g</div>
+                <div class="item-price-info"><span><strong>₩35,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    방문수령(충무로)
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+            
+            <span class="guide-subtitle">Case 3-2. 생산 보류</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-06 <a href="#" class="order-link">SW654306</a></span>
+                    <span class="card-status-badge status-complete">생산보류</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>박제작</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>현대오토에버</strong>
+                    </div>
+                </div>
+                <div class="item-title">[명함] 엑스트라 누보 350g</div>
+                <div class="item-price-info"><span><strong>₩35,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    방문수령(충무로)
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">1:1 문의</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+            
+            <span class="guide-subtitle">Case 3-3. 폐기 처리</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-06 <a href="#" class="order-link">SW654306</a></span>
+                    <span class="card-status-badge status-complete">폐기처리</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>박제작</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>현대오토에버</strong>
+                    </div>
+                </div>
+                <div class="item-title">[명함] 엑스트라 누보 350g</div>
+                <div class="item-price-info"><span><strong>₩35,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    방문수령(충무로)
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">1:1 문의</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+            
+            <span class="guide-subtitle">Case 3-4. 폐기 처리 (재작업)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-06 <a href="#" class="order-link">SW654306</a></span>
+                    <span class="card-status-badge status-complete">폐기처리(재작업)</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>박제작</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>현대오토에버</strong>
+                    </div>
+                </div>
+                <div class="item-title">[명함] 엑스트라 누보 350g</div>
+                <div class="item-price-info"><span><strong>₩35,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    방문수령(충무로)
+                </div>
+                <div class="card-footer" style="flex-direction: column; align-items: flex-end; gap: 8px;">
+                    <div style="display: flex; gap: 8px;">
+                        <button type="button" class="white-button">1:1 문의</button>
+                        <button type="button" class="white-button">동일 옵션으로 접수</button>
+                    </div>
+                    <span style="font-size: 12px; color: #888;">재작업 접수번호: SW654322</span>
+                </div>
+            </article>
+
+            <div class="guide-section-title">[입고/배송]</div>
+
+            <span class="guide-subtitle">Case 4-1. 포장 완료 (출고 대기)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-05 <a href="#" class="order-link">SW654308</a></span>
+                    <span class="card-status-badge status-in-progress">포장완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[포스터] A2 아트지 150g</div>
+                <div class="item-price-info"><span><strong>₩200,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    방문수령(충무로)
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 4-2. 배송 중 (택배)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-05 <a href="#" class="order-link">SW654309</a></span>
+                    <span class="card-status-badge status-shipping">배송중</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[배너] PET 배너 + 거치대</div>
+                <div class="item-price-info"><span><strong>₩45,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">배송 조회</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 4-3. 배송 완료 (택배 도착)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-01 <a href="#" class="order-link">SW654310</a></span>
+                    <span class="card-status-badge status-complete">배송완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>이완료</strong>
+                    </div>
+                </div>
+                <div class="item-title">[스티커] 원형 도무송 50x50</div>
+                <div class="item-price-info"><span><strong>₩22,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">리뷰 작성</button>
+                    <button type="button" class="white-button">1:1 문의</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 4-4. 입고 완료 (지점 수령)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-05 <a href="#" class="order-link">SW654309</a></span>
+                    <span class="card-status-badge status-shipping">입고완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[배너] PET 배너 + 거치대</div>
+                <div class="item-price-info"><span><strong>₩45,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    방문수령(충무로점)
+                </div>
+                <div class="card-footer" style="flex-direction: column; align-items: flex-end; gap: 8px;">
+                    <div style="display: flex; gap: 8px;">
+                        <button type="button" class="white-button">충무로점 위치</button>
+                        <button type="button" class="white-button">동일 옵션으로 접수</button>
+                    </div>
+                    <span style="font-size: 12px; color: #dc3545;">수령기한 2025-10-31</span>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 4-5. 수령 완료 (방문 수령함)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-01 <a href="#" class="order-link">SW654310</a></span>
+                    <span class="card-status-badge status-black">수령완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>이완료</strong>
+                    </div>
+                </div>
+                <div class="item-title">[스티커] 원형 도무송 50x50</div>
+                <div class="item-price-info"><span><strong>₩22,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    방문수령(충무로점)
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">리뷰 작성</button>
+                    <button type="button" class="white-button">1:1 문의</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+
+            <div class="guide-section-title">[입고/배송]</div>
+
+            <span class="guide-subtitle">Case 4-1. 포장 완료 (출고 대기)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-05 <a href="#" class="order-link">SW654308</a></span>
+                    <span class="card-status-badge status-in-progress">포장완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[포스터] A2 아트지 150g</div>
+                <div class="item-price-info"><span><strong>₩200,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    방문수령(충무로)
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                    <button type="button" class="white-button">출고 보류</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 4-2. 배송 중 (택배)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-05 <a href="#" class="order-link">SW654309</a></span>
+                    <span class="card-status-badge status-shipping">배송중</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[배너] PET 배너 + 거치대</div>
+                <div class="item-price-info"><span><strong>₩45,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">배송 조회</button>
+                    <button type="button" class="white-button">출고 완료</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 4-3. 입고 완료 (지점 수령)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-05 <a href="#" class="order-link">SW654309</a></span>
+                    <span class="card-status-badge status-shipping">입고완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[배너] PET 배너 + 거치대</div>
+                <div class="item-price-info"><span><strong>₩45,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    방문수령(충무로점)
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">수령 위치</button>
+                    <button type="button" class="white-button">출고 완료</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 4-4. 배송 완료</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-01 <a href="#" class="order-link">SW654310</a></span>
+                    <span class="card-status-badge status-complete">배송완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>이완료</strong>
+                    </div>
+                </div>
+                <div class="item-title">[스티커] 원형 도무송 50x50</div>
+                <div class="item-price-info"><span><strong>₩22,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>택배 (착불)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">리뷰 작성</button>
+                    <button type="button" class="white-button">1:1 문의</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 4-5. 수령 완료</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-01 <a href="#" class="order-link">SW654310</a></span>
+                    <span class="card-status-badge status-complete">수령완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>이완료</strong>
+                    </div>
+                </div>
+                <div class="item-title">[스티커] 원형 도무송 50x50</div>
+                <div class="item-price-info"><span><strong>₩22,000</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                    방문수령(충무로점)
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="dark-button">리뷰 작성</button>
+                    <button type="button" class="white-button">1:1 문의</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+
+            <div class="guide-section-title">[추가 요청]</div>
+
+            <span class="guide-subtitle">Case 5-1. 샘플 발송 대기</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <span class="card-status-badge status-in-progress">접수 대기</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                    <button type="button" class="primary-button">샘플 송장번호 입력</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 5-2. 샘플 발송 완료 (송장 입력됨)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <span class="card-status-badge status-in-progress">접수 대기</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                    <button type="button" class="white-button">샘플 송장번호 수정</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 5-3. 감리 요청 대기</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <span class="card-status-badge status-in-progress">생산중(출력)</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">감리 일정 선택</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 5-4. 감리 일정 확정</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <span class="card-status-badge status-in-progress">생산중(출력)</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">감리 일정 확인</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 5-5. 디자인 신청 접수 (작업 대기)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <span class="card-status-badge status-in-progress">접수 대기</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="status-text-row">
+                    디자인 신청 현황: <span>작업 대기 중</span>
+                    <button type="button" class="btn-mini">상세</button>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 5-6. 디자인 작업 완료 (검수 필요)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <span class="card-status-badge status-in-progress">접수 대기</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="status-text-row">
+                    디자인 신청 현황: <span>작업 완료</span>
+                    <button type="button" class="btn-mini">상세</button>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button" disabled>접수 취소</button>
+                    <button type="button" class="primary-button">디자인 검수</button>
+                </div>
+            </article>
+
+            <div class="guide-section-title">[별도 견적]</div>
+
+            <span class="guide-subtitle">Case 6-1. 견적 대기 (신청 접수됨)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <div class="badge-group">
+                        <span class="card-status-badge status-category">별도견적</span>
+                        <span class="card-status-badge status-complete">견적대기</span>
+                    </div>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info">
+                    <span class="price-placeholder">견적 산출 후 금액이 표시돼요</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">디자인 파일 변경</button>
+                    <button type="button" class="white-button" disabled>접수 취소</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 6-2. 결제 대기 (견적 완료)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <div class="badge-group">
+                        <span class="card-status-badge status-category">별도견적</span>
+                        <span class="card-status-badge status-payment">결제대기</span>
+                    </div>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info">
+                    <span><strong>₩8,500</strong></span>
+                    <span class="price-text-blue">(배송비 별도)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="primary-button">결제하기</button>
+                    <button type="button" class="white-button">재견적 신청</button>
+                    <button type="button" class="white-button">디자인 파일 변경</button>
+                    <button type="button" class="gray-button">접수 취소</button>
+                </div>
+            </article>
+
+
+            <div class="guide-section-title">[취소]</div>
+            
+            <span class="guide-subtitle">Case 7-1. 접수 취소 가능 (생산 전)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <span class="card-status-badge status-in-progress">접수 완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="gray-button">접수 취소</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 7-2. 취소 신청 (처리 대기)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order">2025-07-08 <a href="#" class="order-link">SW654321</a></span>
+                    <span class="card-status-badge status-complete">취소신청</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info"><span><strong>₩8,500</strong></span></div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">취소 상세</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 7-3. 취소 완료 (최종)</span>
+            <article class="common-table-card">
+                <div class="card-header-row">
+                    <span class="card-date-order" style="text-decoration: line-through; color: #888;">2025-07-08 <a href="#" class="order-link" style="color:#888;">SW654321</a></span>
+                    <span class="card-status-badge status-black">취소완료</span>
+                </div>
+                <div class="card-meta-group">
+                    <div class="card-meta-row">
+                        <span class="meta-label">담당자</span> <strong>김성원</strong>
+                        <span class="meta-label" style="margin-left: 12px;">대상고객</span> <strong>XT(내회사)</strong>
+                    </div>
+                </div>
+                <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                <div class="item-price-info">
+                    <span style="color: #888; text-decoration: line-through;"><strong>₩8,500</strong></span>
+                </div>
+                <div class="shipping-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /><path d="M3 9l4 0" /></svg>
+                    배송: <span>선불택배 (₩2,500)</span>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="white-button">취소 상세</button>
+                    <button type="button" class="white-button">동일 옵션으로 접수</button>
+                </div>
+            </article>
+            
+        </main>
+    </div>
+</body>
+</html>

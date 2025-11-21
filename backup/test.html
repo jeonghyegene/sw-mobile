@@ -1,5 +1,62 @@
 <!DOCTYPE html>
 <html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Guide Maker (Shadow DOM Ver.)</title>
+    <style>
+        /* 전체 레이아웃 (수정 불필요) */
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: sans-serif; }
+        .split-container { display: flex; width: 100%; height: 100%; }
+        
+        /* 왼쪽: 미리보기 영역 */
+        .preview-pane { flex: 1; background: #222; display: flex; flex-direction: column; border-right: 1px solid #444; }
+        .pane-header { background: #333; color: #fff; padding: 12px 16px; font-weight: bold; font-size: 14px; border-bottom: 1px solid #555; display: flex; justify-content: space-between; }
+        iframe#preview-frame { flex: 1; width: 100%; border: none; background: #fff; }
+
+        /* 오른쪽: 가이드 영역 */
+        .guide-pane { flex: 1; background: #f4f5f7; overflow-y: auto; padding: 40px; box-sizing: border-box; }
+        .guide-title { font-size: 24px; font-weight: 800; margin-bottom: 30px; color: #333; padding-bottom: 10px; border-bottom: 2px solid #333; }
+        
+        /* 가이드 아이템 컨테이너 */
+        .guide-item { margin-bottom: 60px; }
+        .guide-label { display: inline-block; background: #333; color: #fff; padding: 6px 12px; border-radius: 4px; font-size: 14px; font-weight: bold; margin-bottom: 15px; }
+        .guide-desc { color: #666; font-size: 14px; margin-bottom: 10px; margin-top: -5px; }
+        
+        /* Shadow DOM 호스트 스타일 (테두리 등 꾸밈) */
+        .shadow-host {
+            display: block;
+            border: 1px dashed #ccc;
+            background: #fff; /* 모달 배경 확보 */
+            padding: 20px;
+            border-radius: 8px;
+            /* 내부 모달이 튀어나가지 않도록 */
+            overflow: hidden; 
+            position: relative;
+            min-height: 200px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="split-container">
+        <div class="preview-pane">
+            <div class="pane-header">
+                <span>📱 Live Preview (기능 작동됨)</span>
+                <span style="color:#aaa; font-weight:normal; font-size:12px;">*검색/체크박스 테스트 해보세요</span>
+            </div>
+            <iframe id="preview-frame"></iframe>
+        </div>
+
+        <div class="guide-pane">
+            <h1 class="guide-title">UI Component Guide</h1>
+            <div id="guide-content"></div>
+        </div>
+    </div>
+
+    <script id="raw-source" type="text/html">
+<!DOCTYPE html>
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -360,10 +417,11 @@
         .text-select-button {
             display: inline-flex;
             align-items: center;
-            gap: 2px;
+            gap: 4px;
             cursor: pointer;
             transition: opacity 0.2s;
             user-select: none;
+            padding: 8px 0;
         }
 
         .text-select-button:hover {
@@ -377,23 +435,22 @@
         .text-select-button-text {
             font-size: 14px;
             color: #2c2c2c;
-            font-weight: 400;
+            font-weight: 500;
             white-space: nowrap;
         }
 
         .text-select-button-arrow {
-            width: 12px;
-            height: 12px;
-            transition: transform 0.2s;
+            width: 16px;
+            height: 16px;
+            color: #555;
         }
-        
+
         .text-select-button-arrow svg {
-            transition: transform 0.2s; 
-            transform: translateY(-2px);
+            transition: transform 0.2s;
         }
 
         .text-select-button.open .text-select-button-arrow svg {
-            transform: translateY(-3px) rotate(-180deg);
+            transform: rotate(-180deg);
         }
 
         /* Search */
@@ -942,11 +999,6 @@
             color: black;
             line-height: 1.5;
         }
-        .input button { 
-            width: 100%; height: 100%; 
-            text-align: left; border: none; background: none; 
-            font-size: 14px; color: #333; cursor: pointer; 
-        }
         .input input::placeholder {
             color: #c6c6c8;
         }
@@ -1025,12 +1077,6 @@
         .bottom-sheet-overlay.active {
             display: flex;
         }
-        
-        /* [New] Higher z-index for Detail Sheets to overlay Full Modal */
-        .bottom-sheet-overlay.z-high {
-            z-index: 1100;
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -1214,43 +1260,6 @@
         }
         .full-modal-footer .btn {
             flex: 1;
-        }
-
-        /* [v12] Added Styles for Complex Interaction (Option List & Calendar) */
-        .option-list { list-style: none; padding: 0; margin: 0; }
-        .option-list li { border-bottom: 1px solid #f0f0f0; }
-        .option-list li:last-child { border-bottom: none; }
-        .option-list li button { 
-            display: block; width: 100%; 
-            padding: 16px 20px; 
-            font-size: 16px; color: #333; 
-            text-align: left; background: none; border: none; 
-            cursor: pointer; transition: background-color 0.2s;
-        }
-        .option-list li button:hover { background-color: #f8f8f8; }
-        .option-list li button:active { background-color: #f0f0f0; }
-
-        .calendar-container { padding: 10px 0; }
-        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .calendar-month-title { font-size: 16px; font-weight: 700; color: #333; }
-        .calendar-nav-btn { font-size: 16px; color: #888; padding: 5px 10px; cursor: pointer; }
-        .calendar-grid { display: flex; flex-direction: column; gap: 4px; }
-        .calendar-row { display: flex; justify-content: space-between; }
-        .calendar-row span {
-            width: 14.28%; height: 40px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px; color: #333; cursor: pointer; border-radius: 4px;
-        }
-        .calendar-row.week-header span { font-weight: 600; color: #888; font-size: 12px; cursor: default; }
-        .calendar-row span.empty { pointer-events: none; }
-        
-        .calendar-row span:not(.week-header span):not(.empty):hover { background-color: #f5f5f5; }
-        .calendar-row span.selected {
-            background-color: #4e6ee4; color: white;
-            border-radius: 50%; font-weight: 600;
-        }
-        .calendar-row span.range-bg {
-            background-color: #eef1ff; color: #4e6ee4; border-radius: 0;
         }
 
     </style>
@@ -1530,16 +1539,16 @@
     <div class="full-modal-overlay" id="customer-add-modal-overlay">
         <div class="full-modal-content" id="customer-add-modal">
             <div class="full-modal-header">
-                <div class="header-left"></div>
-                <h2 class="header-title">고객 추가</h2>
-                <div class="header-right">
+                 <div class="header-left">
                     <button type="button" class="header-btn" onclick="closeModal('customer-add-modal-overlay')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path d="M18 6l-12 12" />
-                            <path d="M6 6l12 12" />
+                            <path d="M15 6l-6 6l6 6" />
                         </svg>
                     </button>
                 </div>
+                <h2 class="header-title">고객 추가</h2>
+                <div class="header-right">
+                    </div>
             </div>
             <div class="full-modal-body">
                  <section class="form-section" style="background: #fff; padding: 0;">
@@ -1594,24 +1603,29 @@
     <div class="full-modal-overlay" id="customer-detail-modal-overlay">
         <div class="full-modal-content" id="customer-detail-modal">
             <div class="full-modal-header">
-                <div class="header-left"></div>
-                <h2 class="header-title">고객 정보</h2>
-                <div class="header-right">
+                 <div class="header-left">
                     <button type="button" class="header-btn" onclick="closeModal('customer-detail-modal-overlay')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path d="M18 6l-12 12" />
-                            <path d="M6 6l12 12" />
+                            <path d="M15 6l-6 6l6 6" />
                         </svg>
                     </button>
                 </div>
+                <h2 class="header-title">고객 정보</h2>
+                <div class="header-right">
+                    </div>
             </div>
             <div class="full-modal-body">
-                <div style="padding: 0 0 16px 0; border-bottom: 1px solid #e9e9e9; margin-bottom: 16px;">
-                    <div class="text-select-button" id="detail-period-btn" onclick="showDetailListSheet()">
-                        <span class="text-select-button-text" id="detail-period-text">최근 1개월</span>
-                        <div class="text-select-button-arrow">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
-                        </div>
+                <div class="filter-chip-section" style="margin: 0 0 16px 0; padding: 0 0 15px 0; border-bottom: 1px solid #e9e9e9; background: transparent;">
+                    <div class="filter-group-title" style="font-size: 14px; margin-bottom: 12px;">기간</div>
+                    <div class="tabs-scroll-wrapper" id="detail-period-chips">
+                        <div class="single-chip single-chip-on" data-value="최근 1개월" onclick="selectDetailPeriod(this)">최근
+                            1개월</div>
+                        <div class="single-chip single-chip-off" data-value="최근 6개월" onclick="selectDetailPeriod(this)">
+                            최근 6개월</div>
+                        <div class="single-chip single-chip-off" data-value="최근 1년" onclick="selectDetailPeriod(this)">
+                            최근 1년</div>
+                        <div class="single-chip single-chip-off" data-value="기간 설정" onclick="selectDetailPeriod(this)">
+                            기간 설정</div>
                     </div>
                 </div>
 
@@ -1696,107 +1710,6 @@
             </div>
         </div>
     </div>
-    
-    <div class="bottom-sheet-overlay z-high" id="detail-list-sheet-overlay">
-        <div class="bottom-sheet" id="detail-list-sheet">
-            <div class="sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">기간 상세검색</div>
-                <div class="btn-close" onclick="closeDetailListSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                </div>
-            </div>
-            <div class="sheet-body" style="padding: 0;">
-                <ul class="option-list">
-                    <li><button type="button" onclick="selectDetailListOption('최근 1개월')">최근 1개월</button></li>
-                    <li><button type="button" onclick="selectDetailListOption('최근 3개월')">최근 3개월</button></li>
-                    <li><button type="button" onclick="selectDetailListOption('최근 6개월')">최근 6개월</button></li>
-                    <li><button type="button" onclick="selectDetailListOption('최근 1년')">최근 1년</button></li>
-                    <li><button type="button" onclick="openDetailCustomPeriodSheet()">기간 설정</button></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="bottom-sheet-overlay z-high" id="detail-custom-period-overlay">
-        <div class="bottom-sheet" id="detail-custom-period-sheet">
-            <div class="sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">기간 설정</div>
-                <div class="btn-close" onclick="closeDetailCustomPeriodSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="form-group">
-                    <label>시작일</label>
-                    <div class="input">
-                        <button type="button" id="detail-start-date" onclick="showDetailCalendarSheet('start')">2025-10-11</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>종료일</label>
-                    <div class="input">
-                        <button type="button" id="detail-end-date" onclick="showDetailCalendarSheet('end')">2025-11-11</button>
-                    </div>
-                </div>
-                 <div class="form-group">
-                    <label>간편 설정</label>
-                    <div class="filter-group-content">
-                        <div class="single-chip single-chip-off" onclick="alert('데모: 1일')">오늘</div>
-                        <div class="single-chip single-chip-off" onclick="alert('데모: 7일')">1주일</div>
-                        <div class="single-chip single-chip-off" onclick="alert('데모: 30일')">1개월</div>
-                    </div>
-                </div>
-            </div>
-            <div class="sheet-footer">
-                <button class="btn white-button" onclick="closeDetailCustomPeriodSheet()">취소</button>
-                <button class="btn dark-button" onclick="applyDetailCustomPeriod()">조회하기</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="bottom-sheet-overlay z-high" id="detail-calendar-sheet-overlay">
-        <div class="bottom-sheet" id="detail-calendar-sheet">
-            <div class="sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">날짜 선택</div>
-                <div class="btn-close" onclick="closeDetailCalendarSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="calendar-container">
-                    <div class="calendar-header">
-                        <button type="button" class="calendar-nav-btn">&lt;</button>
-                        <span class="calendar-month-title">2025.10</span>
-                        <button type="button" class="calendar-nav-btn">&gt;</button>
-                    </div>
-                    <div class="calendar-grid">
-                        <div class="calendar-row week-header">
-                            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span class="empty"></span><span class="empty"></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
-                            <span class="selected" onclick="confirmDetailDateSelection(11)">11</span><span>12</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>27</span><span>28</span><span>29</span><span>30</span><span>31</span><span class="empty"></span><span class="empty"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
     <script>
@@ -1852,9 +1765,7 @@
             document.getElementById('detail-contact-phone').value = '01012341234';
             document.getElementById('detail-stats-count').textContent = '120건 접수';
             document.getElementById('detail-stats-amount').textContent = '1,230,000원';
-            
-            // Reset Period Text Button
-            document.getElementById('detail-period-text').textContent = '최근 1개월';
+            selectDetailPeriod(document.querySelector('#detail-period-chips .single-chip'));
 
             openModal('customer-detail-modal-overlay');
         }
@@ -1915,102 +1826,13 @@
             selectPeriod(document.querySelector('#single-chip-group-period .single-chip[data-value="전체"]'));
         }
 
-        // --- [v12] Detail Modal Complex Period Logic ---
-        let currentDetailDateInputId = null;
-
-        // 1. Main List Sheet
-        function showDetailListSheet() {
-            const btn = document.getElementById('detail-period-btn');
-            btn.classList.add('open');
-            const overlay = document.getElementById('detail-list-sheet-overlay');
-            const sheet = document.getElementById('detail-list-sheet');
-            overlay.classList.add('active');
-            sheet.classList.remove('closing');
+        // --- Detail Modal Period Chip Logic ---
+        function selectDetailPeriod(chip) {
+            const group = chip.closest('.tabs-scroll-wrapper');
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+            console.log("Detail period changed to:", chip.dataset.value);
         }
-
-        function closeDetailListSheet() {
-            const btn = document.getElementById('detail-period-btn');
-            btn.classList.remove('open');
-            const overlay = document.getElementById('detail-list-sheet-overlay');
-            const sheet = document.getElementById('detail-list-sheet');
-            sheet.classList.add('closing');
-            setTimeout(() => {
-                overlay.classList.remove('active');
-                sheet.classList.remove('closing');
-            }, 300);
-        }
-
-        function selectDetailListOption(value) {
-            document.getElementById('detail-period-text').textContent = value;
-            closeDetailListSheet();
-        }
-
-        // 2. Custom Period Sheet
-        function openDetailCustomPeriodSheet() {
-            document.getElementById('detail-list-sheet-overlay').classList.remove('active');
-            const overlay = document.getElementById('detail-custom-period-overlay');
-            const sheet = document.getElementById('detail-custom-period-sheet');
-            overlay.classList.add('active');
-            sheet.classList.remove('closing');
-        }
-
-        function closeDetailCustomPeriodSheet() {
-            const overlay = document.getElementById('detail-custom-period-overlay');
-            const sheet = document.getElementById('detail-custom-period-sheet');
-            sheet.classList.add('closing');
-            setTimeout(() => {
-                overlay.classList.remove('active');
-                sheet.classList.remove('closing');
-                document.getElementById('detail-period-btn').classList.remove('open');
-            }, 300);
-        }
-
-        function applyDetailCustomPeriod() {
-            const start = document.getElementById('detail-start-date').textContent;
-            const end = document.getElementById('detail-end-date').textContent;
-            document.getElementById('detail-period-text').textContent = `${start} ~ ${end}`;
-            closeDetailCustomPeriodSheet();
-        }
-
-        // 3. Calendar Sheet
-        function showDetailCalendarSheet(targetInputId) {
-            if(targetInputId === 'start') currentDetailDateInputId = 'detail-start-date';
-            else if(targetInputId === 'end') currentDetailDateInputId = 'detail-end-date';
-
-            const overlay = document.getElementById('detail-calendar-sheet-overlay');
-            const sheet = document.getElementById('detail-calendar-sheet');
-            overlay.classList.add('active');
-            sheet.classList.remove('closing');
-        }
-
-        function closeDetailCalendarSheet() {
-            const overlay = document.getElementById('detail-calendar-sheet-overlay');
-            const sheet = document.getElementById('detail-calendar-sheet');
-            sheet.classList.add('closing');
-            setTimeout(() => {
-                overlay.classList.remove('active');
-                sheet.classList.remove('closing');
-            }, 300);
-        }
-
-        function confirmDetailDateSelection(day) {
-            if(currentDetailDateInputId) {
-                document.getElementById(currentDetailDateInputId).textContent = `2025-10-${day}`;
-            }
-            closeDetailCalendarSheet();
-        }
-        
-        // Specific Overlay Click Listeners for new sheets
-        document.getElementById('detail-list-sheet-overlay').addEventListener('click', (e) => {
-            if (e.target.id === 'detail-list-sheet-overlay') closeDetailListSheet();
-        });
-        document.getElementById('detail-custom-period-overlay').addEventListener('click', (e) => {
-            if (e.target.id === 'detail-custom-period-overlay') closeDetailCustomPeriodSheet();
-        });
-        document.getElementById('detail-calendar-sheet-overlay').addEventListener('click', (e) => {
-            if (e.target.id === 'detail-calendar-sheet-overlay') closeDetailCalendarSheet();
-        });
-
 
         // --- Search (v12 Standard) ---
         function handleSearchInput(input) {
@@ -2159,7 +1981,6 @@
             document.querySelectorAll('.modal-overlay, .full-modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
-                        // Avoid closing if the user clicked on a child stacked overlay
                         closeModal(overlay.id);
                     }
                 });
@@ -2168,5 +1989,120 @@
 
     </script>
 </body>
+</html>
+    </script>
 
+    <script>
+        // 1. 원본 소스 텍스트 가져오기
+        const rawHtml = document.getElementById('raw-source').innerHTML;
+
+        // ===========================================
+        // [Left Pane] Preview Setup (Blob URL 방식)
+        // ===========================================
+        // document.write 대신 Blob URL을 사용해야 스크립트와 이벤트 리스너가 완벽하게 작동합니다.
+        const blob = new Blob([rawHtml], { type: 'text/html' });
+        const previewFrame = document.getElementById('preview-frame');
+        previewFrame.src = URL.createObjectURL(blob);
+
+
+        // ===========================================
+        // [Right Pane] Guide Setup (Shadow DOM 방식)
+        // ===========================================
+        const guideContent = document.getElementById('guide-content');
+
+        // HTML 문자열을 DOM으로 파싱 (가상 메모리 상에서)
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(rawHtml, 'text/html');
+        
+        // 중요: 원본의 <style> 태그 내용을 뽑아냅니다.
+        const originalStyles = doc.querySelector('style').innerHTML;
+
+        // 추출할 모달 목록 정의
+        const modalTargets = [
+            { selector: '.bottom-sheet-overlay', label: 'Bottom Sheet', desc: '검색 필터 아이콘 클릭 시 등장' },
+            { selector: '#customer-add-modal-overlay', label: 'Full Page Modal (Add)', desc: '고객 추가 버튼 클릭 시 등장' },
+            { selector: '#customer-detail-modal-overlay', label: 'Full Page Modal (Detail)', desc: '리스트 아이템 클릭 시 등장' },
+            { selector: '#customer-delete-alert-overlay', label: 'Alert Modal', desc: '삭제 버튼 클릭 시 등장' }
+        ];
+
+        // Shadow DOM 내부에서 모달을 강제로 보이게 할 스타일 (원본 스타일 덮어쓰기)
+        const overrideStyles = `
+            /* Overlay 속성 제거 (static 배치) */
+            .modal-overlay, .full-modal-overlay, .bottom-sheet-overlay {
+                display: flex !important;
+                position: static !important;
+                width: 100% !important;
+                height: auto !important;
+                background: transparent !important;
+                inset: auto !important;
+                padding: 0 !important;
+                animation: none !important;
+                z-index: 1 !important;
+                align-items: flex-start !important;
+                justify-content: center !important;
+            }
+
+            /* 모달 컨텐츠 박스 꾸밈 */
+            .modal-content, .full-modal-content, .bottom-sheet {
+                position: relative !important;
+                transform: none !important;
+                animation: none !important;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.1) !important;
+                margin: 0 auto !important;
+                border: 1px solid #eee !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            
+            /* Full Modal 높이 제한 (너무 길지 않게) */
+            .full-modal-content {
+                height: 500px !important;
+                border-radius: 8px !important;
+            }
+            
+            /* Bottom Sheet 모양 잡기 */
+            .bottom-sheet {
+                border-radius: 8px !important;
+            }
+        `;
+
+        modalTargets.forEach(target => {
+            const el = doc.querySelector(target.selector);
+            
+            if (el) {
+                // 1. 가이드 아이템 래퍼 생성
+                const itemWrapper = document.createElement('div');
+                itemWrapper.className = 'guide-item';
+
+                // 2. 라벨 및 설명 추가
+                const label = document.createElement('div');
+                label.className = 'guide-label';
+                label.textContent = target.label;
+                
+                const desc = document.createElement('div');
+                desc.className = 'guide-desc';
+                desc.textContent = target.desc;
+
+                itemWrapper.appendChild(label);
+                itemWrapper.appendChild(desc);
+
+                // 3. Shadow DOM 호스트 생성 (스타일 격리 공간)
+                const host = document.createElement('div');
+                host.className = 'shadow-host';
+                const shadow = host.attachShadow({ mode: 'open' });
+
+                // 4. Shadow DOM 내부에 스타일 + HTML 주입
+                // 순서: [원본 스타일] -> [강제 오버라이드 스타일] -> [모달 HTML]
+                shadow.innerHTML = `
+                    <style>${originalStyles}</style>
+                    <style>${overrideStyles}</style>
+                    ${el.outerHTML}
+                `;
+
+                itemWrapper.appendChild(host);
+                guideContent.appendChild(itemWrapper);
+            }
+        });
+    </script>
+</body>
 </html>
