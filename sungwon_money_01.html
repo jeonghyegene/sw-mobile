@@ -444,9 +444,15 @@
              color: #dc3545;
         }
         .bank-chips {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 8px;
+        }
+        /* Grid 내부 Chip이 꽉 차도록 스타일 추가 */
+        .bank-chips .single-chip {
+            width: 100%;
+            text-align: center;
+            justify-content: center;
         }
         .expand-button-wrapper {
             display: flex;
@@ -456,6 +462,7 @@
         .hidden-bank {
             display: none;
         }
+        /* Grid 호환성을 위해 display 속성 조정 */
         .banks-expanded .hidden-bank {
             display: inline-flex;
         }
@@ -1052,13 +1059,14 @@
     <div class="modal-overlay" id="refund-account-modal-overlay">
         <div class="modal-content full-modal" id="refund-account-modal">
             <div class="modal-header">
+                <div style="width: 28px;"></div>
+                <h2 class="modal-title">환불계좌 변경</h2>
                 <button class="btn-modal-close" onclick="closeRefundAccountModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M15 6l-6 6l6 6" />
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
                     </svg>
                 </button>
-                <h2 class="modal-title">환불계좌 변경</h2>
-                </div>
+            </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label>예금주</label>
@@ -1160,13 +1168,14 @@
     <div class="modal-overlay" id="withdrawal-modal-overlay">
         <div class="modal-content full-modal" id="withdrawal-modal">
             <div class="modal-header">
+                <div style="width: 28px;"></div>
+                <h2 class="modal-title">출금 신청</h2>
                 <button class="btn-modal-close" onclick="closeWithdrawalSheet()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M15 6l-6 6l6 6" />
+                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
                     </svg>
                 </button>
-                <h2 class="modal-title">출금 신청</h2>
-                </div>
+            </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label>현재 출금 가능 잔액</label>
