@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>감리 일정 선택/확인 (Validation)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS - Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            min-height: 100vh;
+            padding-bottom: 20px;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        /* Buttons (v12 Standard) */
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+            width: 100%;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 16px;
+        }
+
+        /* ========================================
+           [NEW] FULL SCREEN MODAL STYLES
+        ======================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            z-index: 1000;
+            padding: 0;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            height: 100%;
+            max-width: 480px;
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative;
+            height: 56px;
+            flex-shrink: 0;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212121;
+            text-align: left;
+            flex: 1;
+        }
+
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-modal-close:hover {
+            color: #000;
+        }
+
+        .btn-modal-close svg {
+            width: 100%;
+            height: 100%;
+            stroke-width: 2;
+        }
+
+        .modal-body {
+            padding: 24px 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .modal-description {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 24px;
+            line-height: 1.5;
+            word-break: keep-all;
+        }
+
+        .form-group {
+            margin-bottom: 32px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .chip-grid {
+            display: grid;
+            gap: 8px;
+        }
+
+        .chip-grid-date {
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        }
+
+        .chip-grid-time {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .select-chip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 42px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background: white;
+            color: #333;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .select-chip.selected {
+            border-color: #4e6ee4;
+            color: #4e6ee4;
+            font-weight: 600;
+            background: #fff;
+        }
+
+        .select-chip:hover {
+            border-color: #bcbcbc;
+        }
+
+        .select-chip.selected:hover {
+            border-color: #4e6ee4;
+        }
+
+        .disclaimer-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+
+        .disclaimer-box svg {
+            width: 16px;
+            height: 16px;
+            color: #888;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .disclaimer-text {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.4;
+        }
+
+        .confirm-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 16px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .button-container {
+            width: 100%;
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">감리 일정</h1>
+            <div class="header-right"></div>
+        </header>
+
+        <main class="sw-container">
+            <button class="white-button" style="width: 100%; margin-top: 20px; margin-bottom: 12px;"
+                onclick="openScheduleModal()">
+                감리 일정 선택하기
+            </button>
+
+            <button class="white-button" style="width: 100%;" onclick="openConfirmModal()">
+                감리 일정 확인
+            </button>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="modal-schedule-select">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">감리 일정 선택</h2>
+                <div class="btn-modal-close" onclick="closeModal('modal-schedule-select')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">인쇄물 감리를 위해 방문 가능한 일정을 선택해주세요</p>
+
+                <div class="form-group">
+                    <span class="form-label">방문일자</span>
+                    <div class="chip-grid chip-grid-date" id="date-grid">
+                        <div class="select-chip" onclick="selectDate(this, '2025-10-17')">10월 17일(금)</div>
+                        <div class="select-chip" onclick="selectDate(this, '2025-10-18')">10월 18일(토)</div>
+                        <div class="select-chip" onclick="selectDate(this, '2025-10-19')">10월 19일(일)</div>
+                        <div class="select-chip" onclick="selectDate(this, '2025-10-20')">10월 20일(월)</div>
+                        <div class="select-chip" onclick="selectDate(this, '2025-10-21')">10월 21일(화)</div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="time-section" style="display: none;">
+                    <span class="form-label">방문시간</span>
+                    <div class="chip-grid chip-grid-time" id="time-grid">
+                        <div class="select-chip" onclick="selectTime(this, '10:00')">10:00</div>
+                        <div class="select-chip" onclick="selectTime(this, '12:00')">12:00</div>
+                        <div class="select-chip" onclick="selectTime(this, '13:00')">13:00</div>
+                        <div class="select-chip" onclick="selectTime(this, '14:00')">14:00</div>
+                        <div class="select-chip" onclick="selectTime(this, '15:00')">15:00</div>
+                        <div class="select-chip" onclick="selectTime(this, '16:00')">16:00</div>
+                        <div class="select-chip" onclick="selectTime(this, '17:00')">17:00</div>
+                        <div class="select-chip" onclick="selectTime(this, '18:00')">18:00</div>
+                        <div class="select-chip" onclick="selectTime(this, '19:00')">19:00</div>
+                        <div class="select-chip" onclick="selectTime(this, '20:00')">20:00</div>
+                        <div class="select-chip" onclick="selectTime(this, '21:00')">21:00</div>
+                        <div class="select-chip" onclick="selectTime(this, '22:00')">22:00</div>
+                    </div>
+                </div>
+
+                <div class="disclaimer-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5" />
+                        <path d="M12 8v4" stroke="currentColor" stroke-width="1.5" />
+                        <path d="M12 16h.01" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                    <span class="disclaimer-text">가능한 일정이 없으신 경우 담당자 번호로 문의해주세요(010-1234-1234)</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="button-container">
+                    <button class="dark-button" id="btn-select-complete" disabled onclick="submitSchedule()">선택
+                        완료</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-schedule-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">감리 일정 확인</h2>
+                <div class="btn-modal-close" onclick="closeModal('modal-schedule-confirm')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <span class="form-label">방문일시</span>
+                    <div class="confirm-value" id="confirmed-datetime">
+                    </div>
+                </div>
+
+                <div class="disclaimer-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5" />
+                        <path d="M12 8v4" stroke="currentColor" stroke-width="1.5" />
+                        <path d="M12 16h.01" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                    <span class="disclaimer-text">일정 변경이 필요하신 경우, 담당자 번호로 문의해주세요(010-1234-1234)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedDate = null;
+        let selectedDateText = null;
+        let selectedTime = null;
+
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                const anyActive = document.querySelectorAll('.modal-overlay.active');
+                if (anyActive.length === 0) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+
+        function openScheduleModal() {
+            // 초기화: 선택 상태 리셋
+            selectedDate = null;
+            selectedTime = null;
+            document.querySelectorAll('.select-chip').forEach(el => el.classList.remove('selected'));
+            document.getElementById('time-section').style.display = 'none';
+
+            // 버튼 비활성화
+            document.getElementById('btn-select-complete').disabled = true;
+
+            openModal('modal-schedule-select');
+        }
+
+        function openConfirmModal() {
+            document.getElementById('confirmed-datetime').textContent = "2025년 10월 17일(금) 10:00";
+            openModal('modal-schedule-confirm');
+        }
+
+        function selectDate(element, dateValue) {
+            const container = document.getElementById('date-grid');
+            container.querySelectorAll('.select-chip').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+
+            selectedDate = dateValue;
+            selectedDateText = element.textContent;
+
+            // 날짜 선택 시 시간 섹션 표시 및 시간 초기화
+            document.getElementById('time-section').style.display = 'block';
+
+            selectedTime = null;
+            document.getElementById('time-grid').querySelectorAll('.select-chip').forEach(el => el.classList.remove('selected'));
+
+            // 날짜만 선택된 상태에서는 완료 버튼 비활성화
+            document.getElementById('btn-select-complete').disabled = true;
+        }
+
+        function selectTime(element, timeValue) {
+            const container = document.getElementById('time-grid');
+            container.querySelectorAll('.select-chip').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+
+            selectedTime = timeValue;
+
+            // 날짜와 시간이 모두 선택되었으므로 버튼 활성화
+            document.getElementById('btn-select-complete').disabled = false;
+        }
+
+        function submitSchedule() {
+            if (!selectedDate || !selectedTime) return;
+
+            closeModal('modal-schedule-select');
+
+            const fullDateText = `2025년 ${selectedDateText} ${selectedTime}`;
+            document.getElementById('confirmed-datetime').textContent = fullDateText;
+
+            setTimeout(() => {
+                openModal('modal-schedule-confirm');
+            }, 200);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            openScheduleModal(); // Auto open for demo
+
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

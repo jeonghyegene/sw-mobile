@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문/배송 상세 - 배송 조회</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS - Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* [v12] Header (App Header Sub) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        /* [v12] Buttons */
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+            width: 100%;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 0 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 16px;
+        }
+
+        /* [v12] Full Screen Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            /* Dimmed bg behind if needed, but full modal covers it */
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            z-index: 1000;
+            padding: 0;
+            /* Full screen implies no padding */
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            height: 100%;
+            /* Full Height */
+            max-width: 480px;
+            border-radius: 0;
+            /* No Radius */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: none;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e8e8e9;
+            height: 56px;
+            flex-shrink: 0;
+        }
+
+        /* Left Aligned Title */
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212121;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-modal-close svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #e8e8e9;
+            flex-shrink: 0;
+            padding-bottom: max(16px, env(safe-area-inset-bottom));
+        }
+
+        /* [Component] Info Section */
+        .info-section {
+            background: #f8f8f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            color: #666;
+        }
+
+        .info-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* [Component] Copyable Tracking Number */
+        .copy-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            padding: 4px 6px;
+            margin: -4px -6px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .copy-wrapper:active {
+            background-color: #e0e0e0;
+        }
+
+        .copy-icon {
+            color: #888;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* [Component] Delivery Stepper */
+        .stepper-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            position: relative;
+            padding: 0 10px;
+        }
+
+        .stepper-line {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            right: 30px;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: 0;
+        }
+
+        .step-item {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 48px;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f5f5f6;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+            color: #888;
+        }
+
+        .step-circle svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 1.5;
+        }
+
+        .step-label {
+            font-size: 11px;
+            color: #888;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .step-item.active .step-circle {
+            background: #4e6ee4;
+            border-color: #4e6ee4;
+            color: white;
+            box-shadow: 0 2px 6px rgba(78, 110, 228, 0.3);
+        }
+
+        .step-item.active .step-label {
+            color: #4e6ee4;
+            font-weight: 700;
+        }
+
+        /* [Component] History Table */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .history-table th {
+            background: #f8f8f9;
+            color: #555;
+            font-weight: 500;
+            padding: 10px;
+            border-bottom: 1px solid #e8e8e9;
+            text-align: center;
+        }
+
+        .history-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-highlight {
+            color: #4e6ee4;
+            font-weight: 600;
+        }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .toast-container.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">주문/배송 상세</h1>
+            <div class="header-right">
+            </div>
+        </header>
+
+        <main class="sw-container">
+            <button class="white-button" style="margin-top: 20px;" onclick="openModal('delivery-modal')">
+                배송 조회
+            </button>
+        </main>
+
+        <div class="modal-overlay" id="delivery-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">배송 조회</h2>
+                    <button class="btn-modal-close" onclick="closeModal('delivery-modal')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 6l-12 12" />
+                            <path d="M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="stepper-container">
+                        <div class="stepper-line"></div>
+                        <div class="step-item active">
+                            <div class="step-circle">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                    <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                                    <path d="M9 17h6" />
+                                    <path d="M9 13h6" />
+                                </svg>
+                            </div>
+                            <div class="step-label">인수</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-circle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 17a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                    <path d="M15 17a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                    <path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" />
+                                </svg></div>
+                            <div class="step-label">이동중</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-circle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 21l18 0" />
+                                    <path d="M9 8l1 0" />
+                                    <path d="M9 12l1 0" />
+                                    <path d="M9 16l1 0" />
+                                    <path d="M14 8l1 0" />
+                                    <path d="M14 12l1 0" />
+                                    <path d="M14 16l1 0" />
+                                    <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16" />
+                                </svg></div>
+                            <div class="step-label">영업소</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-circle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5" />
+                                    <path d="M9 4v13" />
+                                    <path d="M15 7v5.5" />
+                                    <path
+                                        d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z" />
+                                    <path d="M19 18v.01" />
+                                </svg></div>
+                            <div class="step-label">배달중</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-circle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" />
+                                    <path d="M12 12l8 -4.5" />
+                                    <path d="M12 12l0 9" />
+                                    <path d="M12 12l-8 -4.5" />
+                                </svg></div>
+                            <div class="step-label">배달 완료</div>
+                        </div>
+                    </div>
+
+                    <div class="info-section">
+                        <div class="info-row">
+                            <span class="info-label">택배사</span>
+                            <span class="info-value">롯데택배(1588-2121)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">송장번호</span>
+                            <div class="info-value">
+                                <button type="button" class="copy-wrapper" onclick="copyToClipboard('1234567890')">
+                                    <span>1234567890</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="copy-icon">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+                                        <path
+                                            d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="history-table">
+                        <colgroup>
+                            <col style="width: 40%;">
+                            <col style="width: 20%;">
+                            <col style="width: 40%;">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>일시</th>
+                                <th>상태</th>
+                                <th>현재위치</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025-11-16 10:00</td>
+                                <td class="status-highlight">인수</td>
+                                <td>성수지점</td>
+                            </tr>
+                            <tr>
+                                <td>2025-11-16 10:00</td>
+                                <td>인수</td>
+                                <td>성수지점</td>
+                            </tr>
+                            <tr>
+                                <td>2025-11-16 10:00</td>
+                                <td>인수</td>
+                                <td>성수지점</td>
+                            </tr>
+                            <tr>
+                                <td>2025-11-16 10:00</td>
+                                <td>인수</td>
+                                <td>성수지점</td>
+                            </tr>
+                            <tr>
+                                <td>2025-11-16 10:00</td>
+                                <td>인수</td>
+                                <td>성수지점</td>
+                            </tr>
+                            <tr>
+                                <td>2025-11-16 10:00</td>
+                                <td>인수</td>
+                                <td>성수지점</td>
+                            </tr>
+                            <tr>
+                                <td>2025-11-16 10:00</td>
+                                <td>인수</td>
+                                <td>성수지점</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="toast" class="toast-container">송장번호가 복사되었습니다.</div>
+    </div>
+
+    <script>
+        // Modal Logic
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Copy Logic
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast();
+                }).catch(err => {
+                    console.error('복사 실패:', err);
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed"; // avoid scrolling
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast();
+            } catch (err) {
+                alert('복사에 실패했습니다.');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    closeModal(overlay.id);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

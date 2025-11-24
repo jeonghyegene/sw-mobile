@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>샘플 송장번호 입력 (Validation)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS - Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            min-height: 100vh;
+            padding-bottom: 20px;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        /* Buttons (v12 Standard) */
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 16px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+
+        .input input::placeholder {
+            color: #c6c6c8;
+        }
+
+        /* v12 Chips (Single Selection) */
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            border: 1px solid #e8e8e9;
+            height: 40px;
+            width: 100%;
+        }
+
+        .single-chip-off {
+            background: #ffffff;
+            color: #333;
+            border-color: #e8e8e9;
+        }
+
+        .single-chip-on {
+            background: #ffffff;
+            border: 1px solid #4e6ee4;
+            color: #4e6ee4;
+            font-weight: 600;
+        }
+
+        .single-chip:active {
+            transform: scale(0.98);
+        }
+
+        /* Grid Layout */
+        .chip-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        /* ========================================
+           [NEW] FULL SCREEN MODAL STYLES
+        ======================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            z-index: 1000;
+            padding: 0;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            height: 100%;
+            max-width: 480px;
+            max-height: none;
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        /* Header */
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative;
+            height: 56px;
+            flex-shrink: 0;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212121;
+            text-align: left;
+            flex: 1;
+        }
+
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-modal-close:hover {
+            color: #000;
+        }
+
+        .btn-modal-close svg {
+            width: 100%;
+            height: 100%;
+            stroke-width: 2;
+        }
+
+        .modal-body {
+            padding: 24px 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .modal-description {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 24px;
+            line-height: 1.5;
+            word-break: keep-all;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            background: #fff;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .modal-footer .btn {
+            width: 100%;
+            height: 48px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">샘플 발송</h1>
+            <div class="header-right"></div>
+        </header>
+
+        <main class="sw-container">
+            <button class="white-button" style="width: 100%; margin-top: 20px;"
+                onclick="openModal('sample-tracking-modal')">
+                샘플 송장번호 입력하기
+            </button>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="sample-tracking-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">샘플 송장번호</h2>
+                <button class="btn-modal-close" onclick="closeModal('sample-tracking-modal')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">샘플을 보내신 후, 보내신 택배의 송장번호를 입력해주세요</p>
+
+                <div class="form-group">
+                    <label>택배사</label>
+                    <div class="chip-grid" id="courier-select-group">
+                        <div class="single-chip single-chip-on" onclick="selectCourier(this)">우체국</div>
+                        <div class="single-chip single-chip-off" onclick="selectCourier(this)">CJ</div>
+                        <div class="single-chip single-chip-off" onclick="selectCourier(this)">롯데</div>
+                        <div class="single-chip single-chip-off" onclick="selectCourier(this)">한진</div>
+                        <div class="single-chip single-chip-off" onclick="selectCourier(this)">로젠</div>
+                        <div class="single-chip single-chip-off" onclick="selectCourier(this)">경동</div>
+                        <div class="single-chip single-chip-off" onclick="selectCourier(this)">직접입력</div>
+                    </div>
+
+                    <div class="input" id="manual-courier-input-group" style="display: none; margin-top: 8px;">
+                        <input type="text" id="manual-courier-name" placeholder="택배사명을 입력해주세요"
+                            oninput="checkInputValidation()">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>송장번호</label>
+                    <div class="input">
+                        <input type="tel" id="tracking-number" placeholder="'-'을 제외한 숫자만 입력해주세요" inputmode="numeric"
+                            oninput="checkInputValidation()">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="dark-button btn" id="btn-submit-tracking" onclick="submitTrackingInfo()" disabled>입력
+                    완료</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Modal Logic ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                // Reset inputs and state when opening
+                document.getElementById('tracking-number').value = '';
+                document.getElementById('manual-courier-name').value = '';
+
+                // Reset Chips (Default to first one or none, here resetting to first)
+                const chips = document.querySelectorAll('#courier-select-group .single-chip');
+                chips.forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+                if (chips.length > 0) chips[0].classList.replace('single-chip-off', 'single-chip-on');
+
+                // Hide manual input if visible
+                document.getElementById('manual-courier-input-group').style.display = 'none';
+
+                // Re-validate (should disable button)
+                checkInputValidation();
+
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target.id === overlay.id) {
+                    closeModal(overlay.id);
+                }
+            });
+        });
+
+        // --- Courier Selection Logic ---
+        function selectCourier(chip) {
+            const group = chip.closest('.chip-grid');
+            group.querySelectorAll('.single-chip').forEach(c => {
+                c.classList.replace('single-chip-on', 'single-chip-off');
+            });
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+
+            // Toggle Manual Input
+            const manualInput = document.getElementById('manual-courier-input-group');
+
+            if (chip.textContent.trim() === '직접입력') {
+                manualInput.style.display = 'flex';
+                // manualInput.querySelector('input').focus(); // Optional: Auto focus
+            } else {
+                manualInput.style.display = 'none';
+                document.getElementById('manual-courier-name').value = ''; // Reset value
+            }
+
+            checkInputValidation();
+        }
+
+        // --- Input Validation Logic ---
+        function checkInputValidation() {
+            const selectedChip = document.querySelector('#courier-select-group .single-chip-on');
+            const isDirectInput = selectedChip && selectedChip.textContent.trim() === '직접입력';
+
+            const trackingNumber = document.getElementById('tracking-number').value.trim();
+            const manualName = document.getElementById('manual-courier-name').value.trim();
+
+            let isValid = false;
+
+            if (trackingNumber.length > 0) {
+                if (isDirectInput) {
+                    // If direct input, both fields must be filled
+                    if (manualName.length > 0) {
+                        isValid = true;
+                    }
+                } else {
+                    // If standard courier selected
+                    if (selectedChip) {
+                        isValid = true;
+                    }
+                }
+            }
+
+            const submitBtn = document.getElementById('btn-submit-tracking');
+            submitBtn.disabled = !isValid;
+        }
+
+        // --- Submission ---
+        function submitTrackingInfo() {
+            const selectedChip = document.querySelector('#courier-select-group .single-chip-on');
+            const chipText = selectedChip ? selectedChip.textContent.trim() : '';
+            let courierName = chipText;
+
+            if (chipText === '직접입력') {
+                courierName = document.getElementById('manual-courier-name').value.trim();
+            }
+
+            const trackingNumber = document.getElementById('tracking-number').value.trim();
+
+            console.log(`Courier: ${courierName}, Number: ${trackingNumber}`);
+            alert(`[${courierName}] 송장번호가 입력되었습니다.`);
+            closeModal('sample-tracking-modal');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            openModal('sample-tracking-modal');
+        });
+    </script>
+</body>
+
+</html>
