@@ -66,17 +66,24 @@
             display: block;
         }
 
-        /* [MODIFIED] Input Styles for v12 Standard */
-        input, select {
+        /* [MODIFIED] Add date input style */
+        input,
+        input[type="date"] {
             font-family: inherit;
+            /* [MODIFIED] Ensure date input inherits font */
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+            width: 100%;
         }
-        
-        /* [v12] Master Guide: Input Button (for Date/Calendar Trigger) */
-        .input button { 
-            width: 100%; height: 100%; 
-            text-align: left; border: none; background: none; 
-            font-size: 14px; color: #333; cursor: pointer; 
+        /* [NEW] Style for date input placeholder */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+             /* You can style the picker indicator if needed, or hide it */
         }
+
 
         svg {
             stroke-width: 2;
@@ -94,6 +101,7 @@
             max-width: 480px;
             margin: 0 auto;
             background-color: #ffffff;
+            /* [MODIFIED] Added padding for sticky footer */
             padding-bottom: 100px;
         }
 
@@ -255,14 +263,17 @@
 
         /* Main Content */
         .sw-container {
+             /* [MODIFIED] Reduced top padding */
              padding: 12px 16px 16px 16px;
         }
         
-        /* Filter Chip Section */
+        /* Filter Chip Section (from sungwon_point.html) */
         .filter-chip-section {
             background: #fff;
             padding: 8px 16px;
             margin: 0 -16px;
+            /* [MODIFIED] Remove bottom margin */
+            /* [NEW] Add bottom border for separation */
             border-bottom: 1px solid #e9e9e9;
         }
 
@@ -292,7 +303,7 @@
         .filter-section {
             padding: 0 0 16px 0;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* [MODIFIED] Space between */
             align-items: center;
         }
 
@@ -391,6 +402,7 @@
             flex-direction: column;
             gap: 12px;
             margin-bottom: 24px;
+            /* Pagination 여백 */
         }
 
         .no-transactions {
@@ -409,6 +421,7 @@
             padding: 15px;
             position: relative;
         }
+        /* [NEW] Add clickable cursor */
         .common-table-card.qna-card {
             cursor: pointer;
             transition: background 0.2s;
@@ -421,9 +434,13 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            /* [MODIFIED] Remove margin-bottom */
             margin-bottom: 0;
         }
 
+        /* [REMOVED] .card-column1 styles */
+
+        /* [MODIFIED] Category style */
         .qna-category {
             font-size: 12px;
             font-weight: 600;
@@ -433,19 +450,30 @@
             color: #dc3545;
         }
 
+        /* [NEW] Title row style */
          .qna-title-row {
             font-size: 16px;
             font-weight: 500;
             color: #212121;
-            margin-top: 8px; 
-            margin-bottom: 15px; 
+            margin-top: 8px; /* Space from category/badge line */
+            margin-bottom: 15px; /* Space before divider */
+            
+            /* 1. 콘텐츠 영역을 벗어나는 텍스트를 숨깁니다. */
             overflow: hidden;
+            /* 2. 텍스트가 넘칠 때 말줄임표(...)를 표시합니다. */
             text-overflow: ellipsis;
+            /* 3. 콘텐츠를 박스 형태로 표시하도록 지정합니다. (필수) */
             display: -webkit-box;
+            /* 4. 텍스트를 2줄로 제한합니다. (이 숫자를 바꾸면 줄 수가 바뀝니다.) */
             -webkit-line-clamp: 2; 
+            /* 5. 박스의 정렬 방향을 수직(세로)으로 지정합니다. (필수) */
             -webkit-box-orient: vertical;
+            /* (선택 사항) 줄바꿈을 자연스럽게 처리합니다. */
             white-space: normal;
+            /* (선택 사항) 정확한 높이 계산을 위해 line-height를 지정하는 것이 좋습니다. */
             line-height: 1.5; 
+            /* (선택 사항) 2줄의 최대 높이를 지정하여 레이아웃을 고정합니다. */
+            /* 예: font-size가 16px이고 line-height가 1.5면 (16 * 1.5 * 2) = 48px */
             max-height: 48px;
         }
 
@@ -482,6 +510,7 @@
             color: grey;
         }
 
+        /* [NEW] Status-specific badge colors */
         .card-badge[data-status="답변 완료"] {
             border-color: #28a745;
             color: #28a745;
@@ -619,6 +648,7 @@
             justify-content: center;
             gap: 9px;
             margin-bottom: 24px;
+            /* [MODIFIED] Added bottom margin */
         }
 
         .pagination-arrow {
@@ -682,6 +712,9 @@
             transform: scale(0.95);
         }
         
+        /* [REMOVED] Button wrapper for "문의 등록" */
+        /* .button-wrapper { ... } */
+
         /* [NEW] Bottom Sheet (from sungwon_point.html) */
         .bottom-sheet-overlay {
             position: fixed;
@@ -699,18 +732,33 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
         }
 
         @keyframes slideDown {
-            from { transform: translateY(0); }
-            to { transform: translateY(100%); }
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(100%);
+            }
         }
 
         .bottom-sheet {
@@ -822,17 +870,18 @@
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
-            max-width: 480px; 
+            max-width: 480px; /* Match .mobile-wrap */
             background: #ffffff;
             border-top: 1px solid #e0e0e0;
             box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-            padding: 16px; 
+            padding: 16px; /* [MODIFIED] Use padding for inset button */
             z-index: 500;
         }
         .sticky-action-footer .dark-button {
-            width: 100%; 
+            width: 100%; /* Make button full width */
         }
         
+        /* [NEW] Form group for custom date (from sungwon_money_01) */
         .form-group {
             margin-bottom: 20px;
         }
@@ -843,6 +892,7 @@
             color: #333;
             margin-bottom: 8px;
         }
+        /* [NEW] v12 standard input (for date) */
         .input {
             width: 100%;
             min-height: 40px;
@@ -852,76 +902,6 @@
             padding: 10px 12px;
             display: flex;
             align-items: center;
-        }
-        
-        .input.select-wrapper {
-            padding: 0;
-            position: relative;
-        }
-        .input select {
-            height: 38px;
-            padding: 0 12px;
-            appearance: none;
-            -webkit-appearance: none;
-            cursor: pointer;
-            width: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: black;
-            line-height: 1.5;
-        }
-         .input.select-wrapper::after {
-            content: '';
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: center;
-            pointer-events: none;
-        }
-
-        /* [v12] Option List (Bottom Sheet List Type) */
-        .option-list { list-style: none; padding: 0; margin: 0; }
-        .option-list li { border-bottom: 1px solid #f0f0f0; }
-        .option-list li:last-child { border-bottom: none; }
-        .option-list li button { 
-            display: block; width: 100%; 
-            padding: 16px 20px; 
-            font-size: 16px; color: #333; 
-            text-align: left; background: none; border: none; 
-            cursor: pointer; transition: background-color 0.2s;
-        }
-        .option-list li button:hover { background-color: #f8f8f8; }
-        .option-list li button:active { background-color: #f0f0f0; }
-
-        /* [v12] Calendar (Date Picker) */
-        .calendar-container { padding: 10px 0; }
-        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .calendar-month-title { font-size: 16px; font-weight: 700; color: #333; }
-        .calendar-nav-btn { font-size: 16px; color: #888; padding: 5px 10px; cursor: pointer; }
-        .calendar-grid { display: flex; flex-direction: column; gap: 4px; }
-        .calendar-row { display: flex; justify-content: space-between; }
-        .calendar-row span {
-            width: 14.28%; height: 40px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px; color: #333; cursor: pointer; border-radius: 4px;
-        }
-        .calendar-row.week-header span { font-weight: 600; color: #888; font-size: 12px; cursor: default; }
-        .calendar-row span.empty { pointer-events: none; }
-        
-        .calendar-row span:not(.week-header span):not(.empty):hover { background-color: #f5f5f5; }
-        .calendar-row span.selected {
-            background-color: #4e6ee4; color: white;
-            border-radius: 50%; font-weight: 600;
-        }
-        .calendar-row span.range-bg {
-            background-color: #eef1ff; color: #4e6ee4; border-radius: 0;
         }
     </style>
 </head>
@@ -961,7 +941,7 @@
             <div class="sw-container">
 
                 <section class="filter-section" style="padding-bottom: 0;">
-                    <button type="button" class="text-select-button" id="demo-period-btn" onclick="showListSheet()">
+                    <button type="button" class="text-select-button" onclick="showFilterSheet()">
                         <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
                         <div class="text-select-button-arrow">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
@@ -1173,134 +1153,64 @@
 
     </div>
 
-    <div class="bottom-sheet-overlay" id="list-sheet-overlay">
-        <div class="bottom-sheet" id="list-sheet">
-            <div class="sheet-handle" id="list-sheet-handle"></div>
+    <div class="bottom-sheet-overlay" id="filter-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="filter-sheet">
+            <div class="sheet-handle" id="filter-sheet-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">기간 상세검색</div>
-                <div class="btn-close" onclick="closeListSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                <div class="btn-close" onclick="closeFilterSheet()">
+                    <svg id="icon-close"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                 </div>
             </div>
-            <div class="sheet-body" style="padding: 0;">
-                <ul class="option-list">
-                    <li><button type="button" onclick="selectListOption('최근 1개월')">최근 1개월</button></li>
-                    <li><button type="button" onclick="selectListOption('최근 6개월')">최근 6개월</button></li>
-                    <li><button type="button" onclick="selectListOption('최근 1년')">최근 1년</button></li>
-                    <li><button type="button" onclick="openCustomPeriodSheet()">기간 설정</button></li>
-                </ul>
+            <div class="sheet-body" id="filter-sheet-body">
+                <div class="filter-group" id="single-chip-group-period">
+                    <div class="filter-group-title">기간</div>
+                    <div class="filter-group-content">
+                        <div class="single-chip single-chip-on" data-value="최근 1개월" onclick="selectPeriod(this)">최근 1개월</div>
+                        <div class="single-chip single-chip-off" data-value="최근 3개월" onclick="selectPeriod(this)">최근 3개월</div>
+                        <div class="single-chip single-chip-off" data-value="최근 6개월" onclick="selectPeriod(this)">최근 6개월</div>
+                        <div class="single-chip single-chip-off" data-value="최근 1년" onclick="selectPeriod(this)">최근 1년</div>
+                        <div class="single-chip single-chip-off" data-value="기간 설정" onclick="selectPeriod(this)">기간 설정</div>
+                    </div>
+                </div>
             </div>
-        </div>
+            </div>
     </div>
     
-    <div class="bottom-sheet-overlay" id="custom-period-overlay">
-        <div class="bottom-sheet" id="custom-period-sheet">
-            <div class="sheet-handle" id="custom-period-sheet-handle"></div>
+    <div class="bottom-sheet-overlay" id="period-custom-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="period-custom-sheet">
+            <div class="sheet-handle" id="period-custom-sheet-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">기간 설정</div>
                 <div class="btn-close" onclick="closeCustomPeriodSheet()">
-                     <svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                     <svg id="icon-close-custom-period"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                 </div>
             </div>
             <div class="sheet-body">
                 <div class="form-group">
-                    <label>시작일</label>
+                    <label for="start-date">시작일</label>
                     <div class="input">
-                        <button type="button" id="demo-start-date" onclick="showCalendarSheet('start')">2025-10-11</button>
+                        <input type="date" id="start-date" value="2025-10-11">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>종료일</label>
+                    <label for="end-date">종료일</label>
                     <div class="input">
-                        <button type="button" id="demo-end-date" onclick="showCalendarSheet('end')">2025-11-11</button>
+                        <input type="date" id="end-date" value="2025-11-11">
                     </div>
                 </div>
                  <div class="form-group">
                     <label>간편 설정</label>
                     <div class="filter-group-content">
-                        <div class="single-chip single-chip-off" onclick="setPresetPeriod(0)">오늘</div>
-                        <div class="single-chip single-chip-off" onclick="setPresetPeriod(7)">1주일</div>
-                        <div class="single-chip single-chip-off" onclick="setPresetPeriod(30)">1개월</div>
+                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(0)">오늘</div>
+                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(7)">1주일</div>
+                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(30)">1개월</div>
                     </div>
                 </div>
             </div>
             <div class="sheet-footer">
                 <button class="btn white-button" onclick="closeCustomPeriodSheet()">취소</button>
                 <button class="btn dark-button" onclick="applyCustomPeriod()">조회하기</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="bottom-sheet-overlay" id="calendar-sheet-overlay">
-        <div class="bottom-sheet" id="calendar-sheet">
-            <div class="sheet-handle" id="calendar-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">날짜 선택</div>
-                <div class="btn-close" onclick="closeCalendarSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="calendar-container">
-                    <div class="calendar-header">
-                        <button type="button" class="calendar-nav-btn">&lt;</button>
-                        <span class="calendar-month-title">2025.10</span>
-                        <button type="button" class="calendar-nav-btn">&gt;</button>
-                    </div>
-                    <div class="calendar-grid">
-                        <div class="calendar-row week-header">
-                            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span class="empty"></span><span class="empty"></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
-                            <span class="selected" onclick="confirmDateSelection(11)">11</span><span>12</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>27</span><span>28</span><span>29</span><span>30</span><span>31</span><span class="empty"></span><span class="empty"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="bottom-sheet-overlay" id="period-monthly-sheet-overlay">
-        <div class="bottom-sheet" data-name="bottom-sheet" id="period-monthly-sheet">
-            <div class="sheet-handle" id="period-monthly-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">월별 설정</div>
-                <div class="btn-close" onclick="closeMonthlyPeriodSheet()">
-                     <svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="form-group">
-                    <label for="select-year">년도</label>
-                    <div class="input select-wrapper">
-                        <select id="select-year">
-                            </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="select-month">월</label>
-                    <div class="input select-wrapper">
-                        <select id="select-month">
-                            </select>
-                    </div>
-                </div>
-            </div>
-            <div class="sheet-footer">
-                <button class="btn white-button" onclick="closeMonthlyPeriodSheet()">취소</button>
-                <button class="btn dark-button" onclick="applyMonthlyPeriod()">조회하기</button>
             </div>
         </div>
     </div>
@@ -1348,7 +1258,7 @@
             }
         }
         
-        // --- [v12] Bottom Sheet Logic (Robust version) ---
+        // --- [MODIFIED] Request 1: Bottom Sheet JS (from sungwon_money_01) ---
         function setupBottomSheet(overlayId, sheetId, handleId) {
             const overlay = document.getElementById(overlayId); const sheet = document.getElementById(sheetId); const handle = document.getElementById(handleId);
             if (!overlay || !sheet || !handle) return { openSheet: ()=>{}, closeSheet: ()=>{} };
@@ -1356,6 +1266,7 @@
             const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
             const closeSheet = () => { 
                 sheet.classList.add('closing'); 
+                // [MODIFIED] Check for other active sheets/modals
                 const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active:not(#' + overlayId + ')');
                 if (!anyModalActive) {
                     document.body.style.overflow = ''; 
@@ -1376,107 +1287,87 @@
             return { openSheet, closeSheet };
         }
         
-        // Setup Sheets
-        const { openSheet: showListSheet, closeSheet: closeListSheet } = setupBottomSheet('list-sheet-overlay', 'list-sheet', 'list-sheet-handle');
-        const { openSheet: showCustomPeriodSheetBase, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('custom-period-overlay', 'custom-period-sheet', 'custom-period-sheet-handle');
-        const { openSheet: showCalendarSheetBase, closeSheet: closeCalendarSheet } = setupBottomSheet('calendar-sheet-overlay', 'calendar-sheet', 'calendar-sheet-handle');
-        const { openSheet: showMonthlyPeriodSheetBase, closeSheet: closeMonthlyPeriodSheet } = setupBottomSheet('period-monthly-sheet-overlay', 'period-monthly-sheet', 'period-monthly-sheet-handle');
+        // [MODIFIED] Setup for both sheets
+        const { openSheet: showFilterSheet, closeSheet: closeFilterSheet } = setupBottomSheet('filter-sheet-overlay', 'filter-sheet', 'filter-sheet-handle');
+        const { openSheet: showCustomPeriodSheet, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
 
 
-        // --- [v12 Standard] COMPLEX FILTER INTERACTION ---
-        let selectedPeriodValue = "최근 1개월";
-        let currentTargetDateInputId = null;
+        // --- [MODIFIED] Request 1: Page-Specific Filter Logic ---
 
-        // 1. List Sheet Interaction
-        function selectListOption(value) {
-            selectedPeriodValue = value;
-            document.getElementById('selected-period-text').textContent = value;
-            document.getElementById('demo-period-btn').classList.remove('open');
-            closeListSheet();
-            filterQnaList();
-        }
-
-        function openCustomPeriodSheet() {
-            document.getElementById('list-sheet-overlay').classList.remove('active');
+        // 1. Period Filter (Bottom Sheet)
+        let selectedPeriodValue = "최근 1개월"; 
+        
+        function selectPeriod(chip) { 
+            const group = chip.closest('.filter-group-content'); 
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
+            chip.classList.replace('single-chip-off', 'single-chip-on'); 
+            selectedPeriodValue = chip.getAttribute('data-value'); 
             
-            // Set default dates if needed
-            if(!document.getElementById('demo-start-date').textContent.includes('-')) {
-                 const today = new Date();
-                 document.getElementById('demo-start-date').textContent = today.toISOString().split('T')[0];
-                 document.getElementById('demo-end-date').textContent = today.toISOString().split('T')[0];
+            if (selectedPeriodValue === "기간 설정") {
+                // Set default dates for custom sheet (e.g., last month)
+                const endDate = new Date();
+                const startDate = new Date();
+                startDate.setMonth(endDate.getMonth() - 1); // Default to 1 month ago
+                document.getElementById('start-date').value = startDate.toISOString().split('T')[0];
+                document.getElementById('end-date').value = endDate.toISOString().split('T')[0];
+                
+                showCustomPeriodSheet(); // Open the custom date picker
+            } else {
+                applyPeriodFilter(); // Apply directly if not custom
             }
-            
-            showCustomPeriodSheetBase();
         }
         
-        function openMonthlySheet() {
-            document.getElementById('list-sheet-overlay').classList.remove('active');
-            populateMonthyPicker();
-            showMonthlyPeriodSheetBase();
+        function applyPeriodFilter() { 
+            document.getElementById('selected-period-text').textContent = selectedPeriodValue; 
+            document.querySelector('.text-select-button')?.classList.remove('open'); 
+            closeFilterSheet(); 
+            filterQnaList(); // Main filter function
         }
 
-        // 2. Custom Period Logic
-        function showCalendarSheet(targetInputId) {
-            if(targetInputId === 'start') currentTargetDateInputId = 'demo-start-date';
-            else if(targetInputId === 'end') currentTargetDateInputId = 'demo-end-date';
-            showCalendarSheetBase();
-        }
-
-        function confirmDateSelection(day) {
-            if(currentTargetDateInputId) {
-                document.getElementById(currentTargetDateInputId).textContent = `2025-10-${day}`;
+        // [NEW]
+        function setCustomPeriod(days) {
+            const endDate = new Date();
+            let startDate = new Date();
+            
+            if (days === 0) { // 오늘
+                 startDate = endDate;
+            } else if (days === 7) { // 1주일
+                startDate.setDate(endDate.getDate() - 7);
+            } else if (days === 30) { // 1개월
+                 startDate.setMonth(endDate.getMonth() - 1);
             }
-            closeCalendarSheet();
+            
+            // Format to YYYY-MM-DD
+            const isoStartDate = startDate.toISOString().split('T')[0];
+            const isoEndDate = endDate.toISOString().split('T')[0];
+
+            document.getElementById('start-date').value = isoStartDate;
+            document.getElementById('end-date').value = isoEndDate;
         }
 
+        // [NEW]
         function applyCustomPeriod() {
-            const start = document.getElementById('demo-start-date').textContent;
-            const end = document.getElementById('demo-end-date').textContent;
-            selectedPeriodValue = `${start} ~ ${end}`;
-            document.getElementById('selected-period-text').textContent = selectedPeriodValue;
-            document.getElementById('demo-period-btn').classList.remove('open');
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            
+            if (!startDate || !endDate) {
+                alert("시작일과 종료일을 모두 선택해주세요.");
+                return;
+            }
+            if (new Date(startDate) > new Date(endDate)) {
+                 alert("시작일이 종료일보다 늦을 수 없습니다.");
+                return;
+            }
+            
+            selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`;
+            
             closeCustomPeriodSheet();
-            filterQnaList();
+            applyPeriodFilter(); // This already calls filterQnaList()
         }
-
-        function setPresetPeriod(days) {
-            alert(days + '일 기간 자동 설정 (데모)');
-        }
+         
+        // [REMOVED] resetPeriodFilter (no longer used as footer is gone)
         
-        // 3. Monthly Period Logic
-        function populateMonthyPicker() {
-            const yearSelect = document.getElementById('select-year');
-            const monthSelect = document.getElementById('select-month');
-            const currentYear = new Date().getFullYear();
-            const currentMonth = new Date().getMonth() + 1;
-
-            if (yearSelect.options.length === 0) {
-                for (let i = 0; i < 5; i++) {
-                    const year = currentYear - i;
-                    yearSelect.add(new Option(`${year}년`, year));
-                }
-            }
-            if (monthSelect.options.length === 0) { 
-                 for (let i = 1; i <= 12; i++) {
-                    monthSelect.add(new Option(`${i}월`, i));
-                }
-            }
-            yearSelect.value = currentYear;
-            monthSelect.value = currentMonth;
-        }
-
-        function applyMonthlyPeriod() {
-            const year = document.getElementById('select-year').value;
-            const month = document.getElementById('select-month').value;
-            selectedPeriodValue = `${year}년 ${month}월`;
-            document.getElementById('selected-period-text').textContent = selectedPeriodValue;
-            document.getElementById('demo-period-btn').classList.remove('open');
-            closeMonthlyPeriodSheet();
-            filterQnaList();
-        }
-
-        
-        // --- Other Filters ---
+        // 2. Status Filter (Single-select chip)
         function selectStatusChip(chip) {
             const group = chip.closest('#status-chip-group');
             if (!group) return;
@@ -1485,6 +1376,7 @@
             filterQnaList();
         }
         
+        // 3. Category Filter (Multi-select chip)
         function toggleCategoryChip(chip) {
             const category = chip.getAttribute('data-category');
             const group = chip.closest('#category-chip-group');
@@ -1537,14 +1429,20 @@
                 const cardStatus = card.getAttribute('data-status'); 
                 const cardCategory = card.getAttribute('data-category');
                 const cardTitle = card.querySelector('.qna-title-row').textContent.toLowerCase();
+                const cardOrderNo = card.querySelector('.card-row-value[data-field="order-no"]'); // (Assuming we add this)
                 
+                // Status check
                 const statusMatch = (status === '전체' || cardStatus === status);
+                // Category check
                 const categoryMatch = (isAllCategories || selectedCategories.includes(cardCategory));
-                
+                // Search check
                 let searchMatch = true;
                 if (searchTerm) {
-                    searchMatch = cardTitle.includes(searchTerm); 
+                    searchMatch = cardTitle.includes(searchTerm); // Simple title search for demo
+                    // Add order/inquiry number search if needed
                 }
+                
+                // TODO: Add period filtering logic here when data is dynamic
                 
                 if (statusMatch && categoryMatch && searchMatch) { 
                     card.style.display = ''; 
@@ -1561,7 +1459,7 @@
 
 
         // --- [v12] Pagination Logic ---
-        let currentPage = 1; const totalPages = 1; 
+        let currentPage = 1; const totalPages = 1; // [MODIFIED] Total pages
         function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); }
         function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
         function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
@@ -1571,7 +1469,7 @@
             const numbersContainer = document.getElementById('pagination-numbers');
             if (!numbersContainer) return;
 
-            numbersContainer.innerHTML = ''; 
+            numbersContainer.innerHTML = ''; // Clear
             for (let i = 1; i <= totalPages; i++) {
                 const numEl = document.createElement('div');
                 numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
@@ -1594,20 +1492,18 @@
         // --- Initialize ---
         document.addEventListener('DOMContentLoaded', () => {
             updatePagination();
-            filterQnaList();
+            filterQnaList(); // Initial filter
             
-            // Add event listener for main period button
-            const btn = document.getElementById('demo-period-btn');
-            if(btn) {
-                btn.addEventListener('click', function() {
-                    this.classList.add('open');
-                });
-            }
-            
-            // Reset Arrow on Sheet Close via Overlay
-            document.getElementById('list-sheet-overlay').addEventListener('click', function(e) {
-                if(e.target === this) document.getElementById('demo-period-btn').classList.remove('open');
+            // [NEW] Add event listener for main period button
+            document.querySelector('.text-select-button')?.addEventListener('click', function() { 
+                this.classList.toggle('open'); 
+                // showFilterSheet() is already in the onclick
             });
+            
+            // [NEW] Set default dates for custom period sheet
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('start-date').value = today;
+            document.getElementById('end-date').value = today;
         });
 
     </script>
@@ -1616,7 +1512,16 @@
     <div class="disqus-thread-wrap">
         <div id="disqus_thread"></div>
         <script>
-            (function() { 
+            /**
+            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
             s.src = 'https://sw-mobile.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());

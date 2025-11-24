@@ -24,7 +24,6 @@
                 display: none;
             }
         }
-
         /* Reset & Base */
         * {
             box-sizing: border-box;
@@ -67,22 +66,54 @@
             display: block;
         }
 
-        input,
-        select {
+        input, select {
             font-family: inherit;
         }
-
-        /* [v12] Master Guide: Input Button (for Date/Calendar Trigger) */
-        .input button {
-            width: 100%;
-            height: 100%;
-            text-align: left;
-            border: none;
-            background: none;
+        
+        /* [MODIFIED] CR1: Add styles for date input */
+        input[type="date"] {
+            position: relative;
             font-size: 14px;
-            color: #333;
-            cursor: pointer;
+            color: black;
+            line-height: 1.5;
+            padding: 10px 12px;
+            width: 100%;
+            min-height: 40px;
+            border: none;
+            outline: none;
         }
+        
+        /* [MODIFIED] CR1: Date input placeholder styling */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+        }
+        
+        input[type="date"]::before {
+            content: attr(data-placeholder);
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #c6c6c8; /* Placeholder color */
+            display: none;
+        }
+        
+        input[type="date"]:invalid::before {
+            display: block;
+        }
+        input[type="date"][value]:not([value=""])::before {
+            display: none; /* Hide placeholder if date is set */
+        }
+
 
         svg {
             stroke-width: 2;
@@ -101,6 +132,7 @@
             margin: 0 auto;
             background-color: #ffffff;
             padding-bottom: 20px;
+            /* Pagination 여백 */
         }
 
         /* Header (v12 Standard) */
@@ -174,7 +206,7 @@
             height: 100%;
         }
 
-        /* Buttons */
+        /* Buttons (v12 Standard + Primary) */
         .primary-button {
             background-color: #4e6ee4;
             color: white;
@@ -264,10 +296,11 @@
             padding: 16px;
         }
 
-        /* Page Tabs */
+        /* [NEW] Page Tabs (v12 Tab-Nav Style) */
         .page-tabs {
             width: 100%;
             height: 44px;
+            /* v12 standard height */
             background: white;
             border-bottom: 1px solid #e8e8e9;
             display: flex;
@@ -287,14 +320,17 @@
             height: 42px;
             padding: 10px 4px;
             font-size: 16px;
+            /* v12 standard font size */
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             margin-right: 16px;
             position: relative;
             color: #bcbcbc;
+            /* Inactive color */
             border-bottom: 2px solid transparent;
             flex-shrink: 0;
+            /* Prevent shrinking */
         }
 
         .page-tab-item.active {
@@ -302,7 +338,13 @@
             border-bottom: 2px solid black;
         }
 
-        /* Info Section */
+        .page-tab-item:hover {
+            opacity: 0.8;
+        }
+
+
+        /* Account Section (v14) */
+        /* [MODIFIED] Lighter style for info-section */
         .info-section {
             background: #f8f8f9;
             border: 1px solid #f0f0f0;
@@ -316,6 +358,73 @@
             font-weight: 600;
             color: #666;
             margin-bottom: 8px;
+        }
+
+        /* [MODIFIED] Lighter title color */
+        .info-section .balance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .info-section .balance {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .info-section .balance-row .primary-button {
+            height: 36px;
+            font-size: 13px;
+        }
+
+        .account-info-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+
+        .account-info-row:hover {
+            background-color: #f8f8f8;
+        }
+
+        .account-info {
+            font-size: 14px;
+            color: #333;
+            word-break: keep-all;
+            flex-grow: 1;
+            margin-right: 8px;
+        }
+
+        .account-info strong {
+            font-weight: 600;
+        }
+
+        .account-chevron {
+            width: 16px;
+            height: 16px;
+            color: #888;
+            flex-shrink: 0;
+        }
+
+        .info-sub-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .info-sub-row .label {
+            color: #555;
+        }
+
+        .info-sub-row .value {
+            color: #333;
+            font-weight: 600;
         }
 
         /* Filter Chip Section */
@@ -344,11 +453,12 @@
 
         .filter-chip-section .single-chip,
         .filter-chip-section .multi-chip {
+            /* [MODIFIED] Apply to both chip types */
             flex-shrink: 0;
             white-space: nowrap;
         }
 
-        /* Filter Section */
+        /* Filter Section (v15) */
         .filter-section {
             padding: 0 0 16px 0;
             display: flex;
@@ -356,15 +466,16 @@
             align-items: center;
         }
 
+        /* [MODIFIED] Req 1: '발급 내역' 탭의 기간 필터 하단 여백 제거 */
         #issue-period-filter {
             padding-bottom: 0;
         }
 
-        /* [v12] Text Select Button */
+
         .text-select-button {
             display: inline-flex;
             align-items: center;
-            gap: 2px;
+            gap: 4px;
             cursor: pointer;
             transition: opacity 0.2s;
             user-select: none;
@@ -382,23 +493,22 @@
         .text-select-button-text {
             font-size: 14px;
             color: #2c2c2c;
-            font-weight: 400;
+            font-weight: 500;
             white-space: nowrap;
         }
 
         .text-select-button-arrow {
-            width: 12px;
-            height: 12px;
-            color: #222;
+            width: 16px;
+            height: 16px;
+            color: #555;
         }
 
         .text-select-button-arrow svg {
             transition: transform 0.2s;
-            transform: translateY(-2px);
         }
 
         .text-select-button.open .text-select-button-arrow svg {
-            transform: translateY(-3px) rotate(-180deg);
+            transform: rotate(-180deg);
         }
 
         /* Transaction List Header */
@@ -427,6 +537,14 @@
             user-select: none;
         }
 
+        .view-count-select:hover {
+            opacity: 0.8;
+        }
+
+        .view-count-select:active {
+            transform: scale(0.98);
+        }
+
         .view-count-select-text {
             font-size: 14px;
             color: #2c2c2c;
@@ -449,6 +567,7 @@
             flex-direction: column;
             gap: 12px;
             margin-bottom: 24px;
+            /* Pagination 여백 */
         }
 
         .no-transactions {
@@ -458,7 +577,7 @@
             font-size: 14px;
         }
 
-        /* Common Table Card */
+        /* [NEW] v12 common-table-card (for Tax Invoice) */
         .common-table-card {
             width: 100%;
             background: white;
@@ -475,6 +594,12 @@
             margin-bottom: 0px;
         }
 
+        .card-column1 {
+            font-size: 16px;
+            font-weight: 500;
+            color: #212121;
+        }
+
         .card-badge {
             background: white;
             border: 1px solid #d7d7d7;
@@ -483,8 +608,12 @@
             font-size: 10px;
             color: black;
             flex-shrink: 0;
+            /* [NEW] 뱃지 축소 방지 */
         }
 
+        /* [REMOVED] CR2: .card-column2 removed */
+
+        /* Modified for total amount */
         .card-divider {
             width: 100%;
             height: 1px;
@@ -502,13 +631,16 @@
         .card-row-label {
             color: #333333;
             flex-shrink: 0;
+            /* [NEW] 라벨 축소 방지 */
             margin-right: 8px;
         }
 
         .card-row-value {
             color: grey;
             text-align: right;
+            /* [NEW] 값 우측 정렬 */
             word-break: break-all;
+            /* [NEW] 긴 값 줄바꿈 */
         }
 
         .card-footer {
@@ -524,7 +656,28 @@
             padding: 0 12px;
         }
 
-        /* Status Colors */
+        /* [NEW] Status-specific badge colors */
+        .card-badge[data-status="미발급"] {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        .card-badge[data-status="발급대기"] {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .card-badge[data-status="발급실패"] {
+            border-color: #ffc107;
+            color: #ffc107;
+        }
+
+        .card-badge[data-status="폐기처리"] {
+            border-color: #28a745;
+            color: #28a745;
+        }
+
+        /* [NEW] Issue type badge colors */
         .card-badge[data-type="건별"] {
             border-color: #007bff;
             color: #007bff;
@@ -535,7 +688,8 @@
             color: #28a745;
         }
 
-        /* [v12] Checkbox */
+
+        /* [NEW] v12 Checkbox (from Master Guide) */
         .checkbox {
             width: 20px;
             height: 20px;
@@ -568,7 +722,24 @@
             height: 14px;
         }
 
-        /* [v12] Multi-chip */
+        .checkbox:active {
+            transform: scale(0.9);
+        }
+
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-text span {
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* [NEW] v12 Multi-chip (from Master Guide) */
         .multi-chip {
             display: inline-flex;
             align-items: center;
@@ -597,7 +768,7 @@
             transform: scale(0.95);
         }
 
-        /* [v12] Search */
+        /* [NEW] v12 Search (from Master Guide) */
         .search {
             width: 100%;
             height: 40px;
@@ -648,6 +819,11 @@
             transition: transform 0.2s;
         }
 
+        .search-icon:active,
+        .btn-search:active {
+            transform: scale(0.9);
+        }
+
         .search-del img,
         .btn-search img,
         .search-icon img {
@@ -655,13 +831,15 @@
             height: 100%;
         }
 
-        /* Pagination */
+
+        /* [v17] Pagination (Master Guide Img) */
         .pagination {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 9px;
             margin-bottom: 24px;
+            /* [MODIFIED] Added bottom margin */
         }
 
         .pagination-arrow {
@@ -677,6 +855,15 @@
         .pagination-arrow img {
             width: 100%;
             height: auto;
+        }
+
+        .pagination-arrow:active {
+            transform: scale(0.9);
+        }
+
+        .pagination-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
         }
 
         .pagination-numbers {
@@ -708,7 +895,15 @@
             color: #bcbcbc;
         }
 
-        /* Sticky Footer */
+        .pagination-number:not(.active):hover {
+            background: #f5f5f5;
+        }
+
+        .pagination-number:active {
+            transform: scale(0.95);
+        }
+
+        /* [NEW] Sticky Footer Bar */
         .sticky-footer-bar {
             position: fixed;
             bottom: 0;
@@ -716,11 +911,13 @@
             transform: translateX(-50%);
             width: 100%;
             max-width: 480px;
+            /* Match .mobile-wrap */
             background: #ffffff;
             border-top: 1px solid #e0e0e0;
             box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
             padding: 20px;
             display: none;
+            /* Hidden by default */
             align-items: center;
             justify-content: space-between;
             z-index: 500;
@@ -731,12 +928,29 @@
             display: flex;
         }
 
+        @keyframes slideUpFooter {
+            from {
+                transform: translate(-50%, 100%);
+            }
+
+            to {
+                transform: translate(-50%, 0);
+            }
+        }
+
+        .sticky-footer-bar span {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
         .sticky-footer-bar .dark-button {
             width: auto;
+            /* Override default 100% width */
             flex-shrink: 0;
         }
 
-        /* [v12] Single-chip */
+        /* v12 Standard .single-chip */
         .single-chip {
             display: inline-flex;
             align-items: center;
@@ -759,7 +973,11 @@
             color: white;
         }
 
-        /* Disclaimer */
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* v12 Standard .disclaimer */
         .disclaimer {
             font-size: 12px;
             color: #888;
@@ -767,7 +985,16 @@
             line-height: 1.5;
         }
 
-        /* Modal */
+        .disclaimer.warning {
+            color: #dc3545;
+        }
+
+
+        /* ========================================
+           [NEW] MODAL STYLES
+        ======================================== */
+
+        /* [NEW] Modal (from v19 default / v12 guide) */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -784,13 +1011,23 @@
             animation: fadeInModal 0.2s ease-out;
         }
 
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* [NEW] CR2: Full modal overlay animation */
         .modal-overlay.overlay-full-modal {
             animation: none;
             opacity: 0;
             transition: opacity 0.3s ease-out;
-            padding: 0;
+            padding: 0; /* Full modal has no padding */
         }
-
         .modal-overlay.overlay-full-modal.active {
             opacity: 1;
         }
@@ -800,59 +1037,92 @@
             border-radius: 8px;
             width: 100%;
             max-width: 360px;
+            /* Modal max width */
             max-height: 90vh;
+            /* Limit height */
             display: flex;
             flex-direction: column;
             animation: scaleUpModal 0.2s ease-out;
         }
 
+        @keyframes scaleUpModal {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        /* [NEW] CR2: Full Modal Styles (from sungwon_money_01) */
         .modal-content.full-modal {
             width: 100%;
             height: 100%;
             max-width: 100%;
             max-height: 100%;
             border-radius: 0;
-            position: fixed;
+            position: fixed; 
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
-            transform: translateX(100%);
-            transition: transform 0.3s ease-out;
-            animation: none;
+            transform: translateX(100%); /* Start off-screen */
+            transition: transform 0.3s ease-out; 
+            animation: none; 
         }
-
+        
         .modal-overlay.active .modal-content.full-modal {
-            transform: translateX(0);
+            transform: translateX(0); /* Slide in */
         }
-
-        .modal-overlay .modal-content.full-modal.closing {
-            transform: translateX(100%);
-        }
-
+         .modal-overlay .modal-content.full-modal.closing {
+            transform: translateX(100%); /* Slide out */
+         }
+        
         .full-modal .modal-header {
-            height: 56px;
-            position: sticky;
-            top: 0;
+            height: 56px; 
+            background: white; 
+            border-bottom: 1px solid #cccccc; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 16px; 
+            position: sticky; 
+            top: 0; 
             z-index: 10;
-            padding: 0 16px;
         }
-
-        .full-modal .modal-title {
-            flex: 3 0 0;
-            text-align: center;
-            font-size: 18px;
-        }
-
-        .full-modal .btn-modal-close {
+         .full-modal .modal-title {
+            flex: 3 0 0; 
+            font-size: 18px; 
+            font-weight: 600; 
+            text-align: center; 
+            color: #212121;
+         }
+         .full-modal .btn-modal-close {
             position: static;
             transform: none;
             width: 28px;
             height: 28px;
-        }
-
+         }
+         .full-modal .modal-header-placeholder {
+             flex: 1 0 0;
+             display: flex;
+             justify-content: flex-end;
+             width: 28px; /* Match button width */
+         }
+        
+         .full-modal .modal-footer {
+            position: sticky;
+            bottom: 0;
+            border-radius: 0;
+            z-index: 10;
+         }
+        
+        /* [NEW] CR3: Override modal width for full-details modal */
         #issue-full-details-modal-overlay .modal-content:not(.full-modal) {
-            max-width: 440px;
+            max-width: 440px; /* Wider than default 360px */
         }
 
         .modal-header {
@@ -862,14 +1132,17 @@
             padding: 16px;
             border-bottom: 1px solid #e8e8e9;
             position: relative;
+            /* For close button */
             height: 57px;
-            flex-shrink: 0;
+            /* Match v12 modal header */
+            flex-shrink: 0; 
         }
 
         .modal-title {
             font-size: 16px;
             font-weight: 700;
             color: black;
+            text-align: left;
         }
 
         .btn-modal-close {
@@ -877,10 +1150,20 @@
             height: 24px;
             cursor: pointer;
             color: #333;
+            /* v12 guide color */
             position: absolute;
             right: 16px;
             top: 50%;
             transform: translateY(-50%);
+        }
+
+        .btn-modal-close:hover {
+            color: #000;
+        }
+
+        .btn-modal-close svg {
+            width: 100%;
+            height: 100%;
         }
 
         .modal-body {
@@ -889,6 +1172,14 @@
             flex-grow: 1;
         }
 
+        /* [NEW] Modal Body with no top padding */
+        .modal-body-flush {
+             padding: 0 16px 16px 16px;
+             overflow-y: auto;
+             flex-grow: 1;
+        }
+
+
         .modal-footer {
             padding: 16px;
             border-top: 1px solid #e8e8e9;
@@ -896,7 +1187,7 @@
             display: flex;
             gap: 8px;
             border-radius: 0 0 7px 7px;
-            flex-shrink: 0;
+            flex-shrink: 0; 
         }
 
         .modal-footer .btn {
@@ -905,6 +1196,7 @@
             font-size: 14px;
         }
 
+        /* [NEW] Modal Form Elements (from v12 guide / sungwon_money) */
         .form-group {
             margin-bottom: 20px;
         }
@@ -916,42 +1208,33 @@
             color: #333;
             margin-bottom: 8px;
         }
-
-        .readonly-value {
-            font-size: 14px;
-            color: #333;
-            padding: 10px 12px;
-            background: #f5f5f5;
+        
+        .modal-body .form-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* [NEW] CR1: Date picker modal styles */
+        #date-picker-modal .form-group {
+            margin-bottom: 16px;
+        }
+        #date-picker-modal .form-group-date {
             border: 1px solid #e8e8e9;
             border-radius: 6px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
+            overflow: hidden; /* To keep border-radius on input */
         }
-
-        .readonly-value.emphasis {
-            font-weight: 700;
-            color: #333;
-            font-size: 16px;
+        #date-picker-modal .form-group-date input {
+            border: none;
+            outline: none;
         }
-
-        .input {
-            width: 100%;
-            min-height: 40px;
-            background: white;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
+        #date-picker-modal .quick-set-chips .single-chip {
+            padding: 4px 10px;
+            font-size: 13px;
         }
-
-        /* Select Wrapper */
+        /* [NEW] CR1: Added select wrapper style from sungwon_money_01 */
         .input.select-wrapper {
             padding: 0;
             position: relative;
         }
-
         .input select {
             height: 38px;
             padding: 0 12px;
@@ -964,9 +1247,9 @@
             outline: none;
             font-size: 14px;
             color: black;
+            line-height: 1.5;
         }
-
-        .input.select-wrapper::after {
+         .input.select-wrapper::after {
             content: '';
             position: absolute;
             right: 12px;
@@ -980,6 +1263,125 @@
             pointer-events: none;
         }
 
+
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+
+        .input input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .input input:disabled {
+            background: #f5f5f5;
+            color: #888;
+            cursor: not-allowed;
+        }
+
+        .input.disabled {
+            background: #f5f5f5;
+        }
+
+        /* [NEW] Modal Tab Navigation */
+        .modal-tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .modal-tab-nav .single-chip {
+            font-weight: 500;
+        }
+
+        .modal-tab-nav .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        /* [NEW] Customer List Modal Styles */
+        .customer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .customer-item {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .customer-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .customer-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .customer-item .white-button {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
+
+        .customer-detail {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+            line-height: 1.5;
+        }
+
+        .customer-detail .label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* [NEW] Form group for customer list button */
+        .form-group-button { }
+
+        .form-group-button .white-button {
+            width: 100%;
+            height: 40px;
+            font-weight: 500;
+        }
+        
+        /* [NEW] Section Title for Modals */
         .modal-section-title {
             font-size: 16px;
             font-weight: 600;
@@ -987,48 +1389,28 @@
             margin-bottom: 12px;
             margin-top: 16px;
         }
-
         .modal-body .modal-section-title:first-child {
             margin-top: 0;
         }
+        
+        /* [NEW] Item detail row (for Modals) */
+        .item-list { display: flex; flex-direction: column; gap: 10px; }
+        .item-row { display: flex; justify-content: space-between; align-items: flex-start; }
+        .item-name { font-size: 14px; color: #333; font-weight: 500; }
+        .item-price-wrapper { display: flex; flex-direction: column; align-items: flex-end; }
+        .item-price-total { font-size: 14px; font-weight: 500; color: #333; }
+        .item-price-details { font-size: 12px; color: #888; }
 
-        /* Item Detail */
-        .item-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .item-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .item-name {
-            font-size: 14px;
+        /* [NEW] Readonly-value with emphasis */
+        .readonly-value.emphasis {
+            font-weight: 700;
             color: #333;
-            font-weight: 500;
+            font-size: 16px;
         }
-
-        .item-price-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .item-price-total {
-            font-size: 14px;
-            font-weight: 500;
-            color: #333;
-        }
-
-        .item-price-details {
-            font-size: 12px;
-            color: #888;
-        }
-
-        /* Bottom Sheet */
+        
+        /* ========================================
+           [NEW] BOTTOM SHEET STYLES
+        ======================================== */
         .bottom-sheet-overlay {
             position: fixed;
             inset: 0;
@@ -1101,6 +1483,10 @@
             cursor: grab;
         }
 
+        .sheet-handle:active {
+            cursor: grabbing;
+        }
+
         .sheet-header {
             height: 21px;
             padding: 0 20px;
@@ -1124,6 +1510,17 @@
             width: 21px;
             height: 21px;
             cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-close:active {
+            transform: scale(0.9);
+        }
+
+        .btn-close svg {
+            width: 100%;
+            height: 100%;
+            color: #333;
         }
 
         .sheet-body {
@@ -1148,7 +1545,7 @@
             flex-wrap: wrap;
             gap: 8px;
         }
-
+        
         .sheet-footer {
             padding: 20px;
             border-top: 1px solid #f0f0f0;
@@ -1160,7 +1557,13 @@
         .sheet-footer .btn {
             flex: 1;
         }
-
+        
+        /* [NEW] Bottom Sheet Detail Item Styles */
+        .detail-item { display: flex; margin-bottom: 12px; font-size: 14px; }
+        .detail-item .label { color: #666; width: 100px; flex-shrink: 0; }
+        .detail-item .value { color: #333; font-weight: 500; }
+        
+        
         /* [NEW] CR3: Text button style for issue number */
         .card-column1-button {
             display: flex;
@@ -1173,160 +1576,48 @@
             cursor: pointer;
             text-align: left;
         }
-
         .card-column1-button:hover {
             opacity: 0.7;
         }
-
-        /* [NEW] CR5: Chevron icon style */
+        
+        /* [NEW] CR5: Chevron icon style (from sungwon_money_01.html) */
         .card-chevron-icon {
             width: 16px;
             height: 16px;
             color: #888;
             flex-shrink: 0;
         }
-
-        /* [NEW] CR5: Clickable card style */
+        
+        /* [NEW] CR5: Clickable card style (from qna_list.html) */
         .common-table-card.clickable {
             cursor: pointer;
             transition: background 0.2s;
         }
-
         .common-table-card.clickable:hover {
             background: #f9f9f9;
         }
-
-        /* [NEW] Accordion Styles */
+        
+        /* [NEW] Accordion Styles (Req: Change card interaction to accordion) */
         .card-accordion-content {
             display: none;
             padding-top: 10px;
-            border-top: 1px solid #e8e8e9;
+            border-top: 1px solid #e8e8e9; /* Divider style */
             margin-top: 10px;
         }
-
+        
         .common-table-card.active .card-accordion-content {
             display: block;
             animation: fadeIn 0.3s ease;
         }
-
+        
+        /* [MODIFIED] Chevron Icon Rotation */
         .common-table-card .card-chevron-icon svg {
             transition: transform 0.3s;
+            /* 초기 상태는 HTML SVG가 Down 방향이므로 transform 없음 */
         }
-
+        
         .common-table-card.active .card-chevron-icon svg {
-            transform: rotate(180deg);
-        }
-
-        /* [v12] Option List (Bottom Sheet List Type) */
-        .option-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .option-list li {
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .option-list li:last-child {
-            border-bottom: none;
-        }
-
-        .option-list li button {
-            display: block;
-            width: 100%;
-            padding: 16px 20px;
-            font-size: 16px;
-            color: #333;
-            text-align: left;
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .option-list li button:hover {
-            background-color: #f8f8f8;
-        }
-
-        .option-list li button:active {
-            background-color: #f0f0f0;
-        }
-
-        /* [v12] Calendar (Date Picker) */
-        .calendar-container {
-            padding: 10px 0;
-        }
-
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .calendar-month-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .calendar-nav-btn {
-            font-size: 16px;
-            color: #888;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-
-        .calendar-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .calendar-row {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .calendar-row span {
-            width: 14.28%;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #333;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .calendar-row.week-header span {
-            font-weight: 600;
-            color: #888;
-            font-size: 12px;
-            cursor: default;
-        }
-
-        .calendar-row span.empty {
-            pointer-events: none;
-        }
-
-        .calendar-row span:not(.week-header span):not(.empty):hover {
-            background-color: #f5f5f5;
-        }
-
-        .calendar-row span.selected {
-            background-color: #4e6ee4;
-            color: white;
-            border-radius: 50%;
-            font-weight: 600;
-        }
-
-        .calendar-row span.range-bg {
-            background-color: #eef1ff;
-            color: #4e6ee4;
-            border-radius: 0;
+            transform: rotate(180deg); /* Down -> Up (180도 회전) */
         }
     </style>
 </head>
@@ -1367,18 +1658,18 @@
                 <div class="page-tab-item" data-page="request" onclick="location.href='tax_request.html';">신청</div>
                 <div class="page-tab-item active" data-page="issue" onclick="selectPageTab(this)">발급 내역</div>
             </nav>
-
+            
             <div id="page-content-request" style="display: none;">
                 <div class="sw-container">
                     <div class="no-transactions" id="no-request-list">신청할 세금계산서 내역이 없어요</div>
                 </div>
             </div>
-
+            
             <div id="page-content-issue" style="display: block;">
                 <div class="sw-container">
 
                     <section class="filter-section" id="issue-period-filter">
-                        <button type="button" class="text-select-button" id="demo-period-btn" onclick="showListSheet()">
+                        <button type="button" class="text-select-button" onclick="showFilterSheet()">
                             <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
                             <div class="text-select-button-arrow">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
@@ -1387,32 +1678,28 @@
                             </div>
                         </button>
                     </section>
-
+    
                     <section class="filter-chip-section">
                         <div class="tabs-scroll-wrapper" id="issue-type-chip-group">
-                            <div class="multi-chip multi-chip-on" data-status="전체" onclick="toggleIssueTypeChip(this)">✓
-                                전체
+                            <div class="multi-chip multi-chip-on" data-status="전체" onclick="toggleIssueTypeChip(this)">✓ 전체
                             </div>
-                            <div class="multi-chip multi-chip-off" data-status="건별" onclick="toggleIssueTypeChip(this)">
-                                건별
+                            <div class="multi-chip multi-chip-off" data-status="건별" onclick="toggleIssueTypeChip(this)">건별
                             </div>
-                            <div class="multi-chip multi-chip-off" data-status="합산" onclick="toggleIssueTypeChip(this)">
-                                합산
+                            <div class="multi-chip multi-chip-off" data-status="합산" onclick="toggleIssueTypeChip(this)">합산
                             </div>
                         </div>
                     </section>
-
+    
                     <section class="filter-section" style="padding-top: 0;">
                         <div class="search" data-name="search" id="issue-search">
                             <input type="text" placeholder="접수번호 또는 기업명, 사업자등록번호" oninput="handleSearchInput(this)">
                             <div class="search-input-right">
                                 <div class="search-del" onclick="clearSearch(this)">
-                                    <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d"
-                                        alt="지우기">
+                                    <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d" alt="지우기">
                                 </div>
                                 <div class="btn-search" onclick="handleSearch(this)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
-                                        id="icon-search">
+                            id="icon-search">
                                         <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                                         <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
                                     </svg>
@@ -1420,7 +1707,7 @@
                             </div>
                         </div>
                     </section>
-
+    
                     <section class="transaction-list-section">
                         <div class="transaction-list-header">
                             <span class="total-count">총 <strong id="issue-count">3</strong>건</span>
@@ -1433,9 +1720,9 @@
                                 </div>
                             </div>
                         </div>
-
+    
                         <div class="transaction-list" id="issue-list-container">
-
+    
                             <article class="common-table-card clickable" data-type="합산" onclick="toggleAccordion(this)">
                                 <div class="card-header">
                                     <button type="button" class="card-column1-button" onclick="event.stopPropagation(); showIssueFullDetailsModal({
@@ -1456,20 +1743,16 @@
                                         contactEmail: 'damdangja@email.com'
                                     })">
                                         <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
-                                        <span
-                                            style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">324111</span>
+                                        <span style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">324111</span>
                                     </button>
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <div class="card-badge" data-type="합산">합산</div>
                                         <div class="card-chevron-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24">
-                                                <path d="M6 9l6 6l6 -6" />
-                                            </svg>
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
                                         </div>
                                     </div>
                                 </div>
-
+                                
                                 <div class="card-row" style="margin-top: 15px;">
                                     <div class="card-row-label">공급가액</div>
                                     <div class="card-row-value">103,305,000 원</div>
@@ -1480,10 +1763,9 @@
                                 </div>
                                 <div class="card-row" style="margin-top: 8px;">
                                     <div class="card-row-label" style="font-weight: 600; color: #333;">합계금액</div>
-                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">
-                                        1,003,305,000 원</div>
+                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">1,003,305,000 원</div>
                                 </div>
-
+                                
                                 <div class="card-divider"></div>
                                 <div class="card-row">
                                     <div class="card-row-label">발급일</div>
@@ -1510,11 +1792,10 @@
                                 </div>
 
                                 <div class="card-footer">
-                                    <button type="button" class="white-button btn"
-                                        onclick="event.stopPropagation(); alert('PC 에서만 가능합니다')">출력</button>
+                                    <button type="button" class="white-button btn" onclick="event.stopPropagation(); alert('PC 에서만 가능합니다')">출력</button>
                                 </div>
                             </article>
-
+                            
                             <article class="common-table-card clickable" data-type="건별" onclick="toggleAccordion(this)">
                                 <div class="card-header">
                                     <button type="button" class="card-column1-button" onclick="event.stopPropagation(); showIssueFullDetailsModal({
@@ -1535,16 +1816,12 @@
                                         contactEmail: 'damdangja@email.com'
                                     })">
                                         <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
-                                        <span
-                                            style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">102032</span>
+                                        <span style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">102032</span>
                                     </button>
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <div class="card-badge" data-type="건별">건별</div>
                                         <div class="card-chevron-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24">
-                                                <path d="M6 9l6 6l6 -6" />
-                                            </svg>
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
                                         </div>
                                     </div>
                                 </div>
@@ -1559,10 +1836,9 @@
                                 </div>
                                 <div class="card-row" style="margin-top: 8px;">
                                     <div class="card-row-label" style="font-weight: 600; color: #333;">합계금액</div>
-                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">
-                                        9,020 원</div>
+                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">9,020 원</div>
                                 </div>
-
+                                
                                 <div class="card-divider"></div>
                                 <div class="card-row">
                                     <div class="card-row-label">발급일</div>
@@ -1589,11 +1865,10 @@
                                 </div>
 
                                 <div class="card-footer">
-                                    <button type="button" class="white-button btn"
-                                        onclick="event.stopPropagation(); alert('PC 에서만 가능합니다')">출력</button>
+                                    <button type="button" class="white-button btn" onclick="event.stopPropagation(); alert('PC 에서만 가능합니다')">출력</button>
                                 </div>
                             </article>
-
+                            
                             <article class="common-table-card clickable" data-type="건별" onclick="toggleAccordion(this)">
                                 <div class="card-header">
                                     <button type="button" class="card-column1-button" onclick="event.stopPropagation(); showIssueFullDetailsModal({
@@ -1614,20 +1889,16 @@
                                         contactEmail: 'damdangja@email.com'
                                     })">
                                         <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
-                                        <span
-                                            style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">102032</span>
+                                        <span style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">102032</span>
                                     </button>
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <div class="card-badge" data-type="건별">건별</div>
                                         <div class="card-chevron-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24">
-                                                <path d="M6 9l6 6l6 -6" />
-                                            </svg>
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
                                         </div>
                                     </div>
                                 </div>
-
+                                
                                 <div class="card-row" style="margin-top: 15px;">
                                     <div class="card-row-label">공급가액</div>
                                     <div class="card-row-value">1,000,000 원</div>
@@ -1638,10 +1909,9 @@
                                 </div>
                                 <div class="card-row" style="margin-top: 8px;">
                                     <div class="card-row-label" style="font-weight: 600; color: #333;">합계금액</div>
-                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">
-                                        1,100,000 원</div>
+                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">1,100,000 원</div>
                                 </div>
-
+                                
                                 <div class="card-divider"></div>
                                 <div class="card-row">
                                     <div class="card-row-label">발급일</div>
@@ -1668,21 +1938,22 @@
                                 </div>
 
                                 <div class="card-footer">
-                                    <button type="button" class="white-button btn"
-                                        onclick="event.stopPropagation(); alert('PC 에서만 가능합니다')">출력</button>
+                                    <button type="button" class="white-button btn" onclick="event.stopPropagation(); alert('PC 에서만 가능합니다')">출력</button>
                                 </div>
                             </article>
-
+    
                         </div>
-
+    
                         <div class="no-transactions" id="no-issue-list" style="display: none;">발급된 세금계산서 내역이 없어요</div>
-
+    
                         <div class="pagination" data-name="Pagination">
                             <div class="pagination-arrow disabled" onclick="paginationFirst()">
-                                <img src="assets/images/nnext-arrow.svg" alt="처음" style="transform: rotate(90deg);">
+                                <img src="assets/images/nnext-arrow.svg" alt="처음"
+                                    style="transform: rotate(90deg);">
                             </div>
                             <div class="pagination-arrow disabled" onclick="paginationPrev()">
-                                <img src="assets/images/next-arrow.svg" alt="이전" style="transform: rotate(90deg);">
+                                <img src="assets/images/next-arrow.svg" alt="이전"
+                                    style="transform: rotate(90deg);">
                             </div>
                             <div class="pagination-numbers" id="issue-pagination-numbers">
                                 <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
@@ -1692,12 +1963,12 @@
                                     style="transform: rotate(90deg) scaleY(-1);">
                             </div>
                             <div class="pagination-arrow disabled" onclick="paginationLast()">
-                                <img src="assets/images/nnext-arrow.svg" alt="마지막"
-                                    style="transform: rotate(90deg) scaleY(-1);">
+                                <img src="assets/images/nnext-arrow.svg"
+                                    alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
                             </div>
                         </div>
                     </section>
-
+    
                     <section class="info-section">
                         <div class="title">세금계산서 발급 내역 이용 안내</div>
                         <p class="disclaimer" style="font-weight: 600; color: #555;">발급 유형 안내</p>
@@ -1706,7 +1977,7 @@
                         <p class="disclaimer" style="margin-top: 12px;">* 세금계산서를 직접 신청하지 않으면, 다음 달 1일에 자동으로 합산 발급돼요</p>
                         <p class="disclaimer">* 자동으로 묶여 발급된 세금계산서를 건별로 다시 발급받으려면, 국세청 신고 마감일인 다음 달 10일까지만 신청할 수 있어요</p>
                     </section>
-
+    
                 </div>
             </div>
 
@@ -1721,60 +1992,62 @@
 
     <div class="modal-overlay" id="tax-edit-modal-overlay">
     </div>
-
-    <div class="bottom-sheet-overlay" id="list-sheet-overlay">
-        <div class="bottom-sheet" id="list-sheet">
-            <div class="sheet-handle" id="list-sheet-handle"></div>
+    
+    <div class="bottom-sheet-overlay" id="filter-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="filter-sheet">
+            <div class="sheet-handle" id="filter-sheet-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">기간 상세검색</div>
-                <div class="btn-close" onclick="closeListSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
+                <div class="btn-close" onclick="closeFilterSheet()"><svg id="icon-close">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
+            <div class="sheet-body" id="filter-sheet-body">
+                <div class="filter-group" id="single-chip-group-period">
+                    <div class="filter-group-title">기간</div>
+                    <div class="filter-group-content">
+                        <div class="single-chip single-chip-on" data-value="최근 1개월" onclick="selectPeriod(this)">최근 1개월
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="최근 3개월" onclick="selectPeriod(this)">최근 3개월
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="월별" onclick="selectPeriod(this)">월별
+                        </div>
+                        <div class="single-chip single-chip-off" data-value="기간 설정" onclick="selectPeriod(this)">기간 설정
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="sheet-body" style="padding: 0;">
-                <ul class="option-list">
-                    <li><button type="button" onclick="selectListOption('최근 1개월')">최근 1개월</button></li>
-                    <li><button type="button" onclick="selectListOption('최근 3개월')">최근 3개월</button></li>
-                    <li><button type="button" onclick="openMonthlySheet()">월별</button></li>
-                    <li><button type="button" onclick="openCustomPeriodSheet()">기간 설정</button></li>
-                </ul>
             </div>
-        </div>
     </div>
-
-    <div class="bottom-sheet-overlay" id="custom-period-overlay">
-        <div class="bottom-sheet" id="custom-period-sheet">
-            <div class="sheet-handle" id="custom-period-sheet-handle"></div>
+    
+    <div class="bottom-sheet-overlay" id="period-custom-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="period-custom-sheet">
+            <div class="sheet-handle" id="period-custom-sheet-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">기간 설정</div>
                 <div class="btn-close" onclick="closeCustomPeriodSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
+                     <svg id="icon-close-custom-period"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                 </div>
             </div>
             <div class="sheet-body">
                 <div class="form-group">
-                    <label>시작일</label>
-                    <div class="input">
-                        <button type="button" id="demo-start-date"
-                            onclick="showCalendarSheet('start')">2025-10-11</button>
+                    <label for="start-date">시작일</label>
+                    <div class="input" style="padding: 0;"> <input type="date" id="start-date" data-placeholder="YYYY-MM-DD" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>종료일</label>
-                    <div class="input">
-                        <button type="button" id="demo-end-date" onclick="showCalendarSheet('end')">2025-11-11</button>
+                    <label for="end-date">종료일</label>
+                    <div class="input" style="padding: 0;">
+                        <input type="date" id="end-date" data-placeholder="YYYY-MM-DD" required>
                     </div>
                 </div>
-                <div class="form-group">
+                 <div class="form-group">
                     <label>간편 설정</label>
                     <div class="filter-group-content">
-                        <div class="single-chip single-chip-off" onclick="setPresetPeriod(0)">오늘</div>
-                        <div class="single-chip single-chip-off" onclick="setPresetPeriod(7)">1주일</div>
-                        <div class="single-chip single-chip-off" onclick="setPresetPeriod(30)">1개월</div>
+                        <div class="single-chip single-chip-off" onclick="setQuickDate('today')">오늘</div>
+                        <div class="single-chip single-chip-off" onclick="setQuickDate('week')">1주일</div>
+                        <div class="single-chip single-chip-off" onclick="setQuickDate('month')">1개월</div>
                     </div>
                 </div>
             </div>
@@ -1785,62 +2058,13 @@
         </div>
     </div>
 
-    <div class="bottom-sheet-overlay" id="calendar-sheet-overlay">
-        <div class="bottom-sheet" id="calendar-sheet">
-            <div class="sheet-handle" id="calendar-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">날짜 선택</div>
-                <div class="btn-close" onclick="closeCalendarSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="calendar-container">
-                    <div class="calendar-header">
-                        <button type="button" class="calendar-nav-btn">&lt;</button>
-                        <span class="calendar-month-title">2025.10</span>
-                        <button type="button" class="calendar-nav-btn">&gt;</button>
-                    </div>
-                    <div class="calendar-grid">
-                        <div class="calendar-row week-header">
-                            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span class="empty"></span><span
-                                class="empty"></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
-                            <span class="selected" onclick="confirmDateSelection(11)">11</span><span>12</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>27</span><span>28</span><span>29</span><span>30</span><span>31</span><span
-                                class="empty"></span><span class="empty"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="bottom-sheet-overlay" id="period-monthly-sheet-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="period-monthly-sheet">
             <div class="sheet-handle" id="period-monthly-sheet-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">월별 설정</div>
                 <div class="btn-close" onclick="closeMonthlyPeriodSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                    </svg>
+                     <svg id="icon-close-monthly-period"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                 </div>
             </div>
             <div class="sheet-body">
@@ -1848,14 +2072,14 @@
                     <label for="select-year">년도</label>
                     <div class="input select-wrapper">
                         <select id="select-year">
-                        </select>
+                            </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="select-month">월</label>
                     <div class="input select-wrapper">
                         <select id="select-month">
-                        </select>
+                            </select>
                     </div>
                 </div>
             </div>
@@ -1866,7 +2090,7 @@
         </div>
     </div>
 
-
+    
     <div class="modal-overlay" id="issue-full-details-modal-overlay">
         <div class="modal-content full-modal" id="issue-full-details-modal">
             <div class="modal-header">
@@ -1879,7 +2103,7 @@
                 </button>
             </div>
             <div class="modal-body">
-
+                
                 <h2 class="modal-section-title">발급 정보</h2>
                 <div class="form-group">
                     <label>발급번호</label>
@@ -1907,11 +2131,11 @@
                     <label>총 합계금액(₩)</label>
                     <div class="readonly-value emphasis" id="modal-total-amount"></div>
                 </div>
-
+                
                 <h2 class="modal-section-title">접수 정보</h2>
                 <div class="transaction-list" id="modal-order-list" style="margin-bottom: 0;">
-                </div>
-
+                    </div>
+                
                 <h2 class="modal-section-title">기업 정보</h2>
                 <section class="form-section">
                     <div class="form-group">
@@ -1930,16 +2154,16 @@
                         <label>담당자명</label>
                         <div class="readonly-value" id="modal-contact-name"></div>
                     </div>
-                    <div class="form-group">
+                     <div class="form-group">
                         <label>담당자 연락처</label>
                         <div class="readonly-value" id="modal-contact-phone"></div>
                     </div>
-                    <div class="form-group">
+                     <div class="form-group">
                         <label>담당자 이메일</label>
                         <div class="readonly-value" id="modal-contact-email"></div>
                     </div>
                 </section>
-
+                
             </div>
             <div class="modal-footer">
                 <button class="btn dark-button" onclick="closeModal('issue-full-details-modal-overlay')">확인</button>
@@ -2035,36 +2259,36 @@
             const checkedBoxes = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
             const count = checkedBoxes.length;
             const footer = document.getElementById('tax-action-footer');
-
+            
             if (document.getElementById('page-content-request').style.display === 'block') {
-                if (count > 0) {
+                 if (count > 0) {
                     footer.classList.add('active');
                     document.getElementById('tax-selected-count').textContent = `총 ${count}건`;
-                    document.querySelector('.mobile-wrap').style.paddingBottom = '84px';
+                    document.querySelector('.mobile-wrap').style.paddingBottom = '84px'; 
                 } else {
                     footer.classList.remove('active');
                     document.querySelector('.mobile-wrap').style.paddingBottom = '20px'; // Reset to default
                 }
             }
         }
-
+        
         function toggleStatusChip(chip) {
             // (함수 내용은 tax_request.html과 동일)
             const status = chip.getAttribute('data-status');
             const group = chip.closest('#status-chip-group');
             const allChip = group.querySelector('[data-status="전체"]');
-
+            
             if (status === '전체') {
                 const isTurningOn = !chip.classList.contains('multi-chip-on');
-                toggleMultiChip(chip, isTurningOn);
-                group.querySelectorAll('.multi-chip').forEach(c => {
-                    if (c !== chip) toggleMultiChip(c, false);
+                toggleMultiChip(chip, isTurningOn); 
+                group.querySelectorAll('.multi-chip').forEach(c => { 
+                    if (c !== chip) toggleMultiChip(c, false); 
                 });
             } else {
                 toggleMultiChip(chip);
-                toggleMultiChip(allChip, false);
+                toggleMultiChip(allChip, false); 
                 const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-status="전체"])'))
-                    .some(c => c.classList.contains('multi-chip-on'));
+                                       .some(c => c.classList.contains('multi-chip-on'));
                 if (!anyOtherOn) {
                     toggleMultiChip(allChip, true);
                 }
@@ -2078,25 +2302,31 @@
             if (!listContainer) return;
             const noResultMsg = document.getElementById('no-request-list');
             let visibleCount = 0; // 예시로 0건
-
-            if (document.getElementById('transaction-count')) {
+            
+            if(document.getElementById('transaction-count')) {
                 document.getElementById('transaction-count').textContent = visibleCount;
             }
-            if (noResultMsg) {
+            if(noResultMsg) {
                 noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
             }
             console.log("Filtering request list...");
         }
+        
+        function selectPeriodChip(chip) {
+             // (함수 내용은 tax_request.html과 동일 - 신청 탭의 월 선택)
+             console.log("Switching request period...");
+        }
 
         // --- '신청' 탭 Modal Logic (Placeholder) ---
+        // [MODIFIED] CR2: openModal/closeModal (Full Modal Logic Added)
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (!overlay) return;
 
             const modal = overlay.querySelector('.modal-content');
-
+            
             if (modal && modal.classList.contains('full-modal')) {
-                // Full Modal Open Logic
+                // Full Modal Open Logic (from sungwon_money_01)
                 overlay.classList.add('overlay-full-modal');
                 overlay.style.display = 'flex';
                 requestAnimationFrame(() => {
@@ -2110,34 +2340,40 @@
         }
 
         function closeModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
+             const overlay = document.getElementById(overlayId);
             if (!overlay) return;
 
             const modal = overlay.querySelector('.modal-content');
 
             if (modal && modal.classList.contains('full-modal')) {
-                // Full Modal Close Logic
+                // Full Modal Close Logic (from sungwon_money_01)
                 modal.classList.add('closing');
                 overlay.classList.remove('active');
-
+                
                 setTimeout(() => {
                     overlay.style.display = 'none';
                     overlay.classList.remove('overlay-full-modal');
                     modal.classList.remove('closing');
                 }, 300); // Match CSS transition
-
+                
             } else {
                 // Default Modal Close Logic
                 overlay.classList.remove('active');
             }
-
+            
             // Check for other modals/sheets
             const anyModalActive = document.querySelector('.modal-overlay.active:not(#' + overlayId + '), .bottom-sheet-overlay.active');
             if (!anyModalActive) {
                 document.body.style.overflow = '';
             }
         }
+        
+        function showTaxEditModal(buttonEl) {
+            // (Placeholder)
+            alert("신청 정보 수정 모달 열기 (구현 필요)");
+        }
 
+        
         // --- [NEW] '발급 내역' 탭 Logic ---
 
         // Bottom Sheet (v12 Standard)
@@ -2146,17 +2382,17 @@
             if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
             let isDragging = false, startY = 0, currentY = 0;
             const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
-            const closeSheet = () => {
-                sheet.classList.add('closing');
+            const closeSheet = () => { 
+                sheet.classList.add('closing'); 
                 const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active:not(#' + overlayId + ')');
                 if (!anyModalActive) {
-                    document.body.style.overflow = '';
+                    document.body.style.overflow = ''; 
                 }
-                setTimeout(() => {
-                    overlay.classList.remove('active');
-                    sheet.classList.remove('closing');
+                setTimeout(() => { 
+                    overlay.classList.remove('active'); 
+                    sheet.classList.remove('closing'); 
                     sheet.style.transform = ''; // Reset transform
-                }, 300);
+                }, 300); 
             };
             const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
             const drag = (e) => { if (!isDragging) return; e.preventDefault(); currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; const deltaY = currentY - startY; if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; };
@@ -2167,39 +2403,37 @@
             overlay.addEventListener('click', (e) => { if (e.target.id === overlayId) closeSheet(); });
             return { openSheet, closeSheet };
         }
-
-        // Setup Sheets
-        const { openSheet: showListSheet, closeSheet: closeListSheet } = setupBottomSheet('list-sheet-overlay', 'list-sheet', 'list-sheet-handle');
-        const { openSheet: showCustomPeriodSheetBase, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('custom-period-overlay', 'custom-period-sheet', 'custom-period-sheet-handle');
-        const { openSheet: showCalendarSheetBase, closeSheet: closeCalendarSheet } = setupBottomSheet('calendar-sheet-overlay', 'calendar-sheet', 'calendar-sheet-handle');
-        const { openSheet: showMonthlyPeriodSheetBase, closeSheet: closeMonthlyPeriodSheet } = setupBottomSheet('period-monthly-sheet-overlay', 'period-monthly-sheet', 'period-monthly-sheet-handle');
+        const { openSheet: showFilterSheet, closeSheet: closeFilterSheet } = setupBottomSheet('filter-sheet-overlay', 'filter-sheet', 'filter-sheet-handle');
+        // [NEW] CR1: Add setup for new bottom sheets
+        const { openSheet: showCustomPeriodSheet, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
+        const { openSheet: showMonthlyPeriodSheet, closeSheet: closeMonthlyPeriodSheet } = setupBottomSheet('period-monthly-sheet-overlay', 'period-monthly-sheet', 'period-monthly-sheet-handle');
 
         // [NEW] Accordion Toggle
         function toggleAccordion(card) {
             card.classList.toggle('active');
         }
 
-        // [MODIFIED] '발급 내역' 전체 상세 Modal
+        // [MODIFIED] '발급 내역' 전체 상세 Modal (Req 3 & 4)
         function showIssueFullDetailsModal(details) {
             // 1. 발급 정보 섹션
             document.getElementById('modal-issue-no').textContent = details.issueNo || '-';
             document.getElementById('modal-issue-date').textContent = details.issueDate || '-';
             document.getElementById('modal-issue-type').textContent = details.issueType || '-';
-
+            
             // 2. 총 합계 섹션
             document.getElementById('modal-total-supply').textContent = (details.totalSupply || '0') + ' 원';
             document.getElementById('modal-total-tax').textContent = (details.totalTax || '0') + ' 원';
             document.getElementById('modal-total-amount').textContent = (details.totalAmount || '0') + ' 원';
-
-            // 3. 접수 정보 섹션
+            
+            // 3. 접수 정보 섹션 (동적 생성)
             const orderList = document.getElementById('modal-order-list');
-            orderList.innerHTML = '';
-
+            orderList.innerHTML = ''; // 초기화
+            
             if (details.orders && details.orders.length > 0) {
                 details.orders.forEach(order => {
                     const card = document.createElement('article');
                     card.className = 'common-table-card';
-
+                    
                     let itemsHtml = '';
                     order.items.forEach(item => {
                         itemsHtml += `
@@ -2212,7 +2446,7 @@
                             </div>
                         `;
                     });
-
+                    
                     card.innerHTML = `
                         <div class="card-row">
                             <div class="card-row-label">작성일자</div>
@@ -2254,84 +2488,124 @@
             openModal('issue-full-details-modal-overlay');
         }
 
-        // --- [v12 Standard] COMPLEX FILTER INTERACTION ---
+        // '발급 내역' 기간 필터
         let selectedPeriodValue = "최근 1개월";
-        let currentTargetDateInputId = null;
+        
+        // [MODIFIED] CR1: selectPeriod function
+        function selectPeriod(chip) { 
+            const group = chip.closest('.filter-group-content'); 
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
+            chip.classList.replace('single-chip-off', 'single-chip-on'); 
+            selectedPeriodValue = chip.getAttribute('data-value'); 
 
-        // 1. List Sheet Interaction
-        function selectListOption(value) {
-            // Update main button text directly
-            document.getElementById('selected-period-text').textContent = value;
-            document.getElementById('demo-period-btn').classList.remove('open');
-            closeListSheet();
-            filterIssueList();
-        }
+            if (selectedPeriodValue === '기간 설정') {
+                closeFilterSheet();
+                // Set default dates (e.g., last 1 month)
+                const endDate = new Date();
+                const startDate = new Date();
+                startDate.setMonth(endDate.getMonth() - 1);
+                // Set input values
+                const startDateInput = document.getElementById('start-date');
+                const endDateInput = document.getElementById('end-date');
+                startDateInput.value = startDate.toISOString().split('T')[0];
+                endDateInput.value = endDate.toISOString().split('T')[0];
+                // Trigger change to remove placeholder if value is set
+                startDateInput.dispatchEvent(new Event('change'));
+                endDateInput.dispatchEvent(new Event('change'));
 
-        function openCustomPeriodSheet() {
-            document.getElementById('list-sheet-overlay').classList.remove('active');
-
-            // Set default dates if needed
-            if (!document.getElementById('demo-start-date').textContent.includes('-')) {
-                const today = new Date();
-                document.getElementById('demo-start-date').textContent = today.toISOString().split('T')[0];
-                document.getElementById('demo-end-date').textContent = today.toISOString().split('T')[0];
+                showCustomPeriodSheet();
+            } else if (selectedPeriodValue === '월별') {
+                closeFilterSheet();
+                populateMonthyPicker(); // Populate year/month selects
+                showMonthlyPeriodSheet();
+            } else {
+                // '최근 1개월', '최근 3개월'은 바로 적용
+                applyPeriodFilter();
             }
-
-            showCustomPeriodSheetBase();
         }
-
-        function openMonthlySheet() {
-            document.getElementById('list-sheet-overlay').classList.remove('active');
-            populateMonthyPicker();
-            showMonthlyPeriodSheetBase();
+        
+        function applyPeriodFilter() { 
+            document.getElementById('selected-period-text').textContent = selectedPeriodValue; 
+            document.querySelector('#issue-period-filter .text-select-button')?.classList.remove('open'); 
+            closeFilterSheet(); 
+            console.log("기간 필터 적용 (발급 내역):", selectedPeriodValue); 
+            // TODO: Filtering logic
         }
-
-        // 2. Custom Period Logic
-        function showCalendarSheet(targetInputId) {
-            if (targetInputId === 'start') currentTargetDateInputId = 'demo-start-date';
-            else if (targetInputId === 'end') currentTargetDateInputId = 'demo-end-date';
-            showCalendarSheetBase();
-        }
-
-        function confirmDateSelection(day) {
-            if (currentTargetDateInputId) {
-                document.getElementById(currentTargetDateInputId).textContent = `2025-10-${day}`;
+         function resetPeriodFilter() { 
+            // '최근 1개월' 칩을 찾아서 선택
+            const defaultChip = document.querySelector('#single-chip-group-period .single-chip[data-value="최근 1개월"]');
+            if(defaultChip) {
+                selectPeriod(defaultChip);
             }
-            closeCalendarSheet();
+         }
+         
+        // [NEW] CR1: Date Picker Modal Functions (from sungwon_money_01)
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
         }
 
-        function applyCustomPeriod() {
-            const start = document.getElementById('demo-start-date').textContent;
-            const end = document.getElementById('demo-end-date').textContent;
-            selectedPeriodValue = `${start} ~ ${end}`;
-            document.getElementById('selected-period-text').textContent = selectedPeriodValue;
-            document.getElementById('demo-period-btn').classList.remove('open');
+        function setQuickDate(period) {
+            const startDateInput = document.getElementById('start-date');
+            const endDateInput = document.getElementById('end-date');
+            const endDate = new Date();
+            let startDate = new Date();
+
+            if (period === 'today') {
+                // startDate is already today
+            } else if (period === 'week') {
+                startDate.setDate(endDate.getDate() - 7);
+            } else if (period === 'month') {
+                startDate.setMonth(endDate.getMonth() - 1);
+            }
+            
+            startDateInput.value = formatDate(startDate);
+            endDateInput.value = formatDate(endDate);
+            
+            // Trigger change to remove placeholder
+            startDateInput.dispatchEvent(new Event('change'));
+            endDateInput.dispatchEvent(new Event('change'));
+        }
+
+        function applyCustomPeriod() { // Renamed from applyDateRangeFilter
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+
+            if (!startDate || !endDate) {
+                alert("시작일과 종료일을 모두 선택해주세요.");
+                return;
+            }
+            if (new Date(startDate) > new Date(endDate)) {
+                 alert("시작일이 종료일보다 늦을 수 없습니다.");
+                return;
+            }
+            
+            selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`; // 포맷 변경
+            
             closeCustomPeriodSheet();
-            filterIssueList();
+            applyPeriodFilter(); // 메인 필터 적용 함수 호출
         }
-
-        function setPresetPeriod(days) {
-            alert(days + '일 기간 자동 설정 (데모)');
-        }
-
-        // 3. Monthly Period Logic
+        
+        // [NEW] CR1: Monthly Picker Modal Functions
         function populateMonthyPicker() {
             const yearSelect = document.getElementById('select-year');
             const monthSelect = document.getElementById('select-month');
             const currentYear = new Date().getFullYear();
             const currentMonth = new Date().getMonth() + 1;
 
-            if (yearSelect.options.length === 0) {
+            // 연도 채우기 (현재 연도 ~ 5년 전)
+            if (yearSelect.options.length === 0) { // 한번만 채우기
                 for (let i = 0; i < 5; i++) {
                     const year = currentYear - i;
                     yearSelect.add(new Option(`${year}년`, year));
                 }
             }
-            if (monthSelect.options.length === 0) {
-                for (let i = 1; i <= 12; i++) {
+            // 월 채우기 (1~12월)
+            if (monthSelect.options.length === 0) { // 한번만 채우기
+                 for (let i = 1; i <= 12; i++) {
                     monthSelect.add(new Option(`${i}월`, i));
                 }
             }
+            // 현재 월로 기본 설정
             yearSelect.value = currentYear;
             monthSelect.value = currentMonth;
         }
@@ -2340,64 +2614,64 @@
             const year = document.getElementById('select-year').value;
             const month = document.getElementById('select-month').value;
             selectedPeriodValue = `${year}년 ${month}월`;
-            document.getElementById('selected-period-text').textContent = selectedPeriodValue;
-            document.getElementById('demo-period-btn').classList.remove('open');
+            
             closeMonthlyPeriodSheet();
-            filterIssueList();
+            applyPeriodFilter(); // 메인 필터 적용
         }
 
-        // '발급 내역' 발급유형 필터
+
+        // '발급 내역' 발급유형 필터 (Req 4)
         function toggleIssueTypeChip(chip) {
             const status = chip.getAttribute('data-status');
             const group = chip.closest('#issue-type-chip-group');
             const allChip = group.querySelector('[data-status="전체"]');
-
+            
             if (status === '전체') {
                 const isTurningOn = !chip.classList.contains('multi-chip-on');
-                toggleMultiChip(chip, isTurningOn);
-                group.querySelectorAll('.multi-chip').forEach(c => {
-                    if (c !== chip) toggleMultiChip(c, false);
+                toggleMultiChip(chip, isTurningOn); 
+                group.querySelectorAll('.multi-chip').forEach(c => { 
+                    if (c !== chip) toggleMultiChip(c, false); 
                 });
             } else {
                 toggleMultiChip(chip);
-                toggleMultiChip(allChip, false);
+                toggleMultiChip(allChip, false); 
                 const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-status="전체"])'))
-                    .some(c => c.classList.contains('multi-chip-on'));
+                                       .some(c => c.classList.contains('multi-chip-on'));
                 if (!anyOtherOn) {
                     toggleMultiChip(allChip, true);
                 }
             }
             filterIssueList();
         }
-
-        // '발급 내역' 목록 필터링
+        
+        // '발급 내역' 목록 필터링 (Req 4)
         function filterIssueList() {
             const selectedStatuses = [];
             document.querySelectorAll('#issue-type-chip-group .multi-chip-on').forEach(chip => {
                 selectedStatuses.push(chip.dataset.status);
             });
-
-            const listContainer = document.getElementById('issue-list-container');
-            if (!listContainer) return;
-
+            
+            const listContainer = document.getElementById('issue-list-container'); 
+            if (!listContainer) return; 
+            
             const cards = listContainer.querySelectorAll('.common-table-card');
             const noResultMsg = document.getElementById('no-issue-list');
             let visibleCount = 0;
             const isAllSelected = selectedStatuses.includes('전체');
 
-            cards.forEach(card => {
-                const cardType = card.getAttribute('data-type');
-                if (isAllSelected || selectedStatuses.includes(cardType)) {
-                    card.style.display = '';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
+            cards.forEach(card => { 
+                const cardType = card.getAttribute('data-type'); 
+                if (isAllSelected || selectedStatuses.includes(cardType)) { 
+                    card.style.display = ''; 
+                    visibleCount++; 
+                } else { 
+                    card.style.display = 'none'; 
+                } 
             });
-
+            
             const countEl = document.getElementById('issue-count');
-            if (countEl) countEl.textContent = visibleCount;
-            if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+            if(countEl) countEl.textContent = visibleCount; 
+            if(noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
         }
 
 
@@ -2405,16 +2679,18 @@
         document.addEventListener('DOMContentLoaded', () => {
             // 초기 페이지 상태 설정 ('발급 내역' 탭)
             selectPageTab(document.querySelector('.page-tab-item.active'));
-
+            
             // '신청' 탭 필터 초기화
-            filterTaxInvoices();
-            updateTaxFooter();
-
+            filterTaxInvoices(); 
+            updateTaxFooter(); 
+            
             // '발급 내역' 탭 필터 초기화
             filterIssueList();
-
-            // Pagination
-            let currentPage = 1; const totalPages = 1;
+            
+            // Pagination (예시로 '발급 내역' 탭의 것만 초기화)
+            // (paginationGo, updatePagination 등은 tax_request.html에 이미 존재한다고 가정)
+            // Pagination Logic (Placeholder)
+            let currentPage = 1; const totalPages = 1; 
             function paginationGo(page) { currentPage = page; updatePagination(); }
             function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
             function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
@@ -2432,7 +2708,7 @@
                     numEl.onclick = () => paginationGo(i);
                     numbersContainer.appendChild(numEl);
                 }
-
+                
                 const paginationRoot = numbersContainer.closest('.pagination');
                 if (!paginationRoot) return;
                 const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
@@ -2451,18 +2727,20 @@
                     }
                 });
             });
-
-            // Add event listener for main period button
-            const btn = document.getElementById('demo-period-btn');
-            if (btn) {
-                btn.addEventListener('click', function () {
-                    this.classList.add('open');
+            
+            // [NEW] CR1: Add change listener to date inputs to hide placeholder
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    if (e.target.value) {
+                        e.target.removeAttribute('data-placeholder');
+                    } else {
+                        e.target.setAttribute('data-placeholder', 'YYYY-MM-DD');
+                    }
                 });
-            }
-
-            // Reset Arrow on Sheet Close via Overlay
-            document.getElementById('list-sheet-overlay').addEventListener('click', function (e) {
-                if (e.target === this) document.getElementById('demo-period-btn').classList.remove('open');
+                // Initial check
+                if (input.value) {
+                    input.removeAttribute('data-placeholder');
+                }
             });
         });
 
@@ -2472,15 +2750,23 @@
     <div class="disqus-thread-wrap">
         <div id="disqus_thread"></div>
         <script>
-            (function () { // DON'T EDIT BELOW THIS LINE
-                var d = document, s = d.createElement('script');
-                s.src = 'https://sw-mobile.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
+            /**
+            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://sw-mobile.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
             })();
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
-                Disqus.</a></noscript>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
     <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>
