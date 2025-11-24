@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>주문/접수 내역 (Simple V3 - Header Split Rev)</title>
+    <title>주문/접수 내역 (Simple V3 - Final Refined)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -109,7 +109,7 @@
         }
 
         /* ============================================================
-           [NEW] Simple Card V3 (Header Split Style)
+           [NEW] Simple Card V3 (Final Refined)
         ============================================================ */
         .sc-v3-card {
             background: white;
@@ -120,7 +120,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
         }
 
-        /* 1. Top Meta Area (Date | Shipping ... OrderNo) */
+        /* 1. Top Meta Area */
         .sc-v3-top-meta {
             padding: 12px 16px;
             font-size: 13px;
@@ -128,7 +128,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            /* Space out content */
             background-color: #fff;
         }
 
@@ -145,14 +144,13 @@
             display: inline-block;
         }
 
-        /* 접수번호 링크 스타일 (Top Right) */
+        /* 접수번호 링크 스타일 */
         .sc-v3-order-link {
             display: inline-flex;
             align-items: center;
             gap: 2px;
             color: #333;
             font-weight: 400;
-            /* Slightly bolder for visibility */
             cursor: pointer;
             text-decoration: none;
             font-size: 13px;
@@ -179,7 +177,14 @@
             flex-direction: column;
         }
 
-        /* Status */
+        /* Status Row (Status + Badge) */
+        .sc-v3-status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
         .sc-v3-status {
             font-size: 12px;
             font-weight: 700;
@@ -187,7 +192,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            margin-bottom: 12px;
         }
 
         /* Blinking Dot Animation */
@@ -222,7 +226,22 @@
             }
         }
 
-        /* Info Row: Name | Company (OrderNo moved) */
+        /* [MOVED] Design Check Badge (Moved here) */
+        .design-check-badge {
+            font-size: 10px;
+            color: #555;
+            background-color: #f5f5f6;
+            border: 1px solid #e0e0e0;
+            border-radius: 100px;
+            /* padding: 2px 6px 0px; */
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1px 7px;
+        }
+
+        /* Info Row */
         .sc-v3-info-row {
             display: flex;
             align-items: center;
@@ -240,13 +259,6 @@
             font-size: 10px;
         }
 
-        .sc-v3-divider {
-            width: 1px;
-            height: 10px;
-            background-color: #e0e0e0;
-            display: inline-block;
-        }
-
         /* Title Area with Accordion Button */
         .sc-v3-title-area {
             display: flex;
@@ -258,7 +270,7 @@
 
         .sc-v3-title {
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             color: #212121;
             line-height: 1.4;
             display: -webkit-box;
@@ -268,12 +280,12 @@
             flex: 1;
         }
 
-        /* Option Toggle Button */
+        /* Option Toggle Button (Restored) */
         .btn-option-toggle {
             display: flex;
             align-items: center;
             gap: 2px;
-            font-size: 10px;
+            font-size: 11px;
             color: #888;
             background: #f5f5f6;
             padding: 4px 8px;
@@ -281,11 +293,12 @@
             white-space: nowrap;
             transition: all 0.2s;
             margin-top: -2px;
+            cursor: pointer;
         }
 
         .btn-option-toggle svg {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             transition: transform 0.2s;
         }
 
@@ -298,7 +311,7 @@
             transform: rotate(180deg);
         }
 
-        /* Option Details (Accordion Content) */
+        /* Option Details (Hidden by default) */
         .sc-v3-option-details {
             background-color: #fafafa;
             border-radius: 6px;
@@ -308,7 +321,7 @@
             overflow: hidden;
             opacity: 0;
             transition: all 0.3s ease;
-            font-size: 13px;
+            font-size: 12px;
             color: #666;
             border: 1px solid transparent;
         }
@@ -327,11 +340,24 @@
             line-height: 1.4;
         }
 
-        .option-row:last-child {
-            margin-bottom: 0;
+        /* File Download Link */
+        .sc-v3-file-link {
+            font-size: 12px;
+            color: #4e6ee4;
+            text-decoration: underline;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            margin-top: 8px;
         }
 
-        /* Price Group Box (2-Row Layout) */
+        .sc-v3-file-link svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Price Group Box */
         .sc-v3-price-group {
             gap: 4px;
         }
@@ -377,7 +403,7 @@
             color: white;
             border: 1px solid #4e6ee4;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 500;
             display: flex;
             align-items: center;
@@ -441,7 +467,7 @@
 
         <main class="sw-container">
 
-            <div class="guide-section-title">결제 대기</div>
+            <div class="guide-section-title">결제 대기 (옵션 숨김 / 배지 이동)</div>
 
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
@@ -462,13 +488,14 @@
                 <div class="sc-v3-horizontal-line"></div>
 
                 <div class="sc-v3-body">
-                    <div>
+                    <div class="sc-v3-status-row">
                         <div class="sc-v3-status blue">결제대기</div>
+                    </div>
 
-                        <div class="sc-v3-info-row">
-                            <span class="white-bd-badge">김성원</span>
-                            <span class="white-bd-badge">삼성SDS</span>
-                        </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                        <span class="design-check-badge">디자인 파일 검수</span>
                     </div>
 
                     <div class="sc-v3-title-area">
@@ -481,15 +508,16 @@
                     </div>
 
                     <div id="opt-1" class="sc-v3-option-details">
-                        <div class="option-row"><strong>용지:</strong> 랑데뷰 240g / 백색</div>
-                        <div class="option-row"><strong>인쇄:</strong> 양면 컬러 (8도)</div>
-                        <div class="option-row"><strong>규격:</strong> 105 x 148 mm (A6)</div>
-                        <div class="option-row"><strong>후가공:</strong> 오시 1줄</div>
-                        <div class="option-row" style="margin-top:8px; color:#888; font-size:12px;">첨부파일:
-                            print_final_v2.pdf</div>
+                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱</div>
+
+                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
+                            일반사원_명함(앞).pdf 외 1건
+                        </div>
                     </div>
 
                     <div class="sc-v3-price-group">
+                        <!-- <div class="sc-v3-price-label">총 결제금액</div> -->
                         <div class="sc-v3-price-value-row">
                             <span class="sc-v3-price-total">₩8,500</span>
                             <span class="sc-v3-price-pending">(결제대기 금액 ₩3,500)</span>
