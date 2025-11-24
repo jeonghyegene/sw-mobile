@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>접수/배송 내역 (v3 Card Updated)</title>
+    <title>접수/배송 내역 (모바일 최적화)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -146,6 +146,14 @@
             height: 100%;
         }
         
+        /* [NEW] Small button for header right */
+        .header-btn-sm {
+            height: 36px;
+            font-size: 13px;
+            padding: 0 12px;
+            font-weight: 500;
+        }
+
         /* Buttons (v12 Standard + Primary) */
         .primary-button {
             background-color: #4e6ee4;
@@ -209,12 +217,37 @@
         .white-button:active {
             transform: scale(0.98);
         }
+
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
         
         .btn-sm {
             height: 36px;
             font-size: 13px;
             padding: 0 12px;
         }
+        
+        /* [MODIFIED] Manager Action Button Style Fix */
+        .manager-actions .btn-sm {
+            height: 32px; /* Adjusted to fit better in modal list */
+            font-size: 13px;
+            padding: 0 8px; /* Reduced padding for compact look */
+            min-width: 48px; /* Minimum width to prevent excessive squish */
+        }
+        /* [MODIFIED] Manager Actions flex alignment */
+        .manager-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+            align-items: center; /* Center buttons vertically */
+        }
+
 
         /* Main Content */
         .sw-container {
@@ -331,8 +364,10 @@
             font-size: 12px;
             cursor: pointer;
             flex-shrink: 0;
-            max-width: 70%;
-            gap: 5px;
+            max-width: 60%;
+        }
+        .summary-right span {
+            display: none; 
         }
         .summary-right strong {
             font-weight: 600;
@@ -343,6 +378,7 @@
         .summary-right svg {
             width: 14px;
             height: 14px;
+            margin-left: 4px;
             flex-shrink: 0;
         }
 
@@ -366,7 +402,7 @@
         .transaction-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
         .no-transactions { padding: 40px 16px; text-align: center; color: #888; font-size: 14px; }
         
-        /* Date Divider */
+        /* Date Divider (PDF 선례에 따라 추가) */
         .date-divider {
             font-size: 14px;
             font-weight: 600;
@@ -380,277 +416,159 @@
             padding-top: 0;
         }
 
-        /* ============================================================
-           [NEW] Simple Card V3 (Replaces common-table-card)
-        ============================================================ */
-        .sc-v3-card {
+        /* Order List Card (모바일 최적화 및 간결화) */
+        .common-table-card {
+            width: 100%;
             background: white;
             border: 1px solid #e8e8e9;
-            border-radius: 8px;
-            margin-bottom: 0; /* Handled by list gap */
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+            border-radius: 6px;
+            padding: 15px;
+            position: relative;
         }
-
-        /* 1. Top Meta Area */
-        .sc-v3-top-meta {
-            padding: 12px 16px;
-            font-size: 13px;
-            color: #666;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #fff;
-        }
-
-        .meta-left {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .sc-v3-top-divider {
-            width: 1px;
-            height: 10px;
-            background-color: #e0e0e0;
-            display: inline-block;
-        }
-
-        /* Order Link */
-        .sc-v3-order-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 2px;
-            color: #333;
-            font-weight: 400;
+        /* Make card clickable */
+        .common-table-card.clickable {
             cursor: pointer;
-            text-decoration: none;
-            font-size: 13px;
+            transition: background-color 0.2s;
         }
-
-        .sc-v3-order-link svg {
-            width: 14px;
-            height: 14px;
-            color: #aaa;
-        }
-
-        /* 2. Horizontal Line */
-        .sc-v3-horizontal-line {
-            width: 100%;
-            height: 1px;
-            background-color: #e8e8e9;
-            display: block;
-        }
-
-        /* 3. Body Area */
-        .sc-v3-body {
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Status Row */
-        .sc-v3-status-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .sc-v3-status {
-            font-size: 12px;
-            font-weight: 700;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Status Colors */
-        .sc-v3-status.blue { color: #4e6ee4; }
-        .sc-v3-status.blue::before {
-            content: ''; width: 7px; height: 7px; background-color: #4e6ee4; border-radius: 50%; display: block; animation: blink-animation 1.2s infinite ease-in-out;
-        }
-        .sc-v3-status.blue-plain { color: #4e6ee4; }
-        
-        .sc-v3-status.red { color: #dc3545; }
-        .sc-v3-status.red::before {
-            content: ''; width: 7px; height: 7px; background-color: #dc3545; border-radius: 50%; display: block; animation: blink 1.2s infinite;
-        }
-        .sc-v3-status.red-plain { color: #dc3545; }
-        
-        .sc-v3-status.gray { color: #888; }
-        .sc-v3-status.green { color: #16a34a; }
-
-        @keyframes blink-animation {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.9); }
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.9); }
-        }
-
-        /* Info Row (Badges) */
-        .sc-v3-info-row {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-bottom: 11px;
-            font-size: 12px;
-            color: #666;
-        }
-
-        .sc-v3-info-row .white-bd-badge {
-            border: 1px solid #dfdfdf;
-            border-radius: 100px;
-            padding: 1px 7px;
-            font-size: 11px;
+        .common-table-card.clickable:hover {
+            background-color: #f9f9f9;
         }
         
-        .design-check-badge {
-            font-size: 11px;
-            color: #555;
-            background-color: #f5f5f6;
-            border: 1px solid #e0e0e0;
-            border-radius: 100px;
-            padding: 1px 7px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Title Area */
-        .sc-v3-title-area {
+        .card-header-row {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 8px;
-            margin-bottom: 0;
         }
-
-        .sc-v3-title {
+        .card-date-order {
+            /* 1순위: 접수 날짜, 접수 번호 */
             font-size: 14px;
-            font-weight: 600;
-            color: #212121;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            flex: 1;
+            font-weight: 600; 
+            color: #333; 
         }
-
-        /* Option Toggle */
-        .btn-option-toggle {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            font-size: 11px;
-            color: #666;
-            padding: 3px 0 4px;
-            border-radius: 100px;
-            white-space: nowrap;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .btn-option-toggle svg { width: 12px; height: 12px; transition: transform 0.2s; }
-        .btn-option-toggle.active { color: #333; }
-        .btn-option-toggle.active svg { transform: rotate(180deg); }
-
-        /* Option Details */
-        .sc-v3-option-details {
-            background-color: #fafafa;
-            border-radius: 6px;
-            padding: 0 12px;
-            margin-bottom: 0;
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: all 0.3s ease;
+        .card-status-badge {
             font-size: 12px;
-            color: #666;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-left: 8px;
             border: 1px solid transparent;
         }
-        .sc-v3-option-details.open {
-            padding: 12px;
-            max-height: 300px;
-            opacity: 1;
-            border-color: #f0f0f0;
-            margin-bottom: 12px;
-            margin-top: 12px;
+        
+        /* 뱃지 색상 통일 */
+        .card-status-badge.status-waiting { 
+            background-color: #fff0f0;
+            color: #dc3545;
+            border-color: #f5c6cb;
+            /* 결제대기 강조 애니메이션 */
+            animation: pulse-animation 1.5s infinite;
         }
-        .option-row { margin-bottom: 4px; line-height: 1.4; }
+        .card-status-badge.status-in-progress { 
+            background-color: #e6f7ff;
+            color: #007bff;
+            border-color: #b8dfff;
+        }
+        .card-status-badge.status-complete { 
+            background-color: #f8f9fa;
+            color: #495057;
+            border-color: #dee2e6;
+        }
 
-        /* File Link */
-        .sc-v3-file-link {
-            font-size: 12px;
-            color: #4e6ee4;
-            text-decoration: underline;
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+            70% { box-shadow: 0 0 0 4px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+
+        /* Simplified item title */
+        .item-title { 
+            font-size: 16px; 
+            font-weight: 600; 
+            color: #212121; 
+            /* [MODIFIED] 메타 그룹 아래로 이동하여 상단 여백 추가 */
+            margin-top: 8px; 
+            line-height: 1.4; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            display: -webkit-box; 
+            -webkit-line-clamp: 2; 
+            -webkit-box-orient: vertical;
+        }
+        
+        /* [NEW] 2순위 정보 그룹 (담당자/대상고객 레벨 상향 및 좌측 정렬) */
+        .card-meta-group {
+             display: flex;
+             flex-direction: column;
+             gap: 2px; 
+             margin-top: 8px;
+        }
+        .card-meta-row {
+            /* [MODIFIED] 내부 요소 좌측 정렬 (display: flex 유지) */
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+        .card-meta-row strong {
+            font-weight: 600;
+            color: #333;
+            margin-right: 8px; /* 담당자/대상고객 간격 조정 */
+        }
+        
+        /* [NEW] 배송 정보 (금액 표시 아래로 이동) */
+        .shipping-info-row {
+            font-size: 13px;
+            color: #555;
+            margin-top: 4px;
+            text-align: right;
+            line-height: 1.5;
+        }
+        .shipping-info-row strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Simplified price row */
+        .item-price-info {
+            margin-top: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+        .item-price-info .pending-price {
+            font-size: 14px;
+            font-weight: 600;
+            color: #dc3545;
+        }
+
+        .card-footer {
+            padding-top: 15px;
+            margin-top: 15px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        
+        .file-download-btn {
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            cursor: pointer;
-            margin-top: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4e6ee4;
+            padding: 4px 0;
+            margin-top: 12px;
         }
-        .sc-v3-file-link svg { width: 12px; height: 12px; }
-
-        /* Price Group */
-        .sc-v3-price-group { gap: 4px; margin-top: 8px; }
-        .sc-v3-price-value-row { text-align: left; width: 100%; }
-        .sc-v3-price-total { font-size: 14px; font-weight: 500; color: #212121; margin-right: 4px; }
-        .sc-v3-price-pending { font-size: 12px; font-weight: 500; color: #4e6ee4; }
-
-        /* 4. Action Area */
-        .sc-v3-action-area {
-            padding: 0 16px 16px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .file-download-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke-width: 2.5;
         }
-
-        .btn-v3-primary {
-            width: 100%;
-            height: 40px;
-            background: #4e6ee4;
-            color: white;
-            border: 1px solid #4e6ee4;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .btn-v3-primary:active { background-color: #3d5dd3; border-color: #3d5dd3; }
-
-        .sc-btn-group {
-            display: flex;
-            width: 100%;
-            height: 40px;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            background-color: #fff;
-            overflow: hidden;
-        }
-        .sc-btn-group-item {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: none;
-            border: none;
-            font-size: 12px;
-            font-weight: 600;
-            color: #555;
-            cursor: pointer;
-        }
-        .sc-btn-group-item:active { background-color: #f9f9f9; }
-        .sc-btn-divider { width: 1px; background-color: #e8e8e9; height: 15px; align-self: center; }
-
 
         /* v12 Standard .multi-chip & .single-chip */
         .multi-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
@@ -713,6 +631,269 @@
         .sheet-footer { padding: 20px; border-top: 1px solid #f0f0f0; background: #fff; display: flex; gap: 8px; }
         .sheet-footer .btn { flex: 1; }
         
+        /* Order Detail Sheet (상세 정보 노출용으로 사용) */
+        #order-detail-sheet .sheet-body {
+            padding: 0 16px 20px 16px;
+        }
+        #order-detail-sheet .detail-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin: 20px 0 12px 0;
+        }
+        #order-detail-sheet .detail-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        #order-detail-sheet .detail-item .label {
+            color: #666;
+            flex-shrink: 0;
+            margin-right: 16px;
+        }
+        #order-detail-sheet .detail-item .value {
+            color: #333;
+            font-weight: 500;
+            text-align: right;
+            word-break: break-word; 
+        }
+        #order-detail-sheet .detail-item .value.pending {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        #order-detail-sheet .item-spec {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+        #order-detail-sheet .file-download-btn {
+            margin-top: 16px;
+        }
+        #order-detail-sheet .item-quantity {
+            text-align: right;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .card-divider { width: 100%; height: 1px; background: #e8e8e9; margin: 10px 0; }
+        
+        /* [NEW] Modal Styles (v12 Standard) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            animation: fadeInModal 0.2s ease-out;
+        }
+        .modal-overlay.active { display: flex; }
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+        @keyframes scaleUpModal { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative;
+            height: 57px;
+        }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            text-align: left;
+        }
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+        
+        /* [NEW] Manager List Specific Styles */
+        .manager-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+        }
+        .manager-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .manager-item:last-child {
+             border-bottom: none;
+        }
+        .manager-info-group {
+             flex-grow: 1;
+        }
+        .manager-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        .manager-contact {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+        .manager-contact div {
+             margin-bottom: 2px;
+        }
+        .manager-actions {
+             display: flex;
+             gap: 8px;
+             flex-shrink: 0;
+             align-items: center;
+        }
+        
+        /* [NEW] Manager Add Form */
+        .form-group {
+             margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .input-text {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+        .input-text input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+        .input-text input::placeholder { color: #c6c6c8; }
+        
+        /* [NEW] Modal Form Elements (from v12 guide / sungwon_money) */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+        .input input::placeholder { color: #c6c6c8; }
+        
+        /* [NEW] Readonly-value (from tax_issue) */
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+        .readonly-value.emphasis {
+            font-weight: 700;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        /* [NEW] Item detail row (from tax_issue) */
+        .item-list { display: flex; flex-direction: column; gap: 10px; }
+        .item-row { display: flex; justify-content: space-between; align-items: flex-start; }
+        .item-name { font-size: 14px; color: #333; font-weight: 500; }
+        .item-price-wrapper { display: flex; flex-direction: column; align-items: flex-end; }
+        .item-price-total { font-size: 14px; font-weight: 500; color: #333; }
+        .item-price-details { font-size: 12px; color: #888; }
+        
+        /* [NEW] Section Title for Modals (from tax_issue) */
+        .modal-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            margin-top: 16px;
+        }
+        .modal-body .modal-section-title:first-child {
+            margin-top: 0;
+        }
+
     </style>
 </head>
 
@@ -730,7 +911,7 @@
             </div>
             <h1 class="header-title">접수/배송 내역</h1>
             <div class="header-right">
-                <button type="button" class="white-button btn-sm" onclick="alert('담당자 관리')">
+                <button type="button" class="white-button btn-sm" onclick="openModal('manager-list-modal-overlay')">
                      담당자 관리
                  </button>
             </div>
@@ -807,14 +988,19 @@
                 <button type="button" class="summary-right" onclick="alert('가상계좌 복사 완료')">
                     <span>가상계좌</span>
                     <strong>우리은행 65459011733483</strong>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-copy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 16h-2a2 2 0 0 1 -2 -2v-8a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v2"></path>
+                        <path d="M16 8m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                        <path d="M16 12v-2"></path>
+                        <path d="M16 12h-2a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-2"></path>
+                    </svg>
                 </button>
             </div>
 
             <div class="sw-container" style="padding-top: 0;">
                 <section class="transaction-list-section">
                     <div class="transaction-list-header">
-                        <span class="total-count">총 <strong id="transaction-count">4</strong>건</span>
+                        <span class="total-count">총 <strong id="transaction-count">22</strong>건</span>
                         <div class="view-count-select">
                             <span class="view-count-select-text">20건씩 보기</span>
                             <div class="view-count-select-arrow">
@@ -829,200 +1015,135 @@
                         
                         <div class="date-divider" data-date="2025-07-08">2025. 07. 08</div>
 
-                        <article class="sc-v3-card" data-status="결제대기" data-date="2025-07-08" data-manager="김성원" data-customer="XT(내회사)" data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수" data-order-no="SW654321">
-                            <div class="sc-v3-top-meta">
-                                <div class="meta-left">
-                                    <span>2025.07.08</span>
-                                    <span class="sc-v3-top-divider"></span>
-                                    <span>선불택배</span>
-                                </div>
-                                <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
-                                    SW654321
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
+                        <article class="common-table-card clickable" 
+                            data-status="결제대기" data-status-text="디자인 변경 대기" data-manager="김성원" data-customer="XT(내회사)"
+                            data-order-no="SW654321" data-date="2025-07-08" data-shipping="선불택배 (₩2,500)"
+                            data-total-price="₩8,500" data-pending-price="₩3,500"
+                            data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수"
+                            data-spec="용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄"
+                            data-quantity="100매 / 2건" data-item-price="₩3,500"
+                            data-file-name="원본파일.ai"
+                            data-actions="change-design,cancel"
+                            onclick="showOrderDetailSheet(this)">
+                            
+                            <div class="card-header-row">
+                                <span class="card-date-order">2025-07-08 (SW654321)</span>
+                                <span class="card-status-badge status-waiting">결제대기</span>
+                            </div>
+                            <div class="card-meta-group">
+                                <div class="card-meta-row">
+                                    <span>담당자: <strong>김성원</strong></span>
+                                    <span style="margin-left: 12px;">대상고객: <strong>XT(내회사)</strong></span>
                                 </div>
                             </div>
-                            <div class="sc-v3-horizontal-line"></div>
-                            <div class="sc-v3-body">
-                                <div class="sc-v3-status-row">
-                                    <div class="sc-v3-status blue">결제대기</div>
-                                </div>
-                                <div class="sc-v3-info-row">
-                                    <span class="white-bd-badge">김성원</span>
-                                    <span class="white-bd-badge">XT(내회사)</span>
-                                    <span class="design-check-badge">디자인 파일 검수</span>
-                                </div>
-                                <div class="sc-v3-title-area">
-                                    <div class="sc-v3-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
-                                    <button class="btn-option-toggle" onclick="toggleOptions('opt-1', this)">
-                                        옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
-                                    </button>
-                                </div>
-                                <div id="opt-1" class="sc-v3-option-details">
-                                    <div class="option-row">용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄</div>
-                                    <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
-                                        원본파일.ai
-                                    </div>
-                                </div>
-                                <div class="sc-v3-price-group">
-                                    <div class="sc-v3-price-value-row">
-                                        <span class="sc-v3-price-total">₩8,500</span>
-                                        <span class="sc-v3-price-pending">(결제대기 ₩3,500)</span>
-                                    </div>
-                                </div>
+                            <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                            <div class="item-price-info">
+                                <span><strong>₩8,500</strong></span>
+                                <span class="pending-price">(결제대기 ₩3,500)</span>
                             </div>
-                            <div class="sc-v3-action-area">
-                                <button class="btn-v3-primary" onclick="alert('결제하기')">결제하기</button>
-                                <div class="sc-btn-group">
-                                    <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
-                                    <div class="sc-btn-divider"></div>
-                                    <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
-                                </div>
+                            <div class="shipping-info-row">배송: <span>선불택배 (₩2,500)</span></div>
+                            
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('디자인 파일 변경');">디자인 파일 변경</button>
+                                <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('접수 취소');">접수 취소</button>
                             </div>
                         </article>
                         
-                        <article class="sc-v3-card" data-status="결제대기" data-date="2025-07-08" data-manager="김성원" data-customer="XT(내회사)" data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수" data-order-no="SW654322">
-                            <div class="sc-v3-top-meta">
-                                <div class="meta-left">
-                                    <span>2025.07.08</span>
-                                    <span class="sc-v3-top-divider"></span>
-                                    <span>선불택배</span>
-                                </div>
-                                <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
-                                    SW654322
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
+                        <article class="common-table-card clickable"
+                            data-status="결제대기" data-status-text="파일 재업로드 대기" data-manager="김성원" data-customer="XT(내회사)"
+                            data-order-no="SW654322" data-date="2025-07-08" data-shipping="선불택배 (₩2,500)"
+                            data-total-price="₩8,500" data-pending-price=""
+                            data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수"
+                            data-spec="용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄"
+                            data-quantity="100매 / 2건" data-item-price="₩3,500"
+                            data-file-name="원본파일.pdf"
+                            data-actions="re-upload,cancel"
+                            onclick="showOrderDetailSheet(this)">
+
+                            <div class="card-header-row">
+                                <span class="card-date-order">2025-07-08 (SW654322)</span>
+                                <span class="card-status-badge status-in-progress">파일 재업로드 대기</span>
+                            </div>
+                            <div class="card-meta-group">
+                                <div class="card-meta-row">
+                                    <span>담당자: <strong>김성원</strong></span>
+                                    <span style="margin-left: 12px;">대상고객: <strong>XT(내회사)</strong></span>
                                 </div>
                             </div>
-                            <div class="sc-v3-horizontal-line"></div>
-                            <div class="sc-v3-body">
-                                <div class="sc-v3-status-row">
-                                    <div class="sc-v3-status red">파일 재업로드 대기</div>
+                            <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                            <div class="item-price-info">
+                                <span><strong>₩8,500</strong></span>
                                 </div>
-                                <div class="sc-v3-info-row">
-                                    <span class="white-bd-badge">김성원</span>
-                                    <span class="white-bd-badge">XT(내회사)</span>
-                                </div>
-                                <div class="sc-v3-title-area">
-                                    <div class="sc-v3-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
-                                    <button class="btn-option-toggle" onclick="toggleOptions('opt-2', this)">
-                                        옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
-                                    </button>
-                                </div>
-                                <div id="opt-2" class="sc-v3-option-details">
-                                    <div class="option-row">용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄</div>
-                                    <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
-                                        오류파일.pdf
-                                    </div>
-                                </div>
-                                <div class="sc-v3-price-group">
-                                    <div class="sc-v3-price-value-row">
-                                        <span class="sc-v3-price-total">₩8,500</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sc-v3-action-area">
-                                <button class="btn-v3-primary" onclick="alert('파일 재업로드')">파일 재업로드</button>
-                                <div class="sc-btn-group">
-                                    <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
-                                </div>
+                            <div class="shipping-info-row">배송: <span>선불택배 (₩2,500)</span></div>
+
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('파일 재업로드');">파일 재업로드</button>
+                                <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('접수 취소');">접수 취소</button>
                             </div>
                         </article>
                         
-                        <article class="sc-v3-card" data-status="결제대기" data-date="2025-07-08" data-manager="김성원" data-customer="XT(내회사)" data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수" data-order-no="SW654323">
-                            <div class="sc-v3-top-meta">
-                                <div class="meta-left">
-                                    <span>2025.07.08</span>
-                                    <span class="sc-v3-top-divider"></span>
-                                    <span>선불택배</span>
-                                </div>
-                                <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
-                                    SW654323
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
+                        <article class="common-table-card clickable"
+                            data-status="결제대기" data-status-text="접수 대기" data-manager="김성원" data-customer="XT(내회사)"
+                            data-order-no="SW654323" data-date="2025-07-08" data-shipping="선불택배 (₩2,500)"
+                            data-total-price="₩8,500" data-pending-price=""
+                            data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수"
+                            data-spec="용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄"
+                            data-quantity="100매 / 2건" data-item-price="₩3,500"
+                            data-file-name="원본파일.ai"
+                            data-actions="change-design,cancel"
+                            onclick="showOrderDetailSheet(this)">
+
+                            <div class="card-header-row">
+                                <span class="card-date-order">2025-07-08 (SW654323)</span>
+                                <span class="card-status-badge status-in-progress">접수 대기</span>
+                            </div>
+                            <div class="card-meta-group">
+                                <div class="card-meta-row">
+                                    <span>담당자: <strong>김성원</strong></span>
+                                    <span style="margin-left: 12px;">대상고객: <strong>XT(내회사)</strong></span>
                                 </div>
                             </div>
-                            <div class="sc-v3-horizontal-line"></div>
-                            <div class="sc-v3-body">
-                                <div class="sc-v3-status-row">
-                                    <div class="sc-v3-status gray">접수대기</div>
+                            <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                            <div class="item-price-info">
+                                <span><strong>₩8,500</strong></span>
                                 </div>
-                                <div class="sc-v3-info-row">
-                                    <span class="white-bd-badge">김성원</span>
-                                    <span class="white-bd-badge">XT(내회사)</span>
-                                    <span class="design-check-badge">디자인 파일 검수</span>
-                                </div>
-                                <div class="sc-v3-title-area">
-                                    <div class="sc-v3-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
-                                    <button class="btn-option-toggle" onclick="toggleOptions('opt-3', this)">
-                                        옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
-                                    </button>
-                                </div>
-                                <div id="opt-3" class="sc-v3-option-details">
-                                    <div class="option-row">용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄</div>
-                                    <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
-                                        원본파일.ai
-                                    </div>
-                                </div>
-                                <div class="sc-v3-price-group">
-                                    <div class="sc-v3-price-value-row">
-                                        <span class="sc-v3-price-total">₩8,500</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sc-v3-action-area">
-                                <div class="sc-btn-group">
-                                    <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
-                                    <div class="sc-btn-divider"></div>
-                                    <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
-                                </div>
+                            <div class="shipping-info-row">배송: <span>선불택배 (₩2,500)</span></div>
+
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('디자인 파일 변경');">디자인 파일 변경</button>
+                                <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('접수 취소');">접수 취소</button>
                             </div>
                         </article>
                         
-                        <article class="sc-v3-card" data-status="접수 완료" data-date="2025-07-08" data-manager="김길동" data-customer="삼성SDS" data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수" data-order-no="SW654324">
-                            <div class="sc-v3-top-meta">
-                                <div class="meta-left">
-                                    <span>2025.07.08</span>
-                                    <span class="sc-v3-top-divider"></span>
-                                    <span>선불택배</span>
-                                </div>
-                                <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
-                                    SW654324
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
+                        <article class="common-table-card clickable"
+                            data-status="접수 완료" data-status-text="접수 완료" data-manager="김길동" data-customer="삼성SDS"
+                            data-order-no="SW654324" data-date="2025-07-08" data-shipping="선불택배 (₩2,500)"
+                            data-total-price="₩8,500" data-pending-price=""
+                            data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수"
+                            data-spec="용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄"
+                            data-quantity="100매 / 2건" data-item-price="₩3,500"
+                            data-file-name="디자인_최종.pdf"
+                            data-actions="cancel"
+                            onclick="showOrderDetailSheet(this)">
+                            
+                            <div class="card-header-row">
+                                <span class="card-date-order">2025-07-08 (SW654324)</span>
+                                <span class="card-status-badge status-complete">접수 완료</span>
+                            </div>
+                            <div class="card-meta-group">
+                                <div class="card-meta-row">
+                                    <span>담당자: <strong>김길동</strong></span>
+                                    <span style="margin-left: 12px;">대상고객: <strong>삼성SDS</strong></span>
                                 </div>
                             </div>
-                            <div class="sc-v3-horizontal-line"></div>
-                            <div class="sc-v3-body">
-                                <div class="sc-v3-status-row">
-                                    <div class="sc-v3-status blue-plain">접수완료</div>
+                            <div class="item-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                            <div class="item-price-info">
+                                <span><strong>₩8,500</strong></span>
                                 </div>
-                                <div class="sc-v3-info-row">
-                                    <span class="white-bd-badge">김길동</span>
-                                    <span class="white-bd-badge">삼성SDS</span>
-                                </div>
-                                <div class="sc-v3-title-area">
-                                    <div class="sc-v3-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
-                                    <button class="btn-option-toggle" onclick="toggleOptions('opt-4', this)">
-                                        옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
-                                    </button>
-                                </div>
-                                <div id="opt-4" class="sc-v3-option-details">
-                                    <div class="option-row">용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄</div>
-                                    <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
-                                        디자인_최종.pdf
-                                    </div>
-                                </div>
-                                <div class="sc-v3-price-group">
-                                    <div class="sc-v3-price-value-row">
-                                        <span class="sc-v3-price-total">₩8,500</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sc-v3-action-area">
-                                <div class="sc-btn-group">
-                                    <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
-                                </div>
+                            <div class="shipping-info-row">배송: <span>선불택배 (₩2,500)</span></div>
+
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('접수 취소');">접수 취소</button>
                             </div>
                         </article>
                         
@@ -1032,23 +1153,19 @@
 
                     <div class="pagination" data-name="Pagination">
                         <div class="pagination-arrow disabled" onclick="paginationFirst()">
-                            <img src="assets/images/nnext-arrow.svg" alt="처음"
-                                style="transform: rotate(90deg);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(90deg);"><path d="M15 6l-6 6l6 6"/></svg>
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationPrev()">
-                            <img src="assets/images/next-arrow.svg" alt="이전"
-                                style="transform: rotate(90deg);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(90deg);"><path d="M6 9l6 6l6 -6"/></svg>
                         </div>
-                        <div class="pagination-numbers" id="issue-pagination-numbers">
+                        <div class="pagination-numbers" id="pagination-numbers">
                             <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationNext()">
-                            <img src="assets/images/next-arrow.svg" alt="다음"
-                                style="transform: rotate(90deg) scaleY(-1);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(-90deg);"><path d="M6 9l6 6l6 -6"/></svg>
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationLast()">
-                            <img src="assets/images/nnext-arrow.svg"
-                                alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(-90deg);"><path d="M15 6l-6 6l6 6"/></svg>
                         </div>
                     </div>
                 </section>
@@ -1132,13 +1249,6 @@
                 <div class="btn-close" onclick="closeFilterSheet('manager')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
             </div>
             <div class="sheet-body">
-                <div style="display: flex; justify-content: flex-end; margin-bottom: 16px; padding-right: 4px;">
-                    <button type="button" class="sc-v3-order-link" onclick="alert('담당자 관리 페이지로 이동')" style="color: #666; font-weight: 500;">
-                        담당자 관리
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6l-6 6"/></svg>
-                    </button>
-                </div>
-                
                 <div class="filter-group">
                     <div class="filter-group-content" id="manager-filter-chips">
                         <div class="multi-chip multi-chip-on" data-category="전체" onclick="toggleFilterChip(this, 'manager-filter-chips')">✓ 전체</div>
@@ -1181,21 +1291,175 @@
             </div>
         </div>
     </div>
+    
+    <div class="bottom-sheet-overlay" id="order-detail-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="order-detail-sheet">
+            <div class="sheet-handle" id="order-detail-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">접수 상세</div>
+                <div class="btn-close" onclick="closeOrderDetailSheet()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
+            </div>
+            <div class="sheet-body">
+                <div class="detail-item">
+                    <span class="label">접수번호</span>
+                    <span class="value" id="detail-order-no"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">접수일</span>
+                    <span class="value" id="detail-date"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">접수상태</span>
+                    <span class="value" id="detail-status"></span>
+                </div>
+                <div class="card-divider"></div>
+                
+                <div class="detail-section-title">주문 정보</div>
+                <div class="detail-item">
+                    <span class="label">담당자</span>
+                    <span class="value" id="detail-manager"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">대상고객</span>
+                    <span class="value" id="detail-customer"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">배송정보</span>
+                    <span class="value" id="detail-shipping"></span>
+                </div>
+                
+                <div class="card-divider"></div>
+                
+                <div class="detail-section-title">상품 정보</div>
+                <div class="detail-item">
+                    <span class="label">제품명</span>
+                    <span class="value" id="detail-title"></span>
+                </div>
+                <p class="item-spec" id="detail-spec" style="margin-top: 4px;"></p>
+                
+                <div class="detail-item">
+                    <span class="label">수량/건수</span>
+                    <span class="value" id="detail-quantity-price"></span>
+                </div>
+                
+                <button class="file-download-btn" id="detail-file-btn" onclick="alert('파일 다운로드')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
+                    <span id="detail-file-name"></span>
+                </button>
+                
+                <div class="card-divider" style="margin-top: 10px;"></div>
+                
+                <div class="detail-section-title">결제 정보</div>
+                <div class="detail-item" style="margin-top: 10px;">
+                    <span class="label">총 결제 금액</span>
+                    <span class="value" id="detail-total-price" style="font-weight: 700;"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">결제대기 금액</span>
+                    <span class="value pending" id="detail-pending-price"></span>
+                </div>
+                
+            </div>
+            <div class="sheet-footer" id="detail-sheet-footer">
+                 <button type="button" class="dark-button btn" onclick="closeOrderDetailSheet()">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="manager-list-modal-overlay">
+        <div class="modal-content" id="manager-list-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">담당자 관리</h2>
+                <button class="btn-modal-close" onclick="closeModal('manager-list-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="manager-list">
+                    <div class="manager-item">
+                        <div class="manager-info-group">
+                            <div class="manager-name">김디자이너</div>
+                            <div class="manager-contact">
+                                <div>010-1234-5678</div>
+                                <div>kimdesigner@gmail.com</div>
+                            </div>
+                        </div>
+                        <div class="manager-actions">
+                            <button class="white-button btn-sm" onclick="showManagerEditModal('김디자이너', '010-1234-5678', 'kimdesigner@gmail.com')">수정</button>
+                            <button class="white-button btn-sm" style="color:#dc3545; border-color:#dc3545;" onclick="alert('김디자이너 담당자 삭제')">삭제</button>
+                        </div>
+                    </div>
+                    <div class="manager-item">
+                        <div class="manager-info-group">
+                            <div class="manager-name">정혜진</div>
+                            <div class="manager-contact">
+                                <div>010-1234-5678</div>
+                                <div>jeonghyegene@gmail.com</div>
+                            </div>
+                        </div>
+                        <div class="manager-actions">
+                            <button class="white-button btn-sm" onclick="showManagerEditModal('정혜진', '010-1234-5678', 'jeonghyegene@gmail.com')">수정</button>
+                            <button class="white-button btn-sm" style="color:#dc3545; border-color:#dc3545;" onclick="alert('정혜진 담당자 삭제')">삭제</button>
+                        </div>
+                    </div>
+                    <div class="manager-item">
+                         <div class="manager-info-group">
+                            <div class="manager-name">정지수</div>
+                            <div class="manager-contact">
+                                <div>010-1234-5678</div>
+                                <div>jisu@gmail.com</div>
+                            </div>
+                        </div>
+                        <div class="manager-actions">
+                            <button class="white-button btn-sm" onclick="showManagerEditModal('정지수', '010-1234-5678', 'jisu@gmail.com')">수정</button>
+                            <button class="white-button btn-sm" style="color:#dc3545; border-color:#dc3545;" onclick="alert('정지수 담당자 삭제')">삭제</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="openModal('manager-add-modal-overlay')">담당자 추가</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="manager-add-modal-overlay">
+        <div class="modal-content" id="manager-add-modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="manager-add-title">담당자 추가</h2>
+                <button class="btn-modal-close" onclick="closeModal('manager-add-modal-overlay')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="manager-form-name">이름</label>
+                    <div class="input-text">
+                        <input type="text" id="manager-form-name" placeholder="이름을 입력하세요">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="manager-form-email">이메일</label>
+                    <div class="input-text">
+                        <input type="email" id="manager-form-email" placeholder="이메일을 입력하세요">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="manager-form-phone">휴대폰 번호</label>
+                    <div class="input-text">
+                        <input type="tel" id="manager-form-phone" placeholder="휴대폰 번호를 입력하세요">
+                    </div>
+                </div>
+            </div>
+             <div class="modal-footer">
+                <button class="btn white-button" onclick="closeModal('manager-add-modal-overlay')">취소</button>
+                <button class="btn dark-button" id="manager-form-submit-btn" onclick="submitManagerForm()">추가하기</button>
+            </div>
+        </div>
+    </div>
 
 
     <script>
-        // --- Toggle Options Function (v3 Card) ---
-        function toggleOptions(targetId, btn) {
-            const target = document.getElementById(targetId);
-            if (target.classList.contains('open')) {
-                target.classList.remove('open');
-                btn.classList.remove('active');
-            } else {
-                target.classList.add('open');
-                btn.classList.add('active');
-            }
-        }
-
         // --- Modal & Bottom Sheet Helpers ---
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
@@ -1216,6 +1480,28 @@
             }
         }
         
+        // --- [NEW] Manager Edit/Add Logic ---
+        function showManagerEditModal(name, phone, email) {
+            // 1. 모달 폼 채우기
+            document.getElementById('manager-add-title').textContent = '담당자 수정';
+            document.getElementById('manager-form-name').value = name;
+            document.getElementById('manager-form-phone').value = phone.replace(/-/g, '');
+            document.getElementById('manager-form-email').value = email;
+            
+            const submitBtn = document.getElementById('manager-form-submit-btn');
+            submitBtn.textContent = '수정하기';
+            submitBtn.onclick = () => alert(`${name} 담당자 정보 수정 완료 (구현 필요)`);
+
+            // 2. 모달 열기
+            openModal('manager-add-modal-overlay');
+        }
+
+        function submitManagerForm() {
+             // 이 함수는 '담당자 추가'와 '담당자 수정' 버튼의 onclick 이벤트에서 개별적으로 정의됨
+             // 기본적으로는 alert를 띄웁니다.
+             alert('폼 제출 로직 (추가 또는 수정)이 실행되었습니다.');
+        }
+
         // --- [v12] Search Component JS ---
         function handleSearchInput(input) {
             const searchBox = input.closest('.search');
@@ -1280,8 +1566,8 @@
             return { openSheet, closeSheet };
         }
 
-        let openPeriodFilterSheet, closePeriodFilterSheet, openManagerFilterSheet, closeManagerFilterSheet, openCustomerFilterSheet, closeCustomerFilterSheet;
-        let openCustomPeriodSheet, closeCustomPeriodSheet; 
+        let openPeriodFilterSheet, closePeriodFilterSheet, openManagerFilterSheet, closeManagerFilterSheet, openCustomerFilterSheet, closeCustomerFilterSheet, openOrderDetailSheet, closeOrderDetailSheet;
+        let openCustomPeriodSheet, closeCustomPeriodSheet; // [NEW] Custom Period Sheet
 
         function initializeBottomSheets() {
             const periodSheet = setupBottomSheet('period-filter-overlay', 'period-filter-sheet', 'period-filter-handle');
@@ -1292,11 +1578,16 @@
 
             const customerSheet = setupBottomSheet('customer-filter-overlay', 'customer-filter-sheet', 'customer-filter-handle');
             openCustomerFilterSheet = customerSheet.openSheet; closeCustomerFilterSheet = customerSheet.closeSheet;
+
+            const detailSheet = setupBottomSheet('order-detail-overlay', 'order-detail-sheet', 'order-detail-handle');
+            openOrderDetailSheet = detailSheet.openSheet; closeOrderDetailSheet = detailSheet.closeSheet;
             
+            // [NEW] Custom Period Sheet Initialization
             const customPeriodSheet = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
             openCustomPeriodSheet = customPeriodSheet.openSheet; closeCustomPeriodSheet = customPeriodSheet.closeSheet;
         }
 
+        
         function showFilterSheet(type) {
             if (type === 'period') openPeriodFilterSheet();
             else if (type === 'manager') openManagerFilterSheet();
@@ -1318,14 +1609,15 @@
             const endDate = new Date();
             let startDate = new Date();
             
-            if (days === 0) { 
+            if (days === 0) { // 오늘
                  startDate = endDate;
-            } else if (days === 7) { 
+            } else if (days === 7) { // 1주일
                 startDate.setDate(endDate.getDate() - 7);
-            } else if (days === 30) { 
+            } else if (days === 30) { // 1개월
                  startDate.setMonth(endDate.getMonth() - 1);
             }
             
+            // Format to YYYY-MM-DD
             const isoStartDate = startDate.toISOString().split('T')[0];
             const isoEndDate = endDate.toISOString().split('T')[0];
 
@@ -1348,10 +1640,11 @@
             
             selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`;
             
+            // Period Filter 칩의 상태도 '기간 설정'으로 변경
             document.querySelector('#single-chip-group-period .single-chip[data-value="기간 설정"]').classList.replace('single-chip-off', 'single-chip-on');
             
             closeCustomPeriodSheet();
-            applyPeriodFilter(); 
+            applyPeriodFilter(); // 메인 필터 적용
         }
 
         function selectPeriod(chip) { 
@@ -1363,14 +1656,14 @@
             if (selectedPeriodValue === "기간 설정") {
                 const endDate = new Date();
                 const startDate = new Date();
-                startDate.setMonth(endDate.getMonth() - 1); 
+                startDate.setMonth(endDate.getMonth() - 1); // Default to 1 month ago
                 document.getElementById('start-date').value = startDate.toISOString().split('T')[0];
                 document.getElementById('end-date').value = endDate.toISOString().split('T')[0];
                 
-                closeFilterSheet('period'); 
-                openCustomPeriodSheet(); 
+                closeFilterSheet('period'); // 기간 선택 시트 닫고
+                openCustomPeriodSheet(); // 기간 설정 시트 열기
             } else {
-                applyPeriodFilter(); 
+                applyPeriodFilter(); // 기간 설정이 아니면 즉시 적용
             }
         }
         function applyPeriodFilter() { 
@@ -1490,7 +1783,7 @@
             const listContainer = document.getElementById('transaction-list-container'); 
             if (!listContainer) return; 
             
-            const cards = listContainer.querySelectorAll('.sc-v3-card');
+            const cards = listContainer.querySelectorAll('.common-table-card');
             const noResultMsg = document.querySelector('.no-transactions');
             let visibleCount = 0;
             const isAllManagers = selectedManagers.includes('전체');
@@ -1521,16 +1814,17 @@
                 } 
             });
 
+            // After filtering cards, manage date dividers
             const allItems = Array.from(listContainer.children);
             let currentDivider = null;
 
             allItems.forEach(item => {
                 if (item.classList.contains('date-divider')) {
                     currentDivider = item;
-                } else if (item.classList.contains('sc-v3-card')) {
+                } else if (item.classList.contains('common-table-card')) {
                     if (item.style.display === 'block' && currentDivider) {
                         currentDivider.style.display = 'block';
-                        currentDivider = null; 
+                        currentDivider = null; // 다음 구분자를 찾기 위해 초기화
                     }
                 }
             });
@@ -1538,6 +1832,45 @@
             const countEl = document.getElementById('transaction-count');
             if(countEl) countEl.textContent = visibleCount; 
             if(noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // 5. Order Detail Sheet
+        function showOrderDetailSheet(card) {
+            const data = card.dataset;
+            
+            // Populate text
+            document.getElementById('detail-order-no').textContent = data.orderNo || '-';
+            document.getElementById('detail-date').textContent = data.date || '-';
+            document.getElementById('detail-status').textContent = data.statusText || '-';
+            document.getElementById('detail-manager').textContent = data.manager || '-';
+            document.getElementById('detail-customer').textContent = data.customer || '-';
+            document.getElementById('detail-shipping').textContent = data.shipping || '-';
+            document.getElementById('detail-title').textContent = data.title || '-'; 
+            document.getElementById('detail-spec').textContent = data.spec || '-';
+            
+            // Populate quantity/price
+            const quantityPriceEl = document.getElementById('detail-quantity-price');
+            quantityPriceEl.textContent = `${data.quantity}`;
+            
+            document.getElementById('detail-total-price').textContent = data.totalPrice || '-';
+            
+            const pendingPriceEl = document.getElementById('detail-pending-price');
+            pendingPriceEl.textContent = data.pendingPrice || '-';
+            // 결제대기 금액이 비어있으면 숨김
+            pendingPriceEl.parentElement.style.display = data.pendingPrice ? 'flex' : 'none';
+
+            // Populate file (요청 2 반영)
+            const fileBtn = document.getElementById('detail-file-btn');
+            const fileName = data.fileName || `${data.orderNo}_디자인파일.ai`; 
+            
+            document.getElementById('detail-file-name').textContent = fileName;
+            fileBtn.style.display = 'inline-flex';
+            
+            // Populate footer buttons
+            const footer = document.getElementById('detail-sheet-footer');
+            footer.innerHTML = '<button type="button" class="dark-button btn" onclick="closeOrderDetailSheet()">확인</button>'; 
+            
+            openOrderDetailSheet();
         }
 
 
@@ -1570,13 +1903,15 @@
 
         // --- Initialize ---
         document.addEventListener('DOMContentLoaded', () => {
+            // 모든 Bottom Sheet 초기화 (기능 복구)
             initializeBottomSheets();
+
             updatePagination();
             
             const list = document.getElementById('transaction-list-container');
-            const items = Array.from(list.querySelectorAll('.sc-v3-card'));
+            const items = Array.from(list.querySelectorAll('.common-table-card'));
             
-            // Group items by date first (Re-using logic)
+            // Group items by date first (Re-using logic from original order_list.html)
             const groupedByDate = {};
             items.forEach(item => {
                 const itemDate = item.dataset.date; 
@@ -1586,7 +1921,8 @@
                 groupedByDate[itemDate].push(item);
             });
 
-            list.innerHTML = ''; 
+            // Re-order DOM with dividers
+            list.innerHTML = ''; // Clear list
             const sortedDates = Object.keys(groupedByDate).sort().reverse(); 
             
             sortedDates.forEach(date => {
@@ -1601,8 +1937,38 @@
                 });
             });
 
-            filterOrderList(); 
+            filterOrderList(); // Initial filter
 
+            // Modal overlay click-to-close listeners
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === overlay.id) {
+                        closeModal(overlay.id);
+                    }
+                });
+            });
+            
+            // '담당자 추가' 버튼 초기화 로직 (DOM 로드 후 한 번만 실행)
+            document.querySelector('.modal-footer .dark-button[onclick*="manager-add-modal-overlay"]').addEventListener('click', (e) => {
+                 // Prevent default modal behavior (just close the current modal)
+                 e.preventDefault();
+                 e.stopPropagation();
+                 closeModal('manager-list-modal-overlay');
+                 
+                 // Initialize form for 'Add'
+                 document.getElementById('manager-add-title').textContent = '담당자 추가';
+                 document.getElementById('manager-form-name').value = '';
+                 document.getElementById('manager-form-phone').value = '';
+                 document.getElementById('manager-form-email').value = '';
+                 
+                 const submitBtn = document.getElementById('manager-form-submit-btn');
+                 submitBtn.textContent = '추가하기';
+                 submitBtn.onclick = () => alert('담당자 추가 완료 (구현 필요)');
+                 
+                 openModal('manager-add-modal-overlay');
+            });
+            
+            // '기간 상세 검색' 버튼 초기화 로직
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('start-date').value = today;
             document.getElementById('end-date').value = today;

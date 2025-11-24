@@ -23,7 +23,7 @@
             background-color: #f4f5f7;
             color: #333;
             font-size: 16px;
-            line-height: 1.5;
+            line-height: 1.6;
             overflow-x: visible;
         }
 
@@ -72,8 +72,7 @@
             max-width: 480px;
             margin: 0 auto;
             background-color: #ffffff;
-            min-height: 100vh;
-            padding-bottom: 40px;
+            padding-bottom: 20px;
         }
 
         /* Header (v12 Standard) */
@@ -237,230 +236,125 @@
              padding: 16px 0 8px 0;
         }
 
-        /* Transaction List */
+        /* Transaction List Header */
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 12px;
+        }
         .transaction-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
         .no-transactions { padding: 40px 16px; text-align: center; color: #888; font-size: 14px; }
         
-        /* ============================================================
-           [NEW] Simple Card V3 (sc-v3-card)
-        ============================================================ */
-        .sc-v3-card {
+        /* Order List Card */
+        .common-table-card {
+            width: 100%;
             background: white;
             border: 1px solid #e8e8e9;
-            border-radius: 8px;
-            margin-bottom: 0;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+            border-radius: 6px;
+            padding: 15px;
+            position: relative;
         }
-
-        /* 1. Top Meta Area */
-        .sc-v3-top-meta {
-            padding: 12px 16px;
-            font-size: 13px;
-            color: #666;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #fff;
-        }
-
-        .meta-left {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .sc-v3-top-divider {
-            width: 1px;
-            height: 10px;
-            background-color: #e0e0e0;
-            display: inline-block;
-        }
-
-        .sc-v3-order-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 2px;
-            color: #333;
-            font-weight: 400;
+        /* Make card clickable */
+        .common-table-card.clickable {
             cursor: pointer;
-            text-decoration: none;
-            font-size: 13px;
+            transition: background-color 0.2s;
         }
-
-        .sc-v3-order-link svg {
-            width: 14px;
-            height: 14px;
-            color: #aaa;
+        .common-table-card.clickable:hover {
+            background-color: #f9f9f9;
         }
-
-        /* 2. Horizontal Line */
-        .sc-v3-horizontal-line {
-            width: 100%;
-            height: 1px;
-            background-color: #e8e8e9;
-            display: block;
-        }
-
-        /* 3. Body Area */
-        .sc-v3-body {
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Status Row */
-        .sc-v3-status-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .sc-v3-status {
-            font-size: 12px;
-            font-weight: 700;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .sc-v3-status.blue { color: #4e6ee4; }
-        .sc-v3-status.blue::before {
-            content: ''; width: 7px; height: 7px; background-color: #4e6ee4; border-radius: 50%; display: block; animation: blink-animation 1.2s infinite ease-in-out;
-        }
-        .sc-v3-status.blue-plain { color: #4e6ee4; }
         
-        .sc-v3-status.red { color: #dc3545; }
-        .sc-v3-status.red::before {
-            content: ''; width: 7px; height: 7px; background-color: #dc3545; border-radius: 50%; display: block; animation: blink 1.2s infinite;
-        }
-        .sc-v3-status.red-plain { color: #dc3545; }
-        
-        .sc-v3-status.gray { color: #888; }
-        .sc-v3-status.green { color: #16a34a; }
-
-        @keyframes blink-animation {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.9); }
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.9); }
-        }
-
-        /* Title Area */
-        .sc-v3-title-area {
+        .card-header-row {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 8px;
-            margin-bottom: 0;
         }
-
-        .sc-v3-title {
+        .card-date-order {
             font-size: 14px;
-            font-weight: 600;
-            color: #212121;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            flex: 1;
+            font-weight: 600; 
+            color: #333; 
         }
-
-        /* Option Toggle */
-        .btn-option-toggle {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            font-size: 11px;
-            color: #666;
-            padding: 3px 0 4px;
-            border-radius: 100px;
-            white-space: nowrap;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .btn-option-toggle svg { width: 12px; height: 12px; transition: transform 0.2s; }
-        .btn-option-toggle.active { color: #333; }
-        .btn-option-toggle.active svg { transform: rotate(180deg); }
-
-        /* Option Details */
-        .sc-v3-option-details {
-            background-color: #fafafa;
-            border-radius: 6px;
-            padding: 0 12px;
-            margin-bottom: 0;
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: all 0.3s ease;
+        .card-status-badge {
             font-size: 12px;
-            color: #666;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-left: 8px;
             border: 1px solid transparent;
         }
-        .sc-v3-option-details.open {
-            padding: 12px;
-            max-height: 300px;
-            opacity: 1;
-            border-color: #f0f0f0;
-            margin-bottom: 12px;
-            margin-top: 12px;
+        
+        /* 뱃지 색상 통일 */
+        .card-status-badge.status-waiting { 
+            background-color: #fff0f0;
+            color: #dc3545;
+            border-color: #f5c6cb;
+            animation: pulse-animation 1.5s infinite;
         }
-        .option-row { margin-bottom: 4px; line-height: 1.4; }
+        .card-status-badge.status-in-progress { 
+            background-color: #e6f7ff;
+            color: #007bff;
+            border-color: #b8dfff;
+        }
+        .card-status-badge.status-complete { 
+            background-color: #f8f9fa;
+            color: #495057;
+            border-color: #dee2e6;
+        }
 
-        /* Price Group */
-        .sc-v3-price-group { gap: 4px; margin-top: 0; }
-        .sc-v3-price-value-row { text-align: left; width: 100%; }
-        .sc-v3-price-total { font-size: 14px; font-weight: 500; color: #212121; margin-right: 4px; }
-        .sc-v3-price-pending { font-size: 12px; font-weight: 500; color: #4e6ee4; }
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+            70% { box-shadow: 0 0 0 4px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
 
-        /* 4. Action Area */
-        .sc-v3-action-area {
-            padding: 0 16px 16px 16px;
+        /* Simplified item title */
+        .item-title { 
+            font-size: 16px; 
+            font-weight: 600; 
+            color: #212121; 
+            margin-top: 8px; 
+            line-height: 1.4; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            display: -webkit-box; 
+            -webkit-line-clamp: 2; 
+            -webkit-box-orient: vertical;
+        }
+        
+        /* Simplified price row */
+        .item-price-info {
+            margin-top: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .card-footer {
+            padding-top: 15px;
+            margin-top: 15px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
             gap: 8px;
         }
-
-        /* Button Group (Split) */
-        .sc-btn-group {
-            display: flex;
-            width: 100%;
-            height: 40px;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            background-color: #fff;
-            overflow: hidden;
+        
+        /* [NEW] Non-Member Action Buttons */
+        .card-footer .nm-action-group {
+             display: flex;
+             gap: 8px;
         }
-
-        .sc-btn-group-item {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: none;
-            border: none;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: -0.25px;
-            color: #555;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .sc-btn-group-item:active {
-            background-color: #f9f9f9;
-        }
-
-        .sc-btn-divider {
-            width: 1px;
-            background-color: #e8e8e9;
-            height: 15px;
-            align-self: center;
+        .card-footer .nm-action-group .white-button-sm {
+            height: 36px;
+            font-size: 13px;
+            padding: 0 10px;
         }
 
         /* [v12] Bottom Sheet */
@@ -484,6 +378,7 @@
         
         /* Order Detail Sheet (비회원 상세 보기) */
         #order-detail-sheet .sheet-body {
+            /* [NEW] Body Padding 조정 (내부 요소를 위해) */
             padding: 20px 16px 20px 16px;
         }
         #order-detail-sheet .detail-item {
@@ -558,105 +453,67 @@
                     <div class="order-group-header">2025-07-08 (sw123456)</div>
                     <div class="transaction-list" id="transaction-list-container">
                         
-                        <article class="sc-v3-card" 
+                        <article class="common-table-card clickable" 
                             data-order-id="sw123456-01"
                             data-title="디지털엽서 - 김길동 고객 청접장"
                             data-spec="옵션: 아르떼 울트라화이트 310g/208×154/양면칼라 8도/디지털인쇄(인디고) | 요청사항: 디자인 검수 후 인쇄/감리 신청/색상 샘플 발송"
                             data-total-price="₩3,500"
                             data-quantity="100매/2건"
                             data-status-text="접수 대기"
-                            data-pending-price="₩500">
+                            data-pending-price="₩500"
+                            onclick="showOrderDetailSheet(this)">
                             
-                            <div class="sc-v3-top-meta">
-                                <div class="meta-left">
-                                    <span>2025.07.08</span>
-                                </div>
-                                <div class="sc-v3-order-link" onclick="showOrderDetailSheet(this.closest('article'))">
-                                    sw123456-01
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
-                                </div>
+                            <div class="card-header-row">
+                                <span class="card-date-order">12345678-1</span>
+                                <span class="card-status-badge status-in-progress">접수 대기</span>
                             </div>
-                            <div class="sc-v3-horizontal-line"></div>
-                            <div class="sc-v3-body">
-                                <div class="sc-v3-status-row">
-                                    <div class="sc-v3-status blue-plain">접수 대기</div>
-                                </div>
-                                <div class="sc-v3-title-area">
-                                    <div class="sc-v3-title">디지털엽서 - 김길동 고객 청접장</div>
-                                    <button class="btn-option-toggle" onclick="toggleOptions('opt-nm-1', this)">
-                                        옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
-                                    </button>
-                                </div>
-                                <div id="opt-nm-1" class="sc-v3-option-details">
-                                    <div class="option-row">옵션: 아르떼 울트라화이트 310g/208×154/양면칼라 8도/디지털인쇄(인디고) | 요청사항: 디자인 검수 후 인쇄/감리 신청/색상 샘플 발송</div>
-                                </div>
-                                <div class="sc-v3-price-group">
-                                    <div class="sc-v3-price-value-row">
-                                        <span class="sc-v3-price-total">₩3,500</span>
-                                    </div>
-                                </div>
+                            <div class="item-title">디지털엽서 - 김길동 고객 청접장</div>
+                            <div class="item-price-info">
+                                <span><strong>₩3,500</strong></span>
                             </div>
-                            <div class="sc-v3-action-area">
-                                <div class="sc-btn-group">
-                                    <button class="sc-btn-group-item" onclick="alert('디자인 보기')">디자인 보기</button>
-                                    <div class="sc-btn-divider"></div>
-                                    <button class="sc-btn-group-item" onclick="alert('디자인 재업로드')">재업로드</button>
-                                    <div class="sc-btn-divider"></div>
-                                    <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                            
+                            <div class="card-footer">
+                                <div class="nm-action-group">
+                                    <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('디자인 보기');">디자인 보기</button>
+                                    <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('디자인 재업로드');">디자인 재업로드</button>
+                                </div>
+                                <div class="nm-action-group">
+                                    <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('접수 취소');">접수 취소</button>
                                 </div>
                             </div>
                         </article>
                         
-                        <article class="sc-v3-card" 
+                        <article class="common-table-card"
                             data-order-id="sw123456-02"
                             data-title="디지털엽서 - 김길동 고객 청접장"
                             data-spec="옵션: 아르떼 울트라화이트 310g/208×154/양면칼라 8도/디지털인쇄(인디고) | 요청사항: 디자인 검수 후 인쇄/감리 신청/색상 샘플 발송"
                             data-total-price="₩3,500"
                             data-quantity="100매/2건"
                             data-status-text="접수 대기"
-                            data-pending-price="₩500">
-                            
-                            <div class="sc-v3-top-meta">
-                                <div class="meta-left">
-                                    <span>2025.07.08</span>
-                                </div>
-                                <div class="sc-v3-order-link" onclick="showOrderDetailSheet(this.closest('article'))">
-                                    sw123456-02
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></svg>
-                                </div>
+                            data-pending-price="₩500"
+                            onclick="showOrderDetailSheet(this)">
+
+                            <div class="card-header-row">
+                                <span class="card-date-order">12345678-2</span>
+                                <span class="card-status-badge status-in-progress">접수 대기</span>
                             </div>
-                            <div class="sc-v3-horizontal-line"></div>
-                            <div class="sc-v3-body">
-                                <div class="sc-v3-status-row">
-                                    <div class="sc-v3-status blue-plain">접수 대기</div>
-                                </div>
-                                <div class="sc-v3-title-area">
-                                    <div class="sc-v3-title">디지털엽서 - 김길동 고객 청접장</div>
-                                    <button class="btn-option-toggle" onclick="toggleOptions('opt-nm-2', this)">
-                                        옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
-                                    </button>
-                                </div>
-                                <div id="opt-nm-2" class="sc-v3-option-details">
-                                    <div class="option-row">옵션: 아르떼 울트라화이트 310g/208×154/양면칼라 8도/디지털인쇄(인디고) | 요청사항: 디자인 검수 후 인쇄/감리 신청/색상 샘플 발송</div>
-                                </div>
-                                <div class="sc-v3-price-group">
-                                    <div class="sc-v3-price-value-row">
-                                        <span class="sc-v3-price-total">₩3,500</span>
-                                    </div>
-                                </div>
+                            <div class="item-title">디지털엽서 - 김길동 고객 청접장</div>
+                            <div class="item-price-info">
+                                <span><strong>₩3,500</strong></span>
                             </div>
-                            <div class="sc-v3-action-area">
-                                <div class="sc-btn-group">
-                                    <button class="sc-btn-group-item" onclick="alert('디자인 보기')">디자인 보기</button>
-                                    <div class="sc-btn-divider"></div>
-                                    <button class="sc-btn-group-item" onclick="alert('디자인 재업로드')">재업로드</button>
-                                    <div class="sc-btn-divider"></div>
-                                    <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+
+                            <div class="card-footer">
+                                <div class="nm-action-group">
+                                    <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('디자인 보기');">디자인 보기</button>
+                                    <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('디자인 재업로드');">디자인 재업로드</button>
+                                </div>
+                                <div class="nm-action-group">
+                                    <button type="button" class="white-button btn-sm" onclick="event.stopPropagation(); alert('접수 취소');">접수 취소</button>
                                 </div>
                             </div>
                         </article>
                         
-                    </div>
+                        </div>
 
                     <div class="no-transactions" id="no-transactions" style="display: none;">조회된 내역이 없습니다.</div>
                 </section>
@@ -671,7 +528,7 @@
             <div class="sheet-handle" id="order-detail-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">접수 상세</div>
-                <div class="btn-close" onclick="closeOrderDetailSheet()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
+                <div class="btn-close" onclick="closeOrderDetailSheet()"><svg><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></div>
             </div>
             <div class="sheet-body">
                 <div class="detail-item">
@@ -718,7 +575,7 @@
                      <span class="label">수량/건수</span>
                     <span class="value" id="detail-quantity-price"></span>
                 </div>
-                <div>
+                <div class-detail-spec>
                     <div class="detail-item" style="margin-top: 12px; font-weight: 600;">옵션 및 요청사항</div>
                     <p class="item-spec" id="detail-spec">
                         옵션: 아르떼 울트라화이트 310g/208×154/양면칼라 8도/디지털인쇄(인디고) | 요청사항: 디자인 검수 후 인쇄/감리 신청/색상 샘플 발송
@@ -734,18 +591,6 @@
 
 
     <script>
-        // --- Toggle Options Function (v3 Card) ---
-        function toggleOptions(targetId, btn) {
-            const target = document.getElementById(targetId);
-            if (target.classList.contains('open')) {
-                target.classList.remove('open');
-                btn.classList.remove('active');
-            } else {
-                target.classList.add('open');
-                btn.classList.add('active');
-            }
-        }
-
         // --- Modal & Bottom Sheet Helpers ---
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
