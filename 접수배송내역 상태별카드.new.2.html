@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문/접수 내역 (Simple V3 - Cancel Cases)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .sw-container {
+            padding: 16px;
+        }
+
+        /* Header */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .header-btn {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        /* Guide Title */
+        .guide-section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #212121;
+            margin: 32px 0 12px 0;
+            padding-left: 4px;
+            border-left: 3px solid #4e6ee4;
+            line-height: 1;
+        }
+
+        .guide-section-title:first-child {
+            margin-top: 0;
+        }
+
+        .guide-subtitle {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 500;
+        }
+
+        /* ============================================================
+           Simple Card V3 Styles
+        ============================================================ */
+        .sc-v3-card {
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+        }
+
+        /* Top Meta */
+        .sc-v3-top-meta {
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+        }
+
+        .meta-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sc-v3-top-divider {
+            width: 1px;
+            height: 10px;
+            background-color: #e0e0e0;
+            display: inline-block;
+        }
+
+        .sc-v3-order-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            color: #333;
+            font-weight: 400;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .sc-v3-order-link svg {
+            width: 14px;
+            height: 14px;
+            color: #aaa;
+        }
+
+        .sc-v3-horizontal-line {
+            width: 100%;
+            height: 1px;
+            background-color: #e8e8e9;
+            display: block;
+        }
+
+        /* Body */
+        .sc-v3-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Status */
+        .sc-v3-status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .sc-v3-status {
+            font-size: 12px;
+            font-weight: 700;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Status Colors */
+        .sc-v3-status.blue {
+            color: #4e6ee4;
+        }
+
+        .sc-v3-status.blue::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background-color: #4e6ee4;
+            border-radius: 50%;
+            display: block;
+            animation: blink 1.2s infinite;
+        }
+
+        .sc-v3-status.gray {
+            color: #555;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.9);
+            }
+        }
+
+        /* Design Check Badge */
+        .design-check-badge {
+            font-size: 11px;
+            color: #555;
+            background-color: #f5f5f6;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            height: 20px;
+        }
+
+        /* Info Row */
+        .sc-v3-info-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .sc-v3-info-row .white-bd-badge {
+            border: 1px solid #dfdfdf;
+            border-radius: 100px;
+            padding: 1px 7px;
+            font-size: 10px;
+        }
+
+        /* Title */
+        .sc-v3-title-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .sc-v3-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #212121;
+            line-height: 1.4;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Toggle Button */
+        .btn-option-toggle {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 11px;
+            color: #888;
+            background: #f5f5f6;
+            padding: 3px 0 4px;
+            border-radius: 100px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-option-toggle svg {
+            width: 12px;
+            height: 12px;
+            transition: 0.2s;
+        }
+
+        .btn-option-toggle.active {
+            color: #333;
+        }
+
+        .btn-option-toggle.active svg {
+            transform: rotate(180deg);
+        }
+
+        /* Details */
+        .sc-v3-option-details {
+            background: #fafafa;
+            border-radius: 6px;
+            padding: 0 12px;
+            margin-bottom: 0;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: 0.3s ease;
+            font-size: 12px;
+            color: #666;
+            border: 1px solid transparent;
+        }
+
+        .sc-v3-option-details.open {
+            padding: 12px;
+            max-height: 300px;
+            opacity: 1;
+            border-color: #f0f0f0;
+            margin-bottom: 12px;
+            margin-top: 12px;
+        }
+
+        .option-row {
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .sc-v3-file-link {
+            font-size: 12px;
+            color: #4e6ee4;
+            text-decoration: underline;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .sc-v3-file-link svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Price */
+        .sc-v3-price-group {
+            gap: 4px;
+        }
+
+        .sc-v3-price-value-row {
+            text-align: left;
+            width: 100%;
+        }
+
+        .sc-v3-price-total {
+            font-size: 14px;
+            font-weight: 500;
+            color: #212121;
+            margin-right: 4px;
+        }
+
+        /* Action Area */
+        .sc-v3-action-area {
+            padding: 0 16px 16px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Main Button */
+        .btn-v3-primary {
+            width: 100%;
+            height: 40px;
+            background: #4e6ee4;
+            color: white;
+            border: 1px solid #4e6ee4;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: -0.25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-v3-primary:active {
+            background: #3d5dd3;
+        }
+
+        /* Button Group */
+        .sc-btn-group {
+            display: flex;
+            width: 100%;
+            height: 40px;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .sc-btn-group-item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: -0.25px;
+            color: #555;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .sc-btn-group-item:active {
+            background: #f9f9f9;
+        }
+
+        .sc-btn-divider {
+            width: 1px;
+            background-color: #e8e8e9;
+            height: 15px;
+            align-self: center;
+        }
+
+        /* Secondary Button */
+        .btn-v3-secondary-full {
+            width: 100%;
+            height: 40px;
+            background: #fff;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-v3-secondary-full:active {
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+        <header class="app-header-sub">
+            <div class="header-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M15 6l-6 6l6 6" />
+                </svg></div>
+            <h1 class="header-title">주문 내역</h1>
+            <div class="header-btn"></div>
+        </header>
+
+        <main class="sw-container">
+
+            <div class="guide-section-title">취소</div>
+
+            <span class="guide-subtitle">Case 7-1. 접수 취소 가능 (생산 전)</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue">접수완료</div>
+                        <span class="design-check-badge">디자인 파일 검수</span>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-7-1', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-7-1" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            일반사원_명함(앞).pdf 외 1건
+                        </div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-secondary-full" onclick="alert('접수 취소')">접수 취소</button>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 7-2. 취소 신청 (처리 대기)</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">취소신청</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-7-2', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-7-2" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('취소 상세')">취소 상세</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션으로 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 7-3. 취소 완료</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">취소완료</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-7-3', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-7-3" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                        <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('취소 상세')">취소 상세</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션으로 접수</button>
+                    </div>
+                </div>
+            </article>
+
+        </main>
+    </div>
+
+    <script>
+        function toggleOptions(targetId, btn) {
+            const target = document.getElementById(targetId);
+            if (target.classList.contains('open')) {
+                target.classList.remove('open');
+                btn.classList.remove('active');
+            } else {
+                target.classList.add('open');
+                btn.classList.add('active');
+            }
+        }
+    </script>
+</body>
+
+</html>

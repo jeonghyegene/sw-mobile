@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>주문/배송 상세 - 배송 조회</title>
+    <title>주문/배송 상세 - 배송 조회 (Full Modal / Always Open)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -156,7 +156,7 @@
 
         /* Main Content */
         .sw-container {
-            padding: 16px;
+            padding: 20px;
         }
 
         /* [v12] Full Screen Modal Styles */
@@ -164,7 +164,6 @@
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.5);
-            /* Dimmed bg behind if needed, but full modal covers it */
             display: none;
             align-items: flex-start;
             justify-content: center;
@@ -444,7 +443,7 @@
         </header>
 
         <main class="sw-container">
-            <button class="white-button" style="margin-top: 20px;" onclick="openModal('delivery-modal')">
+            <button class="white-button" onclick="openModal('delivery-modal')">
                 배송 조회
             </button>
         </main>
@@ -617,11 +616,13 @@
         }
 
         function closeModal(id) {
-            const modal = document.getElementById(id);
-            if (modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
+            // [MODIFIED] 모달을 닫지 않고 알림만 표시합니다.
+            alert('모달이 닫힙니다');
+            // const modal = document.getElementById(id);
+            // if (modal) {
+            //     modal.classList.remove('active');
+            //     document.body.style.overflow = '';
+            // }
         }
 
         // Copy Logic
@@ -669,6 +670,12 @@
                     closeModal(overlay.id);
                 }
             });
+        });
+
+        // Initialize - Auto Open Modal
+        document.addEventListener('DOMContentLoaded', () => {
+            // Automatically open the delivery modal on load
+            openModal('delivery-modal');
         });
     </script>
 </body>

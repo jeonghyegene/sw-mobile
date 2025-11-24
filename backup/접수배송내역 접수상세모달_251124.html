@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>성원애드피아 - 접수 상세 (Card UI Redesign)</title>
+    <title>성원애드피아 - 접수 상세 (통합/건별) 및 거래명세서</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -143,7 +143,7 @@
             height: 100%;
         }
 
-        /* Buttons */
+        /* Buttons (v12 Standard + Primary) */
         .primary-button {
             background-color: #4e6ee4;
             color: white;
@@ -221,7 +221,7 @@
 
         /* Main Content */
         .sw-container {
-            padding: 20px;
+            padding: 16px;
         }
 
         /* Info Section (v14) */
@@ -281,29 +281,34 @@
             margin: 12px 0;
         }
 
+        /* Badge */
         .card-badge {
+            background: #e3f2fd; 
+            border: 1px solid #90caf9;
             color: #1976d2;
             border-radius: 4px;
-            padding: 4px 0;
-            font-size: 14px;
+            padding: 4px 10px;
+            font-size: 12px;
             font-weight: 600;
             flex-shrink: 0;
             display: inline-block;
             line-height: 1;
         }
-
         .card-badge[data-status="접수완료"] {
             border-color: #28a745;
             color: #28a745;
             background: #e8f5e9;
         }
-
         .card-badge[data-status="생산중"] {
             border-color: #007bff;
             color: #007bff;
             background: #e3f2fd;
         }
-
+        .card-badge[data-status="접수대기"] {
+            border-color: #007bff;
+            color: #007bff;
+            background: #e3f2fd;
+        }
         .card-badge[data-status="접수취소"] {
             border-color: #dc3545;
             color: #dc3545;
@@ -352,181 +357,60 @@
             color: #333;
         }
 
-        /* ==========================================================================
-           [NEW] REDESIGNED CARD STYLE (Requested: image_764746.png Style)
-           ========================================================================== */
-        .redesigned-card {
-            width: 100%;
-            background: white;
-            border: 1px solid #e8e8e9;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        /* Form Elements (v12 Standard) */
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        /* Header: Date | Delivery ... Order No */
-        .rc-header {
-            padding: 12px 16px;
-            border-bottom: 1px solid #e8e8e9;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fff;
-        }
-
-        .rc-date-info {
-            font-size: 13px;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .rc-divider {
-            width: 1px;
-            height: 10px;
-            background: #ddd;
-            display: inline-block;
-        }
-
-        .rc-order-no {
-            font-size: 13px;
-            font-weight: 500;
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
             color: #333;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-        }
-
-        /* Body */
-        .rc-body {
-            padding: 16px;
-        }
-
-        /* Status: Dot + Text */
-        .rc-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
             margin-bottom: 8px;
         }
 
-        .rc-status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: #4e6ee4;
-        }
-
-        .rc-status-text {
-            font-size: 12px;
-            font-weight: 700;
-            color: #4e6ee4;
-            /* Blue as requested */
-        }
-
-        /* Status Colors */
-        .status-blue .rc-status-dot {
-            background-color: #4e6ee4;
-        }
-
-        .status-blue .rc-status-text {
-            color: #4e6ee4;
-        }
-
-        .status-red .rc-status-dot {
-            background-color: #dc3545;
-        }
-
-        .status-red .rc-status-text {
-            color: #dc3545;
-        }
-
-        /* Tags */
-        .rc-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin-bottom: 12px;
-        }
-
-        .rc-tag {
-            font-size: 11px;
-            color: #666;
-            background-color: #f5f5f6;
-            border: 1px solid #e8e8e9;
-            border-radius: 4px;
-            padding: 2px 6px;
-        }
-
-        /* Product Name */
-        .rc-product-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 4px;
-            /* Space before price */
-        }
-
-        .rc-product-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #212121;
-            line-height: 1.4;
-            flex: 1;
-        }
-
-        .rc-option-toggle {
-            font-size: 12px;
-            color: #888;
-            cursor: pointer;
-            flex-shrink: 0;
-            margin-left: 8px;
-            margin-top: 2px;
-        }
-
-        /* Price: Left Aligned as requested */
-        .rc-price-row {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 0;
-        }
-
-        .rc-price {
-            font-size: 13px;
-            font-weight: 500;
-            color: #212121;
-        }
-
-        .rc-sub-price {
-            font-size: 13px;
-            color: #4e6ee4;
-            font-weight: 500;
-        }
-
-        /* Footer: Buttons */
-        .rc-footer {
-            padding: 12px 16px;
-            background-color: #fff;
-            /* White bg */
-            /* border-top: 1px solid #f0f0f0; Optional based on image */
+        .input-group {
             display: flex;
             gap: 8px;
+            align-items: center;
         }
 
-        .rc-footer .white-button {
-            flex: 1;
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+
+        .input input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .input-group .white-button {
+            flex-shrink: 0;
             height: 40px;
             font-size: 13px;
-            color: #555;
+            padding: 0 12px;
+            width: auto;
         }
 
-
         /* ========================================
-           MODAL STYLES (ANIMATION REMOVED)
+           MODAL STYLES (Full Screen Variation)
         ======================================== */
         .modal-overlay {
             position: fixed;
@@ -537,10 +421,19 @@
             justify-content: center;
             z-index: 1000;
             padding: 0;
+            animation: fadeInModal 0.2s ease-out;
         }
 
         .modal-overlay.active {
             display: flex;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+
+        @keyframes slideUpFull {
+            from { transform: translateY(100%); } to { transform: translateY(0); }
         }
 
         .modal-content {
@@ -552,6 +445,7 @@
             max-height: none;
             display: flex;
             flex-direction: column;
+            animation: slideUpFull 0.3s ease-out;
             margin: 0 auto;
         }
 
@@ -594,9 +488,9 @@
             overflow-y: auto;
             flex-grow: 1;
             background-color: #fff;
-            /* Light gray bg */
         }
-
+        
+        /* [MODIFIED] Body background for transaction statement */
         #transaction-statement-modal .modal-body {
             background-color: white;
         }
@@ -626,67 +520,45 @@
             margin-top: 24px;
             padding: 0 4px;
         }
-
+        
+        /* [MODIFIED] Modal Section Title Style */
         .modal-section-title {
             font-size: 16px;
             font-weight: 600;
             color: #333;
             margin-bottom: 12px;
             margin-top: 24px;
-            padding-bottom: 8px;
+            padding-bottom: 8px; /* Added padding */
+            border-bottom: 1px solid #e8e8e9; /* Restored border */
         }
 
         .modal-body .section-header-row:first-child,
         .modal-body .modal-section-title:first-of-type {
             margin-top: 0;
         }
-
-        .btn-header-action {
-            height: 30px;
-            padding: 0 10px;
-            font-size: 12px;
-            border-radius: 4px;
-            border: 1px solid #d7d7d7;
-            background: white;
-            color: #555;
-        }
-
-        /* Detail Box */
+        
+        /* [NEW] Detail Box Style (for Price) */
         .detail-box {
             background: #f8f8f9;
             padding: 16px;
             border-radius: 6px;
             margin-bottom: 16px;
         }
-
         .detail-row {
             display: flex;
             justify-content: space-between;
             font-size: 14px;
             margin-bottom: 8px;
         }
-
-        .detail-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .detail-label {
-            color: #555;
-        }
-
-        .detail-value {
-            color: #333;
-            font-weight: 500;
-            text-align: right;
-            word-break: keep-all;
-        }
-
+        .detail-row:last-child { margin-bottom: 0; }
+        .detail-label { color: #555; }
+        .detail-value { color: #333; font-weight: 500; text-align: right; word-break: keep-all;}
+        
         .price-summary {
             border-top: 1px solid #e8e8e9;
             padding-top: 12px;
             margin-top: 12px;
         }
-
         .price-row.total {
             display: flex;
             justify-content: space-between;
@@ -695,8 +567,8 @@
             font-size: 16px;
             margin-bottom: 0;
         }
-
-        /* History Table */
+        
+        /* [NEW] History Table Style */
         .history-table {
             width: 100%;
             border-collapse: collapse;
@@ -704,7 +576,6 @@
             margin-bottom: 24px;
             border-top: 1px solid #e8e8e9;
         }
-
         .history-table th {
             background: #f8f8f9;
             padding: 10px 8px;
@@ -715,7 +586,6 @@
             white-space: nowrap;
             width: 30%;
         }
-
         .history-table td {
             padding: 10px 12px;
             border-bottom: 1px solid #f0f0f0;
@@ -723,7 +593,25 @@
             vertical-align: middle;
             text-align: left;
         }
+        
+        /* Small action button in header */
+        .btn-header-action {
+            height: 30px;
+            padding: 0 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            border: 1px solid #d7d7d7;
+            background: white;
+            color: #555;
+        }
 
+        /* Text Highlight */
+        .text-highlight {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        
+        /* Link Style */
         .link-text {
             color: #4e6ee4;
             text-decoration: underline;
@@ -731,19 +619,20 @@
             font-size: 13px;
             font-weight: 500;
         }
-
+        .link-text:hover {
+            color: #3d5dd3;
+        }
+        
         /* Spec Table Style */
         .spec-table {
             width: 100%;
             font-size: 13px;
             border-top: 1px solid #e8e8e9;
         }
-
         .spec-row {
             display: flex;
             border-bottom: 1px solid #e8e8e9;
         }
-
         .spec-th {
             width: 30%;
             background: #f8f8f9;
@@ -753,7 +642,6 @@
             display: flex;
             align-items: center;
         }
-
         .spec-td {
             width: 70%;
             padding: 10px 12px;
@@ -762,7 +650,20 @@
             align-items: center;
             flex-wrap: wrap;
         }
-
+        
+        /* Memo Box */
+        .memo-box {
+            background: #fff3e0;
+            border: 1px solid #ffe0b2;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 13px;
+            color: #333;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+        
+        /* Disclaimer */
         .disclaimer-text {
             font-size: 12px;
             color: #888;
@@ -772,63 +673,56 @@
             gap: 4px;
         }
 
+        /* Demo Trigger Buttons */
         .demo-trigger-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 16px;
+            /* padding: 20px; */
         }
-
-        /* Email Bottom Sheet (Custom Style) */
+        
+        /* ========================================
+           [NEW] BOTTOM SHEET STYLES (for Email)
+        ======================================== */
         .bottom-sheet-overlay.email-sheet {
-            align-items: center;
-            justify-content: center;
+            align-items: center; 
         }
-
+        
         .bottom-sheet.email-sheet {
-            width: 90%;
-            max-width: 360px;
-            border-radius: 8px;
-            position: relative;
-            transform: none;
-            margin: 0;
-            max-height: none;
-            /* Force removal of slide animation logic for this specific sheet */
-            animation: none !important;
+             max-width: 360px;
+             border-radius: 8px;
+             animation: scaleUpModal 0.2s ease-out; 
+             position: relative;
+             transform: none; 
+             margin: 0;
+             max-height: none;
         }
-
-        .bottom-sheet.email-sheet .sheet-handle {
-            display: none;
+        .bottom-sheet.email-sheet .sheet-handle { display: none; }
+        .bottom-sheet.email-sheet .sheet-header { 
+             height: 57px;
+             margin-bottom: 0;
+             padding: 16px;
+             border-bottom: 1px solid #e8e8e9;
+             justify-content: space-between;
+             display: flex;
+             align-items: center;
         }
-
-        .bottom-sheet.email-sheet .sheet-header {
-            height: 57px;
-            margin-bottom: 0;
-            padding: 16px;
-            border-bottom: 1px solid #e8e8e9;
-            justify-content: space-between;
-            display: flex;
-            align-items: center;
+        .bottom-sheet.email-sheet .sheet-body { 
+             min-height: auto; 
+             padding: 16px;
+             overflow-y: hidden;
         }
-
-        .bottom-sheet.email-sheet .sheet-body {
-            min-height: auto;
-            padding: 16px;
-            overflow-y: hidden;
-        }
-
         .bottom-sheet.email-sheet .sheet-footer {
-            border-radius: 0 0 8px 8px;
-            border-top: 1px solid #e8e8e9;
-            padding: 16px;
+             border-radius: 0 0 8px 8px;
+             border-top: 1px solid #e8e8e9;
+             padding: 16px;
         }
-
         .bottom-sheet.email-sheet .sheet-title {
             text-align: left;
             font-size: 16px;
             font-weight: 700;
             flex-grow: 1;
         }
-
         .bottom-sheet.email-sheet .btn-close {
             position: static;
             transform: none;
@@ -836,21 +730,34 @@
             top: auto;
             width: 24px;
             height: 24px;
-            margin-left: 16px;
+            margin-left: 16px; 
+        }
+        
+        /* Toast Message */
+        #toast-message {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 12px 20px;
+            position: fixed;
+            z-index: 10000;
+            left: 50%;
+            bottom: 88px; 
+            transform: translateX(-50%);
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
         }
 
-        .bottom-sheet.email-sheet .sheet-footer {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 10px;
+        #toast-message.show {
+            visibility: visible;
+            opacity: 1;
         }
-
-        .bottom-sheet.email-sheet .sheet-footer .btn {
-            flex: 1;
-        }
-
-        /* Generic Bottom Sheet (Animation Removed) */
+        
+        /* Generic Bottom Sheet Overlay */
         .bottom-sheet-overlay {
             position: fixed;
             inset: 0;
@@ -859,10 +766,21 @@
             align-items: flex-end;
             justify-content: center;
             z-index: 1000;
+            animation: fadeIn 0.2s ease-out;
         }
 
         .bottom-sheet-overlay.active {
             display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleUpModal {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         .bottom-sheet {
@@ -873,53 +791,15 @@
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
             position: relative;
+            animation: slideUp 0.3s ease-out;
             max-height: 90vh;
             display: flex;
             flex-direction: column;
         }
-
-        /* v12 Form Styles */
-        .form-group {
-            margin-bottom: 0;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .input {
-            width: 100%;
-            min-height: 40px;
-            background: white;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-        }
-
-        .input input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: black;
-            line-height: 1.5;
-        }
-
-        .input input::placeholder {
-            color: #c6c6c8;
+        
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
     </style>
 </head>
@@ -943,14 +823,10 @@
 
         <main class="sw-container">
             <div class="demo-trigger-list">
-                <button class="white-button" style="width: 100%;"
-                    onclick="openModal('receipt-detail-modal-overlay')">1-1. 접수 상세 모달 (통합)</button>
-                <button class="white-button" style="width: 100%;" onclick="openModal('refund-detail-modal-overlay')">1-2.
-                    접수 상세 모달 (통합): 환불정보 추가</button>
-                <button class="white-button" style="width: 100%;" onclick="openModal('case-detail-modal-overlay')">2-1.
-                    접수 상세 모달 (건별)</button>
-                <button class="white-button" style="width: 100%;"
-                    onclick="openModal('transaction-statement-modal-overlay')">3. 거래 명세서 모달</button>
+                <button class="dark-button" style="width: 100%;" onclick="openModal('receipt-detail-modal-overlay')">1-1. 접수 상세 (통합)</button>
+                <button class="dark-button" style="width: 100%;" onclick="openModal('refund-detail-modal-overlay')">1-2. 접수 상세 (통합) - 환불 정보</button>
+                <button class="dark-button" style="width: 100%;" onclick="openModal('case-detail-modal-overlay')">2-1. 접수 상세 (건별)</button>
+                <button class="dark-button" style="width: 100%;" onclick="openModal('transaction-statement-modal-overlay')">3. 거래 명세서</button>
             </div>
         </main>
 
@@ -968,7 +844,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <section class="info-section" style="background:white; margin-bottom: 24px;">
+                <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">접수번호</span>
                         <span class="value" style="font-weight: 700;">SW123456</span>
@@ -988,64 +864,43 @@
                 </section>
 
                 <div class="section-header-row">
-                    <h3 class="modal-section-title" style="margin: 0; padding: 0; font-size: 16px;">제품 정보 총 2건</h3>
+                    <h3 class="modal-section-title" style="margin: 0; border: none; padding: 0;">제품 정보 총 2건</h3>
                 </div>
-
-                <div class="redesigned-card">
-                    <div class="rc-header">
-                        <div class="rc-date-info">
-                            <span>2025.07.08</span>
+                <div style="border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; padding-bottom: 8px;"></div>
+                
+                <article class="common-table-card">
+                    <div class="item-list">
+                        <div class="item-row" onclick="openModal('case-detail-modal-overlay')" style="cursor: pointer;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="link-text">SW123456-01</span>
+                                <div class="card-badge" data-status="접수완료">접수 완료</div>
+                            </div>
+                            <div class="item-name">[일반 명함] 홍길동 사원 명함</div>
+                            <div class="item-price-row" style="justify-content: flex-end;">
+                                <span class="price">₩9,240</span>
+                            </div>
                         </div>
-                        <div class="rc-order-no" onclick="openModal('case-detail-modal-overlay')">
-                            SW123456-01 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                viewBox="0 0 24 24">
-                                <path d="M9 6l6 6l-6 6" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="rc-body" onclick="openModal('case-detail-modal-overlay')">
-                        <div class="rc-status status-blue">
-                            <span class="rc-status-text">접수완료</span>
-                        </div>
-                        <div class="rc-product-row">
-                            <span class="rc-product-name">[일반 명함] 홍길동 사원 명함</span>
-                        </div>
-                        <div class="rc-price-row">
-                            <span class="rc-price">₩9,240</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="redesigned-card">
-                    <div class="rc-header">
-                        <div class="rc-date-info">
-                            <span>2025.07.08</span>
-                        </div>
-                        <div class="rc-order-no" onclick="openModal('case-detail-modal-overlay')">
-                            SW123456-02 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                viewBox="0 0 24 24">
-                                <path d="M9 6l6 6l-6 6" />
-                            </svg>
+                        <div class="card-divider"></div>
+                        <div class="item-row" onclick="openModal('case-detail-modal-overlay')" style="cursor: pointer;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="link-text">SW123456-02</span>
+                                <div class="card-badge" data-status="생산중">생산 중(조판)</div>
+                            </div>
+                            <div class="item-name">[책자] 기업 홍보용 책자</div>
+                            <div class="item-price-row" style="justify-content: flex-end;">
+                                <span class="price">₩145,000</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="rc-body" onclick="openModal('case-detail-modal-overlay')">
-                        <div class="rc-status status-blue">
-                            <span class="rc-status-text">생산 중(조판)</span>
-                        </div>
-                        <div class="rc-product-row">
-                            <span class="rc-product-name">[책자] 기업 홍보용 책자</span>
-                        </div>
-                        <div class="rc-price-row">
-                            <span class="rc-price">₩145,000</span>
-                        </div>
-                    </div>
-                </div>
+                </article>
 
                 <div class="section-header-row">
-                    <h3 class="modal-section-title" style="margin: 0; padding: 0; font-size: 16px;">배송지 정보</h3>
+                    <h3 class="modal-section-title" style="margin: 0; border: none; padding: 0;">배송지 정보</h3>
                     <button class="btn-header-action" onclick="alert('배송지 변경')">배송지 변경</button>
                 </div>
-                <section class="info-section" style="background:white;">
+                <div style="border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; padding-bottom: 8px;"></div>
+                
+                <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">이름(상호명)</span>
                         <span class="value">김길동</span>
@@ -1056,8 +911,7 @@
                     </div>
                     <div class="info-sub-row" style="align-items: flex-start;">
                         <span class="label" style="margin-top: 2px;">주소</span>
-                        <span class="value" style="text-align: right; line-height: 1.4;">(56331) 서울특별시 성동구 성수일로 80 2층
-                            201호</span>
+                        <span class="value" style="text-align: right; line-height: 1.4;">(56331) 서울특별시 성동구 성수일로 80 2층 201호</span>
                     </div>
                     <div class="info-sub-row">
                         <span class="label">배송메모</span>
@@ -1069,7 +923,9 @@
                     <h3 class="modal-section-title" style="margin: 0; border: none; padding: 0;">배송 정보</h3>
                     <button class="btn-header-action" onclick="alert('배송방법 변경')">배송방법 변경</button>
                 </div>
-                <section class="info-section" style="background:white;">
+                <div style="border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; padding-bottom: 8px;"></div>
+                
+                <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">배송방법</span>
                         <span class="value">택배(선불)</span>
@@ -1081,8 +937,7 @@
                     <div class="card-divider"></div>
                     <div class="info-sub-row" style="align-items: flex-start;">
                         <span class="label" style="margin-top: 2px;">묶음배송 1</span>
-                        <span class="value" style="text-align: right; line-height: 1.4; color: #666;">[일반 명함] 홍길동 사원 명함,
-                            [책자] 기업 홍보용...</span>
+                        <span class="value" style="text-align: right; line-height: 1.4; color: #666;">[일반 명함] 홍길동 사원 명함, [책자] 기업 홍보용...</span>
                     </div>
                 </section>
 
@@ -1090,11 +945,12 @@
                     <h3 class="modal-section-title" style="margin: 0; border: none; padding: 0;">결제 정보</h3>
                     <div style="display: flex; gap: 6px;">
                         <button class="btn-header-action" onclick="alert('결제 영수증 보기')">결제영수증</button>
-                        <button class="btn-header-action"
-                            onclick="openModal('transaction-statement-modal-overlay')">거래명세서</button>
+                        <button class="btn-header-action" onclick="openModal('transaction-statement-modal-overlay')">거래명세서</button>
                     </div>
                 </div>
-                <section class="info-section" style="background:white;">
+                <div style="border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; padding-bottom: 8px;"></div>
+                
+                <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">결제수단</span>
                         <span class="value">성원머니 (신한 110354102347)</span>
@@ -1104,13 +960,13 @@
                         <span class="value">결제완료</span>
                     </div>
                 </section>
-
-                <section class="info-section" style="background:white;">
+                
+                <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">총 제품금액</span>
                         <div style="text-align: right;">
-                            <div class="value">₩154,240</div>
-                            <div style="font-size: 12px; color: #888;">(부가세 ₩1,500)</div>
+                            <div class="value">₩5,000</div>
+                            <div style="font-size: 12px; color: #888;">(부가세 ₩500)</div>
                         </div>
                     </div>
                     <div class="info-sub-row">
@@ -1124,19 +980,24 @@
                     <div class="card-divider"></div>
                     <div class="info-sub-row">
                         <span class="label" style="font-weight: 700; color: #333;">총 결제금액</span>
-                        <span class="value" style="font-size: 18px; font-weight: 700; color: #4e6ee4;">₩157,240</span>
+                        <span class="value" style="font-size: 18px; font-weight: 700; color: #4e6ee4;">₩7,000</span>
                     </div>
                 </section>
-
+                
                 <section class="info-section" style="background-color: #eef2ff; border-color: #c7d3ff;">
                     <div class="info-sub-row">
                         <span class="label" style="color: #3d5dd3; font-weight: 600;">포인트 혜택</span>
                         <span class="value" style="color: #3d5dd3; font-weight: 700;">+ 1,500P</span>
                     </div>
                 </section>
-
+<!--                 
+                <div class="disclaimer-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8h.01" stroke="currentColor" stroke-width="2"/><path d="M11 12h1v4h1" stroke="currentColor" stroke-width="2"/></svg>
+                    결제 금액은 함께 접수한 제품의 총 합계 금액이 표시돼요
+                </div> -->
             </div>
             <div class="modal-footer">
+                <!-- <button class="btn white-button" onclick="alert('인쇄하기')">인쇄하기</button> -->
                 <button class="btn dark-button" onclick="alert('PDF 다운로드')">PDF 다운로드</button>
             </div>
         </div>
@@ -1176,63 +1037,40 @@
                 <div class="section-header-row">
                     <h3 class="modal-section-title" style="margin: 0; border: none; padding: 0;">제품 정보 총 2건</h3>
                 </div>
-
-                <div class="redesigned-card">
-                    <div class="rc-header">
-                        <div class="rc-date-info">
-                            <span>2025.07.08</span>
+                <div style="border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; padding-bottom: 8px;"></div>
+                
+                <article class="common-table-card">
+                    <div class="item-list">
+                        <div class="item-row" style="cursor: pointer;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="link-text">SW123456-01</span>
+                                <div class="card-badge" data-status="접수취소">접수 취소</div>
+                            </div>
+                            <div class="item-name">[일반 명함] 홍길동 사원 명함</div>
+                            <div class="item-price-row" style="justify-content: flex-end;">
+                                <span class="price">₩9,240</span>
+                            </div>
                         </div>
-                        <div class="rc-order-no">
-                            SW123456-01 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                viewBox="0 0 24 24">
-                                <path d="M9 6l6 6l-6 6" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="rc-body">
-                        <div class="rc-status status-red">
-                            <span class="rc-status-text">접수 취소</span>
-                        </div>
-                        <div class="rc-product-row">
-                            <span class="rc-product-name">[일반 명함] 홍길동 사원 명함</span>
-                        </div>
-                        <div class="rc-price-row">
-                            <span class="rc-price">₩9,240</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="redesigned-card">
-                    <div class="rc-header">
-                        <div class="rc-date-info">
-                            <span>2025.07.08</span>
-                        </div>
-                        <div class="rc-order-no">
-                            SW123456-02 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                viewBox="0 0 24 24">
-                                <path d="M9 6l6 6l-6 6" />
-                            </svg>
+                        <div class="card-divider"></div>
+                        <div class="item-row" style="cursor: pointer;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="link-text">SW123456-02</span>
+                                <div class="card-badge" data-status="접수취소">접수 취소</div>
+                            </div>
+                            <div class="item-name">[책자] 기업 홍보용 책자</div>
+                            <div class="item-price-row" style="justify-content: flex-end;">
+                                <span class="price">₩145,000</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="rc-body">
-                        <div class="rc-status status-red">
-                            <span class="rc-status-text">접수 취소</span>
-                        </div>
-                        <div class="rc-product-row">
-                            <span class="rc-product-name">[책자] 기업 홍보용 책자</span>
-                        </div>
-                        <div class="rc-price-row">
-                            <span class="rc-price">₩145,000</span>
-                        </div>
-                    </div>
-                </div>
+                </article>
 
                 <div class="section-header-row">
                     <h3 class="modal-section-title" style="margin: 0; border: none; padding: 0;">배송지 정보</h3>
                     <button class="btn-header-action">배송지 변경</button>
                 </div>
                 <div style="border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; padding-bottom: 8px;"></div>
-                <section class="info-section" style="background:white;">
+                <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">이름(상호명)</span>
                         <span class="value">김길동</span>
@@ -1243,8 +1081,7 @@
                     </div>
                     <div class="info-sub-row" style="align-items: flex-start;">
                         <span class="label" style="margin-top: 2px;">주소</span>
-                        <span class="value" style="text-align: right; line-height: 1.4;">(56331) 서울특별시 성동구 성수일로 80 2층
-                            201호</span>
+                        <span class="value" style="text-align: right; line-height: 1.4;">(56331) 서울특별시 성동구 성수일로 80 2층 201호</span>
                     </div>
                     <div class="info-sub-row">
                         <span class="label">배송메모</span>
@@ -1257,7 +1094,7 @@
                     <button class="btn-header-action">배송방법 변경</button>
                 </div>
                 <div style="border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; padding-bottom: 8px;"></div>
-                <section class="info-section" style="background:white;">
+                <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">배송방법</span>
                         <span class="value">택배(선불)</span>
@@ -1269,8 +1106,7 @@
                     <div class="card-divider"></div>
                     <div class="info-sub-row" style="align-items: flex-start;">
                         <span class="label" style="margin-top: 2px;">묶음배송 1</span>
-                        <span class="value" style="text-align: right; line-height: 1.4; color: #666;">[일반 명함] 홍길동 사원 명함,
-                            [책자] 기업 홍보용...</span>
+                        <span class="value" style="text-align: right; line-height: 1.4; color: #666;">[일반 명함] 홍길동 사원 명함, [책자] 기업 홍보용...</span>
                     </div>
                 </section>
 
@@ -1282,8 +1118,8 @@
                     </div>
                 </div>
                 <div style="border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; padding-bottom: 8px;"></div>
-
-                <section class="info-section" style="background:white;">
+                
+                <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">결제수단</span>
                         <span class="value">성원머니 (신한 110354102347)</span>
@@ -1292,13 +1128,15 @@
                         <span class="label">결제 상태</span>
                         <span class="value">결제완료</span>
                     </div>
-                    <div class="card-divider"></div>
+                </section>
+                <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">총 제품금액</span>
-                        <div style="text-align: right;">
-                            <div class="value">₩154,240</div>
-                            <div style="font-size: 12px; color: #888;">(부가세 ₩1,500)</div>
-                        </div>
+                        <span class="value">₩154,240</span>
+                    </div>
+                    <div class="info-sub-row">
+                        <span class="label">부가세</span>
+                        <span class="value">₩1,500</span>
                     </div>
                     <div class="info-sub-row">
                         <span class="label">배송비</span>
@@ -1359,6 +1197,7 @@
 
             </div>
             <div class="modal-footer">
+                <!-- <button class="btn white-button" onclick="alert('인쇄하기')">인쇄하기</button> -->
                 <button class="btn dark-button" onclick="alert('PDF 다운로드')">PDF 다운로드</button>
             </div>
         </div>
@@ -1417,7 +1256,7 @@
                     <button class="btn-header-action" onclick="alert('옵션 저장')">옵션 저장</button>
                 </div>
                 <div style="border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; padding-bottom: 8px;"></div>
-
+                
                 <article class="common-table-card" style="padding: 0; overflow: hidden;">
                     <div class="spec-table">
                         <div class="spec-row">
@@ -1457,7 +1296,7 @@
                     <button class="btn-header-action" onclick="alert('배송지 변경')">배송지 변경</button>
                 </div>
                 <div style="border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; padding-bottom: 8px;"></div>
-                <section class="info-section" style="background:white;">
+                <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">이름(상호명)</span>
                         <span class="value">김길동</span>
@@ -1468,8 +1307,7 @@
                     </div>
                     <div class="info-sub-row" style="align-items: flex-start;">
                         <span class="label" style="margin-top: 2px;">주소</span>
-                        <span class="value" style="text-align: right; line-height: 1.4;">(56331) 서울특별시 성동구 성수일로 80 2층
-                            201호</span>
+                        <span class="value" style="text-align: right; line-height: 1.4;">(56331) 서울특별시 성동구 성수일로 80 2층 201호</span>
                     </div>
                     <div class="info-sub-row">
                         <span class="label">배송메모</span>
@@ -1482,7 +1320,7 @@
                     <button class="btn-header-action" onclick="alert('배송방법 변경')">배송방법 변경</button>
                 </div>
                 <div style="border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; padding-bottom: 8px;"></div>
-                <section class="info-section" style="background:white;">
+                <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">배송방법</span>
                         <span class="value">택배(선불)</span>
@@ -1503,11 +1341,10 @@
 
                 <div class="section-header-row">
                     <h3 class="modal-section-title" style="margin: 0; border: none; padding: 0;">결제 정보</h3>
-                    <button class="btn-header-action"
-                        onclick="openModal('transaction-statement-modal-overlay')">거래명세서</button>
+                    <button class="btn-header-action" onclick="openModal('transaction-statement-modal-overlay')">거래명세서</button>
                 </div>
                 <div style="border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; padding-bottom: 8px;"></div>
-                <section class="info-section" style="background:white;">
+                <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">결제수단</span>
                         <span class="value">성원머니 (신한 110354102347)</span>
@@ -1544,17 +1381,14 @@
                         <span class="value" style="color: #3d5dd3; font-weight: 700;">+ 1,500P</span>
                     </div>
                 </section>
-
+                
                 <div class="disclaimer-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" />
-                        <path d="M12 8h.01" stroke="currentColor" stroke-width="2" />
-                        <path d="M11 12h1v4h1" stroke="currentColor" stroke-width="2" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8h.01" stroke="currentColor" stroke-width="2"/><path d="M11 12h1v4h1" stroke="currentColor" stroke-width="2"/></svg>
                     결제 금액은 함께 접수한 제품의 총 합계 금액이 표시돼요
                 </div>
             </div>
             <div class="modal-footer">
+                <!-- <button class="btn white-button" onclick="alert('인쇄하기')">인쇄하기</button> -->
                 <button class="btn dark-button" onclick="alert('PDF 다운로드')">PDF 다운로드</button>
             </div>
         </div>
@@ -1579,57 +1413,23 @@
                 <h3 class="modal-section-title">공급자</h3>
                 <table class="history-table" style="width: 100%;">
                     <tbody>
-                        <tr>
-                            <th>상호명</th>
-                            <td class="text-left">(주)성원애드피아</td>
-                        </tr>
-                        <tr>
-                            <th>대표자명</th>
-                            <td class="text-left">정대원 <img src="assets/images/stamp.png" alt=""
-                                    style="display: inline-block; vertical-align: middle; width: 20px;"></td>
-                        </tr>
-                        <tr>
-                            <th>사업자등록번호</th>
-                            <td class="text-left">201-85-22977</td>
-                        </tr>
-                        <tr>
-                            <th>주소</th>
-                            <td class="text-left">성수시 성동구 성수일로 80</td>
-                        </tr>
-                        <tr>
-                            <th>연락처</th>
-                            <td class="text-left">1599-5555</td>
-                        </tr>
+                        <tr><th>상호명</th><td class="text-left">(주)성원애드피아</td></tr>
+                        <tr><th>대표자명</th><td class="text-left">정대원 <img src="assets/images/stamp.png" alt="" style="display: inline-block; vertical-align: middle; width: 20px;"></td></tr>
+                        <tr><th>사업자등록번호</th><td class="text-left">201-85-22977</td></tr>
+                        <tr><th>주소</th><td class="text-left">성수시 성동구 성수일로 80</td></tr>
+                        <tr><th>연락처</th><td class="text-left">1599-5555</td></tr>
                     </tbody>
                 </table>
 
                 <h3 class="modal-section-title">구매자</h3>
                 <table class="history-table" style="width: 100%;">
                     <tbody>
-                        <tr>
-                            <th>구매자명</th>
-                            <td class="text-left">홍길동 (test1234)</td>
-                        </tr>
-                        <tr>
-                            <th>접수번호</th>
-                            <td class="text-left">SW250001-01</td>
-                        </tr>
-                        <tr>
-                            <th>결제일시</th>
-                            <td class="text-left">2025-01-01 10:11</td>
-                        </tr>
-                        <tr>
-                            <th>결제수단</th>
-                            <td class="text-left">성원머니</td>
-                        </tr>
-                        <tr>
-                            <th>결제번호</th>
-                            <td class="text-left">1234567890</td>
-                        </tr>
-                        <tr>
-                            <th>승인번호</th>
-                            <td class="text-left">1234567890</td>
-                        </tr>
+                        <tr><th>구매자명</th><td class="text-left">홍길동 (test1234)</td></tr>
+                        <tr><th>접수번호</th><td class="text-left">SW250001-01</td></tr>
+                        <tr><th>결제일시</th><td class="text-left">2025-01-01 10:11</td></tr>
+                        <tr><th>결제수단</th><td class="text-left">성원머니</td></tr>
+                        <tr><th>결제번호</th><td class="text-left">1234567890</td></tr>
+                        <tr><th>승인번호</th><td class="text-left">1234567890</td></tr>
                     </tbody>
                 </table>
 
@@ -1655,14 +1455,11 @@
                         </div>
                     </div>
                 </article>
-
+                
                 <div class="detail-box" style="margin-top: 16px;">
-                    <div class="detail-row"><span class="detail-label">제품금액</span><span class="detail-value">143,900
-                            원</span></div>
-                    <div class="detail-row"><span class="detail-label">가공비</span><span class="detail-value">20,000
-                            원</span></div>
-                    <div class="detail-row"><span class="detail-label">부가세</span><span class="detail-value">14,390
-                            원</span></div>
+                    <div class="detail-row"><span class="detail-label">제품금액</span><span class="detail-value">143,900 원</span></div>
+                    <div class="detail-row"><span class="detail-label">가공비</span><span class="detail-value">20,000 원</span></div>
+                    <div class="detail-row"><span class="detail-label">부가세</span><span class="detail-value">14,390 원</span></div>
                     <div class="price-summary">
                         <div class="price-row total">
                             <span>총 합계 금액</span>
@@ -1678,25 +1475,21 @@
             </div>
         </div>
     </div>
-
+    
     <div class="bottom-sheet-overlay email-sheet" id="email-sheet-overlay">
         <div class="bottom-sheet email-sheet" id="email-sheet">
             <div class="sheet-header">
                 <div class="sheet-title">이메일 발송</div>
                 <button class="btn-close" onclick="closeEmailSheet()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                 </button>
             </div>
             <div class="sheet-body">
-                <div class="form-group" style="margin-bottom: 20px;">
+                 <div class="form-group" style="margin-bottom: 20px;">
                     <label for="recipient-email">받는 사람 이메일 주소</label>
                     <div class="input-group">
                         <div class="input">
-                            <input type="email" id="recipient-email" placeholder="이메일 주소를 입력해주세요"
-                                value="hong.gildong@email.com">
+                            <input type="email" id="recipient-email" placeholder="이메일 주소를 입력해주세요" value="hong.gildong@email.com">
                         </div>
                     </div>
                 </div>
@@ -1707,7 +1500,7 @@
             </div>
         </div>
     </div>
-
+    
     <div id="toast-message"></div>
 
     <script>
@@ -1731,7 +1524,7 @@
                 }
             }
         }
-
+        
         // --- Email Sheet Logic ---
         function openEmailSheet() {
             const overlay = document.getElementById('email-sheet-overlay');
@@ -1739,19 +1532,19 @@
             overlay.classList.add('active');
             // sheet.classList.remove('closing'); // If using slide animation
         }
-
+        
         function closeEmailSheet() {
             const overlay = document.getElementById('email-sheet-overlay');
             overlay.classList.remove('active');
         }
-
+        
         // --- Toast Logic ---
         function showToast(message) {
             const toast = document.getElementById("toast-message");
             toast.textContent = message;
             toast.classList.add("show");
-            setTimeout(function () {
-                toast.classList.remove("show");
+            setTimeout(function(){ 
+                toast.classList.remove("show"); 
             }, 3000);
         }
 
@@ -1765,12 +1558,12 @@
                     }
                 });
             });
-
+            
             // Email sheet overlay click listener
             const emailOverlay = document.getElementById('email-sheet-overlay');
-            if (emailOverlay) {
+            if(emailOverlay) {
                 emailOverlay.addEventListener('click', (e) => {
-                    if (e.target.id === 'email-sheet-overlay') closeEmailSheet();
+                    if(e.target.id === 'email-sheet-overlay') closeEmailSheet();
                 });
             }
         });

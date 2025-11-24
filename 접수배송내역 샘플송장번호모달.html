@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>샘플 송장번호 입력 (Validation)</title>
+    <title>샘플 송장번호 입력 (Full Modal / Always Open)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -282,7 +282,7 @@
             justify-content: center;
             z-index: 1000;
             padding: 0;
-            animation: fadeInModal 0.2s ease-out;
+            /* animation: fadeInModal 0.2s ease-out; */
         }
 
         .modal-overlay.active {
@@ -309,7 +309,7 @@
             display: flex;
             flex-direction: column;
             position: relative;
-            animation: fadeInModal 0.2s ease-out;
+            /* animation: fadeInModal 0.2s ease-out; */
         }
 
         /* Header */
@@ -481,11 +481,15 @@
         }
 
         function closeModal(overlayId) {
+            // [MODIFIED] Close disabled. Show alert only.
+            alert('모달이 닫힙니다');
+            /*
             const overlay = document.getElementById(overlayId);
             if (overlay) {
                 overlay.classList.remove('active');
                 document.body.style.overflow = '';
             }
+            */
         }
 
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
@@ -509,7 +513,6 @@
 
             if (chip.textContent.trim() === '직접입력') {
                 manualInput.style.display = 'flex';
-                // manualInput.querySelector('input').focus(); // Optional: Auto focus
             } else {
                 manualInput.style.display = 'none';
                 document.getElementById('manual-courier-name').value = ''; // Reset value
@@ -560,9 +563,12 @@
 
             console.log(`Courier: ${courierName}, Number: ${trackingNumber}`);
             alert(`[${courierName}] 송장번호가 입력되었습니다.`);
+
+            // [MODIFIED] Just alert, do not close
             closeModal('sample-tracking-modal');
         }
 
+        // Initialize - Auto Open Modal
         document.addEventListener('DOMContentLoaded', () => {
             openModal('sample-tracking-modal');
         });

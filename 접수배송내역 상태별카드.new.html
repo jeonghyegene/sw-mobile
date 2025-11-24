@@ -221,6 +221,32 @@
             animation: blink-animation 1.2s infinite ease-in-out;
         }
 
+        .sc-v3-status.blue-plain {
+            color: #4e6ee4;
+        }
+
+        .sc-v3-status.red {
+            color: #dc3545;
+        }
+
+        .sc-v3-status.red-plain {
+            color: #dc3545;
+        }
+
+        .sc-v3-status.red::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background-color: #dc3545;
+            border-radius: 50%;
+            display: block;
+            animation: blink 1.2s infinite;
+        }
+
+        .sc-v3-status.gray {
+            color: #888;
+        }
+
         @keyframes blink-animation {
             0% {
                 opacity: 1;
@@ -238,6 +264,24 @@
             }
         }
 
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.9);
+            }
+        }
+
+        .sc-v3-status.green {
+            color: #16a34a;
+        }
+
         /* [MOVED] Design Check Badge (Moved here) */
         .design-check-badge {
             font-size: 11px;
@@ -251,6 +295,20 @@
             align-items: center;
             justify-content: center;
             padding: 1px 7px;
+        }
+
+        /* Category Badge */
+        .category-badge {
+            font-size: 11px;
+            color: #4e6ee4;
+            background-color: #fff;
+            border: 1px solid #4e6ee4;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            height: 20px;
         }
 
         /* Info Row */
@@ -392,10 +450,76 @@
             margin-right: 4px;
         }
 
+        .sc-v3-price-placeholder {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .sc-v3-price-note {
+            font-size: 12px;
+            color: #666;
+            font-weight: 400;
+        }
+
         .sc-v3-price-pending {
             font-size: 12px;
             font-weight: 500;
             color: #4e6ee4;
+        }
+
+        /* Deadline Info */
+        .deadline-info-row {
+            text-align: right;
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* Rework Info Link */
+        .rework-info-row {
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .rework-link {
+            color: #4e6ee4;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+
+        /* [NEW] Status Text Row (Design Status) */
+        .status-text-row {
+            margin-top: 8px;
+            padding: 10px 12px;
+            background: #f0f7ff;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #4e6ee4;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-text-row .label {
+            color: #333;
+            font-weight: 400;
+            margin-right: 4px;
+        }
+
+        .btn-mini-detail {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 100px;
+            border: 1px solid #dcebfb;
+            background-color: white;
+            color: #4e6ee4;
+            font-weight: 500;
         }
 
         /* 4. Action Area */
@@ -427,6 +551,32 @@
         .btn-v3-primary:active {
             background-color: #3d5dd3;
             border-color: #3d5dd3;
+        }
+
+        .btn-v3-secondary {
+            width: 100%;
+            height: 40px;
+            background: #fff;
+            color: #4e6ee4;
+            border: 1px solid #4e6ee4;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: -0.25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        /* Disabled Main Button */
+        .btn-v3-primary.disabled {
+            background: #f5f5f6;
+            color: #aaa;
+            border-color: #e8e8e9;
+            cursor: default;
+            pointer-events: none;
         }
 
         /* Button Group (Split) */
@@ -560,6 +710,1795 @@
                 </div>
             </article>
 
+            <span class="guide-subtitle">Case 1-2. 추가결제 대기</span>
+
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="sc-v3-horizontal-line"></div>
+
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue">추가결제 대기</div>
+                    </div>
+
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                        <span class="design-check-badge">디자인 파일 검수</span>
+                    </div>
+
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-2', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div id="opt-2" class="sc-v3-option-details">
+                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱
+                        </div>
+
+                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            일반사원_명함(앞).pdf 외 1건
+                        </div>
+                    </div>
+
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                            <span class="sc-v3-price-pending">(추가결제 대기 금액 ₩3,500)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary" onclick="alert('추가 결제하기')">결제하기</button>
+
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 1-3. 동일 접수번호 분할</span>
+
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321-02
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="sc-v3-horizontal-line"></div>
+
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue">결제대기</div>
+                    </div>
+
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                        <span class="design-check-badge">디자인 파일 검수</span>
+                    </div>
+
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-1', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div id="opt-1" class="sc-v3-option-details">
+                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱
+                        </div>
+
+                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            일반사원_명함(앞).pdf 외 1건
+                        </div>
+                    </div>
+
+                    <div class="sc-v3-price-group">
+                        <!-- <div class="sc-v3-price-label">총 결제금액</div> -->
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                            <span class="sc-v3-price-pending">(결제대기 금액 ₩3,500)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary" onclick="alert('결제하기')">결제하기</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321-01
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="sc-v3-horizontal-line"></div>
+
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue">결제대기</div>
+                    </div>
+
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                        <span class="design-check-badge">디자인 파일 검수</span>
+                    </div>
+
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-1', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div id="opt-1" class="sc-v3-option-details">
+                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱
+                        </div>
+
+                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            일반사원_명함(앞).pdf 외 1건
+                        </div>
+                    </div>
+
+                    <div class="sc-v3-price-group">
+                        <!-- <div class="sc-v3-price-label">총 결제금액</div> -->
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                            <span class="sc-v3-price-pending">(결제대기 금액 ₩3,500)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary" onclick="alert('결제하기')">결제하기</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
+                    </div>
+                </div>
+            </article>
+
+            <div class="guide-section-title">접수</div>
+
+            <span class="guide-subtitle">Case 2-1. 접수 대기</span>
+
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654304
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="sc-v3-horizontal-line"></div>
+
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">접수대기</div>
+                    </div>
+
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">LG CNS</span>
+                        <span class="design-check-badge">디자인 파일 검수</span>
+                    </div>
+
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[봉투] 대봉투 모조 120g 흑백</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-2-1', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div id="opt-2-1" class="sc-v3-option-details">
+                        <div class="option-row">용지: 모조지 / 백색 / 120g | 인쇄: 단면 / 흑백 | 규격: 대봉투 (330x245mm)</div>
+                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            대봉투_시안.ai
+                        </div>
+                    </div>
+
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩65,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 2-2. 접수 완료</span>
+
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.07</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654305
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="sc-v3-horizontal-line"></div>
+
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue-plain">접수완료</div>
+                    </div>
+
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">XT(내회사)</span>
+                        <span class="design-check-badge">디자인 파일 검수</span>
+                    </div>
+
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-2-2', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div id="opt-2-2" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도) | 규격: 105 x 148 mm (A6)</div>
+                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            엽서_최종.pdf
+                        </div>
+                    </div>
+
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 2-3. 파일 재업로드 전 (대기)</span>
+
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link">
+                        SW654303 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status red">파일 재업로드 대기</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">XT(내회사)</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-2-3', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-2-3" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                        <div class="sc-v3-file-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            오류파일.pdf
+                        </div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary" onclick="alert('파일 재업로드')">파일 재업로드</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 2-4. 파일 재업로드 후 (완료)</span>
+
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link">
+                        SW654303 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue-plain">접수완료</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">XT(내회사)</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-2-4', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-2-4" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                        <div class="sc-v3-file-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            수정완료_최종.pdf
+                        </div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary disabled">파일 재업로드 완료</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 2-5. 파일 검수 전 (대기)</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue">파일 검수 대기</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                        <span class="design-check-badge">디자인 파일 검수</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-2-5', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-2-5" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g | 후가공: 오시 1줄</div>
+                        <div class="sc-v3-file-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            검수요청_파일.pdf
+                        </div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary" onclick="alert('파일 검수 페이지 이동')">파일 검수</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 2-6. 파일 검수 후 (완료)</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue-plain">접수완료</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                        <span class="design-check-badge">디자인 파일 검수</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-2-6', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-2-6" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g | 후가공: 오시 1줄</div>
+                        <div class="sc-v3-file-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            검수완료_최종.pdf
+                        </div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary disabled">파일 검수 완료</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 2-7. 완제품: 상품 준비 중</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="sc-v3-horizontal-line"></div>
+
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue">상품준비중</div>
+                    </div>
+
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                    </div>
+
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[샘플북]</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-2-7', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div id="opt-2-7" class="sc-v3-option-details">
+                        <div class="option-row">패키지 / 스페셜 / 스탠다드 / 스티커</div>
+                    </div>
+
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩3,500</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('주문 취소')">주문 취소</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('재주문')">재주문</button>
+                    </div>
+                </div>
+            </article>
+
+            <div class="guide-section-title">생산</div>
+
+            <span class="guide-subtitle">Case 3-1. 생산 중 (조판)</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue-plain">생산 중(조판)</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-3-1', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-3-1" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                        <div class="sc-v3-file-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            최종파일.pdf
+                        </div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 3-2. 생산 보류</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>방문수령(충무로)</span>
+                    </div>
+                    <div class="sc-v3-order-link">SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg></div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status red-plain">생산 보류</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-3-2', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-3-2" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('1:1 문의')">1:1 문의</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 3-3. 폐기 처리</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>방문수령(충무로)</span>
+                    </div>
+                    <div class="sc-v3-order-link">SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg></div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">폐기 처리</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-3-3', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-3-3" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('1:1 문의')">1:1 문의</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 3-4. 폐기 처리 (재작업)</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>방문수령(충무로)</span>
+                    </div>
+                    <div class="sc-v3-order-link">SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg></div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">폐기 처리 (재작업)</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-3-4', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-3-4" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                    <div class="rework-info-row">
+                        재작업 접수번호: <span class="rework-link" onclick="alert('재작업 접수건으로 이동')">SW250002</span>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('1:1 문의')">1:1 문의</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <div class="guide-section-title">입고/배송</div>
+
+            <span class="guide-subtitle">Case 4-1. 포장 완료</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue-plain">포장완료</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">XT(내회사)</span>
+                        <span class="design-check-badge">디자인 파일 검수</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[포스터] A2 아트지 150g</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-4-1', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-4-1" class="sc-v3-option-details">
+                        <div class="option-row">용지: 아트지 / 150g | 인쇄: 단면 컬러 | 규격: A2</div>
+                        <div class="sc-v3-file-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            포스터_최종.pdf
+                        </div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 4-2. 배송 중 (택배)</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link">SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg></div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status green">배송중</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">XT(내회사)</span>
+                        <span class="design-check-badge">디자인 파일 검수</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-4-2', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-4-2" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('배송 조회')">배송 조회</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 4-3. 배송 완료</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link">SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg></div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">배송완료</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[스티커] 원형 도무송 50x50</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-4-3', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-4-3" class="sc-v3-option-details">
+                        <div class="option-row">용지: 아트지 | 후가공: 도무송</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary" onclick="alert('리뷰 작성 모달')">리뷰 작성</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('1:1 문의')">1:1 문의</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 4-4. 입고 완료</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>방문수령(충무로)</span>
+                    </div>
+                    <div class="sc-v3-order-link">SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg></div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status green">입고완료</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">XT(내회사)</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-4-4', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-4-4" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                    <div class="deadline-info-row">
+                        수령기한 2025-10-31
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('수령 위치')">충무로점 위치</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 4-5. 수령 완료</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>방문수령(충무로)</span>
+                    </div>
+                    <div class="sc-v3-order-link">SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg></div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">수령완료</div>
+                    </div>
+                    <!-- <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">김성원</span>
+                    </div> -->
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-4-5', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-4-5" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary" onclick="alert('리뷰 작성 모달')">리뷰 작성</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('1:1 문의')">1:1 문의</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <div class="guide-section-title">추가 요청</div>
+
+            <span class="guide-subtitle">Case 5-1. 샘플 발송 대기</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">접수대기</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-5-1', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-5-1" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary" onclick="alert('샘플 송장번호 입력')">샘플 송장번호 입력</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 5-2. 샘플 발송 완료</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">접수대기</div>
+                        <span class="design-check-badge">디자인 파일 검수</span>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-5-2', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-5-2" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-secondary" onclick="alert('샘플 송장번호 수정')">샘플 송장번호 수정</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 5-3. 감리 요청 대기</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue-plain">생산 중(출력)</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">XT(내회사)</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-5-3', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-5-3" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary" onclick="alert('감리 일정 선택')">감리 일정 선택</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 5-4. 감리 일정 확정</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue-plain">생산 중(출력)</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">XT(내회사)</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-5-4', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-5-4" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-secondary" onclick="alert('감리 일정 확인')">감리 일정 확인</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 5-5. 디자인 신청 접수 (작업 대기)</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">접수대기</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">XT(내회사)</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-5-5', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-5-5" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+
+                    <div class="status-text-row">
+                        <div><span class="label">디자인 신청 현황:</span> 작업 대기 중</div>
+                        <button class="btn-mini-detail" onclick="alert('디자인 상세')">상세</button>
+                    </div>
+
+                    <div class="sc-v3-price-group" style="margin-top: 12px;">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 5-6. 디자인 작업 완료 (검수 필요)</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">접수대기</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">XT(내회사)</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-5-6', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-5-6" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+
+                    <div class="status-text-row">
+                        <div><span class="label">디자인 신청 현황:</span> 작업 완료</div>
+                        <button class="btn-mini-detail" onclick="alert('디자인 상세')">상세</button>
+                    </div>
+
+                    <div class="sc-v3-price-group" style="margin-top: 12px;">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary" onclick="alert('디자인 검수')">디자인 검수</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                    </div>
+                </div>
+            </article>
+
+            <div class="guide-section-title">묶음 배송</div>
+
+            <span class="guide-subtitle">Case 5-1. 묶음배송 신청 가능건</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue-plain">생산 중(조판)</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-bundle', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-bundle" class="sc-v3-option-details">
+                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱
+                        </div>
+                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            일반사원_명함(앞).pdf 외 1건
+                        </div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩3,500</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('묶음배송 신청')">묶음배송 신청</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+
+            <div class="guide-section-title">별도 견적</div>
+
+            <span class="guide-subtitle">Case 6-1. 견적 대기</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">견적대기</div>
+                        <span class="category-badge">별도견적</span>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-6-1', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-6-1" class="sc-v3-option-details">
+                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱
+                        </div>
+                        <div class="quote-detail-box">
+                            <strong>요청사항:</strong>
+                            트레이싱지 사용해서 10,000,000매 대량인쇄가 필요합니다.
+                        </div>
+                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            일반사원_명함(앞).pdf 외 1건
+                        </div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-placeholder">견적 산출 후 금액이 표시돼요</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 6-2. 결제 대기</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue">결제대기</div>
+                        <span class="category-badge">별도견적</span>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-6-2', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-6-2" class="sc-v3-option-details">
+                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱
+                        </div>
+                        <div class="quote-detail-box">
+                            <strong>요청사항:</strong>
+                            트레이싱지 사용해서 10,000,000매 대량인쇄가 필요합니다.
+                        </div>
+                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            일반사원_명함(앞).pdf 외 1건
+                        </div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                            <span class="sc-v3-price-note">(배송비 별도)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <button class="btn-v3-primary" onclick="alert('결제하기')">결제하기</button>
+
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('재견적 신청')">재견적 신청</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                    </div>
+                </div>
+            </article>
+
+            <div class="guide-section-title">취소</div>
+
+            <span class="guide-subtitle">Case 7-1. 접수 취소 가능 (생산 전)</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status blue-plain">접수완료</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-7-1', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-7-1" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                <path d="M7 11l5 5l5 -5" />
+                                <path d="M12 4l0 12" />
+                            </svg>
+                            일반사원_명함(앞).pdf 외 1건
+                        </div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 7-2. 취소 신청 (처리 대기)</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">취소신청</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-7-2', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-7-2" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('취소 상세')">취소 상세</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
+
+            <span class="guide-subtitle">Case 7-3. 취소 완료</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-left">
+                        <span>2025.07.08</span>
+                        <span class="sc-v3-top-divider"></span>
+                        <span>선불택배</span>
+                    </div>
+                    <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-horizontal-line"></div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">취소완료</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-7-3', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-7-3" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+                    <div class="sc-v3-price-group">
+                        <div class="sc-v3-price-value-row">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-v3-action-area">
+                    <div class="sc-btn-group">
+                        <button class="sc-btn-group-item" onclick="alert('취소 상세')">취소 상세</button>
+                        <div class="sc-btn-divider"></div>
+                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                    </div>
+                </div>
+            </article>
         </main>
     </div>
 
