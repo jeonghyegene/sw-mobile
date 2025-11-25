@@ -443,88 +443,76 @@
         }
 
         /* ============================================================
-           [UPDATED] Simple Card V3 (Compact Layout + Action Sheet)
-        ============================================================ */
+       [NEW] Simple Card V3 (Replaces common-table-card)
+    ============================================================ */
         .sc-v3-card {
             background: white;
             border: 1px solid #e8e8e9;
             border-radius: 8px;
             margin-bottom: 0;
-            /* 리스트 간격은 부모 gap으로 처리 권장 */
+            /* Handled by list gap */
             overflow: hidden;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
         }
 
-        /* Top Meta Area */
+        /* 1. Top Meta Area */
         .sc-v3-top-meta {
-            padding: 7px 16px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #666;
             display: flex;
             align-items: center;
             justify-content: space-between;
             background-color: #fff;
-            border-bottom: 1px solid #f0f0f0;
-            min-height: 39px;
         }
 
-        .meta-info-group {
+        .meta-left {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 12px;
-            color: #666;
-            flex: 1;
-            min-width: 0;
         }
 
-        .order-no-link {
-            font-weight: 400;
-            color: #666;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .meta-divider {
+        .sc-v3-top-divider {
             width: 1px;
             height: 10px;
             background-color: #e0e0e0;
-            flex-shrink: 0;
+            display: inline-block;
         }
 
-        .meta-text {
-            white-space: nowrap;
-        }
-
-        .btn-dot-menu {
-            width: 24px;
-            height: 24px;
-            display: flex;
+        /* Order Link */
+        .sc-v3-order-link {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            color: #888;
-            cursor: pointer;
-            transition: color 0.2s;
-            flex-shrink: 0;
-            margin-right: -4px;
-        }
-
-        .btn-dot-menu:active {
+            gap: 2px;
             color: #333;
-            background-color: #f5f5f5;
-            border-radius: 50%;
+            font-weight: 400;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
         }
 
-        .btn-dot-menu svg {
-            width: 17px;
-            height: 17px;
+        .sc-v3-order-link svg {
+            width: 14px;
+            height: 14px;
+            color: #aaa;
         }
 
-        /* Body Area */
+        /* 2. Horizontal Line */
+        .sc-v3-horizontal-line {
+            width: 100%;
+            height: 1px;
+            background-color: #e8e8e9;
+            display: block;
+        }
+
+        /* 3. Body Area */
         .sc-v3-body {
             padding: 16px;
             display: flex;
             flex-direction: column;
         }
 
+        /* Status Row */
         .sc-v3-status-row {
             display: flex;
             align-items: center;
@@ -533,7 +521,7 @@
         }
 
         .sc-v3-status {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             color: #333;
             display: flex;
@@ -548,12 +536,12 @@
 
         .sc-v3-status.blue::before {
             content: '';
-            width: 6px;
-            height: 6px;
+            width: 7px;
+            height: 7px;
             background-color: #4e6ee4;
             border-radius: 50%;
             display: block;
-            animation: blink 1.2s infinite;
+            animation: blink-animation 1.2s infinite ease-in-out;
         }
 
         .sc-v3-status.blue-plain {
@@ -566,8 +554,8 @@
 
         .sc-v3-status.red::before {
             content: '';
-            width: 6px;
-            height: 6px;
+            width: 7px;
+            height: 7px;
             background-color: #dc3545;
             border-radius: 50%;
             display: block;
@@ -578,12 +566,26 @@
             color: #dc3545;
         }
 
+        .sc-v3-status.gray {
+            color: #888;
+        }
+
         .sc-v3-status.green {
             color: #16a34a;
         }
 
-        .sc-v3-status.gray {
-            color: #888;
+        @keyframes blink-animation {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.9);
+            }
         }
 
         @keyframes blink {
@@ -591,27 +593,31 @@
             0%,
             100% {
                 opacity: 1;
+                transform: scale(1);
             }
 
             50% {
                 opacity: 0.4;
+                transform: scale(0.9);
             }
         }
 
+        /* Info Row (Badges) */
         .sc-v3-info-row {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
             gap: 5px;
-            margin-bottom: 10px;
+            margin-bottom: 11px;
+            font-size: 12px;
+            color: #666;
         }
 
-        .white-bd-badge {
+        .sc-v3-info-row .white-bd-badge {
             border: 1px solid #dfdfdf;
-            border-radius: 4px;
-            padding: 2px 7px;
+            border-radius: 100px;
+            padding: 1px 7px;
             font-size: 11px;
-            color: #666;
         }
 
         .design-check-badge {
@@ -619,19 +625,12 @@
             color: #555;
             background-color: #f5f5f6;
             border: 1px solid #e0e0e0;
-            border-radius: 4px;
-            padding: 2px 7px;
+            border-radius: 100px;
+            padding: 1px 7px;
             font-weight: 500;
-        }
-
-        .category-badge {
-            font-size: 11px;
-            color: #666;
-            border: 1px solid #e0e0e0;
-            background-color: #fff;
-            padding: 1px 6px;
-            border-radius: 4px;
-            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Title Area */
@@ -640,6 +639,7 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 8px;
+            margin-bottom: 0;
         }
 
         .sc-v3-title {
@@ -654,14 +654,17 @@
             flex: 1;
         }
 
+        /* Option Toggle */
         .btn-option-toggle {
             display: flex;
             align-items: center;
             gap: 2px;
             font-size: 11px;
             color: #666;
-            padding: 3px 0;
+            padding: 3px 0 4px;
+            border-radius: 100px;
             white-space: nowrap;
+            transition: all 0.2s;
             cursor: pointer;
         }
 
@@ -669,6 +672,10 @@
             width: 12px;
             height: 12px;
             transition: transform 0.2s;
+        }
+
+        .btn-option-toggle.active {
+            color: #333;
         }
 
         .btn-option-toggle.active svg {
@@ -704,6 +711,7 @@
             line-height: 1.4;
         }
 
+        /* File Link */
         .sc-v3-file-link {
             font-size: 12px;
             color: #4e6ee4;
@@ -720,168 +728,92 @@
             height: 12px;
         }
 
-        /* Price & Action Row (Updated Layout) */
-        .sc-v3-price-action-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1px solid #f0f0f0;
+        /* Price Group */
+        .sc-v3-price-group {
+            gap: 4px;
+            margin-top: 8px;
         }
 
-        .sc-v3-price-action-row.no-action {
-            margin-top: 0;
-            padding-top: 3px;
-            border-top: none;
-        }
-
-        .price-block {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .sc-v3-price-value-row {
+            text-align: left;
+            width: 100%;
         }
 
         .sc-v3-price-total {
-            font-size: 15px;
-            font-weight: 700;
-            color: #212121;
-        }
-
-        .sc-v3-price-sub {
-            font-size: 12px;
-            color: #4e6ee4;
-            font-weight: 500;
-            margin-top: 2px;
-        }
-
-        .sc-v3-price-sub.gray {
-            color: #888;
-            font-weight: 400;
-        }
-
-        .sc-v3-price-placeholder {
             font-size: 14px;
-            color: #888;
             font-weight: 500;
+            color: #212121;
+            margin-right: 4px;
         }
 
-        /* Inline Buttons */
-        .btn-inline-action {
-            height: 36px;
-            padding: 0 16px;
-            background-color: #4e6ee4;
-            color: white;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(78, 110, 228, 0.15);
-            transition: background 0.2s;
-        }
-
-        .btn-inline-action:active {
-            background-color: #3d5dd3;
-            transform: scale(0.98);
-        }
-
-        .btn-inline-action:disabled,
-        .btn-inline-action.disabled {
-            background-color: #f5f5f6;
-            color: #aaa;
-            border: 1px solid #e8e8e9;
-            box-shadow: none;
-            cursor: default;
-            pointer-events: none;
-        }
-
-        .btn-inline-secondary {
-            height: 36px;
-            padding: 0 16px;
-            background-color: #fff;
+        .sc-v3-price-pending {
+            font-size: 12px;
+            font-weight: 500;
             color: #4e6ee4;
-            border: 1px solid #4e6ee4;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .btn-inline-secondary:active {
-            background-color: #f0f7ff;
-        }
-
-        /* Action Sheet (Bottom Sheet for Cards) */
-        .action-sheet-header {
-            padding: 12px 20px 16px;
-            text-align: center;
-            position: relative;
-        }
-
-        .action-sheet-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .btn-sheet-close {
-            position: absolute;
-            top: 50%;
-            right: 16px;
-            transform: translateY(-50%);
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: #333;
-        }
-
-        /* Action List Style */
-        .action-list {
-            padding: 0;
+        /* 4. Action Area */
+        .sc-v3-action-area {
+            padding: 0 16px 16px 16px;
             display: flex;
             flex-direction: column;
+            gap: 8px;
         }
 
-        .action-item {
+        .btn-v3-primary {
             width: 100%;
-            padding: 16px 20px;
-            font-size: 16px;
-            color: #333;
-            text-align: left;
-            background: #fff;
-            border: none;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
+            height: 40px;
+            background: #4e6ee4;
+            color: white;
+            border: 1px solid #4e6ee4;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            cursor: pointer;
         }
 
-        .action-item:last-child {
-            border-bottom: none;
+        .btn-v3-primary:active {
+            background-color: #3d5dd3;
+            border-color: #3d5dd3;
         }
 
-        .action-item:active {
-            background-color: #f8f8f8;
+        .sc-btn-group {
+            display: flex;
+            width: 100%;
+            height: 40px;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            background-color: #fff;
+            overflow: hidden;
         }
 
-        .action-item.destructive {
-            color: #dc3545;
+        .sc-btn-group-item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
         }
 
-        .action-item svg {
-            width: 20px;
-            height: 20px;
-            color: inherit;
-            opacity: 0.6;
+        .sc-btn-group-item:active {
+            background-color: #f9f9f9;
         }
+
+        .sc-btn-divider {
+            width: 1px;
+            background-color: #e8e8e9;
+            height: 15px;
+            align-self: center;
+        }
+
 
         /* v12 Standard .multi-chip & .single-chip */
         .multi-chip {
@@ -1712,26 +1644,23 @@
                         <div class="date-divider" data-date="2025-07-08">2025. 07. 08</div>
 
                         <article class="sc-v3-card" data-status="결제대기" data-date="2025-07-08" data-manager="김성원"
-                            data-customer="XT(내회사)" data-title="[디지털엽서] A6 사이즈 양면 인쇄 접수" data-order-no="SW654321">
+                            data-customer="XT(내회사)" data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수"
+                            data-order-no="SW654321">
                             <div class="sc-v3-top-meta">
-                                <div class="meta-info-group">
-                                    <span class="meta-text">2025.07.08</span>
-                                    <span class="meta-divider"></span>
-                                    <span class="order-no-link" onclick="alert('상세이동')">SW654321</span>
-                                    <span class="meta-divider"></span>
-                                    <span class="meta-text">선불택배</span>
+                                <div class="meta-left">
+                                    <span>2025.07.08</span>
+                                    <span class="sc-v3-top-divider"></span>
+                                    <span>선불택배</span>
                                 </div>
-                                <div class="btn-dot-menu"
-                                    onclick="openActionSheet('SW654321', ['detail', 'cancel', 'change_file'])">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="1" />
-                                        <circle cx="12" cy="5" r="1" />
-                                        <circle cx="12" cy="19" r="1" />
+                                <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                                    SW654321
+                                    <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+                                        viewBox="0 0 24 24">
+                                        <path d="M9 6l6 6l-6 6" />
                                     </svg>
                                 </div>
                             </div>
+                            <div class="sc-v3-horizontal-line"></div>
                             <div class="sc-v3-body">
                                 <div class="sc-v3-status-row">
                                     <div class="sc-v3-status blue">결제대기</div>
@@ -1742,57 +1671,63 @@
                                     <span class="design-check-badge">디자인 파일 검수</span>
                                 </div>
                                 <div class="sc-v3-title-area">
-                                    <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                                    <div class="sc-v3-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
                                     <button class="btn-option-toggle" onclick="toggleOptions('opt-1', this)">
-                                        옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        옵션 <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+                                            viewBox="0 0 24 24">
                                             <path d="M6 9l6 6l6 -6" />
                                         </svg>
                                     </button>
                                 </div>
                                 <div id="opt-1" class="sc-v3-option-details">
-                                    <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색</div>
-                                    <div class="sc-v3-file-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
+                                    <div class="option-row">용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄</div>
+                                    <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                                        <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                             <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                                             <path d="M7 11l5 5l5 -5" />
                                             <path d="M12 4l0 12" />
                                         </svg>
-                                        일반사원_명함(앞).pdf 외 1건
+                                        원본파일.ai
                                     </div>
                                 </div>
-                                <div class="sc-v3-price-action-row">
-                                    <div class="price-block">
+                                <div class="sc-v3-price-group">
+                                    <div class="sc-v3-price-value-row">
                                         <span class="sc-v3-price-total">₩8,500</span>
-                                        <span class="sc-v3-price-sub">(결제대기 금액 ₩3,500)</span>
+                                        <span class="sc-v3-price-pending">(결제대기 ₩3,500)</span>
                                     </div>
-                                    <button class="btn-inline-action" onclick="alert('결제 모달 오픈')">결제하기</button>
+                                </div>
+                            </div>
+                            <div class="sc-v3-action-area">
+                                <button class="btn-v3-primary" onclick="alert('결제하기')">결제하기</button>
+                                <div class="sc-btn-group">
+                                    <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                                    <div class="sc-btn-divider"></div>
+                                    <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
                                 </div>
                             </div>
                         </article>
 
                         <article class="sc-v3-card" data-status="결제대기" data-date="2025-07-08" data-manager="김성원"
-                            data-customer="XT(내회사)" data-title="[디지털엽서] A6 사이즈 양면 인쇄 접수" data-order-no="SW654303">
+                            data-customer="XT(내회사)" data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수"
+                            data-order-no="SW654322">
                             <div class="sc-v3-top-meta">
-                                <div class="meta-info-group">
-                                    <span class="meta-text">2025.07.08</span>
-                                    <span class="meta-divider"></span>
-                                    <span class="order-no-link" onclick="alert('상세이동')">SW654303</span>
-                                    <span class="meta-divider"></span>
-                                    <span class="meta-text">선불택배</span>
+                                <div class="meta-left">
+                                    <span>2025.07.08</span>
+                                    <span class="sc-v3-top-divider"></span>
+                                    <span>선불택배</span>
                                 </div>
-                                <div class="btn-dot-menu" onclick="openActionSheet('SW654303', ['cancel'])">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="1" />
-                                        <circle cx="12" cy="5" r="1" />
-                                        <circle cx="12" cy="19" r="1" />
+                                <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                                    SW654322
+                                    <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+                                        viewBox="0 0 24 24">
+                                        <path d="M9 6l6 6l-6 6" />
                                     </svg>
                                 </div>
                             </div>
+                            <div class="sc-v3-horizontal-line"></div>
                             <div class="sc-v3-body">
                                 <div class="sc-v3-status-row">
                                     <div class="sc-v3-status red">파일 재업로드 대기</div>
@@ -1802,19 +1737,20 @@
                                     <span class="white-bd-badge">XT(내회사)</span>
                                 </div>
                                 <div class="sc-v3-title-area">
-                                    <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
-                                    <button class="btn-option-toggle" onclick="toggleOptions('opt-2-3', this)">
-                                        옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <div class="sc-v3-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                                    <button class="btn-option-toggle" onclick="toggleOptions('opt-2', this)">
+                                        옵션 <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+                                            viewBox="0 0 24 24">
                                             <path d="M6 9l6 6l6 -6" />
                                         </svg>
                                     </button>
                                 </div>
-                                <div id="opt-2-3" class="sc-v3-option-details">
-                                    <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
-                                    <div class="sc-v3-file-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
+                                <div id="opt-2" class="sc-v3-option-details">
+                                    <div class="option-row">용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄</div>
+                                    <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                                        <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                             <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                                             <path d="M7 11l5 5l5 -5" />
@@ -1823,38 +1759,41 @@
                                         오류파일.pdf
                                     </div>
                                 </div>
-                                <div class="sc-v3-price-action-row">
-                                    <div class="price-block">
+                                <div class="sc-v3-price-group">
+                                    <div class="sc-v3-price-value-row">
                                         <span class="sc-v3-price-total">₩8,500</span>
                                     </div>
-                                    <button class="btn-inline-action" onclick="alert('파일 재업로드')">파일 재업로드</button>
+                                </div>
+                            </div>
+                            <div class="sc-v3-action-area">
+                                <button class="btn-v3-primary" onclick="alert('파일 재업로드')">파일 재업로드</button>
+                                <div class="sc-btn-group">
+                                    <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
                                 </div>
                             </div>
                         </article>
 
-                        <article class="sc-v3-card" data-status="출고/배송" data-date="2025-07-08" data-manager="김성원"
-                            data-customer="XT(내회사)" data-title="[디지털엽서] A6 사이즈 양면 인쇄 접수" data-order-no="SW654322">
+                        <article class="sc-v3-card" data-status="결제대기" data-date="2025-07-08" data-manager="김성원"
+                            data-customer="XT(내회사)" data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수"
+                            data-order-no="SW654323">
                             <div class="sc-v3-top-meta">
-                                <div class="meta-info-group">
-                                    <span class="meta-text">2025.07.08</span>
-                                    <span class="meta-divider"></span>
-                                    <span class="order-no-link" onclick="alert('상세이동')">SW654322</span>
-                                    <span class="meta-divider"></span>
-                                    <span class="meta-text">선불택배</span>
+                                <div class="meta-left">
+                                    <span>2025.07.08</span>
+                                    <span class="sc-v3-top-divider"></span>
+                                    <span>선불택배</span>
                                 </div>
-                                <div class="btn-dot-menu" onclick="openActionSheet('SW654322', ['reorder'])">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="1" />
-                                        <circle cx="12" cy="5" r="1" />
-                                        <circle cx="12" cy="19" r="1" />
+                                <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                                    SW654323
+                                    <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+                                        viewBox="0 0 24 24">
+                                        <path d="M9 6l6 6l-6 6" />
                                     </svg>
                                 </div>
                             </div>
+                            <div class="sc-v3-horizontal-line"></div>
                             <div class="sc-v3-body">
                                 <div class="sc-v3-status-row">
-                                    <div class="sc-v3-status green">배송중</div>
+                                    <div class="sc-v3-status gray">접수대기</div>
                                 </div>
                                 <div class="sc-v3-info-row">
                                     <span class="white-bd-badge">김성원</span>
@@ -1862,21 +1801,100 @@
                                     <span class="design-check-badge">디자인 파일 검수</span>
                                 </div>
                                 <div class="sc-v3-title-area">
-                                    <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
-                                    <button class="btn-option-toggle" onclick="toggleOptions('opt-4-2', this)">
-                                        옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <div class="sc-v3-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                                    <button class="btn-option-toggle" onclick="toggleOptions('opt-3', this)">
+                                        옵션 <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+                                            viewBox="0 0 24 24">
                                             <path d="M6 9l6 6l6 -6" />
                                         </svg>
                                     </button>
                                 </div>
-                                <div id="opt-4-2" class="sc-v3-option-details">
-                                    <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                                <div id="opt-3" class="sc-v3-option-details">
+                                    <div class="option-row">용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄</div>
+                                    <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                                        <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                            <path d="M7 11l5 5l5 -5" />
+                                            <path d="M12 4l0 12" />
+                                        </svg>
+                                        원본파일.ai
+                                    </div>
                                 </div>
-                                <div class="sc-v3-price-action-row">
-                                    <div class="price-block">
+                                <div class="sc-v3-price-group">
+                                    <div class="sc-v3-price-value-row">
                                         <span class="sc-v3-price-total">₩8,500</span>
                                     </div>
-                                    <button class="btn-inline-action" onclick="alert('배송조회')">배송 조회</button>
+                                </div>
+                            </div>
+                            <div class="sc-v3-action-area">
+                                <div class="sc-btn-group">
+                                    <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
+                                    <div class="sc-btn-divider"></div>
+                                    <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="sc-v3-card" data-status="접수 완료" data-date="2025-07-08" data-manager="김길동"
+                            data-customer="삼성SDS" data-title="[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수" data-order-no="SW654324">
+                            <div class="sc-v3-top-meta">
+                                <div class="meta-left">
+                                    <span>2025.07.08</span>
+                                    <span class="sc-v3-top-divider"></span>
+                                    <span>선불택배</span>
+                                </div>
+                                <div class="sc-v3-order-link" onclick="alert('상세 페이지로 이동')">
+                                    SW654324
+                                    <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+                                        viewBox="0 0 24 24">
+                                        <path d="M9 6l6 6l-6 6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="sc-v3-horizontal-line"></div>
+                            <div class="sc-v3-body">
+                                <div class="sc-v3-status-row">
+                                    <div class="sc-v3-status blue-plain">접수완료</div>
+                                </div>
+                                <div class="sc-v3-info-row">
+                                    <span class="white-bd-badge">김길동</span>
+                                    <span class="white-bd-badge">삼성SDS</span>
+                                </div>
+                                <div class="sc-v3-title-area">
+                                    <div class="sc-v3-title">[디지털엽서] 디지털 엽서 A6 사이즈 양면 인쇄 접수</div>
+                                    <button class="btn-option-toggle" onclick="toggleOptions('opt-4', this)">
+                                        옵션 <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+                                            viewBox="0 0 24 24">
+                                            <path d="M6 9l6 6l6 -6" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div id="opt-4" class="sc-v3-option-details">
+                                    <div class="option-row">용지: 스노우 250g | 인쇄: 양면칼라 | 후가공: 오시 1줄</div>
+                                    <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                                        <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                            <path d="M7 11l5 5l5 -5" />
+                                            <path d="M12 4l0 12" />
+                                        </svg>
+                                        디자인_최종.pdf
+                                    </div>
+                                </div>
+                                <div class="sc-v3-price-group">
+                                    <div class="sc-v3-price-value-row">
+                                        <span class="sc-v3-price-total">₩8,500</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sc-v3-action-area">
+                                <div class="sc-btn-group">
+                                    <button class="sc-btn-group-item" onclick="alert('접수 취소')">접수 취소</button>
                                 </div>
                             </div>
                         </article>
@@ -2062,7 +2080,7 @@
             <div class="sheet-body">
                 <div style="display: flex; justify-content: flex-end; margin-bottom: 16px; padding-right: 4px;">
                     <button type="button" class="sc-v3-order-link" onclick="openManagerManagement()"
-                        style="color: #666; font-weight: 500; display: inline-flex; align-items: center;">
+                        style="color: #666; font-weight: 500;">
                         담당자 관리
                         <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" viewBox="0 0 24 24"
                             width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
@@ -2286,20 +2304,6 @@
         </div>
     </div>
 
-    <div class="bottom-sheet-overlay" id="action-sheet-overlay">
-        <div class="bottom-sheet" id="action-sheet">
-            <div class="sheet-handle" id="action-sheet-handle"></div>
-            <div class="action-sheet-header">
-                <div class="action-sheet-title" id="action-sheet-order-no">주문 관리</div>
-                <div class="btn-sheet-close" onclick="closeActionSheet()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                </div>
-            </div>
-            <div class="action-list" id="action-list-container">
-                </div>
-        </div>
-    </div>
-
     <script>
         // --- Toggle Options Function (v3 Card) ---
         function toggleOptions(targetId, btn) {
@@ -2311,60 +2315,6 @@
                 target.classList.add('open');
                 btn.classList.add('active');
             }
-        }
-
-        // --- Action Sheet Logic (For Dot Menu) ---
-        const actionSheetOverlay = document.getElementById('action-sheet-overlay');
-        const actionSheet = document.getElementById('action-sheet');
-
-        function closeActionSheet() {
-            actionSheet.classList.add('closing');
-            setTimeout(() => {
-                actionSheetOverlay.classList.remove('active');
-                actionSheet.classList.remove('closing');
-            }, 300);
-        }
-
-        if(actionSheetOverlay) {
-            actionSheetOverlay.addEventListener('click', (e) => {
-                if (e.target === actionSheetOverlay) closeActionSheet();
-            });
-            // Handle for drag
-            setupBottomSheet('action-sheet-overlay', 'action-sheet', 'action-sheet-handle');
-        }
-
-        function openActionSheet(orderNo, actions) {
-            const container = document.getElementById('action-list-container');
-            document.getElementById('action-sheet-order-no').textContent = `주문번호 ${orderNo}`;
-            container.innerHTML = '';
-
-            const actionDefinitions = {
-                'detail': { label: '접수 상세', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M9 9l1 0" /><path d="M9 13l6 0" /><path d="M9 17l6 0" /></svg>', class: '', onclick: "alert('접수 상세')" },
-                'cancel': { label: '접수 취소', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" /></svg>', class: 'destructive', onclick: "alert('접수 취소')" },
-                'change_file': { label: '디자인 파일 변경', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>', class: '', onclick: "alert('파일 변경')" },
-                'reorder': { label: '동일 옵션 접수', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.933 13.041a8 8 0 1 1 -9.925 -8.788c3.899 -1 7.935 1.007 9.425 4.747" /><path d="M20 4v5h-5" /></svg>', class: '', onclick: "alert('재주문')" },
-                'inquiry': { label: '1:1 문의', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" /></svg>', class: '', onclick: "alert('문의하기')" },
-                'requote': { label: '재견적 신청', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" /></svg>', class: '', onclick: "alert('재견적')" },
-            };
-
-            let sortedActions = [...actions];
-            if (sortedActions.includes('cancel')) {
-                sortedActions = sortedActions.filter(item => item !== 'cancel');
-                sortedActions.push('cancel');
-            }
-
-            sortedActions.forEach(actionKey => {
-                const act = actionDefinitions[actionKey];
-                if (act) {
-                    const btn = document.createElement('button');
-                    btn.className = `action-item ${act.class}`;
-                    btn.innerHTML = `${act.icon} ${act.label}`;
-                    btn.onclick = () => { eval(act.onclick); closeActionSheet(); };
-                    container.appendChild(btn);
-                }
-            });
-
-            actionSheetOverlay.classList.add('active');
         }
 
         // --- Modal & Bottom Sheet Helpers ---
@@ -2470,7 +2420,7 @@
 
             const customPeriodSheet = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
             openCustomPeriodSheet = customPeriodSheet.openSheet; closeCustomPeriodSheet = customPeriodSheet.closeSheet;
-
+        
             // [추가] 달력 바텀시트 초기화
             const calendarSheet = setupBottomSheet('calendar-sheet-overlay', 'calendar-sheet', 'calendar-sheet-handle');
             openCalendarSheetFunc = calendarSheet.openSheet; closeCalendarSheetFunc = calendarSheet.closeSheet;
@@ -2565,9 +2515,9 @@
         // [변경] Calendar Sheet 로직
         function openCalendarSheet(type) {
             // 기간 설정 시트를 닫지 않고 그 위에 띄울지, 닫고 띄울지 결정 (여기선 닫지 않고 Z-Index로 위로 띄움)
-            if (type === 'start') currentTargetDateBtnId = 'btn-start-date';
-            else if (type === 'end') currentTargetDateBtnId = 'btn-end-date';
-
+            if(type === 'start') currentTargetDateBtnId = 'btn-start-date';
+            else if(type === 'end') currentTargetDateBtnId = 'btn-end-date';
+            
             // 기존 기간 설정 시트 오버레이 제거 없이 달력 시트 오픈 (z-index 2500 -> 3000 조정 필요하지만, 현재 CSS상 동일 레벨)
             // 편의상 달력 시트 overlay z-index를 인라인으로 높이거나 CSS 수정이 필요할 수 있음.
             // 여기서는 JS로 처리
@@ -2584,7 +2534,7 @@
         }
 
         function confirmDateSelection(day) {
-            if (currentTargetDateBtnId) {
+            if(currentTargetDateBtnId) {
                 // 마스터 가이드 달력이 2025.10 고정이므로 해당 년월 사용
                 const formattedDay = day < 10 ? `0${day}` : day;
                 document.getElementById(currentTargetDateBtnId).textContent = `2025-10-${formattedDay}`;
@@ -2627,7 +2577,7 @@
             }
 
             selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`;
-
+            
             closeCustomPeriodSheet();
             applyPeriodFilter();
         }
@@ -2642,7 +2592,7 @@
             const endDate = new Date();
             const startDate = new Date();
             startDate.setMonth(endDate.getMonth() - 1);
-
+             
             document.getElementById('btn-start-date').textContent = startDate.toISOString().split('T')[0];
             document.getElementById('btn-end-date').textContent = endDate.toISOString().split('T')[0];
 
@@ -2879,13 +2829,13 @@
             });
 
             filterOrderList();
-
+            
             // [변경] 초기값 세팅 (Input -> Button)
             const today = new Date().toISOString().split('T')[0];
             const btnStart = document.getElementById('btn-start-date');
             const btnEnd = document.getElementById('btn-end-date');
-            if (btnStart) btnStart.textContent = today;
-            if (btnEnd) btnEnd.textContent = today;
+            if(btnStart) btnStart.textContent = today;
+            if(btnEnd) btnEnd.textContent = today;
 
             document.getElementById('start-date').value = today;
             document.getElementById('end-date').value = today;
