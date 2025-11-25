@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>묶음배송 신청</title>
+    <title>묶음배송 신청 (Full Modal)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* [v12] Master Guide CSS - Base */
+        /* [v12] Master Guide CSS - Reset & Base */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -20,11 +20,11 @@
         body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #f4f5f7;
-            /* Full Modal Background */
             color: #333;
             font-size: 16px;
-            line-height: 1.6;
-            overflow-x: hidden;
+            line-height: 1.5;
+            overflow: hidden;
+            /* 모달이 열려있으므로 스크롤 방지 */
         }
 
         ul,
@@ -66,156 +66,142 @@
             display: block;
         }
 
-        /* Layout */
-        .mobile-wrap {
+        /* Full Modal Layout */
+        .full-modal-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            background-color: #f4f5f7;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            /* PC 브라우저 중앙 정렬용 */
             max-width: 480px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            min-height: 100vh;
-            padding-bottom: 140px;
-            /* Sticky Footer Space */
-            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
-        /* Header (v12 Standard - Modal Style Match) */
-        /* [MODIFIED] Fixed Positioning for Sticky Effect */
+        /* Header */
         .app-header-sub {
             height: 56px;
             background: white;
-            border-bottom: 1px solid #e8e8e9;
+            border-bottom: 1px solid #cccccc;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
-            /* Change sticky to fixed for robust mobile behavior */
-            position: fixed; 
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px; /* Match mobile-wrap width */
-            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .header-left,
+        .header-right {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-right {
+            justify-content: flex-end;
         }
 
         .header-title {
-            flex-grow: 1;
+            flex: 3;
             font-size: 18px;
             font-weight: 700;
             text-align: left;
             color: #212121;
         }
 
-        .btn-close-header {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            color: #333;
+        .btn-close {
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
+            cursor: pointer;
+            color: #333;
         }
 
-        /* Main Content */
-        .sw-container {
-            /* [MODIFIED] Add top padding to compensate for fixed header (56px + 16px) */
-            padding: 80px 20px 20px 20px;
+        /* Main Content Area */
+        .modal-content-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 0 125px 0;
+            /* Footer 공간 확보 */
         }
 
-        /* Description Text */
+        /* Sections */
         .page-description {
-            margin-top: 0; /* [MODIFIED] Remove margin since padding handles spacing now */
+            padding: 24px 20px 10px 20px;
             font-size: 15px;
             color: #333;
-            margin-bottom: 24px;
             line-height: 1.5;
             word-break: keep-all;
+            background: #fff;
         }
 
-        /* Base Order Box */
-        .base-order-box {
-            background-color: #f5f5f5;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 24px;
+        .bundle-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #e8e8e9;
         }
 
-        /* Card Layout Structure */
-        .card-header-row {
+        .bundle-section:first-of-type {
+            padding-top: 12px;
+        }
+
+        /* Base Order Styles */
+        .base-order-wrapper {}
+
+        .base-order-wrapper .sc-v3-card {
+            border-color: #e8e8e9;
+        }
+
+        /* [수정됨] Control Bar (Select All) - 여백 조정 */
+        .control-bar {
+            /* 상단 여백 추가 (20px) */
+            padding: 20px 20px 12px 20px;
+            background: #fff;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
+            /* 리스트와 연결성을 위해 border-bottom 제거 (선택사항) */
+            /* border-bottom: 1px solid #f0f0f0; */
         }
 
-        .order-number {
-            font-size: 16px;
-            font-weight: 700;
-            color: #212121;
-        }
-
-        .order-date {
-            font-size: 13px;
-            color: #888;
-            font-weight: 400;
-            margin-left: 4px;
-        }
-
-        .order-weight {
-            font-size: 13px;
-            color: #666;
-            text-align: right;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        /* Meta Info Group */
-        .card-meta-group {
+        /* [수정됨] Bundle List - 상단 패딩 제거 */
+        .bundle-list {
             display: flex;
             flex-direction: column;
-            gap: 2px;
-            margin-top: 8px;
-            padding-bottom: 8px;
-            border-bottom: 1px dashed #e0e0e0;
-            margin-bottom: 8px;
+            gap: 12px;
+            padding: 0 20px 50px 20px;
+            /* 상단 패딩 0으로 변경 */
+            background: #fff;
         }
 
-        .card-meta-row {
+        /* [수정됨] Checkbox Style - 공통 사용 */
+        .checkbox-container {
             display: flex;
-            align-items: center;
-            font-size: 13px;
-            color: #555;
-            line-height: 1.5;
+            align-items: flex-start;
+            cursor: pointer;
+            width: 100%;
+            /* 부모 너비 꽉 채움 */
+            position: relative;
+            /* input 숨김 처리를 위해 */
         }
 
-        .card-meta-row strong {
-            font-weight: 600;
-            color: #333;
-            margin-right: 8px;
+        /* 실제 체크박스는 숨김 */
+        .checkbox-container input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
 
-        .meta-label {
-            color: #888;
-            margin-right: 4px;
-        }
-
-        .order-title {
-            font-size: 14px;
-            color: #333;
-            font-weight: 600;
-            line-height: 1.4;
-        }
-
-        /* Control Bar */
-        .control-bar {
-            display: flex;
-            align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #e8e8e9;
-            margin-bottom: 12px;
-        }
-
-        /* v12 Checkbox */
+        /* 커스텀 체크박스 (v12) */
         .checkbox {
             width: 20px;
             height: 20px;
@@ -223,6 +209,9 @@
             cursor: pointer;
             user-select: none;
             flex-shrink: 0;
+            margin-right: 12px;
+            margin-top: 14px;
+            /* 카드 상단과 정렬 */
         }
 
         .checkbox-off {
@@ -248,69 +237,147 @@
             height: 14px;
         }
 
-        .checkbox-text {
+        /* [수정됨] 전체 선택 체크박스 스타일 */
+        .select-all-label {
             display: flex;
             align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .checkbox-text span {
             font-size: 14px;
-            color: #333;
             font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            width: 100%;
         }
 
-        /* List Items */
-        .bundle-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .select-all-label .checkbox {
+            margin-top: 0;
+            /* 텍스트와 중앙 정렬 */
+            margin-right: 8px;
         }
 
-        /* Bundle Card Style */
-        .bundle-card {
+        /* v3 Card Style */
+        .sc-v3-card {
+            flex: 1;
+            min-width: 0;
+            background: white;
             border: 1px solid #e8e8e9;
             border-radius: 8px;
-            padding: 16px;
-            display: flex;
-            gap: 12px;
-            background: white;
+            overflow: hidden;
             transition: border-color 0.2s, background-color 0.2s;
-            cursor: pointer;
-            align-items: flex-start;
         }
 
-        .bundle-card.selected {
+        /* 선택된 카드 스타일 */
+        .sc-v3-card.selected {
             border-color: #4e6ee4;
             background-color: #f4f7ff;
         }
 
-        .bundle-card-content {
+        .sc-v3-top-meta {
+            padding: 8px 16px;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #f0f0f0;
+            background: inherit;
+            min-height: 39px;
+        }
+
+        .meta-info-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
             flex: 1;
             min-width: 0;
         }
 
-        /* Guide Link */
-        .guide-link-wrapper {
-            margin-top: 20px;
+        .meta-text {
+            white-space: nowrap;
+        }
+
+        .meta-divider {
+            width: 1px;
+            height: 10px;
+            background-color: #e0e0e0;
+            flex-shrink: 0;
+        }
+
+        .sc-v3-body {
+            padding: 12px 16px;
+        }
+
+        /* Status & Info */
+        .sc-v3-status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .sc-v3-status-badge {
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            background-color: #666;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .sc-v3-status.blue {
+            font-size: 12px;
+            font-weight: 700;
+            color: #4e6ee4;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sc-v3-status.blue::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background-color: #4e6ee4;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .sc-v3-info-row {
+            margin-bottom: 8px;
+        }
+
+        .white-bd-badge {
+            font-size: 11px;
+            color: #666;
+            border: 1px solid #dfdfdf;
+            border-radius: 4px;
+            padding: 2px 7px;
+            display: inline-block;
+            background: #fff;
+        }
+
+        .sc-v3-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #212121;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .sc-v3-price-group {
+            font-size: 13px;
+            color: #666;
+            font-weight: 400;
             text-align: right;
         }
 
-        .guide-link {
-            font-size: 13px;
-            color: #666;
-            display: inline-flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .guide-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Sticky Footer (Summary + Action) */
+        /* Sticky Summary Footer */
         .sticky-summary-footer {
             position: fixed;
             bottom: 0;
@@ -328,7 +395,7 @@
         .summary-info {
             text-align: center;
             margin-bottom: 16px;
-            font-size: 14px;
+            font-size: 15px;
             color: #333;
         }
 
@@ -339,50 +406,56 @@
 
         .weight-info {
             margin-left: 8px;
+            padding-left: 8px;
+            border-left: 1px solid #ddd;
         }
 
         .weight-current {
             color: #212121;
-            /* Default */
             font-weight: 700;
         }
 
         .weight-current.warning {
             color: #dc3545;
-            /* Red for warning */
         }
 
         .warning-message {
             display: block;
             font-size: 12px;
             color: #dc3545;
-            margin-top: 6px;
+            margin-top: 8px;
             font-weight: 500;
         }
 
-        /* Buttons (v12) */
-        .dark-button {
-            background: #424242;
-            color: white;
-            height: 48px;
-            width: 100%;
-            border-radius: 6px;
-            border: none;
-            font-size: 15px;
-            font-weight: 600;
+        .guide-link {
+            display: block;
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .dark-button:disabled {
+        /* Action Button */
+        .btn-action {
+            width: 100%;
+            height: 48px;
+            background-color: #424242;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-action:disabled {
             background-color: #e9ecef;
             color: #adb5bd;
             cursor: not-allowed;
         }
 
-        /* Bottom Sheet (v12 Standard) */
+        /* Bottom Sheet Overlay */
         .bottom-sheet-overlay {
             position: fixed;
             inset: 0;
@@ -390,7 +463,7 @@
             display: none;
             align-items: flex-end;
             justify-content: center;
-            z-index: 1000;
+            z-index: 2100;
             animation: fadeIn 0.2s ease-out;
         }
 
@@ -471,28 +544,12 @@
             color: black;
         }
 
-        .btn-close {
-            position: absolute;
-            right: 20px;
-            top: 0;
-            width: 21px;
-            height: 21px;
-            cursor: pointer;
-        }
-
-        .btn-close svg {
-            width: 100%;
-            height: 100%;
-            color: #333;
-        }
-
         .sheet-body {
             flex: 1;
             overflow-y: auto;
-            padding: 0 20px 30px 20px;
+            padding: 0 20px 20px 20px;
         }
 
-        /* FAQ in Bottom Sheet */
         .faq-item {
             margin-bottom: 16px;
         }
@@ -509,188 +566,192 @@
             color: #666;
             line-height: 1.5;
         }
-        
-        /* [NEW] Modal Styles (Standard) */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 16px;
-        }
-        .modal-content {
-            background: white;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 360px;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        /* If this page uses standard modal header, ensure it doesn't shrink */
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px;
-            border-bottom: 1px solid #e8e8e9;
-            height: 57px;
-            flex-shrink: 0; /* Important for sticky feel inside modal */
-            background: white;
-        }
     </style>
 </head>
 
 <body>
-    <div class="mobile-wrap">
+    <div class="full-modal-wrap">
 
         <header class="app-header-sub">
             <h1 class="header-title">묶음배송 신청</h1>
-            <div class="btn-close-header" onclick="closeModal()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                </svg>
+            <div class="header-right">
+                <button type="button" class="btn-close" onclick="alert('모달 닫기')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
         </header>
 
-        <main class="sw-container">
-            <p class="page-description">묶음 배송을 원하는 접수 건을 선택해주세요</p>
+        <div class="modal-content-scroll">
 
-            <section class="base-order-box">
-                <div class="card-header-row">
-                    <div class="order-info">
-                        <span class="order-number">SW123456</span>
-                        <span class="order-date">(2025-07-28)</span>
-                    </div>
-                    <div class="order-weight">0.25kg / 1묶음</div>
+            <div class="page-description">
+                묶음 배송을 원하는 접수 건을 선택해주세요
+            </div>
+
+            <section class="bundle-section">
+
+                <div class="base-order-wrapper">
+                    <article class="sc-v3-card">
+                        <div class="sc-v3-top-meta">
+                            <div class="meta-info-group">
+                                <div class="meta-text" style="font-weight: 400; color: #666;">2025.07.28</div>
+                                <span class="meta-divider"></span>
+                                <div class="meta-text" style="font-weight: 400; color: #666;">SW123456</div>
+                            </div>
+                        </div>
+                        <div class="sc-v3-body">
+                            <div class="sc-v3-status-row">
+                                <span class="white-bd-badge">삼성SDS</span>
+                            </div>
+                            <div class="sc-v3-title">
+                                [디지털엽서] 김길동 고객 청첩장
+                            </div>
+                            <div class="sc-v3-price-group">
+                                0.25kg / 1묶음
+                            </div>
+                        </div>
+                    </article>
                 </div>
-                <div class="card-meta-group" style="border-bottom: none; margin-bottom: 0;">
-                    <div class="card-meta-row">
-                        <span class="meta-label">대상고객</span> <strong>삼성SDS</strong>
-                    </div>
-                </div>
-                <div class="order-title" style="margin-top: 8px;">[디지털엽서] 김길동 고객 청첩장</div>
             </section>
 
             <div class="control-bar">
-                <div class="checkbox-text" onclick="toggleSelectAll()">
-                    <div class="checkbox" data-checked="false" id="checkbox-all">
+                <label class="select-all-label" onclick="toggleSelectAll()">
+                    <div class="checkbox" id="checkbox-all" data-checked="false">
                         <div class="checkbox-off"></div>
                     </div>
-                    <span>전체선택</span>
+                    전체선택
+                </label>
+            </div>
+
+            <div class="bundle-list">
+
+                <div class="checkbox-container" onclick="toggleItemSelection(this)">
+                    <div class="checkbox item-chk" data-weight="0.25" data-checked="false">
+                        <div class="checkbox-off"></div>
+                    </div>
+
+                    <article class="sc-v3-card">
+                        <div class="sc-v3-top-meta">
+                            <div class="meta-info-group">
+                                <div class="meta-text" style="font-weight: 400; color: #666;">2025.07.28</div>
+                                <span class="meta-divider"></span>
+                                <div class="meta-text" style="font-weight: 400; color: #666;">SW123456</div>
+                            </div>
+                        </div>
+                        <div class="sc-v3-body">
+                            <div class="sc-v3-info-row">
+                                <span class="white-bd-badge">삼성SDS</span>
+                            </div>
+                            <div class="sc-v3-title">
+                                [디지털엽서] 김길동 고객 청첩장
+                            </div>
+                            <div class="sc-v3-price-group">
+                                0.25kg / 1묶음
+                            </div>
+                        </div>
+                    </article>
                 </div>
-            </div>
 
-            <div class="bundle-list" id="bundle-list-container">
-
-                <article class="bundle-card" onclick="toggleItemSelection(this)" data-weight="0.25">
-                    <div class="checkbox" data-checked="false">
+                <div class="checkbox-container" onclick="toggleItemSelection(this)">
+                    <div class="checkbox item-chk" data-weight="0.25" data-checked="false">
                         <div class="checkbox-off"></div>
                     </div>
-                    <div class="bundle-card-content">
-                        <div class="card-header-row">
-                            <div class="order-info">
-                                <span class="order-number">SW123456</span>
-                                <span class="order-date">(2025-07-28)</span>
-                            </div>
-                            <div class="order-weight">0.25kg / 1묶음</div>
-                        </div>
-                        <div class="card-meta-group">
-                            <div class="card-meta-row">
-                                <span class="meta-label">대상고객</span> <strong>삼성SDS</strong>
-                            </div>
-                        </div>
-                        <div class="order-title">[디지털엽서] 김길동 고객 청첩장</div>
-                    </div>
-                </article>
 
-                <article class="bundle-card selected" onclick="toggleItemSelection(this)" data-weight="0.25">
-                    <div class="checkbox" data-checked="true">
-                        <div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크">
-                        </div>
-                    </div>
-                    <div class="bundle-card-content">
-                        <div class="card-header-row">
-                            <div class="order-info">
-                                <span class="order-number">SW123456</span>
-                                <span class="order-date">(2025-07-28)</span>
-                            </div>
-                            <div class="order-weight">0.25kg / 1묶음</div>
-                        </div>
-                        <div class="card-meta-group">
-                            <div class="card-meta-row">
-                                <span class="meta-label">대상고객</span> <strong>삼성SDS</strong>
+                    <article class="sc-v3-card">
+                        <div class="sc-v3-top-meta">
+                            <div class="meta-info-group">
+                                <div class="meta-text" style="font-weight: 400; color: #666;">2025.07.28</div>
+                                <span class="meta-divider"></span>
+                                <div class="meta-text" style="font-weight: 400; color: #666;">SW123456</div>
                             </div>
                         </div>
-                        <div class="order-title">[디지털엽서] 김길동 고객 청첩장</div>
-                    </div>
-                </article>
+                        <div class="sc-v3-body">
+                            <div class="sc-v3-info-row">
+                                <span class="white-bd-badge">삼성SDS</span>
+                            </div>
+                            <div class="sc-v3-title">
+                                [디지털엽서] 김길동 고객 청첩장
+                            </div>
+                            <div class="sc-v3-price-group">
+                                0.25kg / 1묶음
+                            </div>
+                        </div>
+                    </article>
+                </div>
 
-                <article class="bundle-card selected" onclick="toggleItemSelection(this)" data-weight="0.25">
-                    <div class="checkbox" data-checked="true">
-                        <div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크">
-                        </div>
-                    </div>
-                    <div class="bundle-card-content">
-                        <div class="card-header-row">
-                            <div class="order-info">
-                                <span class="order-number">SW123456</span>
-                                <span class="order-date">(2025-07-28)</span>
-                            </div>
-                            <div class="order-weight">0.25kg / 1묶음</div>
-                        </div>
-                        <div class="card-meta-group">
-                            <div class="card-meta-row">
-                                <span class="meta-label">대상고객</span> <strong>삼성SDS</strong>
-                            </div>
-                        </div>
-                        <div class="order-title">[디지털엽서] 김철수 고객 명함</div>
-                    </div>
-                </article>
-
-                <article class="bundle-card" onclick="toggleItemSelection(this)" data-weight="4.5">
-                    <div class="checkbox" data-checked="false">
+                <div class="checkbox-container" onclick="toggleItemSelection(this)">
+                    <div class="checkbox item-chk" data-weight="0.25" data-checked="false">
                         <div class="checkbox-off"></div>
                     </div>
-                    <div class="bundle-card-content">
-                        <div class="card-header-row">
-                            <div class="order-info">
-                                <span class="order-number">SW999999</span>
-                                <span class="order-date">(2025-07-28)</span>
-                            </div>
-                            <div class="order-weight">4.50kg / 1묶음</div>
-                        </div>
-                        <div class="card-meta-group">
-                            <div class="card-meta-row">
-                                <span class="meta-label">대상고객</span> <strong>삼성SDS</strong>
+
+                    <article class="sc-v3-card">
+                        <div class="sc-v3-top-meta">
+                            <div class="meta-info-group">
+                                <div class="meta-text" style="font-weight: 400; color: #666;">2025.07.28</div>
+                                <span class="meta-divider"></span>
+                                <div class="meta-text" style="font-weight: 400; color: #666;">SW123456</div>
                             </div>
                         </div>
-                        <div class="order-title">[카다로그] 2025년 종합 카다로그</div>
+                        <div class="sc-v3-body">
+                            <div class="sc-v3-info-row">
+                                <span class="white-bd-badge">삼성SDS</span>
+                            </div>
+                            <div class="sc-v3-title">
+                                [디지털엽서] 김철수 고객 명함
+                            </div>
+                            <div class="sc-v3-price-group">
+                                0.25kg / 1묶음
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="checkbox-container" onclick="toggleItemSelection(this)">
+                    <div class="checkbox item-chk" data-weight="4.50" data-checked="false">
+                        <div class="checkbox-off"></div>
                     </div>
-                </article>
+
+                    <article class="sc-v3-card">
+                        <div class="sc-v3-top-meta">
+                            <div class="meta-info-group">
+                                <div class="meta-text" style="font-weight: 400; color: #666;">2025.07.28</div>
+                                <span class="meta-divider"></span>
+                                <div class="meta-text" style="font-weight: 400; color: #666;">SW123456</div>
+                            </div>
+                        </div>
+                        <div class="sc-v3-body">
+                            <div class="sc-v3-info-row">
+                                <span class="white-bd-badge">삼성SDS</span>
+                            </div>
+                            <div class="sc-v3-title">
+                                [카다로그] 2025년 종합 카다로그
+                            </div>
+                            <div class="sc-v3-price-group">
+                                4.50kg / 1묶음
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="guide-link" onclick="showGuideSheet()">묶음배송 안내사항 ></div>
 
             </div>
 
-            <div class="guide-link-wrapper">
-                <span class="guide-link" onclick="showGuideSheet()">묶음배송 안내사항 ></span>
-            </div>
-        </main>
+        </div>
 
         <div class="sticky-summary-footer">
             <div class="summary-info">
-                <span id="selected-count" class="summary-highlight">0건 선택</span>
+                <span class="summary-highlight" id="selected-count-text">0건 선택</span>
                 <span class="weight-info">
-                    | 총 <span id="total-weight" class="weight-current">0.25kg</span> / 5kg
+                    | 총 <span class="weight-current" id="total-weight-text">0.25kg</span> / 5kg
                 </span>
-                <span id="warning-msg" class="warning-message" style="display: none;">묶음배송이 가능한 무게를 초과했어요. 5kg 이하로
-                    선택해주세요</span>
+                <span class="warning-message" id="weight-warning" style="display: none;">
+                    묶음배송이 가능한 무게를 초과했어요, 5kg 이하로 선택해주세요
+                </span>
             </div>
-            <button class="dark-button" id="apply-btn" disabled onclick="alert('묶음배송 신청이 완료되었습니다.')">묶음배송 신청</button>
+            <button class="btn-action" id="apply-btn" disabled onclick="alert('신청 완료')">묶음배송 신청</button>
         </div>
 
     </div>
@@ -716,38 +777,38 @@
                     <div class="faq-q">Q. 접수 시 자동으로 묶음배송 처리된 제품에 추가로 묶음배송 신청이 가능한지?</div>
                     <div class="faq-a">A. 네, 가능합니다. 단, 전체 무게가 5kg을 초과하지 않아야 합니다.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-q">Q. 접수 시 자동으로 묶음배송 처리된 제품을 분리배송 요청이 가능한지? (가능하다면, 1:1문의를 통해서 처리하는지)</div>
-                    <div class="faq-a">A. 1:1 문의 게시판 [배송 관련] 카테고리를 통해 요청해주시면 확인 후 처리해드립니다.</div>
-                </div>
             </div>
         </div>
     </div>
 
     <script>
         // --- Configuration ---
+        const BASE_WEIGHT = 0.25; // 기준 주문 무게
         const MAX_WEIGHT = 5.0;
-        const BASE_WEIGHT = 0.25; // Weight of the fixed item at top
 
-        // --- UI Interaction Logic ---
-
-        function toggleCheckboxVisual(checkbox, isChecked) {
+        // --- Helper: Checkbox Visual Toggle ---
+        function toggleCheckboxVisual(checkboxDiv, isChecked) {
             if (isChecked) {
-                checkbox.dataset.checked = 'true';
-                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+                checkboxDiv.dataset.checked = 'true';
+                checkboxDiv.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
             } else {
-                checkbox.dataset.checked = 'false';
-                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+                checkboxDiv.dataset.checked = 'false';
+                checkboxDiv.innerHTML = '<div class="checkbox-off"></div>';
             }
         }
 
-        function toggleItemSelection(card) {
-            const checkbox = card.querySelector('.checkbox');
-            const isCurrentlyChecked = checkbox.dataset.checked === 'true';
+        // --- Selection Logic ---
+        function toggleItemSelection(container) {
+            const checkboxDiv = container.querySelector('.item-chk');
+            const card = container.querySelector('.sc-v3-card');
+
+            const isCurrentlyChecked = checkboxDiv.dataset.checked === 'true';
             const newCheckedState = !isCurrentlyChecked;
 
-            toggleCheckboxVisual(checkbox, newCheckedState);
+            // 1. 체크박스 UI 업데이트
+            toggleCheckboxVisual(checkboxDiv, newCheckedState);
 
+            // 2. 카드 스타일 업데이트
             if (newCheckedState) {
                 card.classList.add('selected');
             } else {
@@ -755,99 +816,105 @@
             }
 
             updateSummary();
-            checkSelectAllState();
         }
 
         function toggleSelectAll() {
-            const masterCheckbox = document.getElementById('checkbox-all');
-            const isAllChecked = masterCheckbox.dataset.checked === 'true';
+            const masterCheckboxDiv = document.getElementById('checkbox-all');
+            const isAllChecked = masterCheckboxDiv.dataset.checked === 'true';
             const newState = !isAllChecked;
 
-            toggleCheckboxVisual(masterCheckbox, newState);
+            // 1. 전체 선택 체크박스 UI 업데이트
+            toggleCheckboxVisual(masterCheckboxDiv, newState);
 
-            const cards = document.querySelectorAll('.bundle-card');
-            cards.forEach(card => {
-                const checkbox = card.querySelector('.checkbox');
-                toggleCheckboxVisual(checkbox, newState);
-                if (newState) card.classList.add('selected');
-                else card.classList.remove('selected');
+            // 2. 모든 아이템 체크박스 및 카드 스타일 업데이트
+            const containers = document.querySelectorAll('.checkbox-container');
+            containers.forEach(container => {
+                const checkboxDiv = container.querySelector('.item-chk');
+                const card = container.querySelector('.sc-v3-card');
+
+                toggleCheckboxVisual(checkboxDiv, newState);
+
+                if (newState) {
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
             });
 
             updateSummary();
         }
 
-        function checkSelectAllState() {
-            const cards = document.querySelectorAll('.bundle-card');
-            const allChecked = Array.from(cards).every(card => card.querySelector('.checkbox').dataset.checked === 'true');
-            const masterCheckbox = document.getElementById('checkbox-all');
-            toggleCheckboxVisual(masterCheckbox, allChecked);
-        }
-
         function updateSummary() {
-            const selectedCards = document.querySelectorAll('.bundle-card.selected');
-            const count = selectedCards.length;
-            let totalWeight = BASE_WEIGHT; // Start with base item weight
+            // 1. 선택된 아이템 계산
+            const checkedItems = document.querySelectorAll('.item-chk[data-checked="true"]');
+            const count = checkedItems.length;
+            let addedWeight = 0;
 
-            selectedCards.forEach(card => {
-                totalWeight += parseFloat(card.dataset.weight);
+            checkedItems.forEach(item => {
+                addedWeight += parseFloat(item.dataset.weight);
             });
 
-            // Update UI text
-            document.getElementById('selected-count').textContent = `${count}건 선택`;
+            // 2. 전체 선택 체크박스 상태 동기화
+            const totalItems = document.querySelectorAll('.item-chk').length;
+            const masterCheckboxDiv = document.getElementById('checkbox-all');
+            const allSelected = totalItems > 0 && count === totalItems;
+            toggleCheckboxVisual(masterCheckboxDiv, allSelected);
 
-            const weightEl = document.getElementById('total-weight');
-            const weightText = totalWeight.toFixed(2) + 'kg';
-            weightEl.textContent = weightText;
+            // 3. 무게 및 UI 업데이트
+            const totalWeight = BASE_WEIGHT + addedWeight;
 
-            const warningMsg = document.getElementById('warning-msg');
-            const applyBtn = document.getElementById('apply-btn');
+            document.getElementById('selected-count-text').textContent = `${count}건 선택`;
+
+            const weightTextEl = document.getElementById('total-weight-text');
+            weightTextEl.textContent = totalWeight.toFixed(2) + 'kg';
+
+            const warningEl = document.getElementById('weight-warning');
+            const btn = document.getElementById('apply-btn');
 
             if (totalWeight > MAX_WEIGHT) {
-                weightEl.classList.add('warning');
-                warningMsg.style.display = 'block';
-                applyBtn.disabled = true;
+                weightTextEl.classList.add('warning');
+                warningEl.style.display = 'block';
+                btn.disabled = true;
+                btn.textContent = "묶음배송 신청";
             } else {
-                weightEl.classList.remove('warning');
-                warningMsg.style.display = 'none';
-                // Enable button only if at least 1 item is selected
-                applyBtn.disabled = count === 0;
+                weightTextEl.classList.remove('warning');
+                warningEl.style.display = 'none';
+                // 최소 1개 이상 선택해야 신청 가능
+                if (count > 0) {
+                    btn.disabled = false;
+                    btn.textContent = "묶음배송 신청";
+                } else {
+                    btn.disabled = true;
+                    btn.textContent = "묶음배송 신청";
+                }
             }
         }
 
-        // --- Bottom Sheet Logic (v12 Standard) ---
-        const sheetOverlay = document.getElementById('guide-sheet-overlay');
-        const sheet = document.getElementById('guide-sheet');
+        // --- Guide Sheet Logic ---
+        const guideSheetOverlay = document.getElementById('guide-sheet-overlay');
+        const guideSheet = document.getElementById('guide-sheet');
 
         function showGuideSheet() {
-            sheetOverlay.classList.add('active');
-            sheet.classList.remove('closing');
-            document.body.style.overflow = 'hidden';
+            guideSheetOverlay.classList.add('active');
+            guideSheet.classList.remove('closing');
         }
 
         function closeGuideSheet() {
-            sheet.classList.add('closing');
+            guideSheet.classList.add('closing');
             setTimeout(() => {
-                sheetOverlay.classList.remove('active');
-                sheet.classList.remove('closing');
-                document.body.style.overflow = '';
+                guideSheetOverlay.classList.remove('active');
+                guideSheet.classList.remove('closing');
             }, 300);
         }
 
-        sheetOverlay.addEventListener('click', (e) => {
-            if (e.target === sheetOverlay) closeGuideSheet();
+        guideSheetOverlay.addEventListener('click', (e) => {
+            if (e.target === guideSheetOverlay) closeGuideSheet();
         });
 
-        function closeModal() {
-            // For demo purposes, just alert or back
-            alert("모달을 닫습니다.");
-        }
-
-        // --- Initialization ---
+        // 초기화
         document.addEventListener('DOMContentLoaded', () => {
-            updateSummary(); // Initial calculation based on pre-selected items
-            checkSelectAllState();
+            updateSummary();
         });
-
     </script>
 </body>
 

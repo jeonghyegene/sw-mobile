@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>접수/배송 내역 (Final Integrated)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [Base & Layout] */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 20px;
+            min-height: 100vh;
+        }
+
+        /* [Header] */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #212121;
+            flex: 1;
+            text-align: center;
+        }
+
+        .header-left,
+        .header-right {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-right {
+            justify-content: flex-end;
+        }
+
+        /* [Filters] */
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e9e9e9;
+            background: #fff;
+        }
+
+        .text-select-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px 4px;
+            border-radius: 4px;
+            background: #fff;
+        }
+
+        .text-select-button:active {
+            background: #f5f5f5;
+        }
+
+        .text-select-button-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .text-select-button-arrow {
+            width: 16px;
+            height: 16px;
+            color: #555;
+        }
+
+        .filter-chip-section {
+            background: #fff;
+            padding: 16px;
+            border-bottom: 1px solid #e9e9e9;
+        }
+
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            gap: 8px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .filter-chip-section .single-chip[data-status="결제대기"].single-chip-on {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .multi-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .multi-chip-off {
+            background: #fdfdfd;
+            border: 1px solid #e6e4e4;
+            color: #6d6d6d;
+        }
+
+        .multi-chip-on {
+            background: #c7d3ff;
+            border: 1px solid #4e6ee4;
+            color: #4e6ee4;
+        }
+
+        /* [Summary Bar] */
+        .sticky-summary-bar {
+            position: sticky;
+            top: 56px;
+            background: #eef2ff;
+            border-bottom: 1px solid #c7d3ff;
+            z-index: 90;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary-left span {
+            font-size: 13px;
+            color: #555;
+        }
+
+        .summary-left strong {
+            font-size: 16px;
+            font-weight: 700;
+            color: #dc3545;
+            margin-left: 6px;
+        }
+
+        .summary-right {
+            display: flex;
+            align-items: center;
+            background: #4e6ee4;
+            color: white;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 12px;
+            gap: 5px;
+        }
+
+        .summary-right svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* [List Area] */
+        .sw-container {
+            padding: 0 16px 16px;
+        }
+
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 12px;
+        }
+
+        .total-count strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .date-divider {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            padding: 0 0 8px 0;
+            border-bottom: 1px solid #e8e8e9;
+            margin-top: 16px;
+        }
+
+        .transaction-list .date-divider:first-child {
+            margin-top: 0;
+        }
+
+        /* [NEW Card Style - v3] */
+        .sc-v3-card {
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+        }
+
+        .sc-v3-top-meta {
+            padding: 7px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            border-bottom: 1px solid #f0f0f0;
+            min-height: 39px;
+        }
+
+        .meta-info-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+            flex: 1;
+        }
+
+        .meta-divider {
+            width: 1px;
+            height: 10px;
+            background-color: #e0e0e0;
+        }
+
+        .btn-dot-menu {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            cursor: pointer;
+            margin-right: -4px;
+        }
+
+        .btn-dot-menu:active {
+            color: #333;
+            background-color: #f5f5f5;
+            border-radius: 50%;
+        }
+
+        .sc-v3-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sc-v3-status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .sc-v3-status {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sc-v3-status.blue {
+            color: #4e6ee4;
+        }
+
+        .sc-v3-status.blue::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background-color: #4e6ee4;
+            border-radius: 50%;
+            display: block;
+            animation: blink 1.2s infinite;
+        }
+
+        .sc-v3-status.red {
+            color: #dc3545;
+        }
+
+        .sc-v3-status.red::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background-color: #dc3545;
+            border-radius: 50%;
+            display: block;
+            animation: blink 1.2s infinite;
+        }
+
+        .sc-v3-status.green {
+            color: #16a34a;
+        }
+
+        .sc-v3-status.gray {
+            color: #888;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        .sc-v3-info-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .white-bd-badge {
+            border: 1px solid #dfdfdf;
+            border-radius: 4px;
+            padding: 2px 7px;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .design-check-badge {
+            font-size: 11px;
+            color: #555;
+            background-color: #f5f5f6;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 2px 7px;
+            font-weight: 500;
+        }
+
+        .sc-v3-title-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .sc-v3-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #212121;
+            line-height: 1.4;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .btn-option-toggle {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 11px;
+            color: #666;
+            padding: 3px 0;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .btn-option-toggle.active svg {
+            transform: rotate(180deg);
+        }
+
+        .btn-option-toggle svg {
+            width: 12px;
+            height: 12px;
+            transition: transform 0.2s;
+        }
+
+        .sc-v3-option-details {
+            background-color: #fafafa;
+            border-radius: 6px;
+            padding: 0 12px;
+            margin-bottom: 0;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            color: #666;
+            border: 1px solid transparent;
+        }
+
+        .sc-v3-option-details.open {
+            padding: 12px;
+            max-height: 300px;
+            opacity: 1;
+            border-color: #f0f0f0;
+            margin: 12px 0;
+        }
+
+        .option-row {
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .sc-v3-file-link {
+            font-size: 12px;
+            color: #4e6ee4;
+            text-decoration: underline;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .sc-v3-price-action-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .sc-v3-price-action-row.no-action {
+            margin-top: 0;
+            padding-top: 3px;
+            border-top: none;
+        }
+
+        .price-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sc-v3-price-total {
+            font-size: 15px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .sc-v3-price-sub {
+            font-size: 12px;
+            color: #4e6ee4;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .btn-inline-action {
+            height: 36px;
+            padding: 0 16px;
+            background-color: #4e6ee4;
+            color: white;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .btn-inline-action:active {
+            background-color: #3d5dd3;
+        }
+
+        /* [Bottom Sheets & Modals] */
+        .bottom-sheet-overlay,
+        .modal-overlay,
+        .full-page-modal {
+            display: none;
+        }
+
+        .bottom-sheet-overlay.active,
+        .modal-overlay.active,
+        .full-page-modal.active {
+            display: flex;
+        }
+
+        .bottom-sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .bottom-sheet {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: 30px;
+            animation: slideUp 0.3s ease-out;
+            position: relative;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bottom-sheet.closing {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .sheet-handle {
+            width: 36px;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 100px;
+            margin: 12px auto 4px;
+            cursor: grab;
+            flex-shrink: 0;
+        }
+
+        .action-sheet-header,
+        .sheet-header {
+            padding: 12px 20px 16px;
+            text-align: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .sheet-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .btn-sheet-close,
+        .btn-close {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .sheet-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 20px;
+        }
+
+        .sheet-footer {
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        /* Action Sheet Items */
+        .action-list {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .action-item {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+            background: #fff;
+            border: none;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-item:last-child {
+            border-bottom: none;
+        }
+
+        .action-item.destructive {
+            color: #dc3545;
+        }
+
+        .action-item svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
+        }
+
+        /* Full Page Modal */
+        .full-page-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: white;
+            width: 100%;
+            height: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            flex-direction: column;
+        }
+
+        .fp-header {
+            height: 56px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e8e8e9;
+        }
+
+        .fp-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .fp-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .fp-footer {
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        /* Confirm Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .confirm-modal {
+            width: 90%;
+            max-width: 320px;
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .modal-message {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-button {
+            flex: 1;
+            height: 44px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-button-primary {
+            background: #333;
+            color: white;
+        }
+
+        .modal-button-secondary {
+            background: white;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        /* Common Components */
+        .btn {
+            height: 44px;
+            padding: 0 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            border: 1px solid #e8e8e9;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .input {
+            width: 100%;
+            height: 44px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+        }
+
+        .input input,
+        .input button {
+            width: 100%;
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        /* Manager List */
+        .manager-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .manager-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .manager-contact {
+            font-size: 13px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .manager-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-manager-action {
+            height: 32px;
+            padding: 0 12px;
+            font-size: 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        /* Calendar Styles */
+        .calendar-container {
+            padding: 10px 0;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-month-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .calendar-nav-btn {
+            padding: 5px 10px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .calendar-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .calendar-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .calendar-row span {
+            width: 14.28%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .calendar-row.week-header span {
+            font-weight: 600;
+            color: #888;
+            font-size: 12px;
+            cursor: default;
+        }
+
+        .calendar-row span:not(.week-header span):hover {
+            background-color: #f5f5f5;
+        }
+
+        .calendar-row span.selected {
+            background-color: #4e6ee4;
+            color: white;
+            border-radius: 50%;
+            font-weight: 600;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(100%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">접수/배송 내역</h1>
+            <div class="header-right"></div>
+        </header>
+
+        <main>
+            <div class="filter-bar">
+                <button type="button" class="text-select-button" onclick="openSheet('period-filter-overlay')">
+                    <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
+                    <div class="text-select-button-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24">
+                            <path d="M6 9l6 6l6 -6" />
+                        </svg></div>
+                </button>
+                <button type="button" class="text-select-button" onclick="openSheet('manager-filter-overlay')">
+                    <span class="text-select-button-text" id="selected-manager-text">담당자 (전체)</span>
+                    <div class="text-select-button-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24">
+                            <path d="M6 9l6 6l6 -6" />
+                        </svg></div>
+                </button>
+                <button type="button" class="text-select-button" onclick="openSheet('customer-filter-overlay')">
+                    <span class="text-select-button-text" id="selected-customer-text">대상고객 (전체)</span>
+                    <div class="text-select-button-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24">
+                            <path d="M6 9l6 6l6 -6" />
+                        </svg></div>
+                </button>
+            </div>
+
+            <div class="filter-chip-section">
+                <div class="tabs-scroll-wrapper" id="status-chip-group">
+                    <div class="single-chip single-chip-on" onclick="selectChip(this)">전체 22</div>
+                    <div class="single-chip single-chip-off" onclick="selectChip(this)">결제대기 5</div>
+                    <div class="single-chip single-chip-off" onclick="selectChip(this)">진행 중 20</div>
+                    <div class="single-chip single-chip-off" onclick="selectChip(this)">출고/배송 2</div>
+                    <div class="single-chip single-chip-off" onclick="selectChip(this)">취소 1</div>
+                </div>
+            </div>
+
+            <div class="sticky-summary-bar">
+                <div class="summary-left">
+                    <span>결제대기 금액</span>
+                    <strong>₩153,500</strong>
+                </div>
+                <button type="button" class="summary-right" onclick="alert('가상계좌 복사')">
+                    <span>가상계좌</span>
+                    <strong>우리은행 654590...</strong>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path
+                            d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+                        <path
+                            d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="sw-container">
+                <div class="transaction-list-header">
+                    <span class="total-count">총 <strong>4</strong>건</span>
+                </div>
+
+                <div class="transaction-list">
+                    <div class="date-divider">2025. 07. 08</div>
+
+                    <article class="sc-v3-card">
+                        <div class="sc-v3-top-meta">
+                            <div class="meta-info-group">
+                                <span>2025.07.08</span>
+                                <span class="meta-divider"></span>
+                                <span>SW654321</span>
+                                <span class="meta-divider"></span>
+                                <span>선불택배</span>
+                            </div>
+                            <div class="btn-dot-menu" onclick="openActionSheet('SW654321')">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="1" />
+                                    <circle cx="12" cy="5" r="1" />
+                                    <circle cx="12" cy="19" r="1" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="sc-v3-body">
+                            <div class="sc-v3-status-row">
+                                <div class="sc-v3-status blue">결제대기</div>
+                            </div>
+                            <div class="sc-v3-info-row">
+                                <span class="white-bd-badge">김성원</span>
+                                <span class="white-bd-badge">XT(내회사)</span>
+                                <span class="design-check-badge">디자인 파일 검수</span>
+                            </div>
+                            <div class="sc-v3-title-area">
+                                <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                                <button class="btn-option-toggle" onclick="toggleOptions('opt-1', this)">
+                                    옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path d="M6 9l6 6l6 -6" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div id="opt-1" class="sc-v3-option-details">
+                                <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색</div>
+                                <div class="sc-v3-file-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                                        <path d="M7 11l5 5l5 -5" />
+                                        <path d="M12 4l0 12" />
+                                    </svg>
+                                    일반사원_명함(앞).pdf 외 1건
+                                </div>
+                            </div>
+                            <div class="sc-v3-price-action-row">
+                                <div class="price-block">
+                                    <span class="sc-v3-price-total">₩8,500</span>
+                                    <span class="sc-v3-price-sub">(결제대기 금액 ₩3,500)</span>
+                                </div>
+                                <button class="btn-inline-action" onclick="alert('결제')">결제하기</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="sc-v3-card">
+                        <div class="sc-v3-top-meta">
+                            <div class="meta-info-group">
+                                <span>2025.07.08</span>
+                                <span class="meta-divider"></span>
+                                <span>SW654322</span>
+                            </div>
+                            <div class="btn-dot-menu" onclick="openActionSheet('SW654322')">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="1" />
+                                    <circle cx="12" cy="5" r="1" />
+                                    <circle cx="12" cy="19" r="1" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="sc-v3-body">
+                            <div class="sc-v3-status-row">
+                                <div class="sc-v3-status red">파일 재업로드 대기</div>
+                            </div>
+                            <div class="sc-v3-info-row">
+                                <span class="white-bd-badge">김성원</span>
+                                <span class="white-bd-badge">XT(내회사)</span>
+                            </div>
+                            <div class="sc-v3-title-area">
+                                <div class="sc-v3-title">[명함] 일반 명함 스노우 250g</div>
+                                <button class="btn-option-toggle" onclick="toggleOptions('opt-2', this)">
+                                    옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path d="M6 9l6 6l6 -6" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div id="opt-2" class="sc-v3-option-details">
+                                <div class="option-row">용지: 스노우 / 백색 | 인쇄: 양면 컬러</div>
+                            </div>
+                            <div class="sc-v3-price-action-row">
+                                <div class="price-block">
+                                    <span class="sc-v3-price-total">₩5,500</span>
+                                </div>
+                                <button class="btn-inline-action" onclick="alert('재업로드')">파일 재업로드</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="action-sheet-overlay">
+        <div class="bottom-sheet">
+            <div class="sheet-handle"></div>
+            <div class="action-sheet-header">
+                <div class="sheet-title" id="action-sheet-title">주문 관리</div>
+                <div class="btn-sheet-close" onclick="closeSheet('action-sheet-overlay')"><svg viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
+            <div class="action-list">
+                <button class="action-item" onclick="alert('상세'); closeSheet('action-sheet-overlay')"><svg
+                        viewBox="0 0 24 24">
+                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                    </svg> 접수 상세</button>
+                <button class="action-item" onclick="alert('파일변경'); closeSheet('action-sheet-overlay')"><svg
+                        viewBox="0 0 24 24">
+                        <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+                    </svg> 디자인 파일 변경</button>
+                <button class="action-item destructive" onclick="alert('취소'); closeSheet('action-sheet-overlay')"><svg
+                        viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg> 접수 취소</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="period-filter-overlay">
+        <div class="bottom-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">기간 상세검색</div>
+                <div class="btn-close" onclick="closeSheet('period-filter-overlay')"><svg viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
+            <div class="action-list">
+                <button class="action-item" onclick="applyPeriod('최근 1개월')">최근 1개월</button>
+                <button class="action-item" onclick="applyPeriod('최근 3개월')">최근 3개월</button>
+                <button class="action-item" onclick="applyPeriod('최근 6개월')">최근 6개월</button>
+                <button class="action-item" onclick="applyPeriod('최근 1년')">최근 1년</button>
+                <button class="action-item"
+                    onclick="closeSheet('period-filter-overlay'); openSheet('period-custom-sheet-overlay')">기간
+                    설정</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="period-custom-sheet-overlay">
+        <div class="bottom-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">기간 설정</div>
+                <div class="btn-close" onclick="closeSheet('period-custom-sheet-overlay')"><svg viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
+            <div class="sheet-body">
+                <div class="form-group">
+                    <label>시작일</label>
+                    <div class="input">
+                        <button type="button" id="btn-start-date" onclick="openCalendar('start')">2025-10-11</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>종료일</label>
+                    <div class="input">
+                        <button type="button" id="btn-end-date" onclick="openCalendar('end')">2025-11-11</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>간편 설정</label>
+                    <div style="display:flex; gap:8px;">
+                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(0)">오늘</div>
+                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(7)">1주일</div>
+                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(30)">1개월</div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn white-button" onclick="closeSheet('period-custom-sheet-overlay')">취소</button>
+                <button class="btn dark-button" onclick="applyCustomPeriod()">조회하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="calendar-sheet-overlay" style="z-index: 1050;">
+        <div class="bottom-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">날짜 선택</div>
+                <div class="btn-close" onclick="closeSheet('calendar-sheet-overlay')"><svg viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
+            <div class="sheet-body">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-nav-btn">&lt;</div>
+                        <div class="calendar-month-title">2025.11</div>
+                        <div class="calendar-nav-btn">&gt;</div>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-row week-header">
+                            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+                        </div>
+                        <div class="calendar-row"><span class="empty"></span><span
+                                class="empty"></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                        </div>
+                        <div class="calendar-row">
+                            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span
+                                class="selected" onclick="selectDate(11)">11</span><span>12</span></div>
+                        <div class="calendar-row">
+                            <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
+                        </div>
+                        <div class="calendar-row">
+                            <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span>
+                        </div>
+                        <div class="calendar-row"><span>27</span><span>28</span><span>29</span><span>30</span><span
+                                class="empty"></span><span class="empty"></span><span class="empty"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="manager-filter-overlay">
+        <div class="bottom-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">담당자 선택</div>
+                <div class="btn-close" onclick="closeSheet('manager-filter-overlay')"><svg viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
+            <div class="sheet-body">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+                    <button class="sc-v3-file-link" style="color:#666; font-weight:500;"
+                        onclick="openManagerManagement()">
+                        담당자 관리 <svg viewBox="0 0 24 24">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                    <div class="multi-chip multi-chip-on">✓ 전체</div>
+                    <div class="multi-chip multi-chip-off">김성원</div>
+                    <div class="multi-chip multi-chip-off">홍길동</div>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn white-button" onclick="closeSheet('manager-filter-overlay')">초기화</button>
+                <button class="btn dark-button" onclick="closeSheet('manager-filter-overlay')">적용하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="customer-filter-overlay">
+        <div class="bottom-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">대상고객 선택</div>
+                <div class="btn-close" onclick="closeSheet('customer-filter-overlay')"><svg viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
+            <div class="sheet-body">
+                <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                    <div class="multi-chip multi-chip-on">✓ 전체</div>
+                    <div class="multi-chip multi-chip-off">XT(내회사)</div>
+                    <div class="multi-chip multi-chip-off">삼성SDS</div>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn white-button" onclick="closeSheet('customer-filter-overlay')">초기화</button>
+                <button class="btn dark-button" onclick="closeSheet('customer-filter-overlay')">적용하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="full-page-modal" id="manager-management-modal">
+        <div class="fp-header">
+            <div class="fp-title">담당자 관리</div>
+            <div class="btn-close" onclick="closeFullPage('manager-management-modal')"><svg viewBox="0 0 24 24">
+                    <path d="M18 6l-12 12" />
+                    <path d="M6 6l12 12" />
+                </svg></div>
+        </div>
+        <div class="fp-body">
+            <div style="font-size: 13px; font-weight: 500; color: #333; margin-bottom: 8px;">총 2명</div>
+            <div class="manager-list">
+                <div class="manager-list-item">
+                    <div>
+                        <div class="manager-name">김성원</div>
+                        <div class="manager-contact">010-1234-5678 | test@gmail.com</div>
+                    </div>
+                    <div class="manager-actions">
+                        <button class="btn-manager-action" onclick="openDeleteConfirm()">삭제</button>
+                        <button class="btn-manager-action" style="background:#424242; color:white; border:none;"
+                            onclick="openModifyManager()">수정</button>
+                    </div>
+                </div>
+                <div class="manager-list-item">
+                    <div>
+                        <div class="manager-name">홍길동</div>
+                        <div class="manager-contact">010-9876-5432 | hong@gmail.com</div>
+                    </div>
+                    <div class="manager-actions">
+                        <button class="btn-manager-action" onclick="openDeleteConfirm()">삭제</button>
+                        <button class="btn-manager-action" style="background:#424242; color:white; border:none;"
+                            onclick="openModifyManager()">수정</button>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:20px; font-size:12px; color:#888; display:flex; align-items:center; gap:4px;">
+                <svg width="14" height="14" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                담당자는 최대 10명까지 등록할 수 있어요
+            </div>
+        </div>
+        <div class="fp-footer">
+            <button class="btn dark-button" onclick="openAddManager()">+ 담당자 추가</button>
+        </div>
+    </div>
+
+    <div class="full-page-modal" id="add-manager-modal">
+        <div class="fp-header">
+            <div class="fp-title">담당자 추가</div>
+            <div class="btn-close" onclick="closeFullPage('add-manager-modal')"><svg viewBox="0 0 24 24">
+                    <path d="M18 6l-12 12" />
+                    <path d="M6 6l12 12" />
+                </svg></div>
+        </div>
+        <div class="fp-body">
+            <div class="form-group">
+                <label>담당자명</label>
+                <div class="input"><input type="text" placeholder="이름 입력"></div>
+            </div>
+            <div class="form-group">
+                <label>이메일</label>
+                <div class="input"><input type="email" placeholder="이메일 입력"></div>
+            </div>
+            <div class="form-group">
+                <label>휴대폰 번호</label>
+                <div class="input"><input type="tel" placeholder="번호 입력"></div>
+            </div>
+        </div>
+        <div class="fp-footer" style="display:flex; gap:8px;">
+            <button class="btn white-button" onclick="closeFullPage('add-manager-modal')">취소</button>
+            <button class="btn dark-button" onclick="closeFullPage('add-manager-modal')">추가하기</button>
+        </div>
+    </div>
+
+    <div class="full-page-modal" id="modify-manager-modal">
+        <div class="fp-header">
+            <div class="fp-title">담당자 수정</div>
+            <div class="btn-close" onclick="closeFullPage('modify-manager-modal')"><svg viewBox="0 0 24 24">
+                    <path d="M18 6l-12 12" />
+                    <path d="M6 6l12 12" />
+                </svg></div>
+        </div>
+        <div class="fp-body">
+            <div class="form-group">
+                <label>담당자명</label>
+                <div class="input"><input type="text" value="김성원"></div>
+            </div>
+            <div class="form-group">
+                <label>이메일</label>
+                <div class="input"><input type="email" value="test@gmail.com"></div>
+            </div>
+            <div class="form-group">
+                <label>휴대폰 번호</label>
+                <div class="input"><input type="tel" value="010-1234-5678"></div>
+            </div>
+        </div>
+        <div class="fp-footer" style="display:flex; gap:8px;">
+            <button class="btn white-button" onclick="closeFullPage('modify-manager-modal')">취소</button>
+            <button class="btn dark-button" onclick="closeFullPage('modify-manager-modal')">수정하기</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="delete-manager-modal">
+        <div class="confirm-modal">
+            <div class="modal-title">담당자를 삭제하시겠어요?</div>
+            <div class="modal-message">삭제 시 해당 담당자로 접수된<br>접수 건의 담당자가 내정보로 변경돼요</div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary"
+                    onclick="closeModal('delete-manager-modal')">아니요</button>
+                <button class="modal-button modal-button-primary"
+                    onclick="alert('삭제되었습니다'); closeModal('delete-manager-modal')">삭제</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Core UI Logic ---
+        function toggleOptions(targetId, btn) {
+            const el = document.getElementById(targetId);
+            if (el.classList.contains('open')) {
+                el.classList.remove('open');
+                btn.classList.remove('active');
+            } else {
+                el.classList.add('open');
+                btn.classList.add('active');
+            }
+        }
+
+        function selectChip(el) {
+            el.parentElement.querySelectorAll('.single-chip').forEach(c => {
+                c.classList.replace('single-chip-on', 'single-chip-off');
+            });
+            el.classList.replace('single-chip-off', 'single-chip-on');
+        }
+
+        // --- Bottom Sheet Logic ---
+        function openSheet(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSheet(id) {
+            const el = document.getElementById(id);
+            const sheet = el.querySelector('.bottom-sheet');
+            sheet.classList.add('closing');
+            setTimeout(() => {
+                el.classList.remove('active');
+                sheet.classList.remove('closing');
+                // Check if other modals are active before enabling scroll
+                if (!document.querySelector('.full-page-modal.active')) {
+                    document.body.style.overflow = '';
+                }
+            }, 300);
+        }
+
+        function openActionSheet(orderNo) {
+            document.getElementById('action-sheet-title').textContent = `주문번호 ${orderNo}`;
+            openSheet('action-sheet-overlay');
+        }
+
+        // --- Full Page Modal Logic ---
+        function openFullPage(id) {
+            document.getElementById(id).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeFullPage(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function openManagerManagement() {
+            closeSheet('manager-filter-overlay');
+            openFullPage('manager-management-modal');
+        }
+
+        function openAddManager() {
+            openFullPage('add-manager-modal');
+        }
+
+        function openModifyManager() {
+            openFullPage('modify-manager-modal');
+        }
+
+        function openDeleteConfirm() {
+            document.getElementById('delete-manager-modal').classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // --- Period & Calendar Logic ---
+        let currentTargetId = null;
+
+        function applyPeriod(text) {
+            document.getElementById('selected-period-text').textContent = text;
+            closeSheet('period-filter-overlay');
+        }
+
+        function openCalendar(target) {
+            currentTargetId = target === 'start' ? 'btn-start-date' : 'btn-end-date';
+            // Open calendar on top of custom sheet
+            openSheet('calendar-sheet-overlay');
+        }
+
+        function selectDate(day) {
+            if (currentTargetId) {
+                document.getElementById(currentTargetId).textContent = `2025-11-${day}`;
+            }
+            closeSheet('calendar-sheet-overlay');
+        }
+
+        function setCustomPeriod(days) {
+            const end = new Date();
+            const start = new Date();
+            start.setDate(end.getDate() - days);
+
+            document.getElementById('btn-start-date').textContent = start.toISOString().split('T')[0];
+            document.getElementById('btn-end-date').textContent = end.toISOString().split('T')[0];
+        }
+
+        function applyCustomPeriod() {
+            const start = document.getElementById('btn-start-date').textContent;
+            const end = document.getElementById('btn-end-date').textContent;
+            document.getElementById('selected-period-text').textContent = `${start} ~ ${end}`;
+            closeSheet('period-custom-sheet-overlay');
+        }
+
+        // Initialize drag for sheets (Simplified)
+        document.querySelectorAll('.sheet-handle').forEach(handle => {
+            let startY, currentY;
+            const sheet = handle.closest('.bottom-sheet');
+            const overlay = handle.closest('.bottom-sheet-overlay');
+
+            handle.addEventListener('touchstart', (e) => {
+                startY = e.touches[0].clientY;
+            });
+
+            handle.addEventListener('touchmove', (e) => {
+                currentY = e.touches[0].clientY;
+                const delta = currentY - startY;
+                if (delta > 0) sheet.style.transform = `translateY(${delta}px)`;
+            });
+
+            handle.addEventListener('touchend', () => {
+                const delta = currentY - startY;
+                if (delta > 100) {
+                    closeSheet(overlay.id);
+                    setTimeout(() => sheet.style.transform = '', 300);
+                } else {
+                    sheet.style.transform = '';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
