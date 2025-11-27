@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원애드피아 모바일 - 검수 및 요청 모달</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ======================================== RESET & BASE STYLES (v12 Standard) ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            height: 100%;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        input,
+        textarea {
+            font-family: inherit;
+        }
+
+        /* Layout Container */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #fff;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* [NEW] Header Styles (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 2 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Buttons (v12 Standard) */
+        .dark-button {
+            background: #222;
+            color: white;
+            height: 44px;
+            padding: 0 19px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .dark-button:active {
+            background: #333;
+        }
+
+        .dark-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:active {
+            background: #f9f9f9;
+        }
+
+        /* Form Elements (v12 Standard) */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .input {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .input input,
+        .input textarea {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: #333;
+            resize: none;
+            background: transparent;
+        }
+
+        .input input::placeholder,
+        .input textarea::placeholder {
+            color: #c6c6c8;
+        }
+
+        .text-counter {
+            text-align: right;
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        /* Checkbox (v12 Standard) */
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .checkbox-off {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #bdbdbd;
+            border-radius: 2px;
+        }
+
+        .checkbox-on {
+            width: 100%;
+            height: 100%;
+            background: #4e6ee4;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-on img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            padding: 15px 0;
+            justify-content: center;
+            /* Center alignment for modal */
+        }
+
+        .checkbox-text span {
+            font-size: 14px;
+            color: #4e6ee4;
+            /* Blue text per request */
+            font-weight: 500;
+        }
+
+        /* ========================================
+           MODAL STYLES
+        ======================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 480px;
+            height: 100%;
+            max-height: 100vh;
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .modal-header {
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid #e8e8e9;
+            flex-shrink: 0;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #222;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .btn-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .btn-close svg {
+            width: 24px;
+            height: 24px;
+            color: #222;
+        }
+
+        /* Body */
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 20px;
+        }
+
+        /* Footer (Action Buttons) */
+        .modal-footer {
+            padding: 20px;
+            display: flex;
+            gap: 8px;
+            background: white;
+            flex-shrink: 0;
+        }
+
+        /* ========================================
+           SPECIFIC COMPONENT: FILE CHECK GRID
+        ======================================== */
+        .check-info-text {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 24px;
+            line-height: 1.5;
+            word-break: keep-all;
+        }
+
+        /* List Header with Download Button */
+        .list-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .total-count {
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .btn-file-download {
+            background: #e0e0e0;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn-file-download svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 12px;
+        }
+
+        .file-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .file-thumbnail {
+            width: 100%;
+            aspect-ratio: 1.4;
+            background: #e0e0e0;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .file-thumbnail::before,
+        .file-thumbnail::after {
+            content: '';
+            position: absolute;
+            background: #ccc;
+        }
+
+        .file-thumbnail::before {
+            width: 100%;
+            height: 1px;
+            transform: rotate(35deg);
+        }
+
+        .file-thumbnail::after {
+            width: 100%;
+            height: 1px;
+            transform: rotate(-35deg);
+        }
+
+        .file-thumbnail-text {
+            position: relative;
+            z-index: 1;
+            font-size: 12px;
+            color: #888;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .file-name {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.4;
+            word-break: break-all;
+        }
+
+        /* ========================================
+           IMAGE VIEW MODAL STYLES
+        ======================================== */
+        #modal-image-view .modal-content {
+            background: #000;
+        }
+
+        #modal-image-view .modal-header {
+            border-bottom: none;
+            background: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+        }
+
+        #modal-image-view .modal-title {
+            color: #fff;
+        }
+
+        #modal-image-view .btn-close svg {
+            color: #fff;
+        }
+
+        #modal-image-view .modal-body {
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+
+        #modal-image-view .expanded-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* ========================================
+           DEMO CONTROLS
+        ======================================== */
+        .demo-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: flex-start;
+            padding: 20px;
+            height: calc(100vh - 56px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="mobile-wrap">
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="alert('뒤로가기')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 18l-6-6 6-6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">디자인 및 파일 검수</h1>
+            <div class="header-right">
+            </div>
+        </header>
+
+        <div class="demo-btn-group">
+            <button class="white-button" onclick="openModal('modal-file-check')">1. 파일 검수 모달</button>
+            <button class="white-button" onclick="openModal('modal-design-check')">2. 디자인 확인 모달</button>
+            <button class="white-button" onclick="openModal('modal-rework')">3. 디자인 수정 요청 모달</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-file-check">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">파일 검수</h2>
+                <div class="btn-close" onclick="closeModal('modal-file-check')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p class="check-info-text">디자인 교정 파일을 확인해주세요</p>
+
+                <div class="list-header-row">
+                    <div class="total-count">총 4건</div>
+                    <button type="button" class="btn-file-download" onclick="alert('PDF 다운로드')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        파일 다운로드
+                    </button>
+                </div>
+
+                <div class="file-grid">
+                    <div class="file-item">
+                        <div class="file-thumbnail"
+                            onclick="openImageModal('https://via.placeholder.com/600x400/e0e0e0/888888?text=사원용+명함_전면.pdf', '사원용 명함_전면.pdf')">
+                            <span class="file-thumbnail-text">파일명.pdf</span>
+                        </div>
+                        <div class="file-name">사원용 명함_전면.pdf</div>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-thumbnail"
+                            onclick="openImageModal('https://via.placeholder.com/600x400/e0e0e0/888888?text=사원용+명함_후면.pdf', '사원용 명함_후면.pdf')">
+                            <span class="file-thumbnail-text">파일명.pdf</span>
+                        </div>
+                        <div class="file-name">사원용 명함_후면.pdf</div>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-thumbnail"
+                            onclick="openImageModal('https://via.placeholder.com/600x400/e0e0e0/888888?text=사원용+명함_가공.pdf', '사원용 명함_가공_작업사항.pdf')">
+                            <span class="file-thumbnail-text">파일명.pdf</span>
+                        </div>
+                        <div class="file-name">사원용 명함_가공_작업사항.pdf</div>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-thumbnail"
+                            onclick="openImageModal('https://via.placeholder.com/800x600/e0e0e0/888888?text=사원용+명함_배경.jpg', '사원용 명함_배경.jpg')">
+                            <span class="file-thumbnail-text">파일명.jpg</span>
+                        </div>
+                        <div class="file-name">사원용 명함_배경.jpg</div>
+                    </div>
+                </div>
+
+                <div class="checkbox-text" onclick="toggleConfirmCheckbox(this, 'btn-file-complete')">
+                    <div class="checkbox" data-checked="false">
+                        <div class="checkbox-off"></div>
+                    </div>
+                    <span>앞/뒷면, 재단선, 인쇄 내용 등 모든 교정 사항을 확인했어요</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="white-button" onclick="alert('재업로드')">파일 재업로드</button>
+                <button class="dark-button" id="btn-file-complete" onclick="closeModal('modal-file-check')" disabled>파일
+                    검수 완료</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-design-check">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">디자인 확인</h2>
+                <div class="btn-close" onclick="closeModal('modal-design-check')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p class="check-info-text">작업된 디자인을 확인해주세요</p>
+
+                <div class="list-header-row">
+                    <div class="total-count">총 2건</div>
+                    <button type="button" class="btn-file-download" onclick="alert('파일 다운로드')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        파일 다운로드
+                    </button>
+                </div>
+
+                <div class="file-grid">
+                    <div class="file-item">
+                        <div class="file-thumbnail"
+                            onclick="openImageModal('https://via.placeholder.com/600x400/e0e0e0/888888?text=홍길동_명함_시안A.jpg', '홍길동_명함_시안A.jpg')">
+                            <span class="file-thumbnail-text">시안A.jpg</span>
+                        </div>
+                        <div class="file-name">홍길동_명함_시안A.jpg</div>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-thumbnail"
+                            onclick="openImageModal('https://via.placeholder.com/600x400/e0e0e0/888888?text=홍길동_명함_시안B.jpg', '홍길동_명함_시안B.jpg')">
+                            <span class="file-thumbnail-text">시안B.jpg</span>
+                        </div>
+                        <div class="file-name">홍길동_명함_시안B.jpg</div>
+                    </div>
+                </div>
+
+                <div class="checkbox-text" onclick="toggleConfirmCheckbox(this, 'btn-design-complete')">
+                    <div class="checkbox" data-checked="false">
+                        <div class="checkbox-off"></div>
+                    </div>
+                    <span>앞/뒷면, 재단선, 후가공, 인쇄 내용 등 모든 사항을 확인했어요</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="white-button" onclick="openModal('modal-rework'); closeModal('modal-design-check');">수정
+                    요청</button>
+                <button class="dark-button" id="btn-design-complete" onclick="closeModal('modal-design-check')"
+                    disabled>확인 완료</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-rework">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">디자인 수정 요청</h2>
+                <div class="btn-close" onclick="closeModal('modal-rework')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>요청사항</label>
+                    <div class="input">
+                        <textarea rows="8" placeholder="디자인 수정 요청사항을 입력해주세요" oninput="checkTextLength(this)"></textarea>
+                    </div>
+                    <div class="text-counter" id="text-counter">0/1,000</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="white-button" onclick="closeModal('modal-rework')">취소</button>
+                <button class="dark-button" onclick="alert('수정 요청 완료'); closeModal('modal-rework');">수정 요청</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-image-view">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="image-modal-title">파일명</h2>
+                <div class="btn-close" onclick="closeModal('modal-image-view')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="modal-body">
+                <img src="" alt="Expanded File Image" class="expanded-image" id="expanded-image">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Modal Logic ---
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // --- Image Modal Logic ---
+        function openImageModal(imageSrc, fileName) {
+            const imgElement = document.getElementById('expanded-image');
+            const titleElement = document.getElementById('image-modal-title');
+
+            imgElement.src = imageSrc;
+            titleElement.textContent = fileName;
+
+            openModal('modal-image-view');
+        }
+
+        // --- Textarea Counter ---
+        function checkTextLength(el) {
+            const maxLength = 1000;
+            const currentLength = el.value.length;
+            document.getElementById('text-counter').textContent = `${currentLength.toLocaleString()}/${maxLength.toLocaleString()}`;
+
+            if (currentLength > maxLength) {
+                el.value = el.value.substring(0, maxLength);
+                document.getElementById('text-counter').textContent = `${maxLength.toLocaleString()}/${maxLength.toLocaleString()}`;
+            }
+        }
+
+        // --- Checkbox & Button Logic (v12 Style) ---
+        function toggleConfirmCheckbox(wrapper, targetBtnId) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            const targetBtn = document.getElementById(targetBtnId);
+            const isChecked = checkbox.dataset.checked === 'true';
+
+            if (isChecked) {
+                // Uncheck
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+                // Disable button
+                if (targetBtn) targetBtn.disabled = true;
+            } else {
+                // Check
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+                // Enable button
+                if (targetBtn) targetBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>
