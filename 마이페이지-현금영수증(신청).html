@@ -24,6 +24,7 @@
                 display: none;
             }
         }
+
         .disqus-thread-wrap {
             position: fixed;
             top: 40px;
@@ -38,6 +39,7 @@
                 display: none;
             }
         }
+
         /* Reset & Base */
         * {
             box-sizing: border-box;
@@ -491,6 +493,7 @@
             font-size: 14px;
             color: #555;
         }
+
         .transaction-list-header .total-count strong {
             font-weight: 600;
             color: #333;
@@ -560,7 +563,7 @@
             justify-content: space-between;
             align-items: flex-start;
             /* [MODIFIED] margin-bottom: 15px; */
-            margin-bottom: 15px; 
+            margin-bottom: 15px;
         }
 
         .card-column1 {
@@ -568,19 +571,20 @@
             font-weight: 500;
             color: #212121;
         }
-        
+
         /* [MODIFIED] Req 1: 접수번호 텍스트 버튼 스타일 */
         .order-button:hover {
             opacity: 0.7;
         }
-        
+
         /* [NEW] 뱃지 그룹 (for tax_request) */
         .card-header-badges {
             display: inline-flex;
             align-items: center;
             justify-content: flex-start;
             gap: 5px;
-            flex-shrink: 0; /* 뱃지 축소 방지 */
+            flex-shrink: 0;
+            /* 뱃지 축소 방지 */
         }
 
         .card-badge {
@@ -616,6 +620,7 @@
             margin-bottom: 8px;
             font-size: 12px;
         }
+
         /* [NEW] Req 2: last-of-type to remove margin */
         .card-row:last-of-type {
             margin-bottom: 0;
@@ -710,13 +715,14 @@
         .checkbox:active {
             transform: scale(0.9);
         }
-        
+
         /* [NEW] Disabled state for custom checkbox */
         .checkbox[data-disabled="true"] .checkbox-off {
             background-color: #f1f1f1;
             border-color: #e0e0e0;
             cursor: not-allowed;
         }
+
         .checkbox[data-disabled="true"] {
             cursor: not-allowed;
         }
@@ -1015,11 +1021,16 @@
                 opacity: 1;
             }
         }
-        
+
         /* [NEW] Added fade-out for overlay closing */
         @keyframes fadeOutModal {
-            from { opacity: 1; }
-            to { opacity: 0; }
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
         }
 
         .modal-content {
@@ -1112,6 +1123,7 @@
         .form-group {
             margin-bottom: 20px;
         }
+
         .form-group:last-child {
             margin-bottom: 0;
         }
@@ -1186,7 +1198,7 @@
             background: #4e6ee4;
             color: white;
         }
-        
+
         /* ========================================
            [NEW] FULL MODAL STYLES (Req 2)
         ======================================== */
@@ -1195,15 +1207,17 @@
             inset: 0;
             background: rgba(0, 0, 0, 0.5);
             display: none;
-            justify-content: flex-end; /* Align to the right */
+            justify-content: flex-end;
+            /* Align to the right */
             z-index: 1000;
-            animation: fadeInModal 0.3s ease-out; /* Same fade-in for overlay */
+            animation: fadeInModal 0.3s ease-out;
+            /* Same fade-in for overlay */
         }
 
         .full-modal-overlay.active {
             display: flex;
         }
-        
+
         .full-modal-overlay.closing {
             animation: fadeOutModal 0.3s ease-out forwards;
         }
@@ -1217,41 +1231,56 @@
             flex-direction: column;
             animation: slideInFromRight 0.3s ease-out;
         }
-        
+
         .full-modal-overlay.closing .full-modal-content {
-             animation: slideOutToRight 0.3s ease-out forwards;
+            animation: slideOutToRight 0.3s ease-out forwards;
         }
-        
+
         /* [NEW] Re-use existing modal header/body/footer but adapt for full-modal */
         .full-modal-content .modal-header {
             /* Use existing .modal-header styles */
-            position: sticky; /* Stick to top */
+            position: sticky;
+            /* Stick to top */
             top: 0;
             background: white;
             z-index: 1;
         }
+
         .full-modal-content .modal-body {
             /* Use existing .modal-body styles */
             overflow-y: auto;
             flex-grow: 1;
             /* [NEW] Add padding for sticky footer */
-            padding-bottom: 96px; 
+            padding-bottom: 96px;
         }
+
         .full-modal-content .modal-footer {
-             /* Use existing .modal-footer styles */
-            position: sticky; /* Stick to bottom */
+            /* Use existing .modal-footer styles */
+            position: sticky;
+            /* Stick to bottom */
             bottom: 0;
             background: white;
             z-index: 1;
         }
 
         @keyframes slideInFromRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
         }
+
         @keyframes slideOutToRight {
-            from { transform: translateX(0); }
-            to { transform: translateX(100%); }
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(100%);
+            }
         }
     </style>
 </head>
@@ -1307,13 +1336,16 @@
                         <div class="tabs-scroll-wrapper" id="status-chip-group">
                             <div class="multi-chip multi-chip-off" data-status="전체" onclick="toggleStatusChip(this)">전체
                             </div>
-                            <div class="multi-chip multi-chip-on" data-status="미발급" onclick="toggleStatusChip(this)">✓ 미발급
+                            <div class="multi-chip multi-chip-on" data-status="미발급" onclick="toggleStatusChip(this)">✓
+                                미발급
                             </div>
-                            <div class="multi-chip multi-chip-on" data-status="발급대기" onclick="toggleStatusChip(this)">✓ 발급대기
+                            <div class="multi-chip multi-chip-on" data-status="발급대기" onclick="toggleStatusChip(this)">✓
+                                발급대기
                             </div>
-                            <div class="multi-chip multi-chip-off" data-status="발급실패" onclick="toggleStatusChip(this)">발급실패
+                            <div class="multi-chip multi-chip-off" data-status="발급실패" onclick="toggleStatusChip(this)">
+                                발급실패
                             </div>
-                            </div>
+                        </div>
                     </section>
 
                     <section class="filter-section" style="padding-top: 0;">
@@ -1357,12 +1389,15 @@
                             <article class="common-table-card" data-status="미발급">
                                 <div class="card-header">
                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                        <div class="checkbox" data-checked="false" data-disabled="false" onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox" data-checked="false" data-disabled="false"
+                                            onclick="toggleTaxCheckbox(this)">
                                             <div class="checkbox-off"></div>
                                         </div>
-                                        <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
+                                        <div class="order-button"
+                                            style="display: flex; align-items: baseline; gap: 6px;">
                                             <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                            <span style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw765642</span> 
+                                            <span
+                                                style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw765642</span>
                                         </div>
                                     </div>
                                     <div class="card-header-badges">
@@ -1372,7 +1407,8 @@
                                 <div class="card-divider"></div>
                                 <div class="card-row" style="font-weight: 600;">
                                     <div class="card-row-label" style="color: #333;">결제금액</div>
-                                    <div class="card-row-value" style="color: #333;" data-field="total-amount">550,000 원</div>
+                                    <div class="card-row-value" style="color: #333;" data-field="total-amount">₩550,000
+                                    </div>
                                 </div>
                                 <div class="card-row">
                                     <div class="card-row-label">접수일</div>
@@ -1383,19 +1419,23 @@
                                     <div class="card-row-value">2025-08-12</div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="button" class="white-button btn" onclick="showReceiptEditModal(this, '수정')">수정</button>
+                                    <button type="button" class="white-button btn"
+                                        onclick="showReceiptEditModal(this, '수정')">신청정보 수정</button>
                                 </div>
                             </article>
 
                             <article class="common-table-card" data-status="미발급">
                                 <div class="card-header">
                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                        <div class="checkbox" data-checked="false" data-disabled="false" onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox" data-checked="false" data-disabled="false"
+                                            onclick="toggleTaxCheckbox(this)">
                                             <div class="checkbox-off"></div>
                                         </div>
-                                        <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
+                                        <div class="order-button"
+                                            style="display: flex; align-items: baseline; gap: 6px;">
                                             <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                            <span style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw789651</span> 
+                                            <span
+                                                style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw789651</span>
                                         </div>
                                     </div>
                                     <div class="card-header-badges">
@@ -1405,7 +1445,8 @@
                                 <div class="card-divider"></div>
                                 <div class="card-row" style="font-weight: 600;">
                                     <div class="card-row-label" style="color: #333;">결제금액</div>
-                                    <div class="card-row-value" style="color: #333;" data-field="total-amount">550,000 원</div>
+                                    <div class="card-row-value" style="color: #333;" data-field="total-amount">₩550,000
+                                    </div>
                                 </div>
                                 <div class="card-row">
                                     <div class="card-row-label">접수일</div>
@@ -1416,7 +1457,8 @@
                                     <div class="card-row-value">2025-08-10</div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="button" class="primary-button btn" onclick="showReceiptEditModal(this, '신청')">신청</button>
+                                    <button type="button" class="primary-button btn"
+                                        onclick="showReceiptEditModal(this, '신청')">신청</button>
                                 </div>
                             </article>
 
@@ -1426,12 +1468,10 @@
 
                         <div class="pagination" data-name="Pagination">
                             <div class="pagination-arrow disabled" onclick="paginationFirst()">
-                                <img src="assets/images/nnext-arrow.svg" alt="처음"
-                                    style="transform: rotate(90deg);">
+                                <img src="assets/images/nnext-arrow.svg" alt="처음" style="transform: rotate(90deg);">
                             </div>
                             <div class="pagination-arrow disabled" onclick="paginationPrev()">
-                                <img src="assets/images/next-arrow.svg" alt="이전"
-                                    style="transform: rotate(90deg);">
+                                <img src="assets/images/next-arrow.svg" alt="이전" style="transform: rotate(90deg);">
                             </div>
                             <div class="pagination-numbers" id="pagination-numbers">
                                 <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
@@ -1441,8 +1481,8 @@
                                     style="transform: rotate(90deg) scaleY(-1);">
                             </div>
                             <div class="pagination-arrow disabled" onclick="paginationLast()">
-                                <img src="assets/images/nnext-arrow.svg"
-                                    alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                                <img src="assets/images/nnext-arrow.svg" alt="마지막"
+                                    style="transform: rotate(90deg) scaleY(-1);">
                             </div>
                         </div>
                     </section>
@@ -1460,7 +1500,7 @@
             </div>
 
             <div id="page-content-issue" style="display: none;">
-                </div>
+            </div>
         </main>
 
     </div>
@@ -1499,7 +1539,7 @@
                             <p class="disclaimer">* 외국인 고객이신 경우, 외국인 번호를 입력하세요</p>
                         </div>
                     </div>
-                    
+
                     <div class="form-fields-wrapper" data-tab-content="business-expense" style="display: none;">
                         <div class="form-group">
                             <label for="receipt-biz-num">사업자등록번호</label>
@@ -1518,7 +1558,8 @@
 
             </div>
             <div class="modal-footer">
-                <button class="btn dark-button" style="width: 100%;" id="receipt-modal-button" onclick="alert('신청하기 (구현 필요)')">신청하기</button>
+                <button class="btn dark-button" style="width: 100%;" id="receipt-modal-button"
+                    onclick="alert('신청하기 (구현 필요)')">신청하기</button>
             </div>
         </div>
     </div>
@@ -1537,12 +1578,12 @@
 
             if (page === 'issue') {
                 requestPage.style.display = 'none';
-                if(issuePage) issuePage.style.display = 'block';
-                if (stickyFooter) stickyFooter.classList.remove('active'); 
+                if (issuePage) issuePage.style.display = 'block';
+                if (stickyFooter) stickyFooter.classList.remove('active');
                 document.querySelector('.mobile-wrap').style.paddingBottom = '20px';
             } else {
                 requestPage.style.display = 'block';
-                if(issuePage) issuePage.style.display = 'none';
+                if (issuePage) issuePage.style.display = 'none';
                 updateTaxFooter(); // 신청 탭에서는 스티키 푸터 상태 업데이트
             }
         }
@@ -1604,7 +1645,7 @@
 
         // [MODIFIED] Period Chip Logic - 월 선택 클릭 이벤트 제거
         function selectPeriodChip(chip) {
-             // 월 선택은 1개만 표시되므로 클릭 이벤트 없음
+            // 월 선택은 1개만 표시되므로 클릭 이벤트 없음
         }
 
         // [MODIFIED] Req 3: Updated function
@@ -1628,10 +1669,10 @@
             const count = checkedBoxes.length;
             const footer = document.getElementById('tax-action-footer');
             const body = document.body;
-            
+
             // 현재 '신청' 탭이 활성화 상태일 때만 푸터를 보여줌
             if (document.getElementById('page-content-request').style.display === 'block') {
-                 if (count > 0) {
+                if (count > 0) {
                     footer.classList.add('active');
                     document.getElementById('tax-selected-count').textContent = `총 ${count}건`;
                     document.querySelector('.mobile-wrap').style.paddingBottom = '84px'; // 푸터 높이만큼 패딩 추가
@@ -1706,13 +1747,13 @@
             const countEl = document.getElementById('transaction-count');
             if (countEl) countEl.textContent = visibleCount;
             if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
-            
+
             // [NEW] Req 3: Update "Select All" state based on new filter
             updateSelectAllState();
         }
-        
+
         // --- [NEW] Req 3: Select All Logic ---
-        
+
         /**
          * [Req 3] "Select All" 체크박스를 토글하고, 모든 보이는/활성화된 체크박스 상태를 동기화합니다.
          */
@@ -1720,14 +1761,14 @@
             const mainCheckbox = wrapper.querySelector('.checkbox');
             toggleCheckbox(mainCheckbox); // 메인 체크박스 토글
             const isChecked = mainCheckbox.dataset.checked === 'true';
-            
+
             const listContainer = document.getElementById('transaction-list-container');
             if (!listContainer) return;
 
             // *보이는* 카드만 선택
             const visibleCards = Array.from(listContainer.querySelectorAll('.common-table-card'))
-                                     .filter(card => card.style.display !== 'none');
-            
+                .filter(card => card.style.display !== 'none');
+
             visibleCards.forEach(card => {
                 const checkbox = card.querySelector('.checkbox');
                 // *활성화된* 체크박스만 상태 변경
@@ -1740,10 +1781,10 @@
                     }
                 }
             });
-            
+
             updateTaxFooter(); // 푸터 카운트 업데이트
         }
-        
+
         /**
          * [Req 3] *보이는* 그리고 *활성화된* 아이템 체크박스 상태를 기반으로 "Select All" 체크박스 상태를 동기화합니다.
          */
@@ -1754,8 +1795,8 @@
 
             // *보이는* 카드 목록
             const visibleCards = Array.from(listContainer.querySelectorAll('.common-table-card'))
-                                     .filter(card => card.style.display !== 'none');
-            
+                .filter(card => card.style.display !== 'none');
+
             // 보이는 카드 중에서 *활성화된* 체크박스 목록
             const visibleEnabledCheckboxes = visibleCards
                 .map(card => card.querySelector('.checkbox:not([data-disabled="true"])'))
@@ -1886,7 +1927,7 @@
                 receiptModalTitle.textContent = "현금영수증 신청";
                 receiptModalButton.textContent = "신청하기";
             }
-            
+
             // 3. 모달에 금액 및 건수 표시
             receiptModalCount.textContent = "총 1건 / 총 금액";
             receiptModalTotal.textContent = totalAmount; // '원'이 이미 포함됨
@@ -1896,7 +1937,7 @@
 
             // 5. 기본값 '소득공제' 탭으로 설정
             switchReceiptEditTab(document.querySelector('#receipt-edit-tabs [data-tab="income-deduction"]'), 'income-deduction');
-            
+
             // 6. 모달 열기
             openModal('receipt-edit-modal-overlay');
         }
@@ -1911,7 +1952,7 @@
             receiptEditForm.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
                 wrapper.style.display = 'none';
             });
-            
+
             // 3. 해당 탭의 폼 필드 보이기
             receiptEditForm.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
         }
@@ -1923,7 +1964,7 @@
 
             const checkedCards = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
             const count = checkedCards.length;
-            
+
             if (count === 0) {
                 alert("선택된 항목이 없어요");
                 return;
@@ -1944,7 +1985,7 @@
             // 1. 모달 내용 동적으로 변경 (신청 고정)
             receiptModalTitle.textContent = "현금영수증 신청";
             receiptModalButton.textContent = "신청하기";
-            
+
             // 2. 모달에 집계된 금액 및 건수 표시
             receiptModalCount.textContent = `총 ${count}건 / 총 금액`;
             receiptModalTotal.textContent = `₩${totalAmount.toLocaleString('ko-KR')}`;
@@ -1954,7 +1995,7 @@
 
             // 4. 기본값 '소득공제' 탭으로 설정
             switchReceiptEditTab(document.querySelector('#receipt-edit-tabs [data-tab="income-deduction"]'), 'income-deduction');
-            
+
             // 5. 모달 열기
             openModal('receipt-edit-modal-overlay');
         }
@@ -1991,14 +2032,15 @@
             this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
             };
             */
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://sw-mobile.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
+            (function () { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://sw-mobile.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
             })();
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+                Disqus.</a></noscript>
     </div>
     <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>

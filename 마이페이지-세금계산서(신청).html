@@ -24,6 +24,7 @@
                 display: none;
             }
         }
+
         /* Reset & Base */
         * {
             box-sizing: border-box;
@@ -477,6 +478,7 @@
             font-size: 14px;
             color: #555;
         }
+
         .transaction-list-header .total-count strong {
             font-weight: 600;
             color: #333;
@@ -553,7 +555,8 @@
             align-items: center;
             justify-content: flex-start;
             gap: 5px;
-            flex-shrink: 0; /* 뱃지 축소 방지 */
+            flex-shrink: 0;
+            /* 뱃지 축소 방지 */
         }
 
         .order-button:hover {
@@ -598,6 +601,7 @@
             margin-bottom: 8px;
             font-size: 12px;
         }
+
         .card-row:last-of-type {
             margin-bottom: 0;
         }
@@ -641,21 +645,21 @@
             border-color: #ffc107;
             color: #ffc107;
         }
-        
+
         /* [REMOVED] Status for 폐기처리
         .card-badge[data-status="폐기처리"] {
             border-color: #28a745;
             color: #28a745;
         }
         */
-        
+
         /* [NEW] Remarks badge color */
         .card-badge[data-status="배송전"] {
             background-color: #ebebeb;
             color: #5f5f5f;
             border: 0;
         }
-        
+
         /* [NEW] Req 1: Add remark style for 폐기처리 */
         .card-badge[data-remark="폐기처리"] {
             background-color: #ebebeb;
@@ -700,13 +704,14 @@
         .checkbox:active {
             transform: scale(0.9);
         }
-        
+
         /* [NEW] Disabled state for custom checkbox */
         .checkbox[data-disabled="true"] .checkbox-off {
             background-color: #f1f1f1;
             border-color: #e0e0e0;
             cursor: not-allowed;
         }
+
         .checkbox[data-disabled="true"] {
             cursor: not-allowed;
         }
@@ -1005,11 +1010,16 @@
                 opacity: 1;
             }
         }
-        
+
         /* [NEW] Added fade-out for overlay closing */
         @keyframes fadeOutModal {
-            from { opacity: 1; }
-            to { opacity: 0; }
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
         }
 
 
@@ -1235,7 +1245,7 @@
             height: 40px;
             font-weight: 500;
         }
-        
+
         /* ========================================
            [NEW] FULL MODAL STYLES (Req 2)
         ======================================== */
@@ -1244,15 +1254,17 @@
             inset: 0;
             background: rgba(0, 0, 0, 0.5);
             display: none;
-            justify-content: flex-end; /* Align to the right */
+            justify-content: flex-end;
+            /* Align to the right */
             z-index: 1000;
-            animation: fadeInModal 0.3s ease-out; /* Same fade-in for overlay */
+            animation: fadeInModal 0.3s ease-out;
+            /* Same fade-in for overlay */
         }
 
         .full-modal-overlay.active {
             display: flex;
         }
-        
+
         .full-modal-overlay.closing {
             animation: fadeOutModal 0.3s ease-out forwards;
         }
@@ -1267,43 +1279,57 @@
             flex-direction: column;
             animation: slideInFromRight 0.3s ease-out;
         }
-        
+
         .full-modal-overlay.closing .full-modal-content {
-             animation: slideOutToRight 0.3s ease-out forwards;
+            animation: slideOutToRight 0.3s ease-out forwards;
         }
-        
+
         /* [NEW] Re-use existing modal header/body/footer but adapt for full-modal */
         .full-modal-content .modal-header {
             /* Use existing .modal-header styles */
-            position: sticky; /* Stick to top */
+            position: sticky;
+            /* Stick to top */
             top: 0;
             background: white;
             z-index: 1;
         }
+
         .full-modal-content .modal-body {
             /* Use existing .modal-body styles */
             overflow-y: auto;
             flex-grow: 1;
             /* [NEW] Add padding for sticky footer */
-            padding-bottom: 96px; 
+            padding-bottom: 96px;
         }
+
         .full-modal-content .modal-footer {
-             /* Use existing .modal-footer styles */
-            position: sticky; /* Stick to bottom */
+            /* Use existing .modal-footer styles */
+            position: sticky;
+            /* Stick to bottom */
             bottom: 0;
             background: white;
             z-index: 1;
         }
 
         @keyframes slideInFromRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-        @keyframes slideOutToRight {
-            from { transform: translateX(0); }
-            to { transform: translateX(100%); }
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
         }
 
+        @keyframes slideOutToRight {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(100%);
+            }
+        }
     </style>
 </head>
 
@@ -1365,7 +1391,7 @@
                         </div>
                         <div class="multi-chip multi-chip-off" data-status="발급실패" onclick="toggleStatusChip(this)">발급실패
                         </div>
-                        </div>
+                    </div>
                 </section>
 
                 <section class="filter-section" style="padding-top: 0;">
@@ -1409,12 +1435,14 @@
                         <article class="common-table-card" data-status="미발급">
                             <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" data-disabled="true" onclick="toggleTaxCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" data-disabled="true"
+                                        onclick="toggleTaxCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                     <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
                                         <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                        <span style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw456426</span> 
+                                        <span
+                                            style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw456426</span>
                                     </div>
                                 </div>
                                 <div class="card-header-badges">
@@ -1423,17 +1451,15 @@
                                 </div>
                             </div>
                             <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row" style="font-weight: 600;">
-                                <div class="card-row-label" style="color: #333;">합계금액</div>
-                                <div class="card-row-value" style="color: #333;">220,000 원</div>
+                            <div class="card-row" style="align-items: flex-start;">
+                                <div class="card-row-label" style="color: #333; font-weight: 600; padding-top: 2px;">
+                                    합계금액</div>
+                                <div style="text-align: right;">
+                                    <div class="card-row-value"
+                                        style="color: #212121; font-weight: 700; font-size: 16px;">₩220,000</div>
+                                    <div style="font-size: 11px; color: #888; margin-top: 2px;">(공급가액: ₩200,000 / 부가세액:
+                                        ₩20,000)</div>
+                                </div>
                             </div>
                             <div class="card-divider"></div>
                             <div class="card-row">
@@ -1441,7 +1467,8 @@
                                 <div class="card-row-value">2025-10-27</div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">수정</button>
+                                <button type="button" class="white-button btn"
+                                    onclick="showTaxEditModal(this)">수정</button>
                                 <button type="button" class="primary-button btn" disabled>신청</button>
                             </div>
                         </article>
@@ -1449,12 +1476,14 @@
                         <article class="common-table-card" data-status="미발급">
                             <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" data-disabled="false" onclick="toggleTaxCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" data-disabled="false"
+                                        onclick="toggleTaxCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                     <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
                                         <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                        <span style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw876341</span> 
+                                        <span
+                                            style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw876341</span>
                                     </div>
                                 </div>
                                 <div class="card-header-badges">
@@ -1462,17 +1491,15 @@
                                 </div>
                             </div>
                             <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row" style="font-weight: 600;">
-                                <div class="card-row-label" style="color: #333;">합계금액</div>
-                                <div class="card-row-value" style="color: #333;">220,000 원</div>
+                            <div class="card-row" style="align-items: flex-start;">
+                                <div class="card-row-label" style="color: #333; font-weight: 600; padding-top: 2px;">
+                                    합계금액</div>
+                                <div style="text-align: right;">
+                                    <div class="card-row-value"
+                                        style="color: #212121; font-weight: 700; font-size: 16px;">₩220,000</div>
+                                    <div style="font-size: 11px; color: #888; margin-top: 2px;">(공급가액: ₩200,000 / 부가세액:
+                                        ₩20,000)</div>
+                                </div>
                             </div>
                             <div class="card-divider"></div>
                             <div class="card-row">
@@ -1484,20 +1511,24 @@
                                 <div class="card-row-value">2025-10-20</div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">수정</button>
-                                <button type="button" class="primary-button btn" onclick="location.href='tax_request_write(단일).html';">신청</button>
+                                <button type="button" class="white-button btn"
+                                    onclick="showTaxEditModal(this)">수정</button>
+                                <button type="button" class="primary-button btn"
+                                    onclick="location.href='tax_request_write(단일).html';">신청</button>
                             </div>
                         </article>
 
                         <article class="common-table-card" data-status="미발급">
                             <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" data-disabled="true" onclick="toggleTaxCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" data-disabled="true"
+                                        onclick="toggleTaxCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                     <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
                                         <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                        <span style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw456426</span> 
+                                        <span
+                                            style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw456426</span>
                                     </div>
                                 </div>
                                 <div class="card-header-badges">
@@ -1506,17 +1537,15 @@
                                 </div>
                             </div>
                             <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row" style="font-weight: 600;">
-                                <div class="card-row-label" style="color: #333;">합계금액</div>
-                                <div class="card-row-value" style="color: #333;">220,000 원</div>
+                            <div class="card-row" style="align-items: flex-start;">
+                                <div class="card-row-label" style="color: #333; font-weight: 600; padding-top: 2px;">
+                                    합계금액</div>
+                                <div style="text-align: right;">
+                                    <div class="card-row-value"
+                                        style="color: #212121; font-weight: 700; font-size: 16px;">₩220,000</div>
+                                    <div style="font-size: 11px; color: #888; margin-top: 2px;">(공급가액: ₩200,000 / 부가세액:
+                                        ₩20,000)</div>
+                                </div>
                             </div>
                             <div class="card-divider"></div>
                             <div class="card-row">
@@ -1524,7 +1553,8 @@
                                 <div class="card-row-value">2025-10-17</div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">수정</button>
+                                <button type="button" class="white-button btn"
+                                    onclick="showTaxEditModal(this)">수정</button>
                                 <button type="button" class="primary-button btn" disabled>신청</button>
                             </div>
                         </article>
@@ -1532,12 +1562,14 @@
                         <article class="common-table-card" data-status="미발급">
                             <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" data-disabled="false" onclick="toggleTaxCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" data-disabled="false"
+                                        onclick="toggleTaxCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                     <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
                                         <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                        <span style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw567834</span> 
+                                        <span
+                                            style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw567834</span>
                                     </div>
                                 </div>
                                 <div class="card-badge" data-status="미발급">미발급</div>
@@ -1547,17 +1579,15 @@
                                 <div class="card-row-label">고객명</div>
                                 <div class="card-row-value">홍길동인쇄업체</div>
                             </div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">1,000,200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row" style="font-weight: 600;">
-                                <div class="card-row-label" style="color: #333;">합계금액</div>
-                                <div class="card-row-value" style="color: #333;">220,000 원</div>
+                            <div class="card-row" style="align-items: flex-start;">
+                                <div class="card-row-label" style="color: #333; font-weight: 600; padding-top: 2px;">
+                                    합계금액</div>
+                                <div style="text-align: right;">
+                                    <div class="card-row-value"
+                                        style="color: #212121; font-weight: 700; font-size: 16px;">₩220,000</div>
+                                    <div style="font-size: 11px; color: #888; margin-top: 2px;">(공급가액: ₩1,000,200,000 /
+                                        부가세액: ₩20,000)</div>
+                                </div>
                             </div>
                             <div class="card-divider"></div>
                             <div class="card-row">
@@ -1569,19 +1599,24 @@
                                 <div class="card-row-value">2025-10-14</div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">수정</button>
-                                <button type="button" class="primary-button btn" onclick="location.href='tax_request_write(단일).html';">신청</button>
+                                <button type="button" class="white-button btn"
+                                    onclick="showTaxEditModal(this)">수정</button>
+                                <button type="button" class="primary-button btn"
+                                    onclick="location.href='tax_request_write(단일).html';">신청</button>
                             </div>
                         </article>
 
-                        <article class="common-table-card" data-status="미발급"> <div class="card-header">
+                        <article class="common-table-card" data-status="미발급">
+                            <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" data-disabled="false" onclick="toggleTaxCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" data-disabled="false"
+                                        onclick="toggleTaxCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                     <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
                                         <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                        <span style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw457232</span> 
+                                        <span
+                                            style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw457232</span>
                                     </div>
                                 </div>
                                 <div class="card-header-badges">
@@ -1594,17 +1629,15 @@
                                 <div class="card-row-label">고객명</div>
                                 <div class="card-row-value">홍길동인쇄업체</div>
                             </div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row" style="font-weight: 600;">
-                                <div class="card-row-label" style="color: #333;">합계금액</div>
-                                <div class="card-row-value" style="color: #333;">220,000 원</div>
+                            <div class="card-row" style="align-items: flex-start;">
+                                <div class="card-row-label" style="color: #333; font-weight: 600; padding-top: 2px;">
+                                    합계금액</div>
+                                <div style="text-align: right;">
+                                    <div class="card-row-value"
+                                        style="color: #212121; font-weight: 700; font-size: 16px;">₩220,000</div>
+                                    <div style="font-size: 11px; color: #888; margin-top: 2px;">(공급가액: ₩200,000 / 부가세액:
+                                        ₩20,000)</div>
+                                </div>
                             </div>
                             <div class="card-divider"></div>
                             <div class="card-row">
@@ -1612,20 +1645,24 @@
                                 <div class="card-row-value">2025-10-05</div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">수정</button>
-                                <button type="button" class="primary-button btn" onclick="location.href='tax_request_write(단일).html';">신청</button>
+                                <button type="button" class="white-button btn"
+                                    onclick="showTaxEditModal(this)">수정</button>
+                                <button type="button" class="primary-button btn"
+                                    onclick="location.href='tax_request_write(단일).html';">신청</button>
                             </div>
                         </article>
 
                         <article class="common-table-card" data-status="발급대기">
                             <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" data-disabled="true" onclick="toggleTaxCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" data-disabled="true"
+                                        onclick="toggleTaxCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                     <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
                                         <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                        <span style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw457232</span> 
+                                        <span
+                                            style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw457232</span>
                                     </div>
                                 </div>
                                 <div class="card-badge" data-status="발급대기">발급대기</div>
@@ -1635,17 +1672,15 @@
                                 <div class="card-row-label">고객명</div>
                                 <div class="card-row-value">삼성SDS</div>
                             </div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row" style="font-weight: 600;">
-                                <div class="card-row-label" style="color: #333;">합계금액</div>
-                                <div class="card-row-value" style="color: #333;">220,000 원</div>
+                            <div class="card-row" style="align-items: flex-start;">
+                                <div class="card-row-label" style="color: #333; font-weight: 600; padding-top: 2px;">
+                                    합계금액</div>
+                                <div style="text-align: right;">
+                                    <div class="card-row-value"
+                                        style="color: #212121; font-weight: 700; font-size: 16px;">₩220,000</div>
+                                    <div style="font-size: 11px; color: #888; margin-top: 2px;">(공급가액: ₩200,000 / 부가세액:
+                                        ₩20,000)</div>
+                                </div>
                             </div>
                             <div class="card-divider"></div>
                             <div class="card-row">
@@ -1653,19 +1688,23 @@
                                 <div class="card-row-value">2025-10-05</div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">수정</button>
+                                <button type="button" class="white-button btn"
+                                    onclick="showTaxEditModal(this)">수정</button>
                             </div>
                         </article>
-                        
-                        <article class="common-table-card" data-status="미발급" data-period="previous" style="display: none;">
+
+                        <article class="common-table-card" data-status="미발급" data-period="previous"
+                            style="display: none;">
                             <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="checkbox" data-checked="false" data-disabled="true" onclick="toggleTaxCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" data-disabled="true"
+                                        onclick="toggleTaxCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                     <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
                                         <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                        <span style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw856745</span> 
+                                        <span
+                                            style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw856745</span>
                                     </div>
                                 </div>
                                 <div class="card-header-badges">
@@ -1674,17 +1713,15 @@
                                 </div>
                             </div>
                             <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">공급가액</div>
-                                <div class="card-row-value">200,000 원</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">부가세액</div>
-                                <div class="card-row-value">20,000 원</div>
-                            </div>
-                            <div class="card-row" style="font-weight: 600;">
-                                <div class="card-row-label" style="color: #333;">합계금액</div>
-                                <div class="card-row-value" style="color: #333;">220,000 원</div>
+                            <div class="card-row" style="align-items: flex-start;">
+                                <div class="card-row-label" style="color: #333; font-weight: 600; padding-top: 2px;">
+                                    합계금액</div>
+                                <div style="text-align: right;">
+                                    <div class="card-row-value"
+                                        style="color: #212121; font-weight: 700; font-size: 16px;">220,000 원</div>
+                                    <div style="font-size: 11px; color: #888; margin-top: 2px;">(공급가액: 200,000 / 부가세액:
+                                        20,000)</div>
+                                </div>
                             </div>
                             <div class="card-divider"></div>
                             <div class="card-row">
@@ -1692,7 +1729,8 @@
                                 <div class="card-row-value">2025-09-28</div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="white-button btn" onclick="showTaxEditModal(this)">수정</button>
+                                <button type="button" class="white-button btn"
+                                    onclick="showTaxEditModal(this)">수정</button>
                                 <button type="button" class="primary-button btn" disabled>신청</button>
                             </div>
                         </article>
@@ -1703,23 +1741,21 @@
 
                     <div class="pagination" data-name="Pagination">
                         <div class="pagination-arrow disabled" onclick="paginationFirst()">
-                            <img src="assets/images/nnext-arrow.svg" alt="처음"
-                                style="transform: rotate(90deg);">
+                            <img src="assets/images/nnext-arrow.svg" alt="처음" style="transform: rotate(90deg);">
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationPrev()">
-                            <img src="assets/images/next-arrow.svg" alt="이전"
-                                style="transform: rotate(90deg);">
+                            <img src="assets/images/next-arrow.svg" alt="이전" style="transform: rotate(90deg);">
                         </div>
                         <div class="pagination-numbers" id="pagination-numbers">
                             <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationNext()">
-                            <img src="assets/images/next-arrow.svg"
-                                    alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                            <img src="assets/images/next-arrow.svg" alt="마지막"
+                                style="transform: rotate(90deg) scaleY(-1);">
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationLast()">
-                            <img src="assets/images/nnext-arrow.svg"
-                                    alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                            <img src="assets/images/nnext-arrow.svg" alt="마지막"
+                                style="transform: rotate(90deg) scaleY(-1);">
                         </div>
                     </div>
                 </section>
@@ -1727,7 +1763,7 @@
                 <section class="info-section">
                     <div class="title">세금계산서 신청 이용 안내</div>
                     <p class="disclaimer">* 배송이 시작된 후에 세금계산서 발급을 신청할 수 있어요. 신청하지 않은 건은 익월 1일 이후 자동으로 발급돼요</p>
-                    <p class="disclaimer">* 충무로 매장에서 구매한 박스 판매 제품은  충무로 매장 사업자 번호로 세금계산서가 발급돼요</p>
+                    <p class="disclaimer">* 충무로 매장에서 구매한 박스 판매 제품은 충무로 매장 사업자 번호로 세금계산서가 발급돼요</p>
                     <p class="disclaimer">* 폐업 후 배송이 시작된 접수건은 현금영수증 자진발급으로 처리돼요. ‘마이페이지 > 현금영수증 발급’에서 확인할 수 있어요</p>
                 </section>
 
@@ -1738,7 +1774,8 @@
 
     <div class="sticky-footer-bar" id="tax-action-footer">
         <span id="tax-selected-count">총 0건</span>
-        <button class="dark-button" id="tax-apply-button" onclick="location.href='tax_request_write(다중).html';">세금계산서 신청</button>
+        <button class="dark-button" id="tax-apply-button" onclick="location.href='tax_request_write(다중).html';">세금계산서
+            신청</button>
     </div>
 
     <div class="full-modal-overlay" id="tax-edit-modal-overlay">
@@ -1778,16 +1815,16 @@
                     <div class="form-group form-group-button" data-tab-content="customer-list"
                         style="display: none; margin-bottom: 20px;">
                         <button type="button" class="white-button" onclick="showCustomerListModal()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="icon icon-tabler icons-tabler-outline icon-tabler-list">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M9 6l11 0" />
-                            <path d="M9 12l11 0" />
-                            <path d="M9 18l11 0" />
-                            <path d="M5 6l0 .01" />
-                            <path d="M5 12l0 .01" />
-                            <path d="M5 18l0 .01" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-list">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M9 6l11 0" />
+                                <path d="M9 12l11 0" />
+                                <path d="M9 18l11 0" />
+                                <path d="M5 6l0 .01" />
+                                <path d="M5 12l0 .01" />
+                                <path d="M5 18l0 .01" />
                             </svg>&nbsp;
                             나의 고객 목록
                         </button>
@@ -2177,13 +2214,13 @@
             const countEl = document.getElementById('transaction-count');
             if (countEl) countEl.textContent = visibleCount;
             if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
-            
+
             // [NEW] Req 3: Update "Select All" state based on new filter
             updateSelectAllState();
         }
-        
+
         // --- [NEW] Req 3: Select All Logic ---
-        
+
         /**
          * [Req 3] "Select All" 체크박스를 토글하고, 모든 보이는/활성화된 체크박스 상태를 동기화합니다.
          */
@@ -2191,14 +2228,14 @@
             const mainCheckbox = wrapper.querySelector('.checkbox');
             toggleCheckbox(mainCheckbox); // 메인 체크박스 토글
             const isChecked = mainCheckbox.dataset.checked === 'true';
-            
+
             const listContainer = document.getElementById('transaction-list-container');
             if (!listContainer) return;
 
             // *보이는* 카드만 선택
             const visibleCards = Array.from(listContainer.querySelectorAll('.common-table-card'))
-                                     .filter(card => card.style.display !== 'none');
-            
+                .filter(card => card.style.display !== 'none');
+
             visibleCards.forEach(card => {
                 const checkbox = card.querySelector('.checkbox');
                 // *활성화된* 체크박스만 상태 변경
@@ -2211,10 +2248,10 @@
                     }
                 }
             });
-            
+
             updateTaxFooter(); // 푸터 카운트 업데이트
         }
-        
+
         /**
          * [Req 3] *보이는* 그리고 *활성화된* 아이템 체크박스 상태를 기반으로 "Select All" 체크박스 상태를 동기화합니다.
          */
@@ -2225,8 +2262,8 @@
 
             // *보이는* 카드 목록
             const visibleCards = Array.from(listContainer.querySelectorAll('.common-table-card'))
-                                     .filter(card => card.style.display !== 'none');
-            
+                .filter(card => card.style.display !== 'none');
+
             // 보이는 카드 중에서 *활성화된* 체크박스 목록
             const visibleEnabledCheckboxes = visibleCards
                 .map(card => card.querySelector('.checkbox:not([data-disabled="true"])'))
@@ -2446,7 +2483,7 @@
         function selectCustomer(company, bizNum, repName, contactName, contactPhone, contactEmail) {
             // 1. 고객 목록 모달 닫기
             closeModal('customer-list-modal-overlay');
-            
+
             // 2. [MODIFIED] Req 2: 닫혔던 '신청정보 수정' 모달을 다시 엽니다 (만약 닫았다면).
             // openModal('tax-edit-modal-overlay'); // <-- 닫지 않았다면 이 코드는 불필요.
 
@@ -2502,14 +2539,15 @@
             this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
             };
             */
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://sw-mobile.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
+            (function () { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://sw-mobile.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
             })();
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+                Disqus.</a></noscript>
     </div>
     <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>

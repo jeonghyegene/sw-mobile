@@ -24,6 +24,7 @@
                 display: none;
             }
         }
+
         /* Reset & Base */
         * {
             box-sizing: border-box;
@@ -67,15 +68,21 @@
         }
 
         /* [MODIFIED] Input Styles for v12 Standard */
-        input, select {
+        input,
+        select {
             font-family: inherit;
         }
-        
+
         /* [v12] Master Guide: Input Button (for Date/Calendar Trigger) */
-        .input button { 
-            width: 100%; height: 100%; 
-            text-align: left; border: none; background: none; 
-            font-size: 14px; color: #333; cursor: pointer; 
+        .input button {
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            border: none;
+            background: none;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
         }
 
         svg {
@@ -255,9 +262,9 @@
 
         /* Main Content */
         .sw-container {
-             padding: 12px 16px 16px 16px;
+            padding: 12px 16px 16px 16px;
         }
-        
+
         /* Filter Chip Section */
         .filter-chip-section {
             background: #fff;
@@ -401,6 +408,7 @@
         }
 
         /* [NEW] QNA Card (Based on common-table-card) */
+        /* [MODIFIED] QNA Card (Optimized for Mobile) */
         .common-table-card {
             width: 100%;
             background: white;
@@ -409,10 +417,16 @@
             padding: 15px;
             position: relative;
         }
+
         .common-table-card.qna-card {
             cursor: pointer;
             transition: background 0.2s;
+            padding: 16px;
+            /* 여백 확보 */
+            display: flex;
+            flex-direction: column;
         }
+
         .common-table-card.qna-card:hover {
             background: #f9f9f9;
         }
@@ -420,8 +434,10 @@
         .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0;
+            align-items: center;
+            /* 수직 중앙 정렬 */
+            margin-bottom: 6px;
+            /* 타이틀과 간격 좁힘 */
         }
 
         .qna-category {
@@ -429,67 +445,85 @@
             font-weight: 600;
             color: #007bff;
         }
+
         .qna-category[data-category="AS"] {
             color: #dc3545;
         }
 
-         .qna-title-row {
-            font-size: 16px;
+        /* [NEW] 날짜를 헤더 우측으로 이동 */
+        .qna-date {
+            font-size: 12px;
+            color: #999;
+            font-weight: 400;
+        }
+
+        .qna-title-row {
+            font-size: 15px;
+            /* 가독성을 위해 조정 */
             font-weight: 500;
             color: #212121;
-            margin-top: 8px; 
-            margin-bottom: 15px; 
+            margin-top: 0;
+            margin-bottom: 12px;
+            /* 하단 푸터와 간격 */
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 2; 
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             white-space: normal;
-            line-height: 1.5; 
-            max-height: 48px;
+            line-height: 1.4;
+            max-height: 42px;
         }
 
+        /* [NEW] 하단 메타 정보 영역 (번호, 배지 등) */
+        .qna-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .qna-meta-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .qna-meta-divider {
+            width: 1px;
+            height: 10px;
+            background-color: #e0e0e0;
+            display: inline-block;
+        }
 
         .card-badge {
             background: white;
             border: 1px solid #d7d7d7;
             border-radius: 30px;
-            padding: 2px 10px;
+            padding: 2px 8px;
+            /* 패딩 미세 조정 */
             font-size: 10px;
             color: black;
             flex-shrink: 0;
-        }
-
-        .card-divider {
-            width: 100%;
-            height: 1px;
-            background: #e8e8e9;
-            margin: 10px 0;
-        }
-
-        .card-row {
+            height: 20px;
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 12px;
-        }
-        .card-row:last-child { margin-bottom: 0; }
-        .card-row-label {
-            color: #333333;
-        }
-
-        .card-row-value {
-            color: grey;
+            align-items: center;
+            justify-content: center;
         }
 
         .card-badge[data-status="답변 완료"] {
             border-color: #28a745;
             color: #28a745;
+            background-color: #f0fff4;
+            /* 배경색 추가로 시인성 확보 */
         }
 
         .card-badge[data-status="답변 대기"] {
             border-color: #007bff;
             color: #007bff;
+            background-color: #f0f7ff;
         }
 
         /* v12 Standard .multi-chip */
@@ -681,7 +715,7 @@
         .pagination-number:active {
             transform: scale(0.95);
         }
-        
+
         /* [NEW] Bottom Sheet (from sungwon_point.html) */
         .bottom-sheet-overlay {
             position: fixed;
@@ -699,18 +733,33 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
         }
 
         @keyframes slideDown {
-            from { transform: translateY(0); }
-            to { transform: translateY(100%); }
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(100%);
+            }
         }
 
         .bottom-sheet {
@@ -814,7 +863,7 @@
         .sheet-footer .btn {
             flex: 1;
         }
-        
+
         /* [NEW] Sticky Action Footer */
         .sticky-action-footer {
             position: fixed;
@@ -822,20 +871,22 @@
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
-            max-width: 480px; 
+            max-width: 480px;
             background: #ffffff;
             border-top: 1px solid #e0e0e0;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-            padding: 16px; 
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+            padding: 16px;
             z-index: 500;
         }
+
         .sticky-action-footer .dark-button {
-            width: 100%; 
+            width: 100%;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
+
         .form-group label {
             display: block;
             font-size: 14px;
@@ -843,6 +894,7 @@
             color: #333;
             margin-bottom: 8px;
         }
+
         .input {
             width: 100%;
             min-height: 40px;
@@ -853,11 +905,12 @@
             display: flex;
             align-items: center;
         }
-        
+
         .input.select-wrapper {
             padding: 0;
             position: relative;
         }
+
         .input select {
             height: 38px;
             padding: 0 12px;
@@ -872,7 +925,8 @@
             color: black;
             line-height: 1.5;
         }
-         .input.select-wrapper::after {
+
+        .input.select-wrapper::after {
             content: '';
             position: absolute;
             right: 12px;
@@ -887,41 +941,115 @@
         }
 
         /* [v12] Option List (Bottom Sheet List Type) */
-        .option-list { list-style: none; padding: 0; margin: 0; }
-        .option-list li { border-bottom: 1px solid #f0f0f0; }
-        .option-list li:last-child { border-bottom: none; }
-        .option-list li button { 
-            display: block; width: 100%; 
-            padding: 16px 20px; 
-            font-size: 16px; color: #333; 
-            text-align: left; background: none; border: none; 
-            cursor: pointer; transition: background-color 0.2s;
+        .option-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
-        .option-list li button:hover { background-color: #f8f8f8; }
-        .option-list li button:active { background-color: #f0f0f0; }
+
+        .option-list li {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .option-list li:last-child {
+            border-bottom: none;
+        }
+
+        .option-list li button {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .option-list li button:hover {
+            background-color: #f8f8f8;
+        }
+
+        .option-list li button:active {
+            background-color: #f0f0f0;
+        }
 
         /* [v12] Calendar (Date Picker) */
-        .calendar-container { padding: 10px 0; }
-        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .calendar-month-title { font-size: 16px; font-weight: 700; color: #333; }
-        .calendar-nav-btn { font-size: 16px; color: #888; padding: 5px 10px; cursor: pointer; }
-        .calendar-grid { display: flex; flex-direction: column; gap: 4px; }
-        .calendar-row { display: flex; justify-content: space-between; }
+        .calendar-container {
+            padding: 10px 0;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-month-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .calendar-nav-btn {
+            font-size: 16px;
+            color: #888;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .calendar-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .calendar-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
         .calendar-row span {
-            width: 14.28%; height: 40px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px; color: #333; cursor: pointer; border-radius: 4px;
+            width: 14.28%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            border-radius: 4px;
         }
-        .calendar-row.week-header span { font-weight: 600; color: #888; font-size: 12px; cursor: default; }
-        .calendar-row span.empty { pointer-events: none; }
-        
-        .calendar-row span:not(.week-header span):not(.empty):hover { background-color: #f5f5f5; }
+
+        .calendar-row.week-header span {
+            font-weight: 600;
+            color: #888;
+            font-size: 12px;
+            cursor: default;
+        }
+
+        .calendar-row span.empty {
+            pointer-events: none;
+        }
+
+        .calendar-row span:not(.week-header span):not(.empty):hover {
+            background-color: #f5f5f5;
+        }
+
         .calendar-row span.selected {
-            background-color: #4e6ee4; color: white;
-            border-radius: 50%; font-weight: 600;
+            background-color: #4e6ee4;
+            color: white;
+            border-radius: 50%;
+            font-weight: 600;
         }
+
         .calendar-row span.range-bg {
-            background-color: #eef1ff; color: #4e6ee4; border-radius: 0;
+            background-color: #eef1ff;
+            color: #4e6ee4;
+            border-radius: 0;
         }
     </style>
 </head>
@@ -988,19 +1116,23 @@
                         </div>
                         <div class="multi-chip multi-chip-off" data-category="AS" onclick="toggleCategoryChip(this)">AS
                         </div>
-                        <div class="multi-chip multi-chip-off" data-category="고객상담" onclick="toggleCategoryChip(this)">고객상담
+                        <div class="multi-chip multi-chip-off" data-category="고객상담" onclick="toggleCategoryChip(this)">
+                            고객상담
                         </div>
                         <div class="multi-chip multi-chip-off" data-category="제작" onclick="toggleCategoryChip(this)">제작
                         </div>
                         <div class="multi-chip multi-chip-off" data-category="출고/배송" onclick="toggleCategoryChip(this)">
                             출고/배송</div>
-                        <div class="multi-chip multi-chip-off" data-category="파일접수" onclick="toggleCategoryChip(this)">파일접수
+                        <div class="multi-chip multi-chip-off" data-category="파일접수" onclick="toggleCategoryChip(this)">
+                            파일접수
                         </div>
-                        <div class="multi-chip multi-chip-off" data-category="회계관련" onclick="toggleCategoryChip(this)">회계관련
+                        <div class="multi-chip multi-chip-off" data-category="회계관련" onclick="toggleCategoryChip(this)">
+                            회계관련
                         </div>
                         <div class="multi-chip multi-chip-off" data-category="기타" onclick="toggleCategoryChip(this)">기타
                         </div>
-                        <div class="multi-chip multi-chip-off" data-category="Q&A" onclick="toggleCategoryChip(this)">Q&A
+                        <div class="multi-chip multi-chip-off" data-category="Q&A" onclick="toggleCategoryChip(this)">
+                            Q&A
                         </div>
                     </div>
                 </section>
@@ -1038,110 +1170,90 @@
 
                     <div class="transaction-list" id="transaction-list-container">
 
-                        <article class="common-table-card qna-card" data-status="답변 완료" data-category="Q&A" onclick="location.href='qna_detail(Q&A).html'">
+                        <article class="common-table-card qna-card" data-status="답변 완료" data-category="Q&A"
+                            onclick="location.href='qna_detail(Q&A).html'">
                             <div class="card-header">
                                 <span class="qna-category" data-category="Q&A">Q&A</span>
+                                <span class="qna-date">2025-07-14</span>
+                            </div>
+                            <div class="qna-title-row">
+                                [일반명함] 안녕하세요 일반명함에 대해 궁금한게 있습니다. 재질 관련해서 문의드립니다.
+                            </div>
+                            <div class="qna-footer">
+                                <div class="qna-meta-info">
+                                    <span>No. 324540</span>
+                                </div>
                                 <div class="card-badge" data-status="답변 완료">답변 완료</div>
-                            </div>
-                            <div class="qna-title-row">
-                                [일반명함] 안녕하세요 일반명함에 대해 궁금한게 있습니다...
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">문의번호</div>
-                                <div class="card-row-value">324540</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">제품명</div>
-                                <div class="card-row-value">일반명함</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">작성일</div>
-                                <div class="card-row-value">2025-07-14</div>
-                            </div>
-                        </article>
-                        
-                        <article class="common-table-card qna-card" data-status="답변 완료" data-category="AS" onclick="location.href='qna_detail(AS).html'">
-                            <div class="card-header">
-                                <span class="qna-category" data-category="AS">AS</span>
-                                <div class="card-badge" data-status="답변 대기">답변 대기</div>
-                            </div>
-                            <div class="qna-title-row">
-                                [용지/인쇄/재단/가공/포장] 안녕하세요 일반명함에 대해 궁금한게 있습니다. PDF 시안에서는 분명히...
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">문의번호</div>
-                                <div class="card-row-value">324539</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">접수번호</div>
-                                <div class="card-row-value">sw340340</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">작성일</div>
-                                <div class="card-row-value">2024-12-30</div>
                             </div>
                         </article>
 
-                        <article class="common-table-card qna-card" data-status="답변 대기" data-category="AS" onclick="location.href='qna_detail(답변없을때).html'">
-                             <div class="card-header">
+                        <article class="common-table-card qna-card" data-status="답변 대기" data-category="AS"
+                            onclick="location.href='qna_detail(AS).html'">
+                            <div class="card-header">
                                 <span class="qna-category" data-category="AS">AS</span>
-                                <div class="card-badge" data-status="답변 대기">답변 대기</div>
+                                <span class="qna-date">2024-12-30</span>
                             </div>
                             <div class="qna-title-row">
-                                [용지/인쇄/재단/가공/포장] 안녕하세요 일반명함에 대해 궁금한게 있습니다...
+                                [용지/인쇄/재단/가공/포장] PDF 시안에서는 분명히 정상이었는데 인쇄물이 다르게 나왔습니다.
                             </div>
-                            <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">문의번호</div>
-                                <div class="card-row-value">324538</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">접수번호</div>
-                                <div class="card-row-value">sw340340</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">작성일</div>
-                                <div class="card-row-value">2024-12-30</div>
+                            <div class="qna-footer">
+                                <div class="qna-meta-info">
+                                    <span>No. 324539</span>
+                                    <span class="qna-meta-divider"></span>
+                                    <span>sw340340</span>
+                                </div>
+                                <div class="card-badge" data-status="답변 대기">답변 대기</div>
                             </div>
                         </article>
-                        
-                         <article class="common-table-card qna-card" data-status="답변 대기" data-category="Q&A" onclick="location.href='qna_detail(답변없을때).html'">
+
+                        <article class="common-table-card qna-card" data-status="답변 대기" data-category="AS"
+                            onclick="location.href='qna_detail(답변없을때).html'">
+                            <div class="card-header">
+                                <span class="qna-category" data-category="AS">AS</span>
+                                <span class="qna-date">2024-12-30</span>
+                            </div>
+                            <div class="qna-title-row">
+                                [배송] 배송지 변경 가능한가요?
+                            </div>
+                            <div class="qna-footer">
+                                <div class="qna-meta-info">
+                                    <span>No. 324538</span>
+                                    <span class="qna-meta-divider"></span>
+                                    <span>sw340340</span>
+                                </div>
+                                <div class="card-badge" data-status="답변 대기">답변 대기</div>
+                            </div>
+                        </article>
+
+                        <article class="common-table-card qna-card" data-status="답변 대기" data-category="Q&A"
+                            onclick="location.href='qna_detail(답변없을때).html'">
                             <div class="card-header">
                                 <span class="qna-category" data-category="Q&A">Q&A</span>
-                                <div class="card-badge" data-status="답변 대기">답변 대기</div>
+                                <span class="qna-date">2025-07-14</span>
                             </div>
                             <div class="qna-title-row">
-                                [일반명함] 안녕하세요 일반명함에 대해 궁금한게 있습니다...
+                                [일반명함] 제작 기간이 보통 얼마나 걸리나요? 급하게 필요해서요.
                             </div>
-                            <div class="card-divider"></div>
-                            <div class="card-row">
-                                <div class="card-row-label">문의번호</div>
-                                <div class="card-row-value">324537</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">제품명</div>
-                                <div class="card-row-value">일반명함</div>
-                            </div>
-                            <div class="card-row">
-                                <div class="card-row-label">작성일</div>
-                                <div class="card-row-value">2025-07-14</div>
+                            <div class="qna-footer">
+                                <div class="qna-meta-info">
+                                    <span>No. 324537</span>
+                                    <span class="qna-meta-divider"></span>
+                                    <span>일반명함</span>
+                                </div>
+                                <div class="card-badge" data-status="답변 대기">답변 대기</div>
                             </div>
                         </article>
-                        
-                        </div>
+
+                    </div>
 
                     <div class="no-transactions" style="display: none;">등록한 문의가 없어요</div>
 
                     <div class="pagination" data-name="Pagination">
                         <div class="pagination-arrow disabled" onclick="paginationFirst()">
-                            <img src="assets/images/nnext-arrow.svg" alt="처음"
-                                style="transform: rotate(90deg);">
+                            <img src="assets/images/nnext-arrow.svg" alt="처음" style="transform: rotate(90deg);">
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationPrev()">
-                            <img src="assets/images/next-arrow.svg" alt="이전"
-                                style="transform: rotate(90deg);">
+                            <img src="assets/images/next-arrow.svg" alt="이전" style="transform: rotate(90deg);">
                         </div>
                         <div class="pagination-numbers" id="pagination-numbers">
                             <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
@@ -1151,19 +1263,21 @@
                                 style="transform: rotate(90deg) scaleY(-1);">
                         </div>
                         <div class="pagination-arrow disabled" onclick="paginationLast()">
-                            <img src="assets/images/nnext-arrow.svg"
-                                alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                            <img src="assets/images/nnext-arrow.svg" alt="마지막"
+                                style="transform: rotate(90deg) scaleY(-1);">
                         </div>
                     </div>
                 </section>
-                
-                </div>
+
+            </div>
         </main>
-        
+
         <div class="sticky-action-footer">
-             <button class="dark-button" onclick="location.href='qna_write.html';">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <button class="dark-button" onclick="location.href='qna_write.html';">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    style="margin-right: 4px;">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M12 5l0 14" />
                     <path d="M5 12l14 0" />
                 </svg>
@@ -1179,7 +1293,9 @@
             <div class="sheet-header">
                 <div class="sheet-title">기간 상세검색</div>
                 <div class="btn-close" onclick="closeListSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
                 </div>
             </div>
             <div class="sheet-body" style="padding: 0;">
@@ -1192,21 +1308,24 @@
             </div>
         </div>
     </div>
-    
+
     <div class="bottom-sheet-overlay" id="custom-period-overlay">
         <div class="bottom-sheet" id="custom-period-sheet">
             <div class="sheet-handle" id="custom-period-sheet-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">기간 설정</div>
                 <div class="btn-close" onclick="closeCustomPeriodSheet()">
-                     <svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
                 </div>
             </div>
             <div class="sheet-body">
                 <div class="form-group">
                     <label>시작일</label>
                     <div class="input">
-                        <button type="button" id="demo-start-date" onclick="showCalendarSheet('start')">2025-10-11</button>
+                        <button type="button" id="demo-start-date"
+                            onclick="showCalendarSheet('start')">2025-10-11</button>
                     </div>
                 </div>
                 <div class="form-group">
@@ -1215,7 +1334,7 @@
                         <button type="button" id="demo-end-date" onclick="showCalendarSheet('end')">2025-11-11</button>
                     </div>
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
                     <label>간편 설정</label>
                     <div class="filter-group-content">
                         <div class="single-chip single-chip-off" onclick="setPresetPeriod(0)">오늘</div>
@@ -1237,7 +1356,9 @@
             <div class="sheet-header">
                 <div class="sheet-title">날짜 선택</div>
                 <div class="btn-close" onclick="closeCalendarSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
                 </div>
             </div>
             <div class="sheet-body">
@@ -1252,7 +1373,8 @@
                             <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
                         </div>
                         <div class="calendar-row">
-                            <span class="empty"></span><span class="empty"></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                            <span class="empty"></span><span
+                                class="empty"></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
                         </div>
                         <div class="calendar-row">
                             <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
@@ -1265,21 +1387,25 @@
                             <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span>
                         </div>
                         <div class="calendar-row">
-                            <span>27</span><span>28</span><span>29</span><span>30</span><span>31</span><span class="empty"></span><span class="empty"></span>
+                            <span>27</span><span>28</span><span>29</span><span>30</span><span>31</span><span
+                                class="empty"></span><span class="empty"></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="bottom-sheet-overlay" id="period-monthly-sheet-overlay">
         <div class="bottom-sheet" data-name="bottom-sheet" id="period-monthly-sheet">
             <div class="sheet-handle" id="period-monthly-sheet-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title">월별 설정</div>
                 <div class="btn-close" onclick="closeMonthlyPeriodSheet()">
-                     <svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
                 </div>
             </div>
             <div class="sheet-body">
@@ -1287,14 +1413,14 @@
                     <label for="select-year">년도</label>
                     <div class="input select-wrapper">
                         <select id="select-year">
-                            </select>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="select-month">월</label>
                     <div class="input select-wrapper">
                         <select id="select-month">
-                            </select>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -1319,8 +1445,8 @@
             searchBox.classList.remove('has-text');
             input.focus();
         }
-        function handleSearch(btn) { 
-            console.log('Search submitted:', btn.closest('.search').querySelector('input').value); 
+        function handleSearch(btn) {
+            console.log('Search submitted:', btn.closest('.search').querySelector('input').value);
             filterQnaList();
         }
 
@@ -1347,24 +1473,24 @@
                 chip.innerHTML = chip.innerHTML.replace('✓ ', '');
             }
         }
-        
+
         // --- [v12] Bottom Sheet Logic (Robust version) ---
         function setupBottomSheet(overlayId, sheetId, handleId) {
             const overlay = document.getElementById(overlayId); const sheet = document.getElementById(sheetId); const handle = document.getElementById(handleId);
-            if (!overlay || !sheet || !handle) return { openSheet: ()=>{}, closeSheet: ()=>{} };
+            if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
             let isDragging = false, startY = 0, currentY = 0;
             const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
-            const closeSheet = () => { 
-                sheet.classList.add('closing'); 
+            const closeSheet = () => {
+                sheet.classList.add('closing');
                 const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active:not(#' + overlayId + ')');
                 if (!anyModalActive) {
-                    document.body.style.overflow = ''; 
+                    document.body.style.overflow = '';
                 }
-                setTimeout(() => { 
-                    overlay.classList.remove('active'); 
-                    sheet.classList.remove('closing'); 
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                    sheet.classList.remove('closing');
                     sheet.style.transform = ''; // Reset transform
-                }, 300); 
+                }, 300);
             };
             const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
             const drag = (e) => { if (!isDragging) return; e.preventDefault(); currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; const deltaY = currentY - startY; if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; };
@@ -1375,7 +1501,7 @@
             overlay.addEventListener('click', (e) => { if (e.target.id === overlayId) closeSheet(); });
             return { openSheet, closeSheet };
         }
-        
+
         // Setup Sheets
         const { openSheet: showListSheet, closeSheet: closeListSheet } = setupBottomSheet('list-sheet-overlay', 'list-sheet', 'list-sheet-handle');
         const { openSheet: showCustomPeriodSheetBase, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('custom-period-overlay', 'custom-period-sheet', 'custom-period-sheet-handle');
@@ -1398,17 +1524,17 @@
 
         function openCustomPeriodSheet() {
             document.getElementById('list-sheet-overlay').classList.remove('active');
-            
+
             // Set default dates if needed
-            if(!document.getElementById('demo-start-date').textContent.includes('-')) {
-                 const today = new Date();
-                 document.getElementById('demo-start-date').textContent = today.toISOString().split('T')[0];
-                 document.getElementById('demo-end-date').textContent = today.toISOString().split('T')[0];
+            if (!document.getElementById('demo-start-date').textContent.includes('-')) {
+                const today = new Date();
+                document.getElementById('demo-start-date').textContent = today.toISOString().split('T')[0];
+                document.getElementById('demo-end-date').textContent = today.toISOString().split('T')[0];
             }
-            
+
             showCustomPeriodSheetBase();
         }
-        
+
         function openMonthlySheet() {
             document.getElementById('list-sheet-overlay').classList.remove('active');
             populateMonthyPicker();
@@ -1417,13 +1543,13 @@
 
         // 2. Custom Period Logic
         function showCalendarSheet(targetInputId) {
-            if(targetInputId === 'start') currentTargetDateInputId = 'demo-start-date';
-            else if(targetInputId === 'end') currentTargetDateInputId = 'demo-end-date';
+            if (targetInputId === 'start') currentTargetDateInputId = 'demo-start-date';
+            else if (targetInputId === 'end') currentTargetDateInputId = 'demo-end-date';
             showCalendarSheetBase();
         }
 
         function confirmDateSelection(day) {
-            if(currentTargetDateInputId) {
+            if (currentTargetDateInputId) {
                 document.getElementById(currentTargetDateInputId).textContent = `2025-10-${day}`;
             }
             closeCalendarSheet();
@@ -1442,7 +1568,7 @@
         function setPresetPeriod(days) {
             alert(days + '일 기간 자동 설정 (데모)');
         }
-        
+
         // 3. Monthly Period Logic
         function populateMonthyPicker() {
             const yearSelect = document.getElementById('select-year');
@@ -1456,8 +1582,8 @@
                     yearSelect.add(new Option(`${year}년`, year));
                 }
             }
-            if (monthSelect.options.length === 0) { 
-                 for (let i = 1; i <= 12; i++) {
+            if (monthSelect.options.length === 0) {
+                for (let i = 1; i <= 12; i++) {
                     monthSelect.add(new Option(`${i}월`, i));
                 }
             }
@@ -1475,7 +1601,7 @@
             filterQnaList();
         }
 
-        
+
         // --- Other Filters ---
         function selectStatusChip(chip) {
             const group = chip.closest('#status-chip-group');
@@ -1484,23 +1610,23 @@
             chip.classList.replace('single-chip-off', 'single-chip-on');
             filterQnaList();
         }
-        
+
         function toggleCategoryChip(chip) {
             const category = chip.getAttribute('data-category');
             const group = chip.closest('#category-chip-group');
             const allChip = group.querySelector('[data-category="전체"]');
-            
+
             if (category === '전체') {
                 const isTurningOn = !chip.classList.contains('multi-chip-on');
-                toggleMultiChip(chip, isTurningOn); 
-                group.querySelectorAll('.multi-chip').forEach(c => { 
-                    if (c !== chip) toggleMultiChip(c, false); 
+                toggleMultiChip(chip, isTurningOn);
+                group.querySelectorAll('.multi-chip').forEach(c => {
+                    if (c !== chip) toggleMultiChip(c, false);
                 });
             } else {
                 toggleMultiChip(chip);
-                toggleMultiChip(allChip, false); 
+                toggleMultiChip(allChip, false);
                 const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-category="전체"])'))
-                                       .some(c => c.classList.contains('multi-chip-on'));
+                    .some(c => c.classList.contains('multi-chip-on'));
                 if (!anyOtherOn) {
                     toggleMultiChip(allChip, true);
                 }
@@ -1514,54 +1640,54 @@
             const period = selectedPeriodValue;
             const statusChip = document.querySelector('#status-chip-group .single-chip-on');
             const status = statusChip ? statusChip.dataset.status : '전체';
-            
+
             const selectedCategories = [];
             document.querySelectorAll('#category-chip-group .multi-chip-on').forEach(chip => {
                 selectedCategories.push(chip.dataset.category);
             });
-            
+
             const searchTerm = document.querySelector('#qna-search input').value.toLowerCase();
-            
+
             console.log("Filtering Q&A List:", { period, status, selectedCategories, searchTerm });
 
             // Apply filtering logic
-            const listContainer = document.getElementById('transaction-list-container'); 
-            if (!listContainer) return; 
-            
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
+
             const cards = listContainer.querySelectorAll('.qna-card');
             const noResultMsg = document.querySelector('.no-transactions');
             let visibleCount = 0;
             const isAllCategories = selectedCategories.includes('전체');
 
-            cards.forEach(card => { 
-                const cardStatus = card.getAttribute('data-status'); 
+            cards.forEach(card => {
+                const cardStatus = card.getAttribute('data-status');
                 const cardCategory = card.getAttribute('data-category');
                 const cardTitle = card.querySelector('.qna-title-row').textContent.toLowerCase();
-                
+
                 const statusMatch = (status === '전체' || cardStatus === status);
                 const categoryMatch = (isAllCategories || selectedCategories.includes(cardCategory));
-                
+
                 let searchMatch = true;
                 if (searchTerm) {
-                    searchMatch = cardTitle.includes(searchTerm); 
+                    searchMatch = cardTitle.includes(searchTerm);
                 }
-                
-                if (statusMatch && categoryMatch && searchMatch) { 
-                    card.style.display = ''; 
-                    visibleCount++; 
-                } else { 
-                    card.style.display = 'none'; 
-                } 
+
+                if (statusMatch && categoryMatch && searchMatch) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
             });
-            
+
             const countEl = document.getElementById('transaction-count');
-            if(countEl) countEl.textContent = visibleCount; 
-            if(noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+            if (countEl) countEl.textContent = visibleCount;
+            if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
         }
 
 
         // --- [v12] Pagination Logic ---
-        let currentPage = 1; const totalPages = 1; 
+        let currentPage = 1; const totalPages = 1;
         function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); }
         function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
         function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
@@ -1571,7 +1697,7 @@
             const numbersContainer = document.getElementById('pagination-numbers');
             if (!numbersContainer) return;
 
-            numbersContainer.innerHTML = ''; 
+            numbersContainer.innerHTML = '';
             for (let i = 1; i <= totalPages; i++) {
                 const numEl = document.createElement('div');
                 numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
@@ -1595,18 +1721,18 @@
         document.addEventListener('DOMContentLoaded', () => {
             updatePagination();
             filterQnaList();
-            
+
             // Add event listener for main period button
             const btn = document.getElementById('demo-period-btn');
-            if(btn) {
-                btn.addEventListener('click', function() {
+            if (btn) {
+                btn.addEventListener('click', function () {
                     this.classList.add('open');
                 });
             }
-            
+
             // Reset Arrow on Sheet Close via Overlay
-            document.getElementById('list-sheet-overlay').addEventListener('click', function(e) {
-                if(e.target === this) document.getElementById('demo-period-btn').classList.remove('open');
+            document.getElementById('list-sheet-overlay').addEventListener('click', function (e) {
+                if (e.target === this) document.getElementById('demo-period-btn').classList.remove('open');
             });
         });
 
@@ -1616,14 +1742,15 @@
     <div class="disqus-thread-wrap">
         <div id="disqus_thread"></div>
         <script>
-            (function() { 
-            var d = document, s = d.createElement('script');
-            s.src = 'https://sw-mobile.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
+            (function () {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://sw-mobile.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
             })();
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+                Disqus.</a></noscript>
     </div>
     <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>

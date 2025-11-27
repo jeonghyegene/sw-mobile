@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,60 +24,226 @@
                 display: none;
             }
         }
+
         /* Reset & Base */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body {
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; 
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
             overflow-x: visible;
         }
-        ul, li { list-style: none; }
-        a { text-decoration: none; color: inherit; }
-        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
-        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-        input, select, textarea { font-family: inherit; }
-        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
 
         /* Layout */
-        .mobile-wrap { 
-            width: 100%; 
-            max-width: 480px; 
-            margin: 0 auto; 
-            background-color: #ffffff; 
-            padding-bottom: 100px; /* Sticky Footer 여백 */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 100px;
+            /* Sticky Footer 여백 */
             overflow-x: visible;
         }
 
         /* Header (v12 Standard) */
-        .app-header-sub { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
-        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; transition: transform 0.2s; color: #333; }
-        .header-btn:active { transform: scale(0.9); }
-        .header-left { flex: 1 0 0; display: flex; justify-content: flex-start; }
-        .header-title { 
-            flex: 3 0 0; 
-            font-size: 18px; 
-            font-weight: 600; 
-            text-align: center; 
-            color: #212121; 
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .header-right { flex: 1 0 0; display: flex; justify-content: flex-end; gap: 8px; }
-        .btn-icon { cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; color: #333; }
-        .btn-icon:active { transform: scale(0.9); }
-        .btn-icon svg { width: 100%; height: 100%; }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
 
         /* Buttons (v12 Standard + Primary) */
-        .primary-button { background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .primary-button:hover { background: #3d5dd3; }
-        .primary-button:active { transform: scale(0.98); }
-        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .dark-button:hover { background: #333; }
-        .dark-button:active { transform: scale(0.98); }
-        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .white-button:hover { background: #f9f9f9; }
-        .white-button:active { transform: scale(0.98); }
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
         .dark-button:disabled,
         .white-button:disabled,
         .primary-button:disabled {
@@ -85,34 +252,41 @@
             border-color: #e9ecef;
             cursor: not-allowed;
         }
-        
+
         .delete-button {
             background: white;
             color: #dc3545;
             border-color: #e8e8e9;
         }
+
         .delete-button:hover {
             background: #fefafa;
             border-color: #dc3545;
         }
-        
+
         /* Main Content */
-        .sw-container { padding: 16px; }
-        
+        .sw-container {
+            padding: 16px;
+        }
+
         .section-divider {
             height: 8px;
             background: #f4f5f7;
-            margin: 0; 
-            border-top: 1px solid #e8e8e9;
-            border-bottom: 1px solid #e8e8e9;
+            margin: 0;
         }
 
-        .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
-        
+        .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
         /* Form Styles */
         .form-group {
             margin-bottom: 20px;
         }
+
         .form-group label {
             display: block;
             font-size: 14px;
@@ -120,6 +294,7 @@
             color: #333;
             margin-bottom: 8px;
         }
+
         .readonly-value {
             font-size: 14px;
             color: #333;
@@ -131,6 +306,7 @@
             display: flex;
             align-items: center;
         }
+
         .input {
             width: 100%;
             min-height: 40px;
@@ -141,6 +317,7 @@
             display: flex;
             align-items: center;
         }
+
         .input input {
             width: 100%;
             background: transparent;
@@ -150,36 +327,43 @@
             color: black;
             line-height: 1.5;
         }
-        .input input::placeholder { color: #c6c6c8; }
-        
+
+        .input input::placeholder {
+            color: #c6c6c8;
+        }
+
         .input-group {
             display: flex;
             gap: 8px;
             align-items: center;
         }
+
         .input-group .white-button {
             flex-shrink: 0;
-            height: 40px; 
+            height: 40px;
             font-size: 13px;
             padding: 0 12px;
             width: auto;
         }
+
         .input-group .input.readonly-value {
             flex: 1;
             min-width: 0;
         }
+
         .input-group .input.readonly-value input {
-             background: transparent; 
+            background: transparent;
         }
-        
-        
+
+
         .section-title {
             font-size: 16px;
             font-weight: 600;
             color: #333;
             margin-bottom: 12px;
-            margin-top: 24px; 
+            margin-top: 24px;
         }
+
         .sw-container .section-title:first-child {
             margin-top: 0;
         }
@@ -193,49 +377,71 @@
             user-select: none;
             flex-shrink: 0;
         }
-        .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
-        .checkbox-on {
-            width: 100%; height: 100%; background: #4e6ee4;
-            border-radius: 2px; display: flex;
-            align-items: center; justify-content: center;
+
+        .checkbox-off {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #bdbdbd;
+            border-radius: 2px;
         }
-        .checkbox-on img { width: 14px; height: 14px; }
-        .checkbox:active { transform: scale(0.9); }
+
+        .checkbox-on {
+            width: 100%;
+            height: 100%;
+            background: #4e6ee4;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-on img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .checkbox:active {
+            transform: scale(0.9);
+        }
+
         .checkbox-text {
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
             user-select: none;
-            padding: 4px 0; 
+            padding: 4px 0;
         }
+
         .checkbox-text span {
             font-size: 14px;
             color: #333;
         }
-        
+
         .disclaimer-link {
             font-size: 13px;
             color: #888;
             text-decoration: underline;
-            margin-left: 28px; 
+            margin-left: 28px;
             margin-top: 4px;
             display: inline-block;
             cursor: pointer;
         }
-        
+
         .agreement-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
         }
+
         .agreement-row .disclaimer-link {
             margin: 0;
             white-space: nowrap;
             flex-shrink: 0;
         }
-        
+
         /* Sticky Form Footer */
         .sticky-form-footer {
             position: fixed;
@@ -243,10 +449,10 @@
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
-            max-width: 480px; 
+            max-width: 480px;
             background: #ffffff;
             border-top: 1px solid #e0e0e0;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
             padding: 20px;
             display: flex;
             gap: 8px;
@@ -254,39 +460,53 @@
             justify-content: space-between;
             z-index: 500;
         }
+
         .sticky-form-footer .btn {
             flex: 1;
         }
+
         .sticky-form-footer .white-button {
-             flex-grow: 1;
+            flex-grow: 1;
         }
-         .sticky-form-footer .dark-button {
-             flex-grow: 2; 
+
+        .sticky-form-footer .dark-button {
+            flex-grow: 2;
         }
-        
+
         /* [NEW] Single Chip (from qna_write.html) */
-        .single-chip { 
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 6px 12px; 
-            border-radius: 100px; 
-            font-size: 14px; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            user-select: none; 
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
         }
-        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
-        .single-chip-on { background: #4e6ee4; color: white; }
-        .single-chip:active { transform: scale(0.95); }
-        
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
         /* [NEW] Filter Group Content (from qna_write.html) */
         .filter-group-content {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
-        
+
         /* MODAL STYLES */
         .modal-overlay {
             position: fixed;
@@ -299,57 +519,87 @@
             padding: 16px;
             animation: fadeInModal 0.2s ease-out;
         }
-        .modal-overlay.active { display: flex; }
-        @keyframes fadeInModal {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        .modal-overlay.active {
+            display: flex;
         }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
         .modal-content {
             background: white;
             border-radius: 8px;
             width: 100%;
-            max-width: 360px; 
-            max-height: 90vh; 
+            max-width: 360px;
+            max-height: 90vh;
             display: flex;
             flex-direction: column;
             animation: scaleUpModal 0.2s ease-out;
         }
+
         @keyframes scaleUpModal {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
+
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 16px;
             border-bottom: 1px solid #e8e8e9;
-            position: relative; 
-            height: 57px; 
+            position: relative;
+            height: 57px;
         }
+
         .modal-title {
             font-size: 16px;
             font-weight: 700;
             color: black;
-            text-align: left; 
+            text-align: left;
         }
+
         .btn-modal-close {
             width: 24px;
             height: 24px;
             cursor: pointer;
-            color: #333; 
+            color: #333;
             position: absolute;
             right: 16px;
             top: 50%;
             transform: translateY(-50%);
         }
-        .btn-modal-close:hover { color: #000; }
-        .btn-modal-close svg { width: 100%; height: 100%; }
+
+        .btn-modal-close:hover {
+            color: #000;
+        }
+
+        .btn-modal-close svg {
+            width: 100%;
+            height: 100%;
+        }
+
         .modal-body {
             padding: 16px;
             overflow-y: auto;
             flex-grow: 1;
         }
+
         .modal-footer {
             padding: 16px;
             border-top: 1px solid #e8e8e9;
@@ -358,21 +608,24 @@
             gap: 8px;
             border-radius: 0 0 7px 7px;
         }
+
         .modal-footer .btn {
             flex: 1;
             height: 44px;
             font-size: 14px;
         }
-        
+
         /* Alert Modal Specifics */
         .alert-modal {
             padding: 20px;
             text-align: center;
         }
+
         .alert-modal .modal-title {
             text-align: center;
             margin-bottom: 15px;
         }
+
         .alert-modal .modal-message {
             font-size: 14px;
             color: black;
@@ -380,7 +633,13 @@
             line-height: 1.5;
             text-align: center;
         }
-        .alert-modal .modal-buttons { display: flex; gap: 10px; justify-content: center; }
+
+        .alert-modal .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
         .alert-modal .modal-button {
             flex: 1;
             height: 44px;
@@ -390,41 +649,63 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .alert-modal .modal-button-primary { background: #424242; color: white; border: none; }
-        .alert-modal .modal-button-secondary { background: white; color: #424242; border: 1px solid #e8e8e9; }
-        .alert-modal .modal-button-danger { background: #dc3545; color: white; border: none; }
-        
+
+        .alert-modal .modal-button-primary {
+            background: #424242;
+            color: white;
+            border: none;
+        }
+
+        .alert-modal .modal-button-secondary {
+            background: white;
+            color: #424242;
+            border: 1px solid #e8e8e9;
+        }
+
+        .alert-modal .modal-button-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+        }
+
         /* [NEW] Modal Detail List for Save Confirm */
         .modal-message .modal-detail-list {
             text-align: center;
             margin-top: 20px;
         }
+
         .modal-detail-list .modal-list-group {
             margin-bottom: 16px;
         }
+
         .modal-detail-list .modal-list-group:last-child {
             margin-bottom: 0;
         }
+
         .modal-detail-list .modal-list-group p {
             /* Font-size/color/line-height are inherited from .modal-message */
             margin-bottom: 2px;
         }
+
         .modal-detail-list .modal-list-group .date-info {
             font-size: 13px;
             color: #888;
             margin-top: 6px;
             display: block;
         }
-        
     </style>
 </head>
+
 <body>
     <div class="mobile-wrap">
-        
+
         <header class="app-header-sub">
             <div class="header-left">
                 <button type="button" class="header-btn" onclick="checkBeforeExit()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
                 </button>
             </div>
             <h1 class="header-title">회원정보 수정</h1>
@@ -435,22 +716,22 @@
         <main>
             <div class="sw-container" style="padding-bottom: 0;">
                 <h2 class="section-title">계정 정보</h2>
-                
+
                 <div class="form-group">
                     <label>회원 구분</label>
                     <div class="readonly-value">법인사업자</div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>아이디</label>
                     <div class="readonly-value">xt201923455</div>
                 </div>
-                
+
                 <div class="form-group" id="password-display-section">
                     <label>비밀번호</label>
                     <div class="input-group">
                         <div class="input readonly-value" style="flex: 1;">
-                           <input type="password" value="********" readonly>
+                            <input type="password" value="********" readonly>
                         </div>
                         <button type="button" class="white-button" id="show-password-change-btn">비밀번호 변경</button>
                     </div>
@@ -473,54 +754,55 @@
                             </div>
                             <button type="button" class="white-button">변경</button>
                         </div>
-                         <p class="disclaimer" style="color: #28a745; min-height: 1.5em;">비밀번호가 일치해요</p>
+                        <p class="disclaimer" style="color: #28a745; min-height: 1.5em;">비밀번호가 일치해요</p>
                     </div>
                 </div>
             </div>
 
             <div class="section-divider"></div>
-            
+
             <div class="sw-container" style="padding-bottom: 0;">
                 <h2 class="section-title">기본 정보</h2>
                 <p class="disclaimer" style="margin-top: -8px; margin-bottom: 12px;">연락 및 배송 등에 사용되는 기본 정보에요</p>
-                
+
                 <div class="form-group">
                     <label>대표자명</label>
                     <div class="readonly-value">김현수</div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>사업자등록번호</label>
                     <div class="readonly-value">124-53-23354</div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>기업명</label>
                     <div class="input-group">
                         <div class="input readonly-value" style="flex: 1;">
-                           <input type="text" value="성원애드피아" readonly>
+                            <input type="text" value="성원애드피아" readonly>
                         </div>
                         <button type="button" class="white-button" onclick="alert('기업 수정 (구현 필요)')">기업 수정</button>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>생년월일</label>
                     <div class="input">
                         <input type="text" id="birth" placeholder="YYYY-MM-DD">
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>휴대폰 번호</label>
                     <div class="input-group">
                         <div class="input readonly-value" style="flex: 1;">
-                           <input type="tel" value="01012345678" readonly>
+                            <input type="tel" value="01012345678" readonly>
                         </div>
-                        <button type="button" class="white-button" onclick="alert('휴대폰 번호 변경 (본인인증 팝업)')">휴대폰 번호 변경</button>
+                        <button type="button" class="white-button" onclick="alert('휴대폰 번호 변경 (본인인증 팝업)')">휴대폰 번호
+                            변경</button>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="email">이메일 주소</label>
                     <div class="input">
@@ -528,7 +810,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="section-divider"></div>
 
             <div class="sw-container" style="padding-bottom: 0;">
@@ -553,7 +835,7 @@
                         <input type="text" id="company-category" placeholder="업종을 입력하세요">
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>회사주소 (선택)</label>
                     <div class="input-group">
@@ -574,12 +856,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="section-divider"></div>
 
             <div class="sw-container">
                 <h2 class="section-title" style="margin-top: 0;">동의 정보</h2>
-                
+
                 <div class="form-group">
                     <label>혜택 광고성 정보</label>
                     <div class="agreement-row">
@@ -589,7 +871,8 @@
                             </div>
                             <span>이메일 수신</span>
                         </div>
-                        <a href="#" class="disclaimer-link" style="margin: 0;" onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
+                        <a href="#" class="disclaimer-link" style="margin: 0;"
+                            onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
                     </div>
                     <div class="agreement-row">
                         <div class="checkbox-text" onclick="toggleCheckboxText(this)">
@@ -598,10 +881,11 @@
                             </div>
                             <span>SMS 수신</span>
                         </div>
-                         <a href="#" class="disclaimer-link" style="margin: 0;" onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
+                        <a href="#" class="disclaimer-link" style="margin: 0;"
+                            onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>마케팅 활용 동의</label>
                     <div class="agreement-row">
@@ -611,30 +895,34 @@
                             </div>
                             <span>스테이락 호텔</span>
                         </div>
-                         <a href="#" class="disclaimer-link" style="margin: 0;" onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
+                        <a href="#" class="disclaimer-link" style="margin: 0;"
+                            onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
                     </div>
                     <div class="agreement-row">
                         <div class="checkbox-text" onclick="toggleCheckboxText(this)">
                             <div class="checkbox" data-checked="true" id="agree-sungwonmall">
-                                 <div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>
+                                <div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>
                             </div>
                             <span>(주)성원애드피아몰</span>
                         </div>
-                         <a href="#" class="disclaimer-link" style="margin: 0;" onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
+                        <a href="#" class="disclaimer-link" style="margin: 0;"
+                            onclick="alert('내용 보기'); event.stopPropagation();">[내용 보기]</a>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>저작물 활용 동의</label>
                     <div class="filter-group-content" id="copyright-agree-group">
-                        <div class="single-chip single-chip-on" data-value="agree" onclick="selectCopyrightAgree(this)">동의</div>
-                        <div class="single-chip single-chip-off" data-value="reject" onclick="selectCopyrightAgree(this)">거부</div>
+                        <div class="single-chip single-chip-on" data-value="agree" onclick="selectCopyrightAgree(this)">
+                            동의</div>
+                        <div class="single-chip single-chip-off" data-value="reject"
+                            onclick="selectCopyrightAgree(this)">거부</div>
                     </div>
                 </div>
-                
+
             </div>
         </main>
-        
+
         <div class="sticky-form-footer">
             <button class="white-button btn delete-button" onclick="showWithdrawalAlert()">회원 탈퇴하기</button>
             <button class="dark-button btn" id="submit-inquiry-btn" onclick="showSaveConfirmModal()">수정하기</button>
@@ -646,19 +934,21 @@
             <div class="modal-title">안내</div>
             <div class="modal-message">입력한 내용이 모두 사라져요.<br>정말 나가시겠어요?</div>
             <div class="modal-buttons">
-                <button class="modal-button modal-button-secondary" onclick="closeModal('exit-alert-modal')">계속 작성하기</button>
+                <button class="modal-button modal-button-secondary" onclick="closeModal('exit-alert-modal')">계속
+                    작성하기</button>
                 <button class="modal-button modal-button-primary" onclick="confirmExit()">나가기</button>
             </div>
         </div>
     </div>
-    
+
     <div class="modal-overlay" id="withdrawal-alert-modal">
         <div class="modal-content alert-modal" data-name="Alert">
             <div class="modal-title">회원 탈퇴</div>
             <div class="modal-message">정말로 회원을 탈퇴하시겠어요?<br>
-탈퇴하면 보유하신 성원머니와 포인트는 모두 사라져요</div>
+                탈퇴하면 보유하신 성원머니와 포인트는 모두 사라져요</div>
             <div class="modal-buttons">
-                <button class="modal-button modal-button-secondary" onclick="closeModal('withdrawal-alert-modal')">취소</button>
+                <button class="modal-button modal-button-secondary"
+                    onclick="closeModal('withdrawal-alert-modal')">취소</button>
                 <button class="modal-button modal-button-danger" onclick="location.href='exit.html';">탈퇴하기</button>
             </div>
         </div>
@@ -670,10 +960,11 @@
             <div class="modal-message">
                 정보 수정이 완료되었어요
                 <div class="modal-detail-list" id="save-confirm-details">
-                    </div>
+                </div>
             </div>
             <div class="modal-buttons">
-                <button class="modal-button modal-button-primary" onclick="closeModal('save-confirm-modal');">확인</button>
+                <button class="modal-button modal-button-primary"
+                    onclick="closeModal('save-confirm-modal');">확인</button>
             </div>
         </div>
     </div>
@@ -681,7 +972,7 @@
     <script>
         // --- [NEW] Form Dirty Check & Exit Alert ---
         let isFormDirty = false;
-        
+
         function checkBeforeExit() {
             if (isFormDirty) {
                 openModal('exit-alert-modal');
@@ -689,16 +980,16 @@
                 goBack();
             }
         }
-        
+
         function confirmExit() {
             isFormDirty = false; // Reset flag
             closeModal('exit-alert-modal');
             goBack();
         }
-        
+
         function goBack() {
-             // Simple history back.
-             history.back();
+            // Simple history back.
+            history.back();
         }
 
         // --- Modal Helpers (v12 Standard) ---
@@ -720,7 +1011,7 @@
                 }
             }
         }
-        
+
         // --- Checkbox (v12 Standard) ---
         function toggleCheckbox(checkbox) {
             const isChecked = checkbox.dataset.checked === 'true';
@@ -736,7 +1027,7 @@
             }
             return newState;
         }
-        
+
         function toggleCheckboxText(wrapper) {
             const checkbox = wrapper.querySelector('.checkbox');
             if (checkbox) {
@@ -744,7 +1035,7 @@
                 isFormDirty = true; // Mark form as dirty when checkbox is clicked
             }
         }
-        
+
         // --- [NEW] Single-Chip Select Logic ---
         function selectCopyrightAgree(chip) {
             const group = chip.closest('#copyright-agree-group');
@@ -753,12 +1044,12 @@
             chip.classList.replace('single-chip-off', 'single-chip-on');
             isFormDirty = true; // Mark form as dirty
         }
-        
+
         // --- [NEW] Withdrawal Alert Logic ---
         function showWithdrawalAlert() {
             openModal('withdrawal-alert-modal');
         }
-        
+
         function confirmWithdrawal() {
             closeModal('withdrawal-alert-modal');
             alert("회원 탈퇴가 처리되었습니다. (구현 필요)");
@@ -774,10 +1065,10 @@
 
             // 2. (Demo) Build dynamic content based on checkbox states
             let detailsHtml = '';
-            
+
             const emailAgree = document.getElementById('agree-email').dataset.checked === 'true';
             const smsAgree = document.getElementById('agree-sms').dataset.checked === 'true';
-            
+
             if (emailAgree || smsAgree) {
                 detailsHtml += '<div class="modal-list-group">';
                 if (emailAgree) {
@@ -789,29 +1080,29 @@
                 detailsHtml += `<span class="date-info">동의일: ${dateString}</span>`;
                 detailsHtml += '</div>';
             }
-            
+
             // NOTE: In a real app, you'd check the *previous* state vs *new* state
             // For this demo, we assume the initial state was different.
             const stayrockAgree = document.getElementById('agree-stayrock').dataset.checked === 'true';
             const sungwonmallAgree = document.getElementById('agree-sungwonmall').dataset.checked === 'true';
-            
+
             if (!stayrockAgree || !sungwonmallAgree) {
-                 detailsHtml += '<div class="modal-list-group">';
-                 if (!stayrockAgree) {
-                     detailsHtml += '<p>• 마케팅 활용 동의 (스테이락 호텔) 해제 완료</p>';
-                 }
-                 if (!sungwonmallAgree) {
-                     detailsHtml += '<p>• 마케팅 활용 동의 ((주)성원애드피아몰) 해제 완료</p>';
-                 }
-                 detailsHtml += `<span class="date-info">동의 해제일: ${dateString}</span>`;
-                 detailsHtml += '</div>';
+                detailsHtml += '<div class="modal-list-group">';
+                if (!stayrockAgree) {
+                    detailsHtml += '<p>• 마케팅 활용 동의 (스테이락 호텔) 해제 완료</p>';
+                }
+                if (!sungwonmallAgree) {
+                    detailsHtml += '<p>• 마케팅 활용 동의 ((주)성원애드피아몰) 해제 완료</p>';
+                }
+                detailsHtml += `<span class="date-info">동의 해제일: ${dateString}</span>`;
+                detailsHtml += '</div>';
             }
 
             // 3. Populate modal and show
             document.getElementById('save-confirm-details').innerHTML = detailsHtml || '정보가 수정되었어요';
             openModal('save-confirm-modal');
         }
-        
+
         // --- Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
             // Modal overlay click-to-close listeners
@@ -822,7 +1113,7 @@
                     }
                 });
             });
-            
+
             // [NEW] Password change UI toggle
             const showPasswordBtn = document.getElementById('show-password-change-btn');
             if (showPasswordBtn) {
@@ -832,7 +1123,7 @@
                     isFormDirty = true; // Mark form as dirty
                 });
             }
-            
+
             // Add event listeners for form dirty check
             document.querySelectorAll('main input, main textarea, main select').forEach(el => {
                 el.addEventListener('input', () => { isFormDirty = true; });
@@ -855,15 +1146,17 @@
             this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
             };
             */
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://sw-mobile.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
+            (function () { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://sw-mobile.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
             })();
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+                Disqus.</a></noscript>
     </div>
     <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>
+
 </html>

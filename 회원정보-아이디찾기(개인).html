@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>성원애드피아 - (외국인) 아이디 찾기</title>
+    <title>성원애드피아 - 아이디 찾기 (개인)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -74,8 +74,7 @@
             max-width: 480px;
             margin: 0 auto;
             background-color: #ffffff;
-            padding-bottom: 100px;
-            /* Sticky Footer 여백 */
+            padding-bottom: 20px;
         }
 
         /* Header (v12 Standard) */
@@ -242,7 +241,35 @@
             padding: 16px;
         }
 
-        /* v12 Standard .disclaimer */
+        /* v12 Standard .single-chip */
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            margin-right: 8px;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* [v12] standard disclaimer */
         .disclaimer {
             font-size: 12px;
             color: #888;
@@ -258,6 +285,15 @@
             color: #007bff;
         }
 
+        /* Info message for form tabs */
+        .form-info-message {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
         /* Form Styles */
         .form-group {
             margin-bottom: 20px;
@@ -269,6 +305,18 @@
             font-weight: 600;
             color: #333;
             margin-bottom: 8px;
+        }
+
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
         }
 
         .input {
@@ -325,6 +373,7 @@
             text-decoration: underline;
             margin-top: 8px;
             text-align: left;
+            display: none;
         }
 
         .resend-button:disabled {
@@ -333,26 +382,8 @@
             cursor: not-allowed;
         }
 
-        /* Input Group */
-        .input-group {
-            display: flex;
-            gap: 8px;
-            align-items: flex-start;
-        }
-
-        .input-group .input {
-            flex-grow: 1;
-        }
-
-        .input-group .white-button {
-            flex-shrink: 0;
-            height: 40px;
-            font-size: 13px;
-            padding: 0 12px;
-        }
-
         /* ========================================
-           MODAL STYLES
+           [v12] MODAL STYLES
         ======================================== */
         .modal-overlay {
             position: fixed;
@@ -432,6 +463,10 @@
             transform: translateY(-50%);
         }
 
+        .btn-modal-close:hover {
+            color: #000;
+        }
+
         .btn-modal-close svg {
             width: 100%;
             height: 100%;
@@ -449,7 +484,8 @@
             background: #fff;
             display: flex;
             gap: 8px;
-            border-radius: 0 0 7px 7px;
+            /* border-radius: 0 0 7px 7px; */
+            /* Removed for full screen compatibility if needed, but flex layout handles it */
             flex-shrink: 0;
         }
 
@@ -459,11 +495,15 @@
             font-size: 14px;
         }
 
-        /* Alert Modal */
+        /* [NEW] Alert Modal Specifics */
         .alert-modal {
             padding: 20px;
             text-align: center;
             min-height: auto;
+            /* Alert modal overrides */
+            max-width: 320px !important;
+            border-radius: 8px !important;
+            height: auto !important;
         }
 
         .alert-modal .modal-title {
@@ -507,7 +547,39 @@
             border: 1px solid #e8e8e9;
         }
 
-        /* Page Tabs (v12 Standard) - 좌측 정렬, Non-stretch */
+        .alert-modal .modal-button:active {
+            transform: scale(0.98);
+        }
+
+        /* [MODIFIED] Modal Tab Navigation (Chip Style for Auth) */
+        .modal-tab-nav-chips {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding-bottom: 0px;
+            border-bottom: none;
+            margin-top: 0px;
+            justify-content: flex-start;
+        }
+
+        .modal-tab-nav-chips .single-chip {
+            flex-basis: auto;
+            margin-right: 0;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 100px;
+            border: none;
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .modal-tab-nav-chips .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+            border: none;
+        }
+
+        /* [NEW] Page Tabs (for 회원유형 - Modal 내부용) */
         .type-tabs {
             width: 100%;
             height: 44px;
@@ -547,38 +619,10 @@
             border-bottom: 2px solid #212121;
         }
 
-        /* Modal Auth Chips */
-        .modal-auth-chips {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        .single-chip {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px 12px;
-            border-radius: 100px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-
-        .single-chip-off {
-            background: #f5f5f6;
-            color: #8a8a92;
-        }
-
-        .single-chip-on {
-            background: #4e6ee4;
-            color: white;
-        }
-
-        /* ID Result Styles */
+        /* [NEW] ID Result Modal Styles */
         #id-result-modal .modal-body {
             padding: 24px 16px;
+            min-height: auto;
         }
 
         .id-result-message {
@@ -589,6 +633,7 @@
             text-align: center;
         }
 
+        /* [NEW] ID Result Card/List Styles (Checkbox principle) */
         .id-result-list {
             display: flex;
             flex-direction: column;
@@ -643,6 +688,7 @@
             margin-right: 6px;
             flex-shrink: 0;
             background-color: #03C75A;
+            /* Naver green for N */
         }
 
         .id-date {
@@ -665,9 +711,10 @@
             color: #4e6ee4;
         }
 
-        /* No Result Modal */
+        /* [NEW] No Result Modal Specifics */
         #id-no-result-modal .modal-body {
             padding: 24px 16px;
+            min-height: auto;
         }
 
         #id-no-result-modal .modal-message-container {
@@ -686,6 +733,7 @@
             line-height: 1.5;
         }
 
+        /* [NEW] Social ID Guide */
         .social-guide-message {
             font-size: 12px;
             color: #333;
@@ -718,6 +766,7 @@
 
 <body>
     <div class="mobile-wrap">
+
         <header class="app-header-sub">
             <div class="header-left">
                 <button type="button" class="header-btn" onclick="checkBeforeExit()">
@@ -745,13 +794,15 @@
                 </button>
             </div>
         </header>
+
         <main>
-            <div class="sw-container">
+            <div class="sw-container" style="display: flex; flex-direction: column; gap: 10px;">
                 <button class="primary-button" onclick="openModal('find-id-modal-overlay')" style="width: 100%;">
-                    (외국인) 아이디 찾기 모달 열기
+                    아이디 찾기 모달 열기 (개인 회원)
                 </button>
             </div>
         </main>
+
     </div>
 
     <div class="modal-overlay" id="find-id-modal-overlay">
@@ -766,35 +817,71 @@
                 </button>
             </div>
 
-            <nav class="type-tabs" id="member-type-tabs">
-                <div class="type-tab-item" onclick="alert('개인회원 페이지로 이동 (구현 필요)')">개인회원</div>
-                <div class="type-tab-item" onclick="alert('기업회원 페이지로 이동 (구현 필요)')">기업회원</div>
-                <div class="type-tab-item active">외국인 회원</div>
+            <nav class="type-tabs" id="find-id-type-tabs">
+                <div class="type-tab-item active" data-type="personal" onclick="switchFindIdType(this, 'personal')">개인
+                    회원</div>
+                <div class="type-tab-item" data-type="business" onclick="switchFindIdType(this, 'business')">기업 회원</div>
+                <div class="type-tab-item" data-type="foreign" onclick="switchFindIdType(this, 'foreign')">외국인 회원</div>
             </nav>
 
             <div class="modal-body">
-                <div class="modal-auth-chips" id="find-id-auth-chips">
+                <nav class="modal-tab-nav-chips" id="find-id-tabs">
                     <div class="single-chip single-chip-on" data-tab="auth" onclick="switchFindIdTab(this, 'auth')">본인인증
                     </div>
+                    <div class="single-chip single-chip-off" data-tab="phone" onclick="switchFindIdTab(this, 'phone')">
+                        휴대폰 번호 인증</div>
                     <div class="single-chip single-chip-off" data-tab="email" onclick="switchFindIdTab(this, 'email')">
                         이메일 주소 인증</div>
-                </div>
+                </nav>
 
                 <form id="find-id-form">
+
                     <div class="form-fields-wrapper" data-tab-content="auth" style="display: block;">
                         <div class="form-group" style="margin-top: 20px;">
-                            <p class="disclaimer"
-                                style="text-align: center; margin-bottom: 20px; font-size: 14px; color: #333;">
-                                본인 명의의 휴대폰/아이핀으로 인증하여<br>아이디를 찾을 수 있습니다.
-                            </p>
+                            <button type="button" class="btn dark-button" style="width: 100%;">본인인증</button>
                         </div>
+                    </div>
+
+                    <div class="form-fields-wrapper" data-tab-content="phone" style="display: none;">
+                        <div class="form-group">
+                            <label for="find-id-name-phone">이름</label>
+                            <div class="input">
+                                <input type="text" id="find-id-name-phone" placeholder="이름을 입력해주세요">
+                            </div>
+                            <p class="disclaimer error" id="error-name-phone" style="display: none;"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="find-id-phone">휴대폰 번호</label>
+                            <div class="input">
+                                <input type="tel" id="find-id-phone" placeholder="'-'을 제외한 숫자만 입력해주세요">
+                            </div>
+                            <p class="disclaimer error" id="error-phone" style="display: none;"></p>
+                        </div>
+
+                        <div class="form-group" id="verification-code-group" style="display: none;">
+                            <label for="find-id-verification-code">인증번호</label>
+                            <div class="input" id="verification-code-input-wrapper">
+                                <input type="tel" id="find-id-verification-code" placeholder="문자로 수신된 인증번호 6자리를 입력해주세요">
+                                <span class="timer" id="verification-timer">03:00</span>
+                            </div>
+                            <p class="disclaimer success" id="phone-sent-message" style="display: none;">휴대폰 번호로 인증번호를
+                                발송해 드렸어요</p>
+                            <p class="disclaimer error" id="error-verification-code" style="display: none;"></p>
+                            <button type="button" class="resend-button" id="resend-code-btn">
+                                인증번호 재발송
+                            </button>
+                        </div>
+
+                        <p class="disclaimer" style="margin-top: -12px;">
+                            * 휴대폰 번호가 변경되어 인증이 어려운 경우 고객센터로 문의해주세요(1599-5555)
+                        </p>
                     </div>
 
                     <div class="form-fields-wrapper" data-tab-content="email" style="display: none;">
                         <div class="form-group">
                             <label for="find-id-name-email">이름</label>
                             <div class="input">
-                                <input type="text" id="find-id-name-email" placeholder="이름을 입력해주세요" value="SMITH JOHN">
+                                <input type="text" id="find-id-name-email" placeholder="이름을 입력해주세요">
                             </div>
                             <p class="disclaimer error" id="error-name-email" style="display: none;"></p>
                         </div>
@@ -810,17 +897,17 @@
                             <label for="find-id-verification-code-email">인증번호</label>
                             <div class="input" id="email-verification-code-input-wrapper">
                                 <input type="tel" id="find-id-verification-code-email" placeholder="인증번호 6자리를 입력해주세요">
-                                <span class="timer" id="email-verification-timer">10:00</span>
+                                <span class="timer" id="email-verification-timer">03:00</span>
                             </div>
-                            <p class="disclaimer error" id="error-verification-code-email" style="display: none;"></p>
                             <p class="disclaimer success" id="email-sent-message" style="display: none;">이메일 주소로 인증번호를
                                 발송해 드렸어요</p>
+                            <p class="disclaimer error" id="error-verification-code-email" style="display: none;"></p>
                             <button type="button" class="resend-button" id="resend-code-btn-email">
                                 인증번호 재발송
                             </button>
                         </div>
                         <p class="disclaimer" style="margin-top: -12px;">
-                            * 이메일 주소 인증시, 아이디의 일부만 확인할 수 있어요. 아이디 전체를 확인하려면 본인인증 수단을 이용해주세요.
+                            * 이메일 주소 인증시, 아이디의 일부만 확인할 수 있어요. 아이디 전체를 확인하려면 휴대폰 번호 수단을 이용해주세요.
                         </p>
                     </div>
                 </form>
@@ -864,7 +951,7 @@
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M5 12l5 5l10 -10" />
                 </svg>
-                <p class="id-result-message" id="id-result-count-message">총 2건의 아이디를 찾았어요</p>
+                <p class="id-result-message" id="id-result-count-message">총 1건의 아이디를 찾았어요</p>
                 <p class="social-guide-message" id="social-guide-message">
                     가입 시 사용한 소셜 계정 확인이 어려운 경우, 아이디/비밀번호를 설정해주세요
                 </p>
@@ -915,8 +1002,9 @@
         </div>
     </div>
 
+
     <script>
-        // --- Form Dirty Check & Exit Alert ---
+        // --- [NEW] Form Dirty Check & Exit Alert ---
         let isFormDirty = false;
 
         function checkBeforeExit() {
@@ -928,7 +1016,7 @@
         }
 
         function confirmExit() {
-            isFormDirty = false;
+            isFormDirty = false; // Reset flag
             closeModal('exit-alert-modal');
             goBack();
         }
@@ -937,7 +1025,7 @@
             history.back();
         }
 
-        // --- Modal Helpers ---
+        // --- Modal Helpers (v12 Standard) ---
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
@@ -957,23 +1045,41 @@
             }
         }
 
-        // --- Find ID Modal Logic ---
-        const findPwForm = document.getElementById('find-id-form');
+        // --- [MODIFIED] Find ID Modal Logic with Validation & Verification Flow ---
+        const findIdForm = document.getElementById('find-id-form');
         const findIdSubmitBtn = document.getElementById('find-id-submit-btn');
-        const findPwFooter = document.getElementById('find-id-footer');
-        let activeFindIdTab = 'auth'; // Default for Foreigner
+        const findIdFooter = document.getElementById('find-id-footer');
+        let activeFindIdTab = 'auth'; // Default to Auth (Request 1)
 
         // Input fields
-        const nameEmail = document.getElementById('find-id-name-email');
-        const email = document.getElementById('find-id-email');
+        const nameInputPhone = document.getElementById('find-id-name-phone');
+        const phoneInput = document.getElementById('find-id-phone');
+        const nameInputEmail = document.getElementById('find-id-name-email');
+        const emailInput = document.getElementById('find-id-email');
 
         // Error message fields
+        const errorNamePhone = document.getElementById('error-name-phone');
+        const errorPhone = document.getElementById('error-phone');
         const errorNameEmail = document.getElementById('error-name-email');
         const errorEmail = document.getElementById('error-email');
 
-        // Email Verification fields
+        // [MODIFIED] Phone Verification fields
+        let verificationTimer;
+        let timeRemaining = 180;
+        const verificationCodeGroup = document.getElementById('verification-code-group');
+        const verificationCodeInput = document.getElementById('find-id-verification-code');
+        const verificationTimerEl = document.getElementById('verification-timer');
+        const resendCodeBtn = document.getElementById('resend-code-btn');
+        const errorVerificationCode = document.getElementById('error-verification-code');
+        const phoneSentMessage = document.getElementById('phone-sent-message');
+
+        resendCodeBtn.addEventListener('click', () => {
+            startVerificationProcess(true);
+        });
+
+        // [MODIFIED] Email Verification fields
         let emailVerificationTimer;
-        let emailTimeRemaining = 600;
+        let emailTimeRemaining = 180; // 3 minutes
         const emailVerificationCodeGroup = document.getElementById('email-verification-code-group');
         const emailVerificationCodeInput = document.getElementById('find-id-verification-code-email');
         const emailVerificationTimerEl = document.getElementById('email-verification-timer');
@@ -981,65 +1087,142 @@
         const errorVerificationCodeEmail = document.getElementById('error-verification-code-email');
         const emailSentMessage = document.getElementById('email-sent-message');
 
-        // [NEW] Resend logic
         resendCodeBtnEmail.addEventListener('click', () => {
             startEmailVerificationProcess(true);
         });
 
-        function switchFindIdTab(chipEl, tabName) {
+        // [NEW] 회원 유형 탭 핸들러 (Modal 내부)
+        function switchFindIdType(tabEl, typeName) {
+            const tabNav = tabEl.closest('#find-id-type-tabs');
+            tabNav.querySelectorAll('.type-tab-item').forEach(c => c.classList.remove('active'));
+            tabEl.classList.add('active');
+
+            console.log(`회원 유형 변경: ${typeName}`);
+
+            // 개인의 경우 기본값은 Auth
+            let defaultTab = 'auth';
+
+            // 1. 현재 인증 탭을 defaultTab으로 강제 변경
+            const defaultTabEl = document.querySelector(`#find-id-tabs .single-chip[data-tab="${defaultTab}"]`);
+            if (defaultTabEl) {
+                switchFindIdTab(defaultTabEl, defaultTab);
+            }
+
+            // 2. 폼 필드 초기화
+            findIdForm.reset();
+            hideAllErrors();
+            isFormDirty = false;
+        }
+
+
+        function switchFindIdTab(tabEl, tabName) {
             activeFindIdTab = tabName;
 
-            // 1. Chip Toggle
-            const chipGroup = chipEl.parentElement;
-            chipGroup.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
-            chipEl.classList.replace('single-chip-off', 'single-chip-on');
+            // 1. 탭 활성화 (Chip 스타일)
+            const tabNav = tabEl.closest('.modal-tab-nav-chips');
+            tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            tabEl.classList.replace('single-chip-off', 'single-chip-on');
 
-            // 2. Form Content Toggle
-            findPwForm.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
+            // 2. 모든 폼 필드 래퍼 숨기기
+            findIdForm.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
                 wrapper.style.display = 'none';
             });
-            findPwForm.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
 
-            // 3. Reset State
+            // 3. 해당 탭의 폼 필드 보이기
+            findIdForm.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
+
+            // 4. 푸터 버튼 및 상태 변경, 타이머/상태 초기화
+            stopVerificationTimer();
             stopEmailVerificationTimer();
+            verificationCodeGroup.style.display = 'none';
             emailVerificationCodeGroup.style.display = 'none';
+            phoneSentMessage.style.display = 'none';
             emailSentMessage.style.display = 'none';
 
-            nameEmail.readOnly = false;
-            nameEmail.closest('.input').classList.remove('readonly');
-            email.readOnly = false;
-            email.closest('.input').classList.remove('readonly');
+            // Reset readonly state
+            if (nameInputPhone) {
+                nameInputPhone.readOnly = false;
+                nameInputPhone.closest('.input').classList.remove('readonly');
+            }
+            if (phoneInput) {
+                phoneInput.readOnly = false;
+                phoneInput.closest('.input').classList.remove('readonly');
+            }
+            if (nameInputEmail) {
+                nameInputEmail.readOnly = false;
+                nameInputEmail.closest('.input').classList.remove('readonly');
+            }
+            if (emailInput) {
+                emailInput.readOnly = false;
+                emailInput.closest('.input').classList.remove('readonly');
+            }
 
             findIdSubmitBtn.disabled = false;
 
-            // [MODIFIED] Button Text Logic
             if (tabName === 'auth') {
                 findIdSubmitBtn.textContent = '본인인증';
+                // 본인인증 탭의 경우 푸터를 숨깁니다.
+                findIdFooter.style.display = 'none'; // <--- 이렇게 수정 ('flex' -> 'none')
+            } else if (tabName === 'phone') {
+                findIdSubmitBtn.textContent = '인증 발송';
+                findIdFooter.style.display = 'flex';
             } else if (tabName === 'email') {
                 findIdSubmitBtn.textContent = '인증 발송';
+                findIdFooter.style.display = 'flex';
             }
 
             hideAllErrors();
         }
 
+        // [MODIFIED] Validation logic
         function validateAndSubmitFindId() {
-            hideAllErrors();
+            hideAllErrors(); // Reset errors
 
             if (activeFindIdTab === 'auth') {
                 // Simulate Auth Success
                 simulateAuth();
 
+            } else if (activeFindIdTab === 'phone') {
+                const verificationVisible = (verificationCodeGroup.style.display === 'block');
+
+                if (verificationVisible) {
+                    // State 2: "인증 완료" (Verify Code)
+                    if (validatePhoneTab(true)) {
+                        // --- FAKE SUCCESS LOGIC ---
+                        if (verificationCodeInput.value.trim() === '123456') {
+                            stopVerificationTimer();
+                            closeModal('find-id-modal-overlay');
+                            const dummyResults = [
+                                { type: '', value: 'PersonalUser123', date: '2025-10-31' }
+                            ];
+                            if (dummyResults.length > 0) {
+                                showIdResultModal(dummyResults);
+                            } else {
+                                showNoResultModal();
+                            }
+                        } else {
+                            showError(verificationCodeInput, errorVerificationCode, '인증번호가 일치하지 않아요');
+                        }
+                    }
+                } else {
+                    // State 1: "인증 발송" (Send Code)
+                    if (validatePhoneTab(false)) {
+                        startVerificationProcess(false);
+                    }
+                }
+
             } else if (activeFindIdTab === 'email') {
                 const verificationVisible = (emailVerificationCodeGroup.style.display === 'block');
 
                 if (verificationVisible) {
-                    // Step 2: Check code
+                    // State 2: "인증 완료" (Verify Code)
                     if (validateEmailTab(true)) {
+                        // --- FAKE SUCCESS LOGIC ---
                         if (emailVerificationCodeInput.value.trim() === '123456') {
                             stopEmailVerificationTimer();
                             closeModal('find-id-modal-overlay');
                             const dummyResults = [
-                                { type: 'N', value: 'Test1234@naver.com', date: '2025-10-31', social: true }
+                                { type: '', value: 'P***er123', date: '2025-10-31' }
                             ];
                             if (dummyResults.length > 0) {
                                 showIdResultModal(dummyResults);
@@ -1051,7 +1234,7 @@
                         }
                     }
                 } else {
-                    // Step 1: Send code
+                    // State 1: "인증 발송" (Send Code)
                     if (validateEmailTab(false)) {
                         startEmailVerificationProcess(false);
                     }
@@ -1059,17 +1242,45 @@
             }
         }
 
-        function validateEmailTab(checkCode) {
+        // [MODIFIED] Phone Tab Validator
+        function validatePhoneTab(checkCode) {
             let isValid = true;
-            if (nameEmail.value.trim() === '') {
-                showError(nameEmail, errorNameEmail, '이름을 입력해주세요');
+            if (!nameInputPhone || nameInputPhone.value.trim() === '') {
+                showError(nameInputPhone, errorNamePhone, '이름을 입력해주세요');
                 isValid = false;
             }
-            if (email.value.trim() === '') {
-                showError(email, errorEmail, '이메일 주소를 입력해주세요');
+            if (!phoneInput || phoneInput.value.trim() === '') {
+                showError(phoneInput, errorPhone, '휴대폰 번호를 입력해주세요');
                 isValid = false;
-            } else if (!validateEmail(email.value.trim())) {
-                showError(email, errorEmail, '올바른 이메일 주소 형식이 아니에요');
+            } else if (phoneInput && !/^\d+$/.test(phoneInput.value.trim())) {
+                showError(phoneInput, errorPhone, "'-'을 제외한 숫자만 입력해주세요");
+                isValid = false;
+            }
+
+            if (checkCode) {
+                if (timeRemaining <= 0) {
+                    showError(verificationCodeInput, errorVerificationCode, '인증 시간이 초과되었어요, 인증번호를 재발송 해주세요');
+                    isValid = false;
+                } else if (verificationCodeInput.value.trim() === '') {
+                    showError(verificationCodeInput, errorVerificationCode, '인증번호를 입력해주세요');
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
+
+        // [MODIFIED] Email Tab Validator
+        function validateEmailTab(checkCode) {
+            let isValid = true;
+            if (!nameInputEmail || nameInputEmail.value.trim() === '') {
+                showError(nameInputEmail, errorNameEmail, '이름을 입력해주세요');
+                isValid = false;
+            }
+            if (!emailInput || emailInput.value.trim() === '') {
+                showError(emailInput, errorEmail, '이메일 주소를 입력해주세요');
+                isValid = false;
+            } else if (emailInput && !validateEmail(emailInput.value.trim())) {
+                showError(emailInput, errorEmail, '올바른 이메일 주소 형식이 아니에요');
                 isValid = false;
             }
 
@@ -1085,10 +1296,74 @@
             return isValid;
         }
 
+        // [MODIFIED] Start Phone Verification Process
+        function startVerificationProcess(isResend) {
+            console.log('휴대폰 인증번호 발송 (구현 필요)');
+            verificationCodeGroup.style.display = 'block';
+            resendCodeBtn.style.display = 'block';
+            findIdSubmitBtn.textContent = '인증 완료';
+
+            if (isResend) {
+                phoneSentMessage.textContent = '인증번호를 다시 발송해 드렸어요';
+            } else {
+                phoneSentMessage.textContent = '휴대폰 번호로 인증번호를 발송해 드렸어요';
+            }
+            phoneSentMessage.style.display = 'block';
+
+            if (nameInputPhone) {
+                nameInputPhone.readOnly = true;
+                nameInputPhone.closest('.input').classList.add('readonly');
+            }
+            if (phoneInput) {
+                phoneInput.readOnly = true;
+                phoneInput.closest('.input').classList.add('readonly');
+            }
+
+            startVerificationTimer();
+        }
+
+        // [NEW] Start Phone Timer
+        function startVerificationTimer() {
+            stopVerificationTimer();
+            timeRemaining = 180; // 3 minutes
+            verificationTimerEl.textContent = '03:00';
+            verificationTimerEl.style.color = '#dc3545';
+            verificationCodeInput.value = '';
+
+            errorVerificationCode.style.display = 'none';
+            verificationCodeInput.closest('.input').classList.remove('error');
+
+            findIdSubmitBtn.disabled = false;
+            resendCodeBtn.disabled = true;
+
+            verificationTimer = setInterval(() => {
+                timeRemaining--;
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                verificationTimerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (timeRemaining <= 0) {
+                    stopVerificationTimer();
+                    verificationTimerEl.textContent = '00:00';
+                    showError(verificationCodeInput, errorVerificationCode, '인증 시간이 초과되었어요, 인증번호를 재발송 해주세요');
+                    findIdSubmitBtn.disabled = true;
+                    resendCodeBtn.disabled = false;
+                } else if (timeRemaining <= (180 - 10)) {
+                    resendCodeBtn.disabled = false;
+                }
+            }, 1000);
+        }
+
+        function stopVerificationTimer() {
+            clearInterval(verificationTimer);
+        }
+
+        // [MODIFIED] Start Email Verification Process
         function startEmailVerificationProcess(isResend) {
             console.log('이메일 인증번호 발송 (구현 필요)');
             emailVerificationCodeGroup.style.display = 'block';
             resendCodeBtnEmail.style.display = 'block';
+            findIdSubmitBtn.textContent = '인증 완료';
 
             if (isResend) {
                 emailSentMessage.textContent = '인증번호를 다시 발송해 드렸어요';
@@ -1097,21 +1372,23 @@
             }
             emailSentMessage.style.display = 'block';
 
-            nameEmail.readOnly = true;
-            nameEmail.closest('.input').classList.add('readonly');
-            email.readOnly = true;
-            email.closest('.input').classList.add('readonly');
-
-            // [MODIFIED] Change button text
-            findIdSubmitBtn.textContent = '인증 완료';
+            if (nameInputEmail) {
+                nameInputEmail.readOnly = true;
+                nameInputEmail.closest('.input').classList.add('readonly');
+            }
+            if (emailInput) {
+                emailInput.readOnly = true;
+                emailInput.closest('.input').classList.add('readonly');
+            }
 
             startEmailVerificationTimer();
         }
 
+        // [NEW] Start Email Timer
         function startEmailVerificationTimer() {
             stopEmailVerificationTimer();
-            emailTimeRemaining = 600;
-            emailVerificationTimerEl.textContent = '10:00';
+            emailTimeRemaining = 180; // 3 minutes
+            emailVerificationTimerEl.textContent = '03:00';
             emailVerificationTimerEl.style.color = '#dc3545';
             emailVerificationCodeInput.value = '';
 
@@ -1133,7 +1410,7 @@
                     showError(emailVerificationCodeInput, errorVerificationCodeEmail, '인증 시간이 초과되었어요, 인증번호를 재발송 해주세요');
                     findIdSubmitBtn.disabled = true;
                     resendCodeBtnEmail.disabled = false;
-                } else if (emailTimeRemaining <= (600 - 10)) {
+                } else if (emailTimeRemaining <= (180 - 10)) {
                     resendCodeBtnEmail.disabled = false;
                 }
             }, 1000);
@@ -1143,15 +1420,20 @@
             clearInterval(emailVerificationTimer);
         }
 
+        // [NEW] Helper functions for validation
         function showError(inputEl, errorEl, message) {
-            inputEl.closest('.input').classList.add('error');
+            if (!inputEl) return;
+            const inputWrapper = inputEl.closest('.input');
+            if (inputWrapper) {
+                inputWrapper.classList.add('error');
+            }
             errorEl.textContent = message;
             errorEl.style.display = 'block';
         }
 
         function hideAllErrors() {
-            const inputs = [nameEmail, email, emailVerificationCodeInput];
-            const errors = [errorNameEmail, errorEmail, errorVerificationCodeEmail];
+            const inputs = [nameInputPhone, phoneInput, nameInputEmail, emailInput, verificationCodeInput, emailVerificationCodeInput];
+            const errors = [errorNamePhone, errorPhone, errorNameEmail, errorEmail, errorVerificationCode, errorVerificationCodeEmail];
 
             inputs.forEach(input => {
                 if (input) input.closest('.input').classList.remove('error');
@@ -1159,6 +1441,7 @@
             errors.forEach(error => {
                 if (error) error.style.display = 'none';
             });
+            phoneSentMessage.style.display = 'none';
             emailSentMessage.style.display = 'none';
         }
 
@@ -1167,15 +1450,18 @@
             return re.test(String(email).toLowerCase());
         }
 
-        // --- Simulate Auth ---
+        // --- [NEW] Simulate Auth Failure (For Auth Tab) ---
         function simulateAuth() {
             console.log("본인인증 시도... (성공 시뮬레이션)");
+            // Close the find-id modal
             closeModal('find-id-modal-overlay');
 
+            // [MODIFIED] Test case for result success
             const dummyResults = [
                 { type: null, value: 'Test1234', date: '2025-10-31', social: false },
                 { type: 'N', value: 'Test1234@naver.com', date: '2025-10-31', social: true }
             ];
+            // [MODIFIED] Check results
             if (dummyResults.length > 0) {
                 showIdResultModal(dummyResults);
             } else {
@@ -1183,7 +1469,7 @@
             }
         }
 
-        // --- ID Result Modal Logic ---
+        // --- [NEW] ID Result Modal Logic ---
         const idResultCountMessage = document.getElementById('id-result-count-message');
         const idResultList = document.getElementById('id-result-list');
         const socialGuideMessage = document.getElementById('social-guide-message');
@@ -1199,6 +1485,7 @@
                 idResultCountMessage.textContent = `총 ${results.length}건의 아이디를 찾았어요`;
                 idResultList.innerHTML = '';
 
+                // 기본 버튼으로 초기화
                 socialGuideMessage.style.display = 'none';
                 footerDefaultBtn1.style.display = 'flex';
                 footerDefaultBtn2.style.display = 'flex';
@@ -1209,7 +1496,7 @@
                     const card = document.createElement('li');
                     card.className = 'id-result-item-card';
                     card.dataset.value = result.value;
-                    card.dataset.issocial = result.social ? 'true' : 'false';
+                    card.dataset.issocial = result.social ? 'true' : 'false'; // 소셜 아이디 플래그
                     card.onclick = () => toggleIdResultSelection(card);
 
                     let typeHtml = '';
@@ -1238,23 +1525,27 @@
             }
         }
 
+        // [NEW] Toggle selection for ID result cards
         function toggleIdResultSelection(selectedCard) {
             const list = selectedCard.closest('#id-result-list');
             let isSelected = selectedCard.classList.contains('selected');
 
+            // 단일 선택 모드 (하나만 선택 가능)
             list.querySelectorAll('.id-result-item-card').forEach(card => {
                 card.classList.remove('selected');
             });
 
+            // 선택/해제 토글
             if (!isSelected) {
                 selectedCard.classList.add('selected');
                 isSelected = true;
             } else {
-                isSelected = false;
+                isSelected = false; // 해제
             }
 
             const isSocial = isSelected && selectedCard.dataset.issocial === 'true';
 
+            // 푸터 버튼 및 안내 메시지 업데이트
             if (isSocial) {
                 socialGuideMessage.style.display = 'block';
                 footerDefaultBtn1.style.display = 'none';
@@ -1270,11 +1561,21 @@
             }
         }
 
+        // [NEW] ID No Result Modal Logic
         function showNoResultModal() {
             openModal('id-no-result-modal-overlay');
         }
 
+        // --- Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
+            // 모달이 열릴 때 기본 탭 상태 초기화
+            const defaultTypeTab = document.querySelector('#find-id-type-tabs .type-tab-item[data-type="personal"]');
+            if (defaultTypeTab) {
+                // Personal default tab is 'Auth' (Request 1)
+                switchFindIdType(defaultTypeTab, 'personal');
+            }
+
+            // Modal overlay click-to-close listeners
             document.querySelectorAll('.modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
@@ -1286,14 +1587,15 @@
                 });
             });
 
+            // Add event listeners for form dirty check
             document.querySelectorAll('#find-id-form input').forEach(el => {
                 el.addEventListener('input', () => {
                     isFormDirty = true;
 
-                    let currentTimerRemaining = (el.id.includes('email') ? emailTimeRemaining : 0);
+                    let currentTimerRemaining = (el.id.includes('email-verification') ? emailTimeRemaining : timeRemaining);
 
                     if (el.id.includes('verification-code') && currentTimerRemaining <= 0) {
-                        // keep error
+                        // Don't clear error if timer is expired
                     } else {
                         el.closest('.input').classList.remove('error');
                         const errorEl = el.closest('.form-group').querySelector('.disclaimer.error');
@@ -1302,8 +1604,10 @@
                         }
                     }
 
-                    if (el.id === 'find-id-verification-code-email' && emailTimeRemaining > 0) {
+                    // [NEW] Enable submit button if code is entered and timer is active
+                    if ((el.id === 'find-id-verification-code' && timeRemaining > 0) || (el.id === 'find-id-verification-code-email' && emailTimeRemaining > 0)) {
                         findIdSubmitBtn.disabled = !(el.value.trim().length >= 6);
+                        findIdSubmitBtn.textContent = '인증 완료';
                     }
                 });
             });
