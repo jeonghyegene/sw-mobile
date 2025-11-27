@@ -2542,6 +2542,92 @@
         .modal-button:active {
             transform: scale(0.98);
         }
+
+        /* [CSS 수정] 고객 관리 모달 전체화면(Full Page) 스타일 적용 */
+
+        /* 1. 오버레이 패딩 제거 및 정렬 방식 변경 */
+        #customer-list-modal-overlay {
+            padding: 0;
+            align-items: flex-start;
+            /* 중앙 정렬 대신 상단부터 채움 */
+        }
+
+        /* 2. 모달 컨텐츠를 꽉 차게 변경 */
+        #customer-list-modal {
+            width: 100%;
+            max-width: 480px;
+            /* 최대 너비 유지 */
+            height: 100%;
+            /* 높이 꽉 채우기 */
+            max-height: none;
+            /* 기존 90vh 제한 해제 */
+            border-radius: 0;
+            /* 둥근 모서리 제거 */
+            margin: 0 auto;
+            /* PC 화면에서 중앙 정렬 */
+        }
+
+        /* 3. 내부 스크롤 영역 확보 (선택 사항) */
+        #customer-list-modal .modal-body {
+            flex: 1;
+            /* 남은 영역 모두 차지 */
+            min-height: 0;
+            /* 스크롤 버그 방지 */
+        }
+
+        /* [CSS 추가] 담당자 관리 리스트 - 카드형 스타일 (고객 관리와 동일 디자인) */
+        .manager-card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            /* Full Page Modal 내에서는 스크롤을 부모(fp-body)가 담당하므로 max-height 제거 */
+            height: auto;
+        }
+
+        .manager-card-item {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 12px;
+            background: white;
+        }
+
+        .manager-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .manager-card-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .manager-card-detail {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+            line-height: 1.5;
+        }
+
+        .manager-card-footer {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        /* 카드 내부 버튼 스타일 (공통 white-button 활용) */
+        .manager-card-footer .btn,
+        .manager-card-header .btn {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 
@@ -2568,7 +2654,7 @@
 
         <main>
             <div id="step-1" class="page-step" style="display: block;">
-                <div class="sw-container">
+                <div class="sw-container" style="padding-bottom: 50px;">
 
                     <h2 class="section-title" style="padding-top: 0;">접수 제품</h2>
                     <h3 style="font-size: 14px; font-weight: 500; margin-top: -5px; margin-bottom: 10px;">총 1건</h3>
@@ -3233,13 +3319,26 @@
                     </div>
 
                     <h2 class="section-title" style="margin-top: 24px;">고객 정보 (선택)</h2>
-                    <div class="clickable-info-row" id="customer-info-row" onclick="showCustomerListModal()">
-                        <span class="clickable-info-label">고객</span>
-                        <span class="clickable-info-value placeholder" id="customer-info-value">선택 안됨</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
-                        </svg>
+                    <div class="input-group" style="margin-bottom: 8px;">
+                        <div class="input">
+                            <input type="text" id="customer-input" placeholder="고객의 기업명을 입력하거나 선택해주세요"
+                                onblur="console.log('고객 목록 자동 저장 로직 실행: ' + this.value)">
+                        </div>
+                        <button type="button" class="white-button" onclick="showCustomerListModal()">고객 목록</button>
                     </div>
+                    <div class="icon-disclaimer"
+                        style="background: none; border: none; padding: 0; cursor: default; font-size: 12px; color: #888; font-weight: 400; align-items: flex-start;">
+                        <svg style="margin-top: 1px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                            <path d="M12 9h.01" />
+                            <path d="M11 12h1v4h1" />
+                        </svg>
+                        <span>입력한 고객명은 고객 목록에 자동 저장되어 관리가 가능해요</span>
+                    </div>
+
                     <div class="icon-disclaimer"
                         style="background: none; border: none; padding: 0; cursor: default; font-size: 12px; color: #888; font-weight: 400; align-items: flex-start;">
                         <svg style="margin-top: 1px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -3441,33 +3540,51 @@
             </div>
         </div>
         <div class="fp-body">
-            <div style="font-size: 13px; font-weight: 500; color: #333; margin-bottom: 8px;">총 2명</div>
+            <div class="transaction-list-header"
+                style="padding-bottom: 12px; margin-bottom: 12px; border-color: #e8e8e9; margin-top: 0;">
+                <span class="total-count">총 <strong>2</strong>명</span>
+            </div>
 
-            <div class="manager-list">
-                <div class="manager-list-item">
-                    <div class="manager-info" onclick="selectContact('김성원', '010-1234-1234')">
-                        <div class="manager-name">김성원</div>
-                        <div class="manager-contact">010-1234-1234 | test@gmail.com</div>
+            <div class="manager-card-list">
+                <article class="manager-card-item">
+                    <div class="manager-card-header">
+                        <span class="manager-card-name">김성원</span>
+                        <button class="white-button btn" onclick="selectContact('김성원', '010-1234-1234')">
+                            선택
+                        </button>
                     </div>
-                    <div class="manager-actions">
-                        <button class="white-button btn-manager-action" style="border-color: #4e6ee4; color: #4e6ee4;"
-                            onclick="selectContact('김성원', '010-1234-1234')">선택</button>
-                        <button class="white-button btn-manager-action" onclick="openDeleteManager()">삭제</button>
-                        <button class="dark-button btn-manager-action" onclick="openModifyManager()">수정</button>
+
+                    <div style="display: flex; align-items: center;">
+                        <div class="manager-card-detail">010-1234-1234</div>
+                        <div style="width: 1px; height: 10px; margin: 0 5px; background-color: #777;"></div>
+                        <div class="manager-card-detail" style="color: #666;">test@gmail.com</div>
                     </div>
-                </div>
-                <div class="manager-list-item">
-                    <div class="manager-info" onclick="selectContact('이담당', '010-5678-5678')">
-                        <div class="manager-name">이담당</div>
-                        <div class="manager-contact">010-5678-5678 | lee@test.com</div>
+
+                    <div class="manager-card-footer">
+                        <button class="white-button btn" onclick="openModifyManager()">수정</button>
+                        <button class="white-button btn" onclick="openDeleteManager()">삭제</button>
                     </div>
-                    <div class="manager-actions">
-                        <button class="white-button btn-manager-action" style="border-color: #4e6ee4; color: #4e6ee4;"
-                            onclick="selectContact('이담당', '010-5678-5678')">선택</button>
-                        <button class="white-button btn-manager-action" onclick="openDeleteManager()">삭제</button>
-                        <button class="dark-button btn-manager-action" onclick="openModifyManager()">수정</button>
+                </article>
+
+                <article class="manager-card-item">
+                    <div class="manager-card-header">
+                        <span class="manager-card-name">이담당</span>
+                        <button class="white-button btn" onclick="selectContact('이담당', '010-5678-5678')">
+                            선택
+                        </button>
                     </div>
-                </div>
+
+                    <div style="display: flex; align-items: center;">
+                        <div class="manager-card-detail">010-1234-1234</div>
+                        <div style="width: 1px; height: 10px; margin: 0 5px; background-color: #777;"></div>
+                        <div class="manager-card-detail" style="color: #666;">test@gmail.com</div>
+                    </div>
+
+                    <div class="manager-card-footer">
+                        <button class="white-button btn" onclick="openModifyManager()">수정</button>
+                        <button class="white-button btn" onclick="openDeleteManager()">삭제</button>
+                    </div>
+                </article>
             </div>
 
             <div class="manager-info-text">
@@ -4773,9 +4890,10 @@
 
         function selectCustomer(company, bizNum, repName, contactName, contactPhone, email) {
             closeModal('customer-list-modal-overlay');
-            const valueEl = document.getElementById(`customer-info-value`);
-            valueEl.textContent = company;
-            valueEl.classList.remove('placeholder');
+            const inputEl = document.getElementById('customer-input');
+            if (inputEl) {
+                inputEl.value = company;
+            }
         }
 
         const customerEditForm = document.getElementById('customer-edit-form');

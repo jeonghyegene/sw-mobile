@@ -1900,6 +1900,57 @@
         #calendar-sheet-overlay {
             z-index: 4000 !important;
         }
+
+        /* [CSS 추가] 담당자 관리 리스트 - 카드형 스타일 */
+        .manager-card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .manager-card-item {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 12px;
+            background: white;
+        }
+
+        .manager-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .manager-card-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .manager-card-detail {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+            line-height: 1.5;
+        }
+
+        .manager-card-footer {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        /* 카드 내부 버튼 스타일 */
+        .manager-card-footer .btn {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 
@@ -2484,56 +2535,63 @@
                     <path d="M6 6l12 12" />
                 </svg></div>
         </div>
+
         <div class="fp-body">
             <div style="font-size: 13px; font-weight: 500; color: #333; margin-bottom: 8px;">총 4명</div>
 
-            <div class="manager-list">
-                <div class="manager-list-item">
-                    <div class="manager-info">
-                        <div class="manager-name">김길동</div>
-                        <div class="manager-contact">01012341234 | test@gmail.com</div>
+            <div class="manager-card-list">
+                <article class="manager-card-item">
+                    <div class="manager-card-header">
+                        <span class="manager-card-name">김길동</span>
                     </div>
-                    <div class="manager-actions">
-                        <button class="white-button btn-manager-action" onclick="openDeleteManager()">삭제</button>
-                        <button class="dark-button btn-manager-action" onclick="openModifyManager()">수정</button>
+                    <div class="manager-card-detail">01012341234</div>
+                    <div class="manager-card-detail" style="color: #666;">test@gmail.com</div>
+                    <div class="manager-card-footer">
+                        <button class="white-button btn" onclick="openModifyManager()">수정</button>
+                        <button class="white-button btn" onclick="openDeleteManager()">삭제</button>
                     </div>
-                </div>
-                <div class="manager-list-item">
-                    <div class="manager-info">
-                        <div class="manager-name">홍길동</div>
-                        <div class="manager-contact">01012341234 | test@gmail.com</div>
+                </article>
+
+                <article class="manager-card-item">
+                    <div class="manager-card-header">
+                        <span class="manager-card-name">홍길동</span>
                     </div>
-                    <div class="manager-actions">
-                        <button class="white-button btn-manager-action" onclick="openDeleteManager()">삭제</button>
-                        <button class="dark-button btn-manager-action" onclick="openModifyManager()">수정</button>
+                    <div class="manager-card-detail">01012341234</div>
+                    <div class="manager-card-detail" style="color: #666;">test@gmail.com</div>
+                    <div class="manager-card-footer">
+                        <button class="white-button btn" onclick="openModifyManager()">수정</button>
+                        <button class="white-button btn" onclick="openDeleteManager()">삭제</button>
                     </div>
-                </div>
-                <div class="manager-list-item">
-                    <div class="manager-info">
-                        <div class="manager-name">성길동</div>
-                        <div class="manager-contact">01012341234 | test@gmail.com</div>
+                </article>
+
+                <article class="manager-card-item">
+                    <div class="manager-card-header">
+                        <span class="manager-card-name">성길동</span>
                     </div>
-                    <div class="manager-actions">
-                        <button class="white-button btn-manager-action" onclick="openDeleteManager()">삭제</button>
-                        <button class="dark-button btn-manager-action" onclick="openModifyManager()">수정</button>
+                    <div class="manager-card-detail">01012341234</div>
+                    <div class="manager-card-detail" style="color: #666;">test@gmail.com</div>
+                    <div class="manager-card-footer">
+                        <button class="white-button btn" onclick="openModifyManager()">수정</button>
+                        <button class="white-button btn" onclick="openDeleteManager()">삭제</button>
                     </div>
-                </div>
-                <div class="manager-list-item">
-                    <div class="manager-info">
-                        <div class="manager-name">최길동</div>
-                        <div class="manager-contact">01012341234 | test@gmail.com</div>
+                </article>
+
+                <article class="manager-card-item">
+                    <div class="manager-card-header">
+                        <span class="manager-card-name">최길동</span>
                     </div>
-                    <div class="manager-actions">
-                        <button class="white-button btn-manager-action" onclick="openDeleteManager()">삭제</button>
-                        <button class="dark-button btn-manager-action" onclick="openModifyManager()">수정</button>
+                    <div class="manager-card-detail">01012341234</div>
+                    <div class="manager-card-detail" style="color: #666;">test@gmail.com</div>
+                    <div class="manager-card-footer">
+                        <button class="white-button btn" onclick="openModifyManager()">수정</button>
+                        <button class="white-button btn" onclick="openDeleteManager()">삭제</button>
                     </div>
-                </div>
+                </article>
             </div>
 
             <div class="manager-info-text">
-                <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="14" height="14"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <line x1="12" y1="16" x2="12" y2="12"></line>
                     <line x1="12" y1="8" x2="12.01" y2="8"></line>
@@ -2699,7 +2757,7 @@
                 </div>
 
                 <div class="filter-group">
-                    <div class="filter-group-title">고객사</div>
+                    <div class="filter-group-title">고객</div>
                     <div class="filter-group-content" id="combined-customer-chips">
                         <div class="multi-chip multi-chip-on" data-category="전체"
                             onclick="toggleFilterChip(this, 'combined-customer-chips')">✓ 전체</div>
