@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* [v12] Master Guide CSS & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            text-align: left;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 100px;
+        }
+
+        /* Header (v12) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        /* Buttons */
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 16px;
+        }
+
+        /* Transaction List Header */
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
+        }
+
+        .transaction-list-header .total-count strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Checkbox */
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .checkbox-off {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #bdbdbd;
+            border-radius: 2px;
+        }
+
+        .checkbox-on {
+            width: 100%;
+            height: 100%;
+            background: #4e6ee4;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-on img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-text span {
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* QNA List & Card (Updated for Reference Image) */
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .common-table-card {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .common-table-card.qna-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 16px;
+            /* Increased padding */
+            cursor: pointer;
+        }
+
+        .common-table-card.qna-card:hover {
+            background: #fff;
+        }
+
+        .qna-checkbox-wrapper {
+            display: none;
+            padding-top: 2px;
+        }
+
+        body.my-inquiries-active .qna-checkbox-wrapper {
+            display: block;
+        }
+
+        body.my-inquiries-active .qna-card:not([data-is-mine="true"]) {
+            display: none;
+        }
+
+        /* New Card Content Layout matching Image */
+        .card-content-wrapper {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Row: Type | Date */
+        .qna-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .qna-type {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .qna-type[data-type="Q&A"] {
+            color: #007bff;
+        }
+
+        .qna-type[data-type="AS"] {
+            color: #dc3545;
+        }
+
+        .qna-type[data-type="배송"] {
+            color: #333;
+        }
+
+        .qna-date {
+            font-size: 12px;
+            color: #999;
+            font-weight: 400;
+        }
+
+        /* Middle Row: Title */
+        .qna-subject {
+            font-size: 15px;
+            font-weight: 500;
+            color: #222;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: keep-all;
+        }
+
+        /* Bottom Row: No. | Badge */
+        .qna-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .qna-no {
+            font-size: 12px;
+            color: #bcbcbc;
+        }
+
+        .qna-status-badge {
+            background: white;
+            border: 1px solid #d7d7d7;
+            border-radius: 30px;
+            padding: 2px 8px;
+            /* 패딩 미세 조정 */
+            font-size: 10px;
+            color: black;
+            flex-shrink: 0;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qna-status-badge[data-status="답변 완료"] {
+            border-color: #28a745;
+            color: #28a745;
+            background-color: #f0fff4;
+        }
+
+        .qna-status-badge[data-status="답변 대기"] {
+            border-color: #007bff;
+            color: #007bff;
+            background-color: #f0f7ff;
+        }
+
+        /* Answer Section (Toggle) */
+        .qna-answer-wrapper {
+            display: none;
+            padding-top: 16px;
+            margin-top: 16px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .qna-answer-section {
+            background: #f8f8f9;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+        }
+
+        .qna-answer-header {
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qna-answer-header svg {
+            color: #4e6ee4;
+        }
+
+        .qna-answer-body {
+            padding: 20px 16px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .no-transactions {
+            padding: 40px 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+        }
+
+        .pagination-arrow {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-arrow img {
+            width: 100%;
+            height: auto;
+        }
+
+        .pagination-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-numbers {
+            display: flex;
+            gap: 3px;
+        }
+
+        .pagination-number {
+            min-width: 28px;
+            height: 28px;
+            padding: 4px 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .pagination-number.active {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .pagination-number:not(.active) {
+            background: white;
+            color: #bcbcbc;
+        }
+
+        /* Sticky Action Footer */
+        .sticky-action-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+            padding: 16px;
+            z-index: 500;
+        }
+
+        .sticky-action-footer .dark-button {
+            width: 100%;
+        }
+
+        #qna-delete-footer {
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            display: none;
+        }
+
+        #qna-delete-footer span {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        #qna-delete-footer .dark-button {
+            width: auto;
+            flex: none;
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">Q&A</h1>
+            <div class="header-right"></div>
+        </header>
+
+        <main>
+            <div id="page-content-qna">
+                <div class="sw-container">
+                    <section class="transaction-list-section">
+                        <div class="transaction-list-header" style="padding-top: 0;">
+                            <span class="total-count">총 <strong id="qna-count">4</strong>건</span>
+                            <div class="checkbox-text" onclick="toggleCheckboxText(this)">
+                                <div class="checkbox" data-checked="false">
+                                    <div class="checkbox-off"></div>
+                                </div>
+                                <span>내 문의 보기</span>
+                            </div>
+                        </div>
+
+                        <div class="transaction-list" id="qna-list-container">
+
+                            <article class="common-table-card qna-card" data-is-mine="false">
+                                <div class="qna-checkbox-wrapper">
+                                    <div class="checkbox" data-checked="false"
+                                        onclick="event.stopPropagation(); toggleQnaCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                </div>
+                                <div class="card-content-wrapper" onclick="toggleQnaAnswer(this)">
+                                    <div class="qna-header-row">
+                                        <span class="qna-type" data-type="Q&A">Q&A</span>
+                                        <span class="qna-date">2025-07-14</span>
+                                    </div>
+                                    <div class="qna-subject">
+                                        [일반명함] 안녕하세요 일반명함에 대해 궁금한게 있습니다. 재질 관련해서 문의드립니다.
+                                    </div>
+                                    <div class="qna-footer-row">
+                                        <span class="qna-no">No. 324540</span>
+                                        <span class="qna-status-badge" data-status="답변 완료">답변 완료</span>
+                                    </div>
+
+                                    <div class="qna-answer-wrapper" onclick="event.stopPropagation();">
+                                        <section class="qna-answer-section">
+                                            <div class="qna-answer-header">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path
+                                                        d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
+                                                    <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
+                                                </svg>
+                                                성원애드피아의 답변입니다.
+                                            </div>
+                                            <div class="qna-answer-body">
+                                                <p>네, 고객님. 일반명함 재질은 아트지, 스노우지 등 다양하게 준비되어 있습니다. 상세페이지를 참고해주세요.</p>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="common-table-card qna-card" data-is-mine="true">
+                                <div class="qna-checkbox-wrapper">
+                                    <div class="checkbox" data-checked="false"
+                                        onclick="event.stopPropagation(); toggleQnaCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                </div>
+                                <div class="card-content-wrapper" onclick="toggleQnaAnswer(this)">
+                                    <div class="qna-header-row">
+                                        <span class="qna-type" data-type="AS">AS</span>
+                                        <span class="qna-date">2024-12-30</span>
+                                    </div>
+                                    <div class="qna-subject">
+                                        [용지/인쇄/재단/가공/포장] PDF 시안에서는 분명히 정상이었는데 인쇄물이 다르게 나왔습니다.
+                                    </div>
+                                    <div class="qna-footer-row">
+                                        <span class="qna-no">No. 324539</span>
+                                        <span class="qna-status-badge" data-status="답변 대기">답변 대기</span>
+                                    </div>
+
+                                    <div class="qna-answer-wrapper" onclick="event.stopPropagation();">
+                                        <section class="qna-answer-section"
+                                            style="background: #f0f0f0; border-color: #e0e0e0;">
+                                            <div class="qna-answer-body"
+                                                style="padding: 16px; text-align: center; color: #888; font-size: 13px;">
+                                                <p style="margin: 0;">아직 답변이 등록되지 않았어요</p>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="common-table-card qna-card" data-is-mine="true">
+                                <div class="qna-checkbox-wrapper">
+                                    <div class="checkbox" data-checked="false"
+                                        onclick="event.stopPropagation(); toggleQnaCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                </div>
+                                <div class="card-content-wrapper" onclick="toggleQnaAnswer(this)">
+                                    <div class="qna-header-row">
+                                        <span class="qna-type" data-type="AS">AS</span>
+                                        <span class="qna-date">2024-12-30</span>
+                                    </div>
+                                    <div class="qna-subject">
+                                        [배송] 배송지 변경 가능한가요?
+                                    </div>
+                                    <div class="qna-footer-row">
+                                        <span class="qna-no">No. 324538</span>
+                                        <span class="qna-status-badge" data-status="답변 대기">답변 대기</span>
+                                    </div>
+
+                                    <div class="qna-answer-wrapper" onclick="event.stopPropagation();">
+                                        <section class="qna-answer-section"
+                                            style="background: #f0f0f0; border-color: #e0e0e0;">
+                                            <div class="qna-answer-body"
+                                                style="padding: 16px; text-align: center; color: #888; font-size: 13px;">
+                                                <p style="margin: 0;">아직 답변이 등록되지 않았어요</p>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="common-table-card qna-card" data-is-mine="false">
+                                <div class="qna-checkbox-wrapper">
+                                    <div class="checkbox" data-checked="false"
+                                        onclick="event.stopPropagation(); toggleQnaCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                </div>
+                                <div class="card-content-wrapper" onclick="toggleQnaAnswer(this)">
+                                    <div class="qna-header-row">
+                                        <span class="qna-type" data-type="Q&A">Q&A</span>
+                                        <span class="qna-date">2025-07-14</span>
+                                    </div>
+                                    <div class="qna-subject">
+                                        [일반명함] 제작 기간이 보통 얼마나 걸리나요? 급하게 필요해서요.
+                                    </div>
+                                    <div class="qna-footer-row">
+                                        <span class="qna-no">No. 324537</span>
+                                        <span class="qna-status-badge" data-status="답변 대기">답변 대기</span>
+                                    </div>
+
+                                    <div class="qna-answer-wrapper" onclick="event.stopPropagation();">
+                                        <section class="qna-answer-section"
+                                            style="background: #f0f0f0; border-color: #e0e0e0;">
+                                            <div class="qna-answer-body"
+                                                style="padding: 16px; text-align: center; color: #888; font-size: 13px;">
+                                                <p style="margin: 0;">아직 답변이 등록되지 않았어요</p>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </article>
+
+                        </div>
+
+                        <div class="no-transactions" id="no-qna-list" style="display: none;">작성된 Q&A가 없어요</div>
+
+                        <div class="pagination" data-name="Pagination">
+                            <div class="pagination-arrow disabled" onclick="paginationFirst()">
+                                <img src="assets/images/nnext-arrow.svg" alt="처음" style="transform: rotate(90deg);">
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationPrev()">
+                                <img src="assets/images/next-arrow.svg" alt="이전" style="transform: rotate(90deg);">
+                            </div>
+                            <div class="pagination-numbers" id="pagination-numbers-qna">
+                                <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationNext()">
+                                <img src="assets/images/next-arrow.svg" alt="다음"
+                                    style="transform: rotate(90deg) scaleY(-1);">
+                            </div>
+                            <div class="pagination-arrow disabled" onclick="paginationLast()">
+                                <img src="assets/images/nnext-arrow.svg" alt="마지막"
+                                    style="transform: rotate(90deg) scaleY(-1);">
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <div class="sticky-action-footer" id="qna-footer">
+            <button class="dark-button" onclick="location.href='qna_write.html'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    style="margin-right: 4px;">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 5l0 14" />
+                    <path d="M5 12l14 0" />
+                </svg>
+                문의하기
+            </button>
+        </div>
+
+        <div class="sticky-action-footer" id="qna-delete-footer">
+            <span id="qna-selected-count">총 0건</span>
+            <button class="dark-button btn" onclick="alert('삭제하기 (구현 필요)')">삭제하기</button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Checkbox (v12) ---
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+            }
+            return checkbox.dataset.checked === 'true';
+        }
+
+        function toggleCheckboxText(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            const isChecked = toggleCheckbox(checkbox);
+
+            console.log("내 문의 보기 필터:", isChecked);
+            document.body.classList.toggle('my-inquiries-active', isChecked);
+            document.getElementById('qna-footer').style.display = isChecked ? 'none' : 'block';
+
+            if (isChecked) {
+                document.querySelector('.mobile-wrap').style.paddingBottom = '20px';
+                updateQnaDeleteFooter();
+            } else {
+                document.getElementById('qna-delete-footer').style.display = 'none';
+                document.querySelector('.mobile-wrap').style.paddingBottom = '100px';
+            }
+        }
+
+        // --- Pagination ---
+        let qnaCurrentPage = 1; const qnaTotalPages = 1;
+
+        function paginationGo(page) {
+            qnaCurrentPage = page;
+            updatePagination();
+            console.log(`Page changed:`, page);
+        }
+
+        function updatePagination() {
+            const numbersContainer = document.getElementById('pagination-numbers-qna');
+            if (!numbersContainer) return;
+
+            numbersContainer.innerHTML = '';
+            for (let i = 1; i <= qnaTotalPages; i++) {
+                const numEl = document.createElement('div');
+                numEl.className = 'pagination-number' + (i === qnaCurrentPage ? ' active' : '');
+                numEl.dataset.page = i;
+                numEl.textContent = i;
+                numEl.onclick = () => paginationGo(i);
+                numbersContainer.appendChild(numEl);
+            }
+
+            const paginationRoot = numbersContainer.closest('.pagination');
+            if (!paginationRoot) return;
+            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
+            const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
+
+            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', qnaCurrentPage === 1));
+            nextArrows.forEach(arrow => arrow.classList.toggle('disabled', qnaCurrentPage === qnaTotalPages));
+        }
+
+        // --- Accordion ---
+        function toggleQnaAnswer(element) {
+            // element는 클릭된 .card-content-wrapper
+            const card = element.closest('.qna-card');
+            const answerWrapper = card.querySelector('.qna-answer-wrapper');
+            if (!answerWrapper) return;
+
+            // 다른 열린 카드 닫기
+            document.querySelectorAll('.qna-answer-wrapper').forEach(wrapper => {
+                if (wrapper !== answerWrapper) {
+                    wrapper.style.display = 'none';
+                    wrapper.closest('.qna-card').classList.remove('expanded');
+                }
+            });
+
+            // 현재 카드 토글
+            if (answerWrapper.style.display === 'block') {
+                answerWrapper.style.display = 'none';
+                card.classList.remove('expanded');
+            } else {
+                answerWrapper.style.display = 'block';
+                card.classList.add('expanded');
+            }
+        }
+
+        // --- Delete Footer Logic ---
+        function toggleQnaCheckbox(checkboxEl) {
+            toggleCheckbox(checkboxEl);
+            updateQnaDeleteFooter();
+        }
+
+        function updateQnaDeleteFooter() {
+            const deleteFooter = document.getElementById('qna-delete-footer');
+            const listContainer = document.getElementById('qna-list-container');
+            const mobileWrap = document.querySelector('.mobile-wrap');
+
+            if (!listContainer || !deleteFooter) return;
+
+            if (!document.body.classList.contains('my-inquiries-active')) {
+                deleteFooter.style.display = 'none';
+                return;
+            }
+
+            const checkedBoxes = listContainer.querySelectorAll('.qna-card[data-is-mine="true"] .checkbox[data-checked="true"]');
+            const count = checkedBoxes.length;
+
+            if (count > 0) {
+                deleteFooter.style.display = 'flex';
+                document.getElementById('qna-selected-count').textContent = `총 ${count}건`;
+                mobileWrap.style.paddingBottom = '100px';
+            } else {
+                deleteFooter.style.display = 'none';
+                mobileWrap.style.paddingBottom = '20px';
+            }
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePagination();
+        });
+    </script>
+</body>
+
+</html>
