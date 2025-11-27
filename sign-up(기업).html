@@ -1657,31 +1657,47 @@
             const value = input.value;
             const atIndex = value.indexOf('@');
             emailDropdown.innerHTML = '';
-            
+
+            // [수정] 입력값이 없으면 드롭다운 숨김
+            if (value.length === 0) {
+                emailDropdown.style.display = 'none';
+                return;
+            }
+
+            let localPart = value;
+            let domainPart = '';
+
+            // [수정] @ 입력 여부에 따른 파싱 로직 변경
             if (atIndex > -1) {
-                const localPart = value.substring(0, atIndex);
-                const domainPart = value.substring(atIndex + 1);
-                
-                if (localPart.length === 0) {
-                     emailDropdown.style.display = 'none';
-                     return;
-                }
-                
-                const matchingDomains = emailDomains.filter(domain => domain.startsWith(domainPart));
-                
-                if (matchingDomains.length > 0) {
-                    matchingDomains.forEach(domain => {
-                        const fullEmail = localPart + '@' + domain;
-                        const item = document.createElement('div');
-                        item.className = 'combobox-item';
-                        item.textContent = fullEmail;
-                        item.onmousedown = () => selectEmailSuggestion(fullEmail);
-                        emailDropdown.appendChild(item);
-                    });
-                    emailDropdown.style.display = 'block';
-                } else {
-                    emailDropdown.style.display = 'none';
-                }
+                // @가 있는 경우: @ 앞부분과 뒷부분 분리
+                localPart = value.substring(0, atIndex);
+                domainPart = value.substring(atIndex + 1);
+            } else {
+                // @가 없는 경우: 전체를 ID로 간주하고 도메인 부분은 빈 문자열
+                localPart = value;
+                domainPart = '';
+            }
+
+            // @만 입력했거나 앞부분이 없는 경우 숨김
+            if (localPart.length === 0) {
+                emailDropdown.style.display = 'none';
+                return;
+            }
+
+            // [수정] 도메인 매칭 로직 (@ 미입력 시 모든 도메인 추천)
+            const matchingDomains = emailDomains.filter(domain => domain.startsWith(domainPart));
+
+            if (matchingDomains.length > 0) {
+                matchingDomains.forEach(domain => {
+                    const fullEmail = localPart + '@' + domain;
+                    const item = document.createElement('div');
+                    item.className = 'combobox-item';
+                    item.textContent = fullEmail;
+                    // Use onmousedown to fire before onblur
+                    item.onmousedown = () => selectEmailSuggestion(fullEmail);
+                    emailDropdown.appendChild(item);
+                });
+                emailDropdown.style.display = 'block';
             } else {
                 emailDropdown.style.display = 'none';
             }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>현금영수증 발급 (발급 내역)</title>
+    <title>세금계산서 발급 (v12 수정)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -70,6 +70,18 @@
         input,
         select {
             font-family: inherit;
+        }
+
+        /* [v12] Master Guide: Input Button (for Date/Calendar Trigger) */
+        .input button {
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            border: none;
+            background: none;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
         }
 
         svg {
@@ -162,7 +174,7 @@
             height: 100%;
         }
 
-        /* Buttons (v12 Standard + Primary) */
+        /* Buttons */
         .primary-button {
             background-color: #4e6ee4;
             color: white;
@@ -252,7 +264,7 @@
             padding: 16px;
         }
 
-        /* [NEW] Page Tabs (v12 Tab-Nav Style) */
+        /* Page Tabs */
         .page-tabs {
             width: 100%;
             height: 44px;
@@ -290,12 +302,7 @@
             border-bottom: 2px solid black;
         }
 
-        .page-tab-item:hover {
-            opacity: 0.8;
-        }
-
-
-        /* Account Section (v14) */
+        /* Info Section */
         .info-section {
             background: #f8f8f9;
             border: 1px solid #f0f0f0;
@@ -311,25 +318,37 @@
             margin-bottom: 8px;
         }
 
-        .info-section .balance-row {
+        /* Filter Chip Section */
+        .filter-chip-section {
+            background: #fff;
+            padding: 8px 16px;
+            border-bottom: 1px solid #e9e9e9;
+            margin: 0 -16px 16px -16px;
+        }
+
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip-section .tabs-scroll-wrapper {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
+            gap: 8px;
         }
 
-        .info-section .balance {
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
+        .filter-chip-section .single-chip,
+        .filter-chip-section .multi-chip {
+            flex-shrink: 0;
+            white-space: nowrap;
         }
 
-        .info-section .balance-row .primary-button {
-            height: 36px;
-            font-size: 13px;
-        }
-
-        /* Filter Section (v15) */
+        /* Filter Section */
         .filter-section {
             padding: 0 0 16px 0;
             display: flex;
@@ -338,7 +357,7 @@
         }
 
         #issue-period-filter {
-            padding-bottom: 16px;
+            padding-bottom: 0;
         }
 
         /* [v12] Text Select Button */
@@ -391,6 +410,7 @@
             font-size: 14px;
             color: #555;
             border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
         }
 
         .transaction-list-header .total-count strong {
@@ -405,14 +425,6 @@
             cursor: pointer;
             transition: opacity 0.2s;
             user-select: none;
-        }
-
-        .view-count-select:hover {
-            opacity: 0.8;
-        }
-
-        .view-count-select:active {
-            transform: scale(0.98);
         }
 
         .view-count-select-text {
@@ -446,7 +458,7 @@
             font-size: 14px;
         }
 
-        /* [NEW] v12 common-table-card */
+        /* Common Table Card */
         .common-table-card {
             width: 100%;
             background: white;
@@ -460,29 +472,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 0px;
-        }
-
-        .card-column1 {
-            font-size: 16px;
-            font-weight: 500;
-            color: #212121;
-        }
-
-        .card-column1-button {
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-            background: none;
-            border: none;
-            padding: 0;
-            margin: 0;
-            cursor: pointer;
-            text-align: left;
-        }
-
-        .card-column1-button:hover {
-            opacity: 0.7;
+            margin-bottom: 15px;
         }
 
         .card-badge {
@@ -493,14 +483,6 @@
             font-size: 10px;
             color: black;
             flex-shrink: 0;
-        }
-
-        .card-column2 {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333333;
-            margin-top: 4px;
-            margin-bottom: 15px;
         }
 
         .card-divider {
@@ -542,77 +524,138 @@
             padding: 0 12px;
         }
 
-        /* [v17] Pagination */
-        .pagination {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            margin-bottom: 24px;
+        /* Status Colors */
+        .card-badge[data-type="건별"] {
+            border-color: #007bff;
+            color: #007bff;
         }
 
-        .pagination-arrow {
-            width: 15px;
-            height: 15px;
+        .card-badge[data-type="합산"] {
+            border-color: #28a745;
+            color: #28a745;
+        }
+
+        /* [v12] Checkbox */
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            position: relative;
             cursor: pointer;
-            transition: transform 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            user-select: none;
+            flex-shrink: 0;
         }
 
-        .pagination-arrow img {
+        .checkbox-off {
             width: 100%;
-            height: auto;
+            height: 100%;
+            background: white;
+            border: 1px solid #bdbdbd;
+            border-radius: 2px;
         }
 
-        .pagination-arrow:active {
-            transform: scale(0.9);
-        }
-
-        .pagination-arrow.disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .pagination-numbers {
-            display: flex;
-            gap: 3px;
-        }
-
-        .pagination-number {
-            min-width: 28px;
-            height: 28px;
-            padding: 4px 5px;
-            border-radius: 4px;
-            font-size: 14px;
+        .checkbox-on {
+            width: 100%;
+            height: 100%;
+            background: #4e6ee4;
+            border-radius: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .checkbox-on img {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* [v12] Multi-chip */
+        .multi-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.2s;
             user-select: none;
         }
 
-        .pagination-number.active {
-            background: #4e6ee4;
-            color: white;
+        .multi-chip-off {
+            background: #fdfdfd;
+            border: 1px solid #e6e4e4;
+            color: #6d6d6d;
         }
 
-        .pagination-number:not(.active) {
-            background: white;
-            color: #bcbcbc;
+        .multi-chip-on {
+            background: #c7d3ff;
+            border: 1px solid #4e6ee4;
+            color: #4e6ee4;
         }
 
-        .pagination-number:not(.active):hover {
-            background: #f5f5f5;
-        }
-
-        .pagination-number:active {
+        .multi-chip:active {
             transform: scale(0.95);
         }
 
-        /* [NEW] Sticky Footer Bar */
+        /* [v12] Search */
+        .search {
+            width: 100%;
+            height: 40px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            position: relative;
+        }
+
+        .search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+        }
+
+        .search input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .search-input-right {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .search-del {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .search.has-text .search-del {
+            display: flex;
+        }
+
+        .search-icon,
+        .btn-search {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .search-del img,
+        .btn-search img,
+        .search-icon img {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Sticky Footer */
         .sticky-footer-bar {
             position: fixed;
             bottom: 0;
@@ -635,28 +678,12 @@
             display: flex;
         }
 
-        @keyframes slideUpFooter {
-            from {
-                transform: translate(-50%, 100%);
-            }
-
-            to {
-                transform: translate(-50%, 0);
-            }
-        }
-
-        .sticky-footer-bar span {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-        }
-
         .sticky-footer-bar .dark-button {
             width: auto;
             flex-shrink: 0;
         }
 
-        /* v12 Standard .single-chip */
+        /* [v12] Single-chip */
         .single-chip {
             display: inline-flex;
             align-items: center;
@@ -679,11 +706,7 @@
             color: white;
         }
 
-        .single-chip:active {
-            transform: scale(0.95);
-        }
-
-        /* v12 Standard .disclaimer */
+        /* Disclaimer */
         .disclaimer {
             font-size: 12px;
             color: #888;
@@ -691,24 +714,7 @@
             line-height: 1.5;
         }
 
-        .disclaimer.warning {
-            color: #dc3545;
-        }
-
-        .disclaimer a {
-            color: #4e6ee4;
-            text-decoration: underline;
-        }
-
-        .disclaimer a:hover {
-            text-decoration: none;
-        }
-
-
-        /* ========================================
-           [NEW] MODAL STYLES
-        ======================================== */
-
+        /* Modal */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -725,16 +731,6 @@
             animation: fadeInModal 0.2s ease-out;
         }
 
-        @keyframes fadeInModal {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
         .modal-content {
             background: white;
             border-radius: 8px;
@@ -746,33 +742,71 @@
             animation: scaleUpModal 0.2s ease-out;
         }
 
-        @keyframes scaleUpModal {
-            from {
-                transform: scale(0.9);
-                opacity: 0;
-            }
+        /* [MODIFIED] issue-full-details-modal 스타일 재정의 */
+        #issue-full-details-modal {
+            max-width: 480px;
+            /* 요청사항 반영: 480px */
+            /* Full modal 스타일 제거, 중앙 정렬은 modal-overlay가 담당 */
+        }
 
-            to {
-                transform: scale(1);
-                opacity: 1;
+        #issue-full-details-modal.full-modal {
+            max-width: 480px;
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            border-radius: 0;
+
+            position: fixed;
+            top: 0;
+            bottom: 0;
+
+            /* Center alignment logic for PC/Tablet */
+            left: 50%;
+            margin-left: -240px;
+
+            /* Animation: Slide from right */
+            transform: translateX(100%);
+            transition: transform 0.3s ease-out;
+            animation: none;
+            /* Reset inherited animation */
+        }
+
+        /* Mobile Responsive Override */
+        @media (max-width: 480px) {
+            #issue-full-details-modal.full-modal {
+                left: 0;
+                margin-left: 0;
             }
+        }
+
+        /* Active State (Open) */
+        .modal-overlay.active #issue-full-details-modal.full-modal {
+            transform: translateX(0);
+        }
+
+        /* Closing State */
+        #issue-full-details-modal.full-modal.closing {
+            transform: translateX(100%);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px;
+            padding: 0 16px;
             border-bottom: 1px solid #e8e8e9;
-            position: relative;
-            height: 57px;
+            height: 56px;
+            flex-shrink: 0;
         }
 
         .modal-title {
+            flex: 1;
+            /* Occupy remaining space */
+            text-align: left;
+            /* Center text */
             font-size: 16px;
             font-weight: 700;
             color: black;
-            text-align: left;
         }
 
         .btn-modal-close {
@@ -786,13 +820,20 @@
             transform: translateY(-50%);
         }
 
-        .btn-modal-close:hover {
-            color: #000;
-        }
-
-        .btn-modal-close svg {
-            width: 100%;
-            height: 100%;
+        /* Dummy Left & Close Button Symmetry */
+        .header-dummy-left,
+        .btn-modal-close {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: #333;
+            position: static;
+            /* Remove absolute positioning */
+            transform: none;
+            cursor: pointer;
         }
 
         .modal-body {
@@ -808,6 +849,7 @@
             display: flex;
             gap: 8px;
             border-radius: 0 0 7px 7px;
+            flex-shrink: 0;
         }
 
         .modal-footer .btn {
@@ -816,13 +858,8 @@
             font-size: 14px;
         }
 
-        /* Modal Form Elements */
         .form-group {
             margin-bottom: 20px;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
         }
 
         .form-group label {
@@ -845,6 +882,12 @@
             align-items: center;
         }
 
+        .readonly-value.emphasis {
+            font-weight: 700;
+            color: #333;
+            font-size: 16px;
+        }
+
         .input {
             width: 100%;
             min-height: 40px;
@@ -856,6 +899,7 @@
             align-items: center;
         }
 
+        /* Select Wrapper */
         .input.select-wrapper {
             padding: 0;
             position: relative;
@@ -873,7 +917,6 @@
             outline: none;
             font-size: 14px;
             color: black;
-            line-height: 1.5;
         }
 
         .input.select-wrapper::after {
@@ -890,52 +933,55 @@
             pointer-events: none;
         }
 
-        .input input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: black;
-            line-height: 1.5;
-        }
-
-        .input input::placeholder {
-            color: #c6c6c8;
-        }
-
-        /* [v12] Master Guide: Input Button (for Date/Calendar Trigger) */
-        .input button {
-            width: 100%;
-            height: 100%;
-            text-align: left;
-            border: none;
-            background: none;
-            font-size: 14px;
+        .modal-section-title {
+            font-size: 16px;
+            font-weight: 600;
             color: #333;
-            cursor: pointer;
-        }
-
-        .detail-item {
-            display: flex;
             margin-bottom: 12px;
+            margin-top: 16px;
+        }
+
+        .modal-body .modal-section-title:first-child {
+            margin-top: 0;
+        }
+
+        /* Item Detail */
+        .item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .item-name {
             font-size: 14px;
-        }
-
-        .detail-item .label {
-            color: #666;
-            width: 80px;
-            flex-shrink: 0;
-        }
-
-        .detail-item .value {
             color: #333;
             font-weight: 500;
         }
 
-        /* ========================================
-           [NEW] BOTTOM SHEET STYLES
-        ======================================== */
+        .item-price-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .item-price-total {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .item-price-details {
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* Bottom Sheet */
         .bottom-sheet-overlay {
             position: fixed;
             inset: 0;
@@ -1008,10 +1054,6 @@
             cursor: grab;
         }
 
-        .sheet-handle:active {
-            cursor: grabbing;
-        }
-
         .sheet-header {
             height: 21px;
             padding: 0 20px;
@@ -1035,17 +1077,6 @@
             width: 21px;
             height: 21px;
             cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .btn-close:active {
-            transform: scale(0.9);
-        }
-
-        .btn-close svg {
-            width: 100%;
-            height: 100%;
-            color: #333;
         }
 
         .sheet-body {
@@ -1209,9 +1240,9 @@
                     </svg>
                 </button>
             </div>
-            <h1 class="header-title">현금영수증 발급</h1>
+            <h1 class="header-title">세금계산서 발급</h1>
             <div class="header-right">
-                <!-- <button type="button" class="btn-icon">
+                <button type="button" class="btn-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
                         <path d="M21 21l-6 -6" />
@@ -1224,19 +1255,19 @@
                         <path d="M17 17h-11v-14h-2" />
                         <path d="M6 5l14 1l-1 7h-13" />
                     </svg>
-                </button> -->
+                </button>
             </div>
         </header>
 
         <main>
             <nav class="page-tabs" id="page-tab-nav">
-                <div class="page-tab-item" data-page="request" onclick="location.href='cr_request.html';">신청</div>
+                <div class="page-tab-item" data-page="request" onclick="location.href='tax_request.html';">신청</div>
                 <div class="page-tab-item active" data-page="issue" onclick="selectPageTab(this)">발급 내역</div>
             </nav>
 
             <div id="page-content-request" style="display: none;">
                 <div class="sw-container">
-                    <div class="no-transactions">현금영수증 신청 내역이 없어요</div>
+                    <div class="no-transactions" id="no-request-list">신청할 세금계산서 내역이 없어요</div>
                 </div>
             </div>
 
@@ -1245,7 +1276,7 @@
 
                     <section class="filter-section" id="issue-period-filter">
                         <button type="button" class="text-select-button" id="demo-period-btn" onclick="showListSheet()">
-                            <span class="text-select-button-text" id="demo-period-text">최근 1개월</span>
+                            <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
                             <div class="text-select-button-arrow">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
                                     <path d="M6 9l6 6l6 -6" />
@@ -1254,9 +1285,42 @@
                         </button>
                     </section>
 
+                    <section class="filter-chip-section">
+                        <div class="tabs-scroll-wrapper" id="issue-type-chip-group">
+                            <div class="multi-chip multi-chip-on" data-status="전체" onclick="toggleIssueTypeChip(this)">✓
+                                전체
+                            </div>
+                            <div class="multi-chip multi-chip-off" data-status="건별" onclick="toggleIssueTypeChip(this)">
+                                건별
+                            </div>
+                            <div class="multi-chip multi-chip-off" data-status="합산" onclick="toggleIssueTypeChip(this)">
+                                합산
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="filter-section" style="padding-top: 0;">
+                        <div class="search" data-name="search" id="issue-search">
+                            <input type="text" placeholder="접수번호 또는 기업명, 사업자등록번호" oninput="handleSearchInput(this)">
+                            <div class="search-input-right">
+                                <div class="search-del" onclick="clearSearch(this)">
+                                    <img src="https://www.figma.com/api/mcp/asset/ce4b3b50-ed70-4906-8b96-ef21771ec85d"
+                                        alt="지우기">
+                                </div>
+                                <div class="btn-search" onclick="handleSearch(this)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
+                                        id="icon-search">
+                                        <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                        <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
                     <section class="transaction-list-section">
                         <div class="transaction-list-header">
-                            <span class="total-count">총 <strong id="issue-count">2</strong>건</span>
+                            <span class="total-count">총 <strong id="issue-count">3</strong>건</span>
                             <div class="view-count-select">
                                 <span class="view-count-select-text">20건씩 보기</span>
                                 <div class="view-count-select-arrow">
@@ -1269,65 +1333,188 @@
 
                         <div class="transaction-list" id="issue-list-container">
 
-                            <article class="common-table-card" data-type="건별">
+                            <article class="common-table-card" data-type="합산">
                                 <div class="card-header">
-                                    <button type="button" class="card-column1-button">
-                                        <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                        <span
-                                            style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw434322</span>
-                                    </button>
+                                    <div>
+                                        <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
+                                        <span style="font-size: 16px; font-weight: 600; color: #212121;">324111</span>
+                                    </div>
+                                    <div class="card-badge" data-type="합산">합산</div>
                                 </div>
-                                <div class="card-row" style="margin-top: 15px;">
-                                    <div class="card-row-label" style="font-weight: 600; color: #333;">결제금액</div>
+
+                                <div class="card-row" style="margin-top: 8px;">
+                                    <div class="card-row-label" style="font-weight: 600; color: #333;">합계금액</div>
                                     <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">
-                                        152,500 원</div>
+                                        1,003,305,000 원</div>
                                 </div>
+                                <div class="card-row" style="justify-content: flex-end; margin-top: -5px;">
+                                    <span style="font-size: 12px; color: #888;">(공급가액: 103,305,000 원 / 부가세액:
+                                        1,003,305,000 원)</span>
+                                </div>
+
                                 <div class="card-divider"></div>
                                 <div class="card-row">
                                     <div class="card-row-label">발급일</div>
-                                    <div class="card-row-value">2025-07-18</div>
+                                    <div class="card-row-value">2025-08-01</div>
                                 </div>
                                 <div class="card-row">
-                                    <div class="card-row-label">발급번호</div>
-                                    <div class="card-row-value">010****0450</div>
+                                    <div class="card-row-label">접수번호</div>
+                                    <div class="card-row-value">sw675541 외 999건+</div>
                                 </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">기업명</div>
+                                    <div class="card-row-value">주식회사티엑스</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">사업자등록번호</div>
+                                    <div class="card-row-value">123-45-23155</div>
+                                </div>
+
                                 <div class="card-footer">
-                                    <!-- TODO -->
-                                    <button type="button" class="white-button btn" onclick="alert('PC에서만 가능합니다')">영수증 인쇄</button>
+                                    <button type="button" class="white-button btn" onclick="showIssueFullDetailsModal({
+                                        issueNo: '324111',
+                                        issueDate: '2025-08-01',
+                                        issueType: '합산',
+                                        totalAmount: '1,003,305,000',
+                                        totalSupply: '103,305,000',
+                                        totalTax: '1,003,305,000',
+                                        orders: [
+                                            { writeDate: '2025-08-02', orderNo: 'sw675541', shipDate: '2025-08-02', items: [{ name: '합산항목', supply: '103,305,000', tax: '1,003,305,000', total: '1,003,305,000' }], orderTotal: { supply: '103,305,000', tax: '1,003,305,000', total: '1,003,305,000' }}
+                                        ],
+                                        company: '주식회사티엑스',
+                                        bizNo: '123-45-23155',
+                                        repName: '김수현',
+                                        contactName: '김회계',
+                                        contactPhone: '0233441688',
+                                        contactEmail: 'damdangja@email.com'
+                                    })">발급 상세</button>
+                                    <button type="button" class="white-button btn"
+                                        onclick="alert('PC 에서만 가능합니다')">출력</button>
                                 </div>
                             </article>
 
                             <article class="common-table-card" data-type="건별">
                                 <div class="card-header">
-                                    <button type="button" class="card-column1-button">
-                                        <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                        <span
-                                            style="text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw654734</span>
-                                    </button>
+                                    <div>
+                                        <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
+                                        <span style="font-size: 16px; font-weight: 600; color: #212121;">102032</span>
+                                    </div>
+                                    <div class="card-badge" data-type="건별">건별</div>
                                 </div>
-                                <div class="card-row" style="margin-top: 15px;">
-                                    <div class="card-row-label" style="font-weight: 600; color: #333;">결제금액</div>
+
+                                <div class="card-row" style="margin-top: 8px;">
+                                    <div class="card-row-label" style="font-weight: 600; color: #333;">합계금액</div>
                                     <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">
-                                        1,202,500 원</div>
+                                        9,020 원</div>
                                 </div>
+                                <div class="card-row" style="justify-content: flex-end; margin-top: -5px;">
+                                    <span style="font-size: 12px; color: #888;">(공급가액: 8,200 원 / 부가세액: 820 원)</span>
+                                </div>
+
                                 <div class="card-divider"></div>
                                 <div class="card-row">
                                     <div class="card-row-label">발급일</div>
-                                    <div class="card-row-value">2025-07-18</div>
+                                    <div class="card-row-value">2025-08-13</div>
                                 </div>
                                 <div class="card-row">
-                                    <div class="card-row-label">발급번호</div>
-                                    <div class="card-row-value">010***1234</div>
+                                    <div class="card-row-label">접수번호</div>
+                                    <div class="card-row-value">sw243222</div>
                                 </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">기업명</div>
+                                    <div class="card-row-value">주식회사티엑스</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">사업자등록번호</div>
+                                    <div class="card-row-value">123-45-23155</div>
+                                </div>
+
                                 <div class="card-footer">
-                                    <button type="button" class="white-button btn" onclick="showSelfIssueModal()">자진발급
-                                        정보</button>
+                                    <button type="button" class="white-button btn" onclick="showIssueFullDetailsModal({
+                                        issueNo: '102032',
+                                        issueDate: '2025-08-13',
+                                        issueType: '건별',
+                                        totalAmount: '9,020',
+                                        totalSupply: '8,200',
+                                        totalTax: '820',
+                                        orders: [
+                                            { writeDate: '2025-08-15', orderNo: 'sw456426', shipDate: '2025-08-15', items: [{ name: '대봉투 외 1건', supply: '5,927', tax: '593', total: '6,520' }, { name: '택배비', supply: '2,273', tax: '227', total: '2,500' }], orderTotal: { supply: '8,200', tax: '820', total: '9,020' }}
+                                        ],
+                                        company: '주식회사 티엑스(TX)',
+                                        bizNo: '4343434222',
+                                        repName: '김수현',
+                                        contactName: '김회계',
+                                        contactPhone: '0233441688',
+                                        contactEmail: 'damdangja@email.com'
+                                    })">발급 상세</button>
+                                    <button type="button" class="white-button btn"
+                                        onclick="alert('PC 에서만 가능합니다')">출력</button>
+                                </div>
+                            </article>
+
+                            <article class="common-table-card" data-type="건별">
+                                <div class="card-header">
+                                    <div>
+                                        <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
+                                        <span style="font-size: 16px; font-weight: 600; color: #212121;">102032</span>
+                                    </div>
+                                    <div class="card-badge" data-type="건별">건별</div>
+                                </div>
+
+                                <div class="card-row" style="margin-top: 8px;">
+                                    <div class="card-row-label" style="font-weight: 600; color: #333;">합계금액</div>
+                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">
+                                        1,100,000 원</div>
+                                </div>
+                                <div class="card-row" style="justify-content: flex-end; margin-top: -5px;">
+                                    <span style="font-size: 12px; color: #888;">(공급가액: 1,000,000 원 / 부가세액: 100,000
+                                        원)</span>
+                                </div>
+
+                                <div class="card-divider"></div>
+                                <div class="card-row">
+                                    <div class="card-row-label">발급일</div>
+                                    <div class="card-row-value">2025-08-20</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">접수번호</div>
+                                    <div class="card-row-value">sw645721</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">기업명</div>
+                                    <div class="card-row-value">주식회사티엑스</div>
+                                </div>
+                                <div class="card-row">
+                                    <div class="card-row-label">사업자등록번호</div>
+                                    <div class="card-row-value">123-45-23155</div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <button type="button" class="white-button btn" onclick="showIssueFullDetailsModal({
+                                        issueNo: '102032',
+                                        issueDate: '2025-08-20',
+                                        issueType: '건별',
+                                        totalAmount: '1,100,000',
+                                        totalSupply: '1,000,000',
+                                        totalTax: '100,000',
+                                        orders: [
+                                            { writeDate: '2025-08-15', orderNo: 'sw645721', shipDate: '2025-08-15', items: [{ name: '품목 예시', supply: '1,000,000', tax: '100,000', total: '1,100,000' }], orderTotal: { supply: '1,000,000', tax: '100,000', total: '1,100,000' }}
+                                        ],
+                                        company: '주식회사티엑스',
+                                        bizNo: '123-45-23155',
+                                        repName: '김수현',
+                                        contactName: '김회계',
+                                        contactPhone: '0233441688',
+                                        contactEmail: 'damdangja@email.com'
+                                    })">발급 상세</button>
+                                    <button type="button" class="white-button btn"
+                                        onclick="alert('PC 에서만 가능합니다')">출력</button>
                                 </div>
                             </article>
 
                         </div>
 
-                        <div class="no-transactions" id="no-issue-list" style="display: none;">발급된 현금영수증 내역이 없어요</div>
+                        <div class="no-transactions" id="no-issue-list" style="display: none;">발급된 세금계산서 내역이 없어요</div>
 
                         <div style="margin-bottom: 24px;">
                             <button type="button" class="white-button" style="width: 100%;"
@@ -1336,9 +1523,12 @@
                     </section>
 
                     <section class="info-section">
-                        <div class="title">현금영수증 발급 내역 이용 안내</div>
-                        <p class="disclaimer">* 발급 상태에서 ‘영수증 인쇄’ 버튼을 눌러 현금영수증을 출력할 수 있어요</p>
-                        <p class="disclaimer">* 발급 내역이 홈택스에서 바로 조회되지 않을 수 있어요. 홈택스 회원가입과 인증수단을 등록하면 다음 날부터 조회할 수 있어요</p>
+                        <div class="title">세금계산서 발급 내역 이용 안내</div>
+                        <p class="disclaimer" style="font-weight: 600; color: #555;">발급 유형 안내</p>
+                        <p class="disclaimer">* 합산: 합산 발행은 여러 접수건을 한 장의 세금계산서로 묶어 처리하는 방식이에요</p>
+                        <p class="disclaimer">* 건별: 건별 발행은 한 건의 접수건마다 각각 세금계산서를 발급하는 방식이에요</p>
+                        <p class="disclaimer" style="margin-top: 12px;">* 세금계산서를 직접 신청하지 않으면, 다음 달 1일에 자동으로 합산 발급돼요</p>
+                        <p class="disclaimer">* 자동으로 묶여 발급된 세금계산서를 건별로 다시 발급받으려면, 국세청 신고 마감일인 다음 달 10일까지만 신청할 수 있어요</p>
                     </section>
 
                 </div>
@@ -1349,8 +1539,11 @@
     </div>
 
     <div class="sticky-footer-bar" id="tax-action-footer">
-        <span id="tax-selected-count">총 1건 선택됨</span>
-        <button class="dark-button" id="tax-apply-button" onclick="alert('현금영수증 신청 (구현 필요)')">현금영수증 신청</button>
+        <span id="tax-selected-count">총 1건</span>
+        <button class="dark-button" id="tax-apply-button" onclick="alert('세금계산서 신청 (구현 필요)')">세금계산서 신청</button>
+    </div>
+
+    <div class="modal-overlay" id="tax-edit-modal-overlay">
     </div>
 
     <div class="bottom-sheet-overlay" id="list-sheet-overlay">
@@ -1367,9 +1560,8 @@
             <div class="sheet-body" style="padding: 0;">
                 <ul class="option-list">
                     <li><button type="button" onclick="selectListOption('최근 1개월')">최근 1개월</button></li>
-                    <li><button type="button" onclick="selectListOption('최근 6개월')">최근 6개월</button></li>
-                    <li><button type="button" onclick="selectListOption('최근 1년')">최근 1년</button></li>
-                    <!-- <li><button type="button" onclick="openMonthlySheet()">월별</button></li> -->
+                    <li><button type="button" onclick="selectListOption('최근 3개월')">최근 3개월</button></li>
+                    <li><button type="button" onclick="openMonthlySheet()">월별</button></li>
                     <li><button type="button" onclick="openCustomPeriodSheet()">기간 설정</button></li>
                 </ul>
             </div>
@@ -1469,7 +1661,7 @@
             <div class="sheet-header">
                 <div class="sheet-title">월별 설정</div>
                 <div class="btn-close" onclick="closeMonthlyPeriodSheet()">
-                    <svg id="icon-close-monthly-period">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
                         <path d="M18 6l-12 12" />
                         <path d="M6 6l12 12" />
                     </svg>
@@ -1499,42 +1691,79 @@
     </div>
 
 
-    <div class="modal-overlay" id="self-issue-modal-overlay">
-        <div class="modal-content" id="self-issue-modal">
+    <div class="modal-overlay" id="issue-full-details-modal-overlay">
+        <div class="modal-content full-modal" id="issue-full-details-modal">
             <div class="modal-header">
-                <h2 class="modal-title">자진발급 정보</h2>
-                <button class="btn-modal-close" onclick="closeModal('self-issue-modal-overlay')">
+
+                <h2 class="modal-title">발급 상세</h2>
+
+                <button class="btn-modal-close" onclick="closeModal('issue-full-details-modal-overlay')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
+                        <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="detail-item">
-                    <span class="label">거래일시</span>
-                    <span class="value" id="modal-issue-date"></span>
+                <h2 class="modal-section-title">발급 정보</h2>
+                <div class="form-group">
+                    <label>발급번호</label>
+                    <div class="readonly-value" id="modal-issue-no"></div>
                 </div>
-                <div class="detail-item">
-                    <span class="label">거래금액</span>
-                    <span class="value" id="modal-issue-amount"></span>
+                <div class="form-group">
+                    <label>발급일</label>
+                    <div class="readonly-value" id="modal-issue-date"></div>
                 </div>
-                <div class="detail-item" style="margin-bottom: 24px;">
-                    <span class="label">승인번호</span>
-                    <span class="value" id="modal-issue-approval"></span>
+                <div class="form-group">
+                    <label>발급유형</label>
+                    <div class="readonly-value" id="modal-issue-type"></div>
                 </div>
 
-                <div class="info-section" style="margin-bottom: 0;">
-                    <div class="title">자진발급 이용 안내</div>
-                    <p class="disclaimer" style="margin-top: 0;">* 거래일시, 금액, 승인번호를 확인한 뒤 <a
-                            href="https://www.hometax.go.kr" target="_blank" rel="noopener noreferrer">국세청 홈택스</a>에서
-                        등록하면 소득공제가 정상 처리돼요</p>
+                <h2 class="modal-section-title">총 합계</h2>
+                <div class="form-group">
+                    <label>총 공급가액(₩)</label>
+                    <div class="readonly-value" id="modal-total-supply"></div>
                 </div>
+                <div class="form-group">
+                    <label>총 부가세액(₩)</label>
+                    <div class="readonly-value" id="modal-total-tax"></div>
+                </div>
+                <div class="form-group">
+                    <label>총 합계금액(₩)</label>
+                    <div class="readonly-value emphasis" id="modal-total-amount"></div>
+                </div>
+
+                <h2 class="modal-section-title">접수 정보</h2>
+                <div class="transaction-list" id="modal-order-list" style="margin-bottom: 0;">
+                </div>
+
+                <h2 class="modal-section-title">기업 정보</h2>
+                <section class="form-section">
+                    <div class="form-group">
+                        <label>사업자등록번호</label>
+                        <div class="readonly-value" id="modal-biz-no"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>기업명</label>
+                        <div class="readonly-value" id="modal-company-name"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>대표자명</label>
+                        <div class="readonly-value" id="modal-rep-name"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>담당자명</label>
+                        <div class="readonly-value" id="modal-contact-name"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>담당자 연락처</label>
+                        <div class="readonly-value" id="modal-contact-phone"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>담당자 이메일</label>
+                        <div class="readonly-value" id="modal-contact-email"></div>
+                    </div>
+                </section>
             </div>
-            <!-- <div class="modal-footer">
-                <button class="btn dark-button" style="width: 100%;"
-                    onclick="closeModal('self-issue-modal-overlay')">확인</button>
-            </div> -->
         </div>
     </div>
 
@@ -1560,10 +1789,178 @@
             } else {
                 requestPage.style.display = 'block';
                 issuePage.style.display = 'none';
+                updateTaxFooter(); // 신청 탭에서는 스티키 푸터 상태 업데이트
             }
         }
 
-        // --- Bottom Sheet Logic (v12 Standard) ---
+        // --- [NEW] v12 Master Guide JS Components ---
+
+        // Checkbox
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="https://www.figma.com/api/mcp/asset/cb122269-906f-4d2d-bde1-2056d4feb05a" alt="체크"></div>`;
+            }
+        }
+
+        // MultiChip
+        function toggleMultiChip(chip, forceState) {
+            const isCurrentlyOn = chip.classList.contains('multi-chip-on');
+            let turnOn;
+
+            if (forceState === true) { // Force On
+                turnOn = true;
+            } else if (forceState === false) { // Force Off
+                turnOn = false;
+            } else { // Toggle
+                turnOn = !isCurrentlyOn;
+            }
+
+            if (turnOn && !isCurrentlyOn) {
+                chip.classList.remove('multi-chip-off');
+                chip.classList.add('multi-chip-on');
+                chip.innerHTML = '✓ ' + chip.innerHTML.trim();
+            } else if (!turnOn && isCurrentlyOn) {
+                chip.classList.remove('multi-chip-on');
+                chip.classList.add('multi-chip-off');
+                chip.innerHTML = chip.innerHTML.replace('✓ ', '');
+            }
+        }
+
+        // Search
+        function handleSearchInput(input) {
+            const searchBox = input.closest('.search');
+            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+        }
+        function clearSearch(btn) {
+            const searchBox = btn.closest('.search');
+            const input = searchBox.querySelector('input');
+            input.value = '';
+            searchBox.classList.remove('has-text');
+            input.focus();
+        }
+        function handleSearch(btn) { console.log('Search submitted:', btn.closest('.search').querySelector('input').value); }
+
+
+        // --- '신청' 탭 Logic (Placeholder) ---
+
+        function updateTaxFooter() {
+            // (함수 내용은 tax_request.html과 동일)
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
+            const checkedBoxes = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
+            const count = checkedBoxes.length;
+            const footer = document.getElementById('tax-action-footer');
+
+            if (document.getElementById('page-content-request').style.display === 'block') {
+                if (count > 0) {
+                    footer.classList.add('active');
+                    document.getElementById('tax-selected-count').textContent = `총 ${count}건`;
+                    document.querySelector('.mobile-wrap').style.paddingBottom = '84px';
+                } else {
+                    footer.classList.remove('active');
+                    document.querySelector('.mobile-wrap').style.paddingBottom = '20px'; // Reset to default
+                }
+            }
+        }
+
+        function toggleStatusChip(chip) {
+            // (함수 내용은 tax_request.html과 동일)
+            const status = chip.getAttribute('data-status');
+            const group = chip.closest('#status-chip-group');
+            const allChip = group.querySelector('[data-status="전체"]');
+
+            if (status === '전체') {
+                const isTurningOn = !chip.classList.contains('multi-chip-on');
+                toggleMultiChip(chip, isTurningOn);
+                group.querySelectorAll('.multi-chip').forEach(c => {
+                    if (c !== chip) toggleMultiChip(c, false);
+                });
+            } else {
+                toggleMultiChip(chip);
+                toggleMultiChip(allChip, false);
+                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-status="전체"])'))
+                    .some(c => c.classList.contains('multi-chip-on'));
+                if (!anyOtherOn) {
+                    toggleMultiChip(allChip, true);
+                }
+            }
+            filterTaxInvoices();
+        }
+
+        function filterTaxInvoices() {
+            // (함수 내용은 tax_request.html과 동일 - 신청 탭의 목록을 필터링)
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
+            const noResultMsg = document.getElementById('no-request-list');
+            let visibleCount = 0; // 예시로 0건
+
+            if (document.getElementById('transaction-count')) {
+                document.getElementById('transaction-count').textContent = visibleCount;
+            }
+            if (noResultMsg) {
+                noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+            console.log("Filtering request list...");
+        }
+
+        // --- '신청' 탭 Modal Logic (Placeholder) ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (!overlay) return;
+
+            const modal = overlay.querySelector('.modal-content');
+
+            if (modal && modal.classList.contains('full-modal')) {
+                // Full Modal Open Logic
+                overlay.classList.add('overlay-full-modal');
+                overlay.style.display = 'flex';
+                requestAnimationFrame(() => {
+                    overlay.classList.add('active');
+                });
+            } else {
+                // Default Modal Open Logic
+                overlay.classList.add('active');
+            }
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (!overlay) return;
+
+            const modal = overlay.querySelector('.modal-content');
+
+            if (modal && modal.classList.contains('full-modal')) {
+                // Full Modal Close Logic
+                modal.classList.add('closing');
+                overlay.classList.remove('active');
+
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    overlay.classList.remove('overlay-full-modal');
+                    modal.classList.remove('closing');
+                }, 300); // Match CSS transition
+
+            } else {
+                // Default Modal Close Logic
+                overlay.classList.remove('active');
+            }
+
+            // Check for other modals/sheets
+            const anyModalActive = document.querySelector('.modal-overlay.active:not(#' + overlayId + '), .bottom-sheet-overlay.active');
+            if (!anyModalActive) {
+                document.body.style.overflow = '';
+            }
+        }
+
+        // --- [NEW] '발급 내역' 탭 Logic ---
+
+        // Bottom Sheet (v12 Standard)
         function setupBottomSheet(overlayId, sheetId, handleId) {
             const overlay = document.getElementById(overlayId); const sheet = document.getElementById(sheetId); const handle = document.getElementById(handleId);
             if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
@@ -1578,7 +1975,7 @@
                 setTimeout(() => {
                     overlay.classList.remove('active');
                     sheet.classList.remove('closing');
-                    sheet.style.transform = '';
+                    sheet.style.transform = ''; // Reset transform
                 }, 300);
             };
             const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
@@ -1597,45 +1994,93 @@
         const { openSheet: showCalendarSheetBase, closeSheet: closeCalendarSheet } = setupBottomSheet('calendar-sheet-overlay', 'calendar-sheet', 'calendar-sheet-handle');
         const { openSheet: showMonthlyPeriodSheetBase, closeSheet: closeMonthlyPeriodSheet } = setupBottomSheet('period-monthly-sheet-overlay', 'period-monthly-sheet', 'period-monthly-sheet-handle');
 
-        // Modal Helpers
-        function openModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (overlay) {
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
+
+        // [MODIFIED] '발급 내역' 전체 상세 Modal
+        function showIssueFullDetailsModal(details) {
+            // 1. 발급 정보 섹션
+            document.getElementById('modal-issue-no').textContent = details.issueNo || '-';
+            document.getElementById('modal-issue-date').textContent = details.issueDate || '-';
+            document.getElementById('modal-issue-type').textContent = details.issueType || '-';
+
+            // 2. 총 합계 섹션
+            document.getElementById('modal-total-supply').textContent = (details.totalSupply || '0') + ' 원';
+            document.getElementById('modal-total-tax').textContent = (details.totalTax || '0') + ' 원';
+            document.getElementById('modal-total-amount').textContent = (details.totalAmount || '0') + ' 원';
+
+            // 3. 접수 정보 섹션
+            const orderList = document.getElementById('modal-order-list');
+            orderList.innerHTML = '';
+
+            if (details.orders && details.orders.length > 0) {
+                details.orders.forEach(order => {
+                    const card = document.createElement('article');
+                    card.className = 'common-table-card';
+
+                    let itemsHtml = '';
+                    order.items.forEach(item => {
+                        itemsHtml += `
+                            <div class="item-row">
+                                <span class="item-name">${item.name}</span>
+                                <div class="item-price-wrapper">
+                                    <span class="item-price-total">${item.total} 원</span>
+                                    <span class="item-price-details">(공: ${item.supply} / 부: ${item.tax})</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    card.innerHTML = `
+                        <div class="card-row">
+                            <div class="card-row-label">작성일자</div>
+                            <div class="card-row-value">${order.writeDate || '-'}</div>
+                        </div>
+                        <div class="card-row">
+                            <div class="card-row-label">접수번호</div>
+                            <div class="card-row-value">${order.orderNo || '-'}</div>
+                        </div>
+                        <div class="card-row">
+                            <div class="card-row-label">배송시작일</div>
+                            <div class="card-row-value">${order.shipDate || '-'}</div>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="item-list">
+                            ${itemsHtml}
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-row" style="font-weight: 600; font-size: 13px;">
+                            <div class="card-row-label">총 합계</div>
+                            <div class="card-row-value" style="color: #333;">${order.orderTotal.total} 원</div>
+                        </div>
+                        <div class="card-row" style="justify-content: flex-end; margin-top: -4px;">
+                            <div class="card-row-value" style="font-size: 11px;">(공: ${order.orderTotal.supply} / 부: ${order.orderTotal.tax})</div>
+                        </div>
+                    `;
+                    orderList.appendChild(card);
+                });
             }
-        }
-        function closeModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (overlay) {
-                overlay.classList.remove('active');
-                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active');
-                if (!anyModalActive) {
-                    document.body.style.overflow = '';
-                }
-            }
-        }
 
-        // [NEW] '자진발급 정보' 모달
-        function showSelfIssueModal() {
-            document.getElementById('modal-issue-date').textContent = '2025/04/17 10:48:55';
-            document.getElementById('modal-issue-amount').textContent = '₩1,202,500';
-            document.getElementById('modal-issue-approval').textContent = 'K50633076';
-            openModal('self-issue-modal-overlay');
+            // 4. 기업 정보 섹션
+            document.getElementById('modal-biz-no').textContent = details.bizNo || '-';
+            document.getElementById('modal-company-name').textContent = details.company || '-';
+            document.getElementById('modal-rep-name').textContent = details.repName || '-';
+            document.getElementById('modal-contact-name').textContent = details.contactName || '-';
+            document.getElementById('modal-contact-phone').textContent = details.contactPhone || '-';
+            document.getElementById('modal-contact-email').textContent = details.contactEmail || '-';
+
+            openModal('issue-full-details-modal-overlay');
         }
 
-        // ========================================
-        // [v12 Standard] COMPLEX FILTER INTERACTION
-        // ========================================
-
+        // --- [v12 Standard] COMPLEX FILTER INTERACTION ---
+        let selectedPeriodValue = "최근 1개월";
         let currentTargetDateInputId = null;
 
         // 1. List Sheet Interaction
         function selectListOption(value) {
             // Update main button text directly
-            document.getElementById('demo-period-text').textContent = value;
+            document.getElementById('selected-period-text').textContent = value;
             document.getElementById('demo-period-btn').classList.remove('open');
             closeListSheet();
+            filterIssueList();
         }
 
         function openCustomPeriodSheet() {
@@ -1674,9 +2119,11 @@
         function applyCustomPeriod() {
             const start = document.getElementById('demo-start-date').textContent;
             const end = document.getElementById('demo-end-date').textContent;
-            document.getElementById('demo-period-text').textContent = `${start} ~ ${end}`;
+            selectedPeriodValue = `${start} ~ ${end}`;
+            document.getElementById('selected-period-text').textContent = selectedPeriodValue;
             document.getElementById('demo-period-btn').classList.remove('open');
             closeCustomPeriodSheet();
+            filterIssueList();
         }
 
         function setPresetPeriod(days) {
@@ -1708,64 +2155,100 @@
         function applyMonthlyPeriod() {
             const year = document.getElementById('select-year').value;
             const month = document.getElementById('select-month').value;
-            document.getElementById('demo-period-text').textContent = `${year}년 ${month}월`;
+            selectedPeriodValue = `${year}년 ${month}월`;
+            document.getElementById('selected-period-text').textContent = selectedPeriodValue;
             document.getElementById('demo-period-btn').classList.remove('open');
             closeMonthlyPeriodSheet();
+            filterIssueList();
         }
 
-        // Main Trigger
-        const btn = document.getElementById('demo-period-btn');
-        if (btn) {
-            btn.addEventListener('click', function () {
-                this.classList.add('open');
-            });
-        }
+        // '발급 내역' 발급유형 필터
+        function toggleIssueTypeChip(chip) {
+            const status = chip.getAttribute('data-status');
+            const group = chip.closest('#issue-type-chip-group');
+            const allChip = group.querySelector('[data-status="전체"]');
 
-        // Reset Arrow on Sheet Close via Overlay
-        document.getElementById('list-sheet-overlay').addEventListener('click', function (e) {
-            if (e.target === this) document.getElementById('demo-period-btn').classList.remove('open');
-        });
-
-
-        // --- Pagination Logic (Placeholder) ---
-        let currentPage = 1; const totalPages = 1;
-        function paginationGo(page) { currentPage = page; updatePagination(); }
-        function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
-        function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
-        function paginationFirst() { paginationGo(1); }
-        function paginationLast() { paginationGo(totalPages); }
-        function updatePagination() {
-            const numbersContainer = document.getElementById('issue-pagination-numbers');
-            if (!numbersContainer) return;
-            numbersContainer.innerHTML = '';
-            for (let i = 1; i <= totalPages; i++) {
-                const numEl = document.createElement('div');
-                numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
-                numEl.dataset.page = i;
-                numEl.textContent = i;
-                numEl.onclick = () => paginationGo(i);
-                numbersContainer.appendChild(numEl);
+            if (status === '전체') {
+                const isTurningOn = !chip.classList.contains('multi-chip-on');
+                toggleMultiChip(chip, isTurningOn);
+                group.querySelectorAll('.multi-chip').forEach(c => {
+                    if (c !== chip) toggleMultiChip(c, false);
+                });
+            } else {
+                toggleMultiChip(chip);
+                toggleMultiChip(allChip, false);
+                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-status="전체"])'))
+                    .some(c => c.classList.contains('multi-chip-on'));
+                if (!anyOtherOn) {
+                    toggleMultiChip(allChip, true);
+                }
             }
-
-            const paginationRoot = numbersContainer.closest('.pagination');
-            if (!paginationRoot) return;
-            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
-            const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
-            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
-            nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
+            filterIssueList();
         }
 
-        // --- Initialize ---
-        document.addEventListener('DOMContentLoaded', () => {
-            selectPageTab(document.querySelector('.page-tab-item.active'));
-            // updatePagination();
+        // '발급 내역' 목록 필터링
+        function filterIssueList() {
+            const selectedStatuses = [];
+            document.querySelectorAll('#issue-type-chip-group .multi-chip-on').forEach(chip => {
+                selectedStatuses.push(chip.dataset.status);
+            });
 
+            const listContainer = document.getElementById('issue-list-container');
+            if (!listContainer) return;
+
+            const cards = listContainer.querySelectorAll('.common-table-card');
+            const noResultMsg = document.getElementById('no-issue-list');
+            let visibleCount = 0;
+            const isAllSelected = selectedStatuses.includes('전체');
+
+            cards.forEach(card => {
+                const cardType = card.getAttribute('data-type');
+                if (isAllSelected || selectedStatuses.includes(cardType)) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const countEl = document.getElementById('issue-count');
+            if (countEl) countEl.textContent = visibleCount;
+            if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+
+        // --- [MODIFIED] Initialize (Event listeners etc.) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // 초기 페이지 상태 설정 ('발급 내역' 탭)
+            selectPageTab(document.querySelector('.page-tab-item.active'));
+
+            // '신청' 탭 필터 초기화
+            filterTaxInvoices();
+            updateTaxFooter();
+
+            // '발급 내역' 탭 필터 초기화
+            filterIssueList();
+
+            // [NEW] Modal overlay click-to-close listeners
             document.querySelectorAll('.modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
                         closeModal(overlay.id);
                     }
                 });
+            });
+
+            // Add event listener for main period button
+            const btn = document.getElementById('demo-period-btn');
+            if (btn) {
+                btn.addEventListener('click', function () {
+                    this.classList.add('open');
+                });
+            }
+
+            // Reset Arrow on Sheet Close via Overlay
+            document.getElementById('list-sheet-overlay').addEventListener('click', function (e) {
+                if (e.target === this) document.getElementById('demo-period-btn').classList.remove('open');
             });
         });
 
@@ -1775,7 +2258,7 @@
     <div class="disqus-thread-wrap">
         <div id="disqus_thread"></div>
         <script>
-            (function () {
+            (function () { // DON'T EDIT BELOW THIS LINE
                 var d = document, s = d.createElement('script');
                 s.src = 'https://sw-mobile.disqus.com/embed.js';
                 s.setAttribute('data-timestamp', +new Date());

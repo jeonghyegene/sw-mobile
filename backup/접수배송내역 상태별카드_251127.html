@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>주문/접수 내역 (Simple V3 - Final Refined)</title>
+    <title>주문/접수 내역 (Compact V3 - Final Layout)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,22 +18,16 @@
 
         html,
         body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: 'Pretendard', sans-serif;
             background-color: #f4f5f7;
             color: #333;
             font-size: 16px;
             line-height: 1.5;
-            overflow-x: visible;
         }
 
         ul,
         li {
             list-style: none;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
         }
 
         button {
@@ -54,7 +48,6 @@
             display: block;
         }
 
-        /* Layout */
         .mobile-wrap {
             width: 100%;
             max-width: 480px;
@@ -103,7 +96,7 @@
             font-weight: 700;
             color: #212121;
             margin: 32px 0 12px 0;
-            padding-left: 4px;
+            padding-left: 8px;
             border-left: 3px solid #4e6ee4;
             line-height: 1;
         }
@@ -120,9 +113,7 @@
             font-weight: 500;
         }
 
-        /* ============================================================
-           [NEW] Simple Card V3 (Final Refined)
-        ============================================================ */
+        /* Card Styles */
         .sc-v3-card {
             background: white;
             border: 1px solid #e8e8e9;
@@ -132,64 +123,74 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
         }
 
-        /* 1. Top Meta Area */
         .sc-v3-top-meta {
-            padding: 12px 16px;
-            font-size: 13px;
-            color: #666;
+            padding: 7px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             background-color: #fff;
+            border-bottom: 1px solid #f0f0f0;
+            min-height: 39px;
         }
 
-        .meta-left {
+        .meta-info-group {
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 12px;
+            color: #666;
+            flex: 1;
+            min-width: 0;
         }
 
-        .sc-v3-top-divider {
+        .order-no-link {
+            font-weight: 400;
+            color: #666;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .meta-divider {
             width: 1px;
             height: 10px;
             background-color: #e0e0e0;
-            display: inline-block;
+            flex-shrink: 0;
         }
 
-        /* 접수번호 링크 스타일 */
-        .sc-v3-order-link {
-            display: inline-flex;
+        .meta-text {
+            white-space: nowrap;
+        }
+
+        .btn-dot-menu {
+            width: 24px;
+            height: 24px;
+            display: flex;
             align-items: center;
-            gap: 2px;
-            color: #333;
-            font-weight: 400;
+            justify-content: center;
+            color: #888;
             cursor: pointer;
-            text-decoration: none;
-            font-size: 13px;
+            transition: color 0.2s;
+            flex-shrink: 0;
+            margin-right: -4px;
         }
 
-        .sc-v3-order-link svg {
-            width: 14px;
-            height: 14px;
-            color: #aaa;
+        .btn-dot-menu:active {
+            color: #333;
+            background-color: #f5f5f5;
+            border-radius: 50%;
         }
 
-        /* 2. Horizontal Line */
-        .sc-v3-horizontal-line {
-            width: 100%;
-            height: 1px;
-            background-color: #e8e8e9;
-            display: block;
+        .btn-dot-menu svg {
+            width: 17px;
+            height: 17px;
         }
 
-        /* 3. Body Area */
         .sc-v3-body {
             padding: 16px;
             display: flex;
             flex-direction: column;
         }
 
-        /* Status Row (Status + Badge) */
         .sc-v3-status-row {
             display: flex;
             align-items: center;
@@ -198,7 +199,7 @@
         }
 
         .sc-v3-status {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             color: #333;
             display: flex;
@@ -206,19 +207,19 @@
             gap: 6px;
         }
 
-        /* Blinking Dot Animation */
+        /* Status Colors */
         .sc-v3-status.blue {
             color: #4e6ee4;
         }
 
         .sc-v3-status.blue::before {
             content: '';
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             background-color: #4e6ee4;
             border-radius: 50%;
             display: block;
-            animation: blink-animation 1.2s infinite ease-in-out;
+            animation: blink 1.2s infinite;
         }
 
         .sc-v3-status.blue-plain {
@@ -235,33 +236,20 @@
 
         .sc-v3-status.red::before {
             content: '';
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             background-color: #dc3545;
             border-radius: 50%;
             display: block;
             animation: blink 1.2s infinite;
         }
 
-        .sc-v3-status.gray {
-            color: #888;
+        .sc-v3-status.green {
+            color: #16a34a;
         }
 
-        @keyframes blink-animation {
-            0% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.4;
-                transform: scale(0.9);
-            }
-
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+        .sc-v3-status.gray {
+            color: #888;
         }
 
         @keyframes blink {
@@ -269,73 +257,44 @@
             0%,
             100% {
                 opacity: 1;
-                transform: scale(1);
             }
 
             50% {
                 opacity: 0.4;
-                transform: scale(0.9);
             }
         }
 
-        .sc-v3-status.green {
-            color: #16a34a;
-        }
-
-        /* [MOVED] Design Check Badge (Moved here) */
         .design-check-badge {
             font-size: 11px;
             color: #555;
             background-color: #f5f5f6;
             border: 1px solid #e0e0e0;
-            border-radius: 100px;
-            /* padding: 2px 6px 0px; */
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1px 7px;
-        }
-
-        /* Category Badge */
-        .category-badge {
-            font-size: 11px;
-            color: #4e6ee4;
-            background-color: #fff;
-            border: 1px solid #4e6ee4;
             border-radius: 4px;
-            padding: 2px 6px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            height: 20px;
+            padding: 2px 7px;
+            font-weight: 500;
         }
 
-        /* Info Row */
         .sc-v3-info-row {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
             gap: 5px;
-            margin-bottom: 11px;
-            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .white-bd-badge {
+            border: 1px solid #dfdfdf;
+            border-radius: 4px;
+            padding: 2px 7px;
+            font-size: 11px;
             color: #666;
         }
 
-        .sc-v3-info-row .white-bd-badge {
-            border: 1px solid #dfdfdf;
-            border-radius: 100px;
-            padding: 1px 7px;
-            font-size: 11px;
-        }
-
-        /* Title Area with Accordion Button */
         .sc-v3-title-area {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             gap: 8px;
-            margin-bottom: 0;
         }
 
         .sc-v3-title {
@@ -350,20 +309,15 @@
             flex: 1;
         }
 
-        /* Option Toggle Button (Restored) */
         .btn-option-toggle {
             display: flex;
             align-items: center;
             gap: 2px;
             font-size: 11px;
             color: #666;
-            /* background: #f5f5f6; */
-            padding: 3px 0 4px;
-            border-radius: 100px;
+            padding: 3px 0;
             white-space: nowrap;
-            transition: all 0.2s;
             cursor: pointer;
-            display: none;
         }
 
         .btn-option-toggle svg {
@@ -372,20 +326,14 @@
             transition: transform 0.2s;
         }
 
-        .btn-option-toggle.active {
-            /* background: #e8e8e9; */
-            color: #333;
-        }
-
         .btn-option-toggle.active svg {
             transform: rotate(180deg);
         }
 
-        /* Option Details (Hidden by default) */
         .sc-v3-option-details {
             background-color: #fafafa;
             border-radius: 6px;
-            padding: 12px;
+            padding: 0 12px;
             margin-bottom: 0;
             max-height: 0;
             overflow: hidden;
@@ -394,6 +342,10 @@
             font-size: 12px;
             color: #666;
             border: 1px solid transparent;
+        }
+
+        .sc-v3-option-details.open {
+            padding: 12px;
             max-height: 300px;
             opacity: 1;
             border-color: #f0f0f0;
@@ -401,15 +353,11 @@
             margin-top: 12px;
         }
 
-        .sc-v3-option-details.open {
-        }
-
         .option-row {
-            margin-bottom: 0;
+            margin-bottom: 4px;
             line-height: 1.4;
         }
 
-        /* File Download Link */
         .sc-v3-file-link {
             font-size: 12px;
             color: #4e6ee4;
@@ -419,7 +367,6 @@
             gap: 4px;
             cursor: pointer;
             margin-top: 8px;
-            display: none;
         }
 
         .sc-v3-file-link svg {
@@ -427,194 +374,343 @@
             height: 12px;
         }
 
-        /* Price Group Box */
-        .sc-v3-price-group {
-            gap: 4px;
-        }
-
-        .sc-v3-price-label {
-            font-size: 13px;
-            color: #666;
-            text-align: left;
-            width: 100%;
-        }
-
-        .sc-v3-price-value-row {
-            text-align: left;
-            width: 100%;
-        }
-
-        .sc-v3-price-total {
-            font-size: 14px;
-            font-weight: 500;
-            color: #212121;
-            margin-right: 4px;
-        }
-
-        .sc-v3-price-placeholder {
-            font-size: 13px;
-            color: #888;
-        }
-
-        .sc-v3-price-note {
-            font-size: 12px;
-            color: #666;
-            font-weight: 400;
-        }
-
-        .sc-v3-price-pending {
-            font-size: 12px;
-            font-weight: 500;
-            color: #4e6ee4;
-        }
-
-        /* Deadline Info */
-        .deadline-info-row {
-            text-align: right;
-            font-size: 12px;
-            color: #888;
-            margin-top: 8px;
-            font-weight: 500;
-        }
-
-        /* Rework Info Link */
-        .rework-info-row {
-            text-align: right;
-            font-size: 12px;
-            color: #666;
-            margin-top: 8px;
-        }
-
-        .rework-link {
-            color: #4e6ee4;
-            text-decoration: underline;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-
-        /* [NEW] Status Text Row (Design Status) */
-        .status-text-row {
-            margin-top: 8px;
-            padding: 10px 12px;
-            background: #f0f7ff;
-            border-radius: 6px;
-            font-size: 13px;
-            color: #4e6ee4;
-            font-weight: 600;
+        /* Price & Action Row (Default) */
+        .sc-v3-price-action-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #f0f0f0;
         }
 
-        .status-text-row .label {
-            color: #333;
-            font-weight: 400;
-            margin-right: 4px;
+        /* [MODIFIED] No Action Button Case */
+        .sc-v3-price-action-row.no-action {
+            margin-top: 0;
+            padding-top: 3px;
+            border-top: none;
         }
 
-        .btn-mini-detail {
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 100px;
-            border: 1px solid #dcebfb;
-            background-color: white;
-            color: #4e6ee4;
-            font-weight: 500;
-        }
-
-        /* 4. Action Area */
-        .sc-v3-action-area {
-            padding: 0 16px 16px 16px;
+        .price-block {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-        }
-
-        /* Main Button */
-        .btn-v3-primary {
-            width: 100%;
-            height: 40px;
-            background: #4e6ee4;
-            color: white;
-            border: 1px solid #4e6ee4;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: -0.25px;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            transition: background 0.2s;
-            cursor: pointer;
         }
 
-        .btn-v3-primary:active {
-            background-color: #3d5dd3;
-            border-color: #3d5dd3;
+        .sc-v3-price-total {
+            font-size: 15px;
+            font-weight: 700;
+            color: #212121;
         }
 
-        .btn-v3-secondary {
-            width: 100%;
-            height: 40px;
-            background: #fff;
+        .sc-v3-price-sub {
+            font-size: 12px;
             color: #4e6ee4;
-            border: 1px solid #4e6ee4;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: -0.25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-            cursor: pointer;
+            font-weight: 500;
+            margin-top: 2px;
         }
 
-        /* Disabled Main Button */
-        .btn-v3-primary.disabled {
-            background: #f5f5f6;
+        .sc-v3-price-sub.gray {
+            color: #888;
+            font-weight: 400;
+        }
+
+        /* Buttons */
+        .btn-inline-action {
+            height: 36px;
+            padding: 0 16px;
+            background-color: #4e6ee4;
+            color: white;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(78, 110, 228, 0.15);
+            transition: background 0.2s;
+        }
+
+        .btn-inline-action:active {
+            background-color: #3d5dd3;
+            transform: scale(0.98);
+        }
+
+        /* [New] Disabled Action Button */
+        .btn-inline-action:disabled,
+        .btn-inline-action.disabled {
+            background-color: #f5f5f6;
             color: #aaa;
-            border-color: #e8e8e9;
+            border: 1px solid #e8e8e9;
+            box-shadow: none;
             cursor: default;
             pointer-events: none;
         }
 
-        /* Button Group (Split) */
-        .sc-btn-group {
-            display: flex;
-            width: 100%;
-            height: 40px;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
+        .btn-inline-secondary {
+            height: 36px;
+            padding: 0 16px;
             background-color: #fff;
-            overflow: hidden;
+            color: #4e6ee4;
+            border: 1px solid #4e6ee4;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .sc-btn-group-item {
-            flex: 1;
+        .btn-inline-secondary:active {
+            background-color: #f0f7ff;
+        }
+
+        /* Bottom Sheet (Action Sheet) */
+        .bottom-sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .bottom-sheet-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(100%);
+            }
+        }
+
+        .bottom-sheet {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: 30px;
+            animation: slideUp 0.3s ease-out;
+            position: relative;
+        }
+
+        .bottom-sheet.closing {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .sheet-handle {
+            width: 36px;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 100px;
+            margin: 12px auto 4px auto;
+            cursor: grab;
+        }
+
+        .action-sheet-header {
+            padding: 12px 20px 16px;
+            text-align: center;
+            position: relative;
+        }
+
+        .action-sheet-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .btn-sheet-close {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: none;
-            border: none;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: -0.25px;
-            color: #555;
             cursor: pointer;
-            transition: background 0.2s;
+            color: #333;
         }
 
-        .sc-btn-group-item:active {
+        .btn-sheet-close:active {
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        /* Action List Style */
+        .action-list {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .action-item {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+            background: #fff;
+            border: none;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-item:last-child {
+            border-bottom: none;
+        }
+
+        .action-item:active {
+            background-color: #f8f8f8;
+        }
+
+        .action-item.destructive {
+            color: #dc3545;
+        }
+
+        .action-item svg {
+            width: 20px;
+            height: 20px;
+            color: inherit;
+            opacity: 0.6;
+        }
+
+        /* [NEW] Rework Info Row (재작업 링크 영역) */
+        .rework-info-row {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #e0e0e0;
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+
+        .rework-link {
+            color: #4e6ee4;
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-left: 6px;
+        }
+
+        /* [NEW] Deadline Info Row (수령기한) */
+        .deadline-info-row {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #e0e0e0;
+            font-size: 13px;
+            color: #666;
+            /* 강조색 예시 */
+            font-weight: 400;
+        }
+
+        /* [NEW] Status Text Row (디자인 신청 현황 등) */
+        .status-text-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             background-color: #f9f9f9;
+            border-radius: 4px;
+            padding: 8px 10px;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #333;
         }
 
-        .sc-btn-divider {
-            width: 1px;
-            background-color: #e8e8e9;
-            height: 15px;
-            align-self: center;
+        .status-text-row .label {
+            color: #666;
+            margin-right: 4px;
+        }
+
+        /* [NEW] Mini Detail Button */
+        .btn-mini-detail {
+            font-size: 11px;
+            color: #666;
+            border: 1px solid #ddd;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .btn-mini-detail:active {
+            background-color: #f0f0f0;
+            border-color: #ccc;
+        }
+
+        /* [NEW] Category Badge (별도견적 등) */
+        .category-badge {
+            font-size: 11px;
+            color: #666;
+            border: 1px solid #e0e0e0;
+            background-color: #fff;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: auto;
+            /* 우측 정렬 */
+        }
+
+        /* [NEW] Quote Detail Box (요청사항 박스) */
+        .quote-detail-box {
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 12px;
+            color: #555;
+            margin: 8px 0;
+            line-height: 1.4;
+        }
+
+        .quote-detail-box strong {
+            color: #333;
+            margin-right: 4px;
+        }
+
+        /* [NEW] Price Placeholder (견적 대기 중 텍스트) */
+        .sc-v3-price-placeholder {
+            font-size: 14px;
+            color: #888;
+            font-weight: 500;
+        }
+
+        /* [NEW] Price Note (배송비 별도 등) */
+        .sc-v3-price-note {
+            font-size: 11px;
+            color: #888;
+            font-weight: 400;
+            margin-left: 4px;
         }
     </style>
 </head>
@@ -634,24 +730,25 @@
             <div class="guide-section-title">결제</div>
 
             <span class="guide-subtitle">Case 1-1. 결제 대기 (기본)</span>
-
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link" onclick="alert('상세이동')">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu"
+                        onclick="openActionSheet('SW654321', ['detail', 'cancel', 'change_file'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-
-                <div class="sc-v3-horizontal-line"></div>
 
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
@@ -674,62 +771,42 @@
                     </div>
 
                     <div id="opt-1" class="sc-v3-option-details">
-                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱
-                        </div>
-
-                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색</div>
+                        <div class="sc-v3-file-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round"
                                 class="icon icon-tabler icons-tabler-outline icon-tabler-download">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
-                                <path d="M7 11l5 5l5 -5" />
-                                <path d="M12 4l0 12" />
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"></path>
+                                <path d="M7 11l5 5l5 -5"></path>
+                                <path d="M12 4l0 12"></path>
                             </svg>
                             일반사원_명함(앞).pdf 외 1건
                         </div>
                     </div>
 
-                    <div class="sc-v3-price-group">
-                        <!-- <div class="sc-v3-price-label">총 결제금액</div> -->
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
-                            <span class="sc-v3-price-pending">(결제대기 금액 ₩3,500)</span>
+                            <span class="sc-v3-price-sub">(결제대기 금액 ₩3,500)</span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary" onclick="if(confirm('[결제 모달] 열림')) { window.location.href = '접수배송내역 결제모달.html'; }">결제하기</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
+                        <button class="btn-inline-action" onclick="alert('결제 모달 오픈')">결제하기</button>
                     </div>
                 </div>
             </article>
 
             <span class="guide-subtitle">Case 1-2. 추가결제 대기</span>
-
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
-                    </div>
-
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
-                        </svg>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link" onclick="alert('상세이동')">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
                 </div>
-
-                <div class="sc-v3-horizontal-line"></div>
 
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
@@ -752,34 +829,28 @@
                     </div>
 
                     <div id="opt-2" class="sc-v3-option-details">
-                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱
-                        </div>
-
-                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색</div>
+                        <div class="sc-v3-file-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round"
                                 class="icon icon-tabler icons-tabler-outline icon-tabler-download">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
-                                <path d="M7 11l5 5l5 -5" />
-                                <path d="M12 4l0 12" />
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"></path>
+                                <path d="M7 11l5 5l5 -5"></path>
+                                <path d="M12 4l0 12"></path>
                             </svg>
                             일반사원_명함(앞).pdf 외 1건
                         </div>
                     </div>
 
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
-                            <span class="sc-v3-price-pending">(추가결제 대기 금액 ₩3,500)</span>
+                            <span class="sc-v3-price-sub">(추가결제 대기 금액 ₩3,500)</span>
                         </div>
+                        <button class="btn-inline-action" onclick="alert('결제 모달 오픈')">결제하기</button>
                     </div>
-                </div>
-
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary" onclick="if(confirm('[결제 모달] 열림')) { window.location.href = '접수배송내역 결제모달.html'; }">결제하기</button>
-
                 </div>
             </article>
 
@@ -787,21 +858,23 @@
 
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link" onclick="alert('상세이동')">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321-02
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu"
+                        onclick="openActionSheet('SW654321', ['detail', 'cancel', 'change_file'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-
-                <div class="sc-v3-horizontal-line"></div>
 
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
@@ -816,68 +889,59 @@
 
                     <div class="sc-v3-title-area">
                         <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
-                        <button class="btn-option-toggle" onclick="toggleOptions('opt-1', this)">
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-3', this)">
                             옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M6 9l6 6l6 -6" />
                             </svg>
                         </button>
                     </div>
 
-                    <div id="opt-1" class="sc-v3-option-details">
-                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱
-                        </div>
-
-                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                    <div id="opt-3" class="sc-v3-option-details">
+                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색</div>
+                        <div class="sc-v3-file-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round"
                                 class="icon icon-tabler icons-tabler-outline icon-tabler-download">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
-                                <path d="M7 11l5 5l5 -5" />
-                                <path d="M12 4l0 12" />
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"></path>
+                                <path d="M7 11l5 5l5 -5"></path>
+                                <path d="M12 4l0 12"></path>
                             </svg>
                             일반사원_명함(앞).pdf 외 1건
                         </div>
                     </div>
 
-                    <div class="sc-v3-price-group">
-                        <!-- <div class="sc-v3-price-label">총 결제금액</div> -->
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
-                            <span class="sc-v3-price-pending">(결제대기 금액 ₩3,500)</span>
+                            <span class="sc-v3-price-sub">(결제대기 금액 ₩3,500)</span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary" onclick="if(confirm('[결제 모달] 열림')) { window.location.href = '접수배송내역 결제모달.html'; }">결제하기</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
+                        <button class="btn-inline-action" onclick="alert('결제 모달 오픈')">결제하기</button>
                     </div>
                 </div>
             </article>
 
+
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link" onclick="alert('상세이동')">SW654321-02</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321-01
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu"
+                        onclick="openActionSheet('SW654321', ['detail', 'cancel', 'change_file'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-
-                <div class="sc-v3-horizontal-line"></div>
 
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
@@ -892,47 +956,35 @@
 
                     <div class="sc-v3-title-area">
                         <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
-                        <button class="btn-option-toggle" onclick="toggleOptions('opt-1', this)">
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-4', this)">
                             옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M6 9l6 6l6 -6" />
                             </svg>
                         </button>
                     </div>
 
-                    <div id="opt-1" class="sc-v3-option-details">
-                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱
-                        </div>
-
-                        <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
+                    <div id="opt-4" class="sc-v3-option-details">
+                        <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색</div>
+                        <div class="sc-v3-file-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round"
                                 class="icon icon-tabler icons-tabler-outline icon-tabler-download">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
-                                <path d="M7 11l5 5l5 -5" />
-                                <path d="M12 4l0 12" />
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"></path>
+                                <path d="M7 11l5 5l5 -5"></path>
+                                <path d="M12 4l0 12"></path>
                             </svg>
                             일반사원_명함(앞).pdf 외 1건
                         </div>
                     </div>
 
-                    <div class="sc-v3-price-group">
-                        <!-- <div class="sc-v3-price-label">총 결제금액</div> -->
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
-                            <span class="sc-v3-price-pending">(결제대기 금액 ₩3,500)</span>
+                            <span class="sc-v3-price-sub">(결제대기 금액 ₩3,500)</span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary" onclick="if(confirm('[결제 모달] 열림')) { window.location.href = '접수배송내역 결제모달.html'; }">결제하기</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
+                        <button class="btn-inline-action" onclick="alert('결제 모달 오픈')">결제하기</button>
                     </div>
                 </div>
             </article>
@@ -940,36 +992,34 @@
             <div class="guide-section-title">접수</div>
 
             <span class="guide-subtitle">Case 2-1. 접수 대기</span>
-
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654304</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654304
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654304', ['cancel', 'change_file'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-
-                <div class="sc-v3-horizontal-line"></div>
-
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status gray">접수대기</div>
                     </div>
-
                     <div class="sc-v3-info-row">
                         <span class="white-bd-badge">김성원</span>
                         <span class="white-bd-badge">LG CNS</span>
                         <span class="design-check-badge">디자인 파일 검수</span>
                     </div>
-
                     <div class="sc-v3-title-area">
                         <div class="sc-v3-title">[봉투] 대봉투 모조 120g 흑백</div>
                         <button class="btn-option-toggle" onclick="toggleOptions('opt-2-1', this)">
@@ -978,7 +1028,6 @@
                             </svg>
                         </button>
                     </div>
-
                     <div id="opt-2-1" class="sc-v3-option-details">
                         <div class="option-row">용지: 모조지 / 백색 / 120g | 인쇄: 단면 / 흑백 | 규격: 대봉투 (330x245mm)</div>
                         <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
@@ -994,54 +1043,43 @@
                             대봉투_시안.ai
                         </div>
                     </div>
-
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row no-action">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩65,000</span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
                     </div>
                 </div>
             </article>
 
             <span class="guide-subtitle">Case 2-2. 접수 완료</span>
-
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.07</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.07</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654305</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654305
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654305', ['cancel'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-
-                <div class="sc-v3-horizontal-line"></div>
-
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status blue-plain">접수완료</div>
                     </div>
-
                     <div class="sc-v3-info-row">
                         <span class="white-bd-badge">김성원</span>
                         <span class="white-bd-badge">XT(내회사)</span>
                         <span class="design-check-badge">디자인 파일 검수</span>
                     </div>
-
                     <div class="sc-v3-title-area">
                         <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
                         <button class="btn-option-toggle" onclick="toggleOptions('opt-2-2', this)">
@@ -1050,7 +1088,6 @@
                             </svg>
                         </button>
                     </div>
-
                     <div id="opt-2-2" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도) | 규격: 105 x 148 mm (A6)</div>
                         <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
@@ -1066,38 +1103,34 @@
                             엽서_최종.pdf
                         </div>
                     </div>
-
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row no-action">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
                     </div>
                 </div>
             </article>
 
             <span class="guide-subtitle">Case 2-3. 파일 재업로드 전 (대기)</span>
-
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654303</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654303 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654303', ['cancel'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status red">파일 재업로드 대기</div>
@@ -1117,8 +1150,10 @@
                     <div id="opt-2-3" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                         <div class="sc-v3-file-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                                 <path d="M7 11l5 5l5 -5" />
@@ -1127,38 +1162,37 @@
                             오류파일.pdf
                         </div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary" onclick="if(confirm('[1. 파일 재업로드 모달] 열림')) { window.location.href = '접수배송내역 파일재업로드모달.html'; }">파일 재업로드</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
+                        <button class="btn-inline-action"
+                            onclick="if(confirm('[1. 파일 재업로드 모달] 열림')) { window.location.href = '접수배송내역 파일재업로드모달.html'; }">파일
+                            재업로드</button>
                     </div>
                 </div>
             </article>
 
             <span class="guide-subtitle">Case 2-4. 파일 재업로드 후 (완료)</span>
-
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654303</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654303 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654303', ['cancel'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status blue-plain">접수완료</div>
@@ -1178,8 +1212,10 @@
                     <div id="opt-2-4" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                         <div class="sc-v3-file-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                                 <path d="M7 11l5 5l5 -5" />
@@ -1188,17 +1224,11 @@
                             수정완료_최종.pdf
                         </div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary disabled">파일 재업로드 완료</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
+                        <button class="btn-inline-action disabled" disabled>파일 재업로드 완료</button>
                     </div>
                 </div>
             </article>
@@ -1206,22 +1236,26 @@
             <span class="guide-subtitle">Case 2-5. 파일 검수 전 (대기)</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['cancel'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
-                        <div class="sc-v3-status blue">파일 검수 대기</div>
+                        <div class="sc-v3-status blue-plain">파일 검수 대기</div>
                     </div>
                     <div class="sc-v3-info-row">
                         <span class="white-bd-badge">김성원</span>
@@ -1239,8 +1273,10 @@
                     <div id="opt-2-5" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g | 후가공: 오시 1줄</div>
                         <div class="sc-v3-file-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                                 <path d="M7 11l5 5l5 -5" />
@@ -1249,17 +1285,13 @@
                             검수요청_파일.pdf
                         </div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary" onclick="if(confirm('[1. 파일 검수 모달] 열림')) { window.location.href = '접수배송내역 디자인및파일검수.html'; }">파일 검수</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
+                        <button class="btn-inline-action"
+                            onclick="if(confirm('[1. 파일 검수 모달] 열림')) { window.location.href = '접수배송내역 디자인및파일검수.html'; }">파일
+                            검수</button>
                     </div>
                 </div>
             </article>
@@ -1267,19 +1299,23 @@
             <span class="guide-subtitle">Case 2-6. 파일 검수 후 (완료)</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['cancel'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status blue-plain">접수완료</div>
@@ -1300,8 +1336,10 @@
                     <div id="opt-2-6" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g | 후가공: 오시 1줄</div>
                         <div class="sc-v3-file-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                                 <path d="M7 11l5 5l5 -5" />
@@ -1310,17 +1348,11 @@
                             검수완료_최종.pdf
                         </div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary disabled">파일 검수 완료</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
+                        <button class="btn-inline-action disabled" disabled>파일 검수 완료</button>
                     </div>
                 </div>
             </article>
@@ -1328,31 +1360,30 @@
             <span class="guide-subtitle">Case 2-7. 완제품: 상품 준비 중</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['reorder2', 'cancel2'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-
-                <div class="sc-v3-horizontal-line"></div>
-
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
-                        <div class="sc-v3-status blue">상품준비중</div>
+                        <div class="sc-v3-status blue-plain">상품준비중</div>
                     </div>
-
                     <div class="sc-v3-info-row">
                         <span class="white-bd-badge">김성원</span>
                     </div>
-
                     <div class="sc-v3-title-area">
                         <div class="sc-v3-title">[샘플북]</div>
                         <button class="btn-option-toggle" onclick="toggleOptions('opt-2-7', this)">
@@ -1361,23 +1392,13 @@
                             </svg>
                         </button>
                     </div>
-
                     <div id="opt-2-7" class="sc-v3-option-details">
                         <div class="option-row">패키지 / 스페셜 / 스탠다드 / 스티커</div>
                     </div>
-
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row no-action">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩3,500</span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('주문 취소')">주문 취소</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('재주문')">재주문</button>
                     </div>
                 </div>
             </article>
@@ -1387,19 +1408,23 @@
             <span class="guide-subtitle">Case 3-1. 생산 중 (조판)</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <!-- <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['inquiry'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
-                    </div>
+                    </div> -->
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status blue-plain">생산 중(조판)</div>
@@ -1419,8 +1444,10 @@
                     <div id="opt-3-1" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                         <div class="sc-v3-file-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                                 <path d="M7 11l5 5l5 -5" />
@@ -1429,15 +1456,11 @@
                             최종파일.pdf
                         </div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                        <button class="btn-inline-secondary" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
                     </div>
                 </div>
             </article>
@@ -1445,18 +1468,23 @@
             <span class="guide-subtitle">Case 3-2. 생산 보류</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>방문수령(충무로)</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">방문수령(충무로)</span>
                     </div>
-        
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
-                        </svg></div>
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['inquiry'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
+                        </svg>
+                    </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status red-plain">생산 보류</div>
@@ -1476,17 +1504,11 @@
                     <div id="opt-3-2" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('1:1 문의')">1:1 문의</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                        <button class="btn-inline-secondary" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
                     </div>
                 </div>
             </article>
@@ -1494,18 +1516,23 @@
             <span class="guide-subtitle">Case 3-3. 폐기 처리</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>방문수령(충무로)</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">방문수령(충무로)</span>
                     </div>
-            
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
-                        </svg></div>
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['inquiry'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
+                        </svg>
+                    </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status gray">폐기 처리</div>
@@ -1525,17 +1552,11 @@
                     <div id="opt-3-3" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('1:1 문의')">1:1 문의</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                        <button class="btn-inline-secondary" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
                     </div>
                 </div>
             </article>
@@ -1543,18 +1564,23 @@
             <span class="guide-subtitle">Case 3-4. 폐기 처리 (재작업)</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>방문수령(충무로)</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">방문수령(충무로)</span>
                     </div>
-                
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
-                        </svg></div>
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['inquiry'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
+                        </svg>
+                    </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status gray">폐기 처리 (재작업)</div>
@@ -1574,20 +1600,14 @@
                     <div id="opt-3-4" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
+                        <button class="btn-inline-secondary" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
                     </div>
                     <div class="rework-info-row">
                         재작업 접수번호: <span class="rework-link" onclick="alert('재작업 접수건으로 이동')">SW250002</span>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('1:1 문의')">1:1 문의</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
                     </div>
                 </div>
             </article>
@@ -1597,19 +1617,23 @@
             <span class="guide-subtitle">Case 4-1. 포장 완료</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <!-- <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['inquiry'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
-                    </div>
+                    </div> -->
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status blue-plain">포장완료</div>
@@ -1630,8 +1654,10 @@
                     <div id="opt-4-1" class="sc-v3-option-details">
                         <div class="option-row">용지: 아트지 / 150g | 인쇄: 단면 컬러 | 규격: A2</div>
                         <div class="sc-v3-file-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                                 <path d="M7 11l5 5l5 -5" />
@@ -1640,15 +1666,11 @@
                             포스터_최종.pdf
                         </div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                        <button class="btn-inline-secondary" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
                     </div>
                 </div>
             </article>
@@ -1656,18 +1678,23 @@
             <span class="guide-subtitle">Case 4-2. 배송 중 (택배)</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
-                        </svg></div>
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['reorder'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
+                        </svg>
+                    </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status green">배송중</div>
@@ -1688,17 +1715,13 @@
                     <div id="opt-4-2" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[배송 조회 모달] 열림')) { window.location.href = '접수배송내역 배송조회모달.html'; }">배송 조회</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                        <button class="btn-inline-action"
+                            onclick="if(confirm('[배송 조회 모달] 열림')) { window.location.href = '접수배송내역 배송조회모달.html'; }">배송
+                            조회</button>
                     </div>
                 </div>
             </article>
@@ -1706,18 +1729,23 @@
             <span class="guide-subtitle">Case 4-3. 배송 완료</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
-                        </svg></div>
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['reorder', 'inquiry'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
+                        </svg>
+                    </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status gray">배송완료</div>
@@ -1737,19 +1765,11 @@
                     <div id="opt-4-3" class="sc-v3-option-details">
                         <div class="option-row">용지: 아트지 | 후가공: 도무송</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary" onclick="alert('리뷰 작성 모달')">리뷰 작성</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('1:1 문의')">1:1 문의</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                        <button class="btn-inline-action" onclick="alert('리뷰 작성 모달')">리뷰 작성</button>
                     </div>
                 </div>
             </article>
@@ -1757,18 +1777,23 @@
             <span class="guide-subtitle">Case 4-4. 입고 완료</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>방문수령(충무로)</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">방문수령(충무로)</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
-                        </svg></div>
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['reorder'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
+                        </svg>
+                    </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status green">입고완료</div>
@@ -1788,20 +1813,14 @@
                     <div id="opt-4-4" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
+                        <button class="btn-inline-secondary" onclick="alert('충무로점 위치')">충무로점 위치</button>
                     </div>
                     <div class="deadline-info-row">
                         수령기한 2025-10-31
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('수령 위치')">충무로점 위치</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
                     </div>
                 </div>
             </article>
@@ -1809,26 +1828,31 @@
             <span class="guide-subtitle">Case 4-5. 수령 완료</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>방문수령(충무로)</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">방문수령(충무로)</span>
                     </div>
-                
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
-                        </svg></div>
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['reorder', 'inquiry'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
+                        </svg>
+                    </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status gray">수령완료</div>
                     </div>
-                    <!-- <div class="sc-v3-info-row">
+                    <div class="sc-v3-info-row">
                         <span class="white-bd-badge">김성원</span>
-                        <span class="white-bd-badge">김성원</span>
-                    </div> -->
+                        <span class="white-bd-badge">삼성SDS</span>
+                    </div>
                     <div class="sc-v3-title-area">
                         <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
                         <button class="btn-option-toggle" onclick="toggleOptions('opt-4-5', this)">
@@ -1840,19 +1864,11 @@
                     <div id="opt-4-5" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary" onclick="alert('리뷰 작성 모달')">리뷰 작성</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('1:1 문의')">1:1 문의</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                        <button class="btn-inline-action" onclick="alert('리뷰 작성 모달')">리뷰 작성</button>
                     </div>
                 </div>
             </article>
@@ -1862,19 +1878,23 @@
             <span class="guide-subtitle">Case 5-1. 샘플 발송 대기</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['cancel'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status gray">접수대기</div>
@@ -1894,17 +1914,13 @@
                     <div id="opt-5-1" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary" onclick="if(confirm('[샘플 송장번호 입력 모달] 열림')) { window.location.href = '접수배송내역 샘플송장번호모달.html'; }">샘플 송장번호 입력</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
+                        <button class="btn-inline-action"
+                            onclick="if(confirm('[샘플 송장번호 입력 모달] 열림')) { window.location.href = '접수배송내역 샘플송장번호모달.html'; }">샘플
+                            송장번호 입력</button>
                     </div>
                 </div>
             </article>
@@ -1912,19 +1928,23 @@
             <span class="guide-subtitle">Case 5-2. 샘플 발송 완료</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['cancel'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status gray">접수대기</div>
@@ -1944,17 +1964,13 @@
                     <div id="opt-5-2" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-secondary" onclick="if(confirm('[샘플 송장번호 입력 모달] 열림')) { window.location.href = '접수배송내역 샘플송장번호모달.html'; }">샘플 송장번호 수정</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
+                        <button class="btn-inline-secondary"
+                            onclick="if(confirm('[샘플 송장번호 입력 모달] 열림')) { window.location.href = '접수배송내역 샘플송장번호모달.html'; }">샘플
+                            송장번호 수정</button>
                     </div>
                 </div>
             </article>
@@ -1962,19 +1978,23 @@
             <span class="guide-subtitle">Case 5-3. 감리 요청 대기</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['reorder'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status blue-plain">생산 중(출력)</div>
@@ -1994,17 +2014,13 @@
                     <div id="opt-5-3" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary" onclick="if(confirm('[1. 감리 일정 선택하기 모달] 열림')) { window.location.href = '접수배송내역 감리일정선택모달.html'; }">감리 일정 선택</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                        <button class="btn-inline-action"
+                            onclick="if(confirm('[1. 감리 일정 선택하기 모달] 열림')) { window.location.href = '접수배송내역 감리일정선택모달.html'; }">감리
+                            일정 선택</button>
                     </div>
                 </div>
             </article>
@@ -2012,19 +2028,23 @@
             <span class="guide-subtitle">Case 5-4. 감리 일정 확정</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['reorder'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status blue-plain">생산 중(출력)</div>
@@ -2044,17 +2064,13 @@
                     <div id="opt-5-4" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-secondary" onclick="if(confirm('[2. 감리 일정 확인 모달] 열림')) { window.location.href = '접수배송내역 감리일정선택모달.html'; }">감리 일정 확인</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                        <button class="btn-inline-secondary"
+                            onclick="if(confirm('[2. 감리 일정 확인 모달] 열림')) { window.location.href = '접수배송내역 감리일정선택모달.html'; }">감리
+                            일정 확인</button>
                     </div>
                 </div>
             </article>
@@ -2062,19 +2078,23 @@
             <span class="guide-subtitle">Case 5-5. 디자인 신청 접수 (작업 대기)</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['cancel'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status gray">접수대기</div>
@@ -2094,21 +2114,14 @@
                     <div id="opt-5-5" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-
                     <div class="status-text-row">
                         <div><span class="label">디자인 신청 현황:</span> 작업 대기 중</div>
                         <button class="btn-mini-detail" onclick="alert('디자인 상세')">상세</button>
                     </div>
-
-                    <div class="sc-v3-price-group" style="margin-top: 12px;">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row no-action">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
                     </div>
                 </div>
             </article>
@@ -2116,19 +2129,23 @@
             <span class="guide-subtitle">Case 5-6. 디자인 작업 완료 (검수 필요)</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['cancel'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status gray">접수대기</div>
@@ -2148,23 +2165,71 @@
                     <div id="opt-5-6" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-
                     <div class="status-text-row">
                         <div><span class="label">디자인 신청 현황:</span> 작업 완료</div>
                         <button class="btn-mini-detail" onclick="alert('디자인 상세')">상세</button>
                     </div>
-
-                    <div class="sc-v3-price-group" style="margin-top: 12px;">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
+                        <button class="btn-inline-action"
+                            onclick="if(confirm('[2. 디자인 검수 모달] 열림')) { window.location.href = '접수배송내역 디자인및파일검수.html'; }">디자인
+                            검수</button>
                     </div>
                 </div>
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary" onclick="if(confirm('[2. 디자인 검수 모달] 열림')) { window.location.href = '접수배송내역 디자인및파일검수.html'; }">디자인 검수</button>
+            </article>
 
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
+            <span class="guide-subtitle">Case 5-7. 디자인 검수 완료</span>
+            <article class="sc-v3-card">
+                <div class="sc-v3-top-meta">
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
+                    </div>
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['cancel', 'inquiry'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="sc-v3-body">
+                    <div class="sc-v3-status-row">
+                        <div class="sc-v3-status gray">접수대기</div>
+                    </div>
+                    <div class="sc-v3-info-row">
+                        <span class="white-bd-badge">김성원</span>
+                        <span class="white-bd-badge">XT(내회사)</span>
+                    </div>
+                    <div class="sc-v3-title-area">
+                        <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                        <button class="btn-option-toggle" onclick="toggleOptions('opt-5-7', this)">
+                            옵션 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="opt-5-7" class="sc-v3-option-details">
+                        <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
+                    </div>
+
+                    <div class="status-text-row">
+                        <div><span class="label">디자인 신청 현황:</span> 검수 완료</div>
+                        <button class="btn-mini-detail" onclick="alert('디자인 상세')">상세</button>
+                    </div>
+
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
+                            <span class="sc-v3-price-total">₩8,500</span>
+                        </div>
+                        <button class="btn-inline-action disabled" disabled>디자인 검수 완료</button>
                     </div>
                 </div>
             </article>
@@ -2174,19 +2239,23 @@
             <span class="guide-subtitle">Case 6-1. 묶음배송 신청 가능건</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['reorder', 'inquiry'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status blue-plain">생산 중(조판)</div>
@@ -2209,7 +2278,8 @@
                         <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                                 <path d="M7 11l5 5l5 -5" />
@@ -2218,39 +2288,37 @@
                             일반사원_명함(앞).pdf 외 1건
                         </div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩3,500</span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[묶음배송 신청 모달] 열림')) { window.location.href = '접수배송내역 배송조회모달.html'; }">묶음배송 신청</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                        <button class="btn-inline-secondary"
+                            onclick="if(confirm('[묶음배송 신청 모달] 열림')) { window.location.href = '접수배송내역 배송조회모달.html'; }">묶음배송
+                            신청</button>
                     </div>
                 </div>
             </article>
-
 
             <div class="guide-section-title">별도 견적</div>
 
             <span class="guide-subtitle">Case 7-1. 견적 대기</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['change_file', 'cancel'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status gray">견적대기</div>
@@ -2272,13 +2340,13 @@
                         <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱
                         </div>
                         <div class="quote-detail-box">
-                            <strong>요청사항:</strong>
-                            트레이싱지 사용해서 10,000,000매 대량인쇄가 필요합니다.
+                            <strong>요청사항:</strong> 트레이싱지 사용해서 10,000,000매 대량인쇄가 필요합니다.
                         </div>
                         <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                                 <path d="M7 11l5 5l5 -5" />
@@ -2287,17 +2355,10 @@
                             일반사원_명함(앞).pdf 외 1건
                         </div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row no-action">
+                        <div class="price-block">
                             <span class="sc-v3-price-placeholder">견적 산출 후 금액이 표시돼요</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
                     </div>
                 </div>
             </article>
@@ -2305,17 +2366,22 @@
             <span class="guide-subtitle">Case 7-2. 결제 대기</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu"
+                        onclick="openActionSheet('SW654321', ['requote', 'change_file', 'cancel'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status blue">결제대기</div>
@@ -2337,13 +2403,13 @@
                         <div class="option-row">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm | 가공: 오시 / 미싱
                         </div>
                         <div class="quote-detail-box">
-                            <strong>요청사항:</strong>
-                            트레이싱지 사용해서 10,000,000매 대량인쇄가 필요합니다.
+                            <strong>요청사항:</strong> 트레이싱지 사용해서 10,000,000매 대량인쇄가 필요합니다.
                         </div>
                         <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                                 <path d="M7 11l5 5l5 -5" />
@@ -2352,22 +2418,13 @@
                             일반사원_명함(앞).pdf 외 1건
                         </div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
-                            <span class="sc-v3-price-note">(배송비 별도)</span>
+                            <span class="sc-v3-price-sub gray">(배송비 별도)</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <button class="btn-v3-primary" onclick="if(confirm('[결제 모달] 열림')) { window.location.href = '접수배송내역 결제모달.html'; }">결제하기</button>
-
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="alert('재견적 신청')">재견적 신청</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('디자인 파일 변경')">디자인 파일 변경</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
+                        <button class="btn-inline-action"
+                            onclick="if(confirm('[결제 모달] 열림')) { window.location.href = '접수배송내역 결제모달.html'; }">결제하기</button>
                     </div>
                 </div>
             </article>
@@ -2377,19 +2434,23 @@
             <span class="guide-subtitle">Case 8-1. 접수 취소 가능 (생산 전)</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['cancel'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status blue-plain">접수완료</div>
@@ -2409,8 +2470,10 @@
                     <div id="opt-7-1" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                         <div class="sc-v3-file-link" onclick="alert('파일 다운로드')">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                                 <path d="M7 11l5 5l5 -5" />
@@ -2419,15 +2482,10 @@
                             일반사원_명함(앞).pdf 외 1건
                         </div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row no-action">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">접수 취소</button>
                     </div>
                 </div>
             </article>
@@ -2435,19 +2493,23 @@
             <span class="guide-subtitle">Case 8-2. 취소 신청 (처리 대기)</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['reorder'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status gray">취소신청</div>
@@ -2467,17 +2529,13 @@
                     <div id="opt-7-2" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 - 취소 상세 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">취소 상세</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                        <button class="btn-inline-secondary"
+                            onclick="if(confirm('[접수 취소 - 취소 상세 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">취소
+                            상세</button>
                     </div>
                 </div>
             </article>
@@ -2485,19 +2543,23 @@
             <span class="guide-subtitle">Case 8-3. 취소 완료</span>
             <article class="sc-v3-card">
                 <div class="sc-v3-top-meta">
-                    <div class="meta-left">
-                        <span>2025.07.08</span>
-                        <span class="sc-v3-top-divider"></span>
-                        <span>선불택배</span>
+                    <div class="meta-info-group">
+                        <span class="meta-text">2025.07.08</span>
+                        <span class="meta-divider"></span>
+                        <span class="order-no-link"
+                            onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">SW654321</span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-text">선불택배</span>
                     </div>
-                    
-                    <div class="sc-v3-order-link" onclick="if(confirm('[1-1. 접수 상세 모달 (통합)] 열림')) { window.location.href = '접수배송내역 접수상세모달.html'; }">
-                        SW654321 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M9 6l6 6l-6 6" />
+                    <div class="btn-dot-menu" onclick="openActionSheet('SW654321', ['reorder'])">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
                         </svg>
                     </div>
                 </div>
-                <div class="sc-v3-horizontal-line"></div>
                 <div class="sc-v3-body">
                     <div class="sc-v3-status-row">
                         <div class="sc-v3-status gray">취소완료</div>
@@ -2517,37 +2579,149 @@
                     <div id="opt-7-3" class="sc-v3-option-details">
                         <div class="option-row">용지: 랑데뷰 240g / 백색 | 인쇄: 양면 컬러 (8도)</div>
                     </div>
-                    <div class="sc-v3-price-group">
-                        <div class="sc-v3-price-value-row">
+                    <div class="sc-v3-price-action-row">
+                        <div class="price-block">
                             <span class="sc-v3-price-total">₩8,500</span>
                         </div>
-                    </div>
-                </div>
-                <div class="sc-v3-action-area">
-                    <div class="sc-btn-group">
-                        <button class="sc-btn-group-item" onclick="if(confirm('[접수 취소 - 취소 상세 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">취소 상세</button>
-                        <div class="sc-btn-divider"></div>
-                        <button class="sc-btn-group-item" onclick="alert('동일 옵션 접수')">동일 옵션 접수</button>
+                        <button class="btn-inline-secondary"
+                            onclick="if(confirm('[접수 취소 - 취소 상세 모달] 열림')) { window.location.href = '접수배송내역 접수취소모달.html'; }">취소
+                            상세</button>
                     </div>
                 </div>
             </article>
         </main>
     </div>
 
+    <div class="bottom-sheet-overlay" id="action-sheet-overlay">
+        <div class="bottom-sheet" id="action-sheet">
+            <div class="sheet-handle"></div>
+            <div class="action-sheet-header">
+                <div class="action-sheet-title" id="action-sheet-order-no">주문 관리</div>
+                <div class="btn-sheet-close" onclick="closeActionSheet()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="action-list" id="action-list-container">
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Toggle Option Details Accordion
+        // Toggle Accordion
         function toggleOptions(targetId, btn) {
             const target = document.getElementById(targetId);
-
             if (target.classList.contains('open')) {
-                // Close
                 target.classList.remove('open');
                 btn.classList.remove('active');
             } else {
-                // Open
                 target.classList.add('open');
                 btn.classList.add('active');
             }
+        }
+
+        // Bottom Sheet Logic
+        const overlay = document.getElementById('action-sheet-overlay');
+        const sheet = document.getElementById('action-sheet');
+
+        function closeActionSheet() {
+            sheet.classList.add('closing');
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                sheet.classList.remove('closing');
+            }, 300);
+        }
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeActionSheet();
+        });
+
+        // Generate & Open Action Sheet
+        function openActionSheet(orderNo, actions) {
+            const container = document.getElementById('action-list-container');
+            document.getElementById('action-sheet-order-no').textContent = `주문번호 ${orderNo}`;
+            container.innerHTML = '';
+
+            // Define available actions
+            const actionDefinitions = {
+                'detail': {
+                    label: '접수 상세',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M9 9l1 0" /><path d="M9 13l6 0" /><path d="M9 17l6 0" /></svg>',
+                    class: '',
+                    onclick: "if(confirm('접수 상세 모달 이동')) window.location.href='접수배송내역 접수상세모달.html'"
+                },
+                'cancel': {
+                    label: '접수 취소',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" /></svg>',
+                    class: 'destructive',
+                    onclick: "alert('접수 취소')"
+                },
+                'cancel2': {
+                    label: '주문 취소',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" /></svg>',
+                    class: 'destructive',
+                    onclick: "alert('주문 취소')"
+                },
+                'change_file': {
+                    label: '디자인 파일 변경',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>',
+                    class: '',
+                    onclick: "alert('파일 변경')"
+                },
+                'reorder': {
+                    label: '동일 옵션 접수',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.933 13.041a8 8 0 1 1 -9.925 -8.788c3.899 -1 7.935 1.007 9.425 4.747" /><path d="M20 4v5h-5" /></svg>',
+                    class: '',
+                    onclick: "alert('재주문')"
+                },
+                'reorder2': {
+                    label: '재주문',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.933 13.041a8 8 0 1 1 -9.925 -8.788c3.899 -1 7.935 1.007 9.425 4.747" /><path d="M20 4v5h-5" /></svg>',
+                    class: '',
+                    onclick: "alert('재주문')"
+                },
+                'inquiry': {
+                    label: '1:1 문의',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" /></svg>',
+                    class: '',
+                    onclick: "alert('문의하기')"
+                },
+                'location': {
+                    label: '수령 위치 확인',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" /></svg>',
+                    class: '',
+                    onclick: "alert('지도 보기')"
+                },
+                'requote': {
+                    label: '재견적 신청',
+                    // 새로고침 아이콘 사용
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" /></svg>',
+                    class: '',
+                    onclick: "alert('재견적 신청 페이지 또는 모달로 이동')"
+                },
+            };
+
+            let sortedActions = [...actions];
+            if (sortedActions.includes('cancel')) {
+                sortedActions = sortedActions.filter(item => item !== 'cancel');
+                sortedActions.push('cancel');
+            }
+
+            sortedActions.forEach(actionKey => {
+                const act = actionDefinitions[actionKey];
+                if (act) {
+                    const btn = document.createElement('button');
+                    btn.className = `action-item ${act.class}`;
+                    btn.innerHTML = `${act.icon} ${act.label}`;
+                    btn.onclick = () => { eval(act.onclick); closeActionSheet(); };
+                    container.appendChild(btn);
+                }
+            });
+
+            overlay.classList.add('active');
         }
     </script>
 </body>

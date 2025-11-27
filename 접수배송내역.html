@@ -1,0 +1,3510 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>접수/배송 내역 (v3 Card Updated)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS / / Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 20px;
+            min-height: 100vh;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Buttons (v12 Standard + Primary) */
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        .btn-sm {
+            height: 36px;
+            font-size: 13px;
+            padding: 0 12px;
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 0;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            gap: 3px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e9e9e9;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .filter-txt {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 3px;
+        }
+
+        .filter-txt span {
+            font-size: 12px;
+            color: #333;
+            font-weight: 400;
+        }
+
+        /* Filter Chip Section (v12) */
+        .filter-chip-section {
+            background: #fff;
+            padding: 16px;
+            border-bottom: 1px solid #e9e9e9;
+        }
+
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip-section .tabs-scroll-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-chip-section .single-chip,
+        .filter-chip-section .multi-chip {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        /* Filter Section (v15) */
+        .filter-section {
+            padding: 0 0 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .text-select-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+            padding: 8px 4px;
+            border-radius: 4px;
+        }
+
+        .text-select-button:hover {
+            background-color: #f5f5f5;
+        }
+
+        .text-select-button:active {
+            transform: scale(0.98);
+        }
+
+        .text-select-button-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .text-select-button-arrow {
+            width: 16px;
+            height: 16px;
+            color: #555;
+        }
+
+        .text-select-button-arrow svg {
+            transition: transform 0.2s;
+        }
+
+        .text-select-button.open .text-select-button-arrow svg {
+            transform: rotate(-180deg);
+        }
+
+        /* Sticky Summary Bar */
+        .sticky-summary-bar {
+            background-color: #4e6ee4;
+            z-index: 99;
+            padding: 16px;
+            padding-top: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin: 0 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-left {
+            font-size: 14px;
+            color: #333;
+            flex-shrink: 1;
+            min-width: 0;
+
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            gap: 2px;
+            margin: 5px 0;
+        }
+
+        .summary-left span {
+            font-size: 14px;
+            color: #ffffffbd;
+            font-weight: 400;
+        }
+
+        .summary-left strong {
+            font-size: 21px;
+            font-weight: 500;
+            margin-left: 6px;
+            color: #fff;
+            margin-left: auto;
+        }
+
+        .summary-right strong {
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .summary-right svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+
+        .bank-number-summary {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            background-color: #ffffff26;
+            padding: 6px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .bank-number-summary strong {
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .bank-number-summary span {
+            color: #fff;
+            font-weight: 400;
+        }
+
+        .bank-number-summary svg {
+            color: #fff;
+            width: 14px;
+        }
+
+        /* Transaction List Header */
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 12px;
+        }
+
+        .transaction-list-header .total-count strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-count-select {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+        }
+
+        .view-count-select-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .view-count-select-arrow {
+            width: 12px;
+            height: 12px;
+        }
+
+        .view-count-select-arrow svg {
+            transition: transform 0.2s;
+            transform: translateY(-2px);
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 24px;
+        }
+
+        .no-transactions {
+            padding: 40px 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* Date Divider */
+        .date-divider {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin: 20px 0 10px 4px;
+        }
+
+        .transaction-list .date-divider:first-child {
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        /* [CSS 수정/추가] order_list.html의 <style> 태그 내 기존 .sc-v3-card 관련 스타일 하단에 추가 또는 덮어쓰기 */
+        /* ============================================================
+           [UPDATED] Simple Card V3 (Compact Layout + Action Sheet)
+        ============================================================ */
+        /* Date Group Title */
+        .date-group-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin: 20px 0 8px 4px;
+        }
+
+        .sc-v3-card {
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+        }
+
+        /* Top Meta Area */
+        .sc-v3-top-meta {
+            padding: 7px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            border-bottom: 1px solid #f0f0f0;
+            min-height: 39px;
+        }
+
+        .meta-info-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .order-no-link {
+            font-weight: 400;
+            color: #666;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .meta-divider {
+            width: 1px;
+            height: 10px;
+            background-color: #e0e0e0;
+            flex-shrink: 0;
+        }
+
+        .meta-text {
+            white-space: nowrap;
+        }
+
+        .btn-dot-menu {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            cursor: pointer;
+            transition: color 0.2s;
+            flex-shrink: 0;
+            margin-right: -4px;
+        }
+
+        .btn-dot-menu:active {
+            color: #333;
+            background-color: #f5f5f5;
+            border-radius: 50%;
+        }
+
+        .btn-dot-menu svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        /* Body Area */
+        .sc-v3-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sc-v3-status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .sc-v3-status {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Status Colors */
+        .sc-v3-status.blue {
+            color: #4e6ee4;
+        }
+
+        .sc-v3-status.blue::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background-color: #4e6ee4;
+            border-radius: 50%;
+            display: block;
+            animation: blink 1.2s infinite;
+        }
+
+        .sc-v3-status.blue-plain {
+            color: #4e6ee4;
+        }
+
+        .sc-v3-status.red {
+            color: #dc3545;
+        }
+
+        .sc-v3-status.red::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background-color: #dc3545;
+            border-radius: 50%;
+            display: block;
+            animation: blink 1.2s infinite;
+        }
+
+        .sc-v3-status.red-plain {
+            color: #dc3545;
+        }
+
+        .sc-v3-status.green {
+            color: #16a34a;
+        }
+
+        .sc-v3-status.gray {
+            color: #888;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        .sc-v3-info-row {
+            margin-bottom: 8px;
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .white-bd-badge {
+            border: 1px solid #dfdfdf;
+            border-radius: 4px;
+            padding: 2px 7px;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .design-check-badge {
+            font-size: 11px;
+            color: #555;
+            background-color: #f5f5f6;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 2px 7px;
+            font-weight: 400;
+        }
+
+        .category-badge {
+            font-size: 11px;
+            color: #666;
+            border: 1px solid #e0e0e0;
+            background-color: #fff;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: auto;
+        }
+
+        /* Title Area */
+        .sc-v3-title-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .sc-v3-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #212121;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        /* Price Row */
+        .sc-v3-price-row {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .price-total {
+            font-size: 15px;
+            font-weight: 500;
+            color: #212121;
+        }
+
+        .btn-option-toggle {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 11px;
+            color: #666;
+            padding: 3px 0;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .btn-option-toggle svg {
+            width: 12px;
+            height: 12px;
+            transition: transform 0.2s;
+        }
+
+        .btn-option-toggle.active svg {
+            transform: rotate(180deg);
+        }
+
+        /* Option Details */
+        .sc-v3-option-details {
+            background-color: #fafafa;
+            border-radius: 6px;
+            padding: 0 12px;
+            margin-bottom: 0;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            color: #666;
+            border: 1px solid transparent;
+        }
+
+        .sc-v3-option-details.open {
+            padding: 12px;
+            max-height: 300px;
+            opacity: 1;
+            border-color: #f0f0f0;
+            margin-bottom: 12px;
+            margin-top: 12px;
+        }
+
+        .option-row {
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .sc-v3-file-link {
+            font-size: 12px;
+            color: #4e6ee4;
+            text-decoration: underline;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .sc-v3-file-link svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Price & Action Row (Updated Layout) */
+        .sc-v3-price-action-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .sc-v3-price-action-row.no-action {
+            margin-top: 0;
+            padding-top: 3px;
+            border-top: none;
+        }
+
+        .price-block {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sc-v3-price-total {
+            font-size: 15px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .sc-v3-price-sub {
+            font-size: 12px;
+            color: #4e6ee4;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .sc-v3-price-sub.gray {
+            color: #888;
+            font-weight: 400;
+        }
+
+        .sc-v3-price-placeholder {
+            font-size: 14px;
+            color: #888;
+            font-weight: 500;
+        }
+
+        /* Inline Buttons */
+        .btn-inline-action {
+            height: 36px;
+            padding: 0 16px;
+            background-color: #4e6ee4;
+            color: white;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(78, 110, 228, 0.15);
+            transition: background 0.2s;
+        }
+
+        .btn-inline-action:active {
+            background-color: #3d5dd3;
+            transform: scale(0.98);
+        }
+
+        .btn-inline-action:disabled,
+        .btn-inline-action.disabled {
+            background-color: #f5f5f6;
+            color: #aaa;
+            border: 1px solid #e8e8e9;
+            box-shadow: none;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .btn-inline-secondary {
+            height: 36px;
+            padding: 0 16px;
+            background-color: #fff;
+            color: #4e6ee4;
+            border: 1px solid #4e6ee4;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-inline-secondary:active {
+            background-color: #f0f7ff;
+        }
+
+        /* 1. New Header Style */
+        .sc-v3-header-new {
+            padding: 6px 16px;
+            padding-right: 10px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 12px;
+            color: #444;
+            min-height: 35px;
+        }
+
+        .header-order-link {
+            font-size: 12px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .info-divider {
+            width: 1px;
+            height: 10px;
+            background-color: #e0e0e0;
+            display: inline-block;
+        }
+
+        /* 2. Detail Button (Header Right) */
+        .detail-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+            font-size: 12px;
+            letter-spacing: -0.2px;
+            color: #555;
+            gap: 2px;
+            margin-left: auto;
+            /* 우측 정렬 */
+        }
+
+        .detail-btn svg {
+            width: 16px;
+            height: 16px;
+            color: #999;
+        }
+
+        .cards-divider {
+            background-color: #f4f5f7;
+            width: 100%;
+            height: 8px;
+        }
+
+        .cards-section {
+            padding: 0 16px;
+        }
+
+        /* 3. Horizontal Line */
+        .sc-v3-horizontal-line {
+            width: 100%;
+            height: 1px;
+            background-color: #ededed;
+            display: block;
+        }
+
+        /* 4. Total Summary (결제금액 강조 영역) */
+        .sc-v3-total-summary {
+            padding: 7px 10px;
+            background-color: #f5f5f5;
+            border: 1px solid #e1edf8;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin: 16px;
+            border-radius: 5px;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .summary-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .summary-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            line-height: 1.1;
+            margin-top: 2.5px;
+        }
+
+        .summary-value.highlight {
+            color: #333;
+            /* 필요시 색상 변경 */
+        }
+
+        .summary-sub-text {
+            font-size: 11px;
+            color: #4e6ee4;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        /* 5. Badge Group (담당자, 고객사 등) */
+        .badge-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            margin-top: 12px;
+            margin-bottom: -5px;
+        }
+
+        /* 6. Item Unit (주문 내역 단위) */
+        .sc-v3-item-unit {
+            padding-bottom: 24px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .sc-v3-item-unit:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        /* 7. Inner Order No */
+        .inner-order-no {
+            font-size: 12px;
+            color: #888;
+            font-weight: 400;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        /* 8. Action Buttons (New Layout) */
+        .sc-v3-item-action {
+            margin-top: 16px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-action-primary {
+            flex: 1;
+            height: 36px;
+            background: #4e6ee4;
+            color: white;
+            border: 1px solid #4e6ee4;
+            border-radius: 6px;
+            font-size: 12px;
+            letter-spacing: -0.25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-action-primary.disabled {
+            background: #f5f5f6;
+            color: #aaa;
+            border-color: #e8e8e9;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .btn-action-secondary {
+            flex: 1;
+            height: 36px;
+            background: white;
+            color: #666;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: -0.25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 9. Status Text Row (디자인 신청 현황 등) */
+        .status-text-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f5f7ff;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-top: 12px;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .status-text-row .label {
+            color: #4e6ee4;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .btn-mini-detail {
+            font-size: 11px;
+            color: #666;
+            border: 1px solid #ddd;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Action Sheet (Bottom Sheet for Cards) */
+        .action-sheet-header {
+            padding: 12px 20px 16px;
+            text-align: center;
+            position: relative;
+        }
+
+        .action-sheet-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .btn-sheet-close {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Action List Style */
+        .action-list {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .action-item {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+            background: #fff;
+            border: none;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-item:last-child {
+            border-bottom: none;
+        }
+
+        .action-item:active {
+            background-color: #f8f8f8;
+        }
+
+        .action-item.destructive {
+            color: #dc3545;
+        }
+
+        .action-item svg {
+            width: 20px;
+            height: 20px;
+            color: inherit;
+            opacity: 0.6;
+        }
+
+        /* v12 Standard .multi-chip & .single-chip */
+        .multi-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .multi-chip-off {
+            background: #fdfdfd;
+            border: 1px solid #e6e4e4;
+            color: #6d6d6d;
+        }
+
+        .multi-chip-on {
+            background: #c7d3ff;
+            border: 1px solid #4e6ee4;
+            color: #4e6ee4;
+        }
+
+        .multi-chip:active {
+            transform: scale(0.95);
+        }
+
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
+        .filter-chip-section .single-chip[data-status="결제대기"].single-chip-on {
+            background-color: #dc3545;
+            color: white;
+            font-weight: 600;
+            border: 1px solid #dc3545;
+        }
+
+        /* v12 Standard .search */
+        .search {
+            width: 100%;
+            height: 40px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            position: relative;
+        }
+
+        .search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+        }
+
+        .search input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .search-input-right {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .search-del {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .search.has-text .search-del {
+            display: flex;
+        }
+
+        .search-icon,
+        .btn-search {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .search-icon:active,
+        .btn-search:active {
+            transform: scale(0.9);
+        }
+
+        /* [v17] Pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-bottom: 24px;
+        }
+
+        .pagination-arrow {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-arrow:active {
+            transform: scale(0.9);
+        }
+
+        .pagination-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-numbers {
+            display: flex;
+            gap: 3px;
+        }
+
+        .pagination-number {
+            min-width: 28px;
+            height: 28px;
+            padding: 4px 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .pagination-number.active {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .pagination-number:not(.active) {
+            background: white;
+            color: #bcbcbc;
+        }
+
+        .pagination-number:not(.active):hover {
+            background: #f5f5f5;
+        }
+
+        .pagination-number:active {
+            transform: scale(0.95);
+        }
+
+        /* [v12] Bottom Sheet */
+        .bottom-sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 2500;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .bottom-sheet-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(100%);
+            }
+        }
+
+        .bottom-sheet {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-top: 1px solid #d7d7d7;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bottom-sheet.closing {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .sheet-handle {
+            width: 27px;
+            height: 4px;
+            background: #d9d9d9;
+            border-radius: 100px;
+            margin: 10px auto;
+            cursor: grab;
+        }
+
+        .sheet-handle:active {
+            cursor: grabbing;
+        }
+
+        .sheet-header {
+            height: 21px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .sheet-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+        }
+
+        .btn-close {
+            position: absolute;
+            right: 20px;
+            top: 0;
+            width: 21px;
+            height: 21px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-close:active {
+            transform: scale(0.9);
+        }
+
+        .btn-close svg {
+            width: 100%;
+            height: 100%;
+            color: #333;
+        }
+
+        .sheet-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 20px 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-group-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .filter-group-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .sheet-footer {
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+        }
+
+        .sheet-footer .btn {
+            flex: 1;
+        }
+
+        /* [v12] Modals (Confirm/Alert) */
+        /* Z-Index: 3000 to be on top of Full Page Modal (2000) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .confirm-modal,
+        .alert-modal {
+            width: 90%;
+            max-width: 320px;
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            margin-bottom: 15px;
+        }
+
+        .modal-message {
+            font-size: 14px;
+            color: black;
+            margin-bottom: 30px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .modal-button {
+            flex: 1;
+            min-width: 90px;
+            height: 44px;
+            padding: 7px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Pretendard', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-button-primary {
+            background: black;
+            color: white;
+            border: none;
+        }
+
+        .modal-button-secondary {
+            background: white;
+            color: black;
+            border: 1px solid #bababa;
+        }
+
+        .modal-button:active {
+            transform: scale(0.98);
+        }
+
+        /* [NEW] Full Page Modal (Manager Management) */
+        /* Z-Index: 2000 to be on top of Bottom Sheet (2500 -> wait, Bottom Sheet is 2500? Adjusting) */
+        /* Let's set Full Page Modal to 2000, and Bottom Sheet to 1500? No, Full Page should cover everything except Alerts. */
+
+        /* Revised Z-Index Strategy: */
+        /* Header: 100 */
+        /* Bottom Sheet Overlay: 1000 */
+        /* Full Page Modal: 2000 */
+        /* Alert/Confirm Modal: 3000 */
+
+        .bottom-sheet-overlay {
+            z-index: 1000;
+        }
+
+        .full-page-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: white;
+            width: 100%;
+            height: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            display: none;
+            flex-direction: column;
+        }
+
+        /* Animation Removed as requested */
+        .full-page-modal.active {
+            display: flex;
+            animation: none;
+        }
+
+        .full-page-modal.closing {
+            animation: none;
+        }
+
+        .fp-header {
+            height: 56px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e8e8e9;
+        }
+
+        .fp-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        /* Big bold title */
+
+        /* [Fix] Close Button in Header */
+        .fp-header .btn-close {
+            position: static;
+            /* Force static to respect flex layout */
+            transform: none;
+            right: auto;
+            top: auto;
+        }
+
+        .fp-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 16px 20px;
+        }
+
+        .fp-footer {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+        }
+
+
+        /* [Custom] Manager Management Styles */
+        .manager-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #e9e9e9;
+        }
+
+        .manager-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .manager-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .manager-contact {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .manager-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-manager-action {
+            height: 32px;
+            padding: 0 12px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 4px;
+        }
+
+        .manager-info-text {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 16px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* [v12] Form Input Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            font-family: 'Pretendard', sans-serif;
+            color: black;
+            line-height: 1.5;
+        }
+
+        .input input::placeholder {
+            color: #c6c6c8;
+        }
+
+        /* [v12 Standard] Option List (List Type Bottom Sheet) */
+        .option-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-list li {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .option-list li:last-child {
+            border-bottom: none;
+        }
+
+        .option-list li button {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            /* [v12] font-size: 16px (Accessibility) */
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .option-list li button:hover {
+            background-color: #f8f8f8;
+        }
+
+        .option-list li button:active {
+            background-color: #f0f0f0;
+        }
+
+        /* ========================================
+       [v12] CALENDAR (Date Picker)
+    ======================================== */
+        .calendar-container {
+            padding: 10px 0;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-month-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .calendar-nav-btn {
+            font-size: 16px;
+            color: #888;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .calendar-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .calendar-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .calendar-row span {
+            width: 14.28%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .calendar-row.week-header span {
+            font-weight: 600;
+            color: #888;
+            font-size: 12px;
+            cursor: default;
+        }
+
+        .calendar-row span.empty {
+            pointer-events: none;
+        }
+
+        /* Calendar State Styles */
+        .calendar-row span:not(.week-header span):not(.empty):hover {
+            background-color: #f5f5f5;
+        }
+
+        .calendar-row span.selected {
+            background-color: #4e6ee4;
+            color: white;
+            border-radius: 50%;
+            font-weight: 600;
+        }
+
+        .calendar-row span.range-bg {
+            background-color: #eef1ff;
+            color: #4e6ee4;
+            border-radius: 0;
+        }
+
+        /* Input Button Style for Date Trigger */
+        .input button {
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            border: none;
+            background: none;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .filter-btn {
+            height: 30px;
+            padding: 0 7px;
+            border: 1px solid #e8e8e9;
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 3px;
+            flex-shrink: 0;
+            border-radius: 6px;
+            margin-left: 10px;
+            font-size: 12px;
+            color: #333;
+            margin-left: auto;
+        }
+
+        .filter-btn svg {
+            width: 16px;
+            color: #777;
+        }
+
+        /* [CSS 추가] 기존 스타일 하단에 추가 */
+        /* 통합 필터 바텀시트용 간격 조정 */
+        #combined-filter-sheet .filter-group {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        #combined-filter-sheet .filter-group:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        /* [CSS 추가] 달력 시트가 기존 시트보다 더 위에 뜨도록 강제 설정 */
+        #period-custom-sheet-overlay {
+            z-index: 3500 !important;
+            /* 알림 모달(3000)보다 높게 설정 */
+        }
+
+        #calendar-sheet-overlay {
+            z-index: 4000 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="24" height="24"
+                        viewBox="0 0 24 24" id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">접수/배송 내역</h1>
+            <div class="header-right">
+            </div>
+        </header>
+
+        <main>
+            <div class="filter-chip-section" style="border-bottom: 1px solid #e9e9e9; margin-bottom: 0;">
+                <div class="tabs-scroll-wrapper" id="status-chip-group">
+                    <div class="single-chip single-chip-on" data-status="전체" onclick="selectStatusChip(this)">전체 22
+                    </div>
+                    <div class="single-chip single-chip-off" data-status="결제대기" onclick="selectStatusChip(this)">
+                        결제대기 5</div>
+                    <div class="single-chip single-chip-off" data-status="진행 중" onclick="selectStatusChip(this)">
+                        진행 중 20</div>
+                    <div class="single-chip single-chip-off" data-status="출고/배송" onclick="selectStatusChip(this)">
+                        출고/배송 2</div>
+                    <div class="single-chip single-chip-off" data-status="취소" onclick="selectStatusChip(this)">
+                        취소 1</div>
+                </div>
+            </div>
+
+            <div class="sw-container" style="padding: 16px; padding-bottom: 0;">
+                <section class="filter-section" style="padding-top: 0; padding-bottom: 0;">
+                    <div class="search" data-name="search" id="qna-search">
+                        <input type="text" placeholder="접수번호, 접수제목, 제품명" oninput="handleSearchInput(this)">
+                        <div class="search-input-right">
+                            <div class="search-del" onclick="clearSearch(this)">
+                                <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="18"
+                                    height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M18 6l-12 12" />
+                                    <path d="M6 6l12 12" />
+                                </svg>
+                            </div>
+                            <div class="btn-search" onclick="handleSearch(this)">
+                                <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="20"
+                                    height="24" viewBox="0 0 24 24" id="icon-search">
+                                    <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                    <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="filter-bar">
+                <div class="filter-txt">
+                    <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>·
+                    <span class="text-select-button-text" id="selected-manager-text">담당자 (전체)</span>·
+                    <span class="text-select-button-text" id="selected-customer-text">고객 (전체)</span>
+                </div>
+
+                <button type="button" class="filter-btn" onclick="openCombinedFilterSheet();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-adjustments-horizontal">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M14 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M4 6l8 0" />
+                        <path d="M16 6l4 0" />
+                        <path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M4 12l2 0" />
+                        <path d="M10 12l10 0" />
+                        <path d="M17 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M4 18l11 0" />
+                        <path d="M19 18l1 0" />
+                    </svg>
+                    <span>필터</span>
+                </button>
+            </div>
+
+            <div class="sticky-summary-bar">
+                <div class="summary-left">
+                    <span>결제대기 금액</span>
+                    <strong>₩153,500</strong>
+                </div>
+                <button type="button" class="bank-number-summary" onclick="alert('가상계좌 복사 완료')">
+                    <span>가상계좌</span>
+                    <strong>우리은행 65459011733483</strong>
+                    <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-copy">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path
+                            d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+                        <path
+                            d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="sw-container" style="padding-top: 0;">
+                <section class="transaction-list-section">
+
+                    <div class="transaction-list">
+
+                        <div class="cards-section">
+                            <div class="date-group-title">2025.07.08</div>
+                            <article class="sc-v3-card" data-status="결제대기" data-date="2025-07-08" data-manager="김성원"
+                                data-customer="XT(내회사)" data-title="[디지털엽서] A6 사이즈 양면 인쇄 접수" data-order-no="SW654321">
+                                <div class="sc-v3-header-new">
+                                    <span class="header-order-link" onclick="alert('상세 페이지 이동')">SW654321</span>
+                                    <div class="info-divider"></div>
+                                    <div
+                                        style="display: inline-flex; gap: 4px; align-items: center; color: #666; font-size: 12px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                            <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                            <path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5"></path>
+                                            <path d="M3 9l4 0"></path>
+                                        </svg>
+                                        선불택배 (￦2,500)
+                                    </div>
+
+                                    <button type="button" class="detail-btn" onclick="alert('접수 상세 모달/페이지')">
+                                        접수상세
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M9 6l6 6l-6 6"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="sc-v3-horizontal-line"></div>
+
+                                <div class="badge-group">
+                                    <div style="display:flex; gap:4px;">
+                                        <span class="white-bd-badge"><span style="color: #888;">담당자</span> 김성원</span>
+                                        <span class="white-bd-badge"><span style="color: #888;">대상고객</span> 삼성SDS</span>
+                                    </div>
+                                </div>
+
+                                <div class="sc-v3-total-summary">
+                                    <span class="summary-label">총 결제금액</span>
+                                    <div class="summary-right">
+                                        <span class="summary-value highlight">₩18,500</span>
+                                        <span class="summary-sub-text">(결제대기 금액 ₩18,500)</span>
+                                    </div>
+                                </div>
+
+                                <div class="sc-v3-horizontal-line"></div>
+
+                                <div class="sc-v3-body">
+                                    <div class="sc-v3-item-unit">
+                                        <div class="sc-v3-status-row">
+                                            <div class="sc-v3-status blue">결제대기</div>
+                                            <button class="inner-order-no">
+                                                SW654321-01
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M9 6l6 6l-6 6"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                        <div class="sc-v3-info-row">
+                                            <span class="design-check-badge">디자인 파일 검수</span>
+                                        </div>
+
+                                        <div class="sc-v3-title-area">
+                                            <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                                        </div>
+
+                                        <div class="sc-v3-option-details"
+                                            style="display: block; opacity: 1; max-height: none; padding: 0; background: none; margin-top: 8px;">
+                                            용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격: 100x148mm
+                                        </div>
+
+                                        <div class="sc-v3-price-row">
+                                            <span class="price-total">₩13,000</span>
+                                        </div>
+
+                                        <div class="sc-v3-item-action">
+                                            <button class="btn-action-primary" onclick="alert('개별 결제 진행')">결제하기</button>
+                                            <button class="btn-action-secondary" onclick="alert('접수 취소')">접수취소</button>
+                                            <button class="btn-action-secondary" onclick="alert('디자인파일 변경')">디자인파일
+                                                변경</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="sc-v3-item-unit">
+                                        <div class="sc-v3-status-row">
+                                            <div class="sc-v3-status blue">추가결제 대기</div>
+                                            <button class="inner-order-no">SW654321-02
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M9 6l6 6l-6 6"></path>
+                                                </svg></button>
+                                        </div>
+
+                                        <div class="sc-v3-title-area">
+                                            <div class="sc-v3-title">[명함] 일반 명함 코팅</div>
+                                        </div>
+
+                                        <div class="sc-v3-option-details"
+                                            style="display: block; opacity: 1; max-height: none; padding: 0; background: none; margin-top: 8px;">
+                                            용지: 아르떼 / 백색 / 230g
+                                        </div>
+
+                                        <div class="sc-v3-price-row">
+                                            <span class="price-total">₩5,500</span>
+                                        </div>
+
+                                        <div class="sc-v3-item-action">
+                                            <button class="btn-action-primary" onclick="alert('개별 결제 진행')">결제하기</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <div class="cards-divider"></div>
+
+                        <div class="cards-section">
+                            <div class="date-group-title">2025.07.01</div>
+                            <article class="sc-v3-card">
+                                <div class="sc-v3-header-new">
+                                    <span class="header-order-link">SW654321</span>
+                                    <div class="info-divider"></div>
+                                    <div
+                                        style="display: inline-flex; gap: 2px; align-items: center; color: #777; font-size: 12px; letter-spacing: -0.2px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-truck-delivery">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                            <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                            <path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5"></path>
+                                            <path d="M3 9l4 0"></path>
+                                        </svg> 착불택배
+                                    </div>
+
+                                    <button type="button" class="detail-btn" style="margin-left: auto;">
+                                        접수상세
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M9 6l6 6l-6 6"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="sc-v3-horizontal-line"></div>
+
+                                <div class="sc-v3-total-summary">
+                                    <span class="summary-label">총 결제금액</span>
+                                    <div class="summary-right">
+                                        <span class="summary-value highlight">₩65,000</span>
+                                    </div>
+                                </div>
+
+                                <div class="sc-v3-horizontal-line"></div>
+
+                                <div class="sc-v3-body">
+                                    <div class="sc-v3-item-unit">
+                                        <div class="sc-v3-status-row">
+                                            <div class="sc-v3-status gray">접수대기</div>
+                                            <button class="inner-order-no">SW654321 <svg
+                                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M9 6l6 6l-6 6"></path>
+                                                </svg></button>
+                                        </div>
+
+                                        <div class="sc-v3-title-area">
+                                            <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                                        </div>
+
+                                        <div class="sc-v3-option-details">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격:
+                                            100x148mm |
+                                            가공:
+                                            오시 / 미싱
+                                        </div>
+
+                                        <div class="sc-v3-price-row">
+                                            <span class="price-total">₩65,000</span>
+                                        </div>
+
+                                        <div class="sc-v3-item-action">
+                                            <button class="btn-action-secondary" onclick="alert('접수 취소')">접수취소</button>
+                                            <button class="btn-action-secondary" onclick="alert('디자인파일 변경')">디자인파일
+                                                변경</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="sc-v3-card">
+                                <div class="sc-v3-header-new">
+                                    <span class="header-order-link">SW654321</span>
+                                    <div class="info-divider"></div>
+                                    <div
+                                        style="display: inline-flex; gap: 2px; align-items: center; color: #777; font-size: 12px; letter-spacing: -0.2px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-truck-delivery">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                            <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                            <path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5"></path>
+                                            <path d="M3 9l4 0"></path>
+                                        </svg> 착불택배
+                                    </div>
+
+                                    <button type="button" class="detail-btn" style="margin-left: auto;">
+                                        접수상세
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M9 6l6 6l-6 6"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="sc-v3-horizontal-line"></div>
+
+                                <div class="sc-v3-total-summary">
+                                    <span class="summary-label">총 결제금액</span>
+                                    <div class="summary-right">
+                                        <span class="summary-value highlight">₩65,000</span>
+                                    </div>
+                                </div>
+
+                                <div class="sc-v3-horizontal-line"></div>
+
+                                <div class="sc-v3-body">
+                                    <div class="sc-v3-item-unit">
+                                        <div class="sc-v3-status-row">
+                                            <div class="sc-v3-status blue-plain">접수완료</div>
+                                            <span class="inner-order-no">SW654321 <svg
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M9 6l6 6l-6 6"></path>
+                                                </svg></span>
+                                        </div>
+
+                                        <div class="sc-v3-title-area">
+                                            <div class="sc-v3-title">[디지털엽서] A6 사이즈 양면 인쇄 접수</div>
+                                        </div>
+
+                                        <div class="sc-v3-option-details">용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격:
+                                            100x148mm |
+                                            가공:
+                                            오시 / 미싱
+                                        </div>
+
+                                        <div class="sc-v3-price-row">
+                                            <span class="price-total">₩65,000</span>
+                                        </div>
+
+                                        <div class="sc-v3-item-action">
+                                            <button class="btn-action-secondary" onclick="alert('접수 취소')">접수취소</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="no-transactions" style="display: none;">조회된 내역이 없어요</div>
+
+                    <!-- <div class="pagination" data-name="Pagination">
+                        <div class="pagination-arrow disabled" onclick="paginationFirst()">
+                            <img src="assets/images/nnext-arrow.svg" alt="처음" style="transform: rotate(90deg);">
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationPrev()">
+                            <img src="assets/images/next-arrow.svg" alt="이전" style="transform: rotate(90deg);">
+                        </div>
+                        <div class="pagination-numbers" id="issue-pagination-numbers">
+                            <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationNext()">
+                            <img src="assets/images/next-arrow.svg" alt="다음"
+                                style="transform: rotate(90deg) scaleY(-1);">
+                        </div>
+                        <div class="pagination-arrow disabled" onclick="paginationLast()">
+                            <img src="assets/images/nnext-arrow.svg" alt="마지막"
+                                style="transform: rotate(90deg) scaleY(-1);">
+                        </div>
+                    </div> -->
+                </section>
+
+            </div>
+        </main>
+
+    </div>
+
+    <div class="bottom-sheet-overlay" id="period-filter-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="period-filter-sheet">
+            <div class="sheet-handle" id="period-filter-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">기간 상세검색</div>
+                <div class="btn-close" onclick="closeFilterSheet('period')"><svg id="icon-close">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
+            <div class="sheet-body" id="filter-sheet-body" style="padding: 0;">
+                <ul class="option-list">
+                    <li><button type="button" onclick="selectPeriod('최근 1개월')">최근 1개월</button></li>
+                    <li><button type="button" onclick="selectPeriod('최근 3개월')">최근 3개월</button></li>
+                    <li><button type="button" onclick="selectPeriod('최근 6개월')">최근 6개월</button></li>
+                    <li><button type="button" onclick="selectPeriod('최근 1년')">최근 1년</button></li>
+                    <li><button type="button" onclick="openCustomPeriodSheetFromList()">기간 설정</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="period-custom-sheet-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="period-custom-sheet">
+            <div class="sheet-handle" id="period-custom-sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">기간 설정</div>
+                <div class="btn-close" onclick="closeCustomPeriodSheet()">
+                    <svg id="icon-close-custom-period" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="sheet-body">
+                <div class="form-group">
+                    <label>시작일</label>
+                    <div class="input">
+                        <button type="button" id="btn-start-date"
+                            onclick="openCalendarSheet('start')">2025-10-11</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>종료일</label>
+                    <div class="input">
+                        <button type="button" id="btn-end-date" onclick="openCalendarSheet('end')">2025-11-11</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>간편 설정</label>
+                    <div class="filter-group-content">
+                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(0)">오늘</div>
+                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(7)">1주일</div>
+                        <div class="single-chip single-chip-off" onclick="setCustomPeriod(30)">1개월</div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn white-button" onclick="closeCustomPeriodSheet()">취소</button>
+                <button class="btn dark-button" onclick="applyCustomPeriod()">조회하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="manager-filter-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="manager-filter-sheet">
+            <div class="sheet-handle" id="manager-filter-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">담당자 선택</div>
+                <div class="btn-close" onclick="closeFilterSheet('manager')"><svg
+                        xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="24" height="24"
+                        viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
+            <div class="sheet-body">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 16px; padding-right: 4px;">
+                    <button type="button" class="sc-v3-order-link" onclick="openManagerManagement()"
+                        style="color: #666; font-weight: 500; display: inline-flex; align-items: center;">
+                        담당자 관리
+                        <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" viewBox="0 0 24 24"
+                            width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-group-content" id="manager-filter-chips">
+                        <div class="multi-chip multi-chip-on" data-category="전체"
+                            onclick="toggleFilterChip(this, 'manager-filter-chips')">✓ 전체</div>
+                        <div class="multi-chip multi-chip-off" data-category="김성원"
+                            onclick="toggleFilterChip(this, 'manager-filter-chips')">김성원</div>
+                        <div class="multi-chip multi-chip-off" data-category="김디자이너"
+                            onclick="toggleFilterChip(this, 'manager-filter-chips')">김디자이너</div>
+                        <div class="multi-chip multi-chip-off" data-category="정혜진"
+                            onclick="toggleFilterChip(this, 'manager-filter-chips')">정혜진</div>
+                        <div class="multi-chip multi-chip-off" data-category="정지수"
+                            onclick="toggleFilterChip(this, 'manager-filter-chips')">정지수</div>
+                        <div class="multi-chip multi-chip-off" data-category="이길동"
+                            onclick="toggleFilterChip(this, 'manager-filter-chips')">이길동</div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn white-button" onclick="resetManagerFilter()">초기화</button>
+                <button class="btn dark-button" onclick="applyManagerFilter()">적용하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="customer-filter-overlay">
+        <div class="bottom-sheet" data-name="bottom-sheet" id="customer-filter-sheet">
+            <div class="sheet-handle" id="customer-filter-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">고객 선택</div>
+                <div class="btn-close" onclick="closeFilterSheet('customer')"><svg
+                        xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="24" height="24"
+                        viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg></div>
+            </div>
+            <div class="sheet-body">
+                <div class="filter-group">
+                    <div class="filter-group-content" id="customer-filter-chips">
+                        <div class="multi-chip multi-chip-on" data-category="전체"
+                            onclick="toggleFilterChip(this, 'customer-filter-chips')">✓ 전체</div>
+                        <div class="multi-chip multi-chip-off" data-category="XT(내회사)"
+                            onclick="toggleFilterChip(this, 'customer-filter-chips')">XT(내회사)</div>
+                        <div class="multi-chip multi-chip-off" data-category="삼성SDS"
+                            onclick="toggleFilterChip(this, 'customer-filter-chips')">삼성SDS</div>
+                        <div class="multi-chip multi-chip-off" data-category="LG CNS"
+                            onclick="toggleFilterChip(this, 'customer-filter-chips')">LG CNS</div>
+                        <div class="multi-chip multi-chip-off" data-category="현대오토에버"
+                            onclick="toggleFilterChip(this, 'customer-filter-chips')">현대오토에버</div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn white-button" onclick="resetCustomerFilter()">초기화</button>
+                <button class="btn dark-button" onclick="applyCustomerFilter()">적용하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="full-page-modal" id="manager-management-modal">
+        <div class="fp-header">
+            <div class="fp-title">담당자 관리</div>
+            <div class="btn-close" onclick="closeManagerManagement()"><svg
+                    xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="24" height="24"
+                    viewBox="0 0 24 24">
+                    <path d="M18 6l-12 12" />
+                    <path d="M6 6l12 12" />
+                </svg></div>
+        </div>
+        <div class="fp-body">
+            <div style="font-size: 13px; font-weight: 500; color: #333; margin-bottom: 8px;">총 4명</div>
+
+            <div class="manager-list">
+                <div class="manager-list-item">
+                    <div class="manager-info">
+                        <div class="manager-name">김길동</div>
+                        <div class="manager-contact">01012341234 | test@gmail.com</div>
+                    </div>
+                    <div class="manager-actions">
+                        <button class="white-button btn-manager-action" onclick="openDeleteManager()">삭제</button>
+                        <button class="dark-button btn-manager-action" onclick="openModifyManager()">수정</button>
+                    </div>
+                </div>
+                <div class="manager-list-item">
+                    <div class="manager-info">
+                        <div class="manager-name">홍길동</div>
+                        <div class="manager-contact">01012341234 | test@gmail.com</div>
+                    </div>
+                    <div class="manager-actions">
+                        <button class="white-button btn-manager-action" onclick="openDeleteManager()">삭제</button>
+                        <button class="dark-button btn-manager-action" onclick="openModifyManager()">수정</button>
+                    </div>
+                </div>
+                <div class="manager-list-item">
+                    <div class="manager-info">
+                        <div class="manager-name">성길동</div>
+                        <div class="manager-contact">01012341234 | test@gmail.com</div>
+                    </div>
+                    <div class="manager-actions">
+                        <button class="white-button btn-manager-action" onclick="openDeleteManager()">삭제</button>
+                        <button class="dark-button btn-manager-action" onclick="openModifyManager()">수정</button>
+                    </div>
+                </div>
+                <div class="manager-list-item">
+                    <div class="manager-info">
+                        <div class="manager-name">최길동</div>
+                        <div class="manager-contact">01012341234 | test@gmail.com</div>
+                    </div>
+                    <div class="manager-actions">
+                        <button class="white-button btn-manager-action" onclick="openDeleteManager()">삭제</button>
+                        <button class="dark-button btn-manager-action" onclick="openModifyManager()">수정</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="manager-info-text">
+                <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="14" height="14"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                담당자는 최대 10명까지 등록할 수 있어요
+            </div>
+        </div>
+        <div class="fp-footer">
+            <button class="btn dark-button" style="width: 100%;" onclick="openAddManager()">+ 담당자 추가</button>
+        </div>
+    </div>
+
+    <div class="full-page-modal" id="add-manager-modal">
+        <div class="fp-header">
+            <div class="fp-title">담당자 추가</div>
+            <div class="btn-close" onclick="closeAddManager()"><svg
+                    xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="24" height="24"
+                    viewBox="0 0 24 24">
+                    <path d="M18 6l-12 12" />
+                    <path d="M6 6l12 12" />
+                </svg></div>
+        </div>
+        <div class="fp-body">
+            <div class="form-group">
+                <label>담당자명</label>
+                <div class="input">
+                    <input type="text" placeholder="담당자의 이름을 입력해주세요">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>이메일 주소</label>
+                <div class="input">
+                    <input type="email" placeholder="이메일 주소를 입력해주세요">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>휴대폰 번호</label>
+                <div class="input">
+                    <input type="tel" placeholder="-를 제외한 숫자만 입력해주세요">
+                </div>
+            </div>
+        </div>
+        <div class="fp-footer" style="display: flex; gap: 8px;">
+            <button class="btn white-button" style="flex: 1;" onclick="closeAddManager()">취소</button>
+            <button class="btn dark-button" style="flex: 1;">담당자 추가</button>
+        </div>
+    </div>
+
+    <div class="full-page-modal" id="modify-manager-modal">
+        <div class="fp-header">
+            <div class="fp-title">담당자 정보 수정</div>
+            <div class="btn-close" onclick="closeModifyManager()"><svg
+                    xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="24" height="24"
+                    viewBox="0 0 24 24">
+                    <path d="M18 6l-12 12" />
+                    <path d="M6 6l12 12" />
+                </svg></div>
+        </div>
+        <div class="fp-body">
+            <div class="form-group">
+                <label>담당자명</label>
+                <div class="input">
+                    <input type="text" value="김길동">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>이메일 주소</label>
+                <div class="input">
+                    <input type="email" value="test@gmail.com">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>휴대폰 번호</label>
+                <div class="input">
+                    <input type="tel" value="01012341234">
+                </div>
+            </div>
+        </div>
+        <div class="fp-footer" style="display: flex; gap: 8px;">
+            <button class="btn white-button" style="flex: 1;" onclick="closeModifyManager()">취소</button>
+            <button class="btn dark-button" style="flex: 1;">담당자 정보 수정</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="delete-manager-modal">
+        <div class="confirm-modal">
+            <div class="modal-title">담당자를 삭제하시겠어요?</div>
+            <div class="modal-message">삭제 시 해당 담당자로 접수된 <br>접수 건의 담당자가 내정보로 변경돼요</div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" onclick="closeDeleteManager()">아니요</button>
+                <button class="modal-button modal-button-primary" onclick="confirmDeleteManager()">담당자 삭제</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="action-sheet-overlay">
+        <div class="bottom-sheet" id="action-sheet">
+            <div class="sheet-handle" id="action-sheet-handle"></div>
+            <div class="action-sheet-header">
+                <div class="action-sheet-title" id="action-sheet-order-no">주문 관리</div>
+                <div class="btn-sheet-close" onclick="closeActionSheet()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="action-list" id="action-list-container">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="combined-filter-overlay">
+        <div class="bottom-sheet" id="combined-filter-sheet">
+            <div class="sheet-handle" id="combined-filter-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">상세 필터</div>
+                <div class="btn-close" onclick="closeCombinedFilterSheet()">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="sheet-body">
+                <div class="filter-group">
+                    <div class="filter-group-title">조회 기간</div>
+                    <div class="filter-group-content" id="period-chips">
+                        <div class="single-chip single-chip-on" onclick="selectPeriodChip(this, 30)">최근 1개월</div>
+                        <div class="single-chip single-chip-off" onclick="selectPeriodChip(this, 90)">최근 3개월</div>
+                        <div class="single-chip single-chip-off" onclick="selectPeriodChip(this, 180)">최근 6개월</div>
+                        <div class="single-chip single-chip-off" onclick="selectPeriodChip(this, 365)">최근 1년</div>
+                        <div class="single-chip single-chip-off" onclick="openCustomPeriodSheetFromList()">직접 설정</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div class="filter-group-title" style="margin-bottom: 0;">담당자</div>
+                        <button type="button" onclick="openManagerManagement()"
+                            style="font-size: 12px; color: #666; font-weight: 500; display: inline-flex; align-items: center; gap: 2px;">
+                            담당자 관리
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M9 6l6 6l-6 6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="filter-group-content" id="combined-manager-chips">
+                        <div class="multi-chip multi-chip-on" data-category="전체"
+                            onclick="toggleFilterChip(this, 'combined-manager-chips')">✓ 전체</div>
+                        <div class="multi-chip multi-chip-off" data-category="김성원"
+                            onclick="toggleFilterChip(this, 'combined-manager-chips')">김성원</div>
+                        <div class="multi-chip multi-chip-off" data-category="김디자이너"
+                            onclick="toggleFilterChip(this, 'combined-manager-chips')">김디자이너</div>
+                        <div class="multi-chip multi-chip-off" data-category="정혜진"
+                            onclick="toggleFilterChip(this, 'combined-manager-chips')">정혜진</div>
+                        <div class="multi-chip multi-chip-off" data-category="이길동"
+                            onclick="toggleFilterChip(this, 'combined-manager-chips')">이길동</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-group-title">고객사</div>
+                    <div class="filter-group-content" id="combined-customer-chips">
+                        <div class="multi-chip multi-chip-on" data-category="전체"
+                            onclick="toggleFilterChip(this, 'combined-customer-chips')">✓ 전체</div>
+                        <div class="multi-chip multi-chip-off" data-category="XT(내회사)"
+                            onclick="toggleFilterChip(this, 'combined-customer-chips')">XT(내회사)</div>
+                        <div class="multi-chip multi-chip-off" data-category="삼성SDS"
+                            onclick="toggleFilterChip(this, 'combined-customer-chips')">삼성SDS</div>
+                        <div class="multi-chip multi-chip-off" data-category="LG CNS"
+                            onclick="toggleFilterChip(this, 'combined-customer-chips')">LG CNS</div>
+                        <div class="multi-chip multi-chip-off" data-category="현대오토에버"
+                            onclick="toggleFilterChip(this, 'combined-customer-chips')">현대오토에버</div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-footer">
+                <button class="btn white-button" onclick="resetCombinedFilter()">초기화</button>
+                <button class="btn dark-button" onclick="applyCombinedFilter()">적용하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="calendar-sheet-overlay">
+        <div class="bottom-sheet" id="calendar-sheet">
+            <div class="sheet-handle" id="calendar-sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">날짜 선택</div>
+                <div class="btn-close" onclick="closeCalendarSheet()">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="sheet-body">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button type="button" class="calendar-nav-btn">&lt;</button>
+                        <span class="calendar-month-title">2025.10</span>
+                        <button type="button" class="calendar-nav-btn">&gt;</button>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-row week-header">
+                            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+                        </div>
+                        <div class="calendar-row">
+                            <span class="empty"></span><span class="empty"></span><span
+                                onclick="confirmDateSelection(1)">1</span><span
+                                onclick="confirmDateSelection(2)">2</span><span
+                                onclick="confirmDateSelection(3)">3</span><span
+                                onclick="confirmDateSelection(4)">4</span><span
+                                onclick="confirmDateSelection(5)">5</span>
+                        </div>
+                        <div class="calendar-row">
+                            <span onclick="confirmDateSelection(6)">6</span><span
+                                onclick="confirmDateSelection(7)">7</span><span
+                                onclick="confirmDateSelection(8)">8</span><span
+                                onclick="confirmDateSelection(9)">9</span><span
+                                onclick="confirmDateSelection(10)">10</span>
+                            <span class="selected" onclick="confirmDateSelection(11)">11</span><span
+                                onclick="confirmDateSelection(12)">12</span>
+                        </div>
+                        <div class="calendar-row">
+                            <span onclick="confirmDateSelection(13)">13</span><span
+                                onclick="confirmDateSelection(14)">14</span><span
+                                onclick="confirmDateSelection(15)">15</span><span
+                                onclick="confirmDateSelection(16)">16</span><span
+                                onclick="confirmDateSelection(17)">17</span><span
+                                onclick="confirmDateSelection(18)">18</span><span
+                                onclick="confirmDateSelection(19)">19</span>
+                        </div>
+                        <div class="calendar-row">
+                            <span onclick="confirmDateSelection(20)">20</span><span
+                                onclick="confirmDateSelection(21)">21</span><span
+                                onclick="confirmDateSelection(22)">22</span><span
+                                onclick="confirmDateSelection(23)">23</span><span
+                                onclick="confirmDateSelection(24)">24</span><span
+                                onclick="confirmDateSelection(25)">25</span><span
+                                onclick="confirmDateSelection(26)">26</span>
+                        </div>
+                        <div class="calendar-row">
+                            <span onclick="confirmDateSelection(27)">27</span><span
+                                onclick="confirmDateSelection(28)">28</span><span
+                                onclick="confirmDateSelection(29)">29</span><span
+                                onclick="confirmDateSelection(30)">30</span><span
+                                onclick="confirmDateSelection(31)">31</span><span class="empty"></span><span
+                                class="empty"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Toggle Options Function (v3 Card) ---
+        function toggleOptions(targetId, btn) {
+            const target = document.getElementById(targetId);
+            if (target.classList.contains('open')) {
+                target.classList.remove('open');
+                btn.classList.remove('active');
+            } else {
+                target.classList.add('open');
+                btn.classList.add('active');
+            }
+        }
+
+        // --- Action Sheet Logic (For Dot Menu) ---
+        const actionSheetOverlay = document.getElementById('action-sheet-overlay');
+        const actionSheet = document.getElementById('action-sheet');
+
+        function closeActionSheet() {
+            actionSheet.classList.add('closing');
+            setTimeout(() => {
+                actionSheetOverlay.classList.remove('active');
+                actionSheet.classList.remove('closing');
+            }, 300);
+        }
+
+        if (actionSheetOverlay) {
+            actionSheetOverlay.addEventListener('click', (e) => {
+                if (e.target === actionSheetOverlay) closeActionSheet();
+            });
+            // Handle for drag
+            setupBottomSheet('action-sheet-overlay', 'action-sheet', 'action-sheet-handle');
+        }
+
+        function openActionSheet(orderNo, actions) {
+            const container = document.getElementById('action-list-container');
+            document.getElementById('action-sheet-order-no').textContent = `주문번호 ${orderNo}`;
+            container.innerHTML = '';
+
+            const actionDefinitions = {
+                'detail': { label: '접수 상세', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M9 9l1 0" /><path d="M9 13l6 0" /><path d="M9 17l6 0" /></svg>', class: '', onclick: "alert('접수 상세')" },
+                'cancel': { label: '접수 취소', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" /></svg>', class: 'destructive', onclick: "alert('접수 취소')" },
+                'change_file': { label: '디자인 파일 변경', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>', class: '', onclick: "alert('파일 변경')" },
+                'reorder': { label: '동일 옵션 접수', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.933 13.041a8 8 0 1 1 -9.925 -8.788c3.899 -1 7.935 1.007 9.425 4.747" /><path d="M20 4v5h-5" /></svg>', class: '', onclick: "alert('재주문')" },
+                'inquiry': { label: '1:1 문의', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" /></svg>', class: '', onclick: "alert('문의하기')" },
+                'requote': { label: '재견적 신청', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" /></svg>', class: '', onclick: "alert('재견적')" },
+            };
+
+            let sortedActions = [...actions];
+            if (sortedActions.includes('cancel')) {
+                sortedActions = sortedActions.filter(item => item !== 'cancel');
+                sortedActions.push('cancel');
+            }
+
+            sortedActions.forEach(actionKey => {
+                const act = actionDefinitions[actionKey];
+                if (act) {
+                    const btn = document.createElement('button');
+                    btn.className = `action-item ${act.class}`;
+                    btn.innerHTML = `${act.icon} ${act.label}`;
+                    btn.onclick = () => { eval(act.onclick); closeActionSheet(); };
+                    container.appendChild(btn);
+                }
+            });
+
+            actionSheetOverlay.classList.add('active');
+        }
+
+        // --- Modal & Bottom Sheet Helpers ---
+        function openModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            if (overlay) {
+                overlay.classList.remove('active');
+                const anyActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active, .full-page-modal.active');
+                if (!anyActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+
+        // --- [v12] Search Component JS ---
+        function handleSearchInput(input) {
+            const searchBox = input.closest('.search');
+            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+        }
+        function clearSearch(btn) {
+            const searchBox = btn.closest('.search');
+            const input = searchBox.querySelector('input');
+            input.value = '';
+            searchBox.classList.remove('has-text');
+            input.focus();
+        }
+        function handleSearch(btn) {
+            console.log('Search submitted:', btn.closest('.search').querySelector('input').value);
+            filterOrderList();
+        }
+
+        // --- [v12] MultiChip Component JS ---
+        function toggleMultiChip(chip, forceState) {
+            const isCurrentlyOn = chip.classList.contains('multi-chip-on');
+            let turnOn;
+
+            if (forceState === true) {
+                turnOn = true;
+            } else if (forceState === false) {
+                turnOn = false;
+            } else {
+                turnOn = !isCurrentlyOn;
+            }
+
+            if (turnOn && !isCurrentlyOn) {
+                chip.classList.remove('multi-chip-off');
+                chip.classList.add('multi-chip-on');
+                chip.innerHTML = '✓ ' + chip.innerHTML.trim();
+            } else if (!turnOn && isCurrentlyOn) {
+                chip.classList.remove('multi-chip-on');
+                chip.classList.add('multi-chip-off');
+                chip.innerHTML = chip.innerHTML.replace('✓ ', '');
+            }
+        }
+
+        // --- [v12] Bottom Sheet JS (Setup) ---
+        function setupBottomSheet(overlayId, sheetId, handleId) {
+            const overlay = document.getElementById(overlayId); const sheet = document.getElementById(sheetId); const handle = document.getElementById(handleId);
+            if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
+            let isDragging = false, startY = 0, currentY = 0;
+            const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
+            const closeSheet = () => {
+                sheet.classList.add('closing');
+                const anyModalActive = document.querySelector('.modal-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+                setTimeout(() => { overlay.classList.remove('active'); sheet.classList.remove('closing'); sheet.style.transform = ''; }, 300);
+            };
+            const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
+            const drag = (e) => { if (!isDragging) return; e.preventDefault(); currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; const deltaY = currentY - startY; if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; };
+            const endDrag = () => { if (!isDragging) return; isDragging = false; sheet.style.transition = ''; const deltaY = currentY - startY; if (deltaY > 100) closeSheet(); else sheet.style.transform = ''; };
+            handle.addEventListener('mousedown', startDrag); handle.addEventListener('touchstart', startDrag, { passive: false });
+            document.addEventListener('mousemove', drag); document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag);
+            overlay.addEventListener('click', (e) => { if (e.target.id === overlayId) closeSheet(); });
+            return { openSheet, closeSheet };
+        }
+
+        let openPeriodFilterSheet, closePeriodFilterSheet, openManagerFilterSheet, closeManagerFilterSheet, openCustomerFilterSheet, closeCustomerFilterSheet;
+        let openCustomPeriodSheet, closeCustomPeriodSheet;
+        // [추가] 달력 관련 변수
+        let openCalendarSheetFunc, closeCalendarSheetFunc;
+        let currentTargetDateBtnId = null;
+
+        function initializeBottomSheets() {
+            const periodSheet = setupBottomSheet('period-filter-overlay', 'period-filter-sheet', 'period-filter-handle');
+            openPeriodFilterSheet = periodSheet.openSheet; closePeriodFilterSheet = periodSheet.closeSheet;
+
+            const managerSheet = setupBottomSheet('manager-filter-overlay', 'manager-filter-sheet', 'manager-filter-handle');
+            openManagerFilterSheet = managerSheet.openSheet; closeManagerFilterSheet = managerSheet.closeSheet;
+
+            const customerSheet = setupBottomSheet('customer-filter-overlay', 'customer-filter-sheet', 'customer-filter-handle');
+            openCustomerFilterSheet = customerSheet.openSheet; closeCustomerFilterSheet = customerSheet.closeSheet;
+
+            const customPeriodSheet = setupBottomSheet('period-custom-sheet-overlay', 'period-custom-sheet', 'period-custom-sheet-handle');
+            openCustomPeriodSheet = customPeriodSheet.openSheet; closeCustomPeriodSheet = customPeriodSheet.closeSheet;
+
+            // [추가] 달력 바텀시트 초기화
+            const calendarSheet = setupBottomSheet('calendar-sheet-overlay', 'calendar-sheet', 'calendar-sheet-handle');
+            openCalendarSheetFunc = calendarSheet.openSheet; closeCalendarSheetFunc = calendarSheet.closeSheet;
+
+            const combinedSheet = setupBottomSheet('combined-filter-overlay', 'combined-filter-sheet', 'combined-filter-handle');
+            openCombinedFilterSheet = combinedSheet.openSheet;
+            closeCombinedFilterSheet = combinedSheet.closeSheet;
+        }
+
+        function showFilterSheet(type) {
+            if (type === 'period') openPeriodFilterSheet();
+            else if (type === 'manager') openManagerFilterSheet();
+            else if (type === 'customer') openCustomerFilterSheet();
+        }
+
+        function closeFilterSheet(type) {
+            if (type === 'period') closePeriodFilterSheet();
+            else if (type === 'manager') closeManagerFilterSheet();
+            else if (type === 'customer') closeCustomerFilterSheet();
+        }
+
+        // --- [New] Full Page Modal Logic (Manager Management) ---
+        function openFullPage(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.remove('closing');
+                el.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        function closeFullPage(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.add('closing');
+                setTimeout(() => {
+                    el.classList.remove('active');
+                    el.classList.remove('closing');
+                    // Check if other modals are open before releasing scroll
+                    const anyActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active, .full-page-modal.active');
+                    if (!anyActive) {
+                        document.body.style.overflow = '';
+                    }
+                }, 300);
+            }
+        }
+
+        function openManagerManagement() {
+            closeManagerFilterSheet();
+            openFullPage('manager-management-modal');
+        }
+
+        function closeManagerManagement() {
+            closeFullPage('manager-management-modal');
+        }
+
+        function openAddManager() {
+            // Stack logic: close management list, open add
+            closeFullPage('manager-management-modal');
+            setTimeout(() => { openFullPage('add-manager-modal'); }, 300); // Wait for transition or immediate
+        }
+
+        function closeAddManager() {
+            closeFullPage('add-manager-modal');
+            // Return to list
+            setTimeout(() => { openFullPage('manager-management-modal'); }, 300);
+        }
+
+        function openModifyManager() {
+            closeFullPage('manager-management-modal');
+            setTimeout(() => { openFullPage('modify-manager-modal'); }, 300);
+        }
+
+        function closeModifyManager() {
+            closeFullPage('modify-manager-modal');
+            setTimeout(() => { openFullPage('manager-management-modal'); }, 300);
+        }
+
+        function openDeleteManager() {
+            openModal('delete-manager-modal');
+        }
+
+        function closeDeleteManager() {
+            closeModal('delete-manager-modal');
+        }
+
+        function confirmDeleteManager() {
+            alert('담당자가 삭제되었습니다.');
+            closeDeleteManager();
+        }
+
+        // --- [MODIFIED] Page-Specific Filter Logic ---
+
+        // 1. Period Filter (Bottom Sheet)
+        let selectedPeriodValue = "최근 1개월";
+
+        // [변경] Calendar Sheet 로직
+        function openCalendarSheet(type) {
+            // 기간 설정 시트를 닫지 않고 그 위에 띄울지, 닫고 띄울지 결정 (여기선 닫지 않고 Z-Index로 위로 띄움)
+            if (type === 'start') currentTargetDateBtnId = 'btn-start-date';
+            else if (type === 'end') currentTargetDateBtnId = 'btn-end-date';
+
+            // 기존 기간 설정 시트 오버레이 제거 없이 달력 시트 오픈 (z-index 2500 -> 3000 조정 필요하지만, 현재 CSS상 동일 레벨)
+            // 편의상 달력 시트 overlay z-index를 인라인으로 높이거나 CSS 수정이 필요할 수 있음.
+            // 여기서는 JS로 처리
+            document.getElementById('calendar-sheet-overlay').style.zIndex = '3000';
+            openCalendarSheetFunc();
+        }
+
+        function closeCalendarSheet() {
+            closeCalendarSheetFunc();
+            // 약간의 딜레이 후 z-index 복귀 (닫힘 애니메이션 고려)
+            setTimeout(() => {
+                document.getElementById('calendar-sheet-overlay').style.zIndex = '';
+            }, 300);
+        }
+
+        function confirmDateSelection(day) {
+            if (currentTargetDateBtnId) {
+                // 마스터 가이드 달력이 2025.10 고정이므로 해당 년월 사용
+                const formattedDay = day < 10 ? `0${day}` : day;
+                document.getElementById(currentTargetDateBtnId).textContent = `2025-10-${formattedDay}`;
+            }
+            closeCalendarSheet();
+        }
+
+        // [변경] 간편 설정 로직 (Input value -> Button textContent)
+        function setCustomPeriod(days) {
+            const endDate = new Date();
+            let startDate = new Date();
+
+            if (days === 0) {
+                startDate = endDate;
+            } else if (days === 7) {
+                startDate.setDate(endDate.getDate() - 7);
+            } else if (days === 30) {
+                startDate.setMonth(endDate.getMonth() - 1);
+            }
+
+            const isoStartDate = startDate.toISOString().split('T')[0];
+            const isoEndDate = endDate.toISOString().split('T')[0];
+
+            document.getElementById('btn-start-date').textContent = isoStartDate;
+            document.getElementById('btn-end-date').textContent = isoEndDate;
+        }
+
+        // [변경] 기간 적용 로직 (Input value -> Button textContent)
+        // [JS 수정] 기간 설정 적용 로직 (통합 필터 대응)
+        // [JS 수정] 기간 설정 적용 로직 (통합 필터 대응)
+        function applyCustomPeriod() {
+            const startDate = document.getElementById('btn-start-date').textContent;
+            const endDate = document.getElementById('btn-end-date').textContent;
+
+            if (!startDate || !endDate) {
+                alert("시작일과 종료일을 모두 선택해주세요.");
+                return;
+            }
+            if (new Date(startDate) > new Date(endDate)) {
+                alert("시작일이 종료일보다 늦을 수 없습니다.");
+                return;
+            }
+
+            // 1. 전역 변수에 선택한 기간 저장
+            selectedPeriodValue = `${startDate.replaceAll('-', '.')} ~ ${endDate.replaceAll('-', '.')}`;
+
+            // 2. 기간 설정 시트 닫기
+            closeCustomPeriodSheet();
+
+            // 3. [핵심 수정] 통합 필터 시트의 '기간 칩' UI 업데이트
+            // '직접 설정' 칩을 찾아서 하이라이트(On) 하고, 나머지 칩은 끔(Off)
+            const periodGroup = document.getElementById('period-chips');
+            if (periodGroup) {
+                // 모든 칩 Off
+                periodGroup.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+
+                // '직접 설정' 텍스트를 가진 칩을 찾아 On
+                const customChip = Array.from(periodGroup.querySelectorAll('.single-chip')).find(el => el.innerText.trim() === '직접 설정');
+                if (customChip) {
+                    customChip.classList.replace('single-chip-off', 'single-chip-on');
+                }
+            }
+
+            // 4. [수정] 즉시 필터링(applyPeriodFilter)을 실행하지 않음
+            // 사용자가 통합 필터 시트에서 '적용하기' 버튼을 눌렀을 때 최종 필터링이 되도록 대기
+        }
+
+        function selectPeriod(value) {
+            selectedPeriodValue = value;
+            applyPeriodFilter();
+        }
+
+        function openCustomPeriodSheetFromList() {
+            // [변경] 기간 설정 시트 열릴 때 기본값 세팅 (Input -> Button)
+            const endDate = new Date();
+            const startDate = new Date();
+            startDate.setMonth(endDate.getMonth() - 1);
+
+            document.getElementById('btn-start-date').textContent = startDate.toISOString().split('T')[0];
+            document.getElementById('btn-end-date').textContent = endDate.toISOString().split('T')[0];
+
+            closeFilterSheet('period');
+            openCustomPeriodSheet();
+        }
+
+        function applyPeriodFilter() {
+            document.getElementById('selected-period-text').textContent = selectedPeriodValue;
+            document.querySelector('.filter-bar button:nth-child(1)')?.classList.remove('open');
+            closeFilterSheet('period');
+            filterOrderList();
+        }
+        function resetPeriodFilter() {
+            selectPeriod("최근 1개월");
+        }
+
+        // 2. Status Filter (Single-select chip)
+        function selectStatusChip(chip) {
+            const group = chip.closest('#status-chip-group');
+            if (!group) return;
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+            filterOrderList();
+        }
+
+        // 3. Multi-Filter Chip Logic (for Manager & Customer)
+        function toggleFilterChip(chip, groupId) {
+            const category = chip.getAttribute('data-category');
+            const group = chip.closest(`#${groupId}`);
+            const allChip = group.querySelector('[data-category="전체"]');
+
+            if (category === '전체') {
+                const isTurningOn = !chip.classList.contains('multi-chip-on');
+                toggleMultiChip(chip, isTurningOn);
+                group.querySelectorAll('.multi-chip').forEach(c => {
+                    if (c !== chip) toggleMultiChip(c, false);
+                });
+            } else {
+                toggleMultiChip(chip);
+                toggleMultiChip(allChip, false);
+                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-category="전체"])'))
+                    .some(c => c.classList.contains('multi-chip-on'));
+                if (!anyOtherOn) {
+                    toggleMultiChip(allChip, true);
+                }
+            }
+        }
+
+        function applyManagerFilter() {
+            const selected = [];
+            document.querySelectorAll('#manager-filter-chips .multi-chip-on').forEach(chip => {
+                selected.push(chip.dataset.category);
+            });
+            updateFilterText('selected-manager-text', '담당자', selected);
+            document.querySelector('.filter-bar button:nth-child(2)')?.classList.remove('open');
+            closeFilterSheet('manager');
+            filterOrderList();
+        }
+
+        function resetManagerFilter() {
+            document.querySelectorAll('#manager-filter-chips .multi-chip').forEach(chip => {
+                const cat = chip.dataset.category;
+                if (cat === '전체') {
+                    toggleMultiChip(chip, true);
+                } else {
+                    toggleMultiChip(chip, false);
+                }
+            });
+        }
+
+        function applyCustomerFilter() {
+            const selected = [];
+            document.querySelectorAll('#customer-filter-chips .multi-chip-on').forEach(chip => {
+                selected.push(chip.dataset.category);
+            });
+            updateFilterText('selected-customer-text', '고객', selected);
+            document.querySelector('.filter-bar button:nth-child(3)')?.classList.remove('open');
+            closeFilterSheet('customer');
+            filterOrderList();
+        }
+
+        function resetCustomerFilter() {
+            document.querySelectorAll('#customer-filter-chips .multi-chip').forEach(chip => {
+                const cat = chip.dataset.category;
+                if (cat === '전체') {
+                    toggleMultiChip(chip, true);
+                } else {
+                    toggleMultiChip(chip, false);
+                }
+            });
+        }
+
+        function updateFilterText(elementId, prefix, selectedArray) {
+            const textEl = document.getElementById(elementId);
+            if (selectedArray.includes('전체') || selectedArray.length === 0) {
+                textEl.textContent = `${prefix} (전체)`;
+            } else if (selectedArray.length === 1) {
+                textEl.textContent = selectedArray[0];
+            } else {
+                textEl.textContent = `${selectedArray[0]} 외 ${selectedArray.length - 1}건`;
+            }
+        }
+
+        // 4. Main Filter Function
+        function filterOrderList() {
+            const statusChip = document.querySelector('#status-chip-group .single-chip-on');
+            const status = statusChip ? statusChip.dataset.status : '전체';
+
+            const selectedManagers = [];
+            document.querySelectorAll('#manager-filter-chips .multi-chip-on').forEach(chip => {
+                selectedManagers.push(chip.dataset.category);
+            });
+
+            const selectedCustomers = [];
+            document.querySelectorAll('#customer-filter-chips .multi-chip-on').forEach(chip => {
+                selectedCustomers.push(chip.dataset.category);
+            });
+
+            const searchTerm = document.querySelector('#qna-search input').value.toLowerCase();
+
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
+
+            const cards = listContainer.querySelectorAll('.sc-v3-card');
+            const noResultMsg = document.querySelector('.no-transactions');
+            let visibleCount = 0;
+            const isAllManagers = selectedManagers.includes('전체');
+            const isAllCustomers = selectedCustomers.includes('전체');
+
+            document.querySelectorAll('.date-divider').forEach(d => d.style.display = 'none');
+
+            cards.forEach(card => {
+                const cardStatus = card.dataset.status;
+                const cardManager = card.dataset.manager;
+                const cardCustomer = card.dataset.customer;
+                const cardTitle = card.dataset.title.toLowerCase();
+                const cardOrderNo = card.dataset.orderNo.toLowerCase();
+
+                const statusMatch = (status === '전체' || cardStatus === status);
+                const managerMatch = (isAllManagers || selectedManagers.includes(cardManager));
+                const customerMatch = (isAllCustomers || selectedCustomers.includes(cardCustomer));
+                let searchMatch = true;
+                if (searchTerm) {
+                    searchMatch = cardTitle.includes(searchTerm) || cardOrderNo.includes(searchTerm);
+                }
+
+                if (statusMatch && managerMatch && customerMatch && searchMatch) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const allItems = Array.from(listContainer.children);
+            let currentDivider = null;
+
+            allItems.forEach(item => {
+                if (item.classList.contains('date-divider')) {
+                    currentDivider = item;
+                } else if (item.classList.contains('sc-v3-card')) {
+                    if (item.style.display === 'block' && currentDivider) {
+                        currentDivider.style.display = 'block';
+                        currentDivider = null;
+                    }
+                }
+            });
+
+            const countEl = document.getElementById('transaction-count');
+            if (countEl) countEl.textContent = visibleCount;
+            if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+
+        // --- [v12] Pagination Logic ---
+        let currentPage = 1; const totalPages = 1;
+        function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); }
+        function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
+        function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
+        function paginationFirst() { paginationGo(1); }
+        function paginationLast() { paginationGo(totalPages); }
+        function updatePagination() {
+            const numbersContainer = document.getElementById('pagination-numbers');
+            if (!numbersContainer) return;
+            numbersContainer.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const numEl = document.createElement('div');
+                numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
+                numEl.dataset.page = i;
+                numEl.textContent = i;
+                numEl.onclick = () => paginationGo(i);
+                numbersContainer.appendChild(numEl);
+            }
+            const paginationRoot = numbersContainer.closest('.pagination');
+            if (!paginationRoot) return;
+            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
+            const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
+            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
+            nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
+        }
+
+        /* [JS 추가/수정] 기존 스크립트 영역에 추가 */
+
+        // 1. 통합 필터 시트 초기화
+        let openCombinedFilterSheet, closeCombinedFilterSheet;
+
+        // DOMContentLoaded 이벤트 내 initializeBottomSheets 함수에 아래 내용 추가
+        // const combinedSheet = setupBottomSheet('combined-filter-overlay', 'combined-filter-sheet', 'combined-filter-handle');
+        // openCombinedFilterSheet = combinedSheet.openSheet; 
+        // closeCombinedFilterSheet = combinedSheet.closeSheet;
+
+        // 2. 기간 칩 선택 로직 (Single Chip)
+        function selectPeriodChip(chip, days) {
+            const group = document.getElementById('period-chips');
+            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            chip.classList.replace('single-chip-off', 'single-chip-on');
+
+            // 여기서 실제 날짜 계산 로직을 수행하거나, 전역 변수에 저장
+            // 예: selectedPeriodValue = chip.innerText; 
+            console.log('Selected period days:', days);
+        }
+
+        // 3. 통합 필터 적용 로직
+        // 3. 통합 필터 적용 로직 (텍스트 업데이트 기능 추가)
+        /* 1. 통합 필터 적용 로직 (텍스트 업데이트 기능 보강) */
+        function applyCombinedFilter() {
+            // 1) 기간 (Period) 텍스트 업데이트
+            const periodChip = document.querySelector('#period-chips .single-chip-on');
+            if (periodChip) {
+                const chipText = periodChip.innerText.trim();
+                // '직접 설정' 칩이 선택된 경우가 아니라면, 칩의 텍스트(예: 최근 1개월)를 바로 사용
+                if (chipText !== '직접 설정') {
+                    selectedPeriodValue = chipText;
+                }
+                // 화면 상단 텍스트 요소 업데이트
+                const periodTextEl = document.getElementById('selected-period-text');
+                if (periodTextEl) periodTextEl.textContent = selectedPeriodValue;
+            }
+
+            // 2) 담당자 (Manager) 텍스트 업데이트
+            const selectedManagers = [];
+            // 확실하게 데이터를 가져오기 위해 getAttribute 사용
+            document.querySelectorAll('#combined-manager-chips .multi-chip-on').forEach(chip => {
+                selectedManagers.push(chip.getAttribute('data-category'));
+            });
+            updateFilterText('selected-manager-text', '담당자', selectedManagers);
+
+            // 3) 고객 (Customer) 텍스트 업데이트
+            const selectedCustomers = [];
+            document.querySelectorAll('#combined-customer-chips .multi-chip-on').forEach(chip => {
+                selectedCustomers.push(chip.getAttribute('data-category'));
+            });
+            updateFilterText('selected-customer-text', '고객', selectedCustomers);
+
+            // 4) 시트 닫기 및 실제 필터링(리스트 갱신) 실행
+            closeCombinedFilterSheet();
+            filterOrderList();
+        }
+
+        /* 2. 텍스트 업데이트 헬퍼 함수 (기존에 없다면 추가, 있다면 내용 확인) */
+        function updateFilterText(elementId, prefix, selectedArray) {
+            const textEl = document.getElementById(elementId);
+            if (!textEl) return; // 요소가 없으면 에러 방지
+
+            // '전체'가 포함되어 있거나 아무것도 선택 안 된 경우
+            if (selectedArray.includes('전체') || selectedArray.length === 0) {
+                textEl.textContent = `${prefix} (전체)`;
+            }
+            // 1개만 선택된 경우
+            else if (selectedArray.length === 1) {
+                textEl.textContent = selectedArray[0];
+            }
+            // 2개 이상 선택된 경우 (예: 김성원 외 1건)
+            else {
+                textEl.textContent = `${selectedArray[0]} 외 ${selectedArray.length - 1}건`;
+            }
+        }
+
+        // 4. 통합 필터 초기화 로직
+        function resetCombinedFilter() {
+            // 기간 초기화 (최근 1개월)
+            const periodGroup = document.getElementById('period-chips');
+            periodGroup.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            periodGroup.firstElementChild.classList.replace('single-chip-off', 'single-chip-on');
+
+            // 담당자/고객 초기화 (전체 선택)
+            ['manager-filter-chips', 'customer-filter-chips'].forEach(id => {
+                const group = document.getElementById(id);
+                group.querySelectorAll('.multi-chip').forEach(chip => {
+                    if (chip.dataset.category === '전체') {
+                        toggleMultiChip(chip, true); // toggleMultiChip 함수 재사용 (Force True)
+                    } else {
+                        toggleMultiChip(chip, false); // Force False
+                    }
+                });
+            });
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeBottomSheets();
+            // updatePagination();
+
+            // const list = document.getElementById('transaction-list-container');
+            // const items = Array.from(list.querySelectorAll('.sc-v3-card'));
+
+            // Group items by date first (Re-using logic)
+            // const groupedByDate = {};
+            // items.forEach(item => {
+            //     const itemDate = item.dataset.date;
+            //     if (!groupedByDate[itemDate]) {
+            //         groupedByDate[itemDate] = [];
+            //     }
+            //     groupedByDate[itemDate].push(item);
+            // });
+
+            // list.innerHTML = '';
+            // const sortedDates = Object.keys(groupedByDate).sort().reverse();
+
+            // sortedDates.forEach(date => {
+            //     const divider = document.createElement('div');
+            //     divider.className = 'date-divider';
+            //     divider.textContent = date.replace(/-/g, '. ');
+            //     divider.dataset.date = date;
+            //     list.appendChild(divider);
+
+            //     groupedByDate[date].forEach(item => {
+            //         list.appendChild(item);
+            //     });
+            // });
+
+            // filterOrderList();
+
+            // [변경] 초기값 세팅 (Input -> Button)
+            const today = new Date().toISOString().split('T')[0];
+            const btnStart = document.getElementById('btn-start-date');
+            const btnEnd = document.getElementById('btn-end-date');
+            if (btnStart) btnStart.textContent = today;
+            if (btnEnd) btnEnd.textContent = today;
+
+            document.getElementById('start-date').value = today;
+            document.getElementById('end-date').value = today;
+        });
+
+    </script>
+</body>
+
+</html>
