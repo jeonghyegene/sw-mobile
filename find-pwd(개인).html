@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,104 +24,477 @@
                 display: none;
             }
         }
+
         /* Reset & Base */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        ul, li { list-style: none; }
-        a { text-decoration: none; color: inherit; }
-        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
-        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-        input, select, textarea { font-family: inherit; }
-        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
 
         /* Layout */
-        .mobile-wrap { 
-            width: 100%; 
-            max-width: 480px; 
-            margin: 0 auto; 
-            background-color: #ffffff; 
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
             padding-bottom: 100px;
         }
 
         /* Header */
-        .app-header-sub { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
-        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; transition: transform 0.2s; color: #333; }
-        .header-btn:active { transform: scale(0.9); }
-        .header-left { flex: 1 0 0; display: flex; justify-content: flex-start; }
-        .header-title { flex: 3 0 0; font-size: 18px; font-weight: 600; text-align: center; color: #212121; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .header-right { flex: 1 0 0; display: flex; justify-content: flex-end; gap: 8px; }
-        .btn-icon { cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; color: #333; }
-        .btn-icon:active { transform: scale(0.9); }
-        .btn-icon svg { width: 100%; height: 100%; }
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
 
         /* Buttons */
-        .primary-button { background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .primary-button:hover { background: #3d5dd3; }
-        .primary-button:active { transform: scale(0.98); }
-        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .dark-button:hover { background: #333; }
-        .dark-button:active { transform: scale(0.98); }
-        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .white-button:hover { background: #f9f9f9; }
-        .white-button:active { transform: scale(0.98); }
-        .dark-button:disabled, .white-button:disabled, .primary-button:disabled { background-color: #e9ecef; color: #adb5bd; border-color: #e9ecef; cursor: not-allowed; }
-        
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button:disabled,
+        .white-button:disabled,
+        .primary-button:disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
         /* Main Content */
-        .sw-container { padding: 16px; }
-        .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
-        .disclaimer.error { color: #dc3545; }
-        
+        .sw-container {
+            padding: 16px;
+        }
+
+        .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .disclaimer.error {
+            color: #dc3545;
+        }
+
         /* Form Styles */
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
-        .input { width: 100%; min-height: 40px; background: white; border: 1px solid #e8e8e9; border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; transition: border-color 0.2s; }
-        .input.error { border-color: #dc3545; }
-        .input input { width: 100%; background: transparent; border: none; outline: none; font-size: 14px; color: black; line-height: 1.5; }
-        .input input::placeholder { color: #c6c6c8; }
-        .input input[readonly], .input.readonly { background-color: #f5f5f5; color: #888; cursor: not-allowed; }
-        .input .timer { color: #dc3545; font-size: 14px; font-weight: 500; margin-left: 8px; flex-shrink: 0; }
-        .resend-button { font-size: 14px; color: #555; text-decoration: underline; margin-top: 8px; text-align: left; }
-        .resend-button:disabled { color: #aaa; text-decoration: none; cursor: not-allowed; }
-        
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            transition: border-color 0.2s;
+        }
+
+        .input.error {
+            border-color: #dc3545;
+        }
+
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+
+        .input input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .input input[readonly],
+        .input.readonly {
+            background-color: #f5f5f5;
+            color: #888;
+            cursor: not-allowed;
+        }
+
+        .input .timer {
+            color: #dc3545;
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+
+        .resend-button {
+            font-size: 14px;
+            color: #555;
+            text-decoration: underline;
+            margin-top: 8px;
+            text-align: left;
+        }
+
+        .resend-button:disabled {
+            color: #aaa;
+            text-decoration: none;
+            cursor: not-allowed;
+        }
+
         /* Modal Styles */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; animation: fadeInModal 0.2s ease-out; }
-        .modal-overlay.active { display: flex; }
-        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
-        
-        .modal-content { 
-            background: white; 
-            border-radius: 8px; 
-            width: 100%; 
-            max-width: 360px; 
-            max-height: 90vh; 
-            display: flex; 
-            flex-direction: column; 
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
             animation: scaleUpModal 0.2s ease-out;
             /* [MODIFIED] Height Fixing */
-            min-height: 570px; 
+            min-height: 570px;
         }
-        
-        @keyframes scaleUpModal { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #e8e8e9; position: relative; height: 57px; }
-        .modal-title { font-size: 16px; font-weight: 700; color: black; text-align: left; }
-        .btn-modal-close { width: 24px; height: 24px; cursor: pointer; color: #333; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); }
-        .btn-modal-close svg { width: 100%; height: 100%; }
-        .modal-body { padding: 16px; overflow-y: auto; flex-grow: 1; }
-        .modal-footer { padding: 16px; border-top: 1px solid #e8e8e9; background: #fff; display: flex; gap: 8px; border-radius: 0 0 7px 7px; }
-        .modal-footer .btn { flex: 1; height: 44px; font-size: 14px; }
-        
+
+        @keyframes scaleUpModal {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative;
+            height: 57px;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            text-align: left;
+        }
+
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .btn-modal-close svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+
         /* Alert Modal (Exception for min-height) */
-        .alert-modal { padding: 20px; text-align: center; min-height: auto; }
-        .alert-modal .modal-title { text-align: center; margin-bottom: 15px; }
-        .alert-modal .modal-message { font-size: 14px; color: black; margin-bottom: 30px; line-height: 1.5; }
-        .alert-modal .modal-buttons { display: flex; gap: 10px; justify-content: center; }
-        .alert-modal .modal-button { flex: 1; height: 44px; padding: 7px; border-radius: 6px; font-size: 14px; cursor: pointer; transition: all 0.2s; }
-        .alert-modal .modal-button-primary { background: #424242; color: white; border: none; }
-        .alert-modal .modal-button-secondary { background: white; color: #424242; border: 1px solid #e8e8e9; }
-        .alert-modal .modal-button:active { transform: scale(0.98); }
+        .alert-modal {
+            padding: 20px;
+            text-align: center;
+            min-height: auto;
+        }
+
+        .alert-modal .modal-title {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .alert-modal .modal-message {
+            font-size: 14px;
+            color: black;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .alert-modal .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .alert-modal .modal-button {
+            flex: 1;
+            height: 44px;
+            padding: 7px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .alert-modal .modal-button-primary {
+            background: #424242;
+            color: white;
+            border: none;
+        }
+
+        .alert-modal .modal-button-secondary {
+            background: white;
+            color: #424242;
+            border: 1px solid #e8e8e9;
+        }
+
+        .alert-modal .modal-button:active {
+            transform: scale(0.98);
+        }
 
         /* Type Tabs */
         .type-tabs {
@@ -137,7 +511,11 @@
             scrollbar-width: none;
             flex-shrink: 0;
         }
-        .type-tabs::-webkit-scrollbar { display: none; }
+
+        .type-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
         .type-tab-item {
             height: 42px;
             padding: 10px 4px;
@@ -152,16 +530,21 @@
             flex-shrink: 0;
             text-align: center;
         }
-        .type-tab-item.active { color: #212121; border-bottom: 2px solid #212121; }
+
+        .type-tab-item.active {
+            color: #212121;
+            border-bottom: 2px solid #212121;
+        }
 
         /* Chip Navigation */
         .modal-tab-nav-chips {
             display: flex;
             gap: 8px;
-            margin-bottom: 20px; 
-            padding-bottom: 0px; 
+            margin-bottom: 20px;
+            padding-bottom: 0px;
             justify-content: flex-start;
         }
+
         .single-chip {
             display: inline-flex;
             align-items: center;
@@ -174,10 +557,21 @@
             transition: all 0.2s;
             user-select: none;
         }
-        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
-        .single-chip-on { background: #4e6ee4; color: white; }
-        .single-chip:active { transform: scale(0.95); }
-        
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
         /* No Result Modal Styles */
         .id-result-message {
             font-size: 16px;
@@ -186,30 +580,60 @@
             margin-bottom: 20px;
             text-align: center;
         }
-        
+
         /* Exception for No Result Modal (auto height) */
         #id-no-result-modal {
             min-height: auto;
         }
 
+        /* [MODIFIED] Find PW Modal Specific Overrides */
+        #find-pw-modal-overlay {
+            padding: 0;
+            /* Full screen filling: remove overlay padding */
+        }
+
+        #find-pw-modal {
+            max-width: 480px;
+            /* Requested: 480px */
+            width: 100%;
+            height: 100%;
+            /* Full screen filling */
+            min-height: 100%;
+            border-radius: 0;
+            /* Remove corners for full screen */
+            margin: 0 auto;
+            /* Center aligned */
+        }
     </style>
 </head>
+
 <body>
     <div class="mobile-wrap">
-        
+
         <header class="app-header-sub">
             <div class="header-left">
                 <button type="button" class="header-btn" onclick="checkBeforeExit()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
                 </button>
             </div>
             <h1 class="header-title">(개인) 비밀번호 찾기</h1>
             <div class="header-right">
                 <button type="button" class="btn-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search"><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
                 </button>
                 <button type="button" class="btn-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart"><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17h-11v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
                 </button>
             </div>
         </header>
@@ -221,7 +645,7 @@
                 </button>
             </div>
         </main>
-        
+
     </div>
 
     <div class="modal-overlay" id="find-pw-modal-overlay">
@@ -230,11 +654,12 @@
                 <h2 class="modal-title">비밀번호 찾기</h2>
                 <button class="btn-modal-close" onclick="closeModal('find-pw-modal-overlay')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
                     </svg>
                 </button>
             </div>
-            
+
             <nav class="type-tabs" id="find-pw-type-tabs">
                 <div class="type-tab-item active" onclick="switchFindPwType(this, 'personal')">개인회원</div>
                 <div class="type-tab-item" onclick="switchFindPwType(this, 'business')">기업회원</div>
@@ -243,10 +668,10 @@
 
             <div class="modal-body">
                 <nav class="modal-tab-nav-chips" id="find-pw-tabs">
-                    <div class="single-chip single-chip-on" data-tab="auth"
-                        onclick="switchFindPwTab(this, 'auth')">본인인증</div>
-                    <div class="single-chip single-chip-off" data-tab="phone"
-                        onclick="switchFindPwTab(this, 'phone')">휴대폰 번호 인증</div>
+                    <div class="single-chip single-chip-on" data-tab="auth" onclick="switchFindPwTab(this, 'auth')">본인인증
+                    </div>
+                    <div class="single-chip single-chip-off" data-tab="phone" onclick="switchFindPwTab(this, 'phone')">
+                        휴대폰 번호 인증</div>
                 </nav>
 
                 <form id="find-pw-form">
@@ -258,11 +683,11 @@
                             </div>
                             <p class="disclaimer error" id="error-id-auth" style="display: none;"></p>
                         </div>
-                        
+
                     </div>
 
                     <div class="form-fields-wrapper" data-tab-content="phone" style="display: none;">
-                         <div class="form-group">
+                        <div class="form-group">
                             <label for="find-pw-id-phone">아이디</label>
                             <div class="input">
                                 <input type="text" id="find-pw-id-phone" placeholder="아이디를 입력해주세요">
@@ -277,7 +702,7 @@
                             <p class="disclaimer error" id="error-phone" style="display: none;"></p>
                             <p class="disclaimer">* 휴대폰 번호가 변경되어 인증이 어려운 경우 고객센터로 문의해주세요(1599-5555)</p>
                         </div>
-                        
+
                         <div class="form-group" id="verification-code-group" style="display: none;">
                             <label for="find-pw-verification-code">인증번호</label>
                             <div class="input" id="verification-code-input-wrapper">
@@ -293,41 +718,48 @@
                 </form>
             </div>
             <div class="modal-footer" id="find-pw-footer">
-                <button class="btn dark-button" style="width: 100%;" id="find-pw-submit-btn" onclick="validateAndSubmitFindPw()">
+                <button class="btn dark-button" style="width: 100%;" id="find-pw-submit-btn"
+                    onclick="validateAndSubmitFindPw()">
                     본인인증
                 </button>
             </div>
         </div>
     </div>
-    
+
     <div class="modal-overlay" id="exit-alert-modal">
         <div class="modal-content alert-modal" data-name="Alert">
             <div class="modal-title">안내</div>
             <div class="modal-message">입력한 내용이 모두 사라져요.<br>정말 나가시겠어요?</div>
             <div class="modal-buttons">
-                <button class="modal-button modal-button-secondary" onclick="closeModal('exit-alert-modal')">계속 작성하기</button>
+                <button class="modal-button modal-button-secondary" onclick="closeModal('exit-alert-modal')">계속
+                    작성하기</button>
                 <button class="modal-button modal-button-primary" onclick="confirmExit()">나가기</button>
             </div>
         </div>
     </div>
-    
+
     <div class="modal-overlay" id="id-no-result-modal-overlay">
         <div class="modal-content" id="id-no-result-modal">
-             <div class="modal-header">
+            <div class="modal-header">
                 <h2 class="modal-title">비밀번호 찾기</h2>
                 <button class="btn-modal-close" onclick="closeModal('id-no-result-modal-overlay')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
                     </svg>
                 </button>
             </div>
             <div class="modal-body" style="text-align: center; padding: 24px 16px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" style="color: #424242; margin: 0 auto 20px auto;">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                  <path d="M12 2c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10s-4.477-10-10-10z" stroke-width="0" fill="#424242" />
-                  <path d="M10 10l4 4m0 -4l-4 4" stroke="white" stroke-width="2" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                    style="color: #424242; margin: 0 auto 20px auto;">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 2c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10s-4.477-10-10-10z"
+                        stroke-width="0" fill="#424242" />
+                    <path d="M10 10l4 4m0 -4l-4 4" stroke="white" stroke-width="2" />
                 </svg>
-                <p class="id-result-message" style="margin-bottom: 0; font-size: 18px; font-weight: 500;">해당 정보로 가입된 계정이 없어요</p>
+                <p class="id-result-message" style="margin-bottom: 0; font-size: 18px; font-weight: 500;">해당 정보로 가입된 계정이
+                    없어요</p>
             </div>
             <div class="modal-footer">
                 <button class="btn white-button" onclick="closeModal('id-no-result-modal-overlay')">닫기</button>
@@ -342,7 +774,7 @@
     <script>
         // --- Form Dirty Check ---
         let isFormDirty = false;
-        
+
         function checkBeforeExit() {
             if (isFormDirty) {
                 openModal('exit-alert-modal');
@@ -350,15 +782,15 @@
                 goBack();
             }
         }
-        
+
         function confirmExit() {
-            isFormDirty = false; 
+            isFormDirty = false;
             closeModal('exit-alert-modal');
             goBack();
         }
-        
+
         function goBack() {
-             history.back();
+            history.back();
         }
 
         // --- Modal Helpers ---
@@ -380,22 +812,22 @@
                 }
             }
         }
-        
+
         // --- Find Password Modal Logic ---
         const findPwForm = document.getElementById('find-pw-form');
         const findPwSubmitBtn = document.getElementById('find-pw-submit-btn');
         const findPwFooter = document.getElementById('find-pw-footer');
-        let activeFindPwTab = 'auth'; 
+        let activeFindPwTab = 'auth';
 
         // Input fields
-        const idPhone = document.getElementById('find-pw-id-phone'); 
-        const phone = document.getElementById('find-pw-phone');     
-        const idAuth = document.getElementById('find-pw-id-auth');   
+        const idPhone = document.getElementById('find-pw-id-phone');
+        const phone = document.getElementById('find-pw-phone');
+        const idAuth = document.getElementById('find-pw-id-auth');
 
         // Error message fields
-        const errorIdPhone = document.getElementById('error-id-phone'); 
-        const errorPhone = document.getElementById('error-phone');     
-        const errorIdAuth = document.getElementById('error-id-auth');   
+        const errorIdPhone = document.getElementById('error-id-phone');
+        const errorPhone = document.getElementById('error-phone');
+        const errorIdAuth = document.getElementById('error-id-auth');
 
         // Verification fields
         let verificationTimer;
@@ -405,14 +837,14 @@
         const verificationTimerEl = document.getElementById('verification-timer');
         const resendCodeBtn = document.getElementById('resend-code-btn');
         const errorVerificationCode = document.getElementById('error-verification-code');
-        
+
         // Type Tab Logic
         function switchFindPwType(tabEl, typeName) {
-            const tabNav = tabEl.closest('.type-tabs'); 
-            tabNav.querySelectorAll('.type-tab-item').forEach(c => c.classList.remove('active')); 
+            const tabNav = tabEl.closest('.type-tabs');
+            tabNav.querySelectorAll('.type-tab-item').forEach(c => c.classList.remove('active'));
             tabEl.classList.add('active');
-            
-            if(typeName !== 'personal') {
+
+            if (typeName !== 'personal') {
                 alert('해당 회원 유형 페이지로 이동 (구현 필요)');
                 // Reset to Personal for demo
                 setTimeout(() => {
@@ -424,12 +856,12 @@
 
         // Chip Tab Logic
         function switchFindPwTab(tabEl, tabName) {
-            activeFindPwTab = tabName; 
-            
+            activeFindPwTab = tabName;
+
             // 1. 칩 활성화
-            const tabNav = tabEl.closest('.modal-tab-nav-chips'); 
-            tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off')); 
-            tabEl.classList.replace('single-chip-off', 'single-chip-on'); 
+            const tabNav = tabEl.closest('.modal-tab-nav-chips');
+            tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            tabEl.classList.replace('single-chip-off', 'single-chip-on');
 
             // 2. 폼 필드 보이기/숨기기
             findPwForm.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
@@ -440,29 +872,29 @@
             // 3. 상태 초기화
             stopVerificationTimer();
             verificationCodeGroup.style.display = 'none';
-            
+
             idPhone.readOnly = false;
             idPhone.closest('.input').classList.remove('readonly');
             phone.readOnly = false;
             phone.closest('.input').classList.remove('readonly');
-            
-            findPwFooter.style.display = 'flex'; 
-            if (tabName === 'auth') { 
-                findPwSubmitBtn.textContent = '본인인증'; 
-            } else if (tabName === 'phone') { 
-                findPwSubmitBtn.textContent = '인증번호 발송'; 
+
+            findPwFooter.style.display = 'flex';
+            if (tabName === 'auth') {
+                findPwSubmitBtn.textContent = '본인인증';
+            } else if (tabName === 'phone') {
+                findPwSubmitBtn.textContent = '인증번호 발송';
             }
-            findPwSubmitBtn.disabled = false; 
-            
+            findPwSubmitBtn.disabled = false;
+
             hideAllErrors();
         }
 
         function validateAndSubmitFindPw() {
-            hideAllErrors(); 
-            
+            hideAllErrors();
+
             if (activeFindPwTab === 'phone') {
                 const verificationVisible = (verificationCodeGroup.style.display === 'block');
-                
+
                 if (verificationVisible) {
                     if (validatePhoneTab(true)) {
                         if (verificationCodeInput.value.trim() === '123456') {
@@ -488,14 +920,14 @@
                     showError(idAuth, errorIdAuth, '아이디를 입력해주세요');
                 } else {
                     if (idAuth.value.trim() === 'fail') {
-                         showNoResultModal();
+                        showNoResultModal();
                     } else {
-                        alert('본인인증 (구현 필요)'); 
+                        alert('본인인증 (구현 필요)');
                     }
                 }
             }
         }
-        
+
         function validatePhoneTab(checkCode) {
             let isValid = true;
             if (idPhone.value.trim() === '') {
@@ -506,10 +938,10 @@
                 showError(phone, errorPhone, '휴대폰 번호를 입력해주세요');
                 isValid = false;
             } else if (!/^\d+$/.test(phone.value.trim())) {
-                 showError(phone, errorPhone, "'-'을 제외한 숫자만 입력해주세요");
+                showError(phone, errorPhone, "'-'을 제외한 숫자만 입력해주세요");
                 isValid = false;
             }
-            
+
             if (checkCode) {
                 if (timeRemaining <= 0) {
                     showError(verificationCodeInput, errorVerificationCode, '인증 시간이 초과되었어요, 인증번호를 재발송 해주세요');
@@ -526,7 +958,7 @@
             console.log('인증번호 발송 (구현 필요)');
             verificationCodeGroup.style.display = 'block';
             findPwSubmitBtn.textContent = '인증 완료';
-            
+
             idPhone.readOnly = true;
             idPhone.closest('.input').classList.add('readonly');
             phone.readOnly = true;
@@ -534,31 +966,31 @@
 
             startVerificationTimer();
         }
-        
+
         function startVerificationTimer() {
             stopVerificationTimer();
             timeRemaining = 180;
             verificationTimerEl.textContent = '03:00';
             verificationTimerEl.style.color = '#dc3545';
             verificationCodeInput.value = '';
-            
+
             errorVerificationCode.style.display = 'none';
             verificationCodeInput.closest('.input').classList.remove('error');
-            
+
             findPwSubmitBtn.disabled = false;
             resendCodeBtn.disabled = false;
-            
+
             verificationTimer = setInterval(() => {
                 timeRemaining--;
                 const minutes = Math.floor(timeRemaining / 60);
                 const seconds = timeRemaining % 60;
                 verificationTimerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
+
                 if (timeRemaining <= 0) {
                     stopVerificationTimer();
                     verificationTimerEl.textContent = '00:00';
                     showError(verificationCodeInput, errorVerificationCode, '인증 시간이 초과되었어요, 인증번호를 재발송 해주세요');
-                    findPwSubmitBtn.disabled = true; 
+                    findPwSubmitBtn.disabled = true;
                 }
             }, 1000);
         }
@@ -566,7 +998,7 @@
         function stopVerificationTimer() {
             clearInterval(verificationTimer);
         }
-        
+
         function showError(inputEl, errorEl, message) {
             inputEl.closest('.input').classList.add('error');
             errorEl.textContent = message;
@@ -574,9 +1006,9 @@
         }
 
         function hideAllErrors() {
-            const inputs = [idPhone, phone, idAuth, verificationCodeInput]; 
-            const errors = [errorIdPhone, errorPhone, errorIdAuth, errorVerificationCode]; 
-            
+            const inputs = [idPhone, phone, idAuth, verificationCodeInput];
+            const errors = [errorIdPhone, errorPhone, errorIdAuth, errorVerificationCode];
+
             inputs.forEach(input => {
                 if (input) input.closest('.input').classList.remove('error');
             });
@@ -584,35 +1016,35 @@
                 if (error) error.style.display = 'none';
             });
         }
-        
+
         function showNoResultModal() {
             openModal('id-no-result-modal-overlay');
         }
-        
+
         document.addEventListener('DOMContentLoaded', () => {
             // Default Type: Personal
             const defaultType = document.querySelector('#find-pw-type-tabs .type-tab-item:first-child');
-            if(defaultType) switchFindPwType(defaultType, 'personal');
+            if (defaultType) switchFindPwType(defaultType, 'personal');
 
             // Default Method: Auth
             const defaultTab = document.querySelector('#find-pw-tabs .single-chip[data-tab="auth"]');
             if (defaultTab) switchFindPwTab(defaultTab, 'auth');
-            
+
             document.querySelectorAll('.modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
                         if (overlay.id === 'find-pw-modal-overlay' && (document.getElementById('id-no-result-modal-overlay').classList.contains('active'))) {
-                           return;
+                            return;
                         }
                         closeModal(overlay.id);
                     }
                 });
             });
-            
+
             document.querySelectorAll('#find-pw-form input').forEach(el => {
-                el.addEventListener('input', () => { 
+                el.addEventListener('input', () => {
                     isFormDirty = true;
-                    
+
                     let currentTimerRemaining = timeRemaining;
                     if (el.id.includes('verification-code') && currentTimerRemaining <= 0) {
                     } else {
@@ -626,9 +1058,9 @@
                     }
                 });
             });
-            
+
             resendCodeBtn.addEventListener('click', () => {
-                 startVerificationProcess(); 
+                startVerificationProcess();
             });
         });
 
@@ -639,15 +1071,17 @@
     <div class="disqus-thread-wrap">
         <div id="disqus_thread"></div>
         <script>
-            (function() { 
-            var d = document, s = d.createElement('script');
-            s.src = 'https://sw-mobile.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
+                (function () {
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://sw-mobile.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+                Disqus.</a></noscript>
     </div>
     <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>
+
 </html>

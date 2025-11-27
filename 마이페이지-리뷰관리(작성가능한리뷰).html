@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
         /* [v12] Master Guide CSS */
         .disqus-thread-wrap {
@@ -24,43 +25,221 @@
                 display: none;
             }
         }
+
         /* Reset & Base */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        ul, li { list-style: none; }
-        a { text-decoration: none; color: inherit; }
-        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; text-align: left; }
-        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-        input, textarea { font-family: inherit; }
-        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input,
+        textarea {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
 
         /* Layout */
-        .mobile-wrap { width: 100%; max-width: 480px; margin: 0 auto; background-color: #ffffff; padding-bottom: 20px; }
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 20px;
+        }
 
         /* Header (v12 Standard) */
-        .app-header-sub { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
-        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; transition: transform 0.2s; color: #333; }
-        .header-btn:active { transform: scale(0.9); }
-        .header-left { flex: 1 0 0; display: flex; justify-content: flex-start; }
-        .header-title { flex: 3 0 0; font-size: 18px; font-weight: 600; text-align: center; color: #212121; }
-        .header-right { flex: 1 0 0; display: flex; justify-content: flex-end; gap: 8px; }
-        .btn-icon { cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; color: #333; }
-        .btn-icon:active { transform: scale(0.9); }
-        .btn-icon svg { width: 100%; height: 100%; }
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
 
         /* Buttons (v12 Standard + Primary) */
-        .primary-button { background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .primary-button:hover { background: #3d5dd3; }
-        .primary-button:active { transform: scale(0.98); }
-        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .dark-button:hover { background: #333; }
-        .dark-button:active { transform: scale(0.98); }
-        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .white-button:hover { background: #f9f9f9; }
-        .white-button:active { transform: scale(0.98); }
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
         .dark-button:disabled,
         .white-button:disabled,
         .primary-button:disabled {
@@ -71,129 +250,294 @@
         }
 
         /* Main Content */
-        .sw-container { padding: 16px; }
+        .sw-container {
+            padding: 16px;
+        }
 
         /* Page Tabs (v12 Tab-Nav Style) */
         .page-tabs {
             width: 100%;
-            height: 44px; 
+            height: 44px;
             background: white;
             border-bottom: 1px solid #e8e8e9;
             display: flex;
             align-items: flex-end;
             padding: 0 20px 1px 20px;
         }
+
         .page-tab-item {
             height: 42px;
             padding: 10px 4px;
-            font-size: 16px; 
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             margin-right: 16px;
             position: relative;
-            color: #bcbcbc; /* Inactive color */
+            color: #bcbcbc;
+            /* Inactive color */
             border-bottom: 2px solid transparent;
         }
+
         .page-tab-item.active {
             color: black;
             border-bottom: 2px solid black;
         }
-        .page-tab-item:hover { opacity: 0.8; }
+
+        .page-tab-item:hover {
+            opacity: 0.8;
+        }
 
 
         /* Filter Chip Section (v12 guide) */
         .filter-chip-section {
             background: #fff;
-            padding: 8px 16px; 
-            margin: 0 -16px 0 -16px; 
+            padding: 8px 16px;
+            margin: 0 -16px 0 -16px;
         }
-        .tabs-scroll-wrapper { 
-            overflow-x: auto; 
-            white-space: nowrap; 
-            -ms-overflow-style: none; 
-            scrollbar-width: none; 
+
+        .tabs-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
-        .tabs-scroll-wrapper::-webkit-scrollbar { display: none; }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
         .filter-chip-section .tabs-scroll-wrapper {
-            display: flex; 
-            gap: 8px; 
+            display: flex;
+            gap: 8px;
         }
+
         .filter-chip-section .single-chip {
-            flex-shrink: 0; 
-            white-space: nowrap; 
+            flex-shrink: 0;
+            white-space: nowrap;
         }
+
         /* v12 Standard .single-chip */
-        .single-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
-        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
-        .single-chip-on { background: #4e6ee4; color: white; }
-        .single-chip:active { transform: scale(0.95); }
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
 
         /* Transaction List Header (v14) */
-        .transaction-list-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 16px 0; /* Modified padding */
-            font-size: 14px; 
-            color: #555; 
-            border-bottom: 1px solid #f0f0f0; 
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            /* Modified padding */
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
         }
-        .transaction-list-header .total-count strong { font-weight: 600; color: #333; }
-        .view-count-select { display: inline-flex; align-items: center; gap: 2px; cursor: pointer; transition: opacity 0.2s; user-select: none; }
-        .view-count-select:hover { opacity: 0.8; }
-        .view-count-select:active { transform: scale(0.98); }
-        .view-count-select-text { font-size: 14px; color: #2c2c2c; font-weight: 400; white-space: nowrap; }
-        .view-count-select-arrow { width: 12px; height: 12px; }
-        .view-count-select-arrow svg {transition: transform 0.2s; transform: translateY(-2px);}
-        
-        .transaction-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
-        
+
+        .transaction-list-header .total-count strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-count-select {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+        }
+
+        .view-count-select:hover {
+            opacity: 0.8;
+        }
+
+        .view-count-select:active {
+            transform: scale(0.98);
+        }
+
+        .view-count-select-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .view-count-select-arrow {
+            width: 12px;
+            height: 12px;
+        }
+
+        .view-count-select-arrow svg {
+            transition: transform 0.2s;
+            transform: translateY(-2px);
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
         /* [MODIFIED] Review Card Style */
-        .review-card { 
-            border: 1px solid #e8e8e9; /* v12 톤앤매너 (common-table-card) */
-            border-radius: 6px;      /* v12 톤앤매너 (common-table-card) */
-            background: #fff; 
-            overflow: hidden; 
+        .review-card {
+            border: 1px solid #e8e8e9;
+            /* v12 톤앤매너 (common-table-card) */
+            border-radius: 6px;
+            /* v12 톤앤매너 (common-table-card) */
+            background: #fff;
+            overflow: hidden;
         }
-        .card-body { padding: 16px; }
-        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .card-order-date { font-size: 14px; font-weight: 500; color: #333; }
+
+        .card-body {
+            padding: 16px;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .card-order-date {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
         .card-badge-dday {
-            background: #fdfdfd; 
-            border: 1px solid #e6e4e4; 
+            background: #fdfdfd;
+            border: 1px solid #e6e4e4;
             color: #6d6d6d;
             border-radius: 100px;
             padding: 2px 10px;
             font-size: 12px;
             font-weight: 500;
         }
-        .card-product-name { font-size: 16px; font-weight: 600; color: #212121; margin-bottom: 4px; }
-        .card-product-spec { font-size: 13px; color: #888; line-height: 1.5; }
-        .card-footer { 
-            padding: 12px 16px; 
-            background-color: #fcfcfc; 
-            border-top: 1px solid #f0f0f0; 
+
+        .card-product-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 4px;
         }
+
+        .card-product-spec {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        .card-footer {
+            padding: 12px 16px;
+            background-color: #fcfcfc;
+            border-top: 1px solid #f0f0f0;
+        }
+
         .card-footer .dark-button {
             width: 100%;
-            height: 40px; 
+            height: 40px;
         }
 
-        .no-transactions { padding: 40px 16px; text-align: center; color: #888; font-size: 14px; }
+        .no-transactions {
+            padding: 40px 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
 
         /* [v17] Pagination (Master Guide Img) */
-        .pagination { display: flex; align-items: center; justify-content: center; gap: 9px; }
-        .pagination-arrow { width: 15px; height: 15px; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; }
-        .pagination-arrow img { width: 100%; height: auto; }
-        .pagination-arrow:active { transform: scale(0.9); }
-        .pagination-arrow.disabled { opacity: 0.3; cursor: not-allowed; }
-        .pagination-numbers { display: flex; gap: 3px; }
-        .pagination-number { min-width: 28px; height: 28px; padding: 4px 5px; border-radius: 4px; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; user-select: none; }
-        .pagination-number.active { background: #4e6ee4; color: white; }
-        .pagination-number:not(.active) { background: white; color: #bcbcbc; }
-        .pagination-number:not(.active):hover { background: #f5f5f5; }
-        .pagination-number:active { transform: scale(0.95); }
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+        }
+
+        .pagination-arrow {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-arrow img {
+            width: 100%;
+            height: auto;
+        }
+
+        .pagination-arrow:active {
+            transform: scale(0.9);
+        }
+
+        .pagination-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-numbers {
+            display: flex;
+            gap: 3px;
+        }
+
+        .pagination-number {
+            min-width: 28px;
+            height: 28px;
+            padding: 4px 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .pagination-number.active {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .pagination-number:not(.active) {
+            background: white;
+            color: #bcbcbc;
+        }
+
+        .pagination-number:not(.active):hover {
+            background: #f5f5f5;
+        }
+
+        .pagination-number:active {
+            transform: scale(0.95);
+        }
 
         /* [NEW] Modal (v12 Standard Base) */
         .modal-overlay {
@@ -205,91 +549,132 @@
             justify-content: center;
             z-index: 1000;
             padding: 16px;
-            transition: opacity 0.3s ease-out; /* [MODIFIED] Added transition */
+            transition: opacity 0.3s ease-out;
+            /* [MODIFIED] Added transition */
         }
+
         .modal-overlay.active {
             display: flex;
-            animation: fadeInModal 0.3s ease-out; /* [MODIFIED] Duration */
+            animation: fadeInModal 0.3s ease-out;
+            /* [MODIFIED] Duration */
         }
+
         /* [NEW] Closing state */
         .modal-overlay.closing {
-             opacity: 0;
+            opacity: 0;
         }
-        
+
         @keyframes fadeInModal {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
+
         .modal-content {
             background: white;
             border-radius: 8px;
             width: 100%;
-            max-width: 360px; /* Modal max width */
-            max-height: 90vh; /* Limit height */
+            max-width: 360px;
+            /* Modal max width */
+            max-height: 90vh;
+            /* Limit height */
             display: flex;
             flex-direction: column;
             animation: scaleUpModal 0.2s ease-out;
         }
+
         @keyframes scaleUpModal {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
-        
+
         /* [MODIFIED] Full Modal Override for Review (Request 2) */
         #review-modal-overlay {
             padding: 0;
             align-items: flex-start;
             justify-content: flex-start;
         }
+
         #review-modal-overlay.closing #review-modal {
-             animation: slideOutToRight 0.3s ease-out forwards;
+            animation: slideOutToRight 0.3s ease-out forwards;
         }
+
         #review-modal {
-            max-width: 100%; /* Request 2 */
+            max-width: 100%;
+            /* Request 2 */
             width: 100%;
             height: 100%;
             max-height: 100vh;
             border-radius: 0;
-            animation: slideInFromRight 0.3s ease-out; /* Request 2 */
+            animation: slideInFromRight 0.3s ease-out;
+            /* Request 2 */
         }
-        
+
         /* [NEW] Animation keyframes (Request 2) */
         @keyframes slideInFromRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
         }
+
         @keyframes slideOutToRight {
-            from { transform: translateX(0); }
-            to { transform: translateX(100%); }
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(100%);
+            }
         }
-        
+
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 16px;
             border-bottom: 1px solid #e8e8e9;
-            flex-shrink: 0; /* [MODIFIED] Prevent shrinking */
+            flex-shrink: 0;
+            /* [MODIFIED] Prevent shrinking */
         }
+
         .modal-title {
             font-size: 16px;
             font-weight: 700;
             color: black;
         }
+
         .btn-modal-close {
             width: 24px;
             height: 24px;
             cursor: pointer;
             color: #888;
         }
+
         .btn-modal-close:hover {
             color: #333;
         }
+
         .modal-body {
             padding: 16px;
             overflow-y: auto;
             flex-grow: 1;
         }
+
         .modal-footer {
             padding: 16px;
             border-top: 1px solid #e8e8e9;
@@ -297,11 +682,15 @@
             display: flex;
             gap: 8px;
             border-radius: 0 0 7px 7px;
-            flex-shrink: 0; /* [MODIFIED] Prevent shrinking */
+            flex-shrink: 0;
+            /* [MODIFIED] Prevent shrinking */
         }
+
         #review-modal .modal-footer {
-             border-radius: 0; /* [MODIFIED] Remove radius for full-modal */
+            border-radius: 0;
+            /* [MODIFIED] Remove radius for full-modal */
         }
+
         .modal-footer .btn {
             flex: 1;
             height: 44px;
@@ -315,24 +704,28 @@
             border-radius: 6px;
             margin-bottom: 20px;
         }
+
         .review-product-name {
             font-size: 14px;
             font-weight: 600;
             color: #333;
             margin-bottom: 4px;
         }
+
         .review-product-spec {
             font-size: 12px;
             color: #666;
             line-height: 1.5;
         }
-        
+
         .form-group {
             margin-bottom: 24px;
         }
+
         .form-group:last-child {
             margin-bottom: 0;
         }
+
         .form-group label {
             display: block;
             font-size: 14px;
@@ -340,7 +733,7 @@
             color: #333;
             margin-bottom: 12px;
         }
-        
+
         /* [MODIFIED] Star Rating */
         .star-rating-group {
             display: flex;
@@ -349,24 +742,34 @@
             gap: 12px;
             margin-bottom: 24px;
         }
+
         .star-rating-label {
-             font-size: 16px;
-             font-weight: 600;
-             color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
         }
+
         .star-rating {
             display: inline-flex;
-            flex-direction: row-reverse; /* RTL for easy :hover */
+            flex-direction: row-reverse;
+            /* RTL for easy :hover */
             justify-content: center;
         }
-        .star-rating input { display: none; }
+
+        .star-rating input {
+            display: none;
+        }
+
         .star-rating label {
             position: relative;
-            width: 32px; /* SVG size */
-            height: 32px; /* SVG size */
+            width: 32px;
+            /* SVG size */
+            height: 32px;
+            /* SVG size */
             cursor: pointer;
             padding: 0 4px;
         }
+
         .star-rating label svg {
             position: absolute;
             top: 50%;
@@ -376,31 +779,39 @@
             height: 32px;
             transition: opacity 0.2s, color 0.2s;
         }
+
         .star-rating .star-shape-empty {
-            color: #e0e0e0; /* Empty color */
+            color: #e0e0e0;
+            /* Empty color */
             fill: none;
             stroke: currentColor;
-            opacity: 1; /* Show by default */
+            opacity: 1;
+            /* Show by default */
         }
+
         .star-rating .star-shape-filled {
-            color: #FFC107; /* Filled color */
+            color: #FFC107;
+            /* Filled color */
             fill: currentColor;
             stroke: none;
-            opacity: 0; /* Hidden by default */
+            opacity: 0;
+            /* Hidden by default */
         }
+
         /* Show filled star on hover/check */
         .star-rating label:hover .star-shape-filled,
-        .star-rating label:hover ~ label .star-shape-filled,
-        .star-rating input:checked ~ label .star-shape-filled {
+        .star-rating label:hover~label .star-shape-filled,
+        .star-rating input:checked~label .star-shape-filled {
             opacity: 1;
         }
+
         /* Hide empty star on hover/check */
         .star-rating label:hover .star-shape-empty,
-        .star-rating label:hover ~ label .star-shape-empty,
-        .star-rating input:checked ~ label .star-shape-empty {
+        .star-rating label:hover~label .star-shape-empty,
+        .star-rating input:checked~label .star-shape-empty {
             opacity: 0;
         }
-        
+
         /* Review Chip Selector */
         .review-chip-category {
             font-size: 14px;
@@ -408,31 +819,52 @@
             color: #333;
             margin-bottom: 12px;
         }
+
         .filter-group-content {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 16px;
         }
+
         /* v12 Standard .multi-chip (for satisfaction) */
         .multi-chip {
-            display: inline-flex; align-items: center; justify-content: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             padding: 6px 12px;
             border-radius: 100px;
             font-size: 14px;
-            cursor: pointer; transition: all 0.2s; user-select: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
         }
-        .multi-chip-off { background: #fdfdfd; border: 1px solid #e6e4e4; color: #6d6d6d; }
-        .multi-chip-on { background: #c7d3ff; border: 1px solid #4e6ee4; color: #4e6ee4; }
-        .multi-chip:active { transform: scale(0.95); }
-        
+
+        .multi-chip-off {
+            background: #fdfdfd;
+            border: 1px solid #e6e4e4;
+            color: #6d6d6d;
+        }
+
+        .multi-chip-on {
+            background: #c7d3ff;
+            border: 1px solid #4e6ee4;
+            color: #4e6ee4;
+        }
+
+        .multi-chip:active {
+            transform: scale(0.95);
+        }
+
         /* [MODIFIED] Photo Uploader */
         .photo-uploader-wrapper {
             display: flex;
             gap: 10px;
             overflow-x: auto;
-            padding-bottom: 10px; /* For scrollbar spacing */
+            padding-bottom: 10px;
+            /* For scrollbar spacing */
         }
+
         .photo-upload-box {
             width: 80px;
             height: 80px;
@@ -446,20 +878,33 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        .photo-upload-box:hover { background: #f1f1f1; }
-        .photo-upload-box svg { width: 24px; height: 24px; color: #888; }
-        #photo-input { display: none; }
-        
+
+        .photo-upload-box:hover {
+            background: #f1f1f1;
+        }
+
+        .photo-upload-box svg {
+            width: 24px;
+            height: 24px;
+            color: #888;
+        }
+
+        #photo-input {
+            display: none;
+        }
+
         .photo-preview-list {
             display: flex;
             gap: 10px;
         }
+
         .photo-preview-item {
             width: 80px;
             height: 80px;
             flex-shrink: 0;
             position: relative;
         }
+
         .photo-preview-item img {
             width: 100%;
             height: 100%;
@@ -467,13 +912,17 @@
             border-radius: 6px;
             border: 1px solid #e0e0e0;
         }
+
         .photo-remove-btn {
             position: absolute;
-            top: 4px;  /* [MODIFIED] */
-            right: 4px; /* [MODIFIED] */
+            top: 4px;
+            /* [MODIFIED] */
+            right: 4px;
+            /* [MODIFIED] */
             width: 20px;
             height: 20px;
-            background: rgba(0,0,0,0.5); /* [MODIFIED] */
+            background: rgba(0, 0, 0, 0.5);
+            /* [MODIFIED] */
             border-radius: 50%;
             color: white;
             display: flex;
@@ -483,8 +932,13 @@
             border: none;
             padding: 0;
         }
-        .photo-remove-btn svg { width: 14px; height: 14px; stroke-width: 2.5; }
-        
+
+        .photo-remove-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke-width: 2.5;
+        }
+
         /* Textarea */
         .input {
             width: 100%;
@@ -496,6 +950,7 @@
             display: flex;
             align-items: center;
         }
+
         .input textarea {
             width: 100%;
             background: transparent;
@@ -508,44 +963,61 @@
             resize: vertical;
             min-height: 100px;
         }
-        .input textarea::placeholder { color: #c6c6c8; }
+
+        .input textarea::placeholder {
+            color: #c6c6c8;
+        }
+
         .text-counter {
             font-size: 12px;
             color: #888;
             text-align: right;
             margin-top: 8px;
         }
+
         .disclaimer {
             font-size: 12px;
             color: #888;
             margin-top: 12px;
             line-height: 1.5;
         }
-
     </style>
 </head>
+
 <body>
     <div class="mobile-wrap">
-        
+
         <header class="app-header-sub">
             <div class="header-left">
                 <button type="button" class="header-btn" onclick="history.back();">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
                 </button>
             </div>
             <h1 class="header-title">리뷰 관리</h1>
             <div class="header-right">
                 <button type="button" class="btn-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search"><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
                 </button>
                 <button type="button" class="btn-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart"><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17h-11v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
                 </button>
             </div>
         </header>
 
         <nav class="page-tabs" id="page-tab-nav">
-            <div class="page-tab-item active" data-page="writable" onclick="selectPageTab(this, 'writable')">작성 가능한 리뷰</div>
+            <div class="page-tab-item active" data-page="writable" onclick="selectPageTab(this, 'writable')">작성 가능한 리뷰
+            </div>
             <div class="page-tab-item" data-page="written" onclick="location.href='review_after.html';">내가 작성한 리뷰</div>
         </nav>
 
@@ -554,89 +1026,115 @@
                 <div class="sw-container" style="padding-top: 0;">
                     <section class="filter-chip-section">
                         <div class="tabs-scroll-wrapper" id="status-chip-group">
-                            <div class="single-chip single-chip-on" data-category="전체" onclick="selectCategoryChip(this)">전체</div>
-                            <div class="single-chip single-chip-off" data-category="명함" onclick="selectCategoryChip(this)">명함</div>
-                            <div class="single-chip single-chip-off" data-category="홍보물" onclick="selectCategoryChip(this)">홍보물</div>
-                            <div class="single-chip single-chip-off" data-category="스티커" onclick="selectCategoryChip(this)">스티커</div>
-                            <div class="single-chip single-chip-off" data-category="패키지/봉투" onclick="selectCategoryChip(this)">패키지/봉투</div>
-                            <div class="single-chip single-chip-off" data-category="서식지" onclick="selectCategoryChip(this)">서식지</div>
-                            <div class="single-chip single-chip-off" data-category="굿즈" onclick="selectCategoryChip(this)">굿즈</div>
-                            <div class="single-chip single-chip-off" data-category="기획제품" onclick="selectCategoryChip(this)">기획제품</div>
+                            <div class="single-chip single-chip-on" data-category="전체"
+                                onclick="selectCategoryChip(this)">전체</div>
+                            <div class="single-chip single-chip-off" data-category="명함"
+                                onclick="selectCategoryChip(this)">명함</div>
+                            <div class="single-chip single-chip-off" data-category="홍보물"
+                                onclick="selectCategoryChip(this)">홍보물</div>
+                            <div class="single-chip single-chip-off" data-category="스티커"
+                                onclick="selectCategoryChip(this)">스티커</div>
+                            <div class="single-chip single-chip-off" data-category="패키지/봉투"
+                                onclick="selectCategoryChip(this)">패키지/봉투</div>
+                            <div class="single-chip single-chip-off" data-category="서식지"
+                                onclick="selectCategoryChip(this)">서식지</div>
+                            <div class="single-chip single-chip-off" data-category="굿즈"
+                                onclick="selectCategoryChip(this)">굿즈</div>
+                            <div class="single-chip single-chip-off" data-category="기획제품"
+                                onclick="selectCategoryChip(this)">기획제품</div>
                         </div>
                     </section>
-    
+
                     <section class="transaction-list-section">
                         <div class="transaction-list-header">
                             <span class="total-count">총 <strong id="transaction-count">4</strong>건</span>
                             <div class="view-count-select">
                                 <span class="view-count-select-text">20건씩 보기</span>
                                 <div class="view-count-select-arrow">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                        <path d="M6 9l6 6l6 -6" />
+                                    </svg>
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="transaction-list" id="transaction-list-container">
                             <article class="review-card" data-category="홍보물">
                                 <div class="card-body">
                                     <div class="card-top">
-                                        <div class="card-order-date">2025-07-08 (sw123456-1)</div>
+                                        <div class="card-order-date">2025-07-08 (<span
+                                                style="text-decoration: underline; cursor: pointer;">sw123456-1</span>)
+                                        </div>
                                         <div class="card-badge-dday">D-1</div>
                                     </div>
                                     <div class="card-product-name">디지털엽서 - 김길동 고객 청접장</div>
-                                    <div class="card-product-spec">용지: 아트지/백색 / 150g | 인쇄: 양면 / CMYK / 일반 | 규격: 208x154 | 수량: 200매 / 1건 | 가공: 박</div>
+                                    <div class="card-product-spec">용지: 아트지/백색 / 150g | 인쇄: 양면 / CMYK / 일반 | 규격: 208x154
+                                        | 수량: 200매 / 1건 | 가공: 박</div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="button" class="dark-button btn" onclick="openReviewModal(this)">리뷰 작성</button>
+                                    <button type="button" class="dark-button btn" onclick="openReviewModal(this)">리뷰
+                                        작성</button>
                                 </div>
                             </article>
-                            
+
                             <article class="review-card" data-category="명함">
                                 <div class="card-body">
                                     <div class="card-top">
-                                        <div class="card-order-date">2025-07-03 (sw123456-2)</div>
+                                        <div class="card-order-date">2025-07-08 (<span
+                                                style="text-decoration: underline; cursor: pointer;">sw123456-1</span>)
+                                        </div>
                                         <div class="card-badge-dday">D-8</div>
                                     </div>
                                     <div class="card-product-name">명함 - XT 홍선호 명함</div>
-                                    <div class="card-product-spec">용지: 아트지 / 150g | 인쇄: CMYK | 규격: 208x154 | 수량: 200매 / 1건</div>
+                                    <div class="card-product-spec">용지: 아트지 / 150g | 인쇄: CMYK | 규격: 208x154 | 수량: 200매 /
+                                        1건</div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="button" class="dark-button btn" onclick="openReviewModal(this)">리뷰 작성</button>
+                                    <button type="button" class="dark-button btn" onclick="openReviewModal(this)">리뷰
+                                        작성</button>
                                 </div>
                             </article>
-                            
+
                             <article class="review-card" data-category="명함">
                                 <div class="card-body">
                                     <div class="card-top">
-                                        <div class="card-order-date">2025-07-01 (sw234235-1)</div>
+                                        <div class="card-order-date">2025-07-08 (<span
+                                                style="text-decoration: underline; cursor: pointer;">sw123456-1</span>)
+                                        </div>
                                         <div class="card-badge-dday">D-15</div>
                                     </div>
                                     <div class="card-product-name">명함 - XT_김선주 명함</div>
-                                    <div class="card-product-spec">용지: 아트지 / 150g | 규격: 208x154 | 수량: 200매 / 1건 | 가공</div>
+                                    <div class="card-product-spec">용지: 아트지 / 150g | 규격: 208x154 | 수량: 200매 / 1건 | 가공
+                                    </div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="button" class="dark-button btn" onclick="openReviewModal(this)">리뷰 작성</button>
+                                    <button type="button" class="dark-button btn" onclick="openReviewModal(this)">리뷰
+                                        작성</button>
                                 </div>
                             </article>
-                            
+
                             <article class="review-card" data-category="명함">
                                 <div class="card-body">
                                     <div class="card-top">
-                                        <div class="card-order-date">2025-06-30 (sw254363-1)</div>
+                                        <div class="card-order-date">2025-07-08 (<span
+                                                style="text-decoration: underline; cursor: pointer;">sw123456-1</span>)
+                                        </div>
                                         <div class="card-badge-dday">D-28</div>
                                     </div>
                                     <div class="card-product-name">명함 - XT 김길현 명함</div>
-                                    <div class="card-product-spec">용지: 아트지 / 150g | 인쇄: CMYK | 규격: 208x154 | 수량: 200매 / 1건 | 가공</div>
+                                    <div class="card-product-spec">용지: 아트지 / 150g | 인쇄: CMYK | 규격: 208x154 | 수량: 200매 /
+                                        1건 | 가공</div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="button" class="dark-button btn" onclick="openReviewModal(this)">리뷰 작성</button>
+                                    <button type="button" class="dark-button btn" onclick="openReviewModal(this)">리뷰
+                                        작성</button>
                                 </div>
                             </article>
-                            
+
                         </div>
-                        
+
                         <div class="no-transactions" style="display: none;">작성 가능한 리뷰가 없어요</div>
-                        
+
                         <div class="pagination" data-name="Pagination">
                             <div class="pagination-arrow disabled" onclick="paginationFirst()">
                                 <img src="assets/images/nnext-arrow.svg" alt="처음" style="transform: rotate(90deg);">
@@ -648,10 +1146,12 @@
                                 <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
                             </div>
                             <div class="pagination-arrow disabled" onclick="paginationNext()">
-                                <img src="assets/images/next-arrow.svg" alt="다음" style="transform: rotate(90deg) scaleY(-1);">
+                                <img src="assets/images/next-arrow.svg" alt="다음"
+                                    style="transform: rotate(90deg) scaleY(-1);">
                             </div>
                             <div class="pagination-arrow disabled" onclick="paginationLast()">
-                                <img src="assets/images/nnext-arrow.svg" alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
+                                <img src="assets/images/nnext-arrow.svg" alt="마지막"
+                                    style="transform: rotate(90deg) scaleY(-1);">
                             </div>
                         </div>
                     </section>
@@ -664,7 +1164,7 @@
                 </div>
             </div>
         </main>
-        
+
     </div>
 
     <div class="modal-overlay" id="review-modal-overlay">
@@ -672,17 +1172,20 @@
             <div class="modal-header">
                 <h2 class="modal-title">리뷰 작성</h2>
                 <button class="btn-modal-close" onclick="closeReviewModal()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-close-modal">
-                        <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-close-modal">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
                     </svg>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="review-product-info">
                     <div class="review-product-name" id="modal-product-name">디지털엽서 - 김길동 고객 청접장</div>
-                    <div class="review-product-spec" id="modal-product-spec">용지: 아트지/백색 / 150g | 인쇄: 양면 / CMYK / 일반 | 규격: 208x154 | 수량: 200매 / 1건 | 가공: 박</div>
+                    <div class="review-product-spec" id="modal-product-spec">용지: 아트지/백색 / 150g | 인쇄: 양면 / CMYK / 일반 |
+                        규격: 208x154 | 수량: 200매 / 1건 | 가공: 박</div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>제품에 대해 만족스러운 점을 선택해주세요</label>
                     <div class="review-chip-category">품질</div>
@@ -710,29 +1213,84 @@
                         <div class="multi-chip multi-chip-off" onclick="toggleReviewChip(this)">배송 현황 안내가 잘 돼요</div>
                     </div>
                 </div>
-                
+
                 <div class="star-rating-group">
                     <div class="star-rating-label">제품에 만족하셨나요?</div>
                     <div class="star-rating">
                         <input type="radio" id="5-stars" name="rating" value="5" checked /><label for="5-stars">
-                            <svg class="star-shape-empty" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
-                            <svg class="star-shape-filled" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" /></svg>
+                            <svg class="star-shape-empty" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                            </svg>
+                            <svg class="star-shape-filled" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                viewBox="0 0 24 24" fill="currentColor">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" />
+                            </svg>
                         </label>
                         <input type="radio" id="4-stars" name="rating" value="4" /><label for="4-stars">
-                            <svg class="star-shape-empty" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
-                            <svg class="star-shape-filled" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" /></svg>
+                            <svg class="star-shape-empty" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                            </svg>
+                            <svg class="star-shape-filled" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                viewBox="0 0 24 24" fill="currentColor">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" />
+                            </svg>
                         </label>
                         <input type="radio" id="3-stars" name="rating" value="3" /><label for="3-stars">
-                            <svg class="star-shape-empty" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
-                            <svg class="star-shape-filled" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" /></svg>
+                            <svg class="star-shape-empty" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                            </svg>
+                            <svg class="star-shape-filled" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                viewBox="0 0 24 24" fill="currentColor">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" />
+                            </svg>
                         </label>
                         <input type="radio" id="2-stars" name="rating" value="2" /><label for="2-stars">
-                            <svg class="star-shape-empty" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
-                            <svg class="star-shape-filled" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" /></svg>
+                            <svg class="star-shape-empty" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                            </svg>
+                            <svg class="star-shape-filled" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                viewBox="0 0 24 24" fill="currentColor">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" />
+                            </svg>
                         </label>
                         <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star">
-                            <svg class="star-shape-empty" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
-                            <svg class="star-shape-filled" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" /></svg>
+                            <svg class="star-shape-empty" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                            </svg>
+                            <svg class="star-shape-filled" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                viewBox="0 0 24 24" fill="currentColor">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" />
+                            </svg>
                         </label>
                     </div>
                 </div>
@@ -741,19 +1299,24 @@
                     <label>사진 첨부(선택)</label>
                     <div class="photo-uploader-wrapper">
                         <label for="photo-input" class="photo-upload-box">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M12 5l0 14" />
+                                <path d="M5 12l14 0" />
+                            </svg>
                         </label>
-                        <input type="file" id="photo-input" accept="image/jpeg, image/png, image/gif" multiple onchange="handlePhotoUpload(event)">
+                        <input type="file" id="photo-input" accept="image/jpeg, image/png, image/gif" multiple
+                            onchange="handlePhotoUpload(event)">
                         <div class="photo-preview-list" id="photo-preview-list">
-                            </div>
+                        </div>
                     </div>
                     <p class="disclaimer">* 사진은 JPG, PNG, GIF 파일로 최대 5장(20MB 이하)까지 첨부할 수 있어요</p>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="review-text">리뷰 내용 작성</label>
                     <div class="input">
-                        <textarea id="review-text" placeholder="다른 고객님에게 도움이 되도록 제품 후기를 공유해주세요 (최소 20자 이상)" rows="5" oninput="updateTextCounter()"></textarea>
+                        <textarea id="review-text" placeholder="다른 고객님에게 도움이 되도록 제품 후기를 공유해주세요 (최소 20자 이상)" rows="5"
+                            oninput="updateTextCounter()"></textarea>
                     </div>
                     <div class="text-counter" id="text-counter">0/500</div>
                     <p class="disclaimer">품질과 관계없는 사진이나 내용, 부적합한 내용 등은 삭제될 수 있어요</p>
@@ -765,7 +1328,7 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         // --- [NEW] Page Tab Logic ---
         function selectPageTab(tab, page) {
@@ -773,7 +1336,7 @@
             if (!nav) return;
             nav.querySelectorAll('.page-tab-item').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-            
+
             const writablePage = document.getElementById('page-content-writable');
             const writtenPage = document.getElementById('page-content-written');
 
@@ -785,7 +1348,7 @@
                 writtenPage.style.display = 'block';
             }
         }
-        
+
         // --- [NEW] Category Filter Logic ---
         function selectCategoryChip(chip) {
             const group = chip.closest('#status-chip-group');
@@ -799,27 +1362,27 @@
         }
 
         function filterReviewList(category) {
-            const listContainer = document.getElementById('transaction-list-container'); 
-            if (!listContainer) return; 
+            const listContainer = document.getElementById('transaction-list-container');
+            if (!listContainer) return;
             const cards = listContainer.querySelectorAll('.review-card');
             const noResultMsg = listContainer.parentElement.querySelector('.no-transactions');
             let visibleCount = 0;
-            
-            cards.forEach(card => { 
-                const cardCategory = card.getAttribute('data-category'); 
-                if (category === '전체' || cardCategory === category) { 
-                    card.style.display = ''; 
-                    visibleCount++; 
-                } else { 
-                    card.style.display = 'none'; 
-                } 
+
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                if (category === '전체' || cardCategory === category) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
             });
-            
+
             const countEl = document.getElementById('transaction-count');
-            if(countEl) countEl.textContent = visibleCount; 
-            if(noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+            if (countEl) countEl.textContent = visibleCount;
+            if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
         }
-        
+
         // --- [EXISTING] Pagination Logic ---
         let currentPage = 1; const totalPages = 1; // 4건이므로 1페이지
         function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); }
@@ -838,12 +1401,12 @@
                 numEl.onclick = () => paginationGo(i);
                 numbersContainer.appendChild(numEl);
             }
-            
+
             const paginationRoot = numbersContainer.closest('.pagination');
-            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)'); 
+            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
             const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
-            
-            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1)); 
+
+            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
             nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
         }
 
@@ -860,15 +1423,15 @@
             const card = button.closest('.review-card');
             const productName = card.querySelector('.card-product-name').textContent;
             const productSpec = card.querySelector('.card-product-spec').textContent;
-            
+
             // 2. 모달에 정보 채우기
             document.getElementById('modal-product-name').textContent = productName;
             document.getElementById('modal-product-spec').textContent = productSpec;
-            
+
             // 3. 폼 초기화
             // [MODIFIED] 별점 5점으로 기본 설정
             document.querySelectorAll('.star-rating input').forEach(input => {
-                if(input.id === '5-stars') {
+                if (input.id === '5-stars') {
                     input.checked = true;
                 } else {
                     input.checked = false;
@@ -895,7 +1458,7 @@
             if (reviewModalOverlay) {
                 reviewModalOverlay.classList.add('closing'); // Add closing class
                 document.body.style.overflow = '';
-                
+
                 // Wait for animation to finish before hiding
                 setTimeout(() => {
                     reviewModalOverlay.classList.remove('active');
@@ -903,14 +1466,14 @@
                 }, 300); // Must match CSS animation duration (0.3s)
             }
         }
-        
+
         // --- [MODIFIED] 만족도 칩 (그룹당 1개만 선택) ---
         function toggleReviewChip(chip) {
             const group = chip.closest('.filter-group-content');
             if (!group) return;
 
             const isCurrentlyOn = chip.classList.contains('multi-chip-on');
-            
+
             if (isCurrentlyOn) {
                 // User is turning OFF the active chip
                 chip.classList.replace('multi-chip-on', 'multi-chip-off');
@@ -931,7 +1494,7 @@
         function handlePhotoUpload(event) {
             const files = event.target.files;
             const currentPhotos = photoPreviewList.children.length;
-            
+
             if (currentPhotos + files.length > maxPhotos) {
                 alert(`사진은 최대 ${maxPhotos}장까지 첨부 가능해요`);
                 return;
@@ -939,29 +1502,29 @@
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                if (!file.type.startsWith('image/')){ continue; }
-                
+                if (!file.type.startsWith('image/')) { continue; }
+
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     const previewItem = document.createElement('div');
                     previewItem.className = 'photo-preview-item';
-                    
+
                     const img = document.createElement('img');
                     img.src = e.target.result;
                     img.alt = '미리보기';
-                    
+
                     const removeBtn = document.createElement('button');
                     removeBtn.className = 'photo-remove-btn';
                     removeBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>`;
-                    removeBtn.onclick = function() { removePhoto(this); };
-                    
+                    removeBtn.onclick = function () { removePhoto(this); };
+
                     previewItem.appendChild(img);
                     previewItem.appendChild(removeBtn);
                     photoPreviewList.appendChild(previewItem);
                 }
                 reader.readAsDataURL(file);
             }
-            
+
             // 입력 필드 초기화 (동일한 파일 다시 선택 가능하도록)
             photoInput.value = null;
         }
@@ -976,7 +1539,7 @@
             const currentLength = reviewText.value.length;
             textCounter.textContent = `${currentLength}/${maxLength}`;
         }
-        
+
         // 리뷰 제출
         function submitReview() {
             // TODO: 폼 유효성 검사 (별점, 최소 글자 수 등)
@@ -987,16 +1550,16 @@
         // --- [MODIFIED] Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
             // For Pagination
-            updatePagination(); 
-            
+            updatePagination();
+
             // Set initial filter state
             filterReviewList('전체');
 
             // For Modal
             reviewModalOverlay?.addEventListener('click', (e) => {
-                 if (e.target.id === 'review-modal-overlay') {
+                if (e.target.id === 'review-modal-overlay') {
                     closeReviewModal();
-                 }
+                }
             });
         });
     </script>
@@ -1014,15 +1577,17 @@
             this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
             };
             */
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://sw-mobile.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
+            (function () { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://sw-mobile.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
             })();
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+                Disqus.</a></noscript>
     </div>
     <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>
+
 </html>
