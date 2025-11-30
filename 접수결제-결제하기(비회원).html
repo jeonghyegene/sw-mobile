@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,65 +24,246 @@
                 display: none;
             }
         }
+
         /* Reset & Base */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        ul, li { list-style: none; }
-        a { text-decoration: none; color: inherit; }
-        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; text-align: left; }
-        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-        input, select, textarea { font-family: inherit; }
-        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
 
         /* Layout */
-        .mobile-wrap { 
-            width: 100%; 
-            max-width: 480px; 
-            margin: 0 auto; 
-            background-color: #ffffff; 
-            padding-bottom: 120px; /* Sticky Footer 여백 */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 120px;
+            /* Sticky Footer 여백 */
         }
 
         /* Header (v12 Standard) */
-        .app-header-sub { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
-        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; transition: transform 0.2s; color: #333; }
-        .header-btn:active { transform: scale(0.9); }
-        .header-left { flex: 1 0 0; display: flex; justify-content: flex-start; }
-        .header-title { flex: 3 0 0; font-size: 18px; font-weight: 600; text-align: center; color: #212121; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .header-right { flex: 1 0 0; display: flex; justify-content: flex-end; gap: 8px; }
-        .btn-icon { cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; color: #333; }
-        .btn-icon:active { transform: scale(0.9); }
-        .btn-icon svg { width: 100%; height: 100%; }
-        
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
         /* [NEW] Progress Bar */
         .progress-bar-container {
             width: 100%;
             height: 4px;
             background-color: #e9ecef;
             position: sticky;
-            top: 56px; /* Header height */
+            top: 56px;
+            /* Header height */
             z-index: 99;
         }
+
         .progress-bar-fill {
-            width: 50%; /* 1/3 steps */
+            width: 50%;
+            /* 1/3 steps */
             height: 100%;
-            background-color: #4e6ee4; /* v12 primary color */
+            background-color: #4e6ee4;
+            /* v12 primary color */
             transition: width 0.3s ease-out;
         }
 
         /* Buttons (v12 Standard - Primary 추가) */
-        .primary-button { background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .primary-button:hover { background: #3d5dd3; }
-        .primary-button:active { transform: scale(0.98); }
-        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .dark-button:hover { background: #333; }
-        .dark-button:active { transform: scale(0.98); }
-        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .white-button:hover { background: #f9f9f9; }
-        .white-button:active { transform: scale(0.98); }
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
         .dark-button:disabled,
         .white-button:disabled,
         .primary-button:disabled {
@@ -90,35 +272,174 @@
             border-color: #e9ecef;
             cursor: not-allowed;
         }
-        
+
         /* Main Content */
-        .sw-container { padding: 16px; }
-        
+        .sw-container {
+            padding: 16px;
+        }
+
         /* Section Title */
-        .section-title { font-size: 16px; font-weight: 700; color: #333; margin-bottom: 12px; padding-top: 8px; }
-        .transaction-list { display: flex; flex-direction: column; gap: 12px; }
-        .no-transactions { padding: 40px 16px; text-align: center; color: #888; font-size: 14px; }
-        
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+            padding-top: 8px;
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .no-transactions {
+            padding: 40px 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
         /* [MODIFIED] Cart Card (from cart.html) */
-        .common-table-card { width: 100%; background: white; border: 1px solid #e8e8e9; border-radius: 6px; padding: 15px; position: relative; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .card-header-actions { display: flex; align-items: center; gap: 4px; }
-        .card-icon-btn { width: 28px; height: 28px; color: #888; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .card-icon-btn:hover { color: #333; }
-        .card-icon-btn svg { width: 22px; height: 22px; }
-        .cart-card-checkbox { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-        .cart-card-title { font-size: 16px; font-weight: 600; color: #212121; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-content-wrapper { display: flex; gap: 12px; margin-bottom: 12px; }
-        .card-thumbnail { width: 80px; height: 80px; flex-shrink: 0; background: #f0f0f0; border-radius: 4px; border: 1px solid #e8e8e9; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #aaa; }
-        .card-info-wrapper { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
-        .card-details-link { font-size: 13px; font-weight: 600; color: #4e6ee4; cursor: pointer; display: inline-block; margin-top: 0; }
-        .card-price-metadata-row { display: flex; justify-content: flex-end; align-items: baseline; gap: 4px; margin-top: 12px; }
-        .card-price-metadata-row .card-price { font-size: 18px; font-weight: 700; color: #333; }
-        .card-price-metadata-row .card-unit-info { font-size: 13px; color: #888; }
-        .card-divider { width: 100%; height: 1px; background: #e8e8e9; margin: 10px 0; }
-        .card-footer { padding-top: 10px; display: flex; justify-content: flex-end; gap: 8px; }
-        .card-footer .btn { height: 36px; font-size: 13px; padding: 0 12px; flex: 1; text-align: center; }
-        .card-footer .primary-button { flex-grow: 1; }
+        .common-table-card {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .card-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .card-icon-btn {
+            width: 28px;
+            height: 28px;
+            color: #888;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-icon-btn:hover {
+            color: #333;
+        }
+
+        .card-icon-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .cart-card-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cart-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-content-wrapper {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .card-thumbnail {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            background: #f0f0f0;
+            border-radius: 4px;
+            border: 1px solid #e8e8e9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .card-info-wrapper {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .card-details-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4e6ee4;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        .card-price-metadata-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: baseline;
+            gap: 4px;
+            margin-top: 12px;
+        }
+
+        .card-price-metadata-row .card-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .card-price-metadata-row .card-unit-info {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .card-divider {
+            width: 100%;
+            height: 1px;
+            background: #e8e8e9;
+            margin: 10px 0;
+        }
+
+        .card-footer {
+            padding-top: 10px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .card-footer .btn {
+            height: 36px;
+            font-size: 13px;
+            padding: 0 12px;
+            flex: 1;
+            text-align: center;
+        }
+
+        .card-footer .primary-button {
+            flex-grow: 1;
+        }
 
         /* --- [NEW] Card Styles --- */
         .sc-v3-card {
@@ -132,7 +453,7 @@
 
         /* 1. Top Meta */
         .sc-v3-top-meta {
-            padding: 12px 16px;
+            padding: 8px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -148,8 +469,8 @@
         }
 
         .product-type-label {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 500;
             color: #212121;
             margin-right: 4px;
             white-space: nowrap;
@@ -251,7 +572,6 @@
             font-size: 12px;
             color: #666;
             line-height: 1.5;
-            margin-bottom: 4px;
         }
 
         .memo-row {
@@ -636,54 +956,156 @@
         }
 
         /* Form Styles (v12 guide) */
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
-        .readonly-value { font-size: 14px; color: #333; padding: 10px 12px; background: #f5f5f5; border: 1px solid #e8e8e9; border-radius: 6px; min-height: 40px; display: flex; align-items: center; }
-        .input { width: 100%; min-height: 40px; background: white; border: 1px solid #e8e8e9; border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; position: relative; }
-        .input input { width: 100%; background: transparent; border: none; outline: none; font-size: 14px; color: black; line-height: 1.5; }
-        .input input::placeholder { color: #c6c6c8; }
-        
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .readonly-value {
+            font-size: 14px;
+            color: #333;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;
+        }
+
+        .input input::placeholder {
+            color: #c6c6c8;
+        }
+
         .input:has(input:read-only) {
             background: #f5f5f5;
         }
-        .input input:read-only { 
+
+        .input input:read-only {
             background: transparent;
         }
 
-        .input.read-only { 
-            background: #f5f5f5; 
+        .input.read-only {
+            background: #f5f5f5;
             /* [NEW] 읽기 전용 필드에 커서 제거 (복사 붙여넣기 기능) */
             /* cursor: pointer; */
         }
+
         .input.read-only input {
             background: transparent;
             /* cursor: pointer; */
         }
-        
+
         /* Input Group (from qna_write.html) */
-        .input-group { display: flex; gap: 8px; align-items: center; }
-        .input-group .white-button { flex-shrink: 0; height: 40px; font-size: 13px; padding: 0 12px; width: auto; }
-        
+        .input-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .input-group .white-button {
+            flex-shrink: 0;
+            height: 40px;
+            font-size: 13px;
+            padding: 0 12px;
+            width: auto;
+        }
+
         .input-group .input.readonly-value {
             flex: 1;
             min-width: 0;
         }
 
         /* Checkbox (v12 guide) */
-        .checkbox { width: 20px; height: 20px; position: relative; cursor: pointer; user-select: none; flex-shrink: 0; }
-        .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
-        .checkbox-on { width: 100%; height: 100%; background: #4e6ee4; border-radius: 2px; display: flex; align-items: center; justify-content: center; }
-        .checkbox-on img { width: 14px; height: 14px; }
-        .checkbox:active { transform: scale(0.9); }
-        .checkbox-text { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
-        .checkbox-text span { font-size: 14px; color: #333; }
-        
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .checkbox-off {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #bdbdbd;
+            border-radius: 2px;
+        }
+
+        .checkbox-on {
+            width: 100%;
+            height: 100%;
+            background: #4e6ee4;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-on img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .checkbox:active {
+            transform: scale(0.9);
+        }
+
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-text span {
+            font-size: 14px;
+            color: #333;
+        }
+
         /* Disclaimer (v12 guide) */
-        .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
-        
+        .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
         .icon-disclaimer {
             display: inline-flex;
-            align-items: center; 
+            align-items: center;
             gap: 6px;
             font-size: 13px;
             color: #555;
@@ -698,9 +1120,11 @@
             margin-top: 0;
             text-align: left;
         }
+
         .icon-disclaimer:hover {
             background: #f1f1f1;
         }
+
         .icon-disclaimer svg {
             width: 16px;
             height: 16px;
@@ -716,43 +1140,94 @@
             gap: 8px;
             margin-top: 12px;
         }
-        
-        .text-select-button { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; transition: opacity 0.2s; user-select: none; padding: 8px 0; }
-        .text-select-button:hover { opacity: 0.8; }
-        .text-select-button:active { transform: scale(0.98); }
-        .text-select-button-text { font-size: 14px; color: #2c2c2c; font-weight: 500; white-space: nowrap; }
-        .text-select-button-arrow { width: 16px; height: 16px; color: #555; }
-        .text-select-button-arrow svg {transition: transform 0.2s;}
-        .text-select-button.open .text-select-button-arrow svg {transform: rotate(-180deg);}
+
+        .text-select-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            user-select: none;
+            padding: 8px 0;
+        }
+
+        .text-select-button:hover {
+            opacity: 0.8;
+        }
+
+        .text-select-button:active {
+            transform: scale(0.98);
+        }
+
+        .text-select-button-text {
+            font-size: 14px;
+            color: #2c2c2c;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .text-select-button-arrow {
+            width: 16px;
+            height: 16px;
+            color: #555;
+        }
+
+        .text-select-button-arrow svg {
+            transition: transform 0.2s;
+        }
+
+        .text-select-button.open .text-select-button-arrow svg {
+            transform: rotate(-180deg);
+        }
 
         /* Chips (v12 guide) */
-        .filter-group-content { display: flex; flex-wrap: wrap; gap: 8px; }
-        .single-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
-        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
-        .single-chip-on { background: #4e6ee4; color: white; }
-        .single-chip:active { transform: scale(0.95); }
-        
+        .filter-group-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
         /* Payment Method Chips (Large - from payment-3.html) */
-        .payment-method-chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .payment-chip-lg { background: white; border: 1px solid #e8e8e9; color: #424242; height: 48px; padding: 7px 10px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; text-align: center; line-height: 1.3; }
-        .payment-chip-lg.active { border-color: #4e6ee4; background: #f0f3ff; color: #4e6ee4; font-weight: 600; }
-        .payment-chip-lg:active { transform: scale(0.98); }
-        
-        /* [NEW] Smaller payment chips for Kakao, Naver etc. */
-        .simple-payment-chips {
+        .payment-method-chips {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
-            margin-top: 8px; /* Space from main payment methods */
         }
-        .payment-chip-sm {
+
+        .payment-chip-lg {
             background: white;
             border: 1px solid #e8e8e9;
             color: #424242;
-            height: 40px; /* [MODIFIED] Smaller height */
-            padding: 7px 8px; /* [MODIFIED] Smaller padding */
+            height: 48px;
+            padding: 7px 10px;
             border-radius: 6px;
-            font-size: 13px; /* [MODIFIED] Smaller font */
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
@@ -762,12 +1237,55 @@
             text-align: center;
             line-height: 1.3;
         }
+
+        .payment-chip-lg.active {
+            border-color: #4e6ee4;
+            background: #f0f3ff;
+            color: #4e6ee4;
+            font-weight: 600;
+        }
+
+        .payment-chip-lg:active {
+            transform: scale(0.98);
+        }
+
+        /* [NEW] Smaller payment chips for Kakao, Naver etc. */
+        .simple-payment-chips {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+            /* Space from main payment methods */
+        }
+
+        .payment-chip-sm {
+            background: white;
+            border: 1px solid #e8e8e9;
+            color: #424242;
+            height: 40px;
+            /* [MODIFIED] Smaller height */
+            padding: 7px 8px;
+            /* [MODIFIED] Smaller padding */
+            border-radius: 6px;
+            font-size: 13px;
+            /* [MODIFIED] Smaller font */
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.3;
+        }
+
         .payment-chip-sm.active {
             border-color: #4e6ee4;
             background: #f0f3ff;
             color: #4e6ee4;
             font-weight: 600;
         }
+
         .payment-chip-sm:active {
             transform: scale(0.98);
         }
@@ -860,19 +1378,54 @@
         }
 
         /* Summary box is now a separate component */
-        .payment-summary-box { width: 100%; }
-        .info-sub-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-size: 14px; }
-        .info-sub-row .label { color: #555; }
-        .info-sub-row .value { color: #333; font-weight: 500; }
-        .info-sub-row .value.minus { color: #dc3545; }
-        .info-sub-row.total { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ccc; }
-        .info-sub-row.total .label { font-size: 16px; font-weight: 600; color: #333; }
-        .info-sub-row.total .value { font-size: 20px; font-weight: 700; color: #4e6ee4; }
-        
-        /* [NEW] Payment Summary Section (in-page) */
-        .payment-summary-section { /* Thick divider like evidence-section */
+        .payment-summary-box {
+            width: 100%;
         }
-        
+
+        .info-sub-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            font-size: 14px;
+        }
+
+        .info-sub-row .label {
+            color: #555;
+        }
+
+        .info-sub-row .value {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .info-sub-row .value.minus {
+            color: #dc3545;
+        }
+
+        .info-sub-row.total {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #ccc;
+        }
+
+        .info-sub-row.total .label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .info-sub-row.total .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #4e6ee4;
+        }
+
+        /* [NEW] Payment Summary Section (in-page) */
+        .payment-summary-section {
+            /* Thick divider like evidence-section */
+        }
+
         /* [MODIFIED] Point display (from payment-3.html) */
         .point-display-merged {
             display: flex;
@@ -883,12 +1436,32 @@
             margin-top: 12px;
             border-radius: 6px;
         }
-        .point-item { display: flex; align-items: center; gap: 3px; }
-        .point-item .label { color: #555; }
-        .point-item .value { font-weight: 600; color: #333; font-size: 14px; line-height: 1.4; }
-        .point-divider { width: 1px; height: 14px; background-color: #e0e0e0; margin: 0 9px; }
-        
-        
+
+        .point-item {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .point-item .label {
+            color: #555;
+        }
+
+        .point-item .value {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .point-divider {
+            width: 1px;
+            height: 14px;
+            background-color: #e0e0e0;
+            margin: 0 9px;
+        }
+
+
         /* Agreement Group (from payment-3.html) */
         .agreement-group {
             padding: 16px;
@@ -896,21 +1469,55 @@
             border: 1px solid #f0f0f0;
             border-radius: 6px;
         }
-        .agreement-row { display: flex; justify-content: space-between; align-items: center; }
-        .agreement-row .checkbox-text { flex: 1; }
-        .agreement-detail-btn { font-size: 13px; color: #888; text-decoration: underline; cursor: pointer; flex-shrink: 0; padding: 4px; }
-        .agreement-detail-btn:hover { color: #333; }
-        
+
+        .agreement-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .agreement-row .checkbox-text {
+            flex: 1;
+        }
+
+        .agreement-detail-btn {
+            font-size: 13px;
+            color: #888;
+            text-decoration: underline;
+            cursor: pointer;
+            flex-shrink: 0;
+            padding: 4px;
+        }
+
+        .agreement-detail-btn:hover {
+            color: #333;
+        }
+
 
         /* [REMOVED] Address Tab Logic */
-        .form-group-button { margin-bottom: 12px; }
-        .form-group-button .white-button { width: 100%; height: 40px; font-weight: 500; font-size: 14px; }
-        .form-group-button .white-button svg { width: 16px; height: 16px; margin-right: 4px; stroke-width: 2.5; }
+        .form-group-button {
+            margin-bottom: 12px;
+        }
+
+        .form-group-button .white-button {
+            width: 100%;
+            height: 40px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group-button .white-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+            stroke-width: 2.5;
+        }
 
         .input.select-wrapper {
             padding: 0;
             position: relative;
         }
+
         .input select {
             width: 100%;
             height: 38px;
@@ -926,11 +1533,13 @@
             border-radius: 6px;
             cursor: pointer;
         }
+
         .input select:disabled {
             background: #f5f5f5;
             color: #888;
             cursor: not-allowed;
         }
+
         .input.select-wrapper::after {
             content: '';
             position: absolute;
@@ -945,38 +1554,49 @@
             pointer-events: none;
         }
 
-        
+
         /* Modal Tab Navigation (from tax_request_write.html) */
         .modal-tab-nav {
             display: flex;
             gap: 8px;
             margin-bottom: 20px;
         }
+
         .modal-tab-nav .single-chip {
             font-weight: 500;
         }
+
         .modal-tab-nav .single-chip-on {
-             background: #4e6ee4; /* Master Guide blue */
-             color: white;
+            background: #4e6ee4;
+            /* Master Guide blue */
+            color: white;
         }
-        
+
         /* Form Fields Wrapper (from tax_request_write.html) */
         .form-fields-wrapper {
-             /* display: none; Toggled by JS */
+            /* display: none; Toggled by JS */
         }
 
         /* --- [NEW] Styles for PDF UI (Request 2) --- */
-        
+
         /* Horizontal Scroll Wrapper (from qna_list.html) */
         .tabs-scroll-wrapper {
             overflow-x: auto;
             white-space: nowrap;
             -ms-overflow-style: none;
             scrollbar-width: none;
-            padding: 4px 0; /* 패딩 추가 */
+            padding: 4px 0;
+            /* 패딩 추가 */
         }
-        .tabs-scroll-wrapper::-webkit-scrollbar { display: none; }
-        .tabs-scroll-wrapper { display: flex; gap: 8px; }
+
+        .tabs-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tabs-scroll-wrapper {
+            display: flex;
+            gap: 8px;
+        }
 
         /* Horizontal Card Item (New) */
         .horizontal-card-item {
@@ -992,15 +1612,18 @@
             cursor: pointer;
             transition: all 0.2s;
         }
+
         .horizontal-card-item.selected {
             border-color: #4e6ee4;
             background: #f0f3ff;
         }
+
         .horizontal-card-item:hover {
             background-color: #f8f8f9;
         }
+
         .horizontal-card-item.selected:hover {
-             background-color: #e6edff;
+            background-color: #e6edff;
         }
 
         .horizontal-card-header {
@@ -1008,15 +1631,18 @@
             align-items: center;
             gap: 8px;
         }
+
         .horizontal-card-logo {
             width: 24px;
             height: 24px;
             flex-shrink: 0;
         }
+
         .horizontal-card-logo.card {
             width: auto;
             height: 24px;
         }
+
         .horizontal-card-name {
             font-size: 14px;
             font-weight: 600;
@@ -1025,6 +1651,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .horizontal-card-info {
             font-size: 12px;
             color: #888;
@@ -1032,13 +1659,14 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .horizontal-card-info .type {
             font-size: 11px;
             color: #555;
             display: block;
             margin-top: 2px;
         }
-        
+
         /* Add Card/Account Button */
         .horizontal-card-item.add-card {
             border-style: dashed;
@@ -1051,42 +1679,52 @@
             font-size: 13px;
             font-weight: 500;
         }
+
         .horizontal-card-item.add-card svg {
             width: 18px;
             height: 18px;
             stroke-width: 2.5;
         }
 
-        
+
         /* Content panels for payment methods */
         .payment-content-panel {
             margin-top: 16px;
-            display: none; /* Hidden by default */
+            display: none;
+            /* Hidden by default */
         }
+
         .payment-content-panel.active {
             display: block;
         }
-        
+
         /* [NEW] v12 standard select with flag */
         .select-wrapper-with-flag {
             position: relative;
         }
+
         .select-wrapper-with-flag .select-flag {
             position: absolute;
             left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 18px; /* Emoji size */
+            font-size: 18px;
+            /* Emoji size */
             pointer-events: none;
-            z-index: 1; /* Above the select */
-            display: flex; /* [MODIFIED] To center img */
-            align-items: center; /* [MODIFIED] To center img */
+            z-index: 1;
+            /* Above the select */
+            display: flex;
+            /* [MODIFIED] To center img */
+            align-items: center;
+            /* [MODIFIED] To center img */
         }
+
         .select-wrapper-with-flag select {
-            padding: 0 30px 0 40px; 
+            padding: 0 30px 0 40px;
         }
+
         .select-wrapper-with-flag::after {
-            z-index: 1; 
+            z-index: 1;
         }
 
         /* [NEW] Combobox (from qna_write.html) */
@@ -1094,9 +1732,11 @@
             position: relative;
             flex: 1;
         }
+
         .combobox-dropdown {
             position: absolute;
-            top: calc(100% + 2px); /* Position below the input */
+            top: calc(100% + 2px);
+            /* Position below the input */
             left: 0;
             right: 0;
             background: #fff;
@@ -1106,8 +1746,9 @@
             max-height: 220px;
             overflow-y: auto;
             display: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
+
         .combobox-item {
             padding: 10px 12px;
             font-size: 14px;
@@ -1117,66 +1758,81 @@
             align-items: center;
             gap: 8px;
         }
+
         .combobox-item:last-child {
             border-bottom: none;
         }
+
         .combobox-item:hover {
             background: #f5f5f6;
         }
+
         .combobox-item strong {
             font-weight: 600;
             color: #333;
             flex-shrink: 0;
         }
+
         .combobox-item span {
-             font-size: 14px;
-             color: #555;
+            font-size: 14px;
+            color: #555;
         }
+
         .combobox-item .flag {
             font-size: 18px;
             flex-shrink: 0;
-            display: flex; /* [MODIFIED] To center img */
-            align-items: center; /* [MODIFIED] To center img */
+            display: flex;
+            /* [MODIFIED] To center img */
+            align-items: center;
+            /* [MODIFIED] To center img */
         }
 
-        .combobox-item .flag img{
-            width: 20px; /* [MODIFIED] Flag size in list */
+        .combobox-item .flag img {
+            width: 20px;
+            /* [MODIFIED] Flag size in list */
             height: auto;
             border-radius: 2px;
         }
 
         .combobox-wrapper .select-flag img {
-            width: 24px; /* [MODIFIED] Flag size in input */
+            width: 24px;
+            /* [MODIFIED] Flag size in input */
             height: auto;
             border-radius: 2px;
         }
 
         .combobox-wrapper .input.select-wrapper {
-            padding-left: 8px; /* [MODIFIED] Reset padding */
+            padding-left: 8px;
+            /* [MODIFIED] Reset padding */
         }
-        
+
         .combobox-wrapper .input.select-wrapper .select-flag {
-             left: 10px; /* [MODIFIED] Adjust flag position */
+            left: 10px;
+            /* [MODIFIED] Adjust flag position */
         }
 
         .combobox-wrapper .input.select-wrapper input {
-             padding-left: 42px; /* [MODIFIED] Adjust text padding (10px + 24px + 8px) */
-             padding-right: 30px; /* For arrow */
+            padding-left: 42px;
+            /* [MODIFIED] Adjust text padding (10px + 24px + 8px) */
+            padding-right: 30px;
+            /* For arrow */
         }
 
         .combobox-wrapper .input.select-wrapper::after {
-            right: 9px; /* [MODIFIED] Arrow position */
+            right: 9px;
+            /* [MODIFIED] Arrow position */
         }
 
         .combobox-wrapper .input:has(input:read-only) {
             background-color: #fff;
         }
-        
+
         .filter-group-content#shipping-destination-화물 .input.select-wrapper,
         .filter-group-content#destination-group-지하철 .input.select-wrapper,
         .filter-group-content#destination-group-고속버스 .input.select-wrapper {
             flex: 1 1 120px;
         }
+
         .filter-group-content#shipping-destination-화물 #cargo-branch-wrapper,
         .filter-group-content#shipping-destination-화물 #cargo-branch-input-wrapper {
             width: 100%;
@@ -1184,7 +1840,10 @@
             flex-basis: 100%;
         }
 
-        .input-wrapper-dropdown { position: relative; }
+        .input-wrapper-dropdown {
+            position: relative;
+        }
+
         .input-dropdown-arrow {
             position: absolute;
             right: 12px;
@@ -1196,9 +1855,11 @@
             pointer-events: none;
             transition: transform 0.2s;
         }
+
         .input-wrapper-dropdown.open .input-dropdown-arrow {
             transform: translateY(-50%) rotate(180deg);
         }
+
         .memo-dropdown {
             display: none;
             position: absolute;
@@ -1211,57 +1872,269 @@
             border-radius: 0 0 6px 6px;
             z-index: 600;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
+
         .input-wrapper-dropdown.open .memo-dropdown {
             display: block;
         }
+
         .memo-option {
             padding: 10px 12px;
             font-size: 14px;
             color: #333;
             cursor: pointer;
         }
+
         .memo-option:hover {
             background: #f5f5f6;
         }
+
         #memo-direct-input-group {
             margin-top: 8px;
             display: none;
         }
-        
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; animation: fadeInModal 0.2s ease-out; }
-        .modal-overlay.active { display: flex; }
-        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
-        .modal-content { background: white; border-radius: 8px; width: 100%; max-width: 360px; max-height: 90vh; display: flex; flex-direction: column; animation: scaleUpModal 0.2s ease-out; }
-        @keyframes scaleUpModal { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #e8e8e9; position: relative; height: 57px; }
-        .modal-title { font-size: 16px; font-weight: 700; color: black; text-align: left; }
-        .btn-modal-close { width: 24px; height: 24px; cursor: pointer; color: #333; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); }
-        .btn-modal-close:hover { color: #000; }
-        .btn-modal-close svg { width: 100%; height: 100%; }
-        .modal-body { padding: 16px; overflow-y: auto; flex-grow: 1; }
-        .modal-footer { padding: 16px; border-top: 1px solid #e8e8e9; background: #fff; display: flex; gap: 8px; border-radius: 0 0 7px 7px; }
-        .modal-footer .btn { flex: 1; height: 44px; font-size: 14px; }
-        .filter-section { padding: 0 0 16px 0; display: flex; justify-content: flex-start; align-items: center; }
-        .search { width: 100%; height: 40px; background: #f9f9f9; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; position: relative; }
-        .search input { flex: 1; background: transparent; border: none; outline: none; font-size: 14px; color: black; }
-        .search input::placeholder { color: #c6c6c8; }
-        .search-input-right { display: flex; gap: 5px; align-items: center; }
-        .search-del { width: 18px; height: 18px; cursor: pointer; display: none; }
-        .search.has-text .search-del { display: flex; }
-        .search-icon, .btn-search { width: 24px; height: 24px; cursor: pointer; transition: transform 0.2s; }
-        .search-icon:active, .btn-search:active { transform: scale(0.9); }
-        .transaction-list-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; font-size: 14px; color: #555; border-bottom: 1px solid #e8e8e9; margin-bottom: 12px; margin-top: 16px; }
-        .transaction-list-header .total-count strong { font-weight: 600; color: #333; }
-        .address-list { display: flex; flex-direction: column; gap: 8px; }
-        .address-item { border: 1px solid #e8e8e9; border-radius: 6px; padding: 12px; }
-        .address-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .address-name { font-size: 16px; font-weight: 600; color: #333; }
-        .address-item .white-button { height: 32px; font-size: 13px; padding: 0 12px; flex-shrink: 0; }
-        .address-detail { font-size: 13px; color: #555; margin-bottom: 4px; line-height: 1.5; }
-        .card-badge { background: white; border: 1px solid #d7d7d7; border-radius: 30px; padding: 2px 10px; font-size: 10px; color: black; flex-shrink: 0; }
-        .card-badge[data-status="default"] { border-color: #4e6ee4; color: #4e6ee4; font-weight: 600; }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 360px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: scaleUpModal 0.2s ease-out;
+        }
+
+        @keyframes scaleUpModal {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e9;
+            position: relative;
+            height: 57px;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            text-align: left;
+        }
+
+        .btn-modal-close {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #333;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .btn-modal-close:hover {
+            color: #000;
+        }
+
+        .btn-modal-close svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+            background: #fff;
+            display: flex;
+            gap: 8px;
+            border-radius: 0 0 7px 7px;
+        }
+
+        .modal-footer .btn {
+            flex: 1;
+            height: 44px;
+            font-size: 14px;
+        }
+
+        .filter-section {
+            padding: 0 0 16px 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .search {
+            width: 100%;
+            height: 40px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            position: relative;
+        }
+
+        .search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+        }
+
+        .search input::placeholder {
+            color: #c6c6c8;
+        }
+
+        .search-input-right {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .search-del {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .search.has-text .search-del {
+            display: flex;
+        }
+
+        .search-icon,
+        .btn-search {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .search-icon:active,
+        .btn-search:active {
+            transform: scale(0.9);
+        }
+
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #e8e8e9;
+            margin-bottom: 12px;
+            margin-top: 16px;
+        }
+
+        .transaction-list-header .total-count strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .address-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .address-item {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .address-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .address-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .address-item .white-button {
+            height: 32px;
+            font-size: 13px;
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
+
+        .address-detail {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+            line-height: 1.5;
+        }
+
+        .card-badge {
+            background: white;
+            border: 1px solid #d7d7d7;
+            border-radius: 30px;
+            padding: 2px 10px;
+            font-size: 10px;
+            color: black;
+            flex-shrink: 0;
+        }
+
+        .card-badge[data-status="default"] {
+            border-color: #4e6ee4;
+            color: #4e6ee4;
+            font-weight: 600;
+        }
 
         /* [NEW] Bottom Sheet Styles (Standard v12 + Custom) */
         .bottom-sheet-overlay {
@@ -1457,15 +2330,18 @@
             padding: 16px;
             margin-bottom: 8px;
         }
+
         .bundle-item-list {
             font-size: 14px;
             color: #333;
             line-height: 1.6;
         }
+
         .bundle-item-list li {
             padding-left: 1.2em;
             text-indent: -1.2em;
         }
+
         .bundle-summary {
             display: flex;
             justify-content: space-between;
@@ -1474,27 +2350,50 @@
             padding-top: 12px;
             border-top: 1px dashed #cccccc;
         }
+
         .bundle-price {
             font-size: 14px;
             font-weight: 600;
             color: #333;
         }
+
         .bundle-weight {
             font-size: 12px;
             color: #888;
         }
 
-        .overseas-form-group { margin-bottom: 16px; }
-        .overseas-form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
-        .overseas-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .input-group-country-code { display: flex; gap: 8px; }
+        .overseas-form-group {
+            margin-bottom: 16px;
+        }
+
+        .overseas-form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .overseas-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .input-group-country-code {
+            display: flex;
+            gap: 8px;
+        }
+
         .input-group-country-code .country-code-select {
             flex-shrink: 0;
             width: 80px;
         }
+
         .input-group-country-code .input {
             flex-grow: 1;
         }
+
         .input-group-country-code .input.select-wrapper::after {
             content: '';
             position: absolute;
@@ -1508,6 +2407,7 @@
             background-position: center;
             pointer-events: none;
         }
+
         .input-group-country-code .input.select-wrapper select {
             width: 100%;
             height: 38px;
@@ -1536,9 +2436,11 @@
             margin-bottom: 12px;
             transition: background 0.2s;
         }
+
         .clickable-info-row:hover {
             background-color: #f1f1f1;
         }
+
         .clickable-info-label {
             font-size: 14px;
             font-weight: 600;
@@ -1546,6 +2448,7 @@
             flex-shrink: 0;
             margin-right: 16px;
         }
+
         .clickable-info-value {
             flex: 1;
             font-size: 14px;
@@ -1555,9 +2458,11 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .clickable-info-value.placeholder {
             color: #888;
         }
+
         .clickable-info-row svg {
             width: 16px;
             height: 16px;
@@ -1565,19 +2470,28 @@
             flex-shrink: 0;
             margin-left: 8px;
         }
-        
+
         /* [REMOVED] Member-only modal styles */
 
-        .divider {width: calc(100% + 32px); height: 8px; background-color: #f4f5f7; margin-left: -16px; margin-right: -16px;}
-
+        .divider {
+            width: calc(100% + 32px);
+            height: 8px;
+            background-color: #f4f5f7;
+            margin-left: -16px;
+            margin-right: -16px;
+        }
     </style>
 </head>
+
 <body>
     <div class="mobile-wrap">
         <header class="app-header-sub">
             <div class="header-left">
                 <button type="button" class="header-btn" id="header-back-btn" onclick="history.back();">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
                 </button>
             </div>
             <h1 class="header-title" id="page-title">비회원 결제</h1>
@@ -1587,7 +2501,7 @@
 
         <main>
             <div id="step-1" class="page-step" style="display: block;">
-                <div class="sw-container"> 
+                <div class="sw-container">
                     <h2 class="section-title" style="padding-top: 0;">접수 제품</h2>
                     <div class="transaction-list" id="checkout-product-list">
                         <article class="sc-v3-card cart-card" data-base-price-per-unit="4100"
@@ -1639,14 +2553,16 @@
                     <div class="no-transactions" id="no-products-message" style="display: none;">결제할 제품이 없어요</div>
 
                     <div class="divider" style="margin-top: 25px; margin-bottom: -5px;"></div>
-                    
+
                     <div class="form-group" style="margin-top: 24px;">
                         <h2 class="section-title" style="padding-top: 0; margin-bottom: 12px;">비회원 정보</h2>
                         <div class="form-group">
                             <label>14세미만 여부</label>
                             <div class="filter-group-content" id="age-check-chips">
-                                <div class="single-chip single-chip-on" data-value="over14" onclick="selectSingleChip(this, 'age-check-chips')">14세 이상</div>
-                                <div class="single-chip single-chip-off" data-value="under14" onclick="selectSingleChip(this, 'age-check-chips')">14세 미만</div>
+                                <div class="single-chip single-chip-on" data-value="over14"
+                                    onclick="selectSingleChip(this, 'age-check-chips')">14세 이상</div>
+                                <div class="single-chip single-chip-off" data-value="under14"
+                                    onclick="selectSingleChip(this, 'age-check-chips')">14세 미만</div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -1657,28 +2573,32 @@
                         </div>
                         <div class="form-group">
                             <label for="nonmember-phone">연락처</label>
-                    
+
                             <div class="input-group">
                                 <div class="combobox-wrapper" style="flex: 0 1 100px;">
-                                    <div class="input select-wrapper" onclick="showCountryCodeDropdown()" onblur="hideCountryCodeDropdown()" style="cursor: pointer;">
+                                    <div class="input select-wrapper" onclick="showCountryCodeDropdown()"
+                                        onblur="hideCountryCodeDropdown()" style="cursor: pointer;">
                                         <span class="select-flag" id="country-code-flag">
                                             <img src="assets/images/flag-kor.png" alt="Korean flag">
                                         </span>
-                                        <input type="text" id="country-code-display" value="+82" readonly 
+                                        <input type="text" id="country-code-display" value="+82" readonly
                                             style="border: none; background: transparent; width: 100%; cursor: pointer; padding: 0 30px 0 5px; font-size: 14px; outline: none; height: 38px;">
                                     </div>
                                     <div class="combobox-dropdown" id="country-code-dropdown">
-                                        <div class="combobox-item" onmousedown="selectCountryCode('kr', 'assets/images/flag-kor.png', '+82 (Korea)', 'Korean flag')">
+                                        <div class="combobox-item"
+                                            onmousedown="selectCountryCode('kr', 'assets/images/flag-kor.png', '+82 (Korea)', 'Korean flag')">
                                             <span class="flag">
                                                 <img src="assets/images/flag-kor.png" alt="Korean flag">
                                             </span> <strong>+82</strong>
                                         </div>
-                                        <div class="combobox-item" onmousedown="selectCountryCode('jp', 'assets/images/flag-jp.png', '+81 (Japan)', 'Japanese flag')">
+                                        <div class="combobox-item"
+                                            onmousedown="selectCountryCode('jp', 'assets/images/flag-jp.png', '+81 (Japan)', 'Japanese flag')">
                                             <span class="flag">
                                                 <img src="assets/images/flag-jp.png" alt="Japanese flag">
-                                            </span> <strong>+81</strong> 
+                                            </span> <strong>+81</strong>
                                         </div>
-                                        <div class="combobox-item" onmousedown="selectCountryCode('us', 'assets/images/flag-eng.png', '+1 (USA)', 'USA flag')">
+                                        <div class="combobox-item"
+                                            onmousedown="selectCountryCode('us', 'assets/images/flag-eng.png', '+1 (USA)', 'USA flag')">
                                             <span class="flag">
                                                 <img src="assets/images/flag-eng.png" alt="USA flag">
                                             </span> <strong>+1</strong>
@@ -1691,7 +2611,7 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="form-group" style="margin-bottom: 0;">
+                        <div class="form-group" style="margin-bottom: 0;">
                             <label for="nonmember-email">이메일 주소</label>
                             <div class="input">
                                 <input type="email" id="nonmember-email" placeholder="이메일 주소를 입력해주세요">
@@ -1700,26 +2620,33 @@
                     </div>
 
                     <div class="divider" style="margin-top: 25px; margin-bottom: -5px;"></div>
-                     
+
                     <div class="form-group" style="margin-top: 24px;">
                         <h2 class="section-title" style="padding-top: 0; margin-bottom: 12px;">배송방법</h2>
                         <div class="filter-group-content" id="shipping-method-chips">
-                            <div class="single-chip single-chip-on" data-method="택배" onclick="selectShippingMethod(this, '택배')">택배</div>
-                            <div class="single-chip single-chip-off" data-method="방문수령" onclick="selectShippingMethod(this, '방문수령')">방문수령</div>
-                            <div class="single-chip single-chip-off" data-method="퀵" onclick="selectShippingMethod(this, '퀵')">퀵</div>
-                            <div class="single-chip single-chip-off" data-method="화물" onclick="selectShippingMethod(this, '화물')">화물</div>
-                            <div class="single-chip single-chip-off" data-method="해외" onclick="selectShippingMethod(this, '해외')">해외</div>
+                            <div class="single-chip single-chip-on" data-method="택배"
+                                onclick="selectShippingMethod(this, '택배')">택배</div>
+                            <div class="single-chip single-chip-off" data-method="방문수령"
+                                onclick="selectShippingMethod(this, '방문수령')">방문수령</div>
+                            <div class="single-chip single-chip-off" data-method="퀵"
+                                onclick="selectShippingMethod(this, '퀵')">퀵</div>
+                            <div class="single-chip single-chip-off" data-method="화물"
+                                onclick="selectShippingMethod(this, '화물')">화물</div>
+                            <div class="single-chip single-chip-off" data-method="해외"
+                                onclick="selectShippingMethod(this, '해외')">해외</div>
                         </div>
                     </div>
                     <div id="shipping-sub-options">
-                        
+
                         <div class="form-group" data-shipping-sub-for="택배" style="display: none;">
                             <label>결제 방식</label>
                             <div class="filter-group-content" id="shipping-payment-택배">
-                                <div class="single-chip single-chip-on" data-value="선불" onclick="selectShippingSubOption(this, '택배')">선불</div>
-                                <div class="single-chip single-chip-off" data-value="착불" onclick="selectShippingSubOption(this, '택배')">착불</div>
+                                <div class="single-chip single-chip-on" data-value="선불"
+                                    onclick="selectShippingSubOption(this, '택배')">선불</div>
+                                <div class="single-chip single-chip-off" data-value="착불"
+                                    onclick="selectShippingSubOption(this, '택배')">착불</div>
                             </div>
-                            
+
                             <div id="shipping-prepaid-details" style="display: none; margin-top: 16px;">
                                 <div class="disclaimer-button-group">
                                     <button type="button" class="icon-disclaimer" onclick="alert('선불택배 유의사항 (구현 필요)')">
@@ -1750,13 +2677,16 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group" data-shipping-sub-for="방문수령" style="display: none;">
                             <label>수령지</label>
                             <div class="filter-group-content" id="shipping-pickup-location">
-                                <div class="single-chip single-chip-on" data-value="성수동" onclick="selectShippingSubOption(this, '방문수령')">성수동</div>
-                                <div class="single-chip single-chip-off" data-value="충무로" onclick="selectShippingSubOption(this, '방문수령')">충무로</div>
-                                <div class="single-chip single-chip-off" data-value="인현동" onclick="selectShippingSubOption(this, '방문수령')">인현동</div>
+                                <div class="single-chip single-chip-on" data-value="성수동"
+                                    onclick="selectShippingSubOption(this, '방문수령')">성수동</div>
+                                <div class="single-chip single-chip-off" data-value="충무로"
+                                    onclick="selectShippingSubOption(this, '방문수령')">충무로</div>
+                                <div class="single-chip single-chip-off" data-value="인현동"
+                                    onclick="selectShippingSubOption(this, '방문수령')">인현동</div>
                             </div>
                             <div class="disclaimer-button-group">
                                 <button type="button" class="icon-disclaimer" onclick="alert('매장 위치 (구현 필요)')">
@@ -1777,33 +2707,46 @@
                         <div class="form-group" data-shipping-sub-for="퀵" style="display: none;">
                             <label>결제 방식</label>
                             <div class="filter-group-content" id="shipping-payment-퀵">
-                                <div class="single-chip single-chip-on" data-value="선불" onclick="selectShippingSubOption(this, '퀵')">선불</div>
-                                <div class="single-chip single-chip-off" data-value="착불" onclick="selectShippingSubOption(this, '퀵')">착불</div>
+                                <div class="single-chip single-chip-on" data-value="선불"
+                                    onclick="selectShippingSubOption(this, '퀵')">선불</div>
+                                <div class="single-chip single-chip-off" data-value="착불"
+                                    onclick="selectShippingSubOption(this, '퀵')">착불</div>
                             </div>
-                            
+
                             <div id="shipping-vehicle-선불" style="display: none;">
                                 <label style="margin-top: 16px;">배송수단</label>
                                 <div class="filter-group-content" id="shipping-vehicle-chips-선불">
-                                    <div class="single-chip single-chip-on" data-vehicle="오토바이" onclick="selectVehicle(this, '선불')">오토바이</div>
-                                    <div class="single-chip single-chip-off" data-vehicle="지하철" onclick="selectVehicle(this, '선불')">지하철</div>
-                                    <div class="single-chip single-chip-off" data-vehicle="다마스" onclick="selectVehicle(this, '선불')">다마스</div>
-                                    <div class="single-chip single-chip-off" data-vehicle="대형트럭" onclick="selectVehicle(this, '선불')">대형트럭</div>
-                                    <div class="single-chip single-chip-off" data-vehicle="소형트럭" onclick="selectVehicle(this, '선불')">소형트럭</div>
+                                    <div class="single-chip single-chip-on" data-vehicle="오토바이"
+                                        onclick="selectVehicle(this, '선불')">오토바이</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="지하철"
+                                        onclick="selectVehicle(this, '선불')">지하철</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="다마스"
+                                        onclick="selectVehicle(this, '선불')">다마스</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="대형트럭"
+                                        onclick="selectVehicle(this, '선불')">대형트럭</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="소형트럭"
+                                        onclick="selectVehicle(this, '선불')">소형트럭</div>
                                 </div>
                             </div>
-                            
+
                             <div id="shipping-vehicle-착불" style="display: none;">
                                 <label style="margin-top: 16px;">배송수단</label>
                                 <div class="filter-group-content" id="shipping-vehicle-chips-착불">
-                                    <div class="single-chip single-chip-on" data-vehicle="오토바이" onclick="selectVehicle(this, '착불')">오토바이</div>
-                                    <div class="single-chip single-chip-off" data-vehicle="다마스" onclick="selectVehicle(this, '착불')">다마스</div>
-                                    <div class="single-chip single-chip-off" data-vehicle="라보" onclick="selectVehicle(this, '착불')">라보</div>
-                                    <div class="single-chip single-chip-off" data-vehicle="트럭" onclick="selectVehicle(this, '착불')">트럭</div>
-                                    <div class="single-chip single-chip-off" data-vehicle="고속버스" onclick="selectVehicle(this, '착불')">고속버스</div>
-                                    <div class="single-chip single-chip-off" data-vehicle="KTX" onclick="selectVehicle(this, '착불')">KTX</div>
+                                    <div class="single-chip single-chip-on" data-vehicle="오토바이"
+                                        onclick="selectVehicle(this, '착불')">오토바이</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="다마스"
+                                        onclick="selectVehicle(this, '착불')">다마스</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="라보"
+                                        onclick="selectVehicle(this, '착불')">라보</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="트럭"
+                                        onclick="selectVehicle(this, '착불')">트럭</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="고속버스"
+                                        onclick="selectVehicle(this, '착불')">고속버스</div>
+                                    <div class="single-chip single-chip-off" data-vehicle="KTX"
+                                        onclick="selectVehicle(this, '착불')">KTX</div>
                                 </div>
                             </div>
-                            
+
                             <div class="disclaimer-button-group">
                                 <button type="button" class="icon-disclaimer" onclick="alert('퀵배송 유의사항 (구현 필요)')">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -1823,7 +2766,8 @@
                                 <label>도착지</label>
                                 <div class="filter-group-content" id="shipping-destination-지하철">
                                     <div class="input select-wrapper">
-                                        <select id="quick-subway-province" onchange="updateQuickSubwayStations(this.value)">
+                                        <select id="quick-subway-province"
+                                            onchange="updateQuickSubwayStations(this.value)">
                                             <option value="서울">서울</option>
                                             <option value="경기">경기</option>
                                             <option value="인천">인천</option>
@@ -1835,10 +2779,12 @@
                                         </select>
                                     </div>
                                 </div>
-                                <p class="disclaimer" style="margin-top: 8px;">* 지하철 배송은 서울·경기·인천 지역에서만 이용할 수 있어요. 배송지는 지하철역 반경 500m 이내여야 해요</p>
+                                <p class="disclaimer" style="margin-top: 8px;">* 지하철 배송은 서울·경기·인천 지역에서만 이용할 수 있어요. 배송지는
+                                    지하철역 반경 500m 이내여야 해요</p>
                             </div>
-                            
-                            <div class="form-group" id="destination-group-고속버스" style="display: none; margin-top: 16px;">
+
+                            <div class="form-group" id="destination-group-고속버스"
+                                style="display: none; margin-top: 16px;">
                                 <label>도착지</label>
                                 <div class="filter-group-content" id="shipping-destination-고속버스">
                                     <div class="input select-wrapper">
@@ -1849,18 +2795,20 @@
                                         </select>
                                     </div>
                                     <div class="input select-wrapper">
-                                        <select id="quick-bus-terminal" onchange="updateQuickDestination('고속버스', this.value)" disabled>
+                                        <select id="quick-bus-terminal"
+                                            onchange="updateQuickDestination('고속버스', this.value)" disabled>
                                             <option value="">역/터미널을 선택해주세요</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group" id="destination-group-KTX" style="display: none; margin-top: 16px;">
                                 <label>도착지</label>
                                 <div class="filter-group-content" id="shipping-destination-KTX">
                                     <div class="input select-wrapper" style="width: 100%;">
-                                        <select id="quick-ktx-station" onchange="updateQuickDestination('KTX', this.value)">
+                                        <select id="quick-ktx-station"
+                                            onchange="updateQuickDestination('KTX', this.value)">
                                             <option value="">KTX역을 선택해주세요</option>
                                             <option value="서울역">서울역</option>
                                             <option value="용산역">용산역</option>
@@ -1868,20 +2816,24 @@
                                         </select>
                                     </div>
                                 </div>
-                                <p class="disclaimer" style="margin-top: 8px; color: #dc3545;">KTX 선택 가능한 기준 확인 필요 (제품 등)</p>
+                                <p class="disclaimer" style="margin-top: 8px; color: #dc3545;">KTX 선택 가능한 기준 확인 필요 (제품
+                                    등)</p>
                             </div>
                         </div>
 
                         <div class="form-group" data-shipping-sub-for="화물" style="display: none;">
                             <label>결제 방식</label>
                             <div class="filter-group-content" id="shipping-payment-화물">
-                                <div class="single-chip single-chip-on" data-value="착불" onclick="selectShippingSubOption(this, '화물')">착불</div>
+                                <div class="single-chip single-chip-on" data-value="착불"
+                                    onclick="selectShippingSubOption(this, '화물')">착불</div>
                             </div>
-                            
+
                             <label style="margin-top: 16px;">운송업체</label>
                             <div class="filter-group-content" id="shipping-carrier-화물">
-                                <div class="single-chip single-chip-on" data-value="경동화물" onclick="selectSingleChip(this, 'shipping-carrier-화물')">경동화물</div>
-                                <div class="single-chip single-chip-off" data-value="대신화물" onclick="selectSingleChip(this, 'shipping-carrier-화물')">대신화물</div>
+                                <div class="single-chip single-chip-on" data-value="경동화물"
+                                    onclick="selectSingleChip(this, 'shipping-carrier-화물')">경동화물</div>
+                                <div class="single-chip single-chip-off" data-value="대신화물"
+                                    onclick="selectSingleChip(this, 'shipping-carrier-화물')">대신화물</div>
                             </div>
                             <div class="disclaimer-button-group">
                                 <button type="button" class="icon-disclaimer" onclick="alert('화물 요금표 (구현 필요)')">
@@ -1898,7 +2850,7 @@
                                     <span>화물 요금표</span>
                                 </button>
                             </div>
-                    
+
                             <label style="margin-top: 16px;">도착지</label>
                             <div class="filter-group-content" id="shipping-destination-화물">
                                 <div class="input select-wrapper">
@@ -1920,7 +2872,7 @@
                                     <input type="text" id="cargo-branch-direct-input" placeholder="지점명을 입력해주세요">
                                 </div>
                             </div>
-                            
+
                             <div class="checkbox-text" style="margin-top: 12px;" onclick="toggleCargoDirectInput(this)">
                                 <div class="checkbox" data-checked="false" id="cargo-direct-input-check">
                                     <div class="checkbox-off"></div>
@@ -1932,12 +2884,15 @@
                         <div class="form-group" data-shipping-sub-for="해외" style="display: none;">
                             <label>결제 방식</label>
                             <div class="filter-group-content" id="shipping-payment-해외">
-                                <div class="single-chip single-chip-on" data-value="선불" onclick="selectShippingSubOption(this, '해외')">선불</div>
+                                <div class="single-chip single-chip-on" data-value="선불"
+                                    onclick="selectShippingSubOption(this, '해외')">선불</div>
                             </div>
                             <label style="margin-top: 16px;">국가</label>
                             <div class="filter-group-content" id="shipping-country">
-                                <div class="single-chip single-chip-on" data-value="미국" onclick="selectShippingSubOption(this, '해외')">미국</div>
-                                <div class="single-chip single-chip-off" data-value="일본" onclick="selectShippingSubOption(this, '해외')">일본</div>
+                                <div class="single-chip single-chip-on" data-value="미국"
+                                    onclick="selectShippingSubOption(this, '해외')">미국</div>
+                                <div class="single-chip single-chip-off" data-value="일본"
+                                    onclick="selectShippingSubOption(this, '해외')">일본</div>
                             </div>
                             <div class="disclaimer-button-group">
                                 <button type="button" class="icon-disclaimer" onclick="alert('해외배송 안내 (구현 필요)')">
@@ -1955,10 +2910,10 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="divider" style="margin-top: 15px; margin-bottom: 15px;"></div>
 
-                    <h2 class="section-title">배송정보</h2>             
+                    <h2 class="section-title">배송정보</h2>
                     <div id="address-tab-content">
                         <div class="form-fields-wrapper" data-tab-content="direct-input" style="display: block;">
                             <div class="checkbox-text" style="margin-bottom: 20px;" onclick="copyNonMemberInfo(this)">
@@ -2000,9 +2955,13 @@
                                     <div class="input">
                                         <input type="text" id="form-addr-detail" placeholder="상세 주소를 입력해주세요">
                                     </div>
-                                    <p class="disclaimer" id="address-disclaimer-지하철" style="display: none; color: #dc3545; margin-top: 8px;">* 지하철역 500m 이내의 주소로 입력해주세요</p>
-                                    <p class="disclaimer" id="address-disclaimer-고속버스" style="display: none; margin-top: 8px;">* 고속버스 퀵배송 도착지로 자동 입력돼요</p>
-                                    <p class="disclaimer" id="address-disclaimer-KTX" style="display: none; margin-top: 8px;">* KTX 퀵배송 도착지로 자동 입력돼요</p>
+                                    <p class="disclaimer" id="address-disclaimer-지하철"
+                                        style="display: none; color: #dc3545; margin-top: 8px;">* 지하철역 500m 이내의 주소로
+                                        입력해주세요</p>
+                                    <p class="disclaimer" id="address-disclaimer-고속버스"
+                                        style="display: none; margin-top: 8px;">* 고속버스 퀵배송 도착지로 자동 입력돼요</p>
+                                    <p class="disclaimer" id="address-disclaimer-KTX"
+                                        style="display: none; margin-top: 8px;">* KTX 퀵배송 도착지로 자동 입력돼요</p>
                                 </div>
                             </div>
                             <div id="overseas-address-container" style="display: none;">
@@ -2013,12 +2972,13 @@
                         <label>배송메모</label>
                         <div class="input">
                             <input type="text" id="memo-display" placeholder="배송메모를 선택하거나 입력해주세요"
-                                   onfocus="openMemoDropdown()"
-                                   oninput="handleMemoInput()"
-                                   onblur="closeMemoDropdownWithDelay()"
-                                   autocomplete="off">
-                            <div class="input-dropdown-arrow" onclick="toggleMemoDropdown(event)" style="cursor: pointer; z-index: 2;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></svg>
+                                onfocus="openMemoDropdown()" oninput="handleMemoInput()"
+                                onblur="closeMemoDropdownWithDelay()" autocomplete="off">
+                            <div class="input-dropdown-arrow" onclick="toggleMemoDropdown(event)"
+                                style="cursor: pointer; z-index: 2;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
                             </div>
                         </div>
                         <div class="memo-dropdown">
@@ -2029,23 +2989,25 @@
                             <div class="memo-option" onclick="selectMemo(this)">파손 위험 상품입니다. 주의해주세요</div>
                             <div class="memo-option" onclick="selectMemo(this, true)">직접 입력</div>
                         </div>
-                    </div>                
+                    </div>
                     <div class="form-group" id="memo-direct-input-group">
                         <div class="input">
                             <input type="text" id="memo-direct-input" placeholder="배송메모를 입력해주세요 (50자 이내)">
                         </div>
                     </div>
-                    
+
                     <div class="divider" style="margin-top: 15px; margin-bottom: 5px;"></div>
-                    
+
                     <h2 class="section-title">보내는 분 정보</h2>
                     <nav class="modal-tab-nav" id="sender-tabs" style="margin-bottom: 15px;">
-                        <div class="single-chip single-chip-on" data-tab="default-sender" onclick="switchSenderTab(this, 'default-sender')">성원애드피아</div>
-                        <div class="single-chip single-chip-off" data-tab="direct-input" onclick="switchSenderTab(this, 'direct-input')">직접 입력</div>
-                    </nav>            
+                        <div class="single-chip single-chip-on" data-tab="default-sender"
+                            onclick="switchSenderTab(this, 'default-sender')">성원애드피아</div>
+                        <div class="single-chip single-chip-off" data-tab="direct-input"
+                            onclick="switchSenderTab(this, 'direct-input')">직접 입력</div>
+                    </nav>
                     <div id="sender-tab-content">
                         <div class="form-fields-wrapper" data-tab-content="default-sender" style="display: block;">
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label>이름(상호명)</label>
                                 <div class="readonly-value">성원애드피아</div>
                             </div>
@@ -2058,7 +3020,7 @@
                                 <div class="readonly-value">(05644) 서울시 성동구 성수동 124-12, 2층 201호 성원애드피아</div>
                             </div>
                         </div>
-                        
+
                         <div class="form-fields-wrapper" data-tab-content="direct-input" style="display: none;">
                             <div class="form-group">
                                 <label>이름(상호명)</label>
@@ -2089,12 +3051,13 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="divider" style="margin-top: 25px; margin-bottom: 10px;"></div>
-                
+
                     <h2 class="section-title">결제수단</h2>
                     <div class="simple-payment-chips" id="simple-payment-chips">
-                        <button class="payment-chip-sm active" data-method="credit-card" onclick="selectPaymentMethod(this)">
+                        <button class="payment-chip-sm active" data-method="credit-card"
+                            onclick="selectPaymentMethod(this)">
                             신용카드
                         </button>
                         <button class="payment-chip-sm" data-method="kakao-pay" onclick="selectPaymentMethod(this)">
@@ -2114,9 +3077,9 @@
                         </button>
                     </div>
                     <div class="payment-content-wrapper" style="margin-top: 16px;">
-                        
+
                         <div class="payment-content-panel active" id="payment-content-credit-card">
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="card-select">카드사 선택</label>
                                 <div class="input select-wrapper">
                                     <select id="card-select">
@@ -2125,7 +3088,7 @@
                                         <option value="ss">삼성카드</option>
                                         <option value="hd">현대카드</option>
                                         <option value="sh">신한카드</option>
-                                        </select>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -2138,147 +3101,186 @@
                                         <option value="4">4개월</option>
                                         <option value="5">5개월</option>
                                         <option value="6">6개월</option>
-                                        </select>
+                                    </select>
                                 </div>
                                 <p class="disclaimer">법인 카드로 결제 시, 할부 적용이 되지 않아요</p>
                             </div>
                         </div>
-                        
+
                         <div class="payment-content-panel" id="payment-content-simple-payment">
                             <nav class="modal-tab-nav" id="simple-payment-tabs">
-                                <div class="single-chip single-chip-on" data-tab="card" onclick="selectSimplePaymentTab(this, 'card')">신용/체크카드</div>
-                                <div class="single-chip single-chip-off" data-tab="account" onclick="selectSimplePaymentTab(this, 'account')">계좌이체</div>
+                                <div class="single-chip single-chip-on" data-tab="card"
+                                    onclick="selectSimplePaymentTab(this, 'card')">신용/체크카드</div>
+                                <div class="single-chip single-chip-off" data-tab="account"
+                                    onclick="selectSimplePaymentTab(this, 'account')">계좌이체</div>
                             </nav>
-                            
-                            <div class="form-fields-wrapper active" data-tab-content="card" id="simple-payment-content-card">
+
+                            <div class="form-fields-wrapper active" data-tab-content="card"
+                                id="simple-payment-content-card">
                                 <div class="tabs-scroll-wrapper">
-                                    <div class="horizontal-card-item" onclick="selectRegisteredPayment(this, 'simple-card-list')">
+                                    <div class="horizontal-card-item"
+                                        onclick="selectRegisteredPayment(this, 'simple-card-list')">
                                         <div class="horizontal-card-header">
-                                            <img src="https://via.placeholder.com/40x24/00408B/FFFFFF?text=KB" alt="KB" class="horizontal-card-logo card">
+                                            <img src="https://via.placeholder.com/40x24/00408B/FFFFFF?text=KB" alt="KB"
+                                                class="horizontal-card-logo card">
                                         </div>
                                         <div>
                                             <div class="horizontal-card-name">케이뱅크 SIM...</div>
-                                            <div class="horizontal-card-info">1234-56**-****-7890<span class="type">체크카드</span></div>
+                                            <div class="horizontal-card-info">1234-56**-****-7890<span
+                                                    class="type">체크카드</span></div>
                                         </div>
                                     </div>
-                                    <div class="horizontal-card-item" onclick="selectRegisteredPayment(this, 'simple-card-list')">
+                                    <div class="horizontal-card-item"
+                                        onclick="selectRegisteredPayment(this, 'simple-card-list')">
                                         <div class="horizontal-card-header">
-                                            <img src="https://via.placeholder.com/40x24/000000/FFFFFF?text=HYUNDAI" alt="Hyundai" class="horizontal-card-logo card">
+                                            <img src="https://via.placeholder.com/40x24/000000/FFFFFF?text=HYUNDAI"
+                                                alt="Hyundai" class="horizontal-card-logo card">
                                         </div>
                                         <div>
                                             <div class="horizontal-card-name">현대카드 ZERO...</div>
-                                            <div class="horizontal-card-info">1234-56**-****-7890<span class="type">신용카드</span></div>
+                                            <div class="horizontal-card-info">1234-56**-****-7890<span
+                                                    class="type">신용카드</span></div>
                                         </div>
                                     </div>
-                                     <div class="horizontal-card-item" onclick="selectRegisteredPayment(this, 'simple-card-list')">
+                                    <div class="horizontal-card-item"
+                                        onclick="selectRegisteredPayment(this, 'simple-card-list')">
                                         <div class="horizontal-card-header">
-                                            <img src="https://via.placeholder.com/40x24/00408B/FFFFFF?text=KB" alt="KB" class="horizontal-card-logo card">
+                                            <img src="https://via.placeholder.com/40x24/00408B/FFFFFF?text=KB" alt="KB"
+                                                class="horizontal-card-logo card">
                                         </div>
                                         <div>
                                             <div class="horizontal-card-name">KB국민카드</div>
-                                            <div class="horizontal-card-info">1234-56**-****-1111<span class="type">신용카드</span></div>
+                                            <div class="horizontal-card-info">1234-56**-****-1111<span
+                                                    class="type">신용카드</span></div>
                                         </div>
                                     </div>
-                                     <div class="horizontal-card-item" onclick="selectRegisteredPayment(this, 'simple-card-list')">
+                                    <div class="horizontal-card-item"
+                                        onclick="selectRegisteredPayment(this, 'simple-card-list')">
                                         <div class="horizontal-card-header">
-                                            <img src="https://via.placeholder.com/40x24/00408B/FFFFFF?text=KB" alt="KB" class="horizontal-card-logo card">
+                                            <img src="https://via.placeholder.com/40x24/00408B/FFFFFF?text=KB" alt="KB"
+                                                class="horizontal-card-logo card">
                                         </div>
                                         <div>
                                             <div class="horizontal-card-name">KB국민카드</div>
-                                            <div class="horizontal-card-info">1234-56**-****-2222<span class="type">신용카드</span></div>
+                                            <div class="horizontal-card-info">1234-56**-****-2222<span
+                                                    class="type">신용카드</span></div>
                                         </div>
                                     </div>
-                                     <div class="horizontal-card-item" onclick="selectRegisteredPayment(this, 'simple-card-list')">
+                                    <div class="horizontal-card-item"
+                                        onclick="selectRegisteredPayment(this, 'simple-card-list')">
                                         <div class="horizontal-card-header">
-                                            <img src="https://via.placeholder.com/40x24/00408B/FFFFFF?text=KB" alt="KB" class="horizontal-card-logo card">
+                                            <img src="https://via.placeholder.com/40x24/00408B/FFFFFF?text=KB" alt="KB"
+                                                class="horizontal-card-logo card">
                                         </div>
                                         <div>
                                             <div class="horizontal-card-name">KB국민카드</div>
-                                            <div class="horizontal-card-info">1234-56**-****-3333<span class="type">신용카드</span></div>
+                                            <div class="horizontal-card-info">1234-56**-****-3333<span
+                                                    class="type">신용카드</span></div>
                                         </div>
                                     </div>
                                     <button class="horizontal-card-item add-card" onclick="alert('카드 등록 (구현 필요)')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24">
+                                            <path d="M12 5l0 14" />
+                                            <path d="M5 12l14 0" />
+                                        </svg>
                                         카드 등록하기
                                     </button>
                                 </div>
                             </div>
-                            
-                            <div class="form-fields-wrapper" data-tab-content="account" id="simple-payment-content-account" style="display: none;">
-                                 <div class="tabs-scroll-wrapper">
-                                    <div class="horizontal-card-item" onclick="selectRegisteredPayment(this, 'simple-account-list')">
+
+                            <div class="form-fields-wrapper" data-tab-content="account"
+                                id="simple-payment-content-account" style="display: none;">
+                                <div class="tabs-scroll-wrapper">
+                                    <div class="horizontal-card-item"
+                                        onclick="selectRegisteredPayment(this, 'simple-account-list')">
                                         <div class="horizontal-card-header">
-                                             <img src="https://via.placeholder.com/24x24/00408B/FFFFFF?text=S" alt="SH" class="horizontal-card-logo">
+                                            <img src="https://via.placeholder.com/24x24/00408B/FFFFFF?text=S" alt="SH"
+                                                class="horizontal-card-logo">
                                             <div class="horizontal-card-name">신한은행</div>
                                         </div>
                                         <div>
                                             <div class="horizontal-card-info">110-***-***6204</div>
                                         </div>
                                     </div>
-                                    <div class="horizontal-card-item" onclick="selectRegisteredPayment(this, 'simple-account-list')">
+                                    <div class="horizontal-card-item"
+                                        onclick="selectRegisteredPayment(this, 'simple-account-list')">
                                         <div class="horizontal-card-header">
-                                             <img src="https://via.placeholder.com/24x24/007bff/FFFFFF?text=W" alt="WOORI" class="horizontal-card-logo">
+                                            <img src="https://via.placeholder.com/24x24/007bff/FFFFFF?text=W"
+                                                alt="WOORI" class="horizontal-card-logo">
                                             <div class="horizontal-card-name">우리은행</div>
                                         </div>
                                         <div>
                                             <div class="horizontal-card-info">1002-***-***449</div>
                                         </div>
                                     </div>
-                                     <div class="horizontal-card-item" onclick="selectRegisteredPayment(this, 'simple-account-list')">
+                                    <div class="horizontal-card-item"
+                                        onclick="selectRegisteredPayment(this, 'simple-account-list')">
                                         <div class="horizontal-card-header">
-                                             <img src="https://via.placeholder.com/24x24/007bff/FFFFFF?text=W" alt="WOORI" class="horizontal-card-logo">
+                                            <img src="https://via.placeholder.com/24x24/007bff/FFFFFF?text=W"
+                                                alt="WOORI" class="horizontal-card-logo">
                                             <div class="horizontal-card-name">우리은행</div>
                                         </div>
                                         <div>
                                             <div class="horizontal-card-info">1002-***-***450</div>
                                         </div>
                                     </div>
-                                     <div class="horizontal-card-item" onclick="selectRegisteredPayment(this, 'simple-account-list')">
+                                    <div class="horizontal-card-item"
+                                        onclick="selectRegisteredPayment(this, 'simple-account-list')">
                                         <div class="horizontal-card-header">
-                                             <img src="https://via.placeholder.com/24x24/007bff/FFFFFF?text=W" alt="WOORI" class="horizontal-card-logo">
+                                            <img src="https://via.placeholder.com/24x24/007bff/FFFFFF?text=W"
+                                                alt="WOORI" class="horizontal-card-logo">
                                             <div class="horizontal-card-name">우리은행</div>
                                         </div>
                                         <div>
                                             <div class="horizontal-card-info">1002-***-***451</div>
                                         </div>
                                     </div>
-                                     <div class="horizontal-card-item" onclick="selectRegisteredPayment(this, 'simple-account-list')">
+                                    <div class="horizontal-card-item"
+                                        onclick="selectRegisteredPayment(this, 'simple-account-list')">
                                         <div class="horizontal-card-header">
-                                             <img src="https://via.placeholder.com/24x24/007bff/FFFFFF?text=W" alt="WOORI" class="horizontal-card-logo">
+                                            <img src="https://via.placeholder.com/24x24/007bff/FFFFFF?text=W"
+                                                alt="WOORI" class="horizontal-card-logo">
                                             <div class="horizontal-card-name">우리은행</div>
                                         </div>
                                         <div>
                                             <div class="horizontal-card-info">1002-***-***452</div>
                                         </div>
                                     </div>
-                                     <div class="horizontal-card-item" onclick="selectRegisteredPayment(this, 'simple-account-list')">
+                                    <div class="horizontal-card-item"
+                                        onclick="selectRegisteredPayment(this, 'simple-account-list')">
                                         <div class="horizontal-card-header">
-                                             <img src="https://via.placeholder.com/24x24/007bff/FFFFFF?text=W" alt="WOORI" class="horizontal-card-logo">
+                                            <img src="https://via.placeholder.com/24x24/007bff/FFFFFF?text=W"
+                                                alt="WOORI" class="horizontal-card-logo">
                                             <div class="horizontal-card-name">우리은행</div>
                                         </div>
                                         <div>
                                             <div class="horizontal-card-info">1002-***-***453</div>
                                         </div>
                                     </div>
-                                     <button class="horizontal-card-item add-card" onclick="alert('계좌 등록 (구현 필요)')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                                    <button class="horizontal-card-item add-card" onclick="alert('계좌 등록 (구현 필요)')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24">
+                                            <path d="M12 5l0 14" />
+                                            <path d="M5 12l14 0" />
+                                        </svg>
                                         계좌 등록하기
                                     </button>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                         <div class="payment-content-panel" id="payment-content-kakao-pay">
-                            </div>
+                        </div>
                         <div class="payment-content-panel" id="payment-content-toss-pay">
-                            </div>
+                        </div>
                         <div class="payment-content-panel" id="payment-content-naver-pay">
-                            </div>
+                        </div>
                         <div class="payment-content-panel" id="payment-content-payco">
-                            </div>
+                        </div>
                         <div class="payment-content-panel" id="payment-content-paypal">
-                            </div>
+                        </div>
                     </div>
                     <div class="form-group agreement-group" style="margin-top: 24px;">
                         <h2 class="section-title" style="margin-top: 0; padding-top: 0;">주문내용 확인 및 결제 동의</h2>
@@ -2303,7 +3305,7 @@
                     </div>
 
                     <!-- <div class="divider" style="margin-top: 25px; margin-bottom: 15px;"></div> -->
-                
+
                     <!-- <div class="payment-summary-section" id="main-payment-summary">
                         <div class="payment-summary-box">
                             <div class="info-sub-row">
@@ -2331,7 +3333,7 @@
                 </div>
             </div>
         </main>
-        
+
         <div class="sticky-form-footer" id="sticky-footer">
             <div class="footer-handle-area" onclick="showPaymentSheet()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -2347,8 +3349,7 @@
             </div>
 
             <div class="button-group">
-                <button class="dark-button" style="flex: 1; height: 44px;"
-                    onclick="location.href='결제하기-2단계.html';">
+                <button class="dark-button" style="flex: 1; height: 44px;" onclick="location.href='결제하기-2단계.html';">
                     다음
                 </button>
             </div>
@@ -2361,7 +3362,10 @@
             <div class="sheet-header">
                 <div class="sheet-title">상품 상세정보</div>
                 <button class="btn-close" onclick="closeDetailsSheet()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
                 </button>
             </div>
             <div class="sheet-body">
@@ -2438,7 +3442,7 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         // --- v12 Checkbox (from qna_write.html) ---
         function toggleCheckboxText(wrapper) {
@@ -2455,9 +3459,9 @@
                 // [MODIFIED] 로컬 SVG 경로 대신 인라인 SVG 또는 웹 경로 사용 (가이드 파일에서 이미지 경로 가져옴)
                 checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt='체크'></div>`;
             }
-            return !isChecked; 
+            return !isChecked;
         }
-        
+
         // --- v12 Single Chip (from daynight_delivery_apply.html) ---
         function selectSingleChip(chip, groupId) {
             const group = document.getElementById(groupId);
@@ -2465,7 +3469,7 @@
             group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
             chip.classList.replace('single-chip-off', 'single-chip-on');
         }
-        
+
         // --- [MODIFIED] Step Navigation Logic (SPA) ---
         function goToStep(stepNum) {
             if (stepNum === 2) {
@@ -2476,7 +3480,7 @@
                     productsTotal += parseFloat(card.dataset.price) || 0;
                 });
                 let shippingFee = getShippingFee();
-                
+
                 // 2. Save to localStorage
                 localStorage.setItem('productsTotal', productsTotal);
                 localStorage.setItem('shippingFee', shippingFee);
@@ -2484,11 +3488,11 @@
                 // 3. Navigate to next page
                 location.href = 'payment-3.html';
             }
-            window.scrollTo(0, 0); 
+            window.scrollTo(0, 0);
         }
-        
+
         // --- [MODIFIED] Step 1: Cart/Shipping Logic ---
-        
+
         function formatCurrency(number) {
             return new Intl.NumberFormat('ko-KR').format(number);
         }
@@ -2500,10 +3504,10 @@
                 const card = button.closest('.cart-card');
                 card.remove();
                 checkEmptyCart();
-                updatePaymentSummary(); 
+                updatePaymentSummary();
             }
         }
-        
+
         function checkEmptyCart() {
             const listContainer = document.getElementById('checkout-product-list');
             const noResultMsg = document.getElementById('no-products-message');
@@ -2515,25 +3519,25 @@
 
         function selectShippingMethod(chip, methodName) {
             selectSingleChip(chip, 'shipping-method-chips');
-            
+
             document.querySelectorAll('#shipping-sub-options .form-group').forEach(el => el.style.display = 'none');
-            
+
             const subOptionEl = document.querySelector(`#shipping-sub-options [data-shipping-sub-for="${methodName}"]`);
             if (subOptionEl) {
                 subOptionEl.style.display = 'block';
             }
-            
+
             // [MODIFIED] 비회원 폼은 항상 '직접 입력' 상태이므로 탭 전환 로직 대신 폼 제어 로직만 남김
             if (methodName === '해외') {
                 forceAddressDirectInput(true, '해외');
                 const defaultCountryChip = document.querySelector('#shipping-country .single-chip[data-value="미국"]');
                 selectShippingSubOption(defaultCountryChip, '해외');
             } else if (methodName === '택배' || methodName === '방문수령' || methodName === '화물') {
-                forceAddressDirectInput(false); 
-                updateOverseasAddressForm(null); 
+                forceAddressDirectInput(false);
+                updateOverseasAddressForm(null);
             } else if (methodName === '퀵') {
-                forceAddressDirectInput(false); 
-                updateOverseasAddressForm(null); 
+                forceAddressDirectInput(false);
+                updateOverseasAddressForm(null);
             }
 
             if (methodName === '택배') {
@@ -2548,16 +3552,16 @@
                 selectShippingSubOption(document.querySelector('#shipping-payment-퀵 .single-chip[data-value="선불"]'), '퀵');
                 document.getElementById('shipping-vehicle-선불').style.display = 'block';
                 document.getElementById('shipping-vehicle-착불').style.display = 'none';
-                selectVehicle(document.querySelector('#shipping-vehicle-선불 .single-chip[data-vehicle="오토바이"]'), '선불'); 
+                selectVehicle(document.querySelector('#shipping-vehicle-선불 .single-chip[data-vehicle="오토바이"]'), '선불');
             }
-            
+
             const memoWrapperEl = document.getElementById('memo-wrapper');
             const memoDirectInputGroupEl = document.getElementById('memo-direct-input-group');
             const memoDisplayEl = document.getElementById('memo-display');
             const memoDirectInputEl = document.getElementById('memo-direct-input');
 
             if (memoWrapperEl) memoWrapperEl.style.display = 'block';
-            
+
             if (memoDisplayEl) {
                 memoDisplayEl.value = '';
                 memoDisplayEl.placeholder = '배송메모를 선택하거나 입력해주세요';
@@ -2565,11 +3569,11 @@
             if (memoDirectInputGroupEl) memoDirectInputGroupEl.style.display = 'none';
             if (memoDirectInputEl) memoDirectInputEl.value = '';
         }
-        
+
         function selectShippingSubOption(chip, methodName) {
             const groupId = chip.closest('.filter-group-content').id;
             selectSingleChip(chip, groupId);
-            
+
             if (methodName === '택배') {
                 const paymentType = chip.dataset.value;
                 const prepaidDetails = document.getElementById('shipping-prepaid-details');
@@ -2579,12 +3583,12 @@
                     prepaidDetails.style.display = 'none';
                 }
             }
-            
+
             if (methodName === '퀵') {
-                const paymentType = chip.dataset.value; 
+                const paymentType = chip.dataset.value;
                 const vehicleGroupSun = document.getElementById('shipping-vehicle-선불');
                 const vehicleGroupCha = document.getElementById('shipping-vehicle-착불');
-                
+
                 if (paymentType === '선불') {
                     vehicleGroupSun.style.display = 'block';
                     vehicleGroupCha.style.display = 'none';
@@ -2597,7 +3601,7 @@
             }
 
             if (methodName === '해외' && groupId === 'shipping-country') {
-                const country = chip.dataset.value; 
+                const country = chip.dataset.value;
                 updateOverseasAddressForm(country);
             }
         }
@@ -2617,17 +3621,17 @@
             if (paymentType === '착불' && (vehicleType === '고속버스' || vehicleType === 'KTX')) {
                 forceAddressDirectInput(true, '퀵-착불-특수');
             } else {
-                forceAddressDirectInput(false); 
+                forceAddressDirectInput(false);
             }
 
             const destSubway = document.getElementById('destination-group-지하철');
             const destBus = document.getElementById('destination-group-고속버스');
             const destKtx = document.getElementById('destination-group-KTX');
-            
+
             const addrDisclaimerSubway = document.getElementById('address-disclaimer-지하철');
             const addrDisclaimerBus = document.getElementById('address-disclaimer-고속버스');
             const addrDisclaimerKtx = document.getElementById('address-disclaimer-KTX');
-            
+
             const formZip = document.getElementById('form-zipcode');
             const formAddrMain = document.getElementById('form-addr-main');
             const formAddrDetail = document.getElementById('form-addr-detail');
@@ -2635,11 +3639,11 @@
             if (destSubway) destSubway.style.display = 'none';
             if (destBus) destBus.style.display = 'none';
             if (destKtx) destKtx.style.display = 'none';
-            
+
             if (addrDisclaimerSubway) addrDisclaimerSubway.style.display = 'none';
             if (addrDisclaimerBus) addrDisclaimerBus.style.display = 'none';
             if (addrDisclaimerKtx) addrDisclaimerKtx.style.display = 'none';
-            
+
             formZip.readOnly = true;
             formAddrMain.readOnly = true;
             formAddrDetail.readOnly = false;
@@ -2652,28 +3656,28 @@
             formZip.placeholder = '우편번호';
             formAddrMain.placeholder = '기본 주소';
             formAddrDetail.placeholder = '상세 주소를 입력해주세요';
-            
+
             switch (vehicleType) {
                 case '지하철':
                     if (destSubway) destSubway.style.display = 'block';
                     if (addrDisclaimerSubway) addrDisclaimerSubway.style.display = 'block';
-                    initQuickSubwayProvinces(); 
+                    initQuickSubwayProvinces();
                     break;
                 case '고속버스':
                     if (destBus) destBus.style.display = 'block';
                     if (addrDisclaimerBus) addrDisclaimerBus.style.display = 'block';
-                    initQuickBusProvinces(); 
+                    initQuickBusProvinces();
                     break;
                 case 'KTX':
                     if (destKtx) destKtx.style.display = 'block';
                     if (addrDisclaimerKtx) addrDisclaimerKtx.style.display = 'block';
-                    initQuickKtxStations(); 
+                    initQuickKtxStations();
                     break;
                 default:
                     break;
             }
         }
-        
+
         function toggleBundleShippingList(button) {
             const isOpen = button.classList.toggle('open');
             const listEl = document.getElementById('bundle-shipping-list');
@@ -2681,25 +3685,25 @@
                 listEl.style.display = isOpen ? 'block' : 'none';
             }
         }
-        
+
         // --- [MODIFIED] Step 1: Summary Calculation Logic ---
         function getShippingFee() {
             let shippingFee = 0;
             const mainMethodChip = document.querySelector('#shipping-method-chips .single-chip-on');
             if (!mainMethodChip) return 0;
             const methodName = mainMethodChip.dataset.method;
-            switch(methodName) {
+            switch (methodName) {
                 case '방문수령': shippingFee = 0; break;
                 case '택배':
                     const paymentTypeChip = document.querySelector('#shipping-payment-택배 .single-chip-on');
                     if (paymentTypeChip && paymentTypeChip.dataset.value === '선불') {
                         const bundleCards = document.querySelectorAll('#bundle-shipping-list .bundle-shipping-card');
-                        shippingFee = bundleCards.length * 2500; 
+                        shippingFee = bundleCards.length * 2500;
                     }
                     break;
-                case '퀵': shippingFee = 10000; break; 
-                case '화물': shippingFee = 20000; break; 
-                case '해외': shippingFee = 30000; break; 
+                case '퀵': shippingFee = 10000; break;
+                case '화물': shippingFee = 20000; break;
+                case '해외': shippingFee = 30000; break;
                 default: shippingFee = 0;
             }
             return shippingFee;
@@ -2757,7 +3761,7 @@
             // 금액 재계산 및 UI 갱신
             updatePaymentSummary();
         }
-        
+
         function updatePaymentSummary() {
             let productsTotal = 0;
             const productCards = document.querySelectorAll('#checkout-product-list .cart-card');
@@ -2808,13 +3812,13 @@
             if (elSheetShipping) elSheetShipping.textContent = `₩${formatCurrency(shippingFee)}`;
             if (elSheetTotal) elSheetTotal.textContent = `₩${formatCurrency(finalTotal)}`;
         }
-        
+
         // --- [MODIFIED] Step 1: 배송메모 (Request 4) ---
         let memoWrapper, memoDisplay, memoDirectInputGroup, memoDirectInput;
-        
+
         function toggleMemoDropdown(event) {
             // [NEW] 이벤트 전파를 막아 input의 onblur가 즉시 실행되는 것을 방지
-            if (event) event.stopPropagation(); 
+            if (event) event.stopPropagation();
             if (memoWrapper) memoWrapper.classList.toggle('open');
         }
         function openMemoDropdown() {
@@ -2832,18 +3836,18 @@
         }
         function selectMemo(option, isDirect = false) {
             if (isDirect) {
-                memoDisplay.value = ''; 
-                memoDisplay.placeholder = '배송메모를 입력해주세요'; 
-                memoDirectInputGroup.style.display = 'block'; 
-                memoDirectInput.focus(); 
+                memoDisplay.value = '';
+                memoDisplay.placeholder = '배송메모를 입력해주세요';
+                memoDirectInputGroup.style.display = 'block';
+                memoDirectInput.focus();
             } else {
-                memoDisplay.value = option.textContent; 
-                memoDirectInputGroup.style.display = 'none'; 
-                memoDirectInput.value = ''; 
+                memoDisplay.value = option.textContent;
+                memoDirectInputGroup.style.display = 'none';
+                memoDirectInput.value = '';
             }
-            closeMemoDropdown(); 
+            closeMemoDropdown();
         }
-        
+
         // --- [NEW] Step 1: Sender Tab Logic ---
         function switchSenderTab(tabEl, tabName) {
             const tabNav = tabEl.closest('.modal-tab-nav');
@@ -2874,7 +3878,7 @@
                 }
             }
         }
-        
+
         // --- [NEW] v12 Search ---
         function handleSearchInput(input) {
             const searchBox = input.closest('.search');
@@ -2887,12 +3891,12 @@
             searchBox.classList.remove('has-text');
             input.focus();
         }
-        function handleSearch(btn, searchId) { 
+        function handleSearch(btn, searchId) {
             // Filtering logic
         }
-        
+
         // --- [NEW] Address Modal Logic (Removed for non-member) ---
-        
+
         // [MODIFIED] 주소 탭 강제/해제 로직 (탭 제거됨)
         function forceAddressDirectInput(isForced, context = null) {
             const koreaAddressForm = document.getElementById('korea-address-form');
@@ -2908,7 +3912,7 @@
                 overseasAddressContainer.style.display = 'none';
             }
         }
-        
+
         // [NEW] 해외 주소 폼 동적 생성
         function updateOverseasAddressForm(country) {
             const container = document.getElementById('overseas-address-container');
@@ -3018,10 +4022,10 @@
         const cargoProvinceSelect = document.getElementById('cargo-province');
         const cargoCitySelect = document.getElementById('cargo-city');
         const cargoBranchSelect = document.getElementById('cargo-branch');
-        
+
         function initCargoProvinces() {
             if (!cargoProvinceSelect) return;
-            cargoProvinceSelect.innerHTML = '<option value="">도 선택</option>'; 
+            cargoProvinceSelect.innerHTML = '<option value="">도 선택</option>';
             for (const province in cargoData) {
                 cargoProvinceSelect.add(new Option(province, province));
             }
@@ -3053,15 +4057,15 @@
         }
         function toggleCargoDirectInput(checkboxWrapper) {
             const checkbox = checkboxWrapper.querySelector('.checkbox');
-            const isChecked = toggleCheckbox(checkbox); 
+            const isChecked = toggleCheckbox(checkbox);
             const branchSelectWrapper = document.getElementById('cargo-branch-wrapper');
             const branchInputWrapper = document.getElementById('cargo-branch-input-wrapper');
             if (isChecked) {
                 branchSelectWrapper.style.display = 'none';
-                branchInputWrapper.style.display = 'flex'; 
+                branchInputWrapper.style.display = 'flex';
                 branchInputWrapper.querySelector('input').focus();
             } else {
-                branchSelectWrapper.style.display = 'flex'; 
+                branchSelectWrapper.style.display = 'flex';
                 branchInputWrapper.style.display = 'none';
             }
         }
@@ -3077,7 +4081,7 @@
             "경기": ["수원버스터미널", "성남버스터미널"]
         };
         const quickKtxData = ["서울역", "용산역", "광명역", "부산역", "동대구역"];
-        
+
         function initQuickKtxStations() {
             const ktxSelect = document.getElementById('quick-ktx-station');
             if (!ktxSelect) return;
@@ -3093,7 +4097,7 @@
             for (const province in quickBusData) {
                 provinceSelect.add(new Option(province, province));
             }
-            updateQuickBusTerminals(''); 
+            updateQuickBusTerminals('');
         }
         function updateQuickBusTerminals(province) {
             const terminalSelect = document.getElementById('quick-bus-terminal');
@@ -3131,10 +4135,10 @@
             const formAddrMain = document.getElementById('form-addr-main');
             const formAddrDetail = document.getElementById('form-addr-detail');
             if (!selectedValue) {
-                 formZip.value = '';
-                 formAddrMain.value = '';
-                 formAddrDetail.value = '';
-                 return;
+                formZip.value = '';
+                formAddrMain.value = '';
+                formAddrDetail.value = '';
+                return;
             }
             if (type === '고속버스') {
                 if (selectedValue === '원주고속버스터미널') {
@@ -3147,15 +4151,15 @@
                     formAddrDetail.value = selectedValue;
                 }
             } else if (type === 'KTX') {
-                 if (selectedValue === '서울역') {
+                if (selectedValue === '서울역') {
                     formZip.value = '04320';
                     formAddrMain.value = '서울특별시 용산구 한강대로 405';
                     formAddrDetail.value = '서울역 KTX 특송';
-                 } else {
+                } else {
                     formZip.value = '222-222';
                     formAddrMain.value = '선택된 KTX역 주소';
                     formAddrDetail.value = selectedValue + " KTX 특송";
-                 }
+                }
             }
         }
 
@@ -3164,7 +4168,7 @@
             const overlay = document.getElementById(overlayId);
             const sheet = document.getElementById(sheetId);
             const handle = document.getElementById(handleId);
-            if (!overlay || !sheet || !handle) return { openSheet: () => {}, closeSheet: () => {} };
+            if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
             let isDragging = false, startY = 0, currentY = 0;
             const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
             const closeSheet = () => { sheet.classList.add('closing'); const anyOtherModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active:not(#' + overlayId + ')'); if (!anyOtherModalActive) { document.body.style.overflow = ''; } setTimeout(() => { overlay.classList.remove('active'); sheet.classList.remove('closing'); sheet.style.transform = ''; }, 300); };
@@ -3178,7 +4182,7 @@
             return { openSheet, closeSheet };
         }
         const { openSheet: openDetailsSheet, closeSheet: closeDetailsSheet } = setupBottomSheet('details-sheet-overlay', 'details-sheet', 'details-sheet-handle');
-        
+
         function showDetailsSheet(button) {
             const card = button.closest('.cart-card');
             const spec = card.dataset.spec;
@@ -3189,25 +4193,25 @@
             if (memo) { memoContent.textContent = memo; memoContent.classList.remove('empty'); } else { memoContent.textContent = '접수 메모가 없어요'; memoContent.classList.add('empty'); }
             openDetailsSheet();
         }
-        
+
         // --- [REMOVED] Member-only functions ---
-        
+
         // --- [NEW] 비회원 정보 복사
         function copyNonMemberInfo(checkboxWrapper) {
             const checkbox = checkboxWrapper.querySelector('.checkbox');
             const isChecked = toggleCheckbox(checkbox);
-            
+
             const receiverInput = document.getElementById('form-receiver');
             const phoneInput = document.getElementById('form-phone');
-            
+
             if (isChecked) {
                 // 비회원 -> 배송정보
                 const name = document.getElementById('nonmember-name').value;
                 const phone = document.getElementById('nonmember-phone').value;
-                
+
                 receiverInput.value = name;
                 phoneInput.value = phone;
-                
+
                 // 읽기 전용으로 설정
                 receiverInput.readOnly = true;
                 phoneInput.readOnly = true;
@@ -3243,31 +4247,31 @@
             hideCountryCodeDropdown();
         }
 
-        
+
         // --- [MODIFIED] Payment Summary Calculation Logic ---
-        const STEP3_VAT_RATE = 0.1; 
+        const STEP3_VAT_RATE = 0.1;
         let totalPoints = 1000; // [NEW] From payment-3.html
         let sungwonMoneyBalance = 12000; // From PDF
         let isVaRegistered = true; // [NEW] 가상계좌 등록 상태 (시뮬레이션용)
 
         // Hardcoded values from Step 1 (for demo)
-        let productsTotal = 8200; 
-        let shippingFee = 3000; 
+        let productsTotal = 8200;
+        let shippingFee = 3000;
         let totalDue = 0; // [MODIFIED] 총 결제금액 (포인트 할인 전)
         let finalAmountToPay = 0; // [NEW] 최종 결제금액 (포인트 할인 후)
 
         function updatePaymentSummary() {
             // [NEW] 1. 성원포인트 계산
             let pointsUsed = parseFloat(document.getElementById('point-input').value.replace(/[^0-9]/g, '')) || 0;
-            
+
             document.getElementById('available-points-display').textContent = `${formatCurrency(totalPoints)} P`; // 사용 가능 포인트
             document.getElementById('total-points-display').textContent = `${formatCurrency(totalPoints)} P`; // 보유 포인트
 
             const subtotalStep3 = productsTotal + shippingFee;
-            const vatStep3 = Math.round(subtotalStep3 * STEP3_VAT_RATE); 
+            const vatStep3 = Math.round(subtotalStep3 * STEP3_VAT_RATE);
             const totalBeforePoints = subtotalStep3 + vatStep3;
             totalDue = totalBeforePoints; // Store globally
-            
+
             if (pointsUsed > totalPoints) {
                 pointsUsed = totalPoints;
                 document.getElementById('point-input').value = pointsUsed;
@@ -3276,12 +4280,12 @@
                 pointsUsed = totalBeforePoints;
                 document.getElementById('point-input').value = pointsUsed;
             }
-            
+
             finalAmountToPay = totalBeforePoints - pointsUsed; // [NEW] 포인트 차감 후 최종 결제액
 
             // [NEW] 2. 성원머니 계산 (선택적)
             let moneyUsed = parseFloat(document.getElementById('sungwon-money-input').value.replace(/[^0-9]/g, '')) || 0;
-            
+
             document.getElementById('sungwon-money-balance').textContent = `₩${formatCurrency(sungwonMoneyBalance)}`;
 
             if (moneyUsed > sungwonMoneyBalance) {
@@ -3293,7 +4297,7 @@
                 moneyUsed = finalAmountToPay;
                 document.getElementById('sungwon-money-input').value = moneyUsed;
             }
-            
+
             // [MODIFIED] 성원머니 사용액을 반영한 최종 결제액 계산
             const finalPaymentAmount = finalAmountToPay - moneyUsed;
 
@@ -3303,18 +4307,18 @@
             document.getElementById('summary-vat').textContent = `+₩${formatCurrency(vatStep3)}`;
             document.getElementById('summary-points').textContent = `-₩${formatCurrency(pointsUsed)}`; // 성원포인트
             document.getElementById('summary-total').textContent = `₩${formatCurrency(finalAmountToPay)}`; // 최종 결제금액 (포인트 차감 후)
-            
+
             // [NEW] 4. 성원머니 부족 금액 확인 (성원머니 탭 활성화 시)
             checkInsufficientFunds(finalAmountToPay); // 최종 결제액을 기준으로 확인
         }
-        
+
         // [NEW] Use All Points
         function useAllPoints() {
             const pointsToUse = Math.min(totalPoints, totalDue);
             document.getElementById('point-input').value = pointsToUse;
             updatePaymentSummary();
         }
-        
+
         // [MODIFIED] Use All Sungwon Money
         function useAllSungwonMoney() {
             // 최종 결제액과 보유 잔액 중 더 적은 금액을 사용
@@ -3323,33 +4327,33 @@
             updatePaymentSummary();
         }
 
-        
+
         // --- [NEW] Payment Method Switching Logic ---
-        
+
         // 1. Main Payment Method Tabs
         function selectPaymentMethod(chip) {
             // [MODIFIED] Clear active state from all payment chips
             document.querySelectorAll('#payment-method-chips .payment-chip-lg, #simple-payment-chips .payment-chip-sm').forEach(c => c.classList.remove('active'));
             chip.classList.add('active');
-            
+
             const method = chip.dataset.method;
-            
+
             // Toggle content panels
             document.querySelectorAll('.payment-content-panel').forEach(panel => {
                 panel.style.display = 'none';
                 panel.classList.remove('active');
             });
-            
+
             const activePanel = document.getElementById(`payment-content-${method}`);
             if (activePanel) {
                 activePanel.style.display = 'block';
                 activePanel.classList.add('active');
             }
-            
+
             // [NEW] Enable/Disable Sungwon Money Input
             const sungwonMoneyInput = document.getElementById('sungwon-money-input');
             const useAllMoneyBtn = sungwonMoneyInput.closest('.input-group').querySelector('.white-button');
-            
+
             if (method === 'sungwon-money' && isVaRegistered) {
                 sungwonMoneyInput.disabled = false;
                 useAllMoneyBtn.disabled = false;
@@ -3366,7 +4370,7 @@
             updatePaymentSummary();
         }
 
-        
+
         // [MODIFIED] Check Insufficient Sungwon Money
         function checkInsufficientFunds(finalPaymentDue) {
             const sungwonMoneyPanel = document.getElementById('payment-content-sungwon-money');
@@ -3379,7 +4383,7 @@
                     let insufficientAmount = finalPaymentDue - sungwonMoneyBalance;
                     insufficientValue.textContent = `₩${formatCurrency(insufficientAmount)}`;
                     insufficientSection.style.display = 'block';
-                    
+
                     // 잔액이 부족하면, 일단 보유 잔액 전액을 사용하도록 설정
                     document.getElementById('sungwon-money-input').value = sungwonMoneyBalance;
                 } else {
@@ -3392,7 +4396,7 @@
             }
         }
 
-        
+
         // 2. Simple Payment Sub-Tabs
         function selectSimplePaymentTab(tabEl, tabName) {
             const nav = tabEl.closest('.modal-tab-nav');
@@ -3404,7 +4408,7 @@
                 wrapper.style.display = 'none';
                 wrapper.classList.remove('active');
             });
-            
+
             const activeWrapper = contentWrapper.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`);
             if (activeWrapper) {
                 activeWrapper.style.display = 'block';
@@ -3418,33 +4422,33 @@
             memoDisplay = document.getElementById('memo-display');
             memoDirectInputGroup = document.getElementById('memo-direct-input-group');
             memoDirectInput = document.getElementById('memo-direct-input');
-            
+
             document.querySelectorAll('.modal-overlay, .bottom-sheet-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
-                     if (e.target.id === overlay.id) {
+                    if (e.target.id === overlay.id) {
                         if (overlay.id.includes('modal')) closeModal(overlay.id);
-                        if (overlay.id.includes('sheet')) closeDetailsSheet(); 
-                     }
+                        if (overlay.id.includes('sheet')) closeDetailsSheet();
+                    }
                 });
             });
-            
-            document.addEventListener('click', function(e) {
+
+            document.addEventListener('click', function (e) {
                 if (memoWrapper && !memoWrapper.contains(e.target)) {
                     memoWrapper.classList.remove('open');
                 }
             });
-            
+
             const defaultShippingChip = document.querySelector('#shipping-method-chips .single-chip[data-method="택배"]');
             selectShippingMethod(defaultShippingChip, '택배');
-            
+
             const bundleToggleBtn = document.querySelector('#shipping-prepaid-details .text-select-button');
             if (bundleToggleBtn) {
                 // toggleBundleShippingList(bundleToggleBtn); // 기본은 닫힌 상태
             }
-            
+
             updatePaymentSummary();
             checkEmptyCart();
-            
+
             // [NEW] 화물/퀵 셀렉트박스 초기화
             initCargoProvinces();
             initQuickKtxStations();
@@ -3466,15 +4470,17 @@
             this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
             };
             */
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://sw-mobile.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
+            (function () { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://sw-mobile.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
             })();
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+                Disqus.</a></noscript>
     </div>
     <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>
+
 </html>
