@@ -68,6 +68,7 @@
             margin: 0 auto;
             background-color: #ffffff;
             padding-bottom: 100px;
+            /* 기본 Q&A 작성 버튼 여백 */
         }
 
         /* Header (v12) */
@@ -183,7 +184,7 @@
             color: #333;
         }
 
-        /* QNA List & Card (Updated for Reference Image) */
+        /* QNA List & Card */
         .transaction-list {
             display: flex;
             flex-direction: column;
@@ -203,18 +204,31 @@
             display: flex;
             align-items: flex-start;
             gap: 10px;
-            padding: 16px;
-            /* Increased padding */
-            cursor: pointer;
+            padding: 15px;
+            cursor: default;
         }
 
         .common-table-card.qna-card:hover {
             background: #fff;
         }
 
+        .common-table-card.qna-card.expanded {
+            background: #fff;
+        }
+
         .qna-checkbox-wrapper {
             display: none;
             padding-top: 2px;
+        }
+
+        .card-content-wrapper {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .qna-card .card-header,
+        .qna-card .qna-title-row {
+            cursor: pointer;
         }
 
         body.my-inquiries-active .qna-checkbox-wrapper {
@@ -225,99 +239,96 @@
             display: none;
         }
 
-        /* New Card Content Layout matching Image */
-        .card-content-wrapper {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Top Row: Type | Date */
-        .qna-header-row {
+        .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
+            align-items: flex-start;
+            margin-bottom: 0;
         }
 
-        .qna-type {
+        .qna-category {
+            color: #007bff;
             font-size: 12px;
             font-weight: 600;
         }
 
-        .qna-type[data-type="Q&A"] {
-            color: #007bff;
-        }
-
-        .qna-type[data-type="AS"] {
-            color: #dc3545;
-        }
-
-        .qna-type[data-type="배송"] {
-            color: #333;
-        }
-
-        .qna-date {
-            font-size: 12px;
-            color: #999;
-            font-weight: 400;
-        }
-
-        /* Middle Row: Title */
-        .qna-subject {
-            font-size: 15px;
+        .qna-title-row {
+            font-size: 16px;
             font-weight: 500;
-            color: #222;
-            margin-bottom: 12px;
-            line-height: 1.4;
+            color: #212121;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
-            overflow: hidden;
-            word-break: keep-all;
+            white-space: normal;
+            line-height: 1.5;
+            max-height: 48px;
         }
 
-        /* Bottom Row: No. | Badge */
-        .qna-footer-row {
+        .qna-title-row.private {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 6px;
+            color: #555;
         }
 
-        .qna-no {
-            font-size: 12px;
-            color: #bcbcbc;
+        .qna-title-row.private .lock-icon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            color: #888;
+            stroke-width: 2.5;
         }
 
-        .qna-status-badge {
+        .card-badge {
             background: white;
             border: 1px solid #d7d7d7;
             border-radius: 30px;
-            padding: 2px 8px;
-            /* 패딩 미세 조정 */
+            padding: 2px 10px;
             font-size: 10px;
             color: black;
             flex-shrink: 0;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .qna-status-badge[data-status="답변 완료"] {
+        .card-divider {
+            width: 100%;
+            height: 1px;
+            background: #e8e8e9;
+            margin: 10px 0;
+        }
+
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .card-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .card-row-label {
+            color: #333333;
+        }
+
+        .card-row-value {
+            color: grey;
+        }
+
+        .card-badge[data-status="답변 완료"] {
             border-color: #28a745;
             color: #28a745;
-            background-color: #f0fff4;
         }
 
-        .qna-status-badge[data-status="답변 대기"] {
+        .card-badge[data-status="답변 대기"] {
             border-color: #007bff;
             color: #007bff;
-            background-color: #f0f7ff;
         }
 
-        /* Answer Section (Toggle) */
         .qna-answer-wrapper {
             display: none;
             padding-top: 16px;
@@ -334,7 +345,7 @@
         .qna-answer-header {
             padding: 16px;
             border-bottom: 1px solid #e8e8e9;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             color: #333;
             display: flex;
@@ -343,14 +354,17 @@
         }
 
         .qna-answer-header svg {
+            width: 20px;
+            height: 20px;
             color: #4e6ee4;
+            stroke-width: 2;
         }
 
         .qna-answer-body {
-            padding: 20px 16px;
+            padding: 24px 16px;
             font-size: 14px;
-            line-height: 1.6;
-            color: #444;
+            line-height: 1.7;
+            color: #333;
         }
 
         .no-transactions {
@@ -454,6 +468,10 @@
             flex: none;
             background-color: #dc3545;
         }
+
+        #qna-delete-footer .dark-button:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 
@@ -478,7 +496,7 @@
                 <div class="sw-container">
                     <section class="transaction-list-section">
                         <div class="transaction-list-header" style="padding-top: 0;">
-                            <span class="total-count">총 <strong id="qna-count">4</strong>건</span>
+                            <span class="total-count">총 <strong id="qna-count">3</strong>건</span>
                             <div class="checkbox-text" onclick="toggleCheckboxText(this)">
                                 <div class="checkbox" data-checked="false">
                                     <div class="checkbox-off"></div>
@@ -489,32 +507,37 @@
 
                         <div class="transaction-list" id="qna-list-container">
 
-                            <article class="common-table-card qna-card" data-is-mine="false">
+                            <article class="common-table-card qna-card" data-status="답변 완료" data-category="Q&A">
                                 <div class="qna-checkbox-wrapper">
-                                    <div class="checkbox" data-checked="false"
-                                        onclick="event.stopPropagation(); toggleQnaCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" onclick="toggleQnaCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                 </div>
-                                <div class="card-content-wrapper" onclick="toggleQnaAnswer(this)">
-                                    <div class="qna-header-row">
-                                        <span class="qna-type" data-type="Q&A">Q&A</span>
-                                        <span class="qna-date">2025-07-14</span>
+                                <div class="card-content-wrapper">
+                                    <div class="card-header" onclick="toggleQnaAnswer(this)">
+                                        <span class="qna-category" data-category="Q&A">Q&A</span>
+                                        <div class="card-badge" data-status="답변 완료">답변 완료</div>
                                     </div>
-                                    <div class="qna-subject">
-                                        [일반명함] 안녕하세요 일반명함에 대해 궁금한게 있습니다. 재질 관련해서 문의드립니다.
+                                    <div class="qna-title-row" onclick="toggleQnaAnswer(this)">
+                                        <span>Q. 책자 페이지 수는 어떻게 선택해야 하나요?</span>
                                     </div>
-                                    <div class="qna-footer-row">
-                                        <span class="qna-no">No. 324540</span>
-                                        <span class="qna-status-badge" data-status="답변 완료">답변 완료</span>
+                                    <div class="card-divider"></div>
+                                    <div class="card-row">
+                                        <div class="card-row-label">작성자</div>
+                                        <div class="card-row-value">홍*동</div>
+                                    </div>
+                                    <div class="card-row">
+                                        <div class="card-row-label">작성일</div>
+                                        <div class="card-row-value">2025-08-08</div>
                                     </div>
 
-                                    <div class="qna-answer-wrapper" onclick="event.stopPropagation();">
+                                    <div class="qna-answer-wrapper">
                                         <section class="qna-answer-section">
                                             <div class="qna-answer-header">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                     <path
                                                         d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
                                                     <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
@@ -522,34 +545,40 @@
                                                 성원애드피아의 답변입니다.
                                             </div>
                                             <div class="qna-answer-body">
-                                                <p>네, 고객님. 일반명함 재질은 아트지, 스노우지 등 다양하게 준비되어 있습니다. 상세페이지를 참고해주세요.</p>
+                                                <p>A. 책자 페이지 수는 내지의 매수에 따라 결정됩니다. 표지 4p를 기본으로 포함하며, 내지는 4p 단위로 추가 가능합니다.
+                                                    원하는 분량에 맞춰 옵션에서 페이지 수를 선택해주세요</p>
                                             </div>
                                         </section>
                                     </div>
                                 </div>
                             </article>
 
-                            <article class="common-table-card qna-card" data-is-mine="true">
+                            <article class="common-table-card qna-card" data-status="답변 대기" data-category="Q&A"
+                                data-is-mine="true">
                                 <div class="qna-checkbox-wrapper">
-                                    <div class="checkbox" data-checked="false"
-                                        onclick="event.stopPropagation(); toggleQnaCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" onclick="toggleQnaCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                 </div>
-                                <div class="card-content-wrapper" onclick="toggleQnaAnswer(this)">
-                                    <div class="qna-header-row">
-                                        <span class="qna-type" data-type="AS">AS</span>
-                                        <span class="qna-date">2024-12-30</span>
+                                <div class="card-content-wrapper">
+                                    <div class="card-header" onclick="toggleQnaAnswer(this)">
+                                        <span class="qna-category" data-category="Q&A">Q&A</span>
+                                        <div class="card-badge" data-status="답변 대기">답변 대기</div>
                                     </div>
-                                    <div class="qna-subject">
-                                        [용지/인쇄/재단/가공/포장] PDF 시안에서는 분명히 정상이었는데 인쇄물이 다르게 나왔습니다.
+                                    <div class="qna-title-row" onclick="toggleQnaAnswer(this)">
+                                        <span>Q. 제본 방식은 어떤 차이가 있나요?</span>
                                     </div>
-                                    <div class="qna-footer-row">
-                                        <span class="qna-no">No. 324539</span>
-                                        <span class="qna-status-badge" data-status="답변 대기">답변 대기</span>
+                                    <div class="card-divider"></div>
+                                    <div class="card-row">
+                                        <div class="card-row-label">작성자</div>
+                                        <div class="card-row-value">홍*동(나)</div>
+                                    </div>
+                                    <div class="card-row">
+                                        <div class="card-row-label">작성일</div>
+                                        <div class="card-row-value">2025-08-08</div>
                                     </div>
 
-                                    <div class="qna-answer-wrapper" onclick="event.stopPropagation();">
+                                    <div class="qna-answer-wrapper">
                                         <section class="qna-answer-section"
                                             style="background: #f0f0f0; border-color: #e0e0e0;">
                                             <div class="qna-answer-body"
@@ -561,64 +590,53 @@
                                 </div>
                             </article>
 
-                            <article class="common-table-card qna-card" data-is-mine="true">
+                            <article class="common-table-card qna-card" data-status="답변 완료" data-category="Q&A">
                                 <div class="qna-checkbox-wrapper">
-                                    <div class="checkbox" data-checked="false"
-                                        onclick="event.stopPropagation(); toggleQnaCheckbox(this)">
+                                    <div class="checkbox" data-checked="false" onclick="toggleQnaCheckbox(this)">
                                         <div class="checkbox-off"></div>
                                     </div>
                                 </div>
-                                <div class="card-content-wrapper" onclick="toggleQnaAnswer(this)">
-                                    <div class="qna-header-row">
-                                        <span class="qna-type" data-type="AS">AS</span>
-                                        <span class="qna-date">2024-12-30</span>
+                                <div class="card-content-wrapper">
+                                    <div class="card-header" onclick="toggleQnaAnswer(this)">
+                                        <span class="qna-category" data-category="Q&A">Q&A</span>
+                                        <div class="card-badge" data-status="답변 완료">답변 완료</div>
                                     </div>
-                                    <div class="qna-subject">
-                                        [배송] 배송지 변경 가능한가요?
+                                    <div class="qna-title-row private" onclick="toggleQnaAnswer(this)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="lock-icon" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" />
+                                            <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+                                            <path d="M8 11v-4a4 4 0 0 1 8 0v4" />
+                                        </svg>
+                                        <span>Q. 비공개 문의에요</span>
                                     </div>
-                                    <div class="qna-footer-row">
-                                        <span class="qna-no">No. 324538</span>
-                                        <span class="qna-status-badge" data-status="답변 대기">답변 대기</span>
+                                    <div class="card-divider"></div>
+                                    <div class="card-row">
+                                        <div class="card-row-label">작성자</div>
+                                        <div class="card-row-value">홍*동</div>
                                     </div>
-
-                                    <div class="qna-answer-wrapper" onclick="event.stopPropagation();">
+                                    <div class="card-row">
+                                        <div class="card-row-label">작성일</div>
+                                        <div class="card-row-value">2025-08-08</div>
+                                    </div>
+                                    <div class="qna-answer-wrapper">
                                         <section class="qna-answer-section"
-                                            style="background: #f0f0f0; border-color: #e0e0e0;">
+                                            style="background: #fff8e1; border-color: #ffecb3;">
                                             <div class="qna-answer-body"
-                                                style="padding: 16px; text-align: center; color: #888; font-size: 13px;">
-                                                <p style="margin: 0;">아직 답변이 등록되지 않았어요</p>
-                                            </div>
-                                        </section>
-                                    </div>
-                                </div>
-                            </article>
-
-                            <article class="common-table-card qna-card" data-is-mine="false">
-                                <div class="qna-checkbox-wrapper">
-                                    <div class="checkbox" data-checked="false"
-                                        onclick="event.stopPropagation(); toggleQnaCheckbox(this)">
-                                        <div class="checkbox-off"></div>
-                                    </div>
-                                </div>
-                                <div class="card-content-wrapper" onclick="toggleQnaAnswer(this)">
-                                    <div class="qna-header-row">
-                                        <span class="qna-type" data-type="Q&A">Q&A</span>
-                                        <span class="qna-date">2025-07-14</span>
-                                    </div>
-                                    <div class="qna-subject">
-                                        [일반명함] 제작 기간이 보통 얼마나 걸리나요? 급하게 필요해서요.
-                                    </div>
-                                    <div class="qna-footer-row">
-                                        <span class="qna-no">No. 324537</span>
-                                        <span class="qna-status-badge" data-status="답변 대기">답변 대기</span>
-                                    </div>
-
-                                    <div class="qna-answer-wrapper" onclick="event.stopPropagation();">
-                                        <section class="qna-answer-section"
-                                            style="background: #f0f0f0; border-color: #e0e0e0;">
-                                            <div class="qna-answer-body"
-                                                style="padding: 16px; text-align: center; color: #888; font-size: 13px;">
-                                                <p style="margin: 0;">아직 답변이 등록되지 않았어요</p>
+                                                style="padding: 16px; display: flex; align-items: center; gap: 8px; color: #6d4c00; font-size: 13px; font-weight: 500;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                                    style="flex-shrink: 0;">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                                    <path d="M12 9v4" />
+                                                    <path d="M12 16v.01" />
+                                                </svg>
+                                                <p style="margin: 0;">비공개 문의에요. '내 문의 보기'를 통해 확인해주세요</p>
                                             </div>
                                         </section>
                                     </div>
@@ -631,10 +649,12 @@
 
                         <div class="pagination" data-name="Pagination">
                             <div class="pagination-arrow disabled" onclick="paginationFirst()">
-                                <img src="assets/images/nnext-arrow.svg" alt="처음" style="transform: rotate(90deg);">
+                                <img src="assets/images/nnext-arrow.svg"
+                                    alt="처음" style="transform: rotate(90deg);">
                             </div>
                             <div class="pagination-arrow disabled" onclick="paginationPrev()">
-                                <img src="assets/images/next-arrow.svg" alt="이전" style="transform: rotate(90deg);">
+                                <img src="assets/images/next-arrow.svg"
+                                    alt="이전" style="transform: rotate(90deg);">
                             </div>
                             <div class="pagination-numbers" id="pagination-numbers-qna">
                                 <div class="pagination-number active" data-page="1" onclick="paginationGo(1)">1</div>
@@ -644,8 +664,8 @@
                                     style="transform: rotate(90deg) scaleY(-1);">
                             </div>
                             <div class="pagination-arrow disabled" onclick="paginationLast()">
-                                <img src="assets/images/nnext-arrow.svg" alt="마지막"
-                                    style="transform: rotate(90deg) scaleY(-1);">
+                                <img src="assets/images/nnext-arrow.svg"
+                                    alt="마지막" style="transform: rotate(90deg) scaleY(-1);">
                             </div>
                         </div>
                     </section>
@@ -738,12 +758,10 @@
 
         // --- Accordion ---
         function toggleQnaAnswer(element) {
-            // element는 클릭된 .card-content-wrapper
             const card = element.closest('.qna-card');
             const answerWrapper = card.querySelector('.qna-answer-wrapper');
             if (!answerWrapper) return;
 
-            // 다른 열린 카드 닫기
             document.querySelectorAll('.qna-answer-wrapper').forEach(wrapper => {
                 if (wrapper !== answerWrapper) {
                     wrapper.style.display = 'none';
@@ -751,7 +769,6 @@
                 }
             });
 
-            // 현재 카드 토글
             if (answerWrapper.style.display === 'block') {
                 answerWrapper.style.display = 'none';
                 card.classList.remove('expanded');
