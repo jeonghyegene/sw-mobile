@@ -303,14 +303,20 @@
             align-items: center;
         }
 
+        .filter-period-section {
+            margin: 0 -16px;
+            padding: 16px;
+            border-bottom: 1px solid #e9e9e9;
+            margin-bottom: 16px;
+        }
+
         .text-select-button {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 2px;
             cursor: pointer;
             transition: opacity 0.2s;
             user-select: none;
-            padding: 8px 0;
         }
 
         .text-select-button:hover {
@@ -322,19 +328,21 @@
         }
 
         .text-select-button-text {
-            font-size: 14px;
-            color: #2c2c2c;
-            font-weight: 500;
+            font-size: 12px;
+            color: #333;
+            font-weight: 400;
             white-space: nowrap;
         }
 
         .text-select-button-arrow {
-            width: 16px;
-            height: 16px;
+            width: 12px;
+            height: 12px;
             color: #555;
         }
 
         .text-select-button-arrow svg {
+            width: 12px;
+            height: 12px;
             transition: transform 0.2s;
         }
 
@@ -1088,18 +1096,7 @@
         <main>
             <div class="sw-container">
 
-                <section class="filter-section" style="padding-bottom: 0;">
-                    <button type="button" class="text-select-button" id="demo-period-btn" onclick="showListSheet()">
-                        <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
-                        <div class="text-select-button-arrow">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                                <path d="M6 9l6 6l6 -6" />
-                            </svg>
-                        </div>
-                    </button>
-                </section>
-
-                <section class="filter-chip-section" style="border-bottom: none; margin-bottom: 0;">
+                <section class="filter-chip-section" style="padding-top: 4px; border-bottom: none; margin-bottom: 0;">
                     <div class="tabs-scroll-wrapper" id="status-chip-group">
                         <div class="single-chip single-chip-on" data-status="전체" onclick="selectStatusChip(this)">전체
                         </div>
@@ -1110,7 +1107,7 @@
                     </div>
                 </section>
 
-                <section class="filter-chip-section" style="margin-bottom: 16px;">
+                <section class="filter-chip-section" style="margin-bottom: 16px; padding-bottom: 16px;">
                     <div class="tabs-scroll-wrapper" id="category-chip-group">
                         <div class="multi-chip multi-chip-on" data-category="전체" onclick="toggleCategoryChip(this)">✓ 전체
                         </div>
@@ -1137,7 +1134,7 @@
                     </div>
                 </section>
 
-                <section class="filter-section" style="padding-top: 0;">
+                <section class="filter-section" style="padding-top: 0; padding-bottom: 0;">
                     <div class="search" data-name="search" id="qna-search">
                         <input type="text" placeholder="접수번호 또는 문의 내용을 입력해주세요" oninput="handleSearchInput(this)">
                         <div class="search-input-right">
@@ -1155,8 +1152,19 @@
                     </div>
                 </section>
 
+                <section class="filter-section filter-period-section">
+                    <button type="button" class="text-select-button" id="demo-period-btn" onclick="showListSheet()">
+                        <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
+                        <div class="text-select-button-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </div>
+                    </button>
+                </section>
+
                 <section class="transaction-list-section">
-                    <div class="transaction-list-header">
+                    <!-- <div class="transaction-list-header">
                         <span class="total-count">총 <strong id="transaction-count">10</strong>건</span>
                         <div class="view-count-select">
                             <span class="view-count-select-text">20건씩 보기</span>
@@ -1166,7 +1174,7 @@
                                 </svg>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="transaction-list" id="transaction-list-container">
 
