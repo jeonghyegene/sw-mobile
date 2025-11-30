@@ -321,8 +321,9 @@
         /* Filter Chip Section */
         .filter-chip-section {
             background: #fff;
-            padding: 8px 16px;
-            border-bottom: 1px solid #e9e9e9;
+            padding: 16px;
+            padding-top: 0;
+            padding-bottom: 0;
             margin: 0 -16px 16px -16px;
         }
 
@@ -356,8 +357,11 @@
             align-items: center;
         }
 
-        #issue-period-filter {
-            padding-bottom: 0;
+        .filter-period-section {
+            margin: 0 -16px;
+            padding: 16px;
+            border-bottom: 1px solid #e9e9e9;
+            margin-bottom: 16px;
         }
 
         /* [v12] Text Select Button */
@@ -368,8 +372,8 @@
             cursor: pointer;
             transition: opacity 0.2s;
             user-select: none;
-            padding: 8px 0;
         }
+
 
         .text-select-button:hover {
             opacity: 0.8;
@@ -380,8 +384,8 @@
         }
 
         .text-select-button-text {
-            font-size: 14px;
-            color: #2c2c2c;
+            font-size: 12px;
+            color: #333;
             font-weight: 400;
             white-space: nowrap;
         }
@@ -389,16 +393,17 @@
         .text-select-button-arrow {
             width: 12px;
             height: 12px;
-            color: #222;
+            color: #555;
         }
 
         .text-select-button-arrow svg {
+            width: 12px;
+            height: 12px;
             transition: transform 0.2s;
-            transform: translateY(-2px);
         }
 
         .text-select-button.open .text-select-button-arrow svg {
-            transform: translateY(-3px) rotate(-180deg);
+            transform: rotate(-180deg);
         }
 
         /* Transaction List Header */
@@ -406,11 +411,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 16px;
+            padding-bottom: 10px;
             font-size: 14px;
             color: #555;
-            border-bottom: 1px solid #f0f0f0;
-            margin-bottom: 16px;
         }
 
         .transaction-list-header .total-count strong {
@@ -1274,17 +1277,6 @@
             <div id="page-content-issue" style="display: block;">
                 <div class="sw-container">
 
-                    <section class="filter-section" id="issue-period-filter">
-                        <button type="button" class="text-select-button" id="demo-period-btn" onclick="showListSheet()">
-                            <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
-                            <div class="text-select-button-arrow">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                                    <path d="M6 9l6 6l6 -6" />
-                                </svg>
-                            </div>
-                        </button>
-                    </section>
-
                     <section class="filter-chip-section">
                         <div class="tabs-scroll-wrapper" id="issue-type-chip-group">
                             <div class="multi-chip multi-chip-on" data-status="전체" onclick="toggleIssueTypeChip(this)">✓
@@ -1299,7 +1291,7 @@
                         </div>
                     </section>
 
-                    <section class="filter-section" style="padding-top: 0;">
+                    <section class="filter-section" style="padding-top: 0; padding-bottom: 0;">
                         <div class="search" data-name="search" id="issue-search">
                             <input type="text" placeholder="접수번호 또는 기업명, 사업자등록번호를 입력해주세요"
                                 oninput="handleSearchInput(this)">
@@ -1317,6 +1309,17 @@
                                 </div>
                             </div>
                         </div>
+                    </section>
+
+                    <section class="filter-section filter-period-section" id="issue-period-filter">
+                        <button type="button" class="text-select-button" id="demo-period-btn" onclick="showListSheet()">
+                            <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
+                            <div class="text-select-button-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </button>
                     </section>
 
                     <section class="transaction-list-section">
@@ -1525,7 +1528,8 @@
                                     class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M6 9l6 6l6 -6" />
-                                </svg></button>
+                                </svg>
+                            </button>
                         </div>
                     </section>
 
