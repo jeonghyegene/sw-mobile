@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사이트 이용방법 - 전체 통합 (카드 그룹화)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 60px;
+            min-height: 100vh;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Tab Navigation (v12 Standard) */
+        .tab-nav {
+            width: 100%;
+            height: 44px;
+            background: white;
+            border-bottom: 1px solid #e8e8e9;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 16px;
+            position: sticky;
+            top: 56px;
+            z-index: 90;
+        }
+
+        .tab-item {
+            height: 42px;
+            padding: 10px 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 16px;
+            position: relative;
+            color: #bcbcbc;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+        }
+
+        .tab-item.active {
+            color: black;
+            border-bottom: 2px solid black;
+        }
+
+        .tab-item:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .sw-container {
+            padding: 16px;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 12px;
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .section-step {
+            color: #4e6ee4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .section-step svg {
+            color: #4e6ee4;
+        }
+
+        /* [NEW] Common Content Box Style */
+        .content-box {
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            padding: 16px;
+            background: white;
+            margin-bottom: 16px;
+            /* Spacing between boxes */
+        }
+
+        /* Sub-Title (Moved inside box) */
+        .sub-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            margin: 0 0 12px 0;
+            /* Remove top margin, keep bottom */
+            display: block;
+        }
+
+        .desc-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            word-break: keep-all;
+        }
+
+        /* Info Section (v14) */
+        .info-section {
+            background: #fff;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .info-section.blue-bg {
+            background-color: #f4f8ff;
+            border-color: #dbe4ff;
+        }
+
+        .info-section .title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .info-section .desc {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        /* SNS Login Icons */
+        .sns-login-grid {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .sns-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .sns-naver {
+            background-color: #03C75A;
+        }
+
+        .sns-google {
+            background-color: #fff;
+        }
+
+        .sns-facebook {
+            background-color: #1877F2;
+        }
+
+        .sns-apple {
+            background-color: #000;
+        }
+
+        /* Guide Cards */
+        .guide-container {
+            background: #fff;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            padding: 20px 16px;
+            margin-bottom: 24px;
+        }
+
+        .guide-main-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 16px;
+        }
+
+        .guide-card-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .guide-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .guide-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .badge-dark {
+            background-color: #333333;
+        }
+
+        .badge-primary {
+            background-color: #4e6ee4;
+        }
+
+        .guide-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 8px;
+        }
+
+        .guide-desc {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 16px;
+            line-height: 1.5;
+            word-break: keep-all;
+        }
+
+        .guide-btn {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #d7d7d7;
+            background: white;
+            border-radius: 6px;
+            color: #333;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .guide-btn:active {
+            transform: scale(0.98);
+            background: #f5f5f5;
+        }
+
+        .guide-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Process Steps with Line (Step Progress) */
+        .process-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+
+        .process-item {
+            display: flex;
+            gap: 16px;
+            position: relative;
+            padding-bottom: 32px;
+        }
+
+        .process-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .process-item::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 26px;
+            bottom: -2px;
+            width: 1px;
+            /* background-color: #e0e0e0; */
+            border-right: 1px dashed #e0e0e0;
+            transform: translateX(-50%);
+        }
+
+        .process-item:last-child::before {
+            display: none;
+        }
+
+        .process-num {
+            width: 24px;
+            height: 24px;
+            background: #4e6ee4;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .process-content {
+            flex: 1;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            padding: 16px;
+            background: white;
+        }
+
+        .process-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .process-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .process-box-gray {
+            background: #f8f9fa;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        /* Step 1: Mode Selection */
+        .mode-select-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mode-card {
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mode-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #212121;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .mode-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+            margin: 0;
+            word-break: keep-all;
+        }
+
+        .mode-tip {
+            margin-top: 8px;
+            background-color: #eef1ff;
+            color: #4e6ee4;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Step 3: Upload Type */
+        .upload-type-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .upload-type-card {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 16px;
+            text-align: center;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .upload-type-icon {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .upload-type-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .upload-type-desc {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.4;
+            word-break: keep-all;
+        }
+
+        /* Step 4: Checkout */
+        .checkout-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 12px;
+            margin-bottom: 16px;
+        }
+
+        .checkout-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+        }
+
+        .checkout-icon {
+            color: #4e6ee4;
+            margin-bottom: 8px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .checkout-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #212121;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .checkout-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+            word-break: keep-all;
+        }
+
+        .checkout-tip {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            font-size: 12px;
+            color: #555;
+            background-color: #fff;
+        }
+
+        .tip-icon {
+            font-size: 14px;
+        }
+
+        .tip-label {
+            font-weight: 700;
+            color: #333;
+        }
+
+        /* Accordion (Payment & Proof) */
+        .accordion-card-wrapper {
+            background: #fff;
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid #e8e8e9;
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 16px;
+            background: white;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .accordion-header:active {
+            background: #f9f9f9;
+        }
+
+        .accordion-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .accordion-icon {
+            width: 20px;
+            height: 20px;
+            color: #888;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            display: none;
+            padding: 16px;
+            background-color: #f8f9fa;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .accordion-item.active .accordion-body {
+            display: block;
+        }
+
+        .accordion-body ul {
+            list-style: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .accordion-body li {
+            margin-bottom: 4px;
+        }
+
+        .accordion-body p {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        /* Benefit Box */
+        .benefit-box {
+            background-color: #f4f8ff;
+            border: 1px solid #dbe4ff;
+            border-radius: 8px;
+            padding: 20px 16px;
+            margin-bottom: 24px;
+        }
+
+        .benefit-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .benefit-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .benefit-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .icon-m {
+            background-color: #4e6ee4;
+        }
+
+        .icon-p {
+            background-color: #4e6ee4;
+        }
+
+        /* Delivery & Progress Styles (Modified for Content Box) */
+        .red-alert-box {
+            background: #fff5f5;
+            border: 1px solid #ffdcdc;
+            color: #d63031;
+            font-size: 13px;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .visit-content {
+            text-align: center;
+        }
+
+        .visit-btn {
+            margin-top: 10px;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .delivery-cards-v2 {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Updated .d-card styles for nesting in content-box */
+        .d-card {
+            /* Gray background to distinguish from white parent box */
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 14px;
+        }
+
+        .d-card-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .d-card-left {
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .d-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4e6ee4;
+            flex-shrink: 0;
+        }
+
+        .d-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .d-info strong {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .d-info span {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.5;
+            display: inline-block;
+        }
+
+        .d-btn {
+            background: #424242;
+            color: white;
+            border: none;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Cancellation Flow Styles (Modified for Content Box) */
+        .cancel-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            position: relative;
+            padding: 0 4px;
+        }
+
+        .cancel-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cs-icon {
+            width: 36px;
+            height: 36px;
+            background: #f8f9fa;
+            /* Light gray */
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #eee;
+        }
+
+        .cs-icon svg {
+            width: 18px;
+            height: 18px;
+            color: #666;
+        }
+
+        .cs-text {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .cancel-line-group {
+            position: relative;
+            margin-top: 12px;
+            border-top: 1px solid #eee;
+            padding-top: 24px;
+        }
+
+        .cancel-warning-line {
+            position: absolute;
+            top: -1px;
+            right: 0;
+            width: 60%;
+            height: 2px;
+            background: #dc3545;
+        }
+
+        .cancel-warning-line::after {
+            content: '취소 불가';
+            position: absolute;
+            right: 40%;
+            top: 6px;
+            color: #dc3545;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* AS Guide Text (Now simple paragraph inside box) */
+        .as-guide-text {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Banner */
+        .banner-box {
+            border: 1px solid #e8e8e9;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 40px;
+            background: #fff;
+        }
+
+        .banner-text-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .banner-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .banner-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .banner-btn {
+            height: 40px;
+            padding: 0 16px;
+            background: #424242;
+            color: white;
+            border-radius: 6px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* Disclaimer & Buttons */
+        .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .disclaimer.warning {
+            color: #dc3545;
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* [NEW] Guide Table Style for Accordion */
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #e8e8e9;
+        }
+
+        .guide-table {
+            width: 100%;
+            min-width: 320px;
+            /* 너무 좁아지지 않도록 최소 너비 설정 */
+            border-collapse: collapse;
+            font-size: 12px;
+            /* 모바일 테이블 가독성 최적화 */
+            line-height: 1.4;
+        }
+
+        .guide-table th,
+        .guide-table td {
+            padding: 10px 8px;
+            border: 1px solid #e8e8e9;
+            vertical-align: middle;
+            word-break: keep-all;
+            color: #555;
+        }
+
+        .guide-table thead th {
+            background-color: #f4f8ff;
+            /* v12 Blue-bg 톤앤매너 */
+            color: #333;
+            font-weight: 700;
+            border-bottom: 1px solid #d7d7d7;
+            text-align: center;
+        }
+
+        .guide-table tbody th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+        }
+
+        .guide-table td strong {
+            display: block;
+            color: #333;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .guide-table .text-sub {
+            display: block;
+            font-size: 11px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .guide-table .cell-center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back();">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">사이트 이용방법</h1>
+            <div class="header-right">
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <nav class="tab-nav">
+            <div class="tab-item active" onclick="scrollToSection('start', this)">시작하기</div>
+            <div class="tab-item" onclick="scrollToSection('order', this)">주문/제작</div>
+            <div class="tab-item" onclick="scrollToSection('process', this)">공정/배송</div>
+        </nav>
+
+        <main class="sw-container">
+
+            <div id="section-start">
+                <h2 class="section-title"><span class="section-step">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 15.75V14.25C12 13.4544 11.6839 12.6913 11.1213 12.1287C10.5587 11.5661 9.79565 11.25 9 11.25H4.5C3.70435 11.25 2.94129 11.5661 2.37868 12.1287C1.81607 12.6913 1.5 13.4544 1.5 14.25V15.75"
+                                stroke="#4E6EE4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M12 2.34766C12.6433 2.51443 13.213 2.8901 13.6198 3.4157C14.0265 3.9413 14.2471 4.58707 14.2471 5.25166C14.2471 5.91624 14.0265 6.56201 13.6198 7.08761C13.213 7.61321 12.6433 7.98888 12 8.15566"
+                                stroke="#4E6EE4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M16.5 15.7502V14.2502C16.4995 13.5855 16.2783 12.9397 15.871 12.4144C15.4638 11.889 14.8936 11.5138 14.25 11.3477"
+                                stroke="#4E6EE4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M6.75 8.25C8.40685 8.25 9.75 6.90685 9.75 5.25C9.75 3.59315 8.40685 2.25 6.75 2.25C5.09315 2.25 3.75 3.59315 3.75 5.25C3.75 6.90685 5.09315 8.25 6.75 8.25Z"
+                                stroke="#4E6EE4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>성원애드피아 시작하기</h2>
+                <div class="content-box">
+                    <span class="sub-title">회원가입 및 로그인</span>
+                    <p class="desc-text">성원애드피아는 개인·기업·외국인 모두 회원가입이 가능하며, 소셜 로그인·회원가입으로 간편하게 바로 연동할 수 있어요</p>
+                    <div class="sns-login-grid">
+                        <div class="sns-icon sns-kakao">
+                            <img src="assets/images/kakao-active.png" alt="카카오톡">
+                        </div>
+                        <div class="sns-icon sns-naver">
+                            <img src="assets/images/naver-active.png" alt="네이버">
+                        </div>
+                        <div class="sns-icon sns-google">
+                            <img src="assets/images/google-active.png" alt="구글">
+                        </div>
+                        <div class="sns-icon sns-facebook">
+                            <img src="assets/images/facebook-active.png" alt="페이스북">
+                        </div>
+                        <div class="sns-icon sns-apple">
+                            <img src="assets/images/apple-active.png" alt="애플">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-order">
+                <h2 class="section-title"><span class="section-step">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M4.5 16.5C4.10218 16.5 3.72064 16.342 3.43934 16.0607C3.15804 15.7794 3 15.3978 3 15V3C3 2.60218 3.15804 2.22065 3.43934 1.93934C3.72064 1.65804 4.10218 1.5 4.5 1.5H10.5C10.7374 1.49962 10.9726 1.5462 11.1919 1.63708C11.4112 1.72795 11.6104 1.86132 11.778 2.0295L14.469 4.7205C14.6376 4.88813 14.7714 5.08751 14.8625 5.30712C14.9537 5.52674 15.0004 5.76223 15 6V15C15 15.3978 14.842 15.7794 14.5607 16.0607C14.2794 16.342 13.8978 16.5 13.5 16.5H4.5Z"
+                                stroke="#4E6EE4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M10.5 1.5V5.25C10.5 5.44891 10.579 5.63968 10.7197 5.78033C10.8603 5.92098 11.0511 6 11.25 6H15"
+                                stroke="#4E6EE4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M7.5 6.75H6" stroke="#4E6EE4" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M12 9.75H6" stroke="#4E6EE4" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M12 12.75H6" stroke="#4E6EE4" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </span>제작/접수 방법</h2>
+
+                <div class="guide-container">
+                    <h3 class="guide-main-title">디자인 파일 작업 가이드</h3>
+                    <div class="guide-card-grid">
+                        <article class="guide-card">
+                            <span class="guide-badge badge-dark">전문가용</span>
+                            <h4 class="guide-card-title">전용 프로그램으로 작업하기</h4>
+                            <p class="guide-desc">어도비 프로그램(Ai, Ps, Id) 등으로 작업한 파일은 [직접 업로드] 유형을 선택해 업로드해주세요</p>
+                            <button class="guide-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="7 10 12 15 17 10" />
+                                    <line x1="12" y1="15" x2="12" y2="3" />
+                                </svg>
+                                작업 템플릿 다운로드
+                            </button>
+                        </article>
+                        <article class="guide-card">
+                            <span class="guide-badge badge-primary">초보자 추천</span>
+                            <h4 class="guide-card-title">셀프 디자인 에디터</h4>
+                            <p class="guide-desc">별도 프로그램 설치 없이 웹 에디터에서 무료 템플릿을 수정해 바로 디자인을 완성하고 주문까지 진행할 수 있어요</p>
+                            <button class="guide-btn">에디터 바로가기</button>
+                        </article>
+                    </div>
+                </div>
+
+                <h2 class="section-title" style="margin-top: 32px;"><span class="section-step">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_6774_19100)">
+                                <path
+                                    d="M9 7H15M9 11H15M13 15H15M5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21L16 19L14 21L12 19L10 21L8 19L5 21Z"
+                                    stroke="#4E6EE4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_6774_19100">
+                                    <rect width="24" height="24" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+
+                    </span>접수 프로세스</h2>
+                <div class="process-list">
+                    <div class="process-item">
+                        <div class="process-num">1</div>
+                        <div class="process-content">
+                            <div class="process-title">접수 모드 선택</div>
+                            <div class="mode-select-grid">
+                                <div class="mode-card">
+                                    <strong class="mode-title">나만의 옵션 (상세 접수)</strong>
+                                    <p class="mode-desc">용지, 후가공, 사이즈 등 모든 옵션을 내 마음대로 자유롭게 선택</p>
+                                    <div class="mode-tip">💡 <strong>Tip</strong> 다양한 옵션을 세밀하게 조정할 때 추천</div>
+                                </div>
+                                <div class="mode-card">
+                                    <strong class="mode-title">간편 옵션 (추천 상품)</strong>
+                                    <p class="mode-desc">가장 많이 찾는 인기 사양으로 빠르고 쉽게 주문</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="process-item">
+                        <div class="process-num">2</div>
+                        <div class="process-content">
+                            <div class="process-title">옵션 선택 및 견적</div>
+                            <p class="process-desc">명함·전단 등 원하는 품목의 사이즈·종이·가공·수량 등을 선택하면, 해당 사양에 따른 실시간 가격을 바로 확인할 수 있어요
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="process-item">
+                        <div class="process-num">3</div>
+                        <div class="process-content">
+                            <div class="process-title">파일 접수 유형 선택</div>
+
+                            <div class="upload-type-grid">
+                                <div class="upload-type-card">
+                                    <div class="upload-type-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                            <circle cx="8.5" cy="8.5" r="1.5" />
+                                            <polyline points="21 15 16 10 5 21" />
+                                        </svg>
+                                    </div>
+                                    <strong class="upload-type-title">파일 업로드</strong>
+                                    <span class="upload-type-desc">나의 디자인 파일 업로드 하기</span>
+                                </div>
+                                <div class="upload-type-card">
+                                    <div class="upload-type-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                            <polyline points="14 2 14 8 20 8" />
+                                            <path d="M9 15l2 2 4-4" />
+                                        </svg>
+                                    </div>
+                                    <strong class="upload-type-title">에디터</strong>
+                                    <span class="upload-type-desc">에디터로 간편하게 셀프 디자인하기</span>
+                                </div>
+                                <div class="upload-type-card">
+                                    <div class="upload-type-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                            <circle cx="12" cy="7" r="4" />
+                                        </svg>
+                                    </div>
+                                    <strong class="upload-type-title">디자인 신청</strong>
+                                    <span class="upload-type-desc">전문 디자이너에게 디자인 신청하기</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="process-item">
+                        <div class="process-num">4</div>
+                        <div class="process-content">
+                            <div class="process-title">장바구니 및 접수하기</div>
+
+                            <div class="checkout-grid">
+                                <div class="checkout-card">
+                                    <div class="checkout-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <circle cx="9" cy="21" r="1"></circle>
+                                            <circle cx="20" cy="21" r="1"></circle>
+                                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <strong class="checkout-title">장바구니 담기</strong>
+                                    <p class="checkout-desc">명함, 전단지 등 여러 건을 한꺼번에 결제하거나 묶음 배송(배송비 절약)을 원할 때 이용하세요</p>
+                                </div>
+                                <div class="checkout-card">
+                                    <div class="checkout-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                                            <path d="M10 9l5 0"></path>
+                                            <path d="M15 9l-2 2"></path>
+                                            <path d="M15 9l-2 -2"></path>
+                                        </svg>
+                                    </div>
+                                    <strong class="checkout-title">바로 접수하기</strong>
+                                    <p class="checkout-desc">단일 상품만 빠르게 주문하고 싶을 때 클릭하세요</p>
+                                </div>
+                            </div>
+
+                            <div class="process-box-gray">💡 <strong>Tip</strong> 지난 주문은 [동일옵션 재주문] 기능을 이용하면 편리해요</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-payment" style="margin-top: 16px;">
+                <h2 class="section-title"><span class="section-step">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-cash-register">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M21 15h-2.5c-.398 0 -.779 .158 -1.061 .439c-.281 .281 -.439 .663 -.439 1.061c0 .398 .158 .779 .439 1.061c.281 .281 .663 .439 1.061 .439h1c.398 0 .779 .158 1.061 .439c.281 .281 .439 .663 .439 1.061c0 .398 -.158 .779 -.439 1.061c-.281 .281 -.663 .439 -1.061 .439h-2.5" />
+                            <path d="M19 21v1m0 -8v1" />
+                            <path
+                                d="M13 21h-7c-.53 0 -1.039 -.211 -1.414 -.586c-.375 -.375 -.586 -.884 -.586 -1.414v-10c0 -.53 .211 -1.039 .586 -1.414c.375 -.375 .884 -.586 1.414 -.586h2m12 3.12v-1.12c0 -.53 -.211 -1.039 -.586 -1.414c-.375 -.375 -.884 -.586 -1.414 -.586h-2" />
+                            <path
+                                d="M16 10v-6c0 -.53 -.211 -1.039 -.586 -1.414c-.375 -.375 -.884 -.586 -1.414 -.586h-4c-.53 0 -1.039 .211 -1.414 .586c-.375 .375 -.586 .884 -.586 1.414v6m8 0h-8m8 0h1m-9 0h-1" />
+                            <path d="M8 14v.01" />
+                            <path d="M8 17v.01" />
+                            <path d="M12 13.99v.01" />
+                            <path d="M12 17v.01" />
+                        </svg>
+                    </span>결제 및 증빙</h2>
+
+                <div class="accordion-card-wrapper">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title">결제수단</span>
+                            <div class="accordion-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>성원애드피아는 더 편리한 결제를 위해 여러 결제수단을 지원하고 있어요. <br>
+                                    원하시는 방식으로 자유롭게 결제하시면 돼요. <br>
+                                    사용 가능 결제수단: 카카오페이, 토스페이, 네이버페이, 페이코, 카드, 가상계좌 입금, 성원페이</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title">현금영수증 / 세금계산서 발급</span>
+                            <div class="accordion-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="accordion-body">
+                            <p class="desc-text">성원머니로 결제한 접수건만 발급이 가능하며, 배송 시작 단계부터 신청할 수 있어요.</p>
+
+                            <div class="table-wrap">
+                                <table class="guide-table">
+                                    <colgroup>
+                                        <col style="width: 25%;">
+                                        <col style="width: 37.5%;">
+                                        <col style="width: 37.5%;">
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>구분</th>
+                                            <th>현금영수증</th>
+                                            <th>세금계산서</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>발급 가능<br>결제 수단</th>
+                                            <td colspan="2" class="cell-center">성원머니, 간편결제를 통한 계좌이체</td>
+                                        </tr>
+                                        <tr>
+                                            <th>신청방법</th>
+                                            <td>
+                                                <strong>접수 시 증빙 신청</strong>
+                                                개인: 휴대폰/카드번호<br>
+                                                기업: 사업자 등록 정보<br>
+                                                <span class="text-sub">* 미신청 시 자진발급 처리</span>
+                                            </td>
+                                            <td>
+                                                <strong>기업회원</strong>
+                                                사업자 등록 정보 입력 시 자동 발급
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>발급일</th>
+                                            <td>
+                                                배송 시작 익일<br>
+                                                <span class="text-sub">(2일 후 자동 발행)</span>
+                                            </td>
+                                            <td>
+                                                <strong>수동 신청 시</strong>
+                                                즉시 발행<br><br>
+                                                <strong>미신청 시</strong>
+                                                매월 합산하여 익월 1일 발급
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>영수증<br>출력</th>
+                                            <td>
+                                                마이페이지 ><br>현금영수증 발급내역
+                                            </td>
+                                            <td>
+                                                마이페이지 ><br>세금계산서 발급내역
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title">견적서 / 거래명세서 발급</span>
+                            <div class="accordion-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="table-wrap">
+                                <table class="guide-table">
+                                    <colgroup>
+                                        <col style="width: 25%;">
+                                        <col style="width: 37.5%;">
+                                        <col style="width: 37.5%;">
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>구분</th>
+                                            <th>견적서</th>
+                                            <th>거래명세서</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>발급 시점</th>
+                                            <td class="cell-center">주문/결제 전</td>
+                                            <td class="cell-center">접수 완료 후</td>
+                                        </tr>
+                                        <tr>
+                                            <th>발급 방법</th>
+                                            <td>
+                                                <strong>장바구니</strong>
+                                                견적서 출력 버튼<br><br>
+                                                <strong>접수 화면</strong>
+                                                제품 접수 중 확인 가능
+                                            </td>
+                                            <td>
+                                                <strong>마이페이지</strong>
+                                                접수배송내역 ><br>접수번호 클릭 후 다운로드
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="benefit-box">
+                    <div class="benefit-title">
+                        <span>🎁</span> 성원애드피아 회원만의 전용 혜택
+                    </div>
+                    <div class="benefit-list">
+                        <div class="benefit-item">
+                            <div class="benefit-icon icon-m">M</div>
+                            <span>성원머니: 미리 충전해서 간편하게 주문/결제</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon icon-p">P</div>
+                            <span>성원포인트: 구매 금액에 따른 적립금 사용 가능</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="section-process">
+                <h2 class="section-title"><span class="section-step">
+                        <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M7.79167 16.2979C8.00703 16.4296 8.25132 16.4989 8.5 16.4989C8.74868 16.4989 8.99297 16.4296 9.20833 16.2979L14.1667 13.2979C14.3818 13.1664 14.5605 12.9773 14.6848 12.7495C14.8092 12.5218 14.8747 12.2635 14.875 12.0004V6.00042C14.8747 5.73737 14.8092 5.47902 14.6848 5.25129C14.5605 5.02355 14.3818 4.83444 14.1667 4.70292L9.20833 1.70291C8.99297 1.57126 8.74868 1.50195 8.5 1.50195C8.25132 1.50195 8.00703 1.57126 7.79167 1.70291L2.83333 4.70292C2.61819 4.83444 2.43949 5.02355 2.31516 5.25129C2.19083 5.47902 2.12525 5.73737 2.125 6.00042V12.0004C2.12525 12.2635 2.19083 12.5218 2.31516 12.7495C2.43949 12.9773 2.61819 13.1664 2.83333 13.2979L7.79167 16.2979Z"
+                                stroke="#4E6EE4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M8.5 16.5V9" stroke="#4E6EE4" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M2.32812 5.25L8.49771 9L14.6673 5.25" stroke="#4E6EE4" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M5.3125 3.20312L11.6875 7.06563" stroke="#4E6EE4" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>제작 진행 및 배송
+                </h2>
+
+                <div class="content-box">
+                    <span class="sub-title">디자인 파일 검수</span>
+                    <p class="desc-text">디자인 파일 검수는 인쇄 전에 오타나 이미지 깨짐 등을 확인하는 필수 단계예요
+                        3만 원 이상 ~ 20만 원 미만의 주문은 [디자인 파일 검수]를 선택해서 진행할 수 있어요
+                        20만 원 이상의 주문은 검수가 필수로 진행돼요</p>
+                    <div class="red-alert-box">
+                        ⚠️ <strong>검수 요청 후에는 알림톡 수신 후, 마이페이지에서 [승인] 버튼을 눌러야 인쇄가 시작돼요.</strong><br>
+                        승인하지 않으면 제작이 보류돼요
+                    </div>
+                </div>
+
+                <div class="content-box">
+                    <span class="sub-title">방문 인쇄 감리</span>
+                    <p class="desc-text">중요한 인쇄물의 품질을 방문하여 직접 확인하고 싶을 때 신청하는 서비스에요. 고급/대량 인쇄 시 추천드려요</p>
+                </div>
+
+                <div class="content-box">
+                    <span class="sub-title">배송 및 수령</span>
+                    <div class="delivery-cards-v2">
+                        <div class="d-card">
+                            <div class="d-card-inner">
+                                <div class="d-card-left">
+                                    <div class="d-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="1" y="3" width="15" height="13"></rect>
+                                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                                        </svg></div>
+                                    <div class="d-info">
+                                        <strong>택배 배송</strong>
+                                        <span>주문 시 택배신청을 하면 입력하신 주소지로 택배발송돼요</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-card">
+                            <div class="d-card-inner">
+                                <div class="d-card-left">
+                                    <div class="d-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="5" cy="16" r="3"></circle>
+                                            <circle cx="19" cy="16" r="3"></circle>
+                                            <path d="M2 16h3"></path>
+                                            <path d="M12 16h4"></path>
+                                            <path d="M2 10h11.5a2.5 2.5 0 0 1 2.5 2.5V16"></path>
+                                            <path d="M12 10l-4-4H4.5a2.5 2.5 0 0 0-2.5 2.5V16"></path>
+                                        </svg></div>
+                                    <div class="d-info">
+                                        <strong>퀵서비스 / 화물</strong>
+                                        <span>퀵서비스 주문 시 퀵서비스 배송을 신청하면 처리가 가능해요</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-card">
+                            <div class="d-card-inner">
+                                <div class="d-card-left">
+                                    <div class="d-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M3 21h18"></path>
+                                            <path d="M5 21V7l8-4 8 4v14"></path>
+                                            <path d="M13 11v10"></path>
+                                        </svg></div>
+                                    <div class="d-info">
+                                        <strong>방문 수령</strong>
+                                        <span>성수동본사, 충무로매장, 인현동매장 출고실에서 방문해서 찾을 수 있어요
+                                            (성수동·인현동 365일 24시간 무인출고)</span>
+                                        <button class="d-btn" style="margin-top: 5px;">오시는 길</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-as">
+                <h2 class="section-title"><span class="section-step">5</span>접수 취소 및 AS 안내</h2>
+
+                <div class="content-box">
+                    <span class="sub-title">접수 취소 안내</span>
+                    <p class="desc-text">결제 후 마이페이지 > 접수/배송내역에서 진행 상태가
+                        ‘조판’을 포함한 이후 단계라면, 이미 생산이 시작된 주문이라 취소하기 어려워요</p>
+
+                    <div class="cancel-flow">
+                        <div class="cancel-step">
+                            <div class="cs-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg></div><span class="cs-text">접수</span>
+                        </div>
+                        <div class="cancel-step">
+                            <div class="cs-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                </svg></div><span class="cs-text">조판</span>
+                        </div>
+                        <div class="cancel-step">
+                            <div class="cs-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                                    <path
+                                        d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2">
+                                    </path>
+                                    <rect x="6" y="14" width="12" height="8"></rect>
+                                </svg></div><span class="cs-text">출력</span>
+                        </div>
+                        <div class="cancel-step">
+                            <div class="cs-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                                </svg></div><span class="cs-text">인쇄</span>
+                        </div>
+                        <div class="cancel-step">
+                            <div class="cs-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M6 18h8"></path>
+                                    <path d="M3 22h18"></path>
+                                    <path d="M14 2L9 22"></path>
+                                </svg></div><span class="cs-text">재단</span>
+                        </div>
+                    </div>
+                    <div class="cancel-line-group">
+                        <div class="cancel-warning-line"></div>
+                    </div>
+                </div>
+
+                <div class="content-box">
+                    <span class="sub-title">재작업 및 AS 안내</span>
+                    <p class="as-guide-text">인쇄 불량(오염, 파손 등) 발생 시 제품 수령 후 7일 이내 마이페이지 > 문의내역을 통해 AS 상담을 진행해주세요</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Tab Navigation Scroll Logic
+        function scrollToSection(sectionId, tabElement) {
+            document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
+            tabElement.classList.add('active');
+
+            const element = document.getElementById('section-' + sectionId);
+            if (element) {
+                const headerOffset = 110;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        }
+
+        // Highlight tabs on scroll
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY + 120;
+            const sectionStart = document.getElementById('section-start');
+            const sectionOrder = document.getElementById('section-order');
+            const sectionProcess = document.getElementById('section-process');
+
+            if (sectionStart && sectionStart.offsetTop <= scrollPos && (sectionStart.offsetTop + sectionStart.offsetHeight) > scrollPos) {
+                setActiveTab(0);
+            } else if (sectionOrder && sectionOrder.offsetTop <= scrollPos && (sectionOrder.offsetTop + sectionOrder.offsetHeight) > scrollPos) {
+                setActiveTab(1);
+            } else if (sectionProcess && sectionProcess.offsetTop <= scrollPos) {
+                setActiveTab(2);
+            }
+        });
+
+        function setActiveTab(index) {
+            document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.tab-item')[index].classList.add('active');
+        }
+
+        // Accordion Logic
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+
+            if (item.classList.contains('active')) {
+                item.classList.remove('active');
+            } else {
+                const allItems = document.querySelectorAll('.accordion-item');
+                allItems.forEach(el => el.classList.remove('active'));
+                item.classList.add('active');
+            }
+        }
+    </script>
+</body>
+
+</html>
