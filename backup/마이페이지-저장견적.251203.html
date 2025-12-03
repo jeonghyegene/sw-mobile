@@ -1041,8 +1041,6 @@
             padding: 10px 12px;
             display: flex;
             align-items: center;
-            /* [NEW] Relative for Combobox */
-            position: relative;
         }
 
         .input input,
@@ -1314,45 +1312,6 @@
             display: flex;
             flex-direction: column;
         }
-
-        /* [NEW] Email Combobox Styles */
-        .combobox-wrapper {
-            position: relative;
-            width: 100%;
-        }
-
-        .combobox-dropdown {
-            position: absolute;
-            top: calc(100% + 2px);
-            left: 0;
-            right: 0;
-            background: #fff;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            z-index: 600;
-            max-height: 150px;
-            overflow-y: auto;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .combobox-item {
-            padding: 10px 12px;
-            font-size: 14px;
-            cursor: pointer;
-            border-bottom: 1px solid #f0f0f0;
-            width: 100%;
-            display: block;
-            text-align: left;
-        }
-
-        .combobox-item:last-child {
-            border-bottom: none;
-        }
-
-        .combobox-item:hover {
-            background: #f5f5f6;
-        }
     </style>
 </head>
 
@@ -1370,6 +1329,20 @@
             </div>
             <h1 class="header-title">저장 견적</h1>
             <div class="header-right">
+                <!-- <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button> -->
             </div>
         </header>
 
@@ -1652,6 +1625,7 @@
                     <div class="detail-row"><span class="detail-label">견적일</span><span class="detail-value">2025년 09월
                             16일</span></div>
                 </div>
+
                 <h3 class="modal-section-title">공급자 정보</h3>
                 <table class="history-table" style="width: 100%;">
                     <tbody>
@@ -1981,10 +1955,10 @@
         </div>
     </div>
 
-    <div class="modal-overlay email-sheet" id="email-sheet-overlay">
-        <div class="modal-content full-page-modal email-sheet" id="email-sheet">
-            <div class="modal-header">
-                <div class="modal-title" style="text-align: left;">이메일 발송</div>
+    <div class="bottom-sheet-overlay email-sheet" id="email-sheet-overlay">
+        <div class="bottom-sheet email-sheet" id="email-sheet">
+            <div class="sheet-header">
+                <div class="sheet-title">이메일 발송</div>
                 <button class="btn-close" onclick="closeEmailSheet()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path d="M18 6l-12 12" />
@@ -1992,23 +1966,18 @@
                     </svg>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="sheet-body">
                 <div class="form-group" style="margin-bottom: 20px;">
                     <label for="recipient-email">받는 사람 이메일 주소</label>
                     <div class="input-group">
-                        <div class="combobox-wrapper" style="width: 100%;">
-                            <div class="input">
-                                <input type="email" id="recipient-email" placeholder="이메일 주소를 입력해주세요"
-                                    value="hong.gildong@email.com" oninput="filterEmailSuggestions(this)"
-                                    onfocus="showEmailDropdown(this)" onblur="hideEmailDropdown(this)"
-                                    autocomplete="off">
-                            </div>
-                            <div class="combobox-dropdown" id="email-dropdown"></div>
+                        <div class="input">
+                            <input type="email" id="recipient-email" placeholder="이메일 주소를 입력해주세요"
+                                value="hong.gildong@email.com">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="sheet-footer">
                 <button class="btn white-button" onclick="closeEmailSheet()">취소</button>
                 <button class="btn dark-button" onclick="sendEmail()">발송하기</button>
             </div>
@@ -2445,77 +2414,6 @@
             // 실제 발송 로직 (placeholder)
             alert(`[${currentModalContext}] 이메일 발송 요청:\n받는 사람: ${email}\n(구현 필요)`);
             closeEmailSheet();
-        }
-
-
-        // --- [NEW] Email Combobox Logic ---
-        const emailDomains = ['naver.com', 'gmail.com', 'daum.net', 'hanmail.net'];
-        // const emailDropdown = document.getElementById('email-dropdown'); // Using dynamic lookup
-
-        function filterEmailSuggestions(input) {
-            const value = input.value;
-            const atIndex = value.indexOf('@');
-            const dropdown = input.closest('.combobox-wrapper').querySelector('.combobox-dropdown');
-
-            dropdown.innerHTML = '';
-
-            // If empty, hide dropdown
-            if (value.length === 0) {
-                dropdown.style.display = 'none';
-                return;
-            }
-
-            let localPart = value;
-            let domainPart = '';
-
-            if (atIndex > -1) {
-                localPart = value.substring(0, atIndex);
-                domainPart = value.substring(atIndex + 1);
-            } else {
-                localPart = value;
-                domainPart = '';
-            }
-
-            // Don't show if local part is missing
-            if (localPart.length === 0) {
-                dropdown.style.display = 'none';
-                return;
-            }
-
-            // Filter domains
-            const matchingDomains = emailDomains.filter(domain => domain.startsWith(domainPart));
-
-            if (matchingDomains.length > 0) {
-                matchingDomains.forEach(domain => {
-                    const fullEmail = localPart + '@' + domain;
-                    const item = document.createElement('div');
-                    item.className = 'combobox-item';
-                    item.textContent = fullEmail;
-                    // Use onmousedown to fire before onblur
-                    item.onmousedown = () => selectEmailSuggestion(fullEmail, input, dropdown);
-                    dropdown.appendChild(item);
-                });
-                dropdown.style.display = 'block';
-            } else {
-                dropdown.style.display = 'none';
-            }
-        }
-
-        function selectEmailSuggestion(fullEmail, inputElement, dropdownElement) {
-            inputElement.value = fullEmail;
-            dropdownElement.style.display = 'none';
-        }
-
-        function showEmailDropdown(input) {
-            // Trigger filter immediately on focus
-            filterEmailSuggestions(input);
-        }
-
-        function hideEmailDropdown(input) {
-            setTimeout(() => {
-                const dropdown = input.closest('.combobox-wrapper').querySelector('.combobox-dropdown');
-                if (dropdown) dropdown.style.display = 'none';
-            }, 200);
         }
 
 

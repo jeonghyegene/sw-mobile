@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>세금계산서 신청서 작성 (다중 v2.2)</title>
+    <title>세금계산서 신청서 작성 (단일)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -164,7 +164,7 @@
             height: 100%;
         }
 
-        /* Buttons */
+        /* Buttons (v12 Standard + Primary) */
         .primary-button {
             background-color: #4e6ee4;
             color: white;
@@ -283,14 +283,6 @@
             margin-bottom: 12px;
         }
 
-        .sub-section-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 8px;
-            margin-top: 20px;
-        }
-
         /* Transaction List */
         .transaction-list {
             display: flex;
@@ -322,12 +314,9 @@
             color: #212121;
         }
 
-        .card-column2 {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333333;
-            margin-top: 4px;
-            margin-bottom: 15px;
+        .card-row-value {
+            color: gray;
+            font-size: 12px;
         }
 
         .card-divider {
@@ -337,37 +326,12 @@
             margin: 10px 0;
         }
 
-        .card-row-value {
-            color: grey;
-            font-size: 14px;
-        }
-
         .card-row-total {
             display: flex;
             justify-content: space-between;
             margin-top: 12px;
             font-size: 14px;
             font-weight: 600;
-        }
-
-        /* Internal Header for Aggregate Card */
-        .card-section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .card-section-header .title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #555;
-        }
-
-        .card-section-header .date {
-            font-size: 12px;
-            color: gray;
-            font-weight: 400;
         }
 
         /* Item List */
@@ -406,41 +370,6 @@
             color: #888;
         }
 
-        /* Aggregate Item Row */
-        .aggregate-item-row {
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-            border-bottom: 1px dashed #e0e0e0;
-        }
-
-        .aggregate-item-row:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .aggregate-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .aggregate-item-id {
-            font-size: 14px;
-            font-weight: 500;
-            color: #212121;
-        }
-
-        .aggregate-item-date {
-            font-size: 12px;
-            color: #888;
-        }
-
-        .aggregate-item-list .item-row {
-            margin-bottom: 8px;
-        }
-
         /* Form */
         .form-group {
             margin-bottom: 20px;
@@ -452,6 +381,13 @@
             font-weight: 600;
             color: #333;
             margin-bottom: 8px;
+        }
+
+        .form-group label.section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
         }
 
         .readonly-value {
@@ -501,9 +437,12 @@
             overflow-x: auto;
             flex-wrap: nowrap;
             -webkit-overflow-scrolling: touch;
+            /* iOS 부드러운 스크롤 */
             padding-bottom: 4px;
+            /* 스크롤바 공간 확보 (필요시) */
         }
 
+        /* 스크롤바 숨김 */
         .modal-tab-nav::-webkit-scrollbar {
             display: none;
         }
@@ -519,7 +458,9 @@
             transition: all 0.2s;
             user-select: none;
             flex-shrink: 0;
+            /* [NEW] 공간 부족해도 줄어들지 않음 */
             white-space: nowrap;
+            /* [NEW] 텍스트 줄바꿈 방지 */
         }
 
         .single-chip-off {
@@ -536,20 +477,7 @@
             transform: scale(0.95);
         }
 
-        .filter-group-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .disclaimer {
-            font-size: 12px;
-            color: #888;
-            margin-top: 8px;
-            line-height: 1.5;
-        }
-
-        /* [NEW] Nav Action Button (List) */
+        /* Nav Action Button (List) */
         .nav-action-btn {
             display: inline-flex;
             height: 32px;
@@ -563,15 +491,17 @@
             justify-content: center;
             margin-left: 4px;
             white-space: nowrap;
+            /* [NEW] 텍스트 줄바꿈 방지 */
             transition: all 0.2s;
             flex-shrink: 0;
+            /* [NEW] 공간 부족해도 줄어들지 않음 */
         }
 
         .nav-action-btn:active {
             transform: scale(0.95);
         }
 
-        /* [NEW] Chip Close Button */
+        /* Chip Close Button */
         .chip-close-btn {
             display: inline-flex;
             align-items: center;
@@ -589,6 +519,20 @@
 
         .single-chip-on .chip-close-btn:hover {
             background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Misc */
+        .filter-group-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.5;
         }
 
         /* Sticky Footer */
@@ -618,84 +562,7 @@
             flex-grow: 2;
         }
 
-        /* SEARCH STYLES */
-        .filter-section {
-            padding: 0 0 16px 0;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-
-        .search {
-            width: 100%;
-            height: 40px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 12px;
-            position: relative;
-        }
-
-        .search input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: black;
-        }
-
-        .search-input-right {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-        }
-
-        .search-del {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            display: none;
-        }
-
-        .search.has-text .search-del {
-            display: flex;
-        }
-
-        .search-icon,
-        .btn-search {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .search-icon:active,
-        .btn-search:active {
-            transform: scale(0.9);
-        }
-
-        .search-del img,
-        .btn-search img,
-        .search-icon img {
-            width: 100%;
-            height: 100%;
-        }
-
-        .transaction-list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 16px;
-            font-size: 14px;
-            color: #555;
-            border-bottom: 1px solid #f0f0f0;
-            margin-bottom: 16px;
-        }
-
-        /* MODAL STYLES */
+        /* Modal Styles */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -705,11 +572,11 @@
             justify-content: center;
             z-index: 1000;
             padding: 16px;
-            animation: fadeInModal 0.3s ease-out;
         }
 
         .modal-overlay.active {
             display: flex;
+            animation: fadeInModal 0.3s ease-out;
         }
 
         .modal-overlay.closing {
@@ -747,6 +614,10 @@
             animation: scaleUpModal 0.3s ease-out;
         }
 
+        .modal-overlay.closing .modal-content {
+            animation: scaleDownModal 0.3s ease-out forwards;
+        }
+
         @keyframes scaleUpModal {
             from {
                 transform: scale(0.9);
@@ -757,10 +628,6 @@
                 transform: scale(1);
                 opacity: 1;
             }
-        }
-
-        .modal-overlay.closing .modal-content {
-            animation: scaleDownModal 0.3s ease-out forwards;
         }
 
         @keyframes scaleDownModal {
@@ -775,28 +642,7 @@
             }
         }
 
-        /* Full Modal Animations */
-        @keyframes slideInFromRight {
-            from {
-                transform: translateX(100%);
-            }
-
-            to {
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideOutToRight {
-            from {
-                transform: translateX(0);
-            }
-
-            to {
-                transform: translateX(100%);
-            }
-        }
-
-        /* Override for Full Modal */
+        /* Full Page Modal (Customer List) */
         #customer-list-modal-overlay,
         #customer-edit-modal-overlay {
             padding: 0;
@@ -828,6 +674,26 @@
         #customer-list-modal-overlay.closing #customer-list-modal,
         #customer-edit-modal-overlay.closing #customer-edit-modal {
             animation: slideOutToRight 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOutToRight {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(100%);
+            }
         }
 
         #customer-list-modal-overlay.active,
@@ -883,7 +749,6 @@
             background: #fff;
             display: flex;
             gap: 8px;
-            border-radius: 0 0 7px 7px;
             flex-shrink: 0;
         }
 
@@ -898,7 +763,63 @@
             font-size: 14px;
         }
 
-        /* Customer List */
+        /* Search & List Styles */
+        .filter-section {
+            padding: 0 0 16px 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .search {
+            width: 100%;
+            height: 40px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            position: relative;
+        }
+
+        .search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+        }
+
+        .search-input-right {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .search-del {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .search.has-text .search-del {
+            display: flex;
+        }
+
+        .transaction-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
+        }
+
         .customer-list {
             display: flex;
             flex-direction: column;
@@ -918,12 +839,6 @@
             margin-bottom: 10px;
         }
 
-        .customer-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-        }
-
         .customer-item .white-button {
             height: 32px;
             font-size: 13px;
@@ -931,19 +846,17 @@
             flex-shrink: 0;
         }
 
+        .customer-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
         .customer-detail {
             font-size: 13px;
             color: #555;
             margin-bottom: 4px;
             line-height: 1.5;
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-        }
-
-        .customer-detail .data {
-            margin-left: auto;
-            text-align: right;
         }
 
         .customer-item-footer {
@@ -955,48 +868,63 @@
             gap: 8px;
         }
 
-        .customer-item-footer .btn {
-            height: 32px;
-            font-size: 13px;
-            padding: 0 12px;
-        }
-
-        /* [NEW] Email Combobox Styles */
-        .combobox-wrapper {
-            position: relative;
-        }
-
-        .combobox-dropdown {
-            position: absolute;
-            top: calc(100% + 2px);
-            left: 0;
-            right: 0;
-            background: #fff;
-            border: 1px solid #e8e8e9;
+        /* Alert Modal */
+        .alert-modal {
+            background: white;
             border-radius: 6px;
-            z-index: 600;
-            max-height: 150px;
-            overflow-y: auto;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 320px;
         }
 
-        .combobox-item {
-            padding: 10px 12px;
+        .alert-modal .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-message {
+            font-size: 14px;
+            color: black;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .modal-button {
+            flex: 1;
+            min-width: 90px;
+            height: 44px;
+            padding: 7px;
+            border-radius: 6px;
             font-size: 14px;
             cursor: pointer;
-            border-bottom: 1px solid #f0f0f0;
-            width: 100%;
-            display: block;
-            text-align: left;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
         }
 
-        .combobox-item:last-child {
-            border-bottom: none;
+        .modal-button-primary {
+            background: #424242;
+            color: white;
+            border: none;
         }
 
-        .combobox-item:hover {
-            background: #f5f5f6;
+        .modal-button-secondary {
+            background: white;
+            color: #424242;
+            border: 1px solid #bababa;
         }
     </style>
 </head>
@@ -1006,7 +934,7 @@
 
         <header class="app-header-sub">
             <div class="header-left">
-                <button type="button" class="header-btn" onclick="history.back();">
+                <button type="button" class="header-btn" onclick="checkBeforeExit();">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         id="icon-chevron-left">
                         <path d="M15 6l-6 6l6 6" />
@@ -1015,146 +943,92 @@
             </div>
             <h1 class="header-title">세금계산서 신청서 작성</h1>
             <div class="header-right">
+                <!-- <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button> -->
             </div>
         </header>
 
         <main>
-            <div id="bill-type-합산" class="page-content">
+            <div id="bill-type-건별" class="page-content" style="display: block;">
                 <div class="sw-container">
 
                     <section class="form-group" style="margin-bottom: 20px;">
                         <label class="section-title">발급 유형</label>
-                        <div class="filter-group-content" id="bill-type-chips-합산">
-                            <div class="single-chip single-chip-on" data-type="합산" onclick="selectBillType(this)">합산
-                            </div>
-                            <div class="single-chip single-chip-off" data-type="건별" onclick="selectBillType(this)">건별
-                            </div>
+                        <div class="filter-group-content" id="bill-type-chips-건별">
+                            <div class="single-chip single-chip-on" data-type="건별">건별</div>
                         </div>
-                        <p class="disclaimer" id="disclaimer-합산" style="margin-top: 8px;">* '합산'의 경우, 선택한 5건의 주문이 총 1장의
-                            세금계산서로 발급돼요</p>
+                        <p class="disclaimer" id="disclaimer-건별" style="margin-top: 8px;">* 1건의 접수는 '건별' 발급만 가능해요</p>
                     </section>
 
                     <section class="info-section">
                         <div class="title">발급 정보</div>
                         <div class="info-sub-row">
                             <span class="label">신청 건수</span>
-                            <span class="value">5 건</span>
+                            <span class="value">1 건</span>
                         </div>
                         <div class="info-sub-row">
                             <span class="label">공급가액</span>
-                            <span class="value">₩1,000,000</span>
+                            <span class="value">₩200,000</span>
                         </div>
                         <div class="info-sub-row"
                             style="border-bottom: 1px solid #f0f0f0; padding-bottom: 12px; margin-bottom: 8px;">
                             <span class="label">부가세액</span>
-                            <span class="value">₩22,220</span>
+                            <span class="value">₩20,000</span>
                         </div>
                         <div class="balance-row">
                             <span class="label" style="font-size: 14px;">총 합계</span>
-                            <span class="balance">₩1,022,220</span>
+                            <span class="balance">₩220,000</span>
                         </div>
                     </section>
 
+                    <h2 class="section-title">신청 상세</h2>
+
                     <section class="transaction-list">
                         <article class="common-table-card">
-                            <div class="card-section-header">
-                                <div class="title">신청 상세</div>
-                                <div class="date">작성일 2025-08-12</div>
+                            <div class="card-header">
+                                <div class="card-column1">sw567421</div>
+                                <div class="card-row-value">작성일 2025-08-12</div>
                             </div>
-
-                            <div class="card-divider" style="margin-bottom: 15px;"></div>
-
-                            <div class="aggregate-item-list">
-                                <div class="aggregate-item-row">
-                                    <div class="aggregate-item-header">
-                                        <div class="aggregate-item-id">sw456426</div>
-                                    </div>
-                                    <div class="item-list">
-                                        <div class="item-row">
-                                            <span class="item-name">한단지</span>
-                                            <div class="item-price-wrapper">
-                                                <span class="item-price-total">₩2,500</span>
-                                                <span class="item-price-details">(공급가액: ₩2,273 / 부가세액: ₩227)</span>
-                                            </div>
-                                        </div>
+                            <div class="card-divider"></div>
+                            <div class="item-list">
+                                <div class="item-row">
+                                    <span class="item-name">대봉투</span>
+                                    <div class="item-price-wrapper">
+                                        <span class="item-price-total">₩6,520</span>
+                                        <span class="item-price-details">(공급가액: 5,927 / 부가세액: 593)</span>
                                     </div>
                                 </div>
-                                <div class="aggregate-item-row">
-                                    <div class="aggregate-item-header">
-                                        <div class="aggregate-item-id">sw765642</div>
-                                    </div>
-                                    <div class="item-list">
-                                        <div class="item-row">
-                                            <span class="item-name">전단지</span>
-                                            <div class="item-price-wrapper">
-                                                <span class="item-price-total">₩31,020</span>
-                                                <span class="item-price-details">(공급가액: ₩28,200 / 부가세액: ₩2,820)</span>
-                                            </div>
-                                        </div>
+                                <div class="item-row">
+                                    <span class="item-name">전단지</span>
+                                    <div class="item-price-wrapper">
+                                        <span class="item-price-total">₩13,200</span>
+                                        <span class="item-price-details">(공급가액: 12,000 / 부가세액: 1,200)</span>
                                     </div>
                                 </div>
-                                <div class="aggregate-item-row">
-                                    <div class="aggregate-item-header">
-                                        <div class="aggregate-item-id">sw567421</div>
-                                    </div>
-                                    <div class="item-list">
-                                        <div class="item-row">
-                                            <span class="item-name">대봉투</span>
-                                            <div class="item-price-wrapper">
-                                                <span class="item-price-total">₩6,520</span>
-                                                <span class="item-price-details">(공급가액: ₩5,927 / 부가세액: ₩593)</span>
-                                            </div>
-                                        </div>
-                                        <div class="item-row">
-                                            <span class="item-name">전단지</span>
-                                            <div class="item-price-wrapper">
-                                                <span class="item-price-total">₩13,200</span>
-                                                <span class="item-price-details">(공급가액: ₩12,000 / 부가세액: ₩1,200)</span>
-                                            </div>
-                                        </div>
-                                        <div class="item-row">
-                                            <span class="item-name">택배비</span>
-                                            <div class="item-price-wrapper">
-                                                <span class="item-price-total">₩2,500</span>
-                                                <span class="item-price-details">(공급가액: ₩2,273 / 부가세액: ₩227)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="aggregate-item-row">
-                                    <div class="aggregate-item-header">
-                                        <div class="aggregate-item-id">sw111111</div>
-                                    </div>
-                                    <div class="item-list">
-                                        <div class="item-row">
-                                            <span class="item-name">스티커</span>
-                                            <div class="item-price-wrapper">
-                                                <span class="item-price-total">₩110,000</span>
-                                                <span class="item-price-details">(공급가액: ₩100,000 / 부가세액: ₩10,000)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="aggregate-item-row">
-                                    <div class="aggregate-item-header">
-                                        <div class="aggregate-item-id">sw222222</div>
-                                    </div>
-                                    <div class="item-list">
-                                        <div class="item-row">
-                                            <span class="item-name">명함</span>
-                                            <div class="item-price-wrapper">
-                                                <span class="item-price-total">₩808,000</span>
-                                                <span class="item-price-details">(공급가액: ₩800,000 / 부가세액: ₩8,000)</span>
-                                            </div>
-                                        </div>
+                                <div class="item-row">
+                                    <span class="item-name">택배비</span>
+                                    <div class="item-price-wrapper">
+                                        <span class="item-price-total">₩2,500</span>
+                                        <span class="item-price-details">(공급가액: 2,273 / 부가세액: 227)</span>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="card-divider" style="margin-top: 20px;"></div>
-                            <div class="card-row-total" style="margin-top: 15px;">
-                                <div class="label">총 합계</div>
-                                <div class="value">₩1,022,220</div>
+                            <div class="card-divider"></div>
+                            <div class="card-row-total">
+                                <div class="label">합계</div>
+                                <div class="value">₩22,220</div>
                             </div>
                         </article>
 
@@ -1165,16 +1039,17 @@
 
                     <h2 class="section-title">신청 기업 정보</h2>
                     <section class="form-section">
-                        <nav class="modal-tab-nav" id="tax-form-tabs-합산" style="align-items: center;">
+                        <nav class="modal-tab-nav" id="tax-form-tabs-건별" style="align-items: center;">
                             <div class="single-chip single-chip-on" data-tab="my-info"
-                                onclick="switchTaxFormTab(this, 'my-info', '합산')">내 정보</div>
-                            <div class="single-chip single-chip-off" data-tab="direct-input"
-                                onclick="switchTaxFormTab(this, 'direct-input', '합산')">직접 입력</div>
+                                onclick="switchTaxFormTab(this, 'my-info', '건별')">내 정보</div>
 
-                            <div class="single-chip single-chip-off" id="chip-customer-list-합산" data-tab="customer-list"
-                                style="display: none;" onclick="switchTaxFormTab(this, 'customer-list', '합산')">
-                                <span id="chip-customer-text-합산"></span>
-                                <span class="chip-close-btn" onclick="removeSelectedCustomer(event, '합산')">
+                            <div class="single-chip single-chip-off" data-tab="direct-input"
+                                onclick="switchTaxFormTab(this, 'direct-input', '건별')">직접 입력</div>
+
+                            <div class="single-chip single-chip-off" id="chip-customer-list" data-tab="customer-list"
+                                style="display: none;" onclick="switchTaxFormTab(this, 'customer-list', '건별')">
+                                <span id="chip-customer-text"></span>
+                                <span class="chip-close-btn" onclick="removeSelectedCustomer(event)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
                                         stroke-linejoin="round">
@@ -1196,312 +1071,6 @@
                                     <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
                                 </svg>&nbsp;
                                 나의 고객목록
-                            </button>
-                        </nav>
-
-                        <div id="tax-form-content-합산">
-                            <div class="form-fields-wrapper" data-tab-content="my-info">
-                                <div class="form-group">
-                                    <label>기업명</label>
-                                    <div class="readonly-value">주식회사 메스 TX</div>
-                                </div>
-                                <div class="form-group">
-                                    <label>사업자등록번호</label>
-                                    <div class="readonly-value">434-34342-22</div>
-                                </div>
-                                <div class="form-group">
-                                    <label>대표자명</label>
-                                    <div class="readonly-value">김수한</div>
-                                </div>
-                                <div class="form-group">
-                                    <label>회계담당자명</label>
-                                    <div class="input"><input type="text" value="김회계"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>연락처</label>
-                                    <div class="input"><input type="tel" value="0233441688"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>이메일 주소</label>
-                                    <div class="input"><input type="email" value="damdangja@email.com"></div>
-                                </div>
-                            </div>
-
-                            <div class="form-fields-wrapper" data-tab-content="direct-input" style="display:none;">
-                                <div class="form-group">
-                                    <label>기업명</label>
-                                    <div class="input"><input type="text" placeholder="기업명을 입력해주세요"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>사업자등록번호</label>
-                                    <div class="input"><input type="text" placeholder="'-'없이 사업자등록번호 10자리를 입력해주세요">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>대표자명</label>
-                                    <div class="input"><input type="text" placeholder="대표자명을 입력해주세요"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>회계담당자명</label>
-                                    <div class="input"><input type="text" placeholder="회계담당자명을 입력해주세요"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>연락처</label>
-                                    <div class="input"><input type="tel" placeholder="회계담당자 연락처를 입력해주세요"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>이메일 주소</label>
-                                    <div class="combobox-wrapper">
-                                        <div class="input">
-                                            <input type="email" id="direct-email-input-sum"
-                                                placeholder="회계담당자 이메일 주소를 입력해주세요"
-                                                oninput="filterEmailSuggestions(this)" onfocus="showEmailDropdown(this)"
-                                                onblur="hideEmailDropdown(this)" autocomplete="off">
-                                        </div>
-                                        <div class="combobox-dropdown"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-fields-wrapper" data-tab-content="customer-list" style="display:none;">
-                                <div class="form-group">
-                                    <label>기업명</label>
-                                    <div class="input"><input type="text" id="customer-company-name-합산"
-                                            placeholder="고객 목록에서 선택해주세요" readonly></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>사업자등록번호</label>
-                                    <div class="input"><input type="text" id="customer-biz-num-합산"
-                                            placeholder="고객 목록에서 선택해주세요" readonly></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>대표자명</label>
-                                    <div class="input"><input type="text" id="customer-rep-name-합산"
-                                            placeholder="고객 목록에서 선택해주세요" readonly></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>회계담당자명</label>
-                                    <div class="input"><input type="text" id="customer-contact-name-합산"
-                                            placeholder="회계담당자명을 입력해주세요"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>연락처</label>
-                                    <div class="input"><input type="tel" id="customer-contact-phone-합산"
-                                            placeholder="회계담당자 연락처를 입력해주세요"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>이메일 주소</label>
-                                    <div class="input"><input type="email" id="customer-contact-email-합산"
-                                            placeholder="회계담당자 이메일 주소를 입력해주세요"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-
-            <div id="bill-type-건별" class="page-content" style="display: none;">
-                <div class="sw-container">
-
-                    <section class="form-group" style="margin-bottom: 20px;">
-                        <label class="section-title">발급 유형</label>
-                        <div class="filter-group-content" id="bill-type-chips-건별">
-                            <div class="single-chip single-chip-off" data-type="합산" onclick="selectBillType(this)">합산
-                            </div>
-                            <div class="single-chip single-chip-on" data-type="건별" onclick="selectBillType(this)">건별
-                            </div>
-                        </div>
-                        <p class="disclaimer" id="disclaimer-건별" style="margin-top: 8px; display: none;">* 선택한 5건의 주문이
-                            각각 1장의 세금계산서로 발급돼요</p>
-                    </section>
-
-                    <section class="info-section">
-                        <div class="title">발급 정보</div>
-                        <div class="info-sub-row">
-                            <span class="label">발급 신청 건</span>
-                            <span class="value">5 건</span>
-                        </div>
-                        <div class="info-sub-row">
-                            <span class="label">공급가액</span>
-                            <span class="value">₩1,000,000</span>
-                        </div>
-                        <div class="info-sub-row"
-                            style="border-bottom: 1px solid #f0f0f0; padding-bottom: 12px; margin-bottom: 8px;">
-                            <span class="label">부가세액</span>
-                            <span class="value">₩22,220</span>
-                        </div>
-                        <div class="balance-row">
-                            <span class="label" style="font-size: 14px;">총 합계</span>
-                            <span class="balance">₩1,022,220</span>
-                        </div>
-                    </section>
-
-                    <h2 class="section-title">신청 상세</h2>
-
-                    <section class="transaction-list">
-                        <article class="common-table-card">
-                            <div class="card-header">
-                                <div class="card-column1">sw456426</div>
-                                <div class="card-row-value">작성일 2025-08-12</div>
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="item-list">
-                                <div class="item-row">
-                                    <span class="item-name">한단지</span>
-                                    <div class="item-price-wrapper">
-                                        <span class="item-price-total">₩2,500</span>
-                                        <span class="item-price-details">(공급가액: ₩2,273 / 부가세액: ₩227)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="card-row-total">
-                                <div class="label">합계</div>
-                                <div class="value">₩2,500</div>
-                            </div>
-                        </article>
-
-                        <article class="common-table-card">
-                            <div class="card-header">
-                                <div class="card-column1">sw765642</div>
-                                <div class="card-row-value">작성일 2025-08-12</div>
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="item-list">
-                                <div class="item-row">
-                                    <span class="item-name">전단지</span>
-                                    <div class="item-price-wrapper">
-                                        <span class="item-price-total">₩31,020</span>
-                                        <span class="item-price-details">(공급가액: ₩28,200 / 부가세액: ₩2,820)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="card-row-total">
-                                <div class="label">합계</div>
-                                <div class="value">₩31,020</div>
-                            </div>
-                        </article>
-
-                        <article class="common-table-card">
-                            <div class="card-header">
-                                <div class="card-column1">sw567421</div>
-                                <div class="card-row-value">작성일 2025-08-12</div>
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="item-list">
-                                <div class="item-row">
-                                    <span class="item-name">대봉투</span>
-                                    <div class="item-price-wrapper">
-                                        <span class="item-price-total">₩6,520</span>
-                                        <span class="item-price-details">(공급가액: ₩5,927 / 부가세액: ₩593)</span>
-                                    </div>
-                                </div>
-                                <div class="item-row">
-                                    <span class="item-name">전단지</span>
-                                    <div class="item-price-wrapper">
-                                        <span class="item-price-total">₩13,200</span>
-                                        <span class="item-price-details">(공급가액: ₩12,000 / 부가세액: ₩1,200)</span>
-                                    </div>
-                                </div>
-                                <div class="item-row">
-                                    <span class="item-name">택배비</span>
-                                    <div class="item-price-wrapper">
-                                        <span class="item-price-total">₩2,500</span>
-                                        <span class="item-price-details">(공급가액: ₩2,273 / 부가세액: ₩227)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="card-row-total">
-                                <div class="label">합계</div>
-                                <div class="value">₩22,220</div>
-                            </div>
-                        </article>
-
-                        <article class="common-table-card">
-                            <div class="card-header">
-                                <div class="card-column1">sw111111</div>
-                                <div class="card-row-value">작성일 2025-08-11</div>
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="item-list">
-                                <div class="item-row">
-                                    <span class="item-name">스티커</span>
-                                    <div class="item-price-wrapper">
-                                        <span class="item-price-total">₩110,000</span>
-                                        <span class="item-price-details">(공급가액: ₩100,000 / 부가세액: ₩10,000)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="card-row-total">
-                                <div class="label">합계</div>
-                                <div class="value">₩110,000</div>
-                            </div>
-                        </article>
-
-                        <article class="common-table-card">
-                            <div class="card-header">
-                                <div class="card-column1">sw222222</div>
-                                <div class="card-row-value">작성일 2025-08-10</div>
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="item-list">
-                                <div class="item-row">
-                                    <span class="item-name">명함</span>
-                                    <div class="item-price-wrapper">
-                                        <span class="item-price-total">₩808,000</span>
-                                        <span class="item-price-details">(공급가액: ₩800,000 / 부가세액: ₩8,000)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="card-row-total">
-                                <div class="label">합계</div>
-                                <div class="value">₩808,000</div>
-                            </div>
-                        </article>
-
-                        <p class="disclaimer" id="disclaimer-합산" style="margin-top: 8px;">* 세금계산서 작성일은 선택한 접수건 중 가장 늦은
-                            날짜로 자동 설정돼요.
-                            폐기된 건은 배송시작일이 아니라 폐기처리일이 기준으로 적용돼요</p>
-                    </section>
-
-                    <h2 class="section-title">신청 기업 정보</h2>
-                    <section class="form-section">
-                        <nav class="modal-tab-nav" id="tax-form-tabs-건별" style="align-items: center;">
-                            <div class="single-chip single-chip-on" data-tab="my-info"
-                                onclick="switchTaxFormTab(this, 'my-info', '건별')">내 정보</div>
-                            <div class="single-chip single-chip-off" data-tab="direct-input"
-                                onclick="switchTaxFormTab(this, 'direct-input', '건별')">직접 입력</div>
-
-                            <div class="single-chip single-chip-off" id="chip-customer-list-건별" data-tab="customer-list"
-                                style="display: none;" onclick="switchTaxFormTab(this, 'customer-list', '건별')">
-                                <span id="chip-customer-text-건별"></span>
-                                <span class="chip-close-btn" onclick="removeSelectedCustomer(event, '건별')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                                    </svg>
-                                </span>
-                            </div>
-
-                            <button type="button" class="nav-action-btn show" onclick="showCustomerListModal()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" style="margin-right:4px;">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M9 6l11 0" />
-                                    <path d="M9 12l11 0" />
-                                    <path d="M9 18l11 0" />
-                                    <path d="M5 6l0 .01" />
-                                    <path d="M5 12l0 .01" />
-                                    <path d="M5 18l0 .01" />
-                                </svg>
-                                목록
                             </button>
                         </nav>
 
@@ -1557,15 +1126,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>이메일 주소</label>
-                                    <div class="combobox-wrapper">
-                                        <div class="input">
-                                            <input type="email" id="direct-email-input-each"
-                                                placeholder="회계담당자 이메일 주소를 입력해주세요"
-                                                oninput="filterEmailSuggestions(this)" onfocus="showEmailDropdown(this)"
-                                                onblur="hideEmailDropdown(this)" autocomplete="off">
-                                        </div>
-                                        <div class="combobox-dropdown"></div>
-                                    </div>
+                                    <div class="input"><input type="email" placeholder="회계담당자 이메일 주소를 입력해주세요"></div>
                                 </div>
                             </div>
 
@@ -1608,8 +1169,8 @@
         </main>
 
         <div class="sticky-form-footer">
-            <button class="white-button btn" onclick="location.href='tax_request.html';">목록으로 가기</button>
-            <button class="dark-button btn" onclick="alert('신청하기 (구현 필요)')">신청하기</button>
+            <button class="white-button btn" onclick="checkBeforeExit();">목록으로 가기</button>
+            <button class="dark-button btn" onclick="showClosedBizAlert()">신청하기</button>
         </div>
     </div>
 
@@ -1653,22 +1214,9 @@
                         <div class="customer-item-header">
                             <span class="customer-name">삼성 SDS (김길동)</span>
                         </div>
-                        <div class="customer-detail">
-                            <span class="label">사업자등록번호</span>
-                            <span class="data">232-34-33445</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자명</span>
-                            <span class="data">김성원</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자 연락처</span>
-                            <span class="data">01012341234</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자 이메일</span>
-                            <span class="data">test1234@test.com</span>
-                        </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
                         <div class="customer-item-footer">
                             <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                             <button class="white-button btn"
@@ -1682,22 +1230,9 @@
                         <div class="customer-item-header">
                             <span class="customer-name">LG (김길동)</span>
                         </div>
-                        <div class="customer-detail">
-                            <span class="label">사업자등록번호</span>
-                            <span class="data">232-34-33445</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자명</span>
-                            <span class="data">김성원</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자 연락처</span>
-                            <span class="data">01012341234</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자 이메일</span>
-                            <span class="data">test1234@test.com</span>
-                        </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
                         <div class="customer-item-footer">
                             <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                             <button class="white-button btn"
@@ -1709,24 +1244,11 @@
 
                     <article class="customer-item">
                         <div class="customer-item-header">
-                            <span class="customer-name">대우</span>
+                            <span class="customer-name">대우 (김길동)</span>
                         </div>
-                        <div class="customer-detail">
-                            <span class="label">사업자등록번호</span>
-                            <span class="data">232-34-33445</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자명</span>
-                            <span class="data">김성원</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자 연락처</span>
-                            <span class="data">01012341234</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자 이메일</span>
-                            <span class="data">test1234@test.com</span>
-                        </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
                         <div class="customer-item-footer">
                             <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                             <button class="white-button btn"
@@ -1798,8 +1320,35 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="exit-alert-modal">
+        <div class="modal-content alert-modal" data-name="Alert">
+            <div class="modal-title">안내</div>
+            <div class="modal-message">입력한 내용이 모두 사라져요.<br>정말 나가시겠어요?</div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" onclick="closeModal('exit-alert-modal')">계속
+                    작성하기</button>
+                <button class="modal-button modal-button-primary" onclick="confirmExit()">나가기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="closed-biz-alert-modal">
+        <div class="modal-content alert-modal" data-name="Alert">
+            <div class="modal-title">폐업 안내</div>
+            <div class="modal-message">신청하신 기업은 폐업 상태에요.<br>해당 기업을 고객 목록에서 삭제할까요?</div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary"
+                    onclick="closeModal('closed-biz-alert-modal')">닫기</button>
+                <button class="modal-button modal-button-primary" onclick="deleteClosedBiz()">삭제하기</button>
+            </div>
+        </div>
+    </div>
+
 
     <script>
+        // [NEW] isFormDirty 플래그
+        let isFormDirty = false;
+
         // --- [NEW] v12 Search JS (For Request 3) ---
         function handleSearchInput(input) {
             const searchBox = input.closest('.search');
@@ -1814,59 +1363,45 @@
         }
         function handleSearch(btn) { console.log('Search submitted:', btn.closest('.search').querySelector('input').value); }
 
-        // --- [NEW] Main Page Bill Type Logic ---
-        function selectBillType(chip) {
-            const chipWrapper = chip.closest('.filter-group-content');
-            if (!chipWrapper) return;
-
-            // 칩 활성화
-            chipWrapper.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
-            chip.classList.replace('single-chip-off', 'single-chip-on');
-
-            const pageName = chip.getAttribute('data-type');
-
-            // 콘텐츠 영역 토글
-            document.querySelectorAll('.page-content').forEach(content => {
-                content.style.display = 'none';
-            });
-            document.getElementById(`bill-type-${pageName}`).style.display = 'block';
-
-            // 다른 탭의 칩 상태도 동기화
-            const otherContext = (pageName === '합산') ? '건별' : '합산';
-            const otherChipWrapper = document.getElementById(`bill-type-chips-${otherContext}`);
-            if (otherChipWrapper) {
-                otherChipWrapper.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
-                otherChipWrapper.querySelector(`[data-type="${pageName}"]`).classList.replace('single-chip-off', 'single-chip-on');
-            }
-
-            // [MODIFIED] 안내 문구 변경
-            const disclaimer합산 = document.getElementById('disclaimer-합산');
-            const disclaimer건별 = document.getElementById('disclaimer-건별');
-            if (pageName === '합산') {
-                disclaimer합산.style.display = 'block';
-                disclaimer건별.style.display = 'none';
+        // --- [NEW] Form Dirty Check & Exit Alert ---
+        function checkBeforeExit() {
+            if (isFormDirty) {
+                openModal('exit-alert-modal');
             } else {
-                disclaimer합산.style.display = 'none';
-                disclaimer건별.style.display = 'block';
+                goBack();
             }
         }
 
-        // --- [MODIFIED] Inner Form Tab Logic ---
+        function confirmExit() {
+            isFormDirty = false; // Reset flag
+            closeModal('exit-alert-modal');
+            goBack();
+        }
+
+        function goBack() {
+            // '목록으로 가기' 버튼과 동일하게 동작
+            location.href = 'tax_request.html';
+        }
+
+        // --- [NEW] Main Page Bill Type Logic ---
+        function selectBillType(chip) {
+            // 이 파일은 '건별' 전용이므로 해당 함수는 기능하지 않지만,
+            // DOMContentLoaded의 오류를 막기 위해 빈 함수로 둡니다.
+        }
+
+        // --- [NEW] Inner Form Tab Logic (Updated) ---
         function switchTaxFormTab(tabEl, tabName, context) {
-            // 1. 탭 활성화
+            // 1. 탭 UI 활성화 처리
             const tabNav = tabEl.closest('.modal-tab-nav');
             tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
             tabEl.classList.replace('single-chip-off', 'single-chip-on');
 
-            // 2. 폼 필드 래퍼 찾기
+            // 2. 폼 필드 래퍼 표시/숨김
             const formContentWrapper = document.getElementById(`tax-form-content-${context}`);
-
-            // 3. 모든 폼 필드 숨기기
             formContentWrapper.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
                 wrapper.style.display = 'none';
             });
 
-            // 4. 해당 탭의 폼 필드 보이기
             const targetWrapper = formContentWrapper.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`);
             if (targetWrapper) {
                 targetWrapper.style.display = 'block';
@@ -1877,7 +1412,7 @@
                     inputs.forEach(input => {
                         input.value = ''; // 값 비우기
                     });
-                    // 첫 번째 입력창에 포커스 (선택사항)
+                    // 첫 번째 입력창에 포커스
                     if (inputs.length > 0) inputs[0].focus();
                 }
             }
@@ -1887,7 +1422,7 @@
         // [MODIFIED] MODAL JAVASCRIPT (Request 3)
         // ========================================
 
-        // --- Modal Helpers ---
+        // --- Modal Helpers (애니메이션 적용 버전으로 교체) ---
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
@@ -1917,7 +1452,7 @@
             }
         }
 
-        // --- Customer List Modal Logic ---
+        // --- Customer List Modal Logic (Updated) ---
         function showCustomerListModal() {
             // 메인 페이지 위에 고객 목록 모달 열기
             openModal('customer-list-modal-overlay');
@@ -1927,14 +1462,12 @@
         function closeCustomerListAndReset() {
             closeModal('customer-list-modal-overlay');
 
-            const activePage = document.querySelector('.page-content[style*="block"]').id.split('-')[2]; // '합산' or '건별'
-
             // 현재 '나의 고객 목록' 칩이 활성화 상태인지(보이는지) 확인
-            const customerChip = document.getElementById(`chip-customer-list-${activePage}`);
+            const customerChip = document.getElementById('chip-customer-list');
 
             // [NEW] 칩이 보이지 않는 상태(선택된 게 없음)라면 내 정보로 이동
             if (customerChip.style.display === 'none') {
-                const myInfoTab = document.querySelector(`#tax-form-tabs-${activePage} [data-tab="my-info"]`);
+                const myInfoTab = document.querySelector('#tax-form-tabs-건별 [data-tab="my-info"]');
                 if (myInfoTab) myInfoTab.click(); // '내 정보' 탭 클릭 트리거
             }
         }
@@ -1944,10 +1477,8 @@
             // 1. 모달 닫기
             closeModal('customer-list-modal-overlay');
 
-            // 2. 현재 활성화된 페이지 찾기
-            const activePage = document.querySelector('.page-content[style*="block"]').id.split('-')[2]; // '합산' or '건별'
-
-            // 3. 입력 필드 값 채우기
+            // 2. 입력 필드 값 채우기 (고객 목록 폼)
+            const activePage = '건별';
             document.getElementById(`customer-company-name-${activePage}`).value = company;
             document.getElementById(`customer-biz-num-${activePage}`).value = bizNum;
             document.getElementById(`customer-rep-name-${activePage}`).value = repName;
@@ -1960,48 +1491,51 @@
             contactPhoneInput.value = contactPhone || '';
             contactEmailInput.value = email || '';
 
-            // 4. [NEW] '나의 고객 목록' 탭 표시 및 활성화
-            const customerChip = document.getElementById(`chip-customer-list-${activePage}`);
-            const customerChipText = document.getElementById(`chip-customer-text-${activePage}`);
+            // 3. [NEW] '나의 고객 목록' 탭 표시 및 활성화
+            const customerChip = document.getElementById('chip-customer-list');
+            const customerChipText = document.getElementById('chip-customer-text');
 
-            // 4-1. 칩 표시 및 텍스트 변경
+            // 3-1. 칩 표시 및 텍스트 변경
             customerChip.style.display = 'inline-flex';
             customerChipText.textContent = company;
 
-            // 4-2. 탭 UI 활성화 (함수 호출 대신 클래스 직접 조작)
+            // 3-2. 탭 UI 활성화 (함수 호출 대신 클래스 직접 조작, form display 처리)
             const tabNav = document.getElementById(`tax-form-tabs-${activePage}`);
             tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
             customerChip.classList.replace('single-chip-off', 'single-chip-on'); // 칩 활성화
 
-            // 4-3. 해당 폼 보이기
+            // 3-3. 해당 폼 보이기
             const formContentWrapper = document.getElementById(`tax-form-content-${activePage}`);
             formContentWrapper.querySelectorAll('.form-fields-wrapper').forEach(wrapper => wrapper.style.display = 'none');
             formContentWrapper.querySelector(`.form-fields-wrapper[data-tab-content="customer-list"]`).style.display = 'block';
+
+            isFormDirty = true;
         }
 
         /* [NEW] 선택된 고객 삭제(선택 취소) 함수 */
-        function removeSelectedCustomer(e, pageContext) {
+        function removeSelectedCustomer(e) {
             e.stopPropagation(); // 탭 전환 이벤트 방지
 
             // 1. 칩 숨기기
-            const customerChip = document.getElementById(`chip-customer-list-${pageContext}`);
+            const customerChip = document.getElementById('chip-customer-list');
             customerChip.style.display = 'none';
             customerChip.classList.replace('single-chip-on', 'single-chip-off');
 
-            // 2. 폼 데이터 초기화
-            document.getElementById(`customer-company-name-${pageContext}`).value = '';
-            document.getElementById(`customer-biz-num-${pageContext}`).value = '';
-            document.getElementById(`customer-rep-name-${pageContext}`).value = '';
-            document.getElementById(`customer-contact-name-${pageContext}`).value = '';
-            document.getElementById(`customer-contact-phone-${pageContext}`).value = '';
-            document.getElementById(`customer-contact-email-${pageContext}`).value = '';
+            // 2. 폼 데이터 초기화 (선택사항, 깔끔하게 비워둠)
+            const activePage = '건별';
+            document.getElementById(`customer-company-name-${activePage}`).value = '';
+            document.getElementById(`customer-biz-num-${activePage}`).value = '';
+            document.getElementById(`customer-rep-name-${activePage}`).value = '';
+            document.getElementById(`customer-contact-name-${activePage}`).value = '';
+            document.getElementById(`customer-contact-phone-${activePage}`).value = '';
+            document.getElementById(`customer-contact-email-${activePage}`).value = '';
 
             // 3. '내 정보' 탭으로 자동 전환
-            const myInfoTab = document.querySelector(`#tax-form-tabs-${pageContext} [data-tab="my-info"]`);
-            if (myInfoTab) switchTaxFormTab(myInfoTab, 'my-info', pageContext);
+            const myInfoTab = document.querySelector('#tax-form-tabs-건별 [data-tab="my-info"]');
+            if (myInfoTab) switchTaxFormTab(myInfoTab, 'my-info', '건별');
         }
 
-        // --- Customer Add/Edit/Delete Logic ---
+        // --- Customer Add/Edit/Delete Logic (기존 빈 함수 교체) ---
         const customerEditForm = document.getElementById('customer-edit-form');
         const customerEditTitle = document.getElementById('customer-edit-title');
         const customerFormInputs = {
@@ -2043,95 +1577,56 @@
             }
         }
 
-        // --- [NEW] Email Combobox Logic ---
-        const emailDomains = ['naver.com', 'gmail.com', 'daum.net', 'hanmail.net'];
-        // const emailDropdown = document.getElementById('direct-email-dropdown'); // Removed static ID reference
-
-        function filterEmailSuggestions(input) {
-            const value = input.value;
-            const atIndex = value.indexOf('@');
-            // Use the dropdown specific to this input context, or the globally selected one
-            const dropdown = input.closest('.combobox-wrapper').querySelector('.combobox-dropdown');
-
-            dropdown.innerHTML = '';
-
-            // If empty, hide dropdown
-            if (value.length === 0) {
-                dropdown.style.display = 'none';
-                return;
-            }
-
-            let localPart = value;
-            let domainPart = '';
-
-            if (atIndex > -1) {
-                localPart = value.substring(0, atIndex);
-                domainPart = value.substring(atIndex + 1);
-            } else {
-                localPart = value;
-                domainPart = '';
-            }
-
-            // Don't show if local part is missing
-            if (localPart.length === 0) {
-                dropdown.style.display = 'none';
-                return;
-            }
-
-            // Filter domains
-            const matchingDomains = emailDomains.filter(domain => domain.startsWith(domainPart));
-
-            if (matchingDomains.length > 0) {
-                matchingDomains.forEach(domain => {
-                    const fullEmail = localPart + '@' + domain;
-                    const item = document.createElement('div');
-                    item.className = 'combobox-item';
-                    item.textContent = fullEmail;
-                    // Use onmousedown to fire before onblur
-                    item.onmousedown = () => selectEmailSuggestion(fullEmail, input, dropdown);
-                    dropdown.appendChild(item);
-                });
-                dropdown.style.display = 'block';
-            } else {
-                dropdown.style.display = 'none';
-            }
+        // --- [NEW] Closed Biz Alert Logic ---
+        function showClosedBizAlert() {
+            // '신청하기' 버튼 클릭 시 호출
+            openModal('closed-biz-alert-modal');
         }
 
-        function selectEmailSuggestion(fullEmail, inputElement, dropdownElement) {
-            inputElement.value = fullEmail;
-            dropdownElement.style.display = 'none';
+        function deleteClosedBiz() {
+            // 폐업 안내 모달의 '삭제하기' 버튼 클릭 시
+            closeModal('closed-biz-alert-modal');
+            alert("고객 목록에서 해당 기업이 삭제되었어요 (구현 필요)");
+            // TODO: 실제 삭제 로직
         }
-
-        function showEmailDropdown(input) {
-            // Trigger filter immediately on focus
-            filterEmailSuggestions(input);
-        }
-
-        function hideEmailDropdown(input) {
-            setTimeout(() => {
-                const dropdown = input.closest('.combobox-wrapper').querySelector('.combobox-dropdown');
-                if (dropdown) dropdown.style.display = 'none';
-            }, 200);
-        }
-
 
         // --- [MODIFIED] Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
-            // 초기 페이지 로드 시 '합산' 탭 활성화 상태 확인
-            selectBillType(document.querySelector('#bill-type-chips-합산 .single-chip.single-chip-on'));
 
-            // 초기 폼 탭 활성화 상태 확인 (양쪽 탭 모두)
-            switchTaxFormTab(document.querySelector('#tax-form-tabs-합산 .single-chip.single-chip-on'), 'my-info', '합산');
-            switchTaxFormTab(document.querySelector('#tax-form-tabs-건별 .single-chip.single-chip-on'), 'my-info', '건별');
+            // [BUG FIX] '#tax-form-tabs-합산' -> '#tax-form-tabs-건별'로 수정
+            // [BUG FIX] '.active' -> '.single-chip-on'으로 수정
+            if (typeof switchTaxFormTab === 'function') {
+                const activeTab = document.querySelector('#tax-form-tabs-건별 .single-chip-on');
+                if (activeTab) {
+                    switchTaxFormTab(activeTab, 'my-info', '건별');
+                }
+            }
 
-            // [MODIFIED] Modal overlay click-to-close listeners
+            // [NEW] Modal overlay click-to-close listeners (기존 리스너와 병합)
             document.querySelectorAll('.modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
-                    if (e.target.id === overlay.id) {
+                    // [BUG FIX] 모달 오버레이 클릭 시 닫기
+                    if (e.target === overlay) {
                         closeModal(overlay.id);
                     }
                 });
             });
+
+            // [NEW] Add event listeners for form dirty check
+            // (이제 이 스크립트가 정상적으로 등록됩니다)
+            document.querySelectorAll('.form-fields-wrapper input, .form-fields-wrapper select').forEach(el => {
+                el.addEventListener('input', () => { isFormDirty = true; });
+                el.addEventListener('change', () => { isFormDirty = true; }); // For select
+            });
+            document.querySelectorAll('.modal-tab-nav .single-chip').forEach(el => {
+                el.addEventListener('click', () => { isFormDirty = true; });
+            });
+
+            // 고객 목록 버튼 클릭도 dirty로 간주
+            const customerListButton = document.querySelector('.form-group-button .white-button');
+            if (customerListButton) {
+                customerListButton.addEventListener('click', () => { isFormDirty = true; });
+            }
         });
 
     </script>

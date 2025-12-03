@@ -711,6 +711,7 @@
             font-weight: 600;
             color: #333;
             flex-shrink: 0;
+            margin-left: 5px;
         }
 
         .combobox-item span {
@@ -721,7 +722,7 @@
         .combobox-item .flag {
             font-size: 18px;
             flex-shrink: 0;
-            display: flex;
+            display: inline-flex;
             /* [MODIFIED] To center img */
             align-items: center;
             /* [MODIFIED] To center img */
@@ -1004,6 +1005,55 @@
             margin-top: 8px;
             line-height: 1.5;
         }
+
+        /* 이메일 자동완성 스타일 */
+        .combobox-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        /* 드롭다운 박스 */
+        .combobox-dropdown {
+            position: absolute;
+            top: calc(100% + 2px);
+            /* 인풋 바로 아래 위치 */
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            z-index: 600;
+            /* 다른 요소보다 위에 뜨도록 설정 */
+            max-height: 150px;
+            /* 너무 길어지면 스크롤 */
+            overflow-y: auto;
+            display: none;
+            /* 기본적으로 숨김 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 드롭다운 아이템 */
+        .combobox-item {
+            padding: 10px 12px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            width: 100%;
+            display: block;
+            text-align: left;
+            background: #fff;
+            transition: background-color 0.2s;
+        }
+
+        .combobox-item:last-child {
+            border-bottom: none;
+        }
+
+        .combobox-item:hover {
+            background: #f5f5f6;
+            /* 마우스 오버 시 배경색 */
+        }
     </style>
 </head>
 
@@ -1091,33 +1141,33 @@
                 <div class="form-group">
                     <label>휴대폰 번호</label>
                     <div class="input-group">
-                        <div class="combobox-wrapper" style="flex: 0 1 140px;">
+                        <div class="combobox-wrapper" style="flex: 0 1 95px;">
                             <div class="input select-wrapper" onclick="showCountryCodeDropdown()"
                                 onblur="hideCountryCodeDropdown()" style="cursor: pointer;">
                                 <span class="select-flag" id="country-code-flag">
                                     <img src="assets/images/flag-kor.png" alt="Korean flag">
                                 </span>
-                                <input type="text" id="country-code-display" value="+82 (Korea)" readonly
+                                <input type="text" id="country-code-display" value="+82" readonly
                                     style="border: none; background: transparent; width: 100%; cursor: pointer; padding: 0 30px 0 5px; font-size: 14px; outline: none; height: 38px;">
                             </div>
                             <div class="combobox-dropdown" id="country-code-dropdown">
                                 <div class="combobox-item"
-                                    onmousedown="selectCountryCode('kr', 'assets/images/flag-kor.png', '+82 (Korea)', 'Korean flag')">
+                                    onmousedown="selectCountryCode('kr', 'assets/images/flag-kor.png', '+82', 'Korean flag')">
                                     <span class="flag">
                                         <img src="assets/images/flag-kor.png" alt="Korean flag">
-                                    </span> <strong>+82</strong> <span>(Korea)</span>
+                                    </span> <strong>+82</strong>
                                 </div>
                                 <div class="combobox-item"
-                                    onmousedown="selectCountryCode('jp', 'assets/images/flag-jp.png', '+81 (Japan)', 'Japanese flag')">
+                                    onmousedown="selectCountryCode('jp', 'assets/images/flag-jp.png', '+81', 'Japanese flag')">
                                     <span class="flag">
                                         <img src="assets/images/flag-jp.png" alt="Japanese flag">
-                                    </span> <strong>+81</strong> <span>(Japan)</span>
+                                    </span> <strong>+81</strong>
                                 </div>
                                 <div class="combobox-item"
-                                    onmousedown="selectCountryCode('us', 'assets/images/flag-eng.png', '+1 (USA)', 'USA flag')">
+                                    onmousedown="selectCountryCode('us', 'assets/images/flag-eng.png', '+1', 'USA flag')">
                                     <span class="flag">
                                         <img src="assets/images/flag-eng.png" alt="USA flag">
-                                    </span> <strong>+1</strong> <span>(USA)</span>
+                                    </span> <strong>+1</strong>
                                 </div>
                             </div>
                         </div>
@@ -1129,10 +1179,13 @@
                 </div>
                 <div class="form-group">
                     <label for="email">이메일 주소</label>
-                    <div class="input-group">
+                    <div class="combobox-wrapper">
                         <div class="input">
-                            <input type="email" id="email" value="gogiso@naver.com">
+                            <input type="email" placeholder="이메일 주소를 입력해주세요" value="gogiso@naver.com" autocomplete="off"
+                                oninput="filterEmailSuggestions(this)" onfocus="filterEmailSuggestions(this)"
+                                onblur="hideEmailDropdown(this)">
                         </div>
+                        <div class="combobox-dropdown"></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -1707,6 +1760,86 @@
             isFormDirty = true;
         }
 
+        /* --- 이메일 자동완성 로직 시작 --- */
+
+        // 1. 추천할 도메인 리스트 (필요시 추가/수정 가능)
+        const emailDomains = ['naver.com', 'gmail.com', 'daum.net', 'hanmail.net', 'nate.com'];
+
+        // 2. 입력 감지 및 필터링 함수
+        function filterEmailSuggestions(input) {
+            const value = input.value;
+            const wrapper = input.closest('.combobox-wrapper');
+            const dropdown = wrapper.querySelector('.combobox-dropdown');
+
+            dropdown.innerHTML = ''; // 기존 목록 초기화
+
+            // 입력값이 없으면 숨김
+            if (value.length === 0) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            const atIndex = value.indexOf('@');
+            let localPart = value;
+            let domainPart = '';
+
+            // @ 입력 여부에 따라 아이디/도메인 분리
+            if (atIndex > -1) {
+                localPart = value.substring(0, atIndex);
+                domainPart = value.substring(atIndex + 1);
+            }
+
+            // @로 시작하거나 아이디가 없으면 숨김
+            if (localPart.length === 0) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            // 도메인 매칭 (입력된 도메인 부분으로 필터링)
+            const matchingDomains = emailDomains.filter(domain => domain.startsWith(domainPart));
+
+            // 매칭되는 도메인이 있으면 목록 생성
+            if (matchingDomains.length > 0) {
+                matchingDomains.forEach(domain => {
+                    const fullEmail = localPart + '@' + domain;
+
+                    const item = document.createElement('div');
+                    item.className = 'combobox-item';
+                    item.textContent = fullEmail;
+
+                    // 클릭 시 선택 (onmousedown 사용: blur보다 먼저 실행되게 함)
+                    item.onmousedown = function () {
+                        selectEmailSuggestion(fullEmail, input, dropdown);
+                    };
+
+                    dropdown.appendChild(item);
+                });
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+
+        // 3. 선택 시 값 적용 함수
+        function selectEmailSuggestion(fullEmail, inputElement, dropdownElement) {
+            inputElement.value = fullEmail; // 값 적용
+            dropdownElement.style.display = 'none'; // 드롭다운 숨김
+
+            // (선택 사항) 값 변경 이벤트 트리거 (유효성 검사 등이 연결된 경우 필요)
+            inputElement.dispatchEvent(new Event('input'));
+        }
+
+        // 4. 포커스 해제 시 숨김 함수
+        function hideEmailDropdown(input) {
+            const wrapper = input.closest('.combobox-wrapper');
+            const dropdown = wrapper.querySelector('.combobox-dropdown');
+
+            // 바로 사라지면 클릭이 안될 수 있으므로 약간의 지연 시간 부여
+            setTimeout(() => {
+                if (dropdown) dropdown.style.display = 'none';
+            }, 200);
+        }
+        /* --- 이메일 자동완성 로직 끝 --- */
 
         // --- Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {

@@ -936,14 +936,6 @@
             color: #555;
             margin-bottom: 4px;
             line-height: 1.5;
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-        }
-
-        .customer-detail .data {
-            margin-left: auto;
-            text-align: right;
         }
 
         .customer-item-footer {
@@ -959,44 +951,6 @@
             height: 32px;
             font-size: 13px;
             padding: 0 12px;
-        }
-
-        /* [NEW] Email Combobox Styles */
-        .combobox-wrapper {
-            position: relative;
-        }
-
-        .combobox-dropdown {
-            position: absolute;
-            top: calc(100% + 2px);
-            left: 0;
-            right: 0;
-            background: #fff;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            z-index: 600;
-            max-height: 150px;
-            overflow-y: auto;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .combobox-item {
-            padding: 10px 12px;
-            font-size: 14px;
-            cursor: pointer;
-            border-bottom: 1px solid #f0f0f0;
-            width: 100%;
-            display: block;
-            text-align: left;
-        }
-
-        .combobox-item:last-child {
-            border-bottom: none;
-        }
-
-        .combobox-item:hover {
-            background: #f5f5f6;
         }
     </style>
 </head>
@@ -1015,6 +969,20 @@
             </div>
             <h1 class="header-title">세금계산서 신청서 작성</h1>
             <div class="header-right">
+                <!-- <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button> -->
             </div>
         </header>
 
@@ -1251,15 +1219,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>이메일 주소</label>
-                                    <div class="combobox-wrapper">
-                                        <div class="input">
-                                            <input type="email" id="direct-email-input-sum"
-                                                placeholder="회계담당자 이메일 주소를 입력해주세요"
-                                                oninput="filterEmailSuggestions(this)" onfocus="showEmailDropdown(this)"
-                                                onblur="hideEmailDropdown(this)" autocomplete="off">
-                                        </div>
-                                        <div class="combobox-dropdown"></div>
-                                    </div>
+                                    <div class="input"><input type="email" placeholder="회계담당자 이메일 주소를 입력해주세요"></div>
                                 </div>
                             </div>
 
@@ -1491,7 +1451,7 @@
 
                             <button type="button" class="nav-action-btn show" onclick="showCustomerListModal()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
                                     stroke-linejoin="round" style="margin-right:4px;">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M9 6l11 0" />
@@ -1557,15 +1517,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>이메일 주소</label>
-                                    <div class="combobox-wrapper">
-                                        <div class="input">
-                                            <input type="email" id="direct-email-input-each"
-                                                placeholder="회계담당자 이메일 주소를 입력해주세요"
-                                                oninput="filterEmailSuggestions(this)" onfocus="showEmailDropdown(this)"
-                                                onblur="hideEmailDropdown(this)" autocomplete="off">
-                                        </div>
-                                        <div class="combobox-dropdown"></div>
-                                    </div>
+                                    <div class="input"><input type="email" placeholder="회계담당자 이메일 주소를 입력해주세요"></div>
                                 </div>
                             </div>
 
@@ -1651,24 +1603,12 @@
                 <div class="customer-list">
                     <article class="customer-item">
                         <div class="customer-item-header">
-                            <span class="customer-name">삼성 SDS (김길동)</span>
+                            <span class="customer-name">삼성 SDS</span>
                         </div>
-                        <div class="customer-detail">
-                            <span class="label">사업자등록번호</span>
-                            <span class="data">232-34-33445</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자명</span>
-                            <span class="data">김성원</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자 연락처</span>
-                            <span class="data">01012341234</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자 이메일</span>
-                            <span class="data">test1234@test.com</span>
-                        </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
                         <div class="customer-item-footer">
                             <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                             <button class="white-button btn"
@@ -1680,24 +1620,12 @@
 
                     <article class="customer-item">
                         <div class="customer-item-header">
-                            <span class="customer-name">LG (김길동)</span>
+                            <span class="customer-name">LG</span>
                         </div>
-                        <div class="customer-detail">
-                            <span class="label">사업자등록번호</span>
-                            <span class="data">232-34-33445</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자명</span>
-                            <span class="data">김성원</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자 연락처</span>
-                            <span class="data">01012341234</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자 이메일</span>
-                            <span class="data">test1234@test.com</span>
-                        </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
                         <div class="customer-item-footer">
                             <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                             <button class="white-button btn"
@@ -1711,22 +1639,8 @@
                         <div class="customer-item-header">
                             <span class="customer-name">대우</span>
                         </div>
-                        <div class="customer-detail">
-                            <span class="label">사업자등록번호</span>
-                            <span class="data">232-34-33445</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자명</span>
-                            <span class="data">김성원</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자 연락처</span>
-                            <span class="data">01012341234</span>
-                        </div>
-                        <div class="customer-detail">
-                            <span class="label">담당자 이메일</span>
-                            <span class="data">test1234@test.com</span>
-                        </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
                         <div class="customer-item-footer">
                             <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                             <button class="white-button btn"
@@ -2043,78 +1957,6 @@
             }
         }
 
-        // --- [NEW] Email Combobox Logic ---
-        const emailDomains = ['naver.com', 'gmail.com', 'daum.net', 'hanmail.net'];
-        // const emailDropdown = document.getElementById('direct-email-dropdown'); // Removed static ID reference
-
-        function filterEmailSuggestions(input) {
-            const value = input.value;
-            const atIndex = value.indexOf('@');
-            // Use the dropdown specific to this input context, or the globally selected one
-            const dropdown = input.closest('.combobox-wrapper').querySelector('.combobox-dropdown');
-
-            dropdown.innerHTML = '';
-
-            // If empty, hide dropdown
-            if (value.length === 0) {
-                dropdown.style.display = 'none';
-                return;
-            }
-
-            let localPart = value;
-            let domainPart = '';
-
-            if (atIndex > -1) {
-                localPart = value.substring(0, atIndex);
-                domainPart = value.substring(atIndex + 1);
-            } else {
-                localPart = value;
-                domainPart = '';
-            }
-
-            // Don't show if local part is missing
-            if (localPart.length === 0) {
-                dropdown.style.display = 'none';
-                return;
-            }
-
-            // Filter domains
-            const matchingDomains = emailDomains.filter(domain => domain.startsWith(domainPart));
-
-            if (matchingDomains.length > 0) {
-                matchingDomains.forEach(domain => {
-                    const fullEmail = localPart + '@' + domain;
-                    const item = document.createElement('div');
-                    item.className = 'combobox-item';
-                    item.textContent = fullEmail;
-                    // Use onmousedown to fire before onblur
-                    item.onmousedown = () => selectEmailSuggestion(fullEmail, input, dropdown);
-                    dropdown.appendChild(item);
-                });
-                dropdown.style.display = 'block';
-            } else {
-                dropdown.style.display = 'none';
-            }
-        }
-
-        function selectEmailSuggestion(fullEmail, inputElement, dropdownElement) {
-            inputElement.value = fullEmail;
-            dropdownElement.style.display = 'none';
-        }
-
-        function showEmailDropdown(input) {
-            // Trigger filter immediately on focus
-            filterEmailSuggestions(input);
-        }
-
-        function hideEmailDropdown(input) {
-            setTimeout(() => {
-                const dropdown = input.closest('.combobox-wrapper').querySelector('.combobox-dropdown');
-                if (dropdown) dropdown.style.display = 'none';
-            }, 200);
-        }
-
-
         // --- [MODIFIED] Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
             // 초기 페이지 로드 시 '합산' 탭 활성화 상태 확인
@@ -2124,7 +1966,7 @@
             switchTaxFormTab(document.querySelector('#tax-form-tabs-합산 .single-chip.single-chip-on'), 'my-info', '합산');
             switchTaxFormTab(document.querySelector('#tax-form-tabs-건별 .single-chip.single-chip-on'), 'my-info', '건별');
 
-            // [MODIFIED] Modal overlay click-to-close listeners
+            // [NEW] Modal overlay click-to-close listeners
             document.querySelectorAll('.modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
