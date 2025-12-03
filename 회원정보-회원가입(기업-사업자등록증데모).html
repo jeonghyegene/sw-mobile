@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원애드피아 - 기업 회원가입 (OCR 스캔 데모)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Master Guide CSS */
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 100px;
+            min-height: 100vh;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
+        }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        /* Buttons (v12 Standard) */
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Main Content */
+        .page-content {
+            padding: 24px 16px;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 32px;
+            line-height: 1.4;
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        /* Input & Readonly */
+        .input,
+        .readonly-value {
+            width: 100%;
+            min-height: 40px;
+            background: white;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: black;
+        }
+
+        .readonly-value {
+            background: #f5f5f5;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .readonly-value.filled {
+            color: #333;
+        }
+
+        /* Chips */
+        .filter-group-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .disclaimer.error {
+            color: #dc3545;
+        }
+
+        /* ---------------------------------------------------- */
+        /* [NEW] OCR Scan State Styles (Based on Requirements) */
+        /* ---------------------------------------------------- */
+        .scan-status-box {
+            background: #f5f5f5;
+            /* Image bg color */
+            border-radius: 6px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            min-height: 48px;
+        }
+
+        .scan-file-name {
+            font-size: 14px;
+            color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 60%;
+        }
+
+        .scan-status-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .scan-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .text-blue {
+            color: #0055ff;
+        }
+
+        /* Image exact blue */
+        .text-red {
+            color: #dc3545;
+        }
+
+        /* State 1: Scanning (Spinner) */
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #e0e0e0;
+            border-top: 2px solid #0055ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* State 2 & 3: Icons */
+        .icon-check {
+            width: 18px;
+            height: 18px;
+            color: #0055ff;
+            stroke-width: 2.5;
+        }
+
+        .icon-error {
+            width: 18px;
+            height: 18px;
+            color: #dc3545;
+            stroke-width: 2.5;
+        }
+
+        .btn-remove-file {
+            width: 20px;
+            height: 20px;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+        }
+
+        .btn-remove-file svg {
+            width: 100%;
+            height: 100%;
+            stroke-width: 2;
+        }
+
+        /* Sticky Footer */
+        .sticky-form-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            padding: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 500;
+        }
+
+        /* Demo Controls (For Presentation) */
+        .demo-controls {
+            padding: 10px;
+            background: #eee;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            font-size: 11px;
+            padding: 4px 8px;
+            background: #333;
+            color: white;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">기업 회원가입</h1>
+            <div class="header-right"></div>
+        </header>
+
+        <main class="page-content" id="page-business-info">
+
+            <div class="demo-controls">
+                <div style="width: 100%; font-size: 11px; font-weight: bold; margin-bottom: 4px;">[OCR 상태 데모 컨트롤]</div>
+                <button class="demo-btn" onclick="triggerScanState('scanning')">1. 스캔중</button>
+                <button class="demo-btn" onclick="triggerScanState('success')">2. 스캔완료</button>
+                <button class="demo-btn" onclick="triggerScanState('fail')">3. 스캔실패</button>
+                <button class="demo-btn" onclick="resetFile()">초기화</button>
+            </div>
+
+            <h2 class="page-title">기업 정보를 입력해주세요</h2>
+
+            <div class="form-group">
+                <label>사업자 유형</label>
+                <div class="filter-group-content">
+                    <div class="single-chip single-chip-on">개인사업자</div>
+                    <div class="single-chip single-chip-off">법인사업자</div>
+                    <div class="single-chip single-chip-off">해외사업자</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>사업자등록증</label>
+
+                <label for="biz-license-input" class="white-button" id="upload-btn-label"
+                    style="display: flex; width: 100%; justify-content: center;">
+                    사업자등록증 첨부
+                </label>
+                <input type="file" id="biz-license-input" style="display:none;" onchange="handleFileSelect(event)">
+
+                <div class="scan-status-box" id="scan-status-box" style="display: none;">
+                    <span class="scan-file-name" id="scan-file-name">한빛디자인_사업자등록증.pdf</span>
+
+                    <div class="scan-status-right" id="state-scanning" style="display: none;">
+                        <div class="spinner"></div>
+                        <span class="scan-text text-blue">스캔중</span>
+                    </div>
+
+                    <div class="scan-status-right" id="state-success" style="display: none;">
+                        <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        <span class="scan-text text-blue">스캔완료</span>
+                        <button class="btn-remove-file" onclick="resetFile()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="9" stroke-width="1.5" />
+                                <path d="M10 10l4 4m0 -4l-4 4" stroke-width="1.5" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="scan-status-right" id="state-fail" style="display: none;">
+                        <svg class="icon-error" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M18 6l-12 12" />
+                            <path d="M6 6l12 12" />
+                        </svg>
+                        <span class="scan-text text-red">스캔실패</span>
+                        <button class="btn-remove-file" onclick="resetFile()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="9" stroke-width="1.5" />
+                                <path d="M10 10l4 4m0 -4l-4 4" stroke-width="1.5" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <p class="disclaimer error" id="scan-error-msg">사업자 정보가 선명하게 표기된 사업자등록증을 다시 첨부해주세요</p>
+
+                <p class="disclaimer" id="scan-initial-msg">* 1MB 이하의 PDF, JPG, PNG 파일을 첨부해주세요</p>
+            </div>
+
+            <div class="form-group">
+                <label>사업자등록번호</label>
+                <div class="input">
+                    <input type="tel" id="biz-number" placeholder="사업자등록증 스캔 시 자동으로 입력돼요">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>기업명(상호)</label>
+                <div class="readonly-value" id="biz-company-name">사업자등록증 스캔 시 자동으로 입력돼요</div>
+            </div>
+
+            <div class="form-group">
+                <label>대표자명</label>
+                <div class="readonly-value" id="biz-rep-name">사업자등록증 첨부 시 자동으로 입력돼요</div>
+            </div>
+
+        </main>
+
+        <div class="sticky-form-footer">
+            <button class="white-button btn" onclick="history.back()">이전</button>
+            <button class="dark-button btn" id="btn-next" disabled>다음</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const uploadBtnLabel = document.getElementById('upload-btn-label');
+        const scanStatusBox = document.getElementById('scan-status-box');
+        const fileNameEl = document.getElementById('scan-file-name');
+
+        const stateScanning = document.getElementById('state-scanning');
+        const stateSuccess = document.getElementById('state-success');
+        const stateFail = document.getElementById('state-fail');
+
+        const scanErrorMsg = document.getElementById('scan-error-msg');
+        const scanInitialMsg = document.getElementById('scan-initial-msg');
+
+        // Target Input Fields
+        const inputBizNum = document.getElementById('biz-number');
+        const inputCompName = document.getElementById('biz-company-name');
+        const inputRepName = document.getElementById('biz-rep-name');
+        const btnNext = document.getElementById('btn-next');
+
+        // 1. File Select Handler
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                fileNameEl.textContent = file.name;
+                // Start Simulation: Scanning -> Random Success/Fail or Success
+                triggerScanState('scanning');
+
+                // Simulate process time
+                setTimeout(() => {
+                    // For demo: Always success if regular file, use controls for fail
+                    triggerScanState('success');
+                }, 2000);
+            }
+        }
+
+        // 2. State Trigger Logic (Controls UI States)
+        function triggerScanState(state) {
+            // UI Reset
+            uploadBtnLabel.style.display = 'none';
+            scanStatusBox.style.display = 'flex';
+            scanInitialMsg.style.display = 'block'; // Keep initial msg unless error
+            scanErrorMsg.style.display = 'none';
+
+            stateScanning.style.display = 'none';
+            stateSuccess.style.display = 'none';
+            stateFail.style.display = 'none';
+
+            if (state === 'scanning') {
+                stateScanning.style.display = 'flex';
+                // Clear fields
+                resetFields();
+            } else if (state === 'success') {
+                stateSuccess.style.display = 'flex';
+                // Fill fields (Simulation)
+                inputBizNum.value = '123-45-67890';
+                inputCompName.textContent = '한빛디자인';
+                inputCompName.classList.add('filled');
+                inputRepName.textContent = '김한빛';
+                inputRepName.classList.add('filled');
+                btnNext.disabled = false;
+            } else if (state === 'fail') {
+                stateFail.style.display = 'flex';
+                scanErrorMsg.style.display = 'block';
+                scanInitialMsg.style.display = 'none';
+                resetFields();
+            }
+        }
+
+        // 3. Reset/Clear Handler
+        function resetFile() {
+            document.getElementById('biz-license-input').value = '';
+
+            // UI Reset to Initial
+            scanStatusBox.style.display = 'none';
+            uploadBtnLabel.style.display = 'flex';
+            scanErrorMsg.style.display = 'none';
+            scanInitialMsg.style.display = 'block';
+
+            resetFields();
+        }
+
+        function resetFields() {
+            inputBizNum.value = '';
+            inputCompName.textContent = '사업자등록증 스캔 시 자동으로 입력돼요';
+            inputCompName.classList.remove('filled');
+            inputRepName.textContent = '사업자등록증 첨부 시 자동으로 입력돼요';
+            inputRepName.classList.remove('filled');
+            btnNext.disabled = true;
+        }
+    </script>
+</body>
+
+</html>
