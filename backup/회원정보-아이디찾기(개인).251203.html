@@ -382,44 +382,6 @@
             cursor: not-allowed;
         }
 
-        /* [NEW] Email Combobox Styles */
-        .combobox-wrapper {
-            position: relative;
-        }
-
-        .combobox-dropdown {
-            position: absolute;
-            top: calc(100% + 2px);
-            left: 0;
-            right: 0;
-            background: #fff;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            z-index: 600;
-            max-height: 220px;
-            overflow-y: auto;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .combobox-item {
-            padding: 10px 12px;
-            font-size: 14px;
-            cursor: pointer;
-            border-bottom: 1px solid #f0f0f0;
-            width: 100%;
-            display: block;
-            text-align: left;
-        }
-
-        .combobox-item:last-child {
-            border-bottom: none;
-        }
-
-        .combobox-item:hover {
-            background: #f5f5f6;
-        }
-
         /* ========================================
            [v12] MODAL STYLES
         ======================================== */
@@ -657,28 +619,10 @@
             border-bottom: 2px solid #212121;
         }
 
-        /* [MODIFIED] ID Result Modal Specifics (Full Screen) */
-        #id-result-modal-overlay {
-            padding: 0;
-            /* Full screen filling */
-        }
-
-        #id-result-modal {
-            max-width: 480px;
-            width: 100%;
-            height: 100%;
-            min-height: 100%;
-            border-radius: 0;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-        }
-
+        /* [NEW] ID Result Modal Styles */
         #id-result-modal .modal-body {
             padding: 24px 16px;
             min-height: auto;
-            flex: 1;
-            /* Body takes remaining space */
         }
 
         .id-result-message {
@@ -703,7 +647,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 16px;
+            padding: 12px 16px;
             border: 1px solid #e8e8e9;
             border-radius: 6px;
             cursor: pointer;
@@ -731,27 +675,26 @@
             align-items: center;
         }
 
-        /* [MODIFIED] Social Icon Style (Naver) */
         .id-type-icon {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
             color: white;
             font-size: 12px;
-            font-weight: 700;
-            margin-right: 8px;
+            font-weight: 600;
+            margin-right: 6px;
             flex-shrink: 0;
             background-color: #03C75A;
-            /* Naver Green */
+            /* Naver green for N */
         }
 
         .id-date {
             font-size: 12px;
             color: #888;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .id-checkbox {
@@ -790,33 +733,33 @@
             line-height: 1.5;
         }
 
-        /* [MODIFIED] Social ID Guide Style */
+        /* [NEW] Social ID Guide */
         .social-guide-message {
             font-size: 12px;
-            color: #666;
-            margin-top: 12px;
+            color: #333;
+            margin-bottom: 15px;
             text-align: center;
             display: none;
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 6px;
-            align-items: flex-start;
-            gap: 6px;
-            line-height: 1.4;
+            margin-top: -15px;
         }
 
         /* [MODIFIED] Find ID Modal Specific Overrides */
         #find-id-modal-overlay {
             padding: 0;
+            /* Full screen filling: remove overlay padding */
         }
 
         #find-id-modal {
             max-width: 480px;
+            /* Requested: 480px */
             width: 100%;
             height: 100%;
+            /* Full screen filling */
             min-height: 100%;
             border-radius: 0;
+            /* Remove corners for full screen */
             margin: 0 auto;
+            /* Center aligned */
         }
     </style>
 </head>
@@ -835,6 +778,20 @@
             </div>
             <h1 class="header-title">아이디 찾기</h1>
             <div class="header-right">
+                <!-- <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button> -->
             </div>
         </header>
 
@@ -930,13 +887,8 @@
                         </div>
                         <div class="form-group">
                             <label for="find-id-email">이메일 주소</label>
-                            <div class="combobox-wrapper">
-                                <div class="input">
-                                    <input type="email" id="find-id-email" placeholder="이메일 주소를 입력해주세요"
-                                        oninput="filterEmailSuggestions(this)" onfocus="showEmailDropdown()"
-                                        onblur="hideEmailDropdown()" autocomplete="off">
-                                </div>
-                                <div class="combobox-dropdown" id="email-dropdown"></div>
+                            <div class="input">
+                                <input type="email" id="find-id-email" placeholder="이메일 주소를 입력해주세요">
                             </div>
                             <p class="disclaimer error" id="error-email" style="display: none;"></p>
                         </div>
@@ -997,30 +949,22 @@
                     stroke="#4e6ee4" fill="none" stroke-linecap="round" stroke-linejoin="round"
                     style="color: #4e6ee4; margin: 0 auto 20px auto; display: block;">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="M9 12l2 2l4 -4" />
+                    <path d="M5 12l5 5l10 -10" />
                 </svg>
-
                 <p class="id-result-message" id="id-result-count-message">총 1건의 아이디를 찾았어요</p>
-
+                <p class="social-guide-message" id="social-guide-message">
+                    가입 시 사용한 소셜 계정 확인이 어려운 경우, 아이디/비밀번호를 설정해주세요
+                </p>
                 <ul class="id-result-list" id="id-result-list">
                 </ul>
-
-                <div class="social-guide-message" id="social-guide-message">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="2"
-                        stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                        style="flex-shrink: 0; margin-top: 2px;">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
-                        <path d="M12 9h.01"></path>
-                        <path d="M11 12h1v4h1"></path>
-                    </svg>
-                    <span>가입 시 사용한 소셜 계정 확인이 어려운 경우, 아이디/비밀번호를 설정해주세요</span>
-                </div>
             </div>
             <div class="modal-footer" id="id-result-modal-footer">
                 <button class="btn white-button" id="btn-default-1" onclick="alert('비밀번호 찾기 (구현 필요)')">비밀번호 찾기</button>
                 <button class="btn dark-button" id="btn-default-2" onclick="alert('로그인 (구현 필요)')">로그인</button>
+                <button class="btn white-button" id="btn-social-1" style="display: none;"
+                    onclick="alert('아이디/비밀번호 설정 (구현 필요)')">아이디/비밀번호 설정</button>
+                <button class="btn dark-button" id="btn-social-2" style="display: none;"
+                    onclick="alert('로그인 (구현 필요)')">로그인</button>
             </div>
         </div>
     </div>
@@ -1060,7 +1004,7 @@
 
 
     <script>
-        // --- Form Dirty Check & Exit Alert ---
+        // --- [NEW] Form Dirty Check & Exit Alert ---
         let isFormDirty = false;
 
         function checkBeforeExit() {
@@ -1081,7 +1025,7 @@
             history.back();
         }
 
-        // --- Modal Helpers ---
+        // --- Modal Helpers (v12 Standard) ---
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
@@ -1101,11 +1045,11 @@
             }
         }
 
-        // --- Find ID Modal Logic ---
+        // --- [MODIFIED] Find ID Modal Logic with Validation & Verification Flow ---
         const findIdForm = document.getElementById('find-id-form');
         const findIdSubmitBtn = document.getElementById('find-id-submit-btn');
         const findIdFooter = document.getElementById('find-id-footer');
-        let activeFindIdTab = 'auth';
+        let activeFindIdTab = 'auth'; // Default to Auth (Request 1)
 
         // Input fields
         const nameInputPhone = document.getElementById('find-id-name-phone');
@@ -1119,7 +1063,7 @@
         const errorNameEmail = document.getElementById('error-name-email');
         const errorEmail = document.getElementById('error-email');
 
-        // Phone Verification fields
+        // [MODIFIED] Phone Verification fields
         let verificationTimer;
         let timeRemaining = 180;
         const verificationCodeGroup = document.getElementById('verification-code-group');
@@ -1133,9 +1077,9 @@
             startVerificationProcess(true);
         });
 
-        // Email Verification fields
+        // [MODIFIED] Email Verification fields
         let emailVerificationTimer;
-        let emailTimeRemaining = 180;
+        let emailTimeRemaining = 180; // 3 minutes
         const emailVerificationCodeGroup = document.getElementById('email-verification-code-group');
         const emailVerificationCodeInput = document.getElementById('find-id-verification-code-email');
         const emailVerificationTimerEl = document.getElementById('email-verification-timer');
@@ -1147,36 +1091,47 @@
             startEmailVerificationProcess(true);
         });
 
-        // Tab Switching
+        // [NEW] 회원 유형 탭 핸들러 (Modal 내부)
         function switchFindIdType(tabEl, typeName) {
             const tabNav = tabEl.closest('#find-id-type-tabs');
             tabNav.querySelectorAll('.type-tab-item').forEach(c => c.classList.remove('active'));
             tabEl.classList.add('active');
 
             console.log(`회원 유형 변경: ${typeName}`);
-            // Mock navigation
+
+            // 개인의 경우 기본값은 Auth
             let defaultTab = 'auth';
+
+            // 1. 현재 인증 탭을 defaultTab으로 강제 변경
             const defaultTabEl = document.querySelector(`#find-id-tabs .single-chip[data-tab="${defaultTab}"]`);
             if (defaultTabEl) {
                 switchFindIdTab(defaultTabEl, defaultTab);
             }
+
+            // 2. 폼 필드 초기화
             findIdForm.reset();
             hideAllErrors();
             isFormDirty = false;
         }
 
+
         function switchFindIdTab(tabEl, tabName) {
             activeFindIdTab = tabName;
 
+            // 1. 탭 활성화 (Chip 스타일)
             const tabNav = tabEl.closest('.modal-tab-nav-chips');
             tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
             tabEl.classList.replace('single-chip-off', 'single-chip-on');
 
+            // 2. 모든 폼 필드 래퍼 숨기기
             findIdForm.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
                 wrapper.style.display = 'none';
             });
+
+            // 3. 해당 탭의 폼 필드 보이기
             findIdForm.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
 
+            // 4. 푸터 버튼 및 상태 변경, 타이머/상태 초기화
             stopVerificationTimer();
             stopEmailVerificationTimer();
             verificationCodeGroup.style.display = 'none';
@@ -1184,6 +1139,7 @@
             phoneSentMessage.style.display = 'none';
             emailSentMessage.style.display = 'none';
 
+            // Reset readonly state
             if (nameInputPhone) {
                 nameInputPhone.readOnly = false;
                 nameInputPhone.closest('.input').classList.remove('readonly');
@@ -1205,7 +1161,8 @@
 
             if (tabName === 'auth') {
                 findIdSubmitBtn.textContent = '본인인증';
-                findIdFooter.style.display = 'none';
+                // 본인인증 탭의 경우 푸터를 숨깁니다.
+                findIdFooter.style.display = 'none'; // <--- 이렇게 수정 ('flex' -> 'none')
             } else if (tabName === 'phone') {
                 findIdSubmitBtn.textContent = '인증 발송';
                 findIdFooter.style.display = 'flex';
@@ -1217,51 +1174,67 @@
             hideAllErrors();
         }
 
-        // Validation & Submission
+        // [MODIFIED] Validation logic
         function validateAndSubmitFindId() {
-            hideAllErrors();
+            hideAllErrors(); // Reset errors
 
             if (activeFindIdTab === 'auth') {
+                // Simulate Auth Success
                 simulateAuth();
+
             } else if (activeFindIdTab === 'phone') {
                 const verificationVisible = (verificationCodeGroup.style.display === 'block');
+
                 if (verificationVisible) {
+                    // State 2: "인증 완료" (Verify Code)
                     if (validatePhoneTab(true)) {
+                        // --- FAKE SUCCESS LOGIC ---
                         if (verificationCodeInput.value.trim() === '123456') {
                             stopVerificationTimer();
                             closeModal('find-id-modal-overlay');
-                            // [RESTORED] 1 Result Logic
                             const dummyResults = [
-                                { type: null, value: 'PersonalUser123', date: '2025-10-31', social: false }
+                                { type: '', value: 'PersonalUser123', date: '2025-10-31' }
                             ];
-                            showIdResultModal(dummyResults);
+                            if (dummyResults.length > 0) {
+                                showIdResultModal(dummyResults);
+                            } else {
+                                showNoResultModal();
+                            }
                         } else {
                             showError(verificationCodeInput, errorVerificationCode, '인증번호가 일치하지 않아요');
                         }
                     }
                 } else {
+                    // State 1: "인증 발송" (Send Code)
                     if (validatePhoneTab(false)) {
                         startVerificationProcess(false);
                     }
                 }
+
             } else if (activeFindIdTab === 'email') {
                 const verificationVisible = (emailVerificationCodeGroup.style.display === 'block');
+
                 if (verificationVisible) {
+                    // State 2: "인증 완료" (Verify Code)
                     if (validateEmailTab(true)) {
+                        // --- FAKE SUCCESS LOGIC ---
                         if (emailVerificationCodeInput.value.trim() === '123456') {
                             stopEmailVerificationTimer();
                             closeModal('find-id-modal-overlay');
-                            // [RESTORED] 2 Results Logic (Normal + Social)
                             const dummyResults = [
-                                { type: null, value: 'Test1234', date: '2025-10-31', social: false },
-                                { type: 'N', value: 'Test1234@naver.com', date: '2025-10-31', social: true }
+                                { type: '', value: 'P***er123', date: '2025-10-31' }
                             ];
-                            showIdResultModal(dummyResults);
+                            if (dummyResults.length > 0) {
+                                showIdResultModal(dummyResults);
+                            } else {
+                                showNoResultModal();
+                            }
                         } else {
                             showError(emailVerificationCodeInput, errorVerificationCodeEmail, '인증번호가 일치하지 않아요');
                         }
                     }
                 } else {
+                    // State 1: "인증 발송" (Send Code)
                     if (validateEmailTab(false)) {
                         startEmailVerificationProcess(false);
                     }
@@ -1269,6 +1242,7 @@
             }
         }
 
+        // [MODIFIED] Phone Tab Validator
         function validatePhoneTab(checkCode) {
             let isValid = true;
             if (!nameInputPhone || nameInputPhone.value.trim() === '') {
@@ -1295,6 +1269,7 @@
             return isValid;
         }
 
+        // [MODIFIED] Email Tab Validator
         function validateEmailTab(checkCode) {
             let isValid = true;
             if (!nameInputEmail || nameInputEmail.value.trim() === '') {
@@ -1321,6 +1296,7 @@
             return isValid;
         }
 
+        // [MODIFIED] Start Phone Verification Process
         function startVerificationProcess(isResend) {
             console.log('휴대폰 인증번호 발송 (구현 필요)');
             verificationCodeGroup.style.display = 'block';
@@ -1346,9 +1322,10 @@
             startVerificationTimer();
         }
 
+        // [NEW] Start Phone Timer
         function startVerificationTimer() {
             stopVerificationTimer();
-            timeRemaining = 180;
+            timeRemaining = 180; // 3 minutes
             verificationTimerEl.textContent = '03:00';
             verificationTimerEl.style.color = '#dc3545';
             verificationCodeInput.value = '';
@@ -1381,6 +1358,7 @@
             clearInterval(verificationTimer);
         }
 
+        // [MODIFIED] Start Email Verification Process
         function startEmailVerificationProcess(isResend) {
             console.log('이메일 인증번호 발송 (구현 필요)');
             emailVerificationCodeGroup.style.display = 'block';
@@ -1406,9 +1384,10 @@
             startEmailVerificationTimer();
         }
 
+        // [NEW] Start Email Timer
         function startEmailVerificationTimer() {
             stopEmailVerificationTimer();
-            emailTimeRemaining = 180;
+            emailTimeRemaining = 180; // 3 minutes
             emailVerificationTimerEl.textContent = '03:00';
             emailVerificationTimerEl.style.color = '#dc3545';
             emailVerificationCodeInput.value = '';
@@ -1441,10 +1420,13 @@
             clearInterval(emailVerificationTimer);
         }
 
+        // [NEW] Helper functions for validation
         function showError(inputEl, errorEl, message) {
             if (!inputEl) return;
             const inputWrapper = inputEl.closest('.input');
-            if (inputWrapper) inputWrapper.classList.add('error');
+            if (inputWrapper) {
+                inputWrapper.classList.add('error');
+            }
             errorEl.textContent = message;
             errorEl.style.display = 'block';
         }
@@ -1468,13 +1450,18 @@
             return re.test(String(email).toLowerCase());
         }
 
+        // --- [NEW] Simulate Auth Failure (For Auth Tab) ---
         function simulateAuth() {
             console.log("본인인증 시도... (성공 시뮬레이션)");
+            // Close the find-id modal
             closeModal('find-id-modal-overlay');
+
+            // [MODIFIED] Test case for result success
             const dummyResults = [
-                { type: null, value: 'PersonalUser123', date: '2025-10-31', social: false },
-                { type: 'N', value: 'PersonalUser@naver.com', date: '2025-10-31', social: true }
+                { type: null, value: 'Test1234', date: '2025-10-31', social: false },
+                { type: 'N', value: 'Test1234@naver.com', date: '2025-10-31', social: true }
             ];
+            // [MODIFIED] Check results
             if (dummyResults.length > 0) {
                 showIdResultModal(dummyResults);
             } else {
@@ -1482,84 +1469,14 @@
             }
         }
 
-        // --- [NEW] Email Combobox Logic (Ported) ---
-        const emailDomains = ['naver.com', 'gmail.com', 'daum.net', 'hanmail.net'];
-        const emailDropdown = document.getElementById('email-dropdown');
-
-        function filterEmailSuggestions(input) {
-            const value = input.value;
-            const atIndex = value.indexOf('@');
-            emailDropdown.innerHTML = '';
-
-            isFormDirty = true;
-
-            if (value.length === 0) {
-                emailDropdown.style.display = 'none';
-                return;
-            }
-
-            let localPart = value;
-            let domainPart = '';
-
-            if (atIndex > -1) {
-                localPart = value.substring(0, atIndex);
-                domainPart = value.substring(atIndex + 1);
-            } else {
-                localPart = value;
-                domainPart = '';
-            }
-
-            if (localPart.length === 0) {
-                emailDropdown.style.display = 'none';
-                return;
-            }
-
-            const matchingDomains = emailDomains.filter(domain => domain.startsWith(domainPart));
-
-            if (matchingDomains.length > 0) {
-                matchingDomains.forEach(domain => {
-                    const fullEmail = localPart + '@' + domain;
-                    const item = document.createElement('div');
-                    item.className = 'combobox-item';
-                    item.textContent = fullEmail;
-                    item.onmousedown = () => selectEmailSuggestion(fullEmail);
-                    emailDropdown.appendChild(item);
-                });
-                emailDropdown.style.display = 'block';
-            } else {
-                emailDropdown.style.display = 'none';
-            }
-        }
-
-        function selectEmailSuggestion(fullEmail) {
-            const input = document.getElementById('find-id-email');
-            input.value = fullEmail;
-            emailDropdown.style.display = 'none';
-            isFormDirty = true;
-            const errorEmail = document.getElementById('error-email');
-            if (validateEmail(fullEmail)) {
-                if (input.closest('.input')) input.closest('.input').classList.remove('error');
-                if (errorEmail) errorEmail.style.display = 'none';
-            }
-        }
-
-        function showEmailDropdown() {
-            const input = document.getElementById('find-id-email');
-            filterEmailSuggestions(input);
-        }
-
-        function hideEmailDropdown() {
-            setTimeout(() => {
-                if (emailDropdown) emailDropdown.style.display = 'none';
-            }, 200);
-        }
-
-        // --- [RESTORED] ID Result Modal Logic ---
+        // --- [NEW] ID Result Modal Logic ---
         const idResultCountMessage = document.getElementById('id-result-count-message');
         const idResultList = document.getElementById('id-result-list');
         const socialGuideMessage = document.getElementById('social-guide-message');
-        const footerBtn1 = document.getElementById('btn-default-1');
-        const footerBtn2 = document.getElementById('btn-default-2');
+        const footerDefaultBtn1 = document.getElementById('btn-default-1');
+        const footerDefaultBtn2 = document.getElementById('btn-default-2');
+        const footerSocialBtn1 = document.getElementById('btn-social-1');
+        const footerSocialBtn2 = document.getElementById('btn-social-2');
 
         function showIdResultModal(results) {
             if (!results || results.length === 0) {
@@ -1568,39 +1485,24 @@
                 idResultCountMessage.textContent = `총 ${results.length}건의 아이디를 찾았어요`;
                 idResultList.innerHTML = '';
 
+                // 기본 버튼으로 초기화
                 socialGuideMessage.style.display = 'none';
-                footerBtn1.textContent = '비밀번호 찾기';
-                footerBtn1.onclick = () => alert('비밀번호 찾기 (구현 필요)');
-
-                const isSingleResult = results.length === 1;
+                footerDefaultBtn1.style.display = 'flex';
+                footerDefaultBtn2.style.display = 'flex';
+                footerSocialBtn1.style.display = 'none';
+                footerSocialBtn2.style.display = 'none';
 
                 results.forEach(result => {
                     const card = document.createElement('li');
                     card.className = 'id-result-item-card';
                     card.dataset.value = result.value;
-                    card.dataset.issocial = result.social ? 'true' : 'false';
-
-                    if (!isSingleResult) {
-                        card.onclick = () => toggleIdResultSelection(card);
-                    } else {
-                        card.style.cursor = 'default';
-                    }
+                    card.dataset.issocial = result.social ? 'true' : 'false'; // 소셜 아이디 플래그
+                    card.onclick = () => toggleIdResultSelection(card);
 
                     let typeHtml = '';
-                    if (result.type === 'N') {
-                        typeHtml = `<span class="id-type-icon">N</span>`;
-                    } else if (result.type) {
-                        typeHtml = `<span class="id-type-icon" style="background-color:#4e6ee4;">${result.type}</span>`;
+                    if (result.type) {
+                        typeHtml = `<span class="id-type-icon" style="background-color: ${result.type === 'N' ? '#03C75A' : '#4e6ee4'}">${result.type}</span>`;
                     }
-
-                    const checkboxHtml = isSingleResult ? '' : `
-                        <div class="id-checkbox">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                 <path d="M5 12l5 5l10 -10" />
-                             </svg>
-                         </div>
-                    `;
 
                     card.innerHTML = `
                         <div class="id-info-wrapper">
@@ -1610,7 +1512,12 @@
                              </div>
                              <div class="id-date">최근접속일 : ${result.date}</div>
                          </div>
-                         ${checkboxHtml}
+                         <div class="id-checkbox">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                 <path d="M5 12l5 5l10 -10" />
+                             </svg>
+                         </div>
                     `;
                     idResultList.appendChild(card);
                 });
@@ -1618,39 +1525,57 @@
             }
         }
 
+        // [NEW] Toggle selection for ID result cards
         function toggleIdResultSelection(selectedCard) {
             const list = selectedCard.closest('#id-result-list');
             let isSelected = selectedCard.classList.contains('selected');
 
+            // 단일 선택 모드 (하나만 선택 가능)
             list.querySelectorAll('.id-result-item-card').forEach(card => {
                 card.classList.remove('selected');
             });
 
+            // 선택/해제 토글
             if (!isSelected) {
                 selectedCard.classList.add('selected');
                 isSelected = true;
             } else {
-                isSelected = false;
+                isSelected = false; // 해제
             }
 
             const isSocial = isSelected && selectedCard.dataset.issocial === 'true';
 
+            // 푸터 버튼 및 안내 메시지 업데이트
             if (isSocial) {
-                socialGuideMessage.style.display = 'flex';
-                footerBtn1.textContent = '아이디/비밀번호 설정';
-                footerBtn1.onclick = () => alert('아이디/비밀번호 설정 (구현 필요)');
+                socialGuideMessage.style.display = 'block';
+                footerDefaultBtn1.style.display = 'none';
+                footerDefaultBtn2.style.display = 'none';
+                footerSocialBtn1.style.display = 'flex';
+                footerSocialBtn2.style.display = 'flex';
             } else {
                 socialGuideMessage.style.display = 'none';
-                footerBtn1.textContent = '비밀번호 찾기';
-                footerBtn1.onclick = () => alert('비밀번호 찾기 (구현 필요)');
+                footerDefaultBtn1.style.display = 'flex';
+                footerDefaultBtn2.style.display = 'flex';
+                footerSocialBtn1.style.display = 'none';
+                footerSocialBtn2.style.display = 'none';
             }
         }
 
+        // [NEW] ID No Result Modal Logic
         function showNoResultModal() {
             openModal('id-no-result-modal-overlay');
         }
 
+        // --- Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
+            // 모달이 열릴 때 기본 탭 상태 초기화
+            const defaultTypeTab = document.querySelector('#find-id-type-tabs .type-tab-item[data-type="personal"]');
+            if (defaultTypeTab) {
+                // Personal default tab is 'Auth' (Request 1)
+                switchFindIdType(defaultTypeTab, 'personal');
+            }
+
+            // Modal overlay click-to-close listeners
             document.querySelectorAll('.modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', (e) => {
                     if (e.target.id === overlay.id) {
@@ -1662,18 +1587,24 @@
                 });
             });
 
+            // Add event listeners for form dirty check
             document.querySelectorAll('#find-id-form input').forEach(el => {
                 el.addEventListener('input', () => {
                     isFormDirty = true;
+
                     let currentTimerRemaining = (el.id.includes('email-verification') ? emailTimeRemaining : timeRemaining);
 
                     if (el.id.includes('verification-code') && currentTimerRemaining <= 0) {
+                        // Don't clear error if timer is expired
                     } else {
                         el.closest('.input').classList.remove('error');
                         const errorEl = el.closest('.form-group').querySelector('.disclaimer.error');
-                        if (errorEl) errorEl.style.display = 'none';
+                        if (errorEl) {
+                            errorEl.style.display = 'none';
+                        }
                     }
 
+                    // [NEW] Enable submit button if code is entered and timer is active
                     if ((el.id === 'find-id-verification-code' && timeRemaining > 0) || (el.id === 'find-id-verification-code-email' && emailTimeRemaining > 0)) {
                         findIdSubmitBtn.disabled = !(el.value.trim().length >= 6);
                         findIdSubmitBtn.textContent = '인증 완료';

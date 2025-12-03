@@ -2342,10 +2342,6 @@
             color: #333;
         }
 
-        .breakdown-row .label {
-            color: #666;
-        }
-
         .breakdown-row .value {
             font-weight: 500;
             text-align: right;
@@ -2628,6 +2624,51 @@
             padding: 0 12px;
             flex-shrink: 0;
         }
+
+        /* ... 기존 CSS ... */
+
+        /* [CSS 수정] 고객 관리, 배송지 목록, 고객 수정 모달 전체화면(Full Page) 스타일 적용 */
+
+        /* 1. 오버레이 패딩 제거 및 정렬 방식 변경 */
+        #customer-list-modal-overlay,
+        #address-list-modal-overlay,
+        #customer-edit-modal-overlay,
+        #operator-list-modal-overlay {
+            padding: 0;
+            align-items: flex-start;
+            /* 중앙 정렬 대신 상단부터 채움 */
+        }
+
+        /* 2. 모달 컨텐츠를 꽉 차게 변경 */
+        #customer-list-modal,
+        #address-list-modal,
+        #customer-edit-modal,
+        #operator-list-modal {
+            width: 100%;
+            max-width: 480px;
+            /* 최대 너비 유지 */
+            height: 100%;
+            /* 높이 꽉 채우기 */
+            max-height: none;
+            /* 기존 90vh 제한 해제 */
+            border-radius: 0;
+            /* 둥근 모서리 제거 */
+            margin: 0 auto;
+            /* PC 화면에서 중앙 정렬 */
+        }
+
+        /* 3. 내부 스크롤 영역 확보 */
+        #customer-list-modal .modal-body,
+        #address-list-modal .modal-body,
+        #customer-edit-modal .modal-body,
+        #operator-list-modal .modal-body {
+            flex: 1;
+            /* 남은 영역 모두 차지 */
+            min-height: 0;
+            /* 스크롤 버그 방지 */
+        }
+
+        /* ... 기존 CSS ... */
     </style>
 </head>
 
@@ -3431,7 +3472,7 @@
                     </div>
                 </div>
                 <div class="transaction-list-header"
-                    style="margin-top: 0; padding-bottom: 12px; margin-bottom: 12px; border-color: #e8e8e9;">
+                    style="margin-top: 0; margin-top: 12px; padding-bottom: 12px; margin-bottom: 12px; border-color: #e8e8e9;">
                     <span class="total-count">총 <strong id="modal-address-count">1</strong>개</span>
                 </div>
                 <div class="address-list" id="modal-address-list">
@@ -3448,9 +3489,9 @@
                     </article>
                 </div>
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button class="btn dark-button" style="width: 100%;" onclick="openAddressModal('add')">+ 배송지 추가</button>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="modal-overlay" id="address-modal-overlay">
@@ -3549,9 +3590,6 @@
                 <article class="manager-card-item">
                     <div class="manager-card-header">
                         <span class="manager-card-name">김성원</span>
-                        <button class="white-button btn" onclick="selectContact('김성원', '010-1234-1234')">
-                            선택
-                        </button>
                     </div>
 
                     <div style="display: flex; align-items: center;">
@@ -3561,17 +3599,17 @@
                     </div>
 
                     <div class="manager-card-footer">
-                        <button class="white-button btn" onclick="openModifyManager()">수정</button>
                         <button class="white-button btn" onclick="openDeleteManager()">삭제</button>
+                        <button class="white-button btn" onclick="openModifyManager()">수정</button>
+                        <button class="white-button btn" onclick="selectContact('김성원', '010-1234-1234')">
+                            선택
+                        </button>
                     </div>
                 </article>
 
                 <article class="manager-card-item">
                     <div class="manager-card-header">
                         <span class="manager-card-name">이담당</span>
-                        <button class="white-button btn" onclick="selectContact('이담당', '010-5678-5678')">
-                            선택
-                        </button>
                     </div>
 
                     <div style="display: flex; align-items: center;">
@@ -3581,8 +3619,11 @@
                     </div>
 
                     <div class="manager-card-footer">
-                        <button class="white-button btn" onclick="openModifyManager()">수정</button>
                         <button class="white-button btn" onclick="openDeleteManager()">삭제</button>
+                        <button class="white-button btn" onclick="openModifyManager()">수정</button>
+                        <button class="white-button btn" onclick="selectContact('이담당', '010-5678-5678')">
+                            선택
+                        </button>
                     </div>
                 </article>
             </div>
@@ -3711,19 +3752,19 @@
                     <article class="customer-item">
                         <div class="customer-item-header">
                             <span class="customer-name">삼성 SDS (김길동)</span>
-                            <button class="white-button btn"
-                                onclick="selectCustomer('삼성 SDS', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
-                                선택
-                            </button>
                         </div>
                         <div class="customer-detail">사업자등록번호 232-34-33445</div>
                         <!-- <div class="customer-detail">대표자명 김길동</div> -->
                         <div class="customer-detail"><span class="label">담당자</span></div>
                         <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
                         <div class="customer-item-footer">
+                            <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                             <button class="white-button btn"
                                 onclick="showCustomerEditModal('삼성 SDS', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">수정</button>
-                            <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
+                            <button class="white-button btn"
+                                onclick="selectCustomer('삼성 SDS', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
+                                선택
+                            </button>
                         </div>
                     </article>
                 </div>
@@ -3855,24 +3896,28 @@
 
                 <div class="price-breakdown-list">
                     <div class="breakdown-row">
-                        <span class="label">제품 금액 <span style="font-size:12px; color:#999;">(부가세 포함)</span></span>
+                        <span class="label">제품 금액</span>
                         <span class="value" id="sheet-product-price">₩0</span>
                     </div>
                     <div class="breakdown-row">
-                        <span class="label">성원포인트</span>
-                        <span class="value discount" id="sheet-point-discount">-₩0</span>
+                        <span class="label">부가세</span>
+                        <span class="value" id="sheet-product-price">₩0</span>
                     </div>
                     <div class="breakdown-row">
                         <span class="label">디자인 신청비</span>
                         <span class="value" id="sheet-design-fee">₩0</span>
                     </div>
                     <div class="breakdown-row">
-                        <span class="label">오늘판</span>
+                        <span class="label">오늘판 신청</span>
                         <span class="value" id="sheet-today-fee">₩0</span>
                     </div>
                     <div class="breakdown-row">
                         <span class="label">배송비</span>
                         <span class="value" id="sheet-shipping-fee">₩0</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span class="label">성원포인트</span>
+                        <span class="value discount" id="sheet-point-discount">-0P</span>
                     </div>
                 </div>
 
@@ -4286,7 +4331,7 @@
             const elSheetTotal = document.getElementById('sheet-total-price');
 
             if (elSheetProduct) elSheetProduct.textContent = `₩${formatCurrency(productTotalWithVat)}`;
-            if (elSheetPoint) elSheetPoint.textContent = `-₩${formatCurrency(pointDiscount)}`;
+            if (elSheetPoint) elSheetPoint.textContent = `-${formatCurrency(pointDiscount)}P`;
             if (elSheetDesign) elSheetDesign.textContent = `₩${formatCurrency(designFee)}`;
 
             // 오늘판 비용 표시 스타일

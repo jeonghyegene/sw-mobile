@@ -644,6 +644,13 @@
             color: #ffc107;
         }
 
+        /* [REMOVED] Status for 폐기처리
+        .card-badge[data-status="폐기처리"] {
+            border-color: #28a745;
+            color: #28a745;
+        }
+        */
+
         /* [NEW] Remarks badge color */
         .card-badge[data-status="배송전"] {
             background-color: #ebebeb;
@@ -942,8 +949,6 @@
             cursor: pointer;
             transition: all 0.2s;
             user-select: none;
-            flex-shrink: 0;
-            /* Add shrink protection */
         }
 
         .single-chip-off {
@@ -1051,7 +1056,6 @@
             /* For close button */
             height: 57px;
             /* Match v12 modal header */
-            flex-shrink: 0;
         }
 
         .modal-title {
@@ -1097,7 +1101,6 @@
             display: flex;
             gap: 8px;
             border-radius: 0 0 7px 7px;
-            flex-shrink: 0;
         }
 
         .modal-footer .btn {
@@ -1171,70 +1174,19 @@
             display: flex;
             gap: 8px;
             margin-bottom: 20px;
-            align-items: center;
-            /* Horizontal Scroll */
-            overflow-x: auto;
-            flex-wrap: nowrap;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 4px;
-            /* for scrollbar spacing if visible */
-        }
-
-        .modal-tab-nav::-webkit-scrollbar {
-            display: none;
         }
 
         .modal-tab-nav .single-chip {
+            /* flex: 1; [REMOVED] */
             font-weight: 500;
         }
 
+        /* [MODIFIED] Use v12 Master Guide chip styles */
         .modal-tab-nav .single-chip-on {
             background: #4e6ee4;
+            /* Master Guide blue */
             color: white;
         }
-
-        /* [NEW] Nav Action Button */
-        .nav-action-btn {
-            display: inline-flex;
-            height: 32px;
-            padding: 0 12px;
-            font-size: 13px;
-            font-weight: 500;
-            color: white;
-            background-color: #333;
-            border-radius: 6px;
-            align-items: center;
-            justify-content: center;
-            margin-left: 4px;
-            white-space: nowrap;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .nav-action-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* [NEW] Chip Close Button */
-        .chip-close-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 4px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            transition: background-color 0.2s;
-        }
-
-        .chip-close-btn:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .single-chip-on .chip-close-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
 
         /* [NEW] Customer List Modal Styles */
         .customer-list {
@@ -1281,15 +1233,6 @@
             color: #333;
         }
 
-        .customer-item-footer {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #f0f0f0;
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-        }
-
         /* [NEW] Form group for customer list button */
         .form-group-button {
             /* margin-bottom: 20px; Moved to inline style */
@@ -1310,8 +1253,10 @@
             background: rgba(0, 0, 0, 0.5);
             display: none;
             justify-content: flex-end;
+            /* Align to the right */
             z-index: 1000;
             animation: fadeInModal 0.3s ease-out;
+            /* Same fade-in for overlay */
         }
 
         .full-modal-overlay.active {
@@ -1324,6 +1269,8 @@
 
         .full-modal-content {
             width: 100%;
+            /* [MODIFIED] Req 1: max-width removed */
+            /* max-width: 480px; /* Match .mobile-wrap */
             height: 100%;
             background: white;
             display: flex;
@@ -1382,42 +1329,6 @@
             }
         }
 
-        /* [UPDATED] Tax Edit Modal Overrides for Center Alignment & 480px Max-Width */
-        #tax-edit-modal-overlay {
-            justify-content: center;
-            /* Center horizontally */
-            align-items: center;
-            /* Center vertically */
-        }
-
-        #tax-edit-modal {
-            max-width: 480px;
-            width: 90%;
-            /* Responsive fallback */
-            height: auto;
-            max-height: 90vh;
-            border-radius: 8px;
-            animation: scaleUpModal 0.2s ease-out;
-            transform: none;
-            /* Reset full-modal transform */
-        }
-
-        #tax-edit-modal-overlay.closing #tax-edit-modal {
-            animation: scaleDownModal 0.2s ease-out forwards;
-        }
-
-        @keyframes scaleDownModal {
-            from {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            to {
-                transform: scale(0.9);
-                opacity: 0;
-            }
-        }
-
         /* 오버레이: 전체 화면을 덮되, 내용은 중앙 정렬 */
         #tax-edit-modal-overlay {
             padding: 0;
@@ -1454,44 +1365,6 @@
             overflow-y: auto;
             /* 내용이 길면 스크롤 */
         }
-
-        /* [NEW] Email Combobox Styles */
-        .combobox-wrapper {
-            position: relative;
-        }
-
-        .combobox-dropdown {
-            position: absolute;
-            top: calc(100% + 2px);
-            left: 0;
-            right: 0;
-            background: #fff;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            z-index: 600;
-            max-height: 150px;
-            overflow-y: auto;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .combobox-item {
-            padding: 10px 12px;
-            font-size: 14px;
-            cursor: pointer;
-            border-bottom: 1px solid #f0f0f0;
-            width: 100%;
-            display: block;
-            text-align: left;
-        }
-
-        .combobox-item:last-child {
-            border-bottom: none;
-        }
-
-        .combobox-item:hover {
-            background: #f5f5f6;
-        }
     </style>
 </head>
 
@@ -1509,6 +1382,20 @@
             </div>
             <h1 class="header-title">세금계산서 발급</h1>
             <div class="header-right">
+                <!-- <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
+                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M17 17h-11v-14h-2" />
+                        <path d="M6 5l14 1l-1 7h-13" />
+                    </svg>
+                </button> -->
             </div>
         </header>
 
@@ -1580,6 +1467,7 @@
                     </div>
 
                     <div class="transaction-list" id="transaction-list-container">
+
                         <article class="common-table-card" data-status="미발급">
                             <div class="card-header">
                                 <div style="display: flex; align-items: center; gap: 10px;">
@@ -1657,6 +1545,94 @@
                             <div class="card-row">
                                 <div class="card-row-label">배송시작일</div>
                                 <div class="card-row-value">2025-10-20</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn"
+                                    onclick="showTaxEditModal(this)">수정</button>
+                                <button type="button" class="primary-button btn"
+                                    onclick="location.href='tax_request_write(단일).html';">신청</button>
+                            </div>
+                        </article>
+
+                        <article class="common-table-card" data-status="미발급">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" data-disabled="true"
+                                        onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
+                                        <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
+                                        <span
+                                            style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw456426</span>
+                                    </div>
+                                </div>
+                                <div class="card-header-badges">
+                                    <div class="card-badge" data-status="배송전">배송전</div>
+                                    <div class="card-badge" data-status="미발급">미발급</div>
+                                </div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row" style="align-items: flex-start;">
+                                <div class="card-row-label" style="color: #333; font-weight: 600; padding-top: 2px;">
+                                    합계금액</div>
+                                <div style="text-align: right;">
+                                    <div class="card-row-value"
+                                        style="color: #212121; font-weight: 700; font-size: 16px;">₩220,000</div>
+                                    <div style="font-size: 11px; color: #888; margin-top: 2px;">(공급가액: ₩200,000 / 부가세액:
+                                        ₩20,000)</div>
+                                </div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row">
+                                <div class="card-row-label">접수일</div>
+                                <div class="card-row-value">2025-10-17</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn"
+                                    onclick="showTaxEditModal(this)">수정</button>
+                                <button type="button" class="primary-button btn" disabled>신청</button>
+                            </div>
+                        </article>
+
+                        <article class="common-table-card" data-status="미발급">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" data-disabled="false"
+                                        onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
+                                        <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
+                                        <span
+                                            style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw567834</span>
+                                    </div>
+                                </div>
+                                <div class="card-badge" data-status="미발급">미발급</div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row">
+                                <div class="card-row-label">고객명</div>
+                                <div class="card-row-value">홍길동인쇄업체</div>
+                            </div>
+                            <div class="card-row" style="align-items: flex-start;">
+                                <div class="card-row-label" style="color: #333; font-weight: 600; padding-top: 2px;">
+                                    합계금액</div>
+                                <div style="text-align: right;">
+                                    <div class="card-row-value"
+                                        style="color: #212121; font-weight: 700; font-size: 16px;">₩220,000</div>
+                                    <div style="font-size: 11px; color: #888; margin-top: 2px;">(공급가액: ₩1,000,200,000 /
+                                        부가세액: ₩20,000)</div>
+                                </div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row">
+                                <div class="card-row-label">접수일</div>
+                                <div class="card-row-value">2025-10-13</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-row-label">배송시작일</div>
+                                <div class="card-row-value">2025-10-14</div>
                             </div>
                             <div class="card-footer">
                                 <button type="button" class="white-button btn"
@@ -1752,9 +1728,52 @@
                                     onclick="showTaxEditModal(this)">수정</button>
                             </div>
                         </article>
+
+                        <article class="common-table-card" data-status="미발급" data-period="previous"
+                            style="display: none;">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="checkbox" data-checked="false" data-disabled="true"
+                                        onclick="toggleTaxCheckbox(this)">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <div class="order-button" style="display: flex; align-items: baseline; gap: 6px;">
+                                        <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
+                                        <span
+                                            style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw856745</span>
+                                    </div>
+                                </div>
+                                <div class="card-header-badges">
+                                    <div class="card-badge" data-status="배송전">배송전</div>
+                                    <div class="card-badge" data-status="미발급">미발급</div>
+                                </div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row" style="align-items: flex-start;">
+                                <div class="card-row-label" style="color: #333; font-weight: 600; padding-top: 2px;">
+                                    합계금액</div>
+                                <div style="text-align: right;">
+                                    <div class="card-row-value"
+                                        style="color: #212121; font-weight: 700; font-size: 16px;">220,000 원</div>
+                                    <div style="font-size: 11px; color: #888; margin-top: 2px;">(공급가액: 200,000 / 부가세액:
+                                        20,000)</div>
+                                </div>
+                            </div>
+                            <div class="card-divider"></div>
+                            <div class="card-row">
+                                <div class="card-row-label">접수일</div>
+                                <div class="card-row-value">2025-09-28</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="white-button btn"
+                                    onclick="showTaxEditModal(this)">수정</button>
+                                <button type="button" class="primary-button btn" disabled>신청</button>
+                            </div>
+                        </article>
+
                     </div>
 
-                    <div class="no-transactions" id="no-issue-list" style="display: none;">등록된 고객이 없어요</div>
+                    <div class="no-transactions" style="display: none;">신청할 세금계산서 내역이 없어요</div>
 
                     <div class="pagination" data-name="Pagination">
                         <div class="pagination-arrow disabled" onclick="paginationFirst()">
@@ -1796,7 +1815,7 @@
     </div>
 
     <div class="full-modal-overlay" id="tax-edit-modal-overlay">
-        <div class="modal-content" id="tax-edit-modal">
+        <div class="full-modal-content" id="tax-edit-modal">
             <div class="modal-header">
                 <h2 class="modal-title">세금계산서 신청정보 수정</h2>
                 <button class="btn-modal-close" onclick="closeModal('tax-edit-modal-overlay')">
@@ -1812,24 +1831,11 @@
                         onclick="switchTaxEditTab(this, 'my-info')">내 정보</div>
                     <div class="single-chip single-chip-off" data-tab="direct-input"
                         onclick="switchTaxEditTab(this, 'direct-input')">직접 입력</div>
-
-                    <div class="single-chip single-chip-off" id="chip-customer-list-edit" data-tab="customer-list"
-                        style="display: none;" onclick="switchTaxEditTab(this, 'customer-list')">
-                        <span id="chip-customer-text-edit"></span>
-                        <span class="chip-close-btn" onclick="removeSelectedCustomer(event)">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </span>
-                    </div>
-
-                    <button type="button" class="nav-action-btn show" onclick="showCustomerListModal()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                            style="margin-right:4px;">
+                    <div class="single-chip single-chip-off" data-tab="customer-list"
+                        onclick="switchTaxEditTab(this, 'customer-list')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-list">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M9 6l11 0" />
                             <path d="M9 12l11 0" />
@@ -1837,117 +1843,76 @@
                             <path d="M5 6l0 .01" />
                             <path d="M5 12l0 .01" />
                             <path d="M5 18l0 .01" />
-                        </svg>
-                        나의 고객 목록
-                    </button>
+                        </svg>&nbsp;나의 고객 목록
+                    </div>
                 </nav>
 
-                <div id="tax-edit-form">
-                    <div class="form-fields-wrapper" data-tab-content="my-info">
-                        <div class="form-group">
-                            <label>기업명</label>
-                            <div class="readonly-value">주식회사 메스 TX</div>
-                        </div>
-                        <div class="form-group">
-                            <label>사업자등록번호</label>
-                            <div class="readonly-value">434-34342-22</div>
-                        </div>
-                        <div class="form-group">
-                            <label>대표자명</label>
-                            <div class="readonly-value">김수한</div>
-                        </div>
-                        <div class="form-group">
-                            <label>회계담당자명</label>
-                            <div class="input"><input type="text" id="edit-contact-name" value="김회계"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>연락처</label>
-                            <div class="input"><input type="tel" id="edit-contact-phone" value="0233441688"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>이메일 주소</label>
-                            <div class="input"><input type="email" id="edit-contact-email" value="damdangja@email.com">
-                            </div>
+                <form id="tax-edit-form">
+                    <div class="form-group form-group-button" data-tab-content="customer-list"
+                        style="display: none; margin-bottom: 20px;">
+                        <button type="button" class="white-button" onclick="showCustomerListModal()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-list">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M9 6l11 0" />
+                                <path d="M9 12l11 0" />
+                                <path d="M9 18l11 0" />
+                                <path d="M5 6l0 .01" />
+                                <path d="M5 12l0 .01" />
+                                <path d="M5 18l0 .01" />
+                            </svg>&nbsp;
+                            나의 고객 목록
+                        </button>
+                    </div>
+
+                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
+                        <label for="tax-company-name">기업명</label>
+                        <div class="input" id="tax-company-name-wrapper">
+                            <input type="text" id="tax-company-name" placeholder="기업명을 입력해주세요">
                         </div>
                     </div>
 
-                    <div class="form-fields-wrapper" data-tab-content="direct-input" style="display:none;">
-                        <div class="form-group">
-                            <label>기업명</label>
-                            <div class="input"><input type="text" placeholder="기업명을 입력해주세요"></div>
+                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
+                        <label for="tax-biz-num">사업자등록번호</label>
+                        <div class="input" id="tax-biz-num-wrapper">
+                            <input type="text" id="tax-biz-num" placeholder="사업자등록번호를 입력해주세요">
                         </div>
-                        <div class="form-group">
-                            <label>사업자등록번호</label>
-                            <div class="input"><input type="text" placeholder="'-'없이 사업자등록번호 10자리를 입력해주세요">
-                            </div>
+                    </div>
+                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
+                        <label for="tax-rep-name">대표자명</label>
+                        <div class="input" id="tax-rep-name-wrapper">
+                            <input type="text" id="tax-rep-name" placeholder="대표자명을 입력해주세요">
                         </div>
-                        <div class="form-group">
-                            <label>대표자명</label>
-                            <div class="input"><input type="text" placeholder="대표자명을 입력해주세요"></div>
+                    </div>
+                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
+                        <label for="tax-contact-name">회계담당자명</label>
+                        <div class="input">
+                            <input type="text" id="tax-contact-name" placeholder="회계담당자명을 입력해주세요">
                         </div>
-                        <div class="form-group">
-                            <label>회계담당자명</label>
-                            <div class="input"><input type="text" placeholder="회계담당자명을 입력해주세요"></div>
+                    </div>
+                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
+                        <label for="tax-contact-phone">회계담당자 연락처</label>
+                        <div class="input">
+                            <input type="tel" id="tax-contact-phone" placeholder="회계담당자 연락처를 입력해주세요">
                         </div>
-                        <div class="form-group">
-                            <label>연락처</label>
-                            <div class="input"><input type="tel" placeholder="회계담당자 연락처를 입력해주세요"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>이메일 주소</label>
-                            <div class="combobox-wrapper">
-                                <div class="input">
-                                    <input type="email" id="direct-email-input" placeholder="회계담당자 이메일 주소를 입력해주세요"
-                                        oninput="filterEmailSuggestions(this)" onfocus="filterEmailSuggestions(this)"
-                                        onblur="hideEmailDropdown(this)" autocomplete="off">
-                                </div>
-                                <div class="combobox-dropdown" id="direct-email-dropdown"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="checkbox-text" onclick="toggleModalCheckbox(this)">
-                                <div class="checkbox" data-checked="false">
-                                    <div class="checkbox-off"></div>
-                                </div>
-                                <span>나의 고객 목록에 추가하기</span>
-                            </div>
+                    </div>
+                    <div class="form-group" data-tab-content="my-info direct-input customer-list">
+                        <label for="tax-contact-email">회계담당자 이메일</label>
+                        <div class="input">
+                            <input type="email" id="tax-contact-email" placeholder="회계담당자 이메일 주소를 입력해주세요">
                         </div>
                     </div>
 
-                    <div class="form-fields-wrapper" data-tab-content="customer-list" style="display:none;">
-                        <div class="form-group">
-                            <label>기업명</label>
-                            <div class="input"><input type="text" id="customer-company-name-edit"
-                                    placeholder="고객 목록에서 선택해주세요" readonly></div>
-                        </div>
-                        <div class="form-group">
-                            <label>사업자등록번호</label>
-                            <div class="input"><input type="text" id="customer-biz-num-edit"
-                                    placeholder="고객 목록에서 선택해주세요" readonly></div>
-                        </div>
-                        <div class="form-group">
-                            <label>대표자명</label>
-                            <div class="input"><input type="text" id="customer-rep-name-edit"
-                                    placeholder="고객 목록에서 선택해주세요" readonly></div>
-                        </div>
-                        <div class="form-group">
-                            <label>회계담당자명</label>
-                            <div class="input"><input type="text" id="customer-contact-name-edit"
-                                    placeholder="회계담당자명을 입력해주세요"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>연락처</label>
-                            <div class="input"><input type="tel" id="customer-contact-phone-edit"
-                                    placeholder="회계담당자 연락처를 입력해주세요"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>이메일 주소</label>
-                            <div class="input"><input type="email" id="customer-contact-email-edit"
-                                    placeholder="회계담당자 이메일 주소를 입력해주세요"></div>
+                    <div class="form-group" data-tab-content="direct-input" style="display: none;">
+                        <div class="checkbox-text" onclick="toggleModalCheckbox(this)">
+                            <div class="checkbox" data-checked="false">
+                                <div class="checkbox-off"></div>
+                            </div>
+                            <span>나의 고객 목록에 추가하기</span>
                         </div>
                     </div>
-
-                </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button class="btn dark-button" style="width: 100%;" onclick="alert('수정하기 (구현 필요)')">수정하기</button>
@@ -1993,116 +1958,58 @@
                 <div class="customer-list">
                     <article class="customer-item">
                         <div class="customer-item-header">
-                            <span class="customer-name">삼성 SDS (김길동)</span>
-                        </div>
-                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
-                        <div class="customer-detail"><span class="label">담당자</span></div>
-                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
-                        <div class="customer-item-footer">
+                            <span class="customer-name">삼성 SDS</span>
                             <button class="white-button"
                                 onclick="selectCustomer('삼성 SDS', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
                                 선택
                             </button>
                         </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
                     </article>
 
                     <article class="customer-item">
                         <div class="customer-item-header">
-                            <span class="customer-name">LG (김길동)</span>
-                        </div>
-                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
-                        <div class="customer-detail"><span class="label">담당자</span></div>
-                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
-                        <div class="customer-item-footer">
+                            <span class="customer-name">LG</span>
                             <button class="white-button"
                                 onclick="selectCustomer('LG', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
                                 선택
                             </button>
                         </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
                     </article>
 
                     <article class="customer-item">
                         <div class="customer-item-header">
-                            <span class="customer-name">현대오토에버 (김길동)</span>
-                        </div>
-                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
-                        <div class="customer-detail"><span class="label">담당자</span></div>
-                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
-                        <div class="customer-item-footer">
+                            <span class="customer-name">현대오토에버</span>
                             <button class="white-button"
                                 onclick="selectCustomer('현대오토에버', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
                                 선택
                             </button>
                         </div>
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
+                        <div class="customer-detail"><span class="label">담당자</span></div>
+                        <div class="customer-detail" style="color: #666;">김성원 / 01012341234 / test1234@test.com</div>
                     </article>
 
                     <article class="customer-item">
                         <div class="customer-item-header">
-                            <span class="customer-name">대우 (김길동)</span>
-                        </div>
-                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
-                        <div class="customer-detail">대표자명 김길동</div>
-                        <div class="customer-item-footer">
+                            <span class="customer-name">대우</span>
                             <button class="white-button"
                                 onclick="selectCustomer('대우', '232-34-33445', '김길동', '', '', '')">
                                 선택
                             </button>
                         </div>
-
+                        <div class="customer-detail">사업자등록번호 232-34-33445</div>
+                        <div class="customer-detail">대표자명 김길동</div>
                     </article>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="full-modal-overlay" id="tax-pending-modal-overlay">
-        <div class="full-modal-content" id="tax-pending-modal">
-            <div class="modal-header">
-                <h2 class="modal-title">세금계산서 신청정보</h2>
-                <button class="btn-modal-close" onclick="closeModal('tax-pending-modal-overlay')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="disclaimer warning"
-                    style="margin-top: 0; margin-bottom: 20px; font-size: 14px; text-align: center;">
-                    * 세금계산서가 '발급대기' 상태일 때는,<br>기업명을 수정할 수 없어요
-                </p>
-                <form id="tax-pending-form">
-                    <div class="form-group">
-                        <label>기업명</label>
-                        <div class="input disabled">
-                            <input type="text" value="삼성 SDS" disabled>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>사업자등록번호</label>
-                        <div class="readonly-value">123-45-67890</div>
-                    </div>
-                    <div class="form-group">
-                        <label>대표자명</label>
-                        <div class="readonly-value">김길동</div>
-                    </div>
-                    <div class="form-group">
-                        <label>회계담당자명</label>
-                        <div class="readonly-value">김성원</div>
-                    </div>
-                    <div class="form-group">
-                        <label>회계담당자 연락처</label>
-                        <div class="readonly-value">01012341234</div>
-                    </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label>회계담당자 이메일 주소</label>
-                        <div class="readonly-value">test@test.com</div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn dark-button" style="width: 100%;"
-                    onclick="closeModal('tax-pending-modal-overlay')">확인 완료</button>
             </div>
         </div>
     </div>
@@ -2123,7 +2030,6 @@
                     style="margin-top: 0; margin-bottom: 20px; font-size: 14px; text-align: center;">
                     * 세금계산서가 '발급대기' 상태일 때는,<br>기업명을 수정할 수 없어요
                 </p>
-
                 <form id="tax-pending-form">
                     <div class="form-group">
                         <label>기업명</label>
@@ -2458,24 +2364,36 @@
         function openModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
-                overlay.classList.remove('closing');
                 overlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
         }
 
+        // [MODIFIED] Req 2: closeModal to handle slide-out animation
         function closeModal(overlayId) {
             const overlay = document.getElementById(overlayId);
             if (overlay) {
-                overlay.classList.add('closing');
-                setTimeout(() => {
+                // Check if it's the new full-modal
+                if (overlay.classList.contains('full-modal-overlay')) {
+                    overlay.classList.add('closing'); // Add closing animation class
+                    setTimeout(() => {
+                        overlay.classList.remove('active');
+                        overlay.classList.remove('closing'); // Clean up
+                        // [MODIFIED] Check all modal types
+                        const anyModalActive = document.querySelector('.modal-overlay.active, .full-modal-overlay.active');
+                        if (!anyModalActive) {
+                            document.body.style.overflow = '';
+                        }
+                    }, 300); // Match animation duration
+                } else {
+                    // Original logic for centered modals
                     overlay.classList.remove('active');
-                    overlay.classList.remove('closing');
+                    // [MODIFIED] Check all modal types
                     const anyModalActive = document.querySelector('.modal-overlay.active, .full-modal-overlay.active');
                     if (!anyModalActive) {
                         document.body.style.overflow = '';
                     }
-                }, 300);
+                }
             }
         }
 
@@ -2493,159 +2411,136 @@
         }
 
         // --- Tax Edit Modal Logic ---
+        const taxEditForm = document.getElementById('tax-edit-form');
+        const taxEditInputs = {
+            companyName: taxEditForm.querySelector('#tax-company-name'),
+            bizNum: taxEditForm.querySelector('#tax-biz-num'),
+            repName: taxEditForm.querySelector('#tax-rep-name'),
+            contactName: taxEditForm.querySelector('#tax-contact-name'),
+            contactPhone: taxEditForm.querySelector('#tax-contact-phone'),
+            contactEmail: taxEditForm.querySelector('#tax-contact-email')
+        };
+        const taxEditWrappers = {
+            companyName: taxEditForm.querySelector('#tax-company-name-wrapper'),
+            bizNum: taxEditForm.querySelector('#tax-biz-num-wrapper'),
+            repName: taxEditForm.querySelector('#tax-rep-name-wrapper')
+        };
+
         function showTaxEditModal(buttonEl) {
             const card = buttonEl.closest('.common-table-card');
             const status = card.getAttribute('data-status');
 
             if (status === '발급대기') {
+                // '발급대기' 모달 표시 (PDF 3번 시안)
+                // (실제로는 이 모달에도 데이터를 채워야 함)
                 openModal('tax-pending-modal-overlay');
             } else {
-                // Initialize Tabs to "My Info"
+                // '신청정보 수정' 모달 표시
+                // 기본값 '내 정보' 탭으로 설정
                 switchTaxEditTab(document.querySelector('#tax-edit-tabs [data-tab="my-info"]'), 'my-info');
                 openModal('tax-edit-modal-overlay');
             }
         }
 
-        /* [MODIFIED] New Tab Switching Logic adapted from Reference */
         function switchTaxEditTab(tabEl, tabName) {
-            // 1. Activate Tab
+            // 탭 활성화
             const tabNav = tabEl.closest('.modal-tab-nav');
             tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
             tabEl.classList.replace('single-chip-off', 'single-chip-on');
 
-            // 2. Hide all form content wrappers
-            const formContainer = document.getElementById('tax-edit-form');
-            formContainer.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
-                wrapper.style.display = 'none';
+            // 폼 필드 초기화
+            Object.values(taxEditInputs).forEach(input => {
+                input.value = '';
+                input.disabled = false;
+            });
+            Object.values(taxEditWrappers).forEach(wrapper => {
+                wrapper.classList.remove('disabled');
             });
 
-            // 3. Show selected tab content
-            const targetWrapper = formContainer.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`);
-            if (targetWrapper) {
-                targetWrapper.style.display = 'block';
+            // '나의 고객 목록' 버튼을 먼저 찾음
+            const customerListButton = taxEditForm.querySelector('.form-group-button[data-tab-content="customer-list"]');
 
-                // If Direct Input, clear fields on switch (optional, based on UX)
-                if (tabName === 'direct-input') {
-                    // targetWrapper.querySelectorAll('input').forEach(input => input.value = '');
-                }
+            // 폼 섹션(입력 필드) 보이기/숨기기
+            taxEditForm.querySelectorAll('.form-group:not(.form-group-button)').forEach(el => {
+                el.style.display = 'none';
+            });
+            taxEditForm.querySelectorAll(`.form-group[data-tab-content*="${tabName}"]:not(.form-group-button)`).forEach(el => {
+                el.style.display = 'block';
+            });
+
+            // '나의 고객 목록' 탭일 때만 버튼 표시
+            if (tabName === 'customer-list') {
+                customerListButton.style.display = 'block';
+            } else {
+                customerListButton.style.display = 'none';
+            }
+
+
+            // 탭별 로직 적용
+            if (tabName === 'my-info') {
+                // PDF 4번 시안 (내 정보)
+                taxEditInputs.companyName.value = "삼성 SDS";
+                taxEditInputs.bizNum.value = "123-45-67890";
+                taxEditInputs.repName.value = "김길동";
+                taxEditInputs.contactName.value = "김성원";
+                taxEditInputs.contactPhone.value = "01012341234";
+                taxEditInputs.contactEmail.value = "test@test.com";
+
+                // 상위 3개 필드 비활성화
+                taxEditInputs.companyName.disabled = true;
+                taxEditInputs.bizNum.disabled = true;
+                taxEditInputs.repName.disabled = true;
+                taxEditWrappers.companyName.classList.add('disabled');
+                taxEditWrappers.bizNum.classList.add('disabled');
+                taxEditWrappers.repName.classList.add('disabled');
+
+            } else if (tabName === 'direct-input') {
+                // PDF 5번 시안 (직접 입력)
+                // 모든 필드가 placeholder 상태 (위에서 초기화됨)
+
+            } else if (tabName === 'customer-list') {
+                // PDF 1번 시안 (나의 고객 목록)
+                // 고객 목록에서 선택된 정보로 채움 (예시)
+                // 실제로는 selectCustomer() 함수가 이 값을 채움
+                // 여기서는 '선택' 버튼을 누르기 전의 빈 상태를 가정
             }
         }
 
-        // --- Customer List Interaction ---
+        // --- Customer List Modal Logic ---
         function showCustomerListModal() {
-            // Open the list modal on top of the edit modal
+            // [MODIFIED] Req 2: 이제 tax-edit-modal-overlay 위에 띄우는 것이 아니라,
+            // tax-edit-modal-overlay를 닫고 customer-list-modal-overlay를 엽니다.
+            // (실제 앱에서는 상태 관리가 필요하겠지만, 여기서는 시뮬레이션)
+            // closeModal('tax-edit-modal-overlay'); // <-- 닫지 않고 그 위에 띄우는 것이 UX상 더 나을 수 있습니다.
+            // 일단은 기존 로직(위에 띄우기)을 유지하되, customer-list-modal이 full-modal이 되도록 합니다.
             openModal('customer-list-modal-overlay');
         }
 
-        function selectCustomer(company, bizNum, repName, contactName, contactPhone, email) {
-            // 1. Close List Modal
+        function selectCustomer(company, bizNum, repName, contactName, contactPhone, contactEmail) {
+            // 1. 고객 목록 모달 닫기
             closeModal('customer-list-modal-overlay');
 
-            // 2. Populate Fields in Edit Modal
-            document.getElementById('customer-company-name-edit').value = company;
-            document.getElementById('customer-biz-num-edit').value = bizNum;
-            document.getElementById('customer-rep-name-edit').value = repName;
-            document.getElementById('customer-contact-name-edit').value = contactName || '';
-            document.getElementById('customer-contact-phone-edit').value = contactPhone || '';
-            document.getElementById('customer-contact-email-edit').value = email || '';
+            // 2. [MODIFIED] Req 2: 닫혔던 '신청정보 수정' 모달을 다시 엽니다 (만약 닫았다면).
+            // openModal('tax-edit-modal-overlay'); // <-- 닫지 않았다면 이 코드는 불필요.
 
-            // 3. Show Customer Chip & Activate Tab
-            const customerChip = document.getElementById('chip-customer-list-edit');
-            const customerChipText = document.getElementById('chip-customer-text-edit');
+            // 3. '신청정보 수정' 모달의 '나의 고객 목록' 탭으로 강제 전환
+            switchTaxEditTab(document.querySelector('#tax-edit-tabs [data-tab="customer-list"]'), 'customer-list');
 
-            customerChip.style.display = 'inline-flex';
-            customerChipText.textContent = company;
+            // 4. '신청정보 수정' 모달에 데이터 채우기 (PDF 1번 시안)
+            taxEditInputs.companyName.value = company;
+            taxEditInputs.bizNum.value = bizNum;
+            taxEditInputs.repName.value = repName;
+            taxEditInputs.contactName.value = contactName;
+            taxEditInputs.contactPhone.value = contactPhone;
+            taxEditInputs.contactEmail.value = contactEmail;
 
-            // Trigger tab switch to 'customer-list'
-            switchTaxEditTab(customerChip, 'customer-list');
-        }
-
-        function removeSelectedCustomer(e) {
-            if (e) e.stopPropagation();
-
-            // 1. Hide Chip
-            const customerChip = document.getElementById('chip-customer-list-edit');
-            customerChip.style.display = 'none';
-            customerChip.classList.replace('single-chip-on', 'single-chip-off');
-
-            // 2. Clear Fields
-            document.getElementById('customer-company-name-edit').value = '';
-            // ... clear other fields if needed
-
-            // 3. Switch back to My Info
-            const myInfoTab = document.querySelector('#tax-edit-tabs [data-tab="my-info"]');
-            switchTaxEditTab(myInfoTab, 'my-info');
-        }
-
-        // --- [NEW] Email Combobox Logic ---
-        const emailDomains = ['naver.com', 'gmail.com', 'daum.net', 'hanmail.net'];
-        const emailDropdown = document.getElementById('direct-email-dropdown');
-
-        function filterEmailSuggestions(input) {
-            const value = input.value;
-            const atIndex = value.indexOf('@');
-            // Use the dropdown specific to this input context, or the globally selected one
-            const dropdown = input.closest('.combobox-wrapper').querySelector('.combobox-dropdown');
-
-            dropdown.innerHTML = '';
-
-            // If empty, hide dropdown
-            if (value.length === 0) {
-                dropdown.style.display = 'none';
-                return;
-            }
-
-            let localPart = value;
-            let domainPart = '';
-
-            if (atIndex > -1) {
-                localPart = value.substring(0, atIndex);
-                domainPart = value.substring(atIndex + 1);
-            } else {
-                localPart = value;
-                domainPart = '';
-            }
-
-            // Don't show if local part is missing
-            if (localPart.length === 0) {
-                dropdown.style.display = 'none';
-                return;
-            }
-
-            // Filter domains
-            const matchingDomains = emailDomains.filter(domain => domain.startsWith(domainPart));
-
-            if (matchingDomains.length > 0) {
-                matchingDomains.forEach(domain => {
-                    const fullEmail = localPart + '@' + domain;
-                    const item = document.createElement('div');
-                    item.className = 'combobox-item';
-                    item.textContent = fullEmail;
-                    // Use onmousedown to fire before onblur
-                    item.onmousedown = () => selectEmailSuggestion(fullEmail, input, dropdown);
-                    dropdown.appendChild(item);
-                });
-                dropdown.style.display = 'block';
-            } else {
-                dropdown.style.display = 'none';
-            }
-        }
-
-        function selectEmailSuggestion(fullEmail, inputElement, dropdownElement) {
-            inputElement.value = fullEmail;
-            dropdownElement.style.display = 'none';
-        }
-
-        function showEmailDropdown(input) {
-            // Trigger filter immediately on focus
-            filterEmailSuggestions(input);
-        }
-
-        function hideEmailDropdown(input) {
-            setTimeout(() => {
-                const dropdown = input.closest('.combobox-wrapper').querySelector('.combobox-dropdown');
-                if (dropdown) dropdown.style.display = 'none';
-            }, 200);
+            // '나의 고객 목록' 탭에서는 모든 필드가 활성화 상태 (disabled=false)
+            Object.values(taxEditInputs).forEach(input => {
+                input.disabled = false;
+            });
+            Object.values(taxEditWrappers).forEach(wrapper => {
+                wrapper.classList.remove('disabled');
+            });
         }
 
 

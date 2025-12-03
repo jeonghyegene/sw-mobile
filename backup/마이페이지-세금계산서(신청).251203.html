@@ -1454,44 +1454,6 @@
             overflow-y: auto;
             /* 내용이 길면 스크롤 */
         }
-
-        /* [NEW] Email Combobox Styles */
-        .combobox-wrapper {
-            position: relative;
-        }
-
-        .combobox-dropdown {
-            position: absolute;
-            top: calc(100% + 2px);
-            left: 0;
-            right: 0;
-            background: #fff;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            z-index: 600;
-            max-height: 150px;
-            overflow-y: auto;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .combobox-item {
-            padding: 10px 12px;
-            font-size: 14px;
-            cursor: pointer;
-            border-bottom: 1px solid #f0f0f0;
-            width: 100%;
-            display: block;
-            text-align: left;
-        }
-
-        .combobox-item:last-child {
-            border-bottom: none;
-        }
-
-        .combobox-item:hover {
-            background: #f5f5f6;
-        }
     </style>
 </head>
 
@@ -1754,7 +1716,7 @@
                         </article>
                     </div>
 
-                    <div class="no-transactions" id="no-issue-list" style="display: none;">등록된 고객이 없어요</div>
+                    <div class="no-transactions" style="display: none;">신청할 세금계산서 내역이 없어요</div>
 
                     <div class="pagination" data-name="Pagination">
                         <div class="pagination-arrow disabled" onclick="paginationFirst()">
@@ -1895,14 +1857,7 @@
                         </div>
                         <div class="form-group">
                             <label>이메일 주소</label>
-                            <div class="combobox-wrapper">
-                                <div class="input">
-                                    <input type="email" id="direct-email-input" placeholder="회계담당자 이메일 주소를 입력해주세요"
-                                        oninput="filterEmailSuggestions(this)" onfocus="filterEmailSuggestions(this)"
-                                        onblur="hideEmailDropdown(this)" autocomplete="off">
-                                </div>
-                                <div class="combobox-dropdown" id="direct-email-dropdown"></div>
-                            </div>
+                            <div class="input"><input type="email" placeholder="회계담당자 이메일 주소를 입력해주세요"></div>
                         </div>
                         <div class="form-group">
                             <div class="checkbox-text" onclick="toggleModalCheckbox(this)">
@@ -2575,77 +2530,6 @@
             // 3. Switch back to My Info
             const myInfoTab = document.querySelector('#tax-edit-tabs [data-tab="my-info"]');
             switchTaxEditTab(myInfoTab, 'my-info');
-        }
-
-        // --- [NEW] Email Combobox Logic ---
-        const emailDomains = ['naver.com', 'gmail.com', 'daum.net', 'hanmail.net'];
-        const emailDropdown = document.getElementById('direct-email-dropdown');
-
-        function filterEmailSuggestions(input) {
-            const value = input.value;
-            const atIndex = value.indexOf('@');
-            // Use the dropdown specific to this input context, or the globally selected one
-            const dropdown = input.closest('.combobox-wrapper').querySelector('.combobox-dropdown');
-
-            dropdown.innerHTML = '';
-
-            // If empty, hide dropdown
-            if (value.length === 0) {
-                dropdown.style.display = 'none';
-                return;
-            }
-
-            let localPart = value;
-            let domainPart = '';
-
-            if (atIndex > -1) {
-                localPart = value.substring(0, atIndex);
-                domainPart = value.substring(atIndex + 1);
-            } else {
-                localPart = value;
-                domainPart = '';
-            }
-
-            // Don't show if local part is missing
-            if (localPart.length === 0) {
-                dropdown.style.display = 'none';
-                return;
-            }
-
-            // Filter domains
-            const matchingDomains = emailDomains.filter(domain => domain.startsWith(domainPart));
-
-            if (matchingDomains.length > 0) {
-                matchingDomains.forEach(domain => {
-                    const fullEmail = localPart + '@' + domain;
-                    const item = document.createElement('div');
-                    item.className = 'combobox-item';
-                    item.textContent = fullEmail;
-                    // Use onmousedown to fire before onblur
-                    item.onmousedown = () => selectEmailSuggestion(fullEmail, input, dropdown);
-                    dropdown.appendChild(item);
-                });
-                dropdown.style.display = 'block';
-            } else {
-                dropdown.style.display = 'none';
-            }
-        }
-
-        function selectEmailSuggestion(fullEmail, inputElement, dropdownElement) {
-            inputElement.value = fullEmail;
-            dropdownElement.style.display = 'none';
-        }
-
-        function showEmailDropdown(input) {
-            // Trigger filter immediately on focus
-            filterEmailSuggestions(input);
-        }
-
-        function hideEmailDropdown(input) {
-            setTimeout(() => {
-                const dropdown = input.closest('.combobox-wrapper').querySelector('.combobox-dropdown');
-                if (dropdown) dropdown.style.display = 'none';
-            }, 200);
         }
 
 

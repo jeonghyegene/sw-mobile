@@ -75,7 +75,6 @@
             margin: 0 auto;
             background-color: #ffffff;
             padding-bottom: 20px;
-            /* Sticky Footer 여백 (header/tab 높이 제외) */
         }
 
         /* Header (v12 Standard) */
@@ -286,7 +285,7 @@
             color: #007bff;
         }
 
-        /* [NEW] Info message for company form tabs */
+        /* Info message for form tabs */
         .form-info-message {
             font-size: 13px;
             font-weight: 500;
@@ -294,7 +293,6 @@
             line-height: 1.5;
             margin-bottom: 20px;
         }
-
 
         /* Form Styles */
         .form-group {
@@ -383,25 +381,46 @@
             cursor: not-allowed;
         }
 
-        .input-group {
-            display: flex;
-            gap: 8px;
-            align-items: flex-start;
+        /* [NEW] Email Combobox Styles */
+        .combobox-wrapper {
+            position: relative;
         }
 
-        .input-group .input {
-            flex-grow: 1;
+        .combobox-dropdown {
+            position: absolute;
+            top: calc(100% + 2px);
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            z-index: 600;
+            max-height: 220px;
+            overflow-y: auto;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-        .input-group .white-button {
-            flex-shrink: 0;
-            height: 40px;
-            font-size: 13px;
-            padding: 0 12px;
+        .combobox-item {
+            padding: 10px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            width: 100%;
+            display: block;
+            text-align: left;
+        }
+
+        .combobox-item:last-child {
+            border-bottom: none;
+        }
+
+        .combobox-item:hover {
+            background: #f5f5f6;
         }
 
         /* ========================================
-           [NEW] MODAL STYLES (v12 Standard)
+           [v12] MODAL STYLES
         ======================================== */
         .modal-overlay {
             position: fixed;
@@ -502,7 +521,8 @@
             background: #fff;
             display: flex;
             gap: 8px;
-            border-radius: 0 0 7px 7px;
+            /* border-radius: 0 0 7px 7px; */
+            /* Removed for full screen compatibility if needed, but flex layout handles it */
             flex-shrink: 0;
         }
 
@@ -512,10 +532,14 @@
             font-size: 14px;
         }
 
-        /* [NEW] Alert Modal Specifics */
+        /* Alert Modal Specifics */
         .alert-modal {
             padding: 20px;
             text-align: center;
+            min-height: auto;
+            max-width: 320px !important;
+            border-radius: 8px !important;
+            height: auto !important;
         }
 
         .alert-modal .modal-title {
@@ -563,12 +587,11 @@
             transform: scale(0.98);
         }
 
-        /* [MODIFIED] Modal Tab Navigation (Chip Style) */
+        /* Modal Tab Navigation (Chip Style) */
         .modal-tab-nav-chips {
             display: flex;
             gap: 8px;
             margin-bottom: 20px;
-            /* [MODIFIED] 칩 스타일로 변경 */
             padding-bottom: 0px;
             border-bottom: none;
             margin-top: 0px;
@@ -579,7 +602,6 @@
             flex-basis: auto;
             margin-right: 0;
             font-weight: 500;
-            /* [MODIFIED] 일반 칩 스타일로 되돌림 */
             padding: 6px 12px;
             border-radius: 100px;
             border: none;
@@ -587,14 +609,13 @@
             color: #8a8a92;
         }
 
-        /* [MODIFIED] 칩 활성 스타일 */
         .modal-tab-nav-chips .single-chip-on {
             background: #4e6ee4;
             color: white;
             border: none;
         }
 
-        /* [NEW] Page Tabs (for 회원유형 - Modal 내부용) */
+        /* Page Tabs (for 회원유형 - Modal 내부용) */
         .type-tabs {
             width: 100%;
             height: 44px;
@@ -634,9 +655,28 @@
             border-bottom: 2px solid #212121;
         }
 
-        /* [NEW] ID Result Modal Styles */
+        /* [MODIFIED] ID Result Modal Specifics (Full Screen) */
+        #id-result-modal-overlay {
+            padding: 0;
+            /* Full screen filling */
+        }
+
+        #id-result-modal {
+            max-width: 480px;
+            width: 100%;
+            height: 100%;
+            min-height: 100%;
+            border-radius: 0;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
         #id-result-modal .modal-body {
             padding: 24px 16px;
+            min-height: auto;
+            flex: 1;
+            /* Body takes remaining space */
         }
 
         .id-result-message {
@@ -647,7 +687,7 @@
             text-align: center;
         }
 
-        /* [NEW] ID Result Card/List Styles */
+        /* [NEW] ID Result Card/List Styles (Checkbox principle) */
         .id-result-list {
             display: flex;
             flex-direction: column;
@@ -661,7 +701,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
+            padding: 16px 16px;
             border: 1px solid #e8e8e9;
             border-radius: 6px;
             cursor: pointer;
@@ -689,25 +729,27 @@
             align-items: center;
         }
 
+        /* [MODIFIED] Social Icon Style (Naver) */
         .id-type-icon {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
             color: white;
             font-size: 12px;
-            font-weight: 600;
-            margin-right: 6px;
+            font-weight: 700;
+            margin-right: 8px;
             flex-shrink: 0;
             background-color: #03C75A;
+            /* Naver Green */
         }
 
         .id-date {
             font-size: 12px;
             color: #888;
-            margin-top: 2px;
+            margin-top: 4px;
         }
 
         .id-checkbox {
@@ -727,6 +769,7 @@
         /* [NEW] No Result Modal Specifics */
         #id-no-result-modal .modal-body {
             padding: 24px 16px;
+            min-height: auto;
         }
 
         #id-no-result-modal .modal-message-container {
@@ -745,34 +788,33 @@
             line-height: 1.5;
         }
 
-        /* [NEW] Social ID Guide */
+        /* [MODIFIED] Social ID Guide Style */
         .social-guide-message {
             font-size: 12px;
-            color: #333;
-            margin-bottom: 15px;
+            color: #666;
+            margin-top: 12px;
             text-align: center;
             display: none;
-            margin-top: -15px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 6px;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.4;
         }
-
 
         /* [MODIFIED] Find ID Modal Specific Overrides */
         #find-id-modal-overlay {
             padding: 0;
-            /* Full screen filling: remove overlay padding */
         }
 
         #find-id-modal {
             max-width: 480px;
-            /* Requested: 480px */
             width: 100%;
             height: 100%;
-            /* Full screen filling */
             min-height: 100%;
             border-radius: 0;
-            /* Remove corners for full screen */
             margin: 0 auto;
-            /* Center aligned */
         }
     </style>
 </head>
@@ -791,20 +833,6 @@
             </div>
             <h1 class="header-title">아이디 찾기</h1>
             <div class="header-right">
-                <!-- <button type="button" class="btn-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
-                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                        <path d="M21 21l-6 -6" />
-                    </svg>
-                </button>
-                <button type="button" class="btn-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-cart">
-                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                        <path d="M17 17h-11v-14h-2" />
-                        <path d="M6 5l14 1l-1 7h-13" />
-                    </svg>
-                </button> -->
             </div>
         </header>
 
@@ -812,9 +840,6 @@
             <div class="sw-container" style="display: flex; flex-direction: column; gap: 10px;">
                 <button class="primary-button" onclick="openModal('find-id-modal-overlay')" style="width: 100%;">
                     아이디 찾기 모달 열기 (기업 회원)
-                </button>
-                <button class="white-button" onclick="showNoResultModal()" style="width: 100%;">
-                    아이디 없음 모달 열기 (테스트)
                 </button>
             </div>
         </main>
@@ -895,8 +920,13 @@
                         </div>
                         <div class="form-group">
                             <label for="find-id-email">이메일 주소</label>
-                            <div class="input">
-                                <input type="email" id="find-id-email" placeholder="이메일 주소를 입력해주세요">
+                            <div class="combobox-wrapper">
+                                <div class="input">
+                                    <input type="email" id="find-id-email" placeholder="이메일 주소를 입력해주세요"
+                                        oninput="filterEmailSuggestions(this)" onfocus="showEmailDropdown()"
+                                        onblur="hideEmailDropdown()" autocomplete="off">
+                                </div>
+                                <div class="combobox-dropdown" id="email-dropdown"></div>
                             </div>
                             <p class="disclaimer error" id="error-email" style="display: none;"></p>
                         </div>
@@ -959,22 +989,30 @@
                     stroke="#4e6ee4" fill="none" stroke-linecap="round" stroke-linejoin="round"
                     style="color: #4e6ee4; margin: 0 auto 20px auto; display: block;">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M5 12l5 5l10 -10" />
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M9 12l2 2l4 -4" />
                 </svg>
+
                 <p class="id-result-message" id="id-result-count-message">총 2건의 아이디를 찾았어요</p>
-                <p class="social-guide-message" id="social-guide-message">
-                    가입 시 사용한 소셜 계정 확인이 어려운 경우, 아이디/비밀번호를 설정해주세요
-                </p>
+
                 <ul class="id-result-list" id="id-result-list">
                 </ul>
+
+                <div class="social-guide-message" id="social-guide-message">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                        style="flex-shrink: 0; margin-top: 2px;">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                        <path d="M12 9h.01"></path>
+                        <path d="M11 12h1v4h1"></path>
+                    </svg>
+                    <span>가입 시 사용한 소셜 계정 확인이 어려운 경우, 아이디/비밀번호를 설정해주세요</span>
+                </div>
             </div>
             <div class="modal-footer" id="id-result-modal-footer">
                 <button class="btn white-button" id="btn-default-1" onclick="alert('비밀번호 찾기 (구현 필요)')">비밀번호 찾기</button>
                 <button class="btn dark-button" id="btn-default-2" onclick="alert('로그인 (구현 필요)')">로그인</button>
-                <button class="btn white-button" id="btn-social-1" style="display: none;"
-                    onclick="alert('아이디/비밀번호 설정 (구현 필요)')">아이디/비밀번호 설정</button>
-                <button class="btn dark-button" id="btn-social-2" style="display: none;"
-                    onclick="alert('로그인 (구현 필요)')">로그인</button>
             </div>
         </div>
     </div>
@@ -1089,7 +1127,6 @@
 
         // Email Verification fields
         let emailVerificationTimer;
-        // [MODIFIED] Req 3: Timer changed to 180s (3 mins)
         let emailTimeRemaining = 180;
         const emailVerificationCodeGroup = document.getElementById('email-verification-code-group');
         const emailVerificationCodeInput = document.getElementById('find-id-verification-code-email');
@@ -1110,7 +1147,6 @@
 
             console.log(`회원 유형 변경: ${typeName}`);
 
-            // [MODIFIED] Req 1: 기업 회원일 경우 기본 탭 '휴대폰 번호'로 설정 (순서 변경에 맞춤)
             let defaultTab = 'phone';
             if (typeName === 'personal') {
                 defaultTab = 'phone';
@@ -1205,9 +1241,9 @@
                         if (verificationCodeInput.value.trim() === '123456') {
                             stopVerificationTimer();
                             closeModal('find-id-modal-overlay');
+                            // [RESTORED] Single Result (Phone) Logic
                             const dummyResults = [
-                                { type: null, value: 'CompID1234', date: '2025-10-31', social: false },
-                                { type: null, value: 'swadp_comp', date: '2025-10-31', social: false }
+                                { type: null, value: 'CompUser123', date: '2025-10-31', social: false }
                             ];
                             if (dummyResults.length > 0) {
                                 showIdResultModal(dummyResults);
@@ -1235,9 +1271,10 @@
                         if (emailVerificationCodeInput.value.trim() === '123456') {
                             stopEmailVerificationTimer();
                             closeModal('find-id-modal-overlay');
-                            // Show result modal (이메일은 아이디 일부만 확인 가능)
+                            // [RESTORED] Multiple Results (Email) Logic with Social
                             const dummyResults = [
-                                { type: null, value: 'C***ID1234', date: '2025-10-31', social: false }
+                                { type: null, value: 'CompUser123', date: '2025-10-31', social: false },
+                                { type: 'N', value: 'comp@naver.com', date: '2025-10-31', social: true }
                             ];
                             if (dummyResults.length > 0) {
                                 showIdResultModal(dummyResults);
@@ -1403,7 +1440,6 @@
         // Start Email Timer
         function startEmailVerificationTimer() {
             stopEmailVerificationTimer();
-            // [MODIFIED] Req 3: Timer 3 mins
             emailTimeRemaining = 180;
             emailVerificationTimerEl.textContent = '03:00';
             emailVerificationTimerEl.style.color = '#dc3545';
@@ -1473,10 +1509,10 @@
         const idResultCountMessage = document.getElementById('id-result-count-message');
         const idResultList = document.getElementById('id-result-list');
         const socialGuideMessage = document.getElementById('social-guide-message');
-        const footerDefaultBtn1 = document.getElementById('btn-default-1');
-        const footerDefaultBtn2 = document.getElementById('btn-default-2');
-        const footerSocialBtn1 = document.getElementById('btn-social-1');
-        const footerSocialBtn2 = document.getElementById('btn-social-2');
+
+        // Buttons
+        const footerBtn1 = document.getElementById('btn-default-1'); // Left Button
+        const footerBtn2 = document.getElementById('btn-default-2'); // Right Button (Login)
 
         function showIdResultModal(results) {
             if (!results || results.length === 0) {
@@ -1485,24 +1521,46 @@
                 idResultCountMessage.textContent = `총 ${results.length}건의 아이디를 찾았어요`;
                 idResultList.innerHTML = '';
 
-                // 기본 버튼으로 초기화
+                // Reset UI to default state
                 socialGuideMessage.style.display = 'none';
-                footerDefaultBtn1.style.display = 'flex';
-                footerDefaultBtn2.style.display = 'flex';
-                footerSocialBtn1.style.display = 'none';
-                footerSocialBtn2.style.display = 'none';
+                footerBtn1.textContent = '비밀번호 찾기';
+                footerBtn1.onclick = () => alert('비밀번호 찾기 (구현 필요)');
+
+                const isSingleResult = results.length === 1;
 
                 results.forEach(result => {
                     const card = document.createElement('li');
                     card.className = 'id-result-item-card';
-                    card.dataset.value = result.value;
-                    card.dataset.issocial = result.social ? 'true' : 'false'; // 소셜 아이디 플래그
-                    card.onclick = () => toggleIdResultSelection(card);
 
-                    let typeHtml = '';
-                    if (result.type) {
-                        typeHtml = `<span class="id-type-icon" style="background-color: ${result.type === 'N' ? '#03C75A' : '#4e6ee4'}">${result.type}</span>`;
+                    // 데이터 바인딩
+                    card.dataset.value = result.value;
+                    card.dataset.issocial = result.social ? 'true' : 'false';
+
+                    // 클릭 이벤트 (단일 결과일 때는 선택 불필요)
+                    if (!isSingleResult) {
+                        card.onclick = () => toggleIdResultSelection(card);
+                    } else {
+                        card.style.cursor = 'default';
                     }
+
+                    // 소셜 아이콘 HTML
+                    let typeHtml = '';
+                    if (result.type === 'N') {
+                        // Naver Icon style
+                        typeHtml = `<span class="id-type-icon">N</span>`;
+                    } else if (result.type) {
+                        typeHtml = `<span class="id-type-icon" style="background-color:#4e6ee4;">${result.type}</span>`;
+                    }
+
+                    // 체크박스 HTML (단일 결과일 때 제거, 다건일 때 추가)
+                    const checkboxHtml = isSingleResult ? '' : `
+                        <div class="id-checkbox">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                 <path d="M5 12l5 5l10 -10" />
+                             </svg>
+                         </div>
+                    `;
 
                     card.innerHTML = `
                         <div class="id-info-wrapper">
@@ -1512,12 +1570,7 @@
                              </div>
                              <div class="id-date">최근접속일 : ${result.date}</div>
                          </div>
-                         <div class="id-checkbox">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                 <path d="M5 12l5 5l10 -10" />
-                             </svg>
-                         </div>
+                         ${checkboxHtml}
                     `;
                     idResultList.appendChild(card);
                 });
@@ -1530,40 +1583,113 @@
             const list = selectedCard.closest('#id-result-list');
             let isSelected = selectedCard.classList.contains('selected');
 
-            // 단일 선택 모드 (하나만 선택 가능)
+            // 1. Reset all selections (Single Selection Mode)
             list.querySelectorAll('.id-result-item-card').forEach(card => {
                 card.classList.remove('selected');
             });
 
-            // 선택/해제 토글
+            // 2. Toggle current selection
             if (!isSelected) {
                 selectedCard.classList.add('selected');
                 isSelected = true;
             } else {
-                isSelected = false; // 해제
+                isSelected = false;
             }
 
-            const isSocial = isSelected && selectedCard.dataset.issocial === 'true';
-
-            // 푸터 버튼 및 안내 메시지 업데이트
-            if (isSocial) {
-                socialGuideMessage.style.display = 'block';
-                footerDefaultBtn1.style.display = 'none';
-                footerDefaultBtn2.style.display = 'none';
-                footerSocialBtn1.style.display = 'flex';
-                footerSocialBtn2.style.display = 'flex';
+            // 3. Update UI based on selection type
+            if (isSelected && selectedCard.dataset.issocial === 'true') {
+                // [CASE] Social ID Selected
+                socialGuideMessage.style.display = 'flex'; // Show guide
+                footerBtn1.textContent = '아이디/비밀번호 설정';
+                footerBtn1.onclick = () => alert('아이디/비밀번호 설정 (구현 필요)');
             } else {
-                socialGuideMessage.style.display = 'none';
-                footerDefaultBtn1.style.display = 'flex';
-                footerDefaultBtn2.style.display = 'flex';
-                footerSocialBtn1.style.display = 'none';
-                footerSocialBtn2.style.display = 'none';
+                // [CASE] General ID Selected OR No Selection
+                socialGuideMessage.style.display = 'none'; // Hide guide
+                footerBtn1.textContent = '비밀번호 찾기';
+                footerBtn1.onclick = () => alert('비밀번호 찾기 (구현 필요)');
             }
         }
 
         // ID No Result Modal Logic
         function showNoResultModal() {
             openModal('id-no-result-modal-overlay');
+        }
+
+        // --- [NEW] Email Combobox Logic (Ported) ---
+        const emailDomains = ['naver.com', 'gmail.com', 'daum.net', 'hanmail.net'];
+        const emailDropdown = document.getElementById('email-dropdown');
+
+        function filterEmailSuggestions(input) {
+            const value = input.value;
+            const atIndex = value.indexOf('@');
+            emailDropdown.innerHTML = '';
+
+            // isFormDirty = true; // (Optional: form dirty check logic)
+
+            // If empty, hide dropdown
+            if (value.length === 0) {
+                emailDropdown.style.display = 'none';
+                return;
+            }
+
+            let localPart = value;
+            let domainPart = '';
+
+            if (atIndex > -1) {
+                localPart = value.substring(0, atIndex);
+                domainPart = value.substring(atIndex + 1);
+            } else {
+                localPart = value;
+                domainPart = '';
+            }
+
+            // Don't show if local part is missing (e.g. starting with @)
+            if (localPart.length === 0) {
+                emailDropdown.style.display = 'none';
+                return;
+            }
+
+            // Filter domains
+            const matchingDomains = emailDomains.filter(domain => domain.startsWith(domainPart));
+
+            if (matchingDomains.length > 0) {
+                matchingDomains.forEach(domain => {
+                    const fullEmail = localPart + '@' + domain;
+                    const item = document.createElement('div');
+                    item.className = 'combobox-item';
+                    item.textContent = fullEmail;
+                    // Use onmousedown to fire before onblur
+                    item.onmousedown = () => selectEmailSuggestion(fullEmail);
+                    emailDropdown.appendChild(item);
+                });
+                emailDropdown.style.display = 'block';
+            } else {
+                emailDropdown.style.display = 'none';
+            }
+        }
+
+        function selectEmailSuggestion(fullEmail) {
+            const input = document.getElementById('find-id-email');
+            input.value = fullEmail;
+            emailDropdown.style.display = 'none';
+            // isFormDirty = true;
+            // Optionally re-validate email format here if needed
+            const errorEmail = document.getElementById('error-email');
+            if (validateEmail(fullEmail)) {
+                if (input.closest('.input')) input.closest('.input').classList.remove('error');
+                if (errorEmail) errorEmail.style.display = 'none';
+            }
+        }
+
+        function showEmailDropdown() {
+            const input = document.getElementById('find-id-email');
+            filterEmailSuggestions(input);
+        }
+
+        function hideEmailDropdown() {
+            setTimeout(() => {
+                if (emailDropdown) emailDropdown.style.display = 'none';
+            }, 200);
         }
 
         // --- Initialize (Event listeners etc.) ---
@@ -1573,7 +1699,7 @@
             if (defaultTypeTab) {
                 switchFindIdType(defaultTypeTab, 'business');
             }
-            // [MODIFIED] Req 1: 기본 탭을 'phone'으로 설정
+            // 기본 탭을 'phone'으로 설정
             const defaultAuthTab = document.querySelector('#find-id-tabs .single-chip[data-tab="phone"]');
             if (defaultAuthTab) {
                 switchFindIdTab(defaultAuthTab, 'phone');
