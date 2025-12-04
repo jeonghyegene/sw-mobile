@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +24,7 @@
                 display: none;
             }
         }
+
         .disqus-thread-wrap {
             position: fixed;
             top: 40px;
@@ -37,58 +39,225 @@
                 display: none;
             }
         }
+
         /* Reset & Base */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f5f7; color: #333; font-size: 16px; line-height: 1.6; overflow-x: visible;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        ul, li { list-style: none; }
-        a { text-decoration: none; color: inherit; }
-        button { font-family: inherit; border: none; cursor: pointer; background: none; padding: 0; }
-        img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-        input, select, textarea { font-family: inherit; }
-        svg { stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; display: block; }
+
+        html,
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: visible;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+        svg {
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            display: block;
+        }
 
         /* Layout */
-        .mobile-wrap { 
-            width: 100%; 
-            max-width: 480px; 
-            margin: 0 auto; 
-            background-color: #ffffff; 
-            padding-bottom: 100px; /* Sticky Footer 여백 */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 100px;
+            /* Sticky Footer 여백 */
         }
 
         /* Header (v12 Standard) */
-        .app-header-sub { height: 56px; background: white; border-bottom: 1px solid #cccccc; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
-        .header-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; cursor: pointer; transition: transform 0.2s; color: #333; }
-        .header-btn:active { transform: scale(0.9); }
-        .header-left { flex: 1 0 0; display: flex; justify-content: flex-start; }
-        .header-title { 
-            flex: 3 0 0; 
-            font-size: 18px; 
-            font-weight: 600; 
-            text-align: center; 
-            color: #212121; 
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: #333;
+        }
+
+        .header-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header-left {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            flex: 3 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #212121;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .header-right { flex: 1 0 0; display: flex; justify-content: flex-end; gap: 8px; }
-        .btn-icon { cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; color: #333; }
-        .btn-icon:active { transform: scale(0.9); }
-        .btn-icon svg { width: 100%; height: 100%; }
+
+        .header-right {
+            flex: 1 0 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        .btn-icon:active {
+            transform: scale(0.9);
+        }
+
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
 
         /* Buttons (v12 Standard + Primary) */
-        .primary-button { background-color: #4e6ee4; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .primary-button:hover { background: #3d5dd3; }
-        .primary-button:active { transform: scale(0.98); }
-        .dark-button { background: #424242; color: white; height: 44px; padding: 7px 19px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .dark-button:hover { background: #333; }
-        .dark-button:active { transform: scale(0.98); }
-        .white-button { background: white; color: #424242; height: 44px; padding: 7px 19px; border-radius: 6px; border: 1px solid #e8e8e9; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; min-width: fit-content; }
-        .white-button:hover { background: #f9f9f9; }
-        .white-button:active { transform: scale(0.98); }
+        .primary-button {
+            background-color: #4e6ee4;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .primary-button:hover {
+            background: #3d5dd3;
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .dark-button {
+            background: #424242;
+            color: white;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .dark-button:hover {
+            background: #333;
+        }
+
+        .dark-button:active {
+            transform: scale(0.98);
+        }
+
+        .white-button {
+            background: white;
+            color: #424242;
+            height: 44px;
+            padding: 7px 19px;
+            border-radius: 6px;
+            border: 1px solid #e8e8e9;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+        }
+
+        .white-button:hover {
+            background: #f9f9f9;
+        }
+
+        .white-button:active {
+            transform: scale(0.98);
+        }
+
         .dark-button:disabled,
         .white-button:disabled,
         .primary-button:disabled {
@@ -97,9 +266,11 @@
             border-color: #e9ecef;
             cursor: not-allowed;
         }
-        
+
         /* Main Content */
-        .sw-container { padding: 16px; }
+        .sw-container {
+            padding: 16px;
+        }
 
         /* [NEW] Step Progress Bar */
         .step-progress-bar {
@@ -110,6 +281,7 @@
             background-color: #fff;
             border-bottom: 8px solid #f4f5f7;
         }
+
         .step-item {
             width: 28px;
             height: 28px;
@@ -126,33 +298,40 @@
             color: #8a8a92;
             border: 1px solid #f5f5f6;
         }
+
         .step-item.active {
             /* 활성 */
             background-color: #4e6ee4;
             color: white;
             border-color: #4e6ee4;
         }
+
         .step-item.completed {
             /* 완료 */
             background-color: #eef2ff;
             color: #4e6ee4;
             border-color: #c7d3ff;
         }
+
         .step-item .step-number {
             display: flex;
         }
+
         .step-item .step-check {
             display: none;
             width: 16px;
             height: 16px;
             stroke-width: 2.5;
         }
+
         .step-item.completed .step-number {
             display: none;
         }
+
         .step-item.completed .step-check {
             display: block;
         }
+
         .step-line {
             flex-grow: 1;
             height: 2px;
@@ -160,6 +339,7 @@
             margin: 0 8px;
             transition: all 0.3s ease;
         }
+
         .step-line.completed {
             background-color: #4e6ee4;
         }
@@ -167,46 +347,79 @@
 
         /* [NEW] Step Container */
         .step-container {
-             background-color: #f4f5f7; /* Match body bg */
-             /* 100vh - header(56) - footer(84) - progress(69) */
-             min-height: calc(100vh - 56px - 84px - 69px); 
+            background-color: #f4f5f7;
+            /* Match body bg */
+            /* 100vh - header(56) - footer(84) - progress(69) */
+            min-height: calc(100vh - 56px - 84px - 69px);
         }
+
         .step-container .sw-container {
-            background-color: #fff; /* White background for content area */
+            background-color: #fff;
+            /* White background for content area */
             padding-top: 20px;
             padding-bottom: 20px;
         }
+
         /* First step has a different layout, no top padding */
         .step-container[data-step="1"] .sw-container {
             padding: 0;
             background-color: #f4f5f7;
         }
 
-        
+
         /* Filter Chip Group (from qna_write) */
         .filter-chip-group {
             padding: 16px;
         }
+
         /* v12 standard filter-group-content */
         .filter-group-content {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
-        
+
         /* v12 Standard .single-chip (from qna_write) */
-        .single-chip { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 100px; font-size: 14px; cursor: pointer; transition: all 0.2s; user-select: none; }
-        .single-chip-off { background: #f5f5f6; color: #8a8a92; }
-        .single-chip-on { background: #4e6ee4; color: white; }
-        .single-chip:active { transform: scale(0.95); }
-        
+        .single-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .single-chip-off {
+            background: #f5f5f6;
+            color: #8a8a92;
+        }
+
+        .single-chip-on {
+            background: #4e6ee4;
+            color: white;
+        }
+
+        .single-chip:active {
+            transform: scale(0.95);
+        }
+
         /* v12 standard disclaimer (from qna_write) */
-        .disclaimer { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; word-break: keep-all;}
-        
+        .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.5;
+            word-break: keep-all;
+        }
+
         /* Form Styles (from qna_write / v12 guide) */
         .form-group {
             margin-bottom: 20px;
         }
+
         .form-group label {
             display: block;
             font-size: 14px;
@@ -214,6 +427,7 @@
             color: #333;
             margin-bottom: 8px;
         }
+
         .readonly-value {
             font-size: 14px;
             color: #333;
@@ -225,6 +439,7 @@
             display: flex;
             align-items: center;
         }
+
         .input {
             width: 100%;
             min-height: 40px;
@@ -235,6 +450,7 @@
             display: flex;
             align-items: center;
         }
+
         .input input {
             width: 100%;
             background: transparent;
@@ -244,8 +460,11 @@
             color: black;
             line-height: 1.5;
         }
-        .input input::placeholder { color: #c6c6c8; }
-        
+
+        .input input::placeholder {
+            color: #c6c6c8;
+        }
+
         /* Textarea (from qna_write) */
         .input textarea {
             width: 100%;
@@ -256,10 +475,14 @@
             color: black;
             line-height: 1.5;
             resize: vertical;
-            min-height: 100px; /* Base height */
+            min-height: 100px;
+            /* Base height */
         }
-        .input textarea::placeholder { color: #c6c6c8; }
-        
+
+        .input textarea::placeholder {
+            color: #c6c6c8;
+        }
+
         /* v12 Checkbox (from qna_write) */
         .checkbox {
             width: 20px;
@@ -269,14 +492,34 @@
             user-select: none;
             flex-shrink: 0;
         }
-        .checkbox-off { width: 100%; height: 100%; background: white; border: 1px solid #bdbdbd; border-radius: 2px; }
-        .checkbox-on {
-            width: 100%; height: 100%; background: #4e6ee4;
-            border-radius: 2px; display: flex;
-            align-items: center; justify-content: center;
+
+        .checkbox-off {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #bdbdbd;
+            border-radius: 2px;
         }
-        .checkbox-on img { width: 14px; height: 14px; }
-        .checkbox:active { transform: scale(0.9); }
+
+        .checkbox-on {
+            width: 100%;
+            height: 100%;
+            background: #4e6ee4;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-on img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .checkbox:active {
+            transform: scale(0.9);
+        }
+
         .checkbox-text {
             display: flex;
             align-items: center;
@@ -284,11 +527,12 @@
             cursor: pointer;
             user-select: none;
         }
+
         .checkbox-text span {
             font-size: 14px;
             color: #333;
         }
-        
+
         /* Sticky Form Footer (from qna_write) */
         .sticky-form-footer {
             position: fixed;
@@ -296,10 +540,11 @@
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
-            max-width: 480px; /* Match .mobile-wrap */
+            max-width: 480px;
+            /* Match .mobile-wrap */
             background: #ffffff;
             border-top: 1px solid #e0e0e0;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
             padding: 20px;
             display: flex;
             gap: 8px;
@@ -307,46 +552,58 @@
             justify-content: space-between;
             z-index: 500;
         }
+
         .sticky-form-footer .btn {
             flex: 1;
         }
+
         .sticky-form-footer .white-button {
-             flex-grow: 1;
+            flex-grow: 1;
         }
-         .sticky-form-footer .dark-button {
-             flex-grow: 2; /* Action button is larger */
+
+        .sticky-form-footer .dark-button {
+            flex-grow: 2;
+            /* Action button is larger */
         }
-        
+
         /* [NEW] Info Section (from tax_issue.html) */
-        .info-section { 
-            background: #fff; 
+        .info-section {
+            background: #fff;
             /* [MODIFIED] No border */
             border-bottom: 8px solid #f4f5f7;
-            padding: 20px 16px; /* Match sw-container padding */
-            margin-bottom: 0; /* Handled by divider */
+            padding: 20px 16px;
+            /* Match sw-container padding */
+            margin-bottom: 0;
+            /* Handled by divider */
         }
-        .info-section .title { 
-            font-size: 16px; /* [MODIFIED] Larger title */
-            font-weight: 600; 
-            color: #333; 
-            margin-bottom: 12px; 
+
+        .info-section .title {
+            font-size: 16px;
+            /* [MODIFIED] Larger title */
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
         }
-        .info-section .balance-row { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 12px; 
+
+        .info-section .balance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
         }
-        .info-section .balance { 
-            font-size: 24px; 
-            font-weight: 700; 
-            color: #333; 
+
+        .info-section .balance {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
         }
+
         .info-section .balance.sub-label {
             font-size: 16px;
             color: #555;
             font-weight: 600;
         }
+
         .info-sub-row {
             display: flex;
             justify-content: space-between;
@@ -354,22 +611,31 @@
             padding: 8px 0;
             font-size: 14px;
         }
-        .info-sub-row .label { color: #555; }
-        .info-sub-row .value { color: #333; font-weight: 600; }
-        
-        .card-divider { 
-            width: 100%; 
-            height: 1px; 
-            background: #e8e8e9; 
-            margin: 10px 0; 
+
+        .info-sub-row .label {
+            color: #555;
+        }
+
+        .info-sub-row .value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .card-divider {
+            width: 100%;
+            height: 1px;
+            background: #e8e8e9;
+            margin: 10px 0;
         }
 
         /* [NEW] Disclaimer bullets for info section */
         .info-section .disclaimer {
             margin-top: 4px;
             position: relative;
-            padding-left: 1.2em; /* Space for bullet */
+            padding-left: 1.2em;
+            /* Space for bullet */
         }
+
         .info-section .disclaimer::before {
             content: '*';
             position: absolute;
@@ -377,42 +643,51 @@
             top: 0;
             color: #888;
         }
-
     </style>
 </head>
+
 <body>
     <div class="mobile-wrap">
-        
+
         <header class="app-header-sub">
             <div class="header-left">
                 <button type="button" class="header-btn" onclick="navigateStep('back')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-chevron-left"><path d="M15 6l-6 6l6 6" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        id="icon-chevron-left">
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
                 </button>
             </div>
             <h1 class="header-title">회원 탈퇴</h1>
             <div class="header-right">
-                </div>
+            </div>
         </header>
-        
+
         <div class="step-progress-bar">
             <div class="step-item" data-step-id="1">
                 <div class="step-number">1</div>
                 <div class="step-check">
-                    <svg viewBox="0 0 24 24"><path d="M5 12l5 5l10 -10" /></svg>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 12l5 5l10 -10" />
+                    </svg>
                 </div>
             </div>
             <div class="step-line"></div>
             <div class="step-item" data-step-id="2">
                 <div class="step-number">2</div>
                 <div class="step-check">
-                    <svg viewBox="0 0 24 24"><path d="M5 12l5 5l10 -10" /></svg>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 12l5 5l10 -10" />
+                    </svg>
                 </div>
             </div>
             <div class="step-line"></div>
             <div class="step-item" data-step-id="3">
                 <div class="step-number">3</div>
                 <div class="step-check">
-                    <svg viewBox="0 0 24 24"><path d="M5 12l5 5l10 -10" /></svg>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 12l5 5l10 -10" />
+                    </svg>
                 </div>
             </div>
         </div>
@@ -420,7 +695,7 @@
         <main>
             <div class="step-container" data-step="1" style="display: block;">
                 <div class="sw-container">
-                    
+
                     <section class="info-section">
                         <div class="title">김성원님, <br>그동안 성원애드피아를 이용해 주셔서 감사합니다.</div>
                         <div class="card-divider"></div>
@@ -430,47 +705,50 @@
                         </div>
                         <div class="info-sub-row">
                             <span class="label">소멸 예정 머니</span>
-                            <span class="value" style="color: #dc3545;">2,400 원</span>
+                            <span class="value" style="color: #dc3545;">₩2,400</span>
                         </div>
                         <div class="info-sub-row" style="padding-bottom: 0;">
                             <span class="label">소멸 예정 포인트</span>
                             <span class="value" style="color: #dc3545;">1,200 P</span>
                         </div>
                     </section>
-                    
+
                     <section class="info-section">
                         <div class="title">유의사항</div>
                         <p class="disclaimer">회원 탈퇴 시 회원님의 등급, 잔여 성원페이, 포인트는 모두 사라지며 환불이 어려워요</p>
                     </section>
-                    
+
                 </div>
             </div>
 
             <div class="step-container" data-step="2" style="display: none;">
                 <div class="sw-container">
-                    <section class="info-section" style="background: #f8f8f9; border-bottom: 1px solid #e8e8e9; padding: 16px;">
+                    <section class="info-section"
+                        style="background: #f8f8f9; border-bottom: 1px solid #e8e8e9; padding: 16px;">
                         <div class="title" style="font-size: 14px;">탈퇴 시 삭제되는 내용</div>
                         <p class="disclaimer">탈퇴 후에는 계정과 이용 내역을 복구할 수 없어요. 신중히 진행해 주세요</p>
                     </section>
 
-                    <section class="info-section" style="background: #f8f8f9; border-bottom: 1px solid #e8e8e9; padding: 16px;">
+                    <section class="info-section"
+                        style="background: #f8f8f9; border-bottom: 1px solid #e8e8e9; padding: 16px;">
                         <div class="title" style="font-size: 14px;">탈퇴 시 보관되는 내용</div>
                         <p class="disclaimer">회원 정보는 「전자상거래 등에서의 소비자 보호에 관한 법률」에 따라 아래 기간 동안 안전하게 보관돼요</p>
                         <p class="disclaimer">- 대금결제 및 재화 공급 기록: 5년<br>계약·청약철회 기록: 5년<br>소비자 불만 및 분쟁처리 기록: 3년</p>
                         <p class="disclaimer">아이디(이메일), 이메일, 비밀번호는 부정 이용을 막기 위해 탈퇴 요청 후 7일 동안 보관한 뒤 안전하게 삭제돼요</p>
                     </section>
-                    
-                    <section class="info-section" style="background: #f8f8f9; border-bottom: 8px solid #f4f5f7; padding: 16px;">
+
+                    <section class="info-section"
+                        style="background: #f8f8f9; border-bottom: 8px solid #f4f5f7; padding: 16px;">
                         <div class="title" style="font-size: 14px;">탈퇴 불가 및 기타 유의사항</div>
                         <p class="disclaimer">
-                            탈퇴 후에도 회원님이 등록한 게시물과 댓글은 그대로 남아요.  
-                            회원정보가 삭제되면 본인 확인이 불가능해 게시물을 대신 삭제해드릴 수 없어요.  
+                            탈퇴 후에도 회원님이 등록한 게시물과 댓글은 그대로 남아요.
+                            회원정보가 삭제되면 본인 확인이 불가능해 게시물을 대신 삭제해드릴 수 없어요.
                             먼저 게시물을 삭제한 뒤 탈퇴를 진행해 주세요
                         </p>
 
                         <p class="disclaimer">
                             진행 중인 주문이 있으면 탈퇴할 수 없어요.
-                            이미 결제된 주문은 탈퇴로 취소되지 않으니,  
+                            이미 결제된 주문은 탈퇴로 취소되지 않으니,
                             주문을 먼저 취소한 후 탈퇴를 신청해 주세요
                         </p>
 
@@ -481,12 +759,17 @@
 
                     <div class="form-group" style="margin-top: 20px;">
                         <label style="font-size: 16px; font-weight: 600;">탈퇴 사유 선택</label>
-                        <p class="disclaimer" style="margin-top: 0; margin-bottom: 12px; padding-left: 0;">서비스를 이용하시면서 불편함이 있으셨다면 개선에 참고하도록 하겠습니다.</p>
+                        <p class="disclaimer" style="margin-top: 0; margin-bottom: 12px; padding-left: 0;">서비스를 이용하시면서
+                            불편함이 있으셨다면 개선에 참고하도록 하겠습니다.</p>
                         <div class="filter-group-content" id="reason-chips">
-                            <div class="single-chip single-chip-off" data-reason="서비스 불만족" onclick="selectReason(this)">서비스 불만족</div>
-                            <div class="single-chip single-chip-off" data-reason="이용이 불편해서" onclick="selectReason(this)">이용이 불편해서</div>
-                            <div class="single-chip single-chip-off" data-reason="개인정보 유출 우려" onclick="selectReason(this)">개인정보 유출 우려</div>
-                            <div class="single-chip single-chip-off" data-reason="인쇄물 종류 부족" onclick="selectReason(this)">인쇄물 종류 부족</div>
+                            <div class="single-chip single-chip-off" data-reason="서비스 불만족" onclick="selectReason(this)">
+                                서비스 불만족</div>
+                            <div class="single-chip single-chip-off" data-reason="이용이 불편해서"
+                                onclick="selectReason(this)">이용이 불편해서</div>
+                            <div class="single-chip single-chip-off" data-reason="개인정보 유출 우려"
+                                onclick="selectReason(this)">개인정보 유출 우려</div>
+                            <div class="single-chip single-chip-off" data-reason="인쇄물 종류 부족"
+                                onclick="selectReason(this)">인쇄물 종류 부족</div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -509,16 +792,20 @@
                             <span>(필수) 위의 내용을 모두 확인했어요</span>
                         </div>
                     </div>
-                    
+
                     <div class="form-group" style="text-align: center;">
                         <label style="font-size: 16px; font-weight: 600;">본인인증</label>
-                        <p class="disclaimer" style="margin-top: 0; margin-bottom: 20px; padding-left: 0; text-align: center;">회원 탈퇴를 진행하시려면 본인인증을 진행해주세요</p>
-                        <button type="button" class="dark-button" id="verification-button" style="width: 100%; max-width: 200px; margin: 0 auto; display: flex; justify-content: center;" onclick="runVerification()">본인인증</button>
+                        <p class="disclaimer"
+                            style="margin-top: 0; margin-bottom: 20px; padding-left: 0; text-align: center;">회원 탈퇴를
+                            진행하시려면 본인인증을 진행해주세요</p>
+                        <button type="button" class="dark-button" id="verification-button"
+                            style="width: 100%; max-width: 200px; margin: 0 auto; display: flex; justify-content: center;"
+                            onclick="runVerification()">본인인증</button>
                     </div>
-                    </div>
+                </div>
             </div>
         </main>
-        
+
         <div class="sticky-form-footer" data-step-footer="1" style="display: flex;">
             <button class="dark-button btn" onclick="navigateStep('next')">다음</button>
         </div>
@@ -528,7 +815,8 @@
         </div>
         <div class="sticky-form-footer" data-step-footer="3" style="display: none;">
             <button class="white-button btn" onclick="navigateStep('back')">이전</button>
-            <button class="dark-button btn" id="submit-withdrawal-btn" onclick="submitWithdrawal()" disabled>탈퇴하기</button>
+            <button class="dark-button btn" id="submit-withdrawal-btn" onclick="submitWithdrawal()"
+                disabled>탈퇴하기</button>
         </div>
     </div>
 
@@ -554,18 +842,18 @@
             } else {
                 return; // Do nothing if trying to go past boundaries
             }
-            
+
             // Hide all step containers and footers
             document.querySelectorAll('.step-container').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.sticky-form-footer').forEach(el => el.style.display = 'none');
-            
+
             // Show the target step and footer
             document.querySelector(`.step-container[data-step="${nextStep}"]`).style.display = 'block';
             document.querySelector(`.sticky-form-footer[data-step-footer="${nextStep}"]`).style.display = 'flex';
-            
+
             // [MODIFIED] Update progress bar
             updateProgressBar(nextStep);
-            
+
             currentStep = nextStep;
 
             // [NEW] Reset verification status when entering step 3
@@ -574,23 +862,23 @@
                 resetVerificationButton();
                 validateStep3(); // Validate button state on entry
             }
-            
+
             // Scroll to top
             window.scrollTo(0, 0);
         }
-        
+
         // [NEW] Progress Bar Update Logic
         function updateProgressBar(step) {
             const steps = document.querySelectorAll('.step-item');
             const lines = document.querySelectorAll('.step-line');
-            
+
             steps.forEach((s, index) => {
                 const stepId = index + 1;
                 s.classList.remove('active', 'completed');
-                
+
                 const numberEl = s.querySelector('.step-number');
                 const checkEl = s.querySelector('.step-check');
-                
+
                 if (stepId < step) {
                     s.classList.add('completed');
                     if (numberEl) numberEl.style.display = 'none';
@@ -604,7 +892,7 @@
                     if (checkEl) checkEl.style.display = 'none';
                 }
             });
-            
+
             lines.forEach((line, index) => {
                 if (index < step - 1) {
                     line.classList.add('completed');
@@ -625,18 +913,18 @@
         function submitWithdrawal() {
             // Add validation
             const finalConfirm = document.getElementById('final-confirm-checkbox');
-            
+
             if (finalConfirm.dataset.checked !== 'true') {
                 alert('"(필수) 위의 내용을 모두 확인했어요"에 동의해주세요.');
                 return;
             }
-            
+
             // [MODIFIED] Check verification status
             if (!isVerified) {
                 alert('본인인증을 진행해주세요.');
                 return;
             }
-            
+
             alert('회원 탈퇴가 처리되었습니다. (구현 필요)');
             // Redirect to home or login
             // location.href = '/'; 
@@ -656,13 +944,13 @@
         function toggleCheckboxText(wrapper) {
             const checkbox = wrapper.querySelector('.checkbox');
             toggleCheckbox(checkbox);
-            
+
             // [NEW] Validate step 3 button state on checkbox click
             if (checkbox.id === 'final-confirm-checkbox') {
                 validateStep3();
             }
         }
-        
+
         // --- [NEW] Verification Logic ---
 
         // [NEW] Reset verification button state
@@ -682,18 +970,18 @@
         function runVerification() {
             const verifyBtn = document.getElementById('verification-button');
             if (!verifyBtn) return;
-            
+
             verifyBtn.disabled = true;
             verifyBtn.textContent = '인증 중...';
-            
+
             // Simulate verification API call
-            setTimeout(() => { 
-                isVerified = true; 
+            setTimeout(() => {
+                isVerified = true;
                 verifyBtn.textContent = '인증 완료';
                 validateStep3(); // Check if footer button can be enabled
             }, 1000);
         }
-        
+
         // [NEW] Validate step 3 footer button state
         function validateStep3() {
             const finalConfirm = document.getElementById('final-confirm-checkbox');
@@ -730,15 +1018,17 @@
             this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
             };
             */
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://sw-mobile.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
+            (function () { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://sw-mobile.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
             })();
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+                Disqus.</a></noscript>
     </div>
     <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>
+
 </html>
