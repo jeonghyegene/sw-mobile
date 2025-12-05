@@ -1260,8 +1260,8 @@
                     <section class="transaction-list-section">
                         <div class="transaction-list-header">
                             <span class="total-count">총 <strong id="issue-count">2</strong>건</span>
-                            <div class="view-count-select">
-                                <span class="view-count-select-text">20건씩 보기</span>
+                            <div class="view-count-select" onclick="showViewCountSheet()">
+                                <span class="view-count-select-text" id="view-count-text">20건씩 보기</span>
                                 <div class="view-count-select-arrow">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
                                         <path d="M6 9l6 6l6 -6" />
@@ -1509,6 +1509,27 @@
         </div>
     </div>
 
+    <div class="bottom-sheet-overlay" id="view-count-sheet-overlay">
+        <div class="bottom-sheet" id="view-count-sheet">
+            <div class="sheet-handle" id="view-count-sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">보기 설정</div>
+                <div class="btn-close" onclick="closeViewCountSheet()">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="sheet-body" style="padding: 0;">
+                <ul class="option-list">
+                    <li><button type="button" onclick="selectViewCount(10)">10건씩 보기</button></li>
+                    <li><button type="button" onclick="selectViewCount(20)">20건씩 보기</button></li>
+                    <li><button type="button" onclick="selectViewCount(30)">30건씩 보기</button></li>
+                    <li><button type="button" onclick="selectViewCount(40)">40건씩 보기</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <div class="modal-overlay" id="self-issue-modal-overlay">
         <div class="modal-content" id="self-issue-modal">
@@ -1601,6 +1622,50 @@
             overlay.addEventListener('click', (e) => { if (e.target.id === overlayId) closeSheet(); });
             return { openSheet, closeSheet };
         }
+
+        /* [기능 구현] 보기 갯수 설정 시트 초기화 및 로직 */
+
+        // 1. 바텀시트 셋업 (Overlay ID, Sheet ID, Handle ID 순서)
+        // 주의: HTML에 해당 ID를 가진 요소들이 반드시 존재해야 함
+        const viewCountSheetControl = setupBottomSheet('view-count-sheet-overlay', 'view-count-sheet', 'view-count-sheet-handle');
+
+        // 전역에서 접근 가능하도록 함수 할당 (필요시)
+        window.showViewCountSheet = viewCountSheetControl.openSheet;
+        window.closeViewCountSheet = viewCountSheetControl.closeSheet;
+
+        // 2. 선택 처리 함수
+        function selectViewCount(count) {
+            const textElement = document.getElementById('view-count-text');
+            if (textElement) {
+                textElement.textContent = `${count}건씩 보기`;
+            }
+
+            // 시트 닫기
+            if (window.closeViewCountSheet) window.closeViewCountSheet();
+
+            // 데이터 갱신 로직 (API 호출 등)
+            console.log(`[Action] ${count}건씩 보기로 리스트 갱신 요청`);
+        }
+
+        /* [추가] 3. JS 로직 추가 (script 태그 내부 setupBottomSheet 호출부 하단) */
+
+        // 보기 갯수 설정 시트 초기화
+        const { openSheet: showViewCountSheet, closeSheet: closeViewCountSheet } = setupBottomSheet('view-count-sheet-overlay', 'view-count-sheet', 'view-count-sheet-handle');
+
+        // 보기 갯수 선택 처리 함수
+        function selectViewCount(count) {
+            document.getElementById('view-count-text').textContent = `${count}건씩 보기`;
+            closeViewCountSheet();
+            // 추후 API 연동 시 여기서 리스트 갱신 함수 호출 (예: fetchIssueList(count))
+            console.log(`${count}건씩 보기 선택됨`);
+        }
+
+        // 오버레이 클릭 닫기 이벤트 리스너에 추가 (기존 코드의 document.querySelectorAll('.modal-overlay')... 부분 아래에 확인 필요)
+        // setupBottomSheet 함수 내부 로직에 의해 이미 처리되므로 별도 추가 불필요하지만,
+        // 명시적으로 제어하려면 아래 코드 확인
+        document.getElementById('view-count-sheet-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'view-count-sheet-overlay') closeViewCountSheet();
+        });
 
         // Setup Sheets
         const { openSheet: showListSheet, closeSheet: closeListSheet } = setupBottomSheet('list-sheet-overlay', 'list-sheet', 'list-sheet-handle');

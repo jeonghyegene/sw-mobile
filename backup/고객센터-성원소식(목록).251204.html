@@ -4,42 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자료실 목록</title>
+    <title>성원소식 (v12 기준)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* [v12] Master Guide CSS */
-        .disqus-thread-wrap {
-            position: fixed;
-            top: 40px;
-            right: 40px;
-            width: 450px;
-            height: 100%;
-            overflow: auto;
-        }
-
-        @media all and (max-width: 1490px) {
-            .disqus-thread-wrap {
-                display: none;
-            }
-        }
-
-        .disqus-thread-wrap {
-            position: fixed;
-            top: 40px;
-            right: 40px;
-            width: 450px;
-            height: 100%;
-            overflow: auto;
-        }
-
-        @media all and (max-width: 1490px) {
-            .disqus-thread-wrap {
-                display: none;
-            }
-        }
-
         .disqus-thread-wrap {
             position: fixed;
             top: 40px;
@@ -63,7 +33,7 @@
         }
 
         html,
-        body {
+        ㄱ body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #f4f5f7;
             color: #333;
@@ -408,12 +378,15 @@
             margin-bottom: 0;
         }
 
+        /* [NEW] 뱃지 컨테이너 (from detail page) */
         .article-header-badges {
             display: flex;
             flex-wrap: wrap;
+            /* [NEW] 뱃지가 여러 개일 경우 줄바꿈 */
             gap: 6px;
         }
 
+        /* [NEW] 뱃지 스타일 (from detail page) */
         .article-category-badge {
             display: inline-flex;
             align-items: center;
@@ -431,32 +404,55 @@
             color: #4e6ee4;
         }
 
-        .article-category-badge[data-category="서체 자료실"] {
-            background: #eef2ff;
-            /* Blue */
-            color: #4e6ee4;
+        .article-category-badge[data-category="휴무안내"] {
+            background: #fff0e6;
+            color: #ff6600;
         }
 
-        .article-category-badge[data-category="템플릿"] {
+        .article-category-badge[data-category="출고안내"] {
+            background: #fff0e6;
+            color: #ff6600;
+        }
+
+        .article-category-badge[data-category="회계안내"] {
+            background: #fff0e6;
+            color: #ff6600;
+        }
+
+        .article-category-badge[data-category="택배안내"] {
+            background: #fff0e6;
+            color: #ff6600;
+        }
+
+        .article-category-badge[data-category="정책안내"] {
+            background: #fff0e6;
+            color: #ff6600;
+        }
+
+        /* [NEW] Add other categories from filter */
+        .article-category-badge[data-category="긴급공지"] {
+            background: #fdeeee;
+            color: #dc3545;
+        }
+
+        .article-category-badge[data-category="이벤트"] {
+            background: #e6f7ff;
+            color: #007bff;
+        }
+
+        .article-category-badge[data-category="공모전"] {
             background: #e6f7f0;
-            /* Green */
-            color: #28a745;
+            color: #20c997;
         }
 
-        .article-category-badge[data-category="디자인"] {
-            background: #fff8e1;
-            /* Yellow/Orange */
-            color: #fd7e14;
+        .article-category-badge[data-category="보도자료"] {
+            background: #f8f9fa;
+            color: #6c757d;
         }
 
-        .article-category-badge[data-category="캘린더 템플릿"] {
-            background: #e6f7ff;
-            color: #007bff;
-        }
-
-        .article-category-badge[data-category="달력 템플릿"] {
-            background: #e6f7ff;
-            color: #007bff;
+        .article-category-badge[data-category="기타"] {
+            background: #f5f5f6;
+            color: #8a8a92;
         }
 
         /* Title row style */
@@ -478,17 +474,6 @@
 
         .card-row-value {
             color: grey;
-        }
-
-        .card-attachment-icon {
-            color: #888;
-            flex-shrink: 0;
-        }
-
-        .card-attachment-icon svg {
-            width: 20px;
-            height: 20px;
-            stroke-width: 2.5;
         }
 
         /* v12 Standard .multi-chip */
@@ -706,53 +691,6 @@
             transform: scale(0.98);
         }
 
-        /* [v12] Bottom Sheet Standard CSS */
-
-        /* 1. Overlay & Animations */
-        .bottom-sheet-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: flex-end;
-            justify-content: center;
-            z-index: 1000;
-            animation: fadeIn 0.2s ease-out;
-        }
-
-        .bottom-sheet-overlay.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(100%);
-            }
-
-            to {
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(0);
-            }
-
-            to {
-                transform: translateY(100%);
-            }
-        }
 
         /* 2. Sheet Container */
         .bottom-sheet {
@@ -870,7 +808,7 @@
                     </svg>
                 </button>
             </div>
-            <h1 class="header-title">자료실</h1>
+            <h1 class="header-title">성원소식</h1>
             <div class="header-right">
             </div>
         </header>
@@ -884,20 +822,20 @@
                         </div>
                         <div class="multi-chip multi-chip-off" data-category="공지" onclick="toggleCategoryChip(this)">공지
                         </div>
-                        <div class="multi-chip multi-chip-off" data-category="서체 자료실"
-                            onclick="toggleCategoryChip(this)">서체 자료실
+                        <div class="multi-chip multi-chip-off" data-category="안내" onclick="toggleCategoryChip(this)">안내
                         </div>
-                        <div class="multi-chip multi-chip-off" data-category="템플릿" onclick="toggleCategoryChip(this)">
-                            템플릿
+                        <div class="multi-chip multi-chip-off" data-category="긴급공지" onclick="toggleCategoryChip(this)">
+                            긴급공지
                         </div>
-                        <div class="multi-chip multi-chip-off" data-category="디자인" onclick="toggleCategoryChip(this)">
-                            디자인
+                        <div class="multi-chip multi-chip-off" data-category="이벤트" onclick="toggleCategoryChip(this)">
+                            이벤트
                         </div>
-                        <div class="multi-chip multi-chip-off" data-category="캘린더 템플릿"
-                            onclick="toggleCategoryChip(this)">캘린더 템플릿
+                        <div class="multi-chip multi-chip-off" data-category="공모전" onclick="toggleCategoryChip(this)">
+                            공모전</div>
+                        <div class="multi-chip multi-chip-off" data-category="보도자료" onclick="toggleCategoryChip(this)">
+                            보도자료
                         </div>
-                        <div class="multi-chip multi-chip-off" data-category="달력 템플릿"
-                            onclick="toggleCategoryChip(this)">달력 템플릿
+                        <div class="multi-chip multi-chip-off" data-category="기타" onclick="toggleCategoryChip(this)">기타
                         </div>
                     </div>
                 </section>
@@ -935,142 +873,130 @@
 
                     <div class="transaction-list" id="transaction-list-container">
 
-                        <article class="common-table-card qna-card" data-category="공지" data-category-secondary="캘린더 템플릿"
-                            onclick="location.href='asset_detail.html'">
+                        <article class="common-table-card qna-card" data-category="공지" data-category-secondary="휴무안내"
+                            onclick="location.href='notice_detail.html'">
                             <div class="card-header">
                                 <div class="article-header-badges">
                                     <span class="article-category-badge" data-category="공지">공지</span>
-                                    <span class="article-category-badge" data-category="캘린더 템플릿">캘린더 템플릿</span>
-                                </div>
-                                <div class="card-attachment-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path
-                                            d="M15 7l-6.5 6.5a1.5 1.5 0 0 0 3 3l6.5 -6.5a3 3 0 0 0 -6 -6l-6.5 6.5a4.5 4.5 0 0 0 9 9l6.5 -6.5" />
-                                    </svg>
+                                    <span class="article-category-badge" data-category="휴무안내">휴무안내</span>
                                 </div>
                             </div>
                             <div class="qna-title-row">
-                                2024년 소량 벽걸이 캘린더 6종
+                                2025 여름휴가 업무일정안내
                             </div>
                             <div class="card-row-value" style="font-size: 12px; text-align: left;">2025-07-14</div>
                         </article>
 
-                        <article class="common-table-card qna-card" data-category="달력 템플릿"
-                            onclick="location.href='asset_detail.html'">
+                        <article class="common-table-card qna-card" data-category="공지"
+                            onclick="location.href='notice_detail.html'">
                             <div class="card-header">
                                 <div class="article-header-badges">
-                                    <span class="article-category-badge" data-category="달력 템플릿">달력 템플릿</span>
-                                </div>
-                                <div class="card-attachment-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path
-                                            d="M15 7l-6.5 6.5a1.5 1.5 0 0 0 3 3l6.5 -6.5a3 3 0 0 0 -6 -6l-6.5 6.5a4.5 4.5 0 0 0 9 9l6.5 -6.5" />
-                                    </svg>
+                                    <span class="article-category-badge" data-category="공지">공지</span>
+                                    <span class="article-category-badge" data-category="출고안내">출고안내</span>
                                 </div>
                             </div>
                             <div class="qna-title-row">
-                                2024년 탁상달력 템플릿 5종
-                            </div>
-                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2025-07-14</div>
-                        </article>
-
-                        <article class="common-table-card qna-card" data-category="달력 템플릿"
-                            onclick="location.href='asset_detail.html'">
-                            <div class="card-header">
-                                <div class="article-header-badges">
-                                    <span class="article-category-badge" data-category="달력 템플릿">달력 템플릿</span>
-                                </div>
-                                <div class="card-attachment-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path
-                                            d="M15 7l-6.5 6.5a1.5 1.5 0 0 0 3 3l6.5 -6.5a3 3 0 0 0 -6 -6l-6.5 6.5a4.5 4.5 0 0 0 9 9l6.5 -6.5" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="qna-title-row">
-                                2025년 탁상달력템플릿 5종
-                            </div>
-                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2025-07-14</div>
-                        </article>
-
-                        <article class="common-table-card qna-card" data-category="서체 자료실"
-                            onclick="location.href='asset_detail.html'">
-                            <div class="card-header">
-                                <div class="article-header-badges">
-                                    <span class="article-category-badge" data-category="서체 자료실">서체 자료실</span>
-                                </div>
-                                <div class="card-attachment-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path
-                                            d="M15 7l-6.5 6.5a1.5 1.5 0 0 0 3 3l6.5 -6.5a3 3 0 0 0 -6 -6l-6.5 6.5a4.5 4.5 0 0 0 9 9l6.5 -6.5" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="qna-title-row">
-                                성원애드피아 전용서체 '성원체' OTF/TTF 배포
-                            </div>
-                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2025-07-14</div>
-                        </article>
-
-                        <article class="common-table-card qna-card" data-category="템플릿"
-                            onclick="location.href='asset_detail.html'">
-                            <div class="card-header">
-                                <div class="article-header-badges">
-                                    <span class="article-category-badge" data-category="템플릿">템플릿</span>
-                                </div>
-                                <div class="card-attachment-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path
-                                            d="M15 7l-6.5 6.5a1.5 1.5 0 0 0 3 3l6.5 -6.5a3 3 0 0 0 -6 -6l-6.5 6.5a4.5 4.5 0 0 0 9 9l6.5 -6.5" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="qna-title-row">
-                                [명함] 2025년 최신 비즈니스 명함 템플릿 (Ai, Psd)
+                                충무로 출고실 토요일 운영 변경 안내
                             </div>
                             <div class="card-row-value" style="font-size: 12px; text-align: left;">2024-12-30</div>
                         </article>
 
-                        <article class="common-table-card qna-card" data-category="디자인"
-                            onclick="location.href='asset_detail.html'">
+                        <article class="common-table-card qna-card" data-category="공지"
+                            onclick="location.href='notice_detail.html'">
                             <div class="card-header">
                                 <div class="article-header-badges">
-                                    <span class="article-category-badge" data-category="디자인">디자인</span>
-                                </div>
-                                <div class="card-attachment-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path
-                                            d="M15 7l-6.5 6.5a1.5 1.5 0 0 0 3 3l6.5 -6.5a3 3 0 0 0 -6 -6l-6.5 6.5a4.5 4.5 0 0 0 9 9l6.5 -6.5" />
-                                    </svg>
+                                    <span class="article-category-badge" data-category="공지">공지</span>
+                                    <span class="article-category-badge" data-category="택배안내">택배안내</span>
                                 </div>
                             </div>
                             <div class="qna-title-row">
-                                2025년 디자인 트렌드 리포트 (PDF)
+                                택배업체 변경 안내
+                            </div>
+                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2022-10-13</div>
+                        </article>
+
+                        <article class="common-table-card qna-card" data-category="회계"
+                            onclick="location.href='notice_detail.html'">
+                            <div class="card-header">
+                                <div class="article-header-badges">
+                                    <span class="article-category-badge" data-category="회계">회계</span>
+                                    <span class="article-category-badge" data-category="회계안내">회계안내</span>
+                                </div>
+                            </div>
+                            <div class="qna-title-row">
+                                2022년 9월 5일부터 수요일로 환불일 변경됩니다
                             </div>
                             <div class="card-row-value" style="font-size: 12px; text-align: left;">2022-09-01</div>
                         </article>
 
+                        <article class="common-table-card qna-card" data-category="공모전"
+                            onclick="location.href='notice_detail.html'">
+                            <div class="card-header">
+                                <div class="article-header-badges">
+                                    <span class="article-category-badge" data-category="공모전">공모전</span>
+                                </div>
+                            </div>
+                            <div class="qna-title-row">
+                                제 5회 성원애드피아 디자인 어워드 공모전 개최 안내
+                            </div>
+                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2025-05-28</div>
+                        </article>
+
+                        <article class="common-table-card qna-card" data-category="보도자료"
+                            onclick="location.href='notice_detail.html'">
+                            <div class="card-header">
+                                <div class="article-header-badges">
+                                    <span class="article-category-badge" data-category="보도자료">보도자료</span>
+                                </div>
+                            </div>
+                            <div class="qna-title-row">
+                                성원애드피아, 친환경 UV 인쇄 시스템 도입으로 ESG 경영 실천
+                            </div>
+                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2025-05-28</div>
+                        </article>
+
+                        <article class="common-table-card qna-card" data-category="기타"
+                            onclick="location.href='notice_detail.html'">
+                            <div class="card-header">
+                                <div class="article-header-badges">
+                                    <span class="article-category-badge" data-category="기타">기타</span>
+                                </div>
+                            </div>
+                            <div class="qna-title-row">
+                                성원애드피아 개인정보처리방침 개정 안내 (2025.11.30)
+                            </div>
+                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2025-05-28</div>
+                        </article>
+
+                        <article class="common-table-card qna-card" data-category="이벤트"
+                            onclick="location.href='notice_detail.html'">
+                            <div class="card-header">
+                                <div class="article-header-badges">
+                                    <span class="article-category-badge" data-category="이벤트">이벤트</span>
+                                </div>
+                            </div>
+                            <div class="qna-title-row">
+                                여름 시즌 맞이! 부채/투명 포토카드 20% 할인 이벤트
+                            </div>
+                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2025-04-10</div>
+                        </article>
+
+                        <article class="common-table-card qna-card" data-category="긴급공지"
+                            onclick="location.href='notice_detail.html'">
+                            <div class="card-header">
+                                <div class="article-header-badges">
+                                    <span class="article-category-badge" data-category="긴급공지">긴급공지</span>
+                                </div>
+                            </div>
+                            <div class="qna-title-row">
+                                서버 점검으로 인한 홈페이지 접속 및 주문 일시 중단 안내
+                            </div>
+                            <div class="card-row-value" style="font-size: 12px; text-align: left;">2025-04-10</div>
+                        </article>
+
                     </div>
 
-                    <div class="no-transactions" style="display: none;">등록된 자료가 없어요</div>
+                    <div class="no-transactions" style="display: none;">등록된 공지사항이 없어요</div>
 
                     <button type="button" class="white-button" style="width: 100%;" onclick="alert('더보기 동작')">
                         더보기
@@ -1085,29 +1011,6 @@
 
             </div>
         </main>
-
-
-        <div class="bottom-sheet-overlay" id="view-count-sheet-overlay">
-            <div class="bottom-sheet" id="view-count-sheet">
-                <div class="sheet-handle" id="view-count-sheet-handle"></div>
-                <div class="sheet-header">
-                    <div class="sheet-title">보기 설정</div>
-                    <div class="btn-close" onclick="closeViewCountSheet()">
-                        <svg width="24" height="24" viewBox="0 0 24 24">
-                            <path d="M18 6L6 18M6 6l12 12" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="sheet-body" style="padding: 0;">
-                    <ul class="option-list">
-                        <li><button type="button" onclick="selectViewCount(10)">10건씩 보기</button></li>
-                        <li><button type="button" onclick="selectViewCount(20)">20건씩 보기</button></li>
-                        <li><button type="button" onclick="selectViewCount(30)">30건씩 보기</button></li>
-                        <li><button type="button" onclick="selectViewCount(40)">40건씩 보기</button></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
 
     </div>
 
@@ -1189,7 +1092,7 @@
 
             const searchTerm = document.querySelector('#qna-search input').value.toLowerCase();
 
-            console.log("Filtering Data Room List:", { selectedCategories, searchTerm });
+            console.log("Filtering Notice List:", { selectedCategories, searchTerm });
 
             // Apply filtering logic
             const listContainer = document.getElementById('transaction-list-container');
@@ -1201,7 +1104,6 @@
             const isAllCategories = selectedCategories.includes('전체');
 
             cards.forEach(card => {
-                // [MODIFIED] Read multiple categories
                 const cardCategories = [card.dataset.category, card.dataset.categorySecondary].filter(Boolean);
                 const cardTitle = card.querySelector('.qna-title-row').textContent.toLowerCase();
 
@@ -1210,8 +1112,12 @@
                 if (isAllCategories) {
                     categoryMatch = true;
                 } else {
-                    // Check if any of the card's categories are in the selected list
-                    categoryMatch = selectedCategories.some(sc => cardCategories.includes(sc));
+                    // [MODIFIED] Check if any card category *contains* any selected chip category
+                    categoryMatch = selectedCategories.some(selectedChipCategory =>
+                        cardCategories.some(cardCategory =>
+                            cardCategory.includes(selectedChipCategory)
+                        )
+                    );
                 }
 
                 // Search check
@@ -1235,7 +1141,7 @@
 
 
         // --- [v12] Pagination Logic ---
-        let currentPage = 1; const totalPages = 1;
+        let currentPage = 1; const totalPages = 2;
         function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); }
         function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
         function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
@@ -1264,7 +1170,6 @@
             prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
             nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
         }
-
 
         /* [v12 표준] 바텀시트 핵심 로직 (필수) */
         function setupBottomSheet(overlayId, sheetId, handleId) {
@@ -1340,7 +1245,6 @@
 
             return { openSheet, closeSheet };
         }
-
 
         /* ---------------------------------------------------- */
 

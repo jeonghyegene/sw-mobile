@@ -829,6 +829,34 @@
             gap: 8px;
         }
 
+        .count-filter-group-content {
+            gap: 0;
+            border: 1px solid #e8e8e9;
+            border-bottom-right-radius: 6px;
+            border-bottom-left-radius: 6px;
+            margin-top: 0px;
+            border-top: 0;
+            overflow: hidden;
+        }
+
+        .count-filter-group-content .single-chip {
+            font-size: 12px;
+            border-radius: 0;
+            flex: 1;
+            border-right: 1px solid #e8e8e9;
+            background-color: white;
+            height: 28px;
+        }
+
+        .count-filter-group-content .single-chip:last-child {
+            border-right: 0;
+        }
+
+        .count-filter-group-content .single-chip:active {
+            transform: scale(1);
+            background-color: #f5f5f6;
+        }
+
         .single-chip {
             display: inline-flex;
             align-items: center;
@@ -1033,9 +1061,9 @@
 
         .full-modal .modal-title {
             flex: 3 0 0;
-            font-size: 18px;
-            font-weight: 600;
-            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: left;
             color: #212121;
         }
 
@@ -1727,7 +1755,7 @@
                             </div>
                         </div>
                         <div class="card-footer"> <button type="button" class="white-button btn"
-                                onclick="showWithdrawalDetailsSheet({ withdrawer: '김성원', bank: '국민은행', account: '2134***4543', reason: '정상 처리' })">상세</button>
+                                onclick="showWithdrawalDetailsSheet({ withdrawer: '김성원', bank: '국민은행', account: '2134***4543', reason: '회계 및 정산' })">상세</button>
                         </div>
                     </article>
                     <article class="transaction-card" data-type="출금">
@@ -1746,7 +1774,7 @@
                             </div>
                         </div>
                         <div class="card-footer"> <button type="button" class="white-button btn"
-                                onclick="showWithdrawalDetailsSheet({ withdrawer: '김성원', bank: '국민은행', account: '2134***4543', reason: '처리 중' })">상세</button>
+                                onclick="showWithdrawalDetailsSheet({ withdrawer: '김성원', bank: '국민은행', account: '2134***4543', reason: '회계 및 정산' })">상세</button>
                             <button type="button" class="dark-button btn">출금취소</button>
                         </div>
                     </article>
@@ -1767,7 +1795,7 @@
                             </div>
                         </div>
                         <div class="card-footer"> <button type="button" class="white-button btn"
-                                onclick="showWithdrawalDetailsSheet({ withdrawer: '김성원', bank: '국민은행', account: '2134***4543', reason: '비정상적인 계좌 정보입니다' })">상세</button>
+                                onclick="showWithdrawalDetailsSheet({ withdrawer: '김성원', bank: '국민은행', account: '2134***4543', reason: '회계 및 정산' })">상세</button>
                         </div>
                     </article>
                     <article class="transaction-card" data-type="입금">
@@ -1939,10 +1967,11 @@
                     <li><button type="button"
                             onclick="window.open('about:blank', '_blank', 'width=375,height=667'); closeAccountOptionsSheet();">발급
                             확인서</button></li>
-                    <li><button type="button" onclick="showVaHistoryModal(); closeAccountOptionsSheet();">변경내역</button>
-                    </li>
                     <li><button type="button" onclick="showVaChangeSheet(); closeAccountOptionsSheet();">가상계좌
                             변경</button></li>
+                    <li><button type="button" onclick="showVaHistoryModal(); closeAccountOptionsSheet();">가상계좌
+                            변경내역</button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -1968,8 +1997,8 @@
                 <div class="detail-item"><span class="label">출금사유</span><span class="value" id="detail-reason"></span>
                 </div>
             </div>
-            <div class="sheet-footer"><button class="btn dark-button"
-                    onclick="closeWithdrawalDetailsSheet()">확인</button></div>
+            <!-- <div class="sheet-footer"><button class="btn dark-button"
+                    onclick="closeWithdrawalDetailsSheet()">확인</button></div> -->
         </div>
     </div>
 
@@ -1977,7 +2006,6 @@
     <div class="modal-overlay" id="refund-account-modal-overlay">
         <div class="modal-content full-modal" id="refund-account-modal">
             <div class="modal-header">
-                <div style="width: 28px;"></div>
                 <h2 class="modal-title">환불계좌 변경</h2>
                 <button class="btn-modal-close" onclick="closeRefundAccountModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -2079,7 +2107,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn dark-button" id="register-button" onclick="updateRefundAccount()"
-                    disabled>변경하기</button>
+                    disabled="">변경하기</button>
             </div>
         </div>
     </div>
@@ -2087,7 +2115,6 @@
     <div class="modal-overlay" id="withdrawal-modal-overlay">
         <div class="modal-content full-modal" id="withdrawal-modal">
             <div class="modal-header">
-                <div style="width: 28px;"></div>
                 <h2 class="modal-title">출금 신청</h2>
                 <button class="btn-modal-close" onclick="closeWithdrawalSheet()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -2103,11 +2130,11 @@
                 </div>
                 <div class="form-group">
                     <label for="withdraw-amount">출금 신청 금액</label>
-                    <div class="input">
+                    <div class="input" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
                         <input type="tel" id="withdraw-amount" placeholder="금액을 입력해주세요"
                             oninput="validateWithdrawalForm()">
                     </div>
-                    <div class="filter-group-content" style="margin-top: 10px;">
+                    <div class="filter-group-content count-filter-group-content">
                         <div class="single-chip single-chip-off" onclick="setWithdrawAmount('all')">전액</div>
                         <div class="single-chip single-chip-off" onclick="setWithdrawAmount(1000000)">+100만</div>
                         <div class="single-chip single-chip-off" onclick="setWithdrawAmount(100000)">+10만</div>
@@ -2132,9 +2159,12 @@
                     <p class="disclaimer" style="margin-top: 8px;">* 선택하신 출금 사유는 내부 확인 및 정산 참고용으로만 사용돼요</p>
                 </div>
                 <div class="form-group" id="withdraw-reason-text-group" style="display: none;">
-                    <div class="input">
+                    <div class="input" style="display: block; height: auto; padding-bottom: 8px;">
                         <textarea id="withdraw-reason-text" placeholder="출금 사유를 입력해주세요 (500자 이내)" rows="3"
-                            oninput="validateWithdrawalForm()"></textarea>
+                            maxlength="500" oninput="validateWithdrawalForm(); updateCharCount(this)"></textarea>
+                        <div style="text-align: right; font-size: 12px; color: #888; margin-top: 4px;">
+                            <span id="current-text-count">0</span>/500
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -2160,7 +2190,7 @@
     </div>
 
     <div class="modal-overlay" id="va-history-modal-overlay">
-        <div class="modal-content" id="va-history-modal">
+        <div class="modal-content full-modal" id="va-history-modal">
             <div class="modal-header">
                 <h2 class="modal-title">가상계좌 변경내역</h2>
                 <button class="btn-modal-close" onclick="closeVaHistoryModal()">
@@ -2190,9 +2220,9 @@
                 </table>
 
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button class="btn dark-button" onclick="closeVaHistoryModal()">확인</button>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -2759,6 +2789,43 @@
             toast.timer = setTimeout(() => {
                 toast.classList.remove('active');
             }, 3000); // 3초 후 사라짐
+        }
+
+        /* [JS] 하단 스크립트 영역에 글자 수 카운트 함수 추가 */
+
+        function updateCharCount(el) {
+            const countSpan = document.getElementById('current-text-count');
+            if (countSpan) {
+                countSpan.textContent = el.value.length;
+            }
+        }
+
+        /* [JS] showWithdrawalSheet 함수 내 초기화 로직에 카운트 초기화 추가 */
+        // 기존 showWithdrawalSheet 함수 내부 수정
+
+        function showWithdrawalSheet() {
+            // ... 기존 초기화 로직 ...
+            withdrawAmountInput.value = '';
+            withdrawReasonChips.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
+            withdrawReasonTextGroup.style.display = 'none';
+            withdrawReasonText.value = '';
+
+            // [추가된 로직] 글자 수 카운트 초기화
+            const countSpan = document.getElementById('current-text-count');
+            if (countSpan) countSpan.textContent = '0';
+
+            withdrawSubmitBtn.disabled = true;
+            selectedWithdrawReason = null;
+
+            // ... 이하 기존 모달 오픈 로직 ...
+            if (withdrawalModalOverlay) {
+                withdrawalModalOverlay.classList.add('overlay-full-modal');
+                withdrawalModalOverlay.style.display = 'flex';
+                requestAnimationFrame(() => {
+                    withdrawalModalOverlay.classList.add('active');
+                });
+            }
+            document.body.style.overflow = 'hidden';
         }
 
         // --- Initialize (Event listeners etc.) ---

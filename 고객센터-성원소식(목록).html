@@ -33,7 +33,7 @@
         }
 
         html,
-        ㄱ body {
+        body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #f4f5f7;
             color: #333;
@@ -690,6 +690,154 @@
         .white-button:active {
             transform: scale(0.98);
         }
+
+
+        /* 2. Sheet Container */
+        .bottom-sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .bottom-sheet-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(100%);
+            }
+        }
+
+        .bottom-sheet {
+            width: 100%;
+            max-width: 480px;
+            /* Mobile Wrapper Max Width */
+            background: white;
+            border-top: 1px solid #d7d7d7;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bottom-sheet.closing {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        /* 3. Handle & Header */
+        .sheet-handle {
+            width: 27px;
+            height: 4px;
+            background: #d9d9d9;
+            border-radius: 100px;
+            margin: 10px auto;
+            cursor: grab;
+        }
+
+        .sheet-header {
+            height: 21px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .sheet-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+        }
+
+        .btn-close {
+            position: absolute;
+            right: 20px;
+            top: 0;
+            width: 21px;
+            height: 21px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        /* 4. Body Content */
+        .sheet-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 20px 20px;
+        }
+
+        /* 5. [v12] Option List Style (For Select/Menu Types) */
+        .option-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-list li {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .option-list li:last-child {
+            border-bottom: none;
+        }
+
+        .option-list li button {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .option-list li button:hover {
+            background-color: #f8f8f8;
+        }
+
+        .option-list li button:active {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 
@@ -758,8 +906,8 @@
                 <section class="transaction-list-section">
                     <div class="transaction-list-header">
                         <span class="total-count">총 <strong id="transaction-count">6</strong>건</span>
-                        <div class="view-count-select">
-                            <span class="view-count-select-text">20건씩 보기</span>
+                        <div class="view-count-select" onclick="showViewCountSheet()">
+                            <span class="view-count-select-text" id="view-count-text">20건씩 보기</span>
                             <div class="view-count-select-arrow">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
                                     <path d="M6 9l6 6l6 -6" />
@@ -911,6 +1059,28 @@
 
     </div>
 
+    <div class="bottom-sheet-overlay" id="view-count-sheet-overlay">
+        <div class="bottom-sheet" id="view-count-sheet">
+            <div class="sheet-handle" id="view-count-sheet-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">보기 설정</div>
+                <div class="btn-close" onclick="closeViewCountSheet()">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <div class="sheet-body" style="padding: 0;">
+                <ul class="option-list">
+                    <li><button type="button" onclick="selectViewCount(10)">10건씩 보기</button></li>
+                    <li><button type="button" onclick="selectViewCount(20)">20건씩 보기</button></li>
+                    <li><button type="button" onclick="selectViewCount(30)">30건씩 보기</button></li>
+                    <li><button type="button" onclick="selectViewCount(40)">40건씩 보기</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <script>
         // --- [v12] Search Component JS ---
         function handleSearchInput(input) {
@@ -923,7 +1093,7 @@
             input.value = '';
             searchBox.classList.remove('has-text');
             input.focus();
-            filterQnaList(); // [MODIFIED] Clear search and re-filter
+            filterQnaList();
         }
         function handleSearch(btn) {
             console.log('Search submitted:', btn.closest('.search').querySelector('input').value);
@@ -935,11 +1105,11 @@
             const isCurrentlyOn = chip.classList.contains('multi-chip-on');
             let turnOn;
 
-            if (forceState === true) { // Force On
+            if (forceState === true) {
                 turnOn = true;
-            } else if (forceState === false) { // Force Off
+            } else if (forceState === false) {
                 turnOn = false;
-            } else { // Toggle
+            } else {
                 turnOn = !isCurrentlyOn;
             }
 
@@ -954,9 +1124,7 @@
             }
         }
 
-        // --- [NEW] Page-Specific Filter Logic ---
-
-        // 3. Category Filter (Multi-select chip)
+        // --- Page-Specific Filter Logic ---
         function toggleCategoryChip(chip) {
             const category = chip.getAttribute('data-category');
             const group = chip.closest('#category-chip-group');
@@ -980,7 +1148,6 @@
             filterQnaList();
         }
 
-        // 4. Main Filter Function
         function filterQnaList() {
             const selectedCategories = [];
             document.querySelectorAll('#category-chip-group .multi-chip-on').forEach(chip => {
@@ -988,10 +1155,6 @@
             });
 
             const searchTerm = document.querySelector('#qna-search input').value.toLowerCase();
-
-            console.log("Filtering Notice List:", { selectedCategories, searchTerm });
-
-            // Apply filtering logic
             const listContainer = document.getElementById('transaction-list-container');
             if (!listContainer) return;
 
@@ -1004,12 +1167,10 @@
                 const cardCategories = [card.dataset.category, card.dataset.categorySecondary].filter(Boolean);
                 const cardTitle = card.querySelector('.qna-title-row').textContent.toLowerCase();
 
-                // Category check
                 let categoryMatch = false;
                 if (isAllCategories) {
                     categoryMatch = true;
                 } else {
-                    // [MODIFIED] Check if any card category *contains* any selected chip category
                     categoryMatch = selectedCategories.some(selectedChipCategory =>
                         cardCategories.some(cardCategory =>
                             cardCategory.includes(selectedChipCategory)
@@ -1017,7 +1178,6 @@
                     );
                 }
 
-                // Search check
                 let searchMatch = true;
                 if (searchTerm) {
                     searchMatch = cardTitle.includes(searchTerm);
@@ -1036,10 +1196,9 @@
             if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
         }
 
-
         // --- [v12] Pagination Logic ---
         let currentPage = 1; const totalPages = 2;
-        function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); }
+        function paginationGo(page) { currentPage = page; updatePagination(); }
         function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
         function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
         function paginationFirst() { paginationGo(1); }
@@ -1048,7 +1207,7 @@
             const numbersContainer = document.getElementById('pagination-numbers');
             if (!numbersContainer) return;
 
-            numbersContainer.innerHTML = ''; // Clear
+            numbersContainer.innerHTML = '';
             for (let i = 1; i <= totalPages; i++) {
                 const numEl = document.createElement('div');
                 numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
@@ -1057,21 +1216,98 @@
                 numEl.onclick = () => paginationGo(i);
                 numbersContainer.appendChild(numEl);
             }
+        }
 
-            const paginationRoot = numbersContainer.closest('.pagination');
-            if (!paginationRoot) return;
+        /* [v12 표준] 바텀시트 핵심 로직 */
+        function setupBottomSheet(overlayId, sheetId, handleId) {
+            const overlay = document.getElementById(overlayId);
+            const sheet = document.getElementById(sheetId);
+            const handle = document.getElementById(handleId);
 
-            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
-            const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
+            if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
 
-            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
-            nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
+            let isDragging = false;
+            let startY = 0;
+            let currentY = 0;
+
+            const openSheet = () => {
+                overlay.classList.add('active');
+                sheet.classList.remove('closing');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeSheet = () => {
+                sheet.classList.add('closing');
+                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active:not(#' + overlayId + ')');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                    sheet.classList.remove('closing');
+                    sheet.style.transform = '';
+                }, 300);
+            };
+
+            const startDrag = (e) => {
+                isDragging = true;
+                startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
+                sheet.style.transition = 'none';
+            };
+
+            const drag = (e) => {
+                if (!isDragging) return;
+                currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
+                const deltaY = currentY - startY;
+                if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`;
+            };
+
+            const endDrag = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                sheet.style.transition = '';
+                const deltaY = currentY - startY;
+                if (deltaY > 100) closeSheet();
+                else sheet.style.transform = '';
+            };
+
+            handle.addEventListener('mousedown', startDrag);
+            handle.addEventListener('touchstart', startDrag, { passive: false });
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target.id === overlayId) closeSheet();
+            });
+
+            return { openSheet, closeSheet };
+        }
+
+        // --- [FIXED] Javascript 초기화 (중복 제거 및 올바른 초기화) ---
+
+        // 1. 바텀시트 컨트롤러 생성
+        const viewCountSheetControl = setupBottomSheet('view-count-sheet-overlay', 'view-count-sheet', 'view-count-sheet-handle');
+
+        // 2. 전역 함수로 연결 (HTML onclick="showViewCountSheet()" 대응)
+        window.showViewCountSheet = viewCountSheetControl.openSheet;
+        window.closeViewCountSheet = viewCountSheetControl.closeSheet;
+
+        // 3. 선택 로직 함수
+        function selectViewCount(count) {
+            const textElement = document.getElementById('view-count-text');
+            if (textElement) {
+                textElement.textContent = `${count}건씩 보기`;
+            }
+            if (window.closeViewCountSheet) window.closeViewCountSheet();
+            console.log(`[Action] ${count}건씩 보기로 리스트 갱신`);
         }
 
         // --- Initialize ---
         document.addEventListener('DOMContentLoaded', () => {
             updatePagination();
-            filterQnaList(); // Initial filter
+            filterQnaList();
         });
 
     </script>
@@ -1080,16 +1316,7 @@
     <div class="disqus-thread-wrap">
         <div id="disqus_thread"></div>
         <script>
-            /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-            /*
-            var disqus_config = function () {
-            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-            };
-            */
-            (function () { // DON'T EDIT BELOW THIS LINE
+            (function () {
                 var d = document, s = d.createElement('script');
                 s.src = 'https://sw-mobile.disqus.com/embed.js';
                 s.setAttribute('data-timestamp', +new Date());
