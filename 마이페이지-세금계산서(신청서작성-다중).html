@@ -1001,6 +1001,56 @@
         .combobox-item:hover {
             background: #f5f5f6;
         }
+
+        /* [v12] CHECKBOX (v12 Standard) */
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .checkbox-off {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #bdbdbd;
+            border-radius: 2px;
+        }
+
+        .checkbox-on {
+            width: 100%;
+            height: 100%;
+            background: #4e6ee4;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-on img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .checkbox:active {
+            transform: scale(0.9);
+        }
+
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-text span {
+            font-size: 14px;
+            color: #333;
+        }
     </style>
 </head>
 
@@ -1263,6 +1313,12 @@
                                         </div>
                                         <div class="combobox-dropdown"></div>
                                     </div>
+                                </div>
+                                <div class="checkbox-text" onclick="toggleCheckboxText(this)" style="margin-top: 16px;">
+                                    <div class="checkbox" data-checked="false">
+                                        <div class="checkbox-off"></div>
+                                    </div>
+                                    <span>나의 고객 목록에 추가하기</span>
                                 </div>
                             </div>
 
@@ -1673,7 +1729,6 @@
                             <span class="data">test1234@test.com</span>
                         </div>
                         <div class="customer-item-footer">
-                            <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                             <button class="white-button btn"
                                 onclick="selectCustomer('삼성 SDS', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
                                 선택
@@ -1702,7 +1757,6 @@
                             <span class="data">test1234@test.com</span>
                         </div>
                         <div class="customer-item-footer">
-                            <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                             <button class="white-button btn"
                                 onclick="selectCustomer('LG', '232-34-33445', '김길동', '김성원', '01012341234', 'test1234@test.com')">
                                 선택
@@ -1731,7 +1785,6 @@
                             <span class="data">test1234@test.com</span>
                         </div>
                         <div class="customer-item-footer">
-                            <button class="white-button btn" onclick="deleteCustomer()">삭제</button>
                             <button class="white-button btn"
                                 onclick="selectCustomer('대우', '232-34-33445', '김길동', '', '', '')">
                                 선택
@@ -2117,6 +2170,25 @@
             }, 200);
         }
 
+        // ========================================
+        // [NEW] CHECKBOX HANDLERS (v12 Standard)
+        // ========================================
+        function toggleCheckbox(checkbox) {
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                // [v12] 체크 아이콘 이미지 경로 적용
+                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+            }
+        }
+
+        function toggleCheckboxText(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            toggleCheckbox(checkbox);
+        }
 
         // --- [MODIFIED] Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
