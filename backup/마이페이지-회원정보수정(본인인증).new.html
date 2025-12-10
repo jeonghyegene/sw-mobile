@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성원애드피아 - 회원정보 수정</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [v12] Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow-x: hidden;
+            /* 가로 스크롤 방지 */
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        input {
+            font-family: inherit;
+            outline: none;
+        }
+
+        /* Layout */
+        .mobile-wrap {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding-bottom: 100px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Header (v12 Standard) */
+        .app-header-sub {
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .header-btn {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Section Styles */
+        .sw-container {
+            padding: 0 16px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #888;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            padding-left: 4px;
+        }
+
+        .section-divider {
+            height: 8px;
+            background: #f4f5f7;
+            border-top: 1px solid #f0f0f0;
+            margin: 0;
+        }
+
+        /* List Row Style (Kakao Style) */
+        .info-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 52px;
+            padding: 8px 4px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        /* 섹션의 마지막 줄은 라인 제거 */
+        .sw-container .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .row-label {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .row-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            text-align: right;
+        }
+
+        .row-value {
+            font-size: 14px;
+            color: #666;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        /* Change Button (Link Style) */
+        .btn-text-action {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4e6ee4;
+            /* 성원 블루 */
+            padding: 4px 8px;
+            white-space: nowrap;
+        }
+
+        .btn-text-action:active {
+            opacity: 0.7;
+        }
+
+        /* SNS & Agreement Styles */
+        .sns-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .sns-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8f8f9;
+            border-radius: 8px;
+            padding: 12px 16px;
+            min-height: 52px;
+        }
+
+        .sns-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sns-item-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .sns-item-text {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Toggle Switch */
+        .sns-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .sns-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .sns-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e0e0e0;
+            transition: .3s;
+            border-radius: 34px;
+        }
+
+        .sns-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        input:checked+.sns-slider {
+            background-color: #4e6ee4;
+        }
+
+        input:checked+.sns-slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Agreement */
+        .agreement-group {
+            margin-bottom: 24px;
+        }
+
+        .agreement-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .agreement-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+        }
+
+        .checkbox-off {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+        }
+
+        .checkbox-on {
+            width: 100%;
+            height: 100%;
+            background: #4e6ee4;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-on img {
+            width: 12px;
+            height: 12px;
+        }
+
+        .disclaimer-link {
+            font-size: 13px;
+            color: #888;
+            text-decoration: underline;
+        }
+
+        /* Main Footer */
+        .sticky-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            padding: 16px;
+            display: flex;
+            gap: 8px;
+            z-index: 90;
+        }
+
+        .btn-full {
+            flex: 1;
+            height: 48px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .btn-dark {
+            background: #333;
+            color: white;
+        }
+
+        .btn-white {
+            background: white;
+            border: 1px solid #e0e0e0;
+            color: #333;
+        }
+
+        .btn-del {
+            color: #dc3545;
+        }
+
+        /* =========================================
+           FULL MODAL STYLES (New)
+           ========================================= */
+        .full-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .full-modal.active {
+            transform: translateY(0);
+        }
+
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+        }
+
+        .modal-footer {
+            padding: 16px;
+            border-top: 1px solid #e0e0e0;
+            background: #fff;
+            display: flex;
+        }
+
+        /* Forms in Modal */
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .sw-input {
+            width: 100%;
+            height: 48px;
+            padding: 0 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 15px;
+            background: #fff;
+        }
+
+        .sw-input:focus {
+            border-color: #333;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-inline {
+            height: 48px;
+            padding: 0 16px;
+            background: #424242;
+            color: white;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .guide-text {
+            font-size: 12px;
+            color: #888;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        .readonly-bg {
+            background-color: #f8f8f8;
+            color: #666;
+            border-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-wrap">
+
+        <header class="app-header-sub">
+            <div class="header-left">
+                <button type="button" class="header-btn" onclick="history.back()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 18L9 12L15 6" />
+                    </svg>
+                </button>
+            </div>
+            <h1 class="header-title">회원정보 수정</h1>
+            <div class="header-right" style="width: 24px;"></div>
+        </header>
+
+        <main>
+            <div class="sw-container">
+                <h2 class="section-title">계정 정보</h2>
+
+                <div class="info-row">
+                    <span class="row-label">아이디</span>
+                    <div class="row-content">
+                        <span class="row-value">gogiso</span>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <span class="row-label">비밀번호</span>
+                    <div class="row-content">
+                        <button type="button" class="btn-text-action" onclick="openModal('modal-password')">변경</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="sw-container">
+                <h2 class="section-title">SNS 연동</h2>
+                <div class="sns-list">
+                    <div class="sns-item">
+                        <div class="sns-item-left">
+                            <div class="sns-item-icon"><img src="assets/images/kakao-active.png" alt="k"></div>
+                            <span class="sns-item-text">카카오 로그인</span>
+                        </div>
+                        <label class="sns-switch"><input type="checkbox" checked><span
+                                class="sns-slider"></span></label>
+                    </div>
+                    <div class="sns-item">
+                        <div class="sns-item-left">
+                            <div class="sns-item-icon"><img src="assets/images/naver-active.png" alt="n"></div>
+                            <span class="sns-item-text">네이버 로그인</span>
+                        </div>
+                        <label class="sns-switch"><input type="checkbox" checked><span
+                                class="sns-slider"></span></label>
+                    </div>
+                    <div class="sns-item">
+                        <div class="sns-item-left">
+                            <div class="sns-item-icon" style="background: #f1f1f1;"><img src="assets/images/google.png"
+                                    alt="g"></div>
+                            <span class="sns-item-text">구글 로그인</span>
+                        </div>
+                        <label class="sns-switch"><input type="checkbox"><span class="sns-slider"></span></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="sw-container">
+                <h2 class="section-title">기본 정보</h2>
+
+                <div class="info-row">
+                    <span class="row-label">이름</span>
+                    <div class="row-content">
+                        <span class="row-value">정혜진</span>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <span class="row-label">생년월일</span>
+                    <div class="row-content">
+                        <span class="row-value">1994-01-28</span>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <span class="row-label">휴대폰 번호</span>
+                    <div class="row-content">
+                        <span class="row-value">010-7348-0450</span>
+                        <button type="button" class="btn-text-action" onclick="alert('본인인증 팝업')">변경</button>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <span class="row-label">이메일</span>
+                    <div class="row-content">
+                        <span class="row-value">gogiso@naver.com</span>
+                        <button type="button" class="btn-text-action" onclick="openModal('modal-email')">변경</button>
+                    </div>
+                </div>
+
+                <div class="info-row" style="align-items: flex-start; padding-top: 12px; padding-bottom: 12px;">
+                    <span class="row-label" style="margin-top: 2px;">주소</span>
+                    <div class="row-content" style="align-items: flex-start;">
+                        <div style="text-align: right;">
+                            <span class="row-value" style="display: block;">(04551) 서울 중구 퇴계로 213</span>
+                            <span class="row-value"
+                                style="display: block; color: #888; font-size: 12px; margin-top: 2px;">3층 성원애드피아</span>
+                        </div>
+                        <button type="button" class="btn-text-action" style="margin-top: 0;"
+                            onclick="openModal('modal-address')">변경</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="sw-container">
+                <h2 class="section-title">동의 정보</h2>
+
+                <div class="agreement-group">
+                    <h3 class="agreement-title">혜택 광고성 정보</h3>
+                    <div class="agreement-row">
+                        <div class="checkbox-text" onclick="toggleCheckbox(this)">
+                            <div class="checkbox" data-checked="false">
+                                <div class="checkbox-off"></div>
+                            </div>
+                            <span>이메일 수신</span>
+                        </div>
+                        <a onclick="alert('보기')" class="disclaimer-link">[내용 보기]</a>
+                    </div>
+                    <div class="agreement-row">
+                        <div class="checkbox-text" onclick="toggleCheckbox(this)">
+                            <div class="checkbox" data-checked="false">
+                                <div class="checkbox-off"></div>
+                            </div>
+                            <span>SMS 수신</span>
+                        </div>
+                        <a onclick="alert('보기')" class="disclaimer-link">[내용 보기]</a>
+                    </div>
+                </div>
+
+                <div class="agreement-group">
+                    <h3 class="agreement-title">마케팅 활용 동의</h3>
+                    <div class="agreement-row">
+                        <div class="checkbox-text" onclick="toggleCheckbox(this)">
+                            <div class="checkbox" data-checked="true">
+                                <div class="checkbox-on"><img src="assets/images/checked.svg" alt="v"></div>
+                            </div>
+                            <span>스테이락 호텔</span>
+                        </div>
+                        <a onclick="alert('보기')" class="disclaimer-link">[내용 보기]</a>
+                    </div>
+                    <div class="agreement-row">
+                        <div class="checkbox-text" onclick="toggleCheckbox(this)">
+                            <div class="checkbox" data-checked="true">
+                                <div class="checkbox-on"><img src="assets/images/checked.svg" alt="v"></div>
+                            </div>
+                            <span>(주)성원애드피아몰</span>
+                        </div>
+                        <a onclick="alert('보기')" class="disclaimer-link">[내용 보기]</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="sticky-footer">
+            <button class="btn-full btn-white btn-del" onclick="alert('탈퇴')">회원 탈퇴하기</button>
+            <button class="btn-full btn-dark" onclick="alert('저장 완료')">저장하기</button>
+        </div>
+
+    </div>
+    <div id="modal-password" class="full-modal">
+        <header class="app-header-sub">
+            <div class="header-left"></div>
+            <h1 class="header-title">비밀번호 변경</h1>
+            <div class="header-right">
+                <button type="button" class="header-btn" onclick="closeModal('modal-password')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label">현재 비밀번호</label>
+                <input type="password" class="sw-input" placeholder="현재 비밀번호를 입력해주세요">
+            </div>
+            <div class="form-group">
+                <label class="form-label">새 비밀번호</label>
+                <input type="password" class="sw-input" placeholder="새 비밀번호 (영문/숫자/특수문자 8~16자)">
+            </div>
+            <div class="form-group">
+                <label class="form-label">새 비밀번호 확인</label>
+                <input type="password" class="sw-input" placeholder="새 비밀번호를 한번 더 입력해주세요">
+                <p class="guide-text" style="color: #4e6ee4;">* 비밀번호가 일치합니다.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-full btn-dark" onclick="closeModal('modal-password'); alert('비밀번호가 변경되었습니다.')">비밀번호 변경
+                완료</button>
+        </div>
+    </div>
+
+    <div id="modal-email" class="full-modal">
+        <header class="app-header-sub">
+            <div class="header-left"></div>
+            <h1 class="header-title">이메일 변경</h1>
+            <div class="header-right">
+                <button type="button" class="header-btn" onclick="closeModal('modal-email')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label">현재 이메일</label>
+                <input type="text" class="sw-input readonly-bg" value="gogiso@naver.com" readonly>
+            </div>
+            <div class="form-group">
+                <label class="form-label">새 이메일</label>
+                <div class="input-group">
+                    <input type="email" class="sw-input" placeholder="새 이메일 주소">
+                    <button class="btn-inline">중복확인</button>
+                </div>
+                <p class="guide-text">* 변경하실 이메일 주소를 입력 후 중복확인을 해주세요.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-full btn-dark" onclick="closeModal('modal-email'); alert('이메일이 변경되었습니다.')">이메일 변경
+                완료</button>
+        </div>
+    </div>
+
+    <div id="modal-address" class="full-modal">
+        <header class="app-header-sub">
+            <div class="header-left"></div>
+            <h1 class="header-title">주소 변경</h1>
+            <div class="header-right">
+                <button type="button" class="header-btn" onclick="closeModal('modal-address')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label">우편번호</label>
+                <div class="input-group">
+                    <input type="text" class="sw-input readonly-bg" value="04551" readonly style="width: 120px;">
+                    <button class="btn-inline" onclick="alert('우편번호 검색 API 호출')">우편번호 검색</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">기본주소</label>
+                <input type="text" class="sw-input readonly-bg" value="서울 중구 퇴계로 213" readonly>
+            </div>
+            <div class="form-group">
+                <label class="form-label">상세주소</label>
+                <input type="text" class="sw-input" value="3층 성원애드피아" placeholder="상세주소를 입력해주세요">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-full btn-dark" onclick="closeModal('modal-address'); alert('주소가 변경되었습니다.')">주소
+                저장</button>
+        </div>
+    </div>
+
+    <script>
+        // Modal Logic
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+            document.body.style.overflow = 'hidden'; // 뒷배경 스크롤 방지
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Checkbox Logic (Existing)
+        function toggleCheckbox(wrapper) {
+            const checkbox = wrapper.querySelector('.checkbox');
+            const isChecked = checkbox.dataset.checked === 'true';
+            if (isChecked) {
+                checkbox.dataset.checked = 'false';
+                checkbox.innerHTML = '<div class="checkbox-off"></div>';
+            } else {
+                checkbox.dataset.checked = 'true';
+                checkbox.innerHTML = '<div class="checkbox-on"><img src="assets/images/checked.svg" alt="v"></div>';
+            }
+        }
+    </script>
+</body>
+
+</html>

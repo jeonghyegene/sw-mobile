@@ -307,6 +307,13 @@
             align-items: center;
         }
 
+        .not-bd-value {
+            background-color: white;
+            border: 0;
+            padding: 0;
+            min-height: auto;
+        }
+
         .input {
             width: 100%;
             min-height: 40px;
@@ -344,6 +351,13 @@
             font-size: 13px;
             padding: 0 12px;
             width: auto;
+        }
+
+        .input-group .readonly-value {
+            flex: 1;
+            min-width: 0;
+            background-color: #f5f5f5;
+            /* SNS 아이디 배경색 */
         }
 
         .input-group .input.readonly-value {
@@ -742,6 +756,176 @@
             background: #f5f5f6;
             /* 마우스 오버 시 배경색 */
         }
+
+        /* 유효성 검사 및 타이머 관련 스타일 추가 */
+        .input.error {
+            border-color: #dc3545;
+        }
+
+        .disclaimer.error-text {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+            /* 기본 숨김 */
+        }
+
+        .disclaimer.info-text {
+            color: #4e6ee4;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .timer-text {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            margin-left: auto;
+            /* 우측 정렬 */
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* 인증번호 입력란 내부 타이머 아이콘 (시계 모양) */
+        .timer-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* [CSS 수정/추가] 기존 스타일 태그 내부에 반영 */
+
+        /* 타이머 텍스트 색상 변경 (이미지 참고: 붉은색) */
+        .timer-text {
+            font-size: 14px;
+            color: #dc3545;
+            /* 붉은색으로 변경 */
+            font-weight: 500;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .full-modal-content {
+            max-width: 100%;
+            border-radius: 0;
+            max-height: 100vh;
+            height: 100vh;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .full-modal-overlay {
+            padding: 0;
+        }
+
+
+        /* 인증번호 재발송 텍스트 버튼 스타일 */
+        .btn-text-underline {
+            font-size: 13px;
+            color: #333;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            padding: 0;
+            margin-top: 8px;
+            cursor: pointer;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+
+        /* 비활성화 상태 (10초 대기 중일 때) */
+        .btn-text-underline:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+        /* [NEW] OCR Scan State Styles */
+        .scan-status-box {
+            background: #f5f5f5;
+            border-radius: 6px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            min-height: 48px;
+        }
+
+        .scan-file-name {
+            font-size: 14px;
+            color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 60%;
+        }
+
+        .scan-status-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .scan-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .text-blue {
+            color: #0055ff;
+        }
+
+        .text-red {
+            color: #dc3545;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #e0e0e0;
+            border-top: 2px solid #0055ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .icon-check {
+            width: 18px;
+            height: 18px;
+            color: #0055ff;
+            stroke-width: 2.5;
+        }
+
+        .icon-error {
+            width: 18px;
+            height: 18px;
+            color: #dc3545;
+            stroke-width: 2.5;
+        }
+
+        .btn-remove-file {
+            width: 20px;
+            height: 20px;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+        }
     </style>
 </head>
 
@@ -768,12 +952,12 @@
 
                 <div class="form-group">
                     <label>회원 구분</label>
-                    <div class="readonly-value">법인사업자</div>
+                    <div class="readonly-value not-bd-value">법인사업자</div>
                 </div>
 
                 <div class="form-group">
                     <label>아이디</label>
-                    <div class="readonly-value">xt201923455</div>
+                    <div class="readonly-value not-bd-value">xt201923455</div>
                 </div>
 
                 <div class="form-group" id="password-display-section">
@@ -782,7 +966,7 @@
                         <div class="input readonly-value" style="flex: 1;">
                             <input type="password" value="********" readonly>
                         </div>
-                        <button type="button" class="white-button" id="show-password-change-btn">비밀번호 변경</button>
+                        <button type="button" class="white-button" id="show-password-change-btn">수정</button>
                     </div>
                 </div>
 
@@ -816,12 +1000,20 @@
 
                 <div class="form-group">
                     <label>대표자명</label>
-                    <div class="readonly-value">김현수</div>
+                    <div class="input-group">
+                        <div class="input readonly-value">
+                            <input type="text" readonly value="김현수">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label>사업자등록번호</label>
-                    <div class="readonly-value">124-53-23354</div>
+                    <div class="input-group">
+                        <div class="input readonly-value">
+                            <input type="text" readonly value="124-53-23354">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -830,7 +1022,7 @@
                         <div class="input readonly-value" style="flex: 1;">
                             <input type="text" value="성원애드피아" readonly>
                         </div>
-                        <button type="button" class="white-button" onclick="alert('기업 수정 (구현 필요)')">기업 수정</button>
+                        <button type="button" class="white-button" onclick="openBusinessInfoModal()">기업정보 수정</button>
                     </div>
                 </div>
 
@@ -844,23 +1036,20 @@
                 <div class="form-group">
                     <label>휴대폰 번호</label>
                     <div class="input-group">
-                        <div class="input readonly-value" style="flex: 1;">
-                            <input type="tel" value="01012345678" readonly>
+                        <div class="input" style="flex: 1;">
+                            <input type="tel" value="" placeholder="'-'없이 숫자만 입력해주세요">
                         </div>
-                        <button type="button" class="white-button" onclick="alert('휴대폰 번호 변경 (본인인증 팝업)')">휴대폰 번호
-                            변경</button>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">이메일 주소</label>
-                    <div class="combobox-wrapper">
-                        <div class="input">
-                            <input type="email" value="jason_stark@gmail.com" placeholder="이메일 주소를 입력해주세요"
-                                autocomplete="off" oninput="filterEmailSuggestions(this)"
-                                onfocus="filterEmailSuggestions(this)" onblur="hideEmailDropdown(this)">
+                    <label>이메일 주소</label>
+                    <div class="input-group">
+                        <div class="input readonly-value">
+                            <input type="email" readonly placeholder="이메일 주소를 입력해주세요" value="gogiso@naver.com"
+                                id="current-email-display">
                         </div>
-                        <div class="combobox-dropdown"></div>
+                        <button type="button" class="white-button" onclick="openEmailChangeModal()">변경</button>
                     </div>
                 </div>
             </div>
@@ -871,12 +1060,6 @@
                 <h2 class="section-title">기업 정보</h2>
                 <p class="disclaimer" style="margin-top: -8px; margin-bottom: 12px;">세금계산서 발급 시 참고용 선택 입력 정보에요</p>
 
-                <div class="form-group">
-                    <label for="company-phone">연락처 (선택)</label>
-                    <div class="input">
-                        <input type="tel" id="company-phone" placeholder="연락처를 입력하세요">
-                    </div>
-                </div>
                 <div class="form-group">
                     <label for="company-type">업태 (선택)</label>
                     <div class="input">
@@ -907,6 +1090,31 @@
                 <div class="form-group" style="margin-top: -12px;">
                     <div class="input">
                         <input type="text" placeholder="상세주소">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="sw-container" style="padding-bottom: 0;">
+                <h2 class="section-title">회계담당자 정보</h2>
+
+                <div class="form-group">
+                    <label for="company-phone">회계담당자명</label>
+                    <div class="input">
+                        <input type="tel" placeholder="연락처를 입력하세요">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="company-type">회계담당자 연락처</label>
+                    <div class="input">
+                        <input type="text" placeholder="업태를 입력하세요">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="company-category">회계담당자 이메일</label>
+                    <div class="input">
+                        <input type="text" placeholder="업종을 입력하세요">
                     </div>
                 </div>
             </div>
@@ -995,6 +1203,76 @@
         </div>
     </div>
 
+
+    <div class="modal-overlay full-modal-overlay" id="email-change-modal">
+        <div class="modal-content full-modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">이메일 주소 변경</h2>
+                <button class="btn-modal-close" onclick="closeModal('email-change-modal')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="info-label" id="email-status-label">이메일 주소</label>
+                    <div class="input-group">
+                        <div class="combobox-wrapper" style="flex: 1;">
+                            <div class="input" id="new-email-wrapper">
+                                <input type="email" id="new-email-input" placeholder="이메일 주소를 입력해주세요"
+                                    oninput="handleEmailInput(this); filterEmailSuggestions(this);"
+                                    onblur="hideEmailDropdown(this)">
+                                <div class="combobox-dropdown"></div>
+                            </div>
+                        </div>
+                        <button type="button" class="white-button" id="btn-send-code"
+                            onclick="validateAndSendCode()">인증번호 발송</button>
+                    </div>
+                    <p class="disclaimer error-text" id="email-error-empty">이메일 주소를 입력해주세요</p>
+                    <p class="disclaimer error-text" id="email-error-invalid">올바른 유형의 이메일 주소를 입력해주세요</p>
+                </div>
+
+                <div class="form-group" id="auth-code-group" style="display: none;">
+                    <p class="disclaimer info-text" id="auth-sent-msg" style="margin-top: -15px; margin-bottom: 15px;">
+                        이메일 주소로 인증번호를 발송해 드렸어요
+                    </p>
+
+                    <label>인증번호</label>
+
+                    <div class="input" id="auth-code-wrapper">
+                        <input type="tel" id="auth-code-input" maxlength="6" placeholder="인증번호 6자리를 입력해주세요"
+                            oninput="handleAuthInput(this)">
+                        <div class="timer-text" id="auth-timer-display">
+                            <svg class="timer-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span id="timer-count">03:00</span>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-text-underline" id="btn-resend" onclick="handleResend()" disabled>
+                        인증번호 재발송
+                    </button>
+
+                    <p class="disclaimer info-text auth-message-spacer" id="auth-resend-msg" style="display:none;">
+                        이메일로 인증번호가 재발송 되었어요
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn dark-button" id="btn-confirm-change" disabled
+                    onclick="completeEmailChange()">변경하기</button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="withdrawal-alert-modal">
         <div class="modal-content alert-modal" data-name="Alert">
             <div class="modal-title">회원 탈퇴</div>
@@ -1019,6 +1297,111 @@
             <div class="modal-buttons">
                 <button class="modal-button modal-button-primary"
                     onclick="closeModal('save-confirm-modal');">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay full-modal-overlay" id="business-info-modal">
+        <div class="modal-content full-modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">기업정보 수정</h2>
+                <button class="btn-modal-close" onclick="closeModal('business-info-modal')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div
+                    style="padding: 10px; background: #eee; border-radius: 4px; margin-bottom: 20px; display: flex; gap: 5px; flex-wrap: wrap;">
+                    <button
+                        style="font-size: 11px; padding: 4px 8px; background: #333; color: white; border-radius: 3px;"
+                        onclick="triggerScanState('scanning')">1. 스캔중</button>
+                    <button
+                        style="font-size: 11px; padding: 4px 8px; background: #333; color: white; border-radius: 3px;"
+                        onclick="triggerScanState('success')">2. 완료</button>
+                    <button
+                        style="font-size: 11px; padding: 4px 8px; background: #333; color: white; border-radius: 3px;"
+                        onclick="triggerScanState('fail')">3. 실패</button>
+                </div>
+
+                <div class="form-group">
+                    <label>사업자등록증</label>
+                    <label for="biz-license-input" class="white-button" id="upload-btn-label"
+                        style="display: flex; width: 100%; justify-content: center;">
+                        사업자등록증 첨부
+                    </label>
+                    <input type="file" id="biz-license-input" style="display:none;" onchange="handleFileSelect(event)">
+
+                    <div class="scan-status-box" id="scan-status-box" style="display: none;">
+                        <span class="scan-file-name" id="scan-file-name">파일명.pdf</span>
+
+                        <div class="scan-status-right" id="state-scanning" style="display: none;">
+                            <div class="spinner"></div>
+                            <span class="scan-text text-blue">스캔중</span>
+                        </div>
+
+                        <div class="scan-status-right" id="state-success" style="display: none;">
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M5 12l5 5l10 -10" />
+                            </svg>
+                            <span class="scan-text text-blue">스캔완료</span>
+                            <button class="btn-remove-file" onclick="resetFile()"><svg
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M10 10l4 4m0 -4l-4 4" />
+                                </svg></button>
+                        </div>
+
+                        <div class="scan-status-right" id="state-fail" style="display: none;">
+                            <svg class="icon-error" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M18 6l-12 12" />
+                                <path d="M6 6l12 12" />
+                            </svg>
+                            <span class="scan-text text-red">스캔실패</span>
+                            <button class="btn-remove-file" onclick="resetFile()"><svg
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M10 10l4 4m0 -4l-4 4" />
+                                </svg></button>
+                        </div>
+                    </div>
+                    <p class="disclaimer error-text" id="scan-error-msg" style="display: none;">사업자 정보가 선명하게 표기된 파일을 다시
+                        첨부해주세요</p>
+                    <p class="disclaimer" id="scan-initial-msg">* 1MB 이하의 PDF, JPG, PNG 파일을 첨부해주세요</p>
+                </div>
+
+                <div class="form-group">
+                    <label>사업자등록번호</label>
+                    <div class="input-group">
+                        <div class="input readonly-value">
+                            <input type="tel" id="biz-number" placeholder="스캔 시 자동 입력" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>기업명(상호)</label>
+                    <div class="input">
+                        <input type="tel" id="biz-company-name" placeholder="스캔 시 자동 입력">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>대표자명</label>
+                    <div class="input">
+                        <input type="tel" id="biz-rep-name" placeholder="스캔 시 자동 입력">
+                    </div>
+                    <p style="font-size: 12px; margin-top: 5px; color: #666;">* 공동 대표인 경우, 대표자 중 한 분의 성함만 입력해주세요</p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn white-button" onclick="closeModal('business-info-modal')">취소</button>
+                <button class="btn dark-button" id="btn-biz-save" disabled
+                    onclick="closeModal('business-info-modal'); showSaveConfirmModal();">저장하기</button>
             </div>
         </div>
     </div>
@@ -1237,6 +1620,241 @@
             }, 200);
         }
         /* --- 이메일 자동완성 로직 끝 --- */
+
+
+        // --- 1. 전역 변수 설정 ---
+        let authTimer = null;
+        let resendTimer = null;
+        let timeLeft = 180; // 3분
+
+        // --- 2. 모달 열기/닫기 ---
+        function openEmailChangeModal() {
+            // 초기화
+            document.getElementById('new-email-input').value = '';
+            document.getElementById('auth-code-input').value = '';
+            document.getElementById('auth-code-group').style.display = 'none';
+            document.getElementById('btn-send-code').innerText = '인증번호 발송';
+            document.getElementById('btn-confirm-change').disabled = true;
+
+            resetErrorStates();
+            stopTimer();
+
+            // 모달 표시
+            document.getElementById('email-change-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // --- 3. 유효성 검사 및 발송 ---
+        function handleEmailInput(input) {
+            resetErrorStates(); // 타이핑 시 에러 제거
+        }
+
+        function resetErrorStates() {
+            document.getElementById('new-email-wrapper').classList.remove('error');
+            document.getElementById('email-error-empty').style.display = 'none';
+            document.getElementById('email-error-invalid').style.display = 'none';
+        }
+
+        function validateAndSendCode() {
+            const emailInput = document.getElementById('new-email-input');
+            const emailValue = emailInput.value.trim();
+            const wrapper = document.getElementById('new-email-wrapper');
+
+            resetErrorStates();
+
+            // 빈 값 체크
+            if (emailValue === '') {
+                wrapper.classList.add('error');
+                document.getElementById('email-error-empty').style.display = 'block';
+                return;
+            }
+
+            // 정규식 체크 (@ 1개, 점 포함, 시작/끝 점/하이픈 불가 등)
+            const emailRegex = /^[a-zA-Z0-9]([-_.]?[a-zA-Z0-9])*@[a-zA-Z0-9]([-_.]?[a-zA-Z0-9])*\.[a-zA-Z]{2,}$/;
+
+            if (!emailRegex.test(emailValue)) {
+                wrapper.classList.add('error');
+                document.getElementById('email-error-invalid').style.display = 'block';
+                return;
+            }
+
+            // 통과 시 발송 프로세스 시작
+            startAuthProcess();
+        }
+
+        // --- 4. 인증번호 발송/재발송 로직 ---
+        function startAuthProcess() {
+            const authGroup = document.getElementById('auth-code-group');
+            const sentMsg = document.getElementById('auth-sent-msg');
+            const resendMsg = document.getElementById('auth-resend-msg');
+            const resendBtn = document.getElementById('btn-resend');
+
+            // UI 노출 처리
+            if (authGroup.style.display !== 'none') {
+                // 재발송인 경우
+                if (sentMsg) sentMsg.style.display = 'none';
+                if (resendMsg) resendMsg.style.display = 'block';
+            } else {
+                // 최초 발송인 경우
+                authGroup.style.display = 'block';
+                if (sentMsg) sentMsg.style.display = 'block';
+                if (resendMsg) resendMsg.style.display = 'none';
+            }
+
+            // 재발송 버튼 10초 비활성화
+            if (resendBtn) {
+                resendBtn.disabled = true;
+                if (resendTimer) clearTimeout(resendTimer);
+                resendTimer = setTimeout(() => {
+                    resendBtn.disabled = false;
+                }, 10000); // 10초 후 활성화
+            }
+
+            // 타이머 시작 (3분)
+            stopTimer();
+            timeLeft = 180;
+            updateTimerDisplay();
+            startTimer();
+
+            document.getElementById('auth-code-input').disabled = false;
+            document.getElementById('auth-code-input').focus();
+        }
+
+        function handleResend() {
+            startAuthProcess();
+        }
+
+        // --- 5. 타이머 로직 ---
+        function startTimer() {
+            authTimer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft <= 0) {
+                    stopTimer();
+                    alert('인증 시간이 만료되었습니다. 다시 시도해주세요.');
+                    document.getElementById('auth-code-input').disabled = true;
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (authTimer) { clearInterval(authTimer); authTimer = null; }
+        }
+
+        function updateTimerDisplay() {
+            const min = Math.floor(timeLeft / 60);
+            const sec = timeLeft % 60;
+            const text = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+            const el = document.getElementById('timer-count');
+            if (el) el.innerText = text;
+        }
+
+        // --- 6. 인증번호 입력 감지 ---
+        function handleAuthInput(input) {
+            const confirmBtn = document.getElementById('btn-confirm-change');
+            // 6자리 입력 시 변경하기 버튼 활성화
+            confirmBtn.disabled = (input.value.length !== 6);
+        }
+
+        // --- 7. 변경 완료 ---
+        function completeEmailChange() {
+            const newEmail = document.getElementById('new-email-input').value;
+            // 메인 화면 값 변경
+            document.getElementById('current-email-display').value = newEmail;
+
+            alert('이메일 주소가 변경되었습니다.');
+            stopTimer();
+            closeModal('email-change-modal');
+        }
+
+        // --- [NEW] Business Info Modal Logic ---
+        function openBusinessInfoModal() {
+            resetFile(); // 초기화
+            openModal('business-info-modal');
+        }
+
+        // DOM Elements for Business Modal
+        const uploadBtnLabel = document.getElementById('upload-btn-label');
+        const scanStatusBox = document.getElementById('scan-status-box');
+        const fileNameEl = document.getElementById('scan-file-name');
+
+        const stateScanning = document.getElementById('state-scanning');
+        const stateSuccess = document.getElementById('state-success');
+        const stateFail = document.getElementById('state-fail');
+
+        const scanErrorMsg = document.getElementById('scan-error-msg');
+        const scanInitialMsg = document.getElementById('scan-initial-msg');
+
+        const inputBizNum = document.getElementById('biz-number');
+        const inputCompName = document.getElementById('biz-company-name');
+        const inputRepName = document.getElementById('biz-rep-name');
+        const btnBizSave = document.getElementById('btn-biz-save');
+
+        // File Handler
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                fileNameEl.textContent = file.name;
+                triggerScanState('scanning');
+                // Simulate process time
+                setTimeout(() => { triggerScanState('success'); }, 2000);
+            }
+        }
+
+        // Scan State Logic
+        function triggerScanState(state) {
+            uploadBtnLabel.style.display = 'none';
+            scanStatusBox.style.display = 'flex';
+            scanInitialMsg.style.display = 'block';
+            scanErrorMsg.style.display = 'none';
+
+            stateScanning.style.display = 'none';
+            stateSuccess.style.display = 'none';
+            stateFail.style.display = 'none';
+
+            if (state === 'scanning') {
+                stateScanning.style.display = 'flex';
+                resetFields();
+            } else if (state === 'success') {
+                stateSuccess.style.display = 'flex';
+                // Mock Data
+                inputBizNum.value = '123-45-67890';
+                inputCompName.value = '한빛디자인';
+                inputCompName.style.color = '#333';
+                inputRepName.value = '김한빛';
+                inputRepName.style.color = '#333';
+                btnBizSave.disabled = false;
+            } else if (state === 'fail') {
+                stateFail.style.display = 'flex';
+                scanErrorMsg.style.display = 'block';
+                scanInitialMsg.style.display = 'none';
+                resetFields();
+            }
+        }
+
+        function resetFile() {
+            document.getElementById('biz-license-input').value = '';
+            scanStatusBox.style.display = 'none';
+            uploadBtnLabel.style.display = 'flex';
+            scanErrorMsg.style.display = 'none';
+            scanInitialMsg.style.display = 'block';
+            resetFields();
+        }
+
+        function resetFields() {
+            inputBizNum.value = '';
+            inputCompName.textContent = '스캔 시 자동 입력';
+            inputCompName.style.color = '#888';
+            inputRepName.textContent = '스캔 시 자동 입력';
+            inputRepName.style.color = '#888';
+            btnBizSave.disabled = true;
+        }
 
         // --- Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {

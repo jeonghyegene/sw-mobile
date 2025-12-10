@@ -307,6 +307,13 @@
             align-items: center;
         }
 
+        .not-bd-value {
+            background-color: white;
+            border: 0;
+            padding: 0;
+            min-height: auto;
+        }
+
         .input {
             width: 100%;
             min-height: 40px;
@@ -344,6 +351,13 @@
             font-size: 13px;
             padding: 0 12px;
             width: auto;
+        }
+
+        .input-group .readonly-value {
+            flex: 1;
+            min-width: 0;
+            background-color: #f5f5f5;
+            /* SNS 아이디 배경색 */
         }
 
         .input-group .input.readonly-value {
@@ -1054,6 +1068,93 @@
             background: #f5f5f6;
             /* 마우스 오버 시 배경색 */
         }
+
+
+        /* 유효성 검사 및 타이머 관련 스타일 추가 */
+        .input.error {
+            border-color: #dc3545;
+        }
+
+        .disclaimer.error-text {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+            /* 기본 숨김 */
+        }
+
+        .disclaimer.info-text {
+            color: #4e6ee4;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .timer-text {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            margin-left: auto;
+            /* 우측 정렬 */
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* 인증번호 입력란 내부 타이머 아이콘 (시계 모양) */
+        .timer-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* [CSS 수정/추가] 기존 스타일 태그 내부에 반영 */
+
+        /* 타이머 텍스트 색상 변경 (이미지 참고: 붉은색) */
+        .timer-text {
+            font-size: 14px;
+            color: #dc3545;
+            /* 붉은색으로 변경 */
+            font-weight: 500;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .full-modal-content {
+            max-width: 100%;
+            border-radius: 0;
+            max-height: 100vh;
+            height: 100vh;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .full-modal-overlay {
+            padding: 0;
+        }
+
+
+        /* 인증번호 재발송 텍스트 버튼 스타일 */
+        .btn-text-underline {
+            font-size: 13px;
+            color: #333;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            padding: 0;
+            margin-top: 8px;
+            cursor: pointer;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+
+        /* 비활성화 상태 (10초 대기 중일 때) */
+        .btn-text-underline:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -1080,12 +1181,12 @@
 
                 <div class="form-group">
                     <label>회원 구분</label>
-                    <div class="readonly-value">해외사업자</div>
+                    <div class="readonly-value not-bd-value">해외사업자</div>
                 </div>
 
                 <div class="form-group">
                     <label>아이디</label>
-                    <div class="readonly-value">jason_stark_0304</div>
+                    <div class="readonly-value not-bd-value">jason_stark_0304</div>
                 </div>
 
                 <div class="form-group" id="password-display-section">
@@ -1177,17 +1278,18 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="form-group">
-                    <label for="email">이메일 주소</label>
-                    <div class="combobox-wrapper">
-                        <div class="input">
-                            <input type="email" placeholder="이메일 주소를 입력해주세요" value="gogiso@naver.com" autocomplete="off"
-                                oninput="filterEmailSuggestions(this)" onfocus="filterEmailSuggestions(this)"
-                                onblur="hideEmailDropdown(this)">
+                    <label>이메일 주소</label>
+                    <div class="input-group">
+                        <div class="input readonly-value">
+                            <input type="email" readonly placeholder="이메일 주소를 입력해주세요" value="gogiso@naver.com"
+                                id="current-email-display">
                         </div>
-                        <div class="combobox-dropdown"></div>
+                        <button type="button" class="white-button" onclick="openEmailChangeModal()">변경</button>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="country-select">국가 (Country)</label>
                     <div class="input select-wrapper">
@@ -1199,21 +1301,24 @@
                     </div>
                 </div>
 
-                <h2 class="section-title" style="margin-top: 24px;">기업 추가 정보</h2>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="sw-container">
+                <h2 class="section-title">기업 추가 정보</h2>
                 <p class="disclaimer" style="margin-top: -8px; margin-bottom: 12px;">세금계산서 발급 시 참고할 선택 입력 정보에요</p>
 
                 <div class="form-group">
-                    <label>회사주소 (선택)</label>
-
                     <div id="address-format-us" style="display: block;">
                         <div class="form-group">
-                            <label for="us-zip">ZIP Code (우편번호) </label>
+                            <label for="us-zip">ZIP Code (회사 우편번호) </label>
                             <div class="input">
                                 <input type="text" id="us-zip" placeholder="Enter ZIP Code">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="us-street">Street Address (상세 주소) </label>
+                            <label for="us-street">Street Address (회사 상세 주소) </label>
                             <div class="input">
                                 <input type="text" id="us-street" placeholder="Enter Street Address">
                             </div>
@@ -1288,7 +1393,7 @@
 
                     <div id="address-format-jp" style="display: none;">
                         <div class="form-group">
-                            <label for="jp-zip">郵便番号 (우편번호) </label>
+                            <label for="jp-zip">郵便番号 (회사 우편번호) </label>
                             <div class="input">
                                 <input type="text" id="jp-zip" placeholder="例) 1000001">
                             </div>
@@ -1369,9 +1474,7 @@
                         * 국제 배송을 위해 이름 및 주소는 영문으로 입력해주세요
                     </p>
                 </div>
-
             </div>
-
 
             <div class="section-divider"></div>
 
@@ -1539,6 +1642,76 @@
             </div>
             <div class="modal-footer">
                 <button class="btn dark-button" style="width: 100%;" onclick="completeAccountSetup()">계정 설정 완료</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-overlay full-modal-overlay" id="email-change-modal">
+        <div class="modal-content full-modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">이메일 주소 변경</h2>
+                <button class="btn-modal-close" onclick="closeModal('email-change-modal')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="info-label" id="email-status-label">이메일 주소</label>
+                    <div class="input-group">
+                        <div class="combobox-wrapper" style="flex: 1;">
+                            <div class="input" id="new-email-wrapper">
+                                <input type="email" id="new-email-input" placeholder="이메일 주소를 입력해주세요"
+                                    oninput="handleEmailInput(this); filterEmailSuggestions(this);"
+                                    onblur="hideEmailDropdown(this)">
+                                <div class="combobox-dropdown"></div>
+                            </div>
+                        </div>
+                        <button type="button" class="white-button" id="btn-send-code"
+                            onclick="validateAndSendCode()">인증번호 발송</button>
+                    </div>
+                    <p class="disclaimer error-text" id="email-error-empty">이메일 주소를 입력해주세요</p>
+                    <p class="disclaimer error-text" id="email-error-invalid">올바른 유형의 이메일 주소를 입력해주세요</p>
+                </div>
+
+                <div class="form-group" id="auth-code-group" style="display: none;">
+                    <p class="disclaimer info-text" id="auth-sent-msg" style="margin-top: -15px; margin-bottom: 15px;">
+                        이메일 주소로 인증번호를 발송해 드렸어요
+                    </p>
+
+                    <label>인증번호</label>
+
+                    <div class="input" id="auth-code-wrapper">
+                        <input type="tel" id="auth-code-input" maxlength="6" placeholder="인증번호 6자리를 입력해주세요"
+                            oninput="handleAuthInput(this)">
+                        <div class="timer-text" id="auth-timer-display">
+                            <svg class="timer-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span id="timer-count">03:00</span>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-text-underline" id="btn-resend" onclick="handleResend()" disabled>
+                        인증번호 재발송
+                    </button>
+
+                    <p class="disclaimer info-text auth-message-spacer" id="auth-resend-msg" style="display:none;">
+                        이메일로 인증번호가 재발송 되었어요
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn dark-button" id="btn-confirm-change" disabled
+                    onclick="completeEmailChange()">변경하기</button>
             </div>
         </div>
     </div>
@@ -1840,6 +2013,157 @@
             }, 200);
         }
         /* --- 이메일 자동완성 로직 끝 --- */
+
+        // --- 1. 전역 변수 설정 ---
+        let authTimer = null;
+        let resendTimer = null;
+        let timeLeft = 180; // 3분
+
+        // --- 2. 모달 열기/닫기 ---
+        function openEmailChangeModal() {
+            // 초기화
+            document.getElementById('new-email-input').value = '';
+            document.getElementById('auth-code-input').value = '';
+            document.getElementById('auth-code-group').style.display = 'none';
+            document.getElementById('btn-send-code').innerText = '인증번호 발송';
+            document.getElementById('btn-confirm-change').disabled = true;
+
+            resetErrorStates();
+            stopTimer();
+
+            // 모달 표시
+            document.getElementById('email-change-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // --- 3. 유효성 검사 및 발송 ---
+        function handleEmailInput(input) {
+            resetErrorStates(); // 타이핑 시 에러 제거
+        }
+
+        function resetErrorStates() {
+            document.getElementById('new-email-wrapper').classList.remove('error');
+            document.getElementById('email-error-empty').style.display = 'none';
+            document.getElementById('email-error-invalid').style.display = 'none';
+        }
+
+        function validateAndSendCode() {
+            const emailInput = document.getElementById('new-email-input');
+            const emailValue = emailInput.value.trim();
+            const wrapper = document.getElementById('new-email-wrapper');
+
+            resetErrorStates();
+
+            // 빈 값 체크
+            if (emailValue === '') {
+                wrapper.classList.add('error');
+                document.getElementById('email-error-empty').style.display = 'block';
+                return;
+            }
+
+            // 정규식 체크 (@ 1개, 점 포함, 시작/끝 점/하이픈 불가 등)
+            const emailRegex = /^[a-zA-Z0-9]([-_.]?[a-zA-Z0-9])*@[a-zA-Z0-9]([-_.]?[a-zA-Z0-9])*\.[a-zA-Z]{2,}$/;
+
+            if (!emailRegex.test(emailValue)) {
+                wrapper.classList.add('error');
+                document.getElementById('email-error-invalid').style.display = 'block';
+                return;
+            }
+
+            // 통과 시 발송 프로세스 시작
+            startAuthProcess();
+        }
+
+        // --- 4. 인증번호 발송/재발송 로직 ---
+        function startAuthProcess() {
+            const authGroup = document.getElementById('auth-code-group');
+            const sentMsg = document.getElementById('auth-sent-msg');
+            const resendMsg = document.getElementById('auth-resend-msg');
+            const resendBtn = document.getElementById('btn-resend');
+
+            // UI 노출 처리
+            if (authGroup.style.display !== 'none') {
+                // 재발송인 경우
+                if (sentMsg) sentMsg.style.display = 'none';
+                if (resendMsg) resendMsg.style.display = 'block';
+            } else {
+                // 최초 발송인 경우
+                authGroup.style.display = 'block';
+                if (sentMsg) sentMsg.style.display = 'block';
+                if (resendMsg) resendMsg.style.display = 'none';
+            }
+
+            // 재발송 버튼 10초 비활성화
+            if (resendBtn) {
+                resendBtn.disabled = true;
+                if (resendTimer) clearTimeout(resendTimer);
+                resendTimer = setTimeout(() => {
+                    resendBtn.disabled = false;
+                }, 10000); // 10초 후 활성화
+            }
+
+            // 타이머 시작 (3분)
+            stopTimer();
+            timeLeft = 180;
+            updateTimerDisplay();
+            startTimer();
+
+            document.getElementById('auth-code-input').disabled = false;
+            document.getElementById('auth-code-input').focus();
+        }
+
+        function handleResend() {
+            startAuthProcess();
+        }
+
+        // --- 5. 타이머 로직 ---
+        function startTimer() {
+            authTimer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft <= 0) {
+                    stopTimer();
+                    alert('인증 시간이 만료되었습니다. 다시 시도해주세요.');
+                    document.getElementById('auth-code-input').disabled = true;
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (authTimer) { clearInterval(authTimer); authTimer = null; }
+        }
+
+        function updateTimerDisplay() {
+            const min = Math.floor(timeLeft / 60);
+            const sec = timeLeft % 60;
+            const text = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+            const el = document.getElementById('timer-count');
+            if (el) el.innerText = text;
+        }
+
+        // --- 6. 인증번호 입력 감지 ---
+        function handleAuthInput(input) {
+            const confirmBtn = document.getElementById('btn-confirm-change');
+            // 6자리 입력 시 변경하기 버튼 활성화
+            confirmBtn.disabled = (input.value.length !== 6);
+        }
+
+        // --- 7. 변경 완료 ---
+        function completeEmailChange() {
+            const newEmail = document.getElementById('new-email-input').value;
+            // 메인 화면 값 변경
+            document.getElementById('current-email-display').value = newEmail;
+
+            alert('이메일 주소가 변경되었습니다.');
+            stopTimer();
+            closeModal('email-change-modal');
+        }
 
         // --- Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {

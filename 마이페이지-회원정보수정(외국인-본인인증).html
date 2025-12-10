@@ -307,6 +307,13 @@
             align-items: center;
         }
 
+        .not-bd-value {
+            background-color: white;
+            border: 0;
+            padding: 0;
+            min-height: auto;
+        }
+
         .input {
             width: 100%;
             min-height: 40px;
@@ -344,6 +351,13 @@
             font-size: 13px;
             padding: 0 12px;
             width: auto;
+        }
+
+        .input-group .readonly-value {
+            flex: 1;
+            min-width: 0;
+            background-color: #f5f5f5;
+            /* SNS 아이디 배경색 */
         }
 
         .input-group .input.readonly-value {
@@ -890,6 +904,34 @@
             background: #f5f5f6;
             /* 마우스 오버 시 배경색 */
         }
+
+        /* [Mealkit] 이메일 유효성 검사 및 에러 스타일 */
+        .input-error-msg {
+            font-size: 13px;
+            color: #ff3b30;
+            /* 붉은색 에러 텍스트 */
+            margin-top: 8px;
+            display: none;
+            /* 기본 숨김 */
+            line-height: 1.5;
+        }
+
+        /* 인풋 내부 붉은색 삭제(Clear) 버튼 */
+        .btn-input-clear {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            display: none;
+            /* 기본 숨김 */
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+
+        .btn-input-clear svg {
+            width: 100%;
+            height: 100%;
+            stroke: none;
+        }
     </style>
 </head>
 
@@ -916,12 +958,12 @@
 
                 <div class="form-group">
                     <label>회원 구분</label>
-                    <div class="readonly-value">외국인회원</div>
+                    <div class="readonly-value not-bd-value">외국인회원</div>
                 </div>
 
                 <div class="form-group">
                     <label>아이디</label>
-                    <div class="readonly-value">jason_stark</div>
+                    <div class="readonly-value not-bd-value">jason_stark</div>
                 </div>
 
                 <div class="form-group" id="password-display-section">
@@ -930,7 +972,7 @@
                         <div class="input readonly-value" style="flex: 1;">
                             <input type="password" value="********" readonly>
                         </div>
-                        <button type="button" class="white-button" id="show-password-change-btn">비밀번호 변경</button>
+                        <button type="button" class="white-button" id="show-password-change-btn">수정</button>
                     </div>
                 </div>
 
@@ -1046,7 +1088,12 @@
 
                 <div class="form-group">
                     <label>이름</label>
-                    <div class="readonly-value">jason</div>
+                    <div class="input-group">
+                        <div class="input readonly-value" style="flex: 1;">
+                            <input type="tel" value="Jason" readonly>
+                        </div>
+                        <button type="button" class="white-button" onclick="alert('이름 변경 (본인인증 팝업)')">변경</button>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -1060,24 +1107,36 @@
                         <div class="input readonly-value" style="flex: 1;">
                             <input type="tel" value="01073488450" readonly>
                         </div>
-                        <button type="button" class="white-button" onclick="alert('휴대폰 번호 변경 (본인인증 팝업)')">휴대폰 번호
-                            변경</button>
+                        <button type="button" class="white-button" onclick="alert('휴대폰 번호 변경 (본인인증 팝업)')">변경</button>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="email">이메일 주소</label>
-                    <div class="combobox-wrapper">
-                        <div class="input">
-                            <input type="email" placeholder="이메일 주소를 입력해주세요" value="gogiso@naver.com" autocomplete="off"
-                                oninput="filterEmailSuggestions(this)" onfocus="filterEmailSuggestions(this)"
-                                onblur="hideEmailDropdown(this)">
+                    <div class="input-group">
+                        <div class="combobox-wrapper">
+                            <div class="input" id="email-input-wrapper">
+                                <input type="email" id="email-input" placeholder="이메일 주소를 입력해주세요"
+                                    value="gogiso@naver.com" autocomplete="off" oninput="handleEmailInput(this)"
+                                    onfocus="filterEmailSuggestions(this)" onblur="hideEmailDropdown(this)">
+
+                                <div class="btn-input-clear" id="email-clear-btn" onclick="clearEmailInput()">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="10" cy="10" r="10" fill="#FFD6D6" />
+                                        <path d="M13.5 6.5L6.5 13.5M6.5 6.5L13.5 13.5" stroke="#FF3B30"
+                                            stroke-width="1.5" stroke-linecap="round" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="combobox-dropdown"></div>
                         </div>
-                        <div class="combobox-dropdown"></div>
+                        <button type="button" class="white-button" onclick="checkEmailDuplicate()">변경</button>
                     </div>
+                    <p class="input-error-msg" id="email-error-msg">이미 존재하는 이메일 주소에요</p>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="country-select">국가 (Country)</label>
                     <div class="input select-wrapper">
                         <select id="country-select" onchange="toggleAddressFormat(this.value)">
@@ -1086,9 +1145,9 @@
                             <option value="jp">일본 (Japan)</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
 
-                <div id="address-format-us" style="display: none;">
+                <div id="address-format-us" style="display: block;">
                     <div class="form-group">
                         <label for="us-zip">ZIP Code (우편번호) </label>
                         <div class="input">
@@ -1324,6 +1383,17 @@
                 <button class="modal-button modal-button-secondary" onclick="closeModal('exit-alert-modal')">계속
                     작성하기</button>
                 <button class="modal-button modal-button-primary" onclick="confirmExit()">나가기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="email-success-modal">
+        <div class="modal-content alert-modal">
+            <div class="modal-title">알림</div>
+            <div class="modal-message">이메일 변경이 완료되었습니다.</div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-primary"
+                    onclick="closeModal('email-success-modal')">확인</button>
             </div>
         </div>
     </div>
@@ -1681,6 +1751,53 @@
             }, 200);
         }
         /* --- 이메일 자동완성 로직 끝 --- */
+
+        /* [Mealkit] 이메일 중복확인 및 모달 제어 로직 */
+
+        // 1. 변경 버튼 클릭 시 중복 확인
+        function checkEmailDuplicate() {
+            const input = document.getElementById('email-input');
+            const errorMsg = document.getElementById('email-error-msg');
+            const clearBtn = document.getElementById('email-clear-btn');
+
+            // [테스트 조건] 값이 'gogiso@naver.com' 일 때만 에러 처리
+            if (input.value === 'gogiso@naver.com') {
+                // 에러 메시지 및 삭제 버튼 노출
+                if (errorMsg) errorMsg.style.display = 'block';
+                if (clearBtn) clearBtn.style.display = 'block';
+            } else {
+                // 성공 시: 에러 UI 숨기고 성공 모달 오픈
+                if (errorMsg) errorMsg.style.display = 'none';
+                if (clearBtn) clearBtn.style.display = 'none';
+
+                openModal('email-success-modal');
+                // 여기에 실제 서버 전송 로직이 들어갈 수 있습니다.
+            }
+        }
+
+        // 2. 인풋 입력 감지: 에러 상태 초기화 및 자동완성 호출
+        function handleEmailInput(input) {
+            const errorMsg = document.getElementById('email-error-msg');
+            const clearBtn = document.getElementById('email-clear-btn');
+
+            // 입력하는 순간 에러 메시지와 X버튼 숨김 (초기화)
+            if (errorMsg) errorMsg.style.display = 'none';
+            if (clearBtn) clearBtn.style.display = 'none';
+
+            // 폼 변경 감지 플래그 (기존 로직 유지)
+            if (typeof isFormDirty !== 'undefined') isFormDirty = true;
+
+            // 기존 이메일 자동완성 로직이 있다면 호출
+            if (typeof filterEmailSuggestions === 'function') filterEmailSuggestions(input);
+        }
+
+        // 3. X 버튼 클릭 시: 입력값 초기화
+        function clearEmailInput() {
+            const input = document.getElementById('email-input');
+            input.value = '';
+            handleEmailInput(input); // 상태 초기화 호출
+            input.focus();
+        }
 
         // --- Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {

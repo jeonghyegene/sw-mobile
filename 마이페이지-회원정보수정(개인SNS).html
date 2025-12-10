@@ -307,6 +307,13 @@
             align-items: center;
         }
 
+        .not-bd-value {
+            background-color: white;
+            border: 0;
+            padding: 0;
+            min-height: auto;
+        }
+
         .input {
             width: 100%;
             min-height: 40px;
@@ -858,6 +865,79 @@
             background: #f5f5f6;
             /* 마우스 오버 시 배경색 */
         }
+
+        /* ... 기존 CSS ... */
+
+        /* 유효성 검사 및 타이머 관련 스타일 추가 */
+        .input.error {
+            border-color: #dc3545;
+        }
+
+        .disclaimer.error-text {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+            /* 기본 숨김 */
+        }
+
+        .disclaimer.info-text {
+            color: #4e6ee4;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .timer-text {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            margin-left: auto;
+            /* 우측 정렬 */
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* 인증번호 입력란 내부 타이머 아이콘 (시계 모양) */
+        .timer-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* [CSS 수정/추가] 기존 스타일 태그 내부에 반영 */
+
+        /* 타이머 텍스트 색상 변경 (이미지 참고: 붉은색) */
+        .timer-text {
+            font-size: 14px;
+            color: #dc3545;
+            /* 붉은색으로 변경 */
+            font-weight: 500;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* 인증번호 재발송 텍스트 버튼 스타일 */
+        .btn-text-underline {
+            font-size: 13px;
+            color: #333;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            padding: 0;
+            margin-top: 8px;
+            cursor: pointer;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+
+        /* 비활성화 상태 (10초 대기 중일 때) */
+        .btn-text-underline:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -884,22 +964,24 @@
 
                 <div class="form-group">
                     <label>회원 구분</label>
-                    <div class="readonly-value">개인회원</div>
+                    <div class="readonly-value not-bd-value">개인회원</div>
                 </div>
 
                 <div class="form-group">
                     <label>아이디</label>
                     <div class="input-group">
-                        <div class="readonly-value" style="flex: 1;">kimsungwon@gmail.com</div>
+                        <div class="input readonly-value" style="flex: 1;">
+                            <input type="text" value="카카오 회원가입 (kimsungwon@gmail.com)">
+                        </div>
                         <button class="white-button" onclick="openModal('account-setup-modal')" style="height: 40px;">계정
                             설정</button>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label>비밀번호</label>
                     <div class="readonly-value">-</div>
-                </div>
+                </div> -->
 
                 <div class="form-group">
                     <label>SNS 연동</label>
@@ -992,7 +1074,12 @@
 
                 <div class="form-group">
                     <label>이름</label>
-                    <div class="readonly-value">정혜진</div>
+                    <div class="input-group">
+                        <div class="input readonly-value" style="flex: 1;">
+                            <input type="tel" value="홍길동" readonly>
+                        </div>
+                        <button type="button" class="white-button" onclick="alert('이름 변경 (본인인증 팝업)')">변경</button>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -1003,28 +1090,36 @@
                 <div class="form-group">
                     <label>휴대폰 번호</label>
                     <div class="input-group">
-                        <div class="input readonly-value" style="flex: 1;">
+                        <div class="input readonly-value">
                             <input type="tel" value="01073488450" readonly>
                         </div>
-                        <button type="button" class="white-button" onclick="alert('휴대폰 번호 변경 (본인인증 팝업)')">휴대폰 번호
-                            변경</button>
+                        <button type="button" class="white-button" onclick="alert('휴대폰 번호 변경 (본인인증 팝업)')">변경</button>
                     </div>
                 </div>
 
+                <!-- <div class="form-group">
+                    <label for="email">이메일 주소</label>
+                    <div class="input-group">
+                        <div class="input readonly-value">
+                            <input type="email" readonly placeholder="이메일 주소를 입력해주세요" value="gogiso@naver.com">
+                        </div>
+                        <button type="button" class="white-button"
+                            onclick="alert('이메일 주소 변경 (이메일 주소 변경 팝업)')">변경</button>
+                    </div>
+                </div> -->
                 <div class="form-group">
                     <label for="email">이메일 주소</label>
-                    <div class="combobox-wrapper">
-                        <div class="input">
-                            <input type="email" placeholder="이메일 주소를 입력해주세요" value="gogiso@naver.com" autocomplete="off"
-                                oninput="filterEmailSuggestions(this)" onfocus="filterEmailSuggestions(this)"
-                                onblur="hideEmailDropdown(this)">
+                    <div class="input-group">
+                        <div class="input readonly-value">
+                            <input type="email" readonly placeholder="이메일 주소를 입력해주세요" value="gogiso@naver.com"
+                                id="current-email-display">
                         </div>
-                        <div class="combobox-dropdown"></div>
+                        <button type="button" class="white-button" onclick="openEmailChangeModal()">변경</button>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>주소 (선택)</label>
+                    <label>주소</label>
                     <div class="input-group">
                         <div class="input readonly-value">
                             <input type="text" placeholder="우편번호" readonly>
@@ -1197,6 +1292,71 @@
             </div>
             <div class="modal-footer">
                 <button class="btn dark-button" style="width: 100%;" onclick="completeAccountSetup()">계정 설정 완료</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay full-modal-overlay" id="email-change-modal">
+        <div class="modal-content full-modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">이메일 주소 변경</h2>
+                <button class="btn-modal-close" onclick="closeModal('email-change-modal')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="info-label" id="email-status-label">이메일 주소</label>
+                    <div class="input-group">
+                        <div class="combobox-wrapper" style="flex: 1;">
+                            <div class="input" id="new-email-wrapper">
+                                <input type="email" id="new-email-input" placeholder="이메일 주소를 입력해주세요"
+                                    oninput="handleEmailInput(this); filterEmailSuggestions(this);"
+                                    onblur="hideEmailDropdown(this)">
+                                <div class="combobox-dropdown"></div>
+                            </div>
+                        </div>
+                        <button type="button" class="white-button" id="btn-send-code"
+                            onclick="validateAndSendCode()">인증번호 발송</button>
+                    </div>
+                    <p class="disclaimer error-text" id="email-error-empty">이메일 주소를 입력해주세요</p>
+                    <p class="disclaimer error-text" id="email-error-invalid">올바른 유형의 이메일 주소를 입력해주세요</p>
+                </div>
+
+                <div class="form-group" id="auth-code-group" style="display: none;">
+                    <p class="disclaimer info-text" id="auth-sent-msg" style="margin-top: -15px; margin-bottom: 15px;">
+                        이메일 주소로 인증번호를 발송해 드렸어요
+                    </p>
+
+                    <label>인증번호</label>
+                    <div class="input" id="auth-code-wrapper">
+                        <input type="tel" id="auth-code-input" maxlength="6" placeholder="인증번호 6자리를 입력해주세요"
+                            oninput="handleAuthInput(this)">
+                        <div class="timer-text" id="auth-timer-display">
+                            <svg class="timer-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span id="timer-count">03:00</span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-text-underline" id="btn-resend" onclick="handleResend()" disabled>
+                        인증번호 재발송
+                    </button>
+                    <p class="disclaimer info-text auth-message-spacer" id="auth-resend-msg" style="display:none;">
+                        이메일로 인증번호가 재발송 되었어요
+                    </p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn dark-button" id="btn-confirm-change" style="width: 100%;" disabled
+                    onclick="completeEmailChange()">변경하기</button>
             </div>
         </div>
     </div>
@@ -1442,6 +1602,163 @@
             }, 200);
         }
         /* --- 이메일 자동완성 로직 끝 --- */
+
+        /* [JS 추가] 기존 script 태그 내부, DOMContentLoaded 이벤트 내부 혹은 외부에 추가 */
+
+        // --- 이메일 변경 모달 로직 ---
+        let authTimer = null;
+        let resendTimer = null; // 재발송 버튼 활성화용 타이머
+        let timeLeft = 180; // 3분
+
+        function openEmailChangeModal() {
+            // 초기화
+            document.getElementById('new-email-input').value = '';
+            document.getElementById('auth-code-input').value = '';
+            document.getElementById('auth-code-group').style.display = 'none';
+            document.getElementById('btn-send-code').innerText = '인증번호 발송';
+            document.getElementById('btn-confirm-change').disabled = true;
+
+            resetErrorStates();
+            stopTimer();
+
+            openModal('email-change-modal');
+        }
+
+        function handleEmailInput(input) {
+            // 입력 시 에러 상태 초기화
+            resetErrorStates();
+            isFormDirty = true;
+        }
+
+        function resetErrorStates() {
+            const wrapper = document.getElementById('new-email-wrapper');
+            wrapper.classList.remove('error');
+            document.getElementById('email-error-empty').style.display = 'none';
+            document.getElementById('email-error-invalid').style.display = 'none';
+            document.getElementById('email-status-label').classList.remove('error-text');
+        }
+
+        function validateAndSendCode() {
+            const emailInput = document.getElementById('new-email-input');
+            const emailValue = emailInput.value.trim();
+            const wrapper = document.getElementById('new-email-wrapper');
+            const label = document.getElementById('email-status-label');
+
+            resetErrorStates();
+
+            // 1. 미입력 체크
+            if (emailValue === '') {
+                wrapper.classList.add('error');
+                document.getElementById('email-error-empty').style.display = 'block';
+                // label.classList.add('error-text'); // 이미지상 라벨 색상은 변하지 않는 것으로 보이나 필요시 추가
+                return;
+            }
+
+            // 2. 유효성 체크 (이미지의 기준 반영)
+            // 정규식: @ 1개, 처음/끝 점/하이픈 불가, 점 포함, 도메인 2자 이상
+            const emailRegex = /^[a-zA-Z0-9]([-_.]?[a-zA-Z0-9])*@[a-zA-Z0-9]([-_.]?[a-zA-Z0-9])*\.[a-zA-Z]{2,}$/;
+
+            if (!emailRegex.test(emailValue)) {
+                wrapper.classList.add('error');
+                document.getElementById('email-error-invalid').style.display = 'block';
+                return;
+            }
+
+            // 3. 유효성 통과 시 인증번호 발송 시뮬레이션
+            startAuthProcess();
+        }
+
+        function startAuthProcess() {
+            const authGroup = document.getElementById('auth-code-group');
+            const sendBtn = document.getElementById('btn-send-code');
+            const sentMsg = document.getElementById('auth-sent-msg');
+            const resendMsg = document.getElementById('auth-resend-msg');
+            const resendBtn = document.getElementById('btn-resend');
+
+            // 이미 열려있다면 재발송 처리
+            if (authGroup.style.display !== 'none') {
+                sentMsg.style.display = 'none';
+                resendMsg.style.display = 'block';
+                alert('인증번호가 재발송되었습니다.');
+            } else {
+                authGroup.style.display = 'block';
+                sentMsg.style.display = 'block';
+                resendMsg.style.display = 'none';
+            }
+
+            // sendBtn.innerText = '재발송'; // 문구 변경 (선택사항)
+
+            // 타이머 리셋 및 시작
+            stopTimer();
+            timeLeft = 180;
+            updateTimerDisplay();
+            startTimer();
+
+            // 재발송 버튼 로직 (10초간 비활성화)
+            resendBtn.disabled = true;
+            if (resendTimer) clearTimeout(resendTimer);
+
+            resendTimer = setTimeout(() => {
+                resendBtn.disabled = false;
+            }, 10000); // 10초 후 활성화
+
+            document.getElementById('auth-code-input').focus();
+        }
+
+        function handleResend() {
+            // 재발송 버튼 클릭 시 동작
+            startAuthProcess();
+        }
+
+        function startTimer() {
+            authTimer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft <= 0) {
+                    stopTimer();
+                    alert('인증 시간이 만료되었습니다. 다시 시도해주세요.');
+                    // 시간 만료 시 처리 로직 (예: 버튼 비활성화 등)
+                    document.getElementById('auth-code-input').disabled = true;
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (authTimer) {
+                clearInterval(authTimer);
+                authTimer = null;
+            }
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer-count').innerText =
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function handleAuthInput(input) {
+            // 인증번호 6자리 입력 시 버튼 활성화
+            const confirmBtn = document.getElementById('btn-confirm-change');
+            if (input.value.length === 6) {
+                confirmBtn.disabled = false;
+                confirmBtn.classList.remove('disabled');
+            } else {
+                confirmBtn.disabled = true;
+            }
+        }
+
+        function completeEmailChange() {
+            const newEmail = document.getElementById('new-email-input').value;
+
+            // 메인 화면 값 업데이트
+            document.getElementById('current-email-display').value = newEmail;
+
+            alert('이메일 주소가 변경되었습니다.');
+            stopTimer();
+            closeModal('email-change-modal');
+        }
 
         // --- Initialize (Event listeners etc.) ---
         document.addEventListener('DOMContentLoaded', () => {
