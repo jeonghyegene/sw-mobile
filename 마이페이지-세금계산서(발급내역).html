@@ -361,7 +361,7 @@
             margin: 0 -16px;
             padding: 16px;
             border-bottom: 1px solid #e9e9e9;
-            margin-bottom: 16px;
+            /* margin-bottom: 16px; */
         }
 
         /* [v12] Text Select Button */
@@ -411,9 +411,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 10px;
             font-size: 14px;
             color: #555;
+            padding: 15px;
+            margin: 0 -15px;
+            position: sticky;
+            top: 56px;
+            z-index: 100;
+            background-color: white;
         }
 
         .transaction-list-header .total-count strong {
@@ -1228,6 +1233,188 @@
             color: #4e6ee4;
             border-radius: 0;
         }
+
+        /* [v12] Issue Detail Modal Specific Styles */
+        /* 발급 정보 요약 테이블 스타일 */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 0;
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .summary-row {
+            display: contents;
+        }
+
+        .summary-label {
+            background: #f8f8f9;
+            padding: 12px;
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+            border-bottom: 1px solid #e8e8e9;
+            display: flex;
+            align-items: center;
+        }
+
+        .summary-value {
+            background: #fff;
+            padding: 12px;
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            border-bottom: 1px solid #e8e8e9;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            text-align: right;
+        }
+
+        .summary-row:last-child .summary-label,
+        .summary-row:last-child .summary-value {
+            border-bottom: none;
+        }
+
+        .summary-total-row .summary-label,
+        .summary-total-row .summary-value {
+            background: #eef1ff;
+            color: #4e6ee4;
+            font-weight: 700;
+        }
+
+        /* 접수 정보 아코디언 스타일 */
+        .issue-accordion {
+            border: 1px solid #e8e8e9;
+            border-radius: 6px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .acc-item {
+            border-bottom: 1px solid #e8e8e9;
+            background: white;
+        }
+
+        .acc-item:last-child {
+            border-bottom: none;
+        }
+
+        .acc-header {
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            transition: background-color 0.2s;
+        }
+
+        .acc-header:active {
+            background-color: #f9f9f9;
+        }
+
+        .acc-header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .acc-date {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .acc-order-no {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .acc-header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .acc-total-amt {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .acc-arrow {
+            width: 20px;
+            height: 20px;
+            color: #999;
+            transition: transform 0.3s;
+        }
+
+        .acc-item.open .acc-arrow {
+            transform: rotate(180deg);
+        }
+
+        .acc-body {
+            display: none;
+            background: #f8f8f9;
+            padding: 16px;
+            border-top: 1px solid #e8e8e9;
+        }
+
+        .acc-item.open .acc-body {
+            display: block;
+        }
+
+        /* 아코디언 내부 품목 리스트 */
+        .acc-product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .acc-product-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #d0d0d0;
+        }
+
+        .acc-product-row:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .prod-name {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            flex: 1;
+            margin-right: 10px;
+            word-break: keep-all;
+        }
+
+        .prod-price-box {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .prod-total {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            display: block;
+        }
+
+        .prod-sub {
+            font-size: 11px;
+            color: #888;
+            margin-top: 2px;
+            display: block;
+        }
     </style>
 </head>
 
@@ -1353,7 +1540,7 @@
                                 </div>
                                 <div class="card-row" style="justify-content: flex-end; margin-top: -5px;">
                                     <span style="font-size: 12px; color: #888;">(공급가액: ₩103,305,000 / 부가세액:
-                                        ₩1,003,305,000</span>
+                                        ₩1,003,305,000)</span>
                                 </div>
 
                                 <div class="card-divider"></div>
@@ -1376,23 +1563,42 @@
 
                                 <div class="card-footer">
                                     <button type="button" class="white-button btn" onclick="showIssueFullDetailsModal({
-                                        issueNo: '324111',
-                                        issueDate: '2025-08-01',
-                                        issueType: '합산',
-                                        totalAmount: '1,003,305,000',
-                                        totalSupply: '103,305,000',
-                                        totalTax: '1,003,305,000',
-                                        orders: [
-                                            { writeDate: '2025-08-02', orderNo: 'sw675541', shipDate: '2025-08-02', items: [{ name: '합산항목', supply: '103,305,000', tax: '1,003,305,000', total: '1,003,305,000' }], orderTotal: { supply: '103,305,000', tax: '1,003,305,000', total: '1,003,305,000' }}
-                                        ],
-                                        company: '주식회사티엑스',
-                                        bizNo: '123-45-23155',
-                                        repName: '김수현',
-                                        contactName: '김회계',
-                                        contactPhone: '0233441688',
-                                        contactEmail: 'damdangja@email.com'
-                                    })">발급 상세</button>
-                                    <button type="button" class="white-button btn" onclick="alert('PC 에서만 가능합니다')">PDF
+            issueNo: '324111',
+            issueDate: '2025-08-01',
+            issueType: '합산',
+            totalAmount: '1,003,305,000',
+            totalSupply: '103,305,000',
+            totalTax: '1,003,305,000',
+            orders: [
+                { 
+                    writeDate: '2025-08-02', 
+                    orderNo: 'sw675541', 
+                    shipDate: '2025-08-02', 
+                    items: [
+                        { name: '대봉투 1000매 (컬러)', supply: '50,000,000', tax: '5,000,000', total: '55,000,000' },
+                        { name: '명함 고급지 500매', supply: '3,305,000', tax: '330,500', total: '3,635,500' },
+                        { name: '전단지 A4 양면 4000부', supply: '50,000,000', tax: '5,000,000', total: '55,000,000' }
+                    ], 
+                    orderTotal: { supply: '103,305,000', tax: '10,330,500', total: '113,635,500' }
+                },
+                { 
+                    writeDate: '2025-08-05', 
+                    orderNo: 'sw675542', 
+                    shipDate: '2025-08-05', 
+                    items: [
+                         { name: '추가 배송비', supply: '2,500', tax: '250', total: '2,750' }
+                    ], 
+                    orderTotal: { supply: '2,500', tax: '250', total: '2,750' }
+                }
+            ],
+            company: '주식회사티엑스',
+            bizNo: '123-45-23155',
+            repName: '김수현',
+            contactName: '김회계',
+            contactPhone: '0233441688',
+            contactEmail: 'damdangja@email.com'
+        })">발급 상세</button>
+                                    <button type="button" class="white-button btn" onclick="alert('PDF 다운로드')">PDF
                                         다운로드</button>
                                 </div>
                             </article>
@@ -1451,7 +1657,7 @@
                                         contactPhone: '0233441688',
                                         contactEmail: 'damdangja@email.com'
                                     })">발급 상세</button>
-                                    <button type="button" class="white-button btn" onclick="alert('PC 에서만 가능합니다')">PDF
+                                    <button type="button" class="white-button btn" onclick="alert('PDF 다운로드')">PDF
                                         다운로드</button>
                                 </div>
                             </article>
@@ -1511,7 +1717,7 @@
                                         contactPhone: '0233441688',
                                         contactEmail: 'damdangja@email.com'
                                     })">발급 상세</button>
-                                    <button type="button" class="white-button btn" onclick="alert('PC 에서만 가능합니다')">PDF
+                                    <button type="button" class="white-button btn" onclick="alert('PDF 다운로드')">PDF
                                         다운로드</button>
                                 </div>
                             </article>
@@ -1736,66 +1942,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="modal-body">
-                <h2 class="modal-section-title">발급 정보</h2>
-                <div class="form-group">
-                    <label>발급번호</label>
-                    <div class="readonly-value" id="modal-issue-no"></div>
-                </div>
-                <div class="form-group">
-                    <label>발급일</label>
-                    <div class="readonly-value" id="modal-issue-date"></div>
-                </div>
-                <div class="form-group">
-                    <label>발급유형</label>
-                    <div class="readonly-value" id="modal-issue-type"></div>
-                </div>
-
-                <h2 class="modal-section-title">총 합계</h2>
-                <div class="form-group">
-                    <label>총 공급가액(₩)</label>
-                    <div class="readonly-value" id="modal-total-supply"></div>
-                </div>
-                <div class="form-group">
-                    <label>총 부가세액(₩)</label>
-                    <div class="readonly-value" id="modal-total-tax"></div>
-                </div>
-                <div class="form-group">
-                    <label>총 합계금액(₩)</label>
-                    <div class="readonly-value emphasis" id="modal-total-amount"></div>
-                </div>
-
-                <h2 class="modal-section-title">접수 정보</h2>
-                <div class="transaction-list" id="modal-order-list" style="margin-bottom: 0;">
-                </div>
-
-                <h2 class="modal-section-title">기업 정보</h2>
-                <section class="form-section">
-                    <div class="form-group">
-                        <label>사업자등록번호</label>
-                        <div class="readonly-value" id="modal-biz-no"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>기업명</label>
-                        <div class="readonly-value" id="modal-company-name"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>대표자명</label>
-                        <div class="readonly-value" id="modal-rep-name"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>담당자명</label>
-                        <div class="readonly-value" id="modal-contact-name"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>담당자 연락처</label>
-                        <div class="readonly-value" id="modal-contact-phone"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>담당자 이메일</label>
-                        <div class="readonly-value" id="modal-contact-email"></div>
-                    </div>
-                </section>
+            <div class="modal-body" id="issue-detail-body">
             </div>
         </div>
     </div>
@@ -2028,81 +2175,6 @@
         const { openSheet: showMonthlyPeriodSheetBase, closeSheet: closeMonthlyPeriodSheet } = setupBottomSheet('period-monthly-sheet-overlay', 'period-monthly-sheet', 'period-monthly-sheet-handle');
 
 
-        // [MODIFIED] '발급 내역' 전체 상세 Modal
-        function showIssueFullDetailsModal(details) {
-            // 1. 발급 정보 섹션
-            document.getElementById('modal-issue-no').textContent = details.issueNo || '-';
-            document.getElementById('modal-issue-date').textContent = details.issueDate || '-';
-            document.getElementById('modal-issue-type').textContent = details.issueType || '-';
-
-            // 2. 총 합계 섹션
-            document.getElementById('modal-total-supply').textContent = (details.totalSupply || '0') + '';
-            document.getElementById('modal-total-tax').textContent = (details.totalTax || '0') + '';
-            document.getElementById('modal-total-amount').textContent = (details.totalAmount || '0') + '';
-
-            // 3. 접수 정보 섹션
-            const orderList = document.getElementById('modal-order-list');
-            orderList.innerHTML = '';
-
-            if (details.orders && details.orders.length > 0) {
-                details.orders.forEach(order => {
-                    const card = document.createElement('article');
-                    card.className = 'common-table-card';
-
-                    let itemsHtml = '';
-                    order.items.forEach(item => {
-                        itemsHtml += `
-                            <div class="item-row">
-                                <span class="item-name">${item.name}</span>
-                                <div class="item-price-wrapper">
-                                    <span class="item-price-total">₩${item.total} </span>
-                                    <span class="item-price-details">(공급가액: ₩${item.supply} / 부가세액: ₩${item.tax})</span>
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    card.innerHTML = `
-                        <div class="card-row">
-                            <div class="card-row-label">작성일자</div>
-                            <div class="card-row-value">${order.writeDate || '-'}</div>
-                        </div>
-                        <div class="card-row">
-                            <div class="card-row-label">접수번호</div>
-                            <div class="card-row-value">${order.orderNo || '-'}</div>
-                        </div>
-                        <div class="card-row">
-                            <div class="card-row-label">배송시작일</div>
-                            <div class="card-row-value">${order.shipDate || '-'}</div>
-                        </div>
-                        <div class="card-divider"></div>
-                        <div class="item-list">
-                            ${itemsHtml}
-                        </div>
-                        <div class="card-divider"></div>
-                        <div class="card-row" style="font-weight: 600; font-size: 13px;">
-                            <div class="card-row-label">총 합계</div>
-                            <div class="card-row-value" style="color: #333;">₩${order.orderTotal.total}</div>
-                        </div>
-                        <div class="card-row" style="justify-content: flex-end; margin-top: -4px;">
-                            <div class="card-row-value" style="font-size: 11px;">(공급가액: ₩${order.orderTotal.supply} / 부가세액: ₩${order.orderTotal.tax})</div>
-                        </div>
-                    `;
-                    orderList.appendChild(card);
-                });
-            }
-
-            // 4. 기업 정보 섹션
-            document.getElementById('modal-biz-no').textContent = details.bizNo || '-';
-            document.getElementById('modal-company-name').textContent = details.company || '-';
-            document.getElementById('modal-rep-name').textContent = details.repName || '-';
-            document.getElementById('modal-contact-name').textContent = details.contactName || '-';
-            document.getElementById('modal-contact-phone').textContent = details.contactPhone || '-';
-            document.getElementById('modal-contact-email').textContent = details.contactEmail || '-';
-
-            openModal('issue-full-details-modal-overlay');
-        }
-
         // --- [v12 Standard] COMPLEX FILTER INTERACTION ---
         let selectedPeriodValue = "최근 1개월";
         let currentTargetDateInputId = null;
@@ -2268,6 +2340,151 @@
         document.getElementById('view-count-sheet-overlay').addEventListener('click', (e) => {
             if (e.target.id === 'view-count-sheet-overlay') closeViewCountSheet();
         });
+
+        // --- [MODIFIED] 발급 상세 모달 데이터 바인딩 및 아코디언 로직 ---
+
+        function showIssueFullDetailsModal(details) {
+            const modalBody = document.getElementById('issue-detail-body');
+            if (!modalBody) return;
+
+            // 1. [상단] 발급 정보 + 총 합계
+            let summaryHtml = `
+        <h2 class="modal-section-title">발급 정보</h2>
+        <div class="summary-grid">
+            <div class="summary-row">
+                <div class="summary-label">발급번호</div>
+                <div class="summary-value">${details.issueNo}</div>
+            </div>
+            <div class="summary-row">
+                <div class="summary-label">발급일</div>
+                <div class="summary-value">${details.issueDate}</div>
+            </div>
+            <div class="summary-row">
+                <div class="summary-label">발급유형</div>
+                <div class="summary-value">${details.issueType}</div>
+            </div>
+            <div class="summary-row">
+                <div class="summary-label">총 공급가액</div>
+                <div class="summary-value">₩${details.totalSupply}</div>
+            </div>
+            <div class="summary-row">
+                <div class="summary-label">총 부가세액</div>
+                <div class="summary-value">₩${details.totalTax}</div>
+            </div>
+            <div class="summary-row summary-total-row">
+                <div class="summary-label">총 합계금액</div>
+                <div class="summary-value">₩${details.totalAmount}</div>
+            </div>
+        </div>
+    `;
+
+            // 2. [중단] 접수 정보 (Accordion List)
+            let accordionHtml = `<h2 class="modal-section-title">접수 정보</h2>`;
+
+            if (details.orders && details.orders.length > 0) {
+                // [추가] 작성일자: 타이틀 바로 밑에 1회 표시 (첫 번째 주문의 작성일자 사용)
+                accordionHtml += `
+            <div style="margin-bottom: 12px; padding: 0 2px;">
+                 <span style="font-weight: 600; color: #555; font-size: 13px;">작성일자</span>
+                 <span style="margin-left: 8px; font-weight: 500; color: #333; font-size: 14px;">${details.orders[0].writeDate}</span>
+            </div>
+        `;
+
+                accordionHtml += `<div class="issue-accordion">`;
+
+                details.orders.forEach((order, index) => {
+                    // 품목 HTML 생성
+                    let itemsHtml = '';
+                    order.items.forEach(item => {
+                        itemsHtml += `
+                    <div class="acc-product-row">
+                        <div class="prod-name">${item.name}</div>
+                        <div class="prod-price-box">
+                            <span class="prod-total">₩${item.total}</span>
+                            <span class="prod-sub">(공급가액: ₩${item.supply} / 부가세액: ₩${item.tax})</span>
+                        </div>
+                    </div>
+                `;
+                    });
+
+                    // 아코디언 아이템 생성
+                    accordionHtml += `
+                <div class="acc-item" id="acc-item-${index}">
+                    <div class="acc-header" onclick="toggleAccordion('acc-item-${index}')">
+                        <div class="acc-header-left">
+                            <span class="acc-order-no">${order.orderNo}</span>
+                        </div>
+                        <div class="acc-header-right">
+                            <span class="acc-total-amt">₩${order.orderTotal.total}</span>
+                            <svg class="acc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 9l6 6l6 -6" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="acc-body">
+                        <div class="acc-product-list">
+                            ${itemsHtml}
+                        </div>
+                        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e0e0e0;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 13px; font-weight: 600; color: #333;">합계</span>
+                                <span style="font-size: 14px; font-weight: 700; color: #4e6ee4;">₩${order.orderTotal.total}</span>
+                            </div>
+                            <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+                                <span style="font-size: 11px; color: #888;">(공급가액: ₩${order.orderTotal.supply} / 부가세액: ₩${order.orderTotal.tax})</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+                });
+                accordionHtml += `</div>`;
+            } else {
+                accordionHtml += `<div class="no-transactions">접수 정보가 없습니다.</div>`;
+            }
+
+            // 3. [하단] 기업 정보
+            let companyHtml = `
+        <h2 class="modal-section-title">기업 정보</h2>
+        <div class="summary-grid" style="margin-bottom: 30px;">
+             <div class="summary-row">
+                <div class="summary-label">사업자번호</div>
+                <div class="summary-value">${details.bizNo}</div>
+            </div>
+            <div class="summary-row">
+                <div class="summary-label">기업명</div>
+                <div class="summary-value">${details.company}</div>
+            </div>
+            <div class="summary-row">
+                <div class="summary-label">대표자명</div>
+                <div class="summary-value">${details.repName}</div>
+            </div>
+            <div class="summary-row">
+                <div class="summary-label">담당자명</div>
+                <div class="summary-value">${details.contactName}</div>
+            </div>
+            <div class="summary-row">
+                <div class="summary-label">연락처</div>
+                <div class="summary-value">${details.contactPhone}</div>
+            </div>
+            <div class="summary-row">
+                <div class="summary-label">이메일</div>
+                <div class="summary-value">${details.contactEmail}</div>
+            </div>
+        </div>
+    `;
+
+            modalBody.innerHTML = summaryHtml + accordionHtml + companyHtml;
+            openModal('issue-full-details-modal-overlay');
+        }
+
+        // 아코디언 토글 함수
+        function toggleAccordion(id) {
+            const item = document.getElementById(id);
+            if (item) {
+                item.classList.toggle('open');
+            }
+        }
 
 
         // --- [MODIFIED] Initialize (Event listeners etc.) ---
