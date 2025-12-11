@@ -466,14 +466,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 56px;
-            z-index: 100;
+            padding-bottom: 16px;
             font-size: 14px;
             color: #555;
-            background-color: white;
-            padding: 16px;
-            margin: 0 -16px;
         }
 
         /* [MODIFIED] Req 3: total-count now inside checkbox-text span */
@@ -1659,6 +1654,132 @@
         .option-list li button:active {
             background-color: #f0f0f0;
         }
+
+        /* QA 도구 표준 스타일 (수정 금지) */
+        #qa-inventory-wrap {
+            position: fixed;
+            top: 20%;
+            right: 0;
+            z-index: 99999;
+            font-family: 'Pretendard', sans-serif;
+            display: flex;
+            align-items: flex-start;
+            transform: translateX(calc(100% - 40px));
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        #qa-inventory-wrap.active {
+            transform: translateX(0);
+        }
+
+        /* 토글 버튼 */
+        .qa-toggle-btn {
+            width: 40px;
+            height: 48px;
+            color: white;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.2);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 메인 패널 */
+        .qa-panel {
+            width: 260px;
+            background: #2f3542;
+            color: white;
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 0 0 0 10px;
+        }
+
+        .qa-panel h3 {
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            font-weight: 700;
+            border-bottom: 1px solid #57606f;
+            padding-bottom: 10px;
+            color: #ffda79;
+        }
+
+        /* 섹션 및 버튼 */
+        .qa-section {
+            margin-bottom: 20px;
+        }
+
+        .qa-section-title {
+            font-size: 12px;
+            color: #ced6e0;
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .qa-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: #57606f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .qa-btn:hover {
+            background: #747d8c;
+        }
+
+        .qa-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* 태그 스타일 (색상 코딩) */
+        .qa-tag {
+            font-size: 11px;
+            padding: 3px 6px;
+            border-radius: 4px;
+            margin-right: 10px;
+            font-weight: 800;
+            min-width: 45px;
+            text-align: center;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .tag-sheet {
+            background: #ffa502;
+            color: #2f3542;
+        }
+
+        /* 주황 */
+        .tag-modal {
+            background: #ff4757;
+            color: white;
+        }
+
+        /* 다홍 */
+        .tag-etc {
+            background: #2ed573;
+            color: #2f3542;
+        }
+
+        /* 초록 */
     </style>
 </head>
 
@@ -1691,8 +1812,8 @@
                     <div class="tabs-scroll-wrapper" id="period-chip-group">
                         <div class="single-chip single-chip-on" data-period="current" onclick="selectPeriodChip(this)">
                             2025년 10월</div>
-                        <!-- <div class="single-chip single-chip-off" data-period="previous"
-                            onclick="selectPeriodChip(this)">2025년 9월</div> -->
+                        <div class="single-chip single-chip-off" data-period="previous"
+                            onclick="selectPeriodChip(this)">2025년 9월</div>
                     </div>
                 </section>
 
@@ -1710,7 +1831,7 @@
                 </section>
 
                 <section class="filter-section"
-                    style="padding-top: 0; border-bottom: 1px solid #e9e9e9; padding-left: 16px; padding-right: 16px; margin: 0 -16px;">
+                    style="padding-top: 0; border-bottom: 1px solid #e9e9e9; padding-left: 16px; padding-right: 16px; margin: 0 -16px 16px;">
                     <div class="search" data-name="search" id="tax-search">
                         <input type="text" placeholder="접수번호 또는 고객명을 입력해주세요" oninput="handleSearchInput(this)">
                         <div class="search-input-right">
@@ -1727,27 +1848,25 @@
                         </div>
                     </div>
                 </section>
-                <div class="transaction-list-header">
-                    <div class="checkbox-text" onclick="toggleSelectAll(this)">
-                        <div class="checkbox" data-checked="false" id="select-all-checkbox">
-                            <div class="checkbox-off"></div>
-                        </div>
-                        <span class="total-count">
-                            전체선택
-                            <!-- 총 <strong id="transaction-count">7</strong>건 -->
-                        </span>
-                    </div>
-                    <div class="view-count-select" onclick="showViewCountSheet()">
-                        <span class="view-count-select-text" id="view-count-text">20건씩 보기</span>
-                        <div class="view-count-select-arrow">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                                <path d="M6 9l6 6l6 -6" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
 
                 <section class="transaction-list-section">
+                    <div class="transaction-list-header">
+                        <div class="checkbox-text" onclick="toggleSelectAll(this)">
+                            <div class="checkbox" data-checked="false" id="select-all-checkbox">
+                                <div class="checkbox-off"></div>
+                            </div>
+                            <span class="total-count">총 <strong id="transaction-count">7</strong>건</span>
+                        </div>
+                        <div class="view-count-select" onclick="showViewCountSheet()">
+                            <span class="view-count-select-text" id="view-count-text">20건씩 보기</span>
+                            <div class="view-count-select-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="transaction-list" id="transaction-list-container">
                         <article class="common-table-card" data-status="미발급">
                             <div class="card-header">
@@ -1923,7 +2042,7 @@
                         </article>
                     </div>
 
-                    <div class="no-transactions" id="no-issue-list" style="display: none;">세금계산서 신청할 내역이 없어요</div>
+                    <div class="no-transactions" id="no-issue-list" style="display: none;">등록된 고객이 없어요</div>
 
 
                     <div style="margin-bottom: 24px;">
@@ -3046,30 +3165,35 @@
 
     </script>
 
+    <div id="qa-inventory-wrap">
+        <button type="button" class="qa-toggle-btn" style="background: #4e6ee4;"
+            onclick="document.getElementById('qa-inventory-wrap').classList.toggle('active')">검수 도구</button>
 
-    <div class="disqus-thread-wrap">
-        <div id="disqus_thread"></div>
-        <script>
-            /**
-            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-            /*
-            var disqus_config = function () {
-            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-            };
-            */
-            (function () { // DON'T EDIT BELOW THIS LINE
-                var d = document, s = d.createElement('script');
-                s.src = 'https://sw-mobile.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
-                Disqus.</a></noscript>
+        <div class="qa-panel">
+            <h3>UI 검수 도구</h3>
+
+            <div class="qa-section">
+                <div class="qa-section-title">Bottom Sheet (바텀시트)</div>
+                <button class="qa-btn" onclick="showViewCountSheet()">
+                    <span class="qa-tag tag-sheet">Sheet</span> 보기 설정 (갯수)
+                </button>
+            </div>
+
+            <div class="qa-section">
+                <div class="qa-section-title">Modal (팝업)</div>
+                <button class="qa-btn" onclick="openModal('tax-edit-modal-overlay')">
+                    <span class="qa-tag tag-modal">Modal</span> 신청정보 수정
+                </button>
+                <button class="qa-btn" onclick="showCustomerListModal()">
+                    <span class="qa-tag tag-modal">Modal</span> 나의 고객 목록 (Full)
+                </button>
+                <button class="qa-btn" onclick="openModal('tax-pending-modal-overlay')">
+                    <span class="qa-tag tag-modal">Modal</span> 발급대기 안내 (수정불가)
+                </button>
+            </div>
+
+        </div>
     </div>
-    <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
 </body>
 
 </html>

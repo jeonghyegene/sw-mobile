@@ -1,0 +1,158 @@
+<style>
+    /* QA 도구 표준 스타일 (수정 금지) */
+    #qa-inventory-wrap {
+        position: fixed;
+        top: 20%;
+        right: 0;
+        z-index: 99999;
+        font-family: 'Pretendard', sans-serif;
+        display: flex;
+        align-items: flex-start;
+        transform: translateX(calc(100% - 40px));
+        transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    #qa-inventory-wrap.active {
+        transform: translateX(0);
+    }
+
+    /* 토글 버튼 */
+    .qa-toggle-btn {
+        width: 40px;
+        height: 48px;
+        color: white;
+        border: none;
+        border-radius: 8px 0 0 8px;
+        font-weight: 700;
+        font-size: 14px;
+        cursor: pointer;
+        box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.2);
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 메인 패널 */
+    .qa-panel {
+        width: 260px;
+        background: #2f3542;
+        color: white;
+        padding: 20px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.3);
+        border-radius: 0 0 0 10px;
+    }
+
+    .qa-panel h3 {
+        margin: 0 0 20px 0;
+        font-size: 18px;
+        font-weight: 700;
+        border-bottom: 1px solid #57606f;
+        padding-bottom: 10px;
+        color: #ffda79;
+    }
+
+    /* 섹션 및 버튼 */
+    .qa-section {
+        margin-bottom: 20px;
+    }
+
+    .qa-section-title {
+        font-size: 12px;
+        color: #ced6e0;
+        margin-bottom: 8px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .qa-btn {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 8px;
+        background: #57606f;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .qa-btn:hover {
+        background: #747d8c;
+    }
+
+    .qa-btn:active {
+        transform: scale(0.98);
+    }
+
+    /* 태그 스타일 (색상 코딩) */
+    .qa-tag {
+        font-size: 11px;
+        padding: 3px 6px;
+        border-radius: 4px;
+        margin-right: 10px;
+        font-weight: 800;
+        min-width: 45px;
+        text-align: center;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .tag-sheet {
+        background: #ffa502;
+        color: #2f3542;
+    }
+
+    /* 주황 */
+    .tag-modal {
+        background: #ff4757;
+        color: white;
+    }
+
+    /* 다홍 */
+    .tag-etc {
+        background: #2ed573;
+        color: #2f3542;
+    }
+
+    /* 초록 */
+</style>
+
+<div id="qa-inventory-wrap">
+    <button type="button" class="qa-toggle-btn" style="background: #4e6ee4;"
+        onclick="document.getElementById('qa-inventory-wrap').classList.toggle('active')">검수 도구</button>
+
+    <div class="qa-panel">
+        <h3>검수 도구</h3>
+
+        <div class="qa-section">
+            <div class="qa-section-title">Bottom Sheet (바텀시트)</div>
+            <button class="qa-btn" onclick="함수명()">
+                <span class="qa-tag tag-sheet">Sheet</span> 기간 상세검색
+            </button>
+        </div>
+
+        <div class="qa-section">
+            <div class="qa-section-title">Full Modal (전체 팝업)</div>
+            <button class="qa-btn" onclick="함수명()">
+                <span class="qa-tag tag-modal">Modal</span> 환불계좌 변경
+            </button>
+        </div>
+
+        <div class="qa-section">
+            <div class="qa-section-title">Etc (기타)</div>
+            <button class="qa-btn" onclick="함수명()">
+                <span class="qa-tag tag-etc">Toast</span> 토스트 메시지
+            </button>
+        </div>
+
+    </div>
+</div>
