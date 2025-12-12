@@ -1348,6 +1348,163 @@
         .option-list li button:active {
             background-color: #f0f0f0;
         }
+
+        /* [CSS] .input textarea 스타일 하단 혹은 적절한 위치에 추가 */
+
+        /* Textarea with Character Counter Modifier */
+        .input.textarea-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            /* 우측 하단 정렬 */
+            height: auto;
+            /* 높이 자동 조절 */
+            min-height: 150px;
+            padding-bottom: 12px;
+        }
+
+        .input.textarea-container textarea {
+            width: 100%;
+            flex: 1;
+            resize: none;
+            /* 모바일에서는 resize 비활성화 권장 */
+            margin-bottom: 4px;
+        }
+
+        .char-counter {
+            font-size: 12px;
+            color: #888;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .char-counter strong {
+            color: #4e6ee4;
+            /* 활성 색상 강조 */
+            font-weight: 600;
+        }
+
+        /* [NEW] Box Style File Uploader */
+        .file-uploader-wrapper {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            /* 스크롤바 공간 확보 */
+            width: 100%;
+        }
+
+        /* 스크롤바 숨김 (선택사항) */
+        .file-uploader-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 파일 추가 버튼 (네모 박스) */
+        .form-group label.file-upload-box {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            border: 1px dashed #cccccc;
+            border-radius: 6px;
+            background: #f8f8f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: #888;
+        }
+
+        .file-upload-box:hover {
+            background: #f1f1f1;
+        }
+
+        .file-upload-box svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+            color: #888;
+        }
+
+        .file-upload-count {
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* 파일 미리보기 아이템 (네모 박스) */
+        .file-preview-item {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            position: relative;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 이미지 썸네일 스타일 */
+        .file-preview-item img.thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* PDF/기타 파일 아이콘 스타일 */
+        .file-preview-item .file-icon-view {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            padding: 5px;
+            text-align: center;
+            gap: 3px;
+        }
+
+        .file-preview-item .file-icon-view svg {
+            width: 20px;
+            height: 20px;
+            margin-bottom: 2px;
+        }
+
+        .file-preview-item .file-name-text {
+            font-size: 10px;
+            color: #555;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2;
+        }
+
+        /* 삭제 버튼 (X) */
+        .file-remove-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            z-index: 10;
+        }
+
+        .file-remove-btn svg {
+            width: 12px;
+            height: 12px;
+        }
     </style>
 </head>
 
@@ -1523,8 +1680,12 @@
                     </div>
                     <div class="form-group">
                         <label>문의내용</label>
-                        <div class="input" style="align-items: flex-start;">
-                            <textarea placeholder="문의내용을 작성해주세요"></textarea>
+                        <div class="input textarea-container">
+                            <textarea id="inquiry-content" maxlength="1000" placeholder="문의내용을 작성해주세요"
+                                oninput="handleTextareaInput(this)"></textarea>
+                            <div class="char-counter">
+                                <span id="current-count">0</span> / 1000
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1532,10 +1693,34 @@
                 <div class="form-section" data-form-type="AS DEFAULT">
                     <div class="form-group">
                         <label>첨부파일</label>
-                        <button class="white-button" style="width: 100%; font-weight: 500; justify-content: center;">
-                            파일 선택
-                        </button>
-                        <p class="disclaimer">파일은 JPG, PNG, GIF, PDF 파일로 최대 3개(20MB 이하)까지 첨부할 수 있어요</p>
+
+                        <div class="file-uploader-wrapper">
+                            <label class="file-upload-box">
+                                <input type="file" id="hidden-file-input" multiple accept=".jpg,.png,.gif,.pdf"
+                                    style="display: none;" onchange="handleFileSelect(this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M12 5l0 14"></path>
+                                    <path d="M5 12l14 0"></path>
+                                </svg>
+                                <span class="file-upload-count"><span id="file-count">0</span>/3</span>
+                            </label>
+
+                            <div id="file-preview-list" style="display: contents;"></div>
+                        </div>
+
+                        <div class="disclaimer-with-icon" style="margin-top: 8px;">
+                            <svg class="disclaimer-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" style="margin-top:3px; margin-right:4px; float:left;">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 16v-4"></path>
+                                <path d="M12 8h.01"></path>
+                            </svg>
+                            <span style="font-size: 12px; color: #888; line-height: 1.5;">파일은 JPG, PNG, GIF, PDF 파일로 최대
+                                3개(20MB 이하)까지 첨부할 수 있어요</span>
+                        </div>
                     </div>
                 </div>
 
@@ -2529,6 +2714,118 @@ A. ${faq.a.replace(/\n/g, '\n')}
             }
 
             closeOrderListSheet();
+        }
+
+        /* [JS] <script> 내부 적절한 위치에 함수 추가 */
+
+        // --- [NEW] Textarea Character Counter ---
+        function handleTextareaInput(element) {
+            const maxLength = 1000;
+            const currentLength = element.value.length;
+            const counterDisplay = element.parentElement.querySelector('#current-count');
+
+            // 카운터 업데이트
+            if (counterDisplay) {
+                counterDisplay.textContent = currentLength.toLocaleString();
+            }
+
+            // 기존 Dirty Check 로직 연동
+            isFormDirty = true;
+        }
+
+        // --- [NEW] File Upload Logic (Box Style with Thumbnails) ---
+        const maxFileCount = 3;
+        const maxFileSize = 20 * 1024 * 1024; // 20MB
+        let attachedFiles = [];
+
+        function handleFileSelect(input) {
+            const newFiles = Array.from(input.files);
+
+            if (attachedFiles.length + newFiles.length > maxFileCount) {
+                alert(`파일은 최대 ${maxFileCount}개까지만 첨부할 수 있습니다.`);
+                input.value = ''; // 초기화
+                return;
+            }
+
+            // 파일 처리
+            newFiles.forEach(file => {
+                if (file.size > maxFileSize) {
+                    alert(`${file.name} 파일 용량이 20MB를 초과합니다.`);
+                    return;
+                }
+
+                // 중복 체크
+                const isDuplicate = attachedFiles.some(f => f.name === file.name && f.size === file.size);
+                if (isDuplicate) return;
+
+                attachedFiles.push(file);
+            });
+
+            renderFilePreviews();
+            input.value = ''; // 동일 파일 재선택 가능하도록 초기화
+            isFormDirty = true;
+        }
+
+        function renderFilePreviews() {
+            const container = document.getElementById('file-preview-list');
+            const countSpan = document.getElementById('file-count');
+            container.innerHTML = '';
+
+            // 카운트 업데이트
+            if (countSpan) countSpan.textContent = attachedFiles.length;
+
+            attachedFiles.forEach((file, index) => {
+                const item = document.createElement('div');
+                item.className = 'file-preview-item';
+
+                // 삭제 버튼 생성
+                const delBtn = document.createElement('div');
+                delBtn.className = 'file-remove-btn';
+                delBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+                delBtn.onclick = (e) => {
+                    e.preventDefault(); // 라벨 클릭 방지
+                    removeFile(index);
+                };
+                item.appendChild(delBtn);
+
+                // 파일 타입에 따른 미리보기 처리
+                if (file.type.startsWith('image/')) {
+                    // [이미지일 경우] FileReader로 썸네일 표시
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const img = document.createElement('img');
+                        img.className = 'thumb';
+                        img.src = e.target.result;
+                        item.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    // [PDF 등 기타 파일일 경우] 아이콘 표시
+                    const iconDiv = document.createElement('div');
+                    iconDiv.className = 'file-icon-view';
+
+                    // PDF 아이콘 (붉은색 포인트)
+                    iconDiv.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#e04f4f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <div class="file-name-text">${file.name}</div>
+            `;
+                    item.appendChild(iconDiv);
+                }
+
+                container.appendChild(item);
+            });
+        }
+
+        function removeFile(index) {
+            attachedFiles.splice(index, 1);
+            renderFilePreviews();
+            isFormDirty = true;
         }
 
 
