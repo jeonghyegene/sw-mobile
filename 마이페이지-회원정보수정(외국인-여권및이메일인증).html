@@ -1195,7 +1195,8 @@
                             <input type="text" value="1982-04-03" readonly>
                         </div>
 
-                        <button type="button" class="white-button">여권정보 변경</button>
+                        <button type="button" class="white-button" onclick="openModal('passport-change-modal');">여권정보
+                            수정</button>
                     </div>
                 </div>
 
@@ -1501,6 +1502,69 @@
         <div class="sticky-form-footer">
             <button class="white-button btn delete-button" onclick="showWithdrawalAlert()">회원 탈퇴하기</button>
             <button class="dark-button btn" id="submit-inquiry-btn" onclick="showSaveConfirmModal()">수정하기</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay full-modal-overlay" id="passport-change-modal">
+        <div class="modal-content full-modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">여권정보 수정</h2>
+                <button class="btn-modal-close" onclick="closeModal('passport-change-modal')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <h2 class="section-title" style="margin-top: 0; margin-bottom: 24px;">수정할 여권정보를 입력해주세요</h2>
+
+                <div class="form-group">
+                    <label for="mod-passport-name">이름</label>
+                    <div class="input">
+                        <input type="text" id="mod-passport-name" placeholder="여권에 표기된 이름을 입력해주세요(띄어쓰기 포함)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mod-passport-number">여권번호</label>
+                    <div class="input">
+                        <input type="text" id="mod-passport-number" placeholder="여권번호를 입력해주세요">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mod-passport-country">국가</label>
+                    <div class="input select-wrapper">
+                        <select id="mod-passport-country">
+                            <option value="">여권에 표기된 국가를 선택해주세요</option>
+                            <option value="USA">미국</option>
+                            <option value="JPN">일본</option>
+                            <option value="CHN">중국</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>생년월일</label>
+                    <div class="input-group" style="display: flex; gap: 8px;">
+                        <div class="input" style="flex: 1.4;">
+                            <input type="tel" id="mod-passport-birth-year" placeholder="YYYY" maxlength="4">
+                        </div>
+                        <div class="input" style="flex: 1;">
+                            <input type="tel" id="mod-passport-birth-month" placeholder="MM" maxlength="2">
+                        </div>
+                        <div class="input" style="flex: 1;">
+                            <input type="tel" id="mod-passport-birth-day" placeholder="DD" maxlength="2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn dark-button" style="width: 100%;" onclick="completePassportChange()">여권정보 수정</button>
+            </div>
         </div>
     </div>
 
