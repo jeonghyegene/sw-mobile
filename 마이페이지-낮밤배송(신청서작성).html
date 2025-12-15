@@ -1040,6 +1040,88 @@
         .area-table td {
             color: #333;
         }
+
+        /* [MODIFIED] Modal Tab Navigation (v12 Standard with Action Button) */
+        .modal-tab-nav {
+            display: flex;
+            align-items: center;
+            /* 세로 중앙 정렬 */
+            gap: 8px;
+            /* 아이템 간 간격 */
+            margin-bottom: 20px;
+
+            /* 가로 스크롤 핵심 속성 */
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            /* 줄바꿈 방지 */
+            -webkit-overflow-scrolling: touch;
+            /* 모바일 부드러운 스크롤 */
+
+            /* 스크롤바 숨김 처리 */
+            scrollbar-width: none;
+            /* Firefox */
+            padding-bottom: 2px;
+            /* 하단 잘림 방지 여백 */
+        }
+
+        .modal-tab-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 탭 내부의 모든 요소(칩, 버튼)가 찌그러지지 않도록 설정 */
+        .modal-tab-nav .single-chip,
+        .modal-tab-nav .nav-action-btn {
+            flex-shrink: 0;
+            /* 공간이 부족해도 줄어들지 않음 */
+            white-space: nowrap;
+            /* 텍스트 줄바꿈 방지 */
+        }
+
+        /* [추가] 배송지 목록 버튼 스타일 (이미지처럼 다크 버튼) */
+        .nav-action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            /* 칩 높이와 유사하게 설정 */
+            padding: 0 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: white;
+            background-color: #333;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: none;
+            /* (선택사항) 버튼만 우측 끝으로 밀고 싶으면 주석 해제 */
+        }
+
+        .nav-action-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* [추가] 칩 내부 닫기 버튼 (x 아이콘) 스타일 */
+        .chip-close-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            margin-left: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .chip-close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .chip-close-btn svg {
+            width: 12px;
+            height: 12px;
+            stroke-width: 3;
+        }
     </style>
 </head>
 
@@ -1104,8 +1186,33 @@
                             onclick="switchAddressTab(this, 'default-addr')">기본 배송지</div>
                         <div class="single-chip single-chip-off" data-tab="direct-input"
                             onclick="switchAddressTab(this, 'direct-input')">직접 입력</div>
-                        <div class="single-chip single-chip-off" data-tab="address-list"
-                            onclick="switchAddressTab(this, 'address-list')">배송지 목록</div>
+                        <div class="single-chip single-chip-off" id="chip-address-list" data-tab="address-list"
+                            style="display: none;" onclick="switchAddressTab(this, 'address-list')">
+                            <span id="chip-address-text"></span>
+                            <span class="chip-close-btn" onclick="removeSelectedAddress(event)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </span>
+                        </div>
+
+                        <button type="button" class="nav-action-btn show" onclick="showAddressListModal()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-list">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M9 6l11 0" />
+                                <path d="M9 12l11 0" />
+                                <path d="M9 18l11 0" />
+                                <path d="M5 6l0 .01" />
+                                <path d="M5 12l0 .01" />
+                                <path d="M5 18l0 .01" />
+                            </svg>&nbsp;
+                            배송지 목록
+                        </button>
                     </nav>
 
                     <div id="address-tab-content">
@@ -1234,23 +1341,6 @@
                         </div>
 
                         <div class="form-fields-wrapper" data-tab-content="address-list" style="display: none;">
-                            <div class="form-group form-group-button" style="margin-bottom: 12px;">
-                                <button type="button" class="white-button" onclick="showAddressListModal()">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        class="icon icon-tabler icons-tabler-outline icon-tabler-list">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M9 6l11 0" />
-                                        <path d="M9 12l11 0" />
-                                        <path d="M9 18l11 0" />
-                                        <path d="M5 6l0 .01" />
-                                        <path d="M5 12l0 .01" />
-                                        <path d="M5 18l0 .01" />
-                                    </svg>&nbsp;배송지 목록
-                                </button>
-                            </div>
-
                             <div class="form-group">
                                 <label>이름(상호명)</label>
                                 <div class="input disabled"><input type="text" id="list-receiver"
@@ -1994,6 +2084,52 @@
                 content.style.display = 'none';
             });
             modalBody.querySelector(`.delivery-area-content[data-tab-content="${tabName}"]`).style.display = 'block';
+        }
+
+        // [MODIFIED] 배송지 목록에서 '선택' 시 로직 변경
+        function selectAddress(addressId) {
+            const data = addressData[addressId];
+            if (data) {
+                // 1. 폼 데이터 채우기 (기존 동일)
+                document.getElementById('list-receiver').value = data.receiver;
+                document.getElementById('list-phone').value = data.phone;
+                document.getElementById('list-tel').value = data.tel;
+                document.getElementById('list-zipcode').value = data.zipcode;
+                document.getElementById('list-addr-main').value = data.main;
+                document.getElementById('list-addr-detail').value = data.detail;
+
+                // 2. [NEW] 칩 표시 및 텍스트 설정
+                const chip = document.getElementById('chip-address-list');
+                const chipText = document.getElementById('chip-address-text');
+
+                chip.style.display = 'inline-flex';
+                chipText.textContent = data.name; // 배송지명 표시
+
+                // 3. [NEW] 탭 전환 (칩 활성화)
+                switchAddressTab(chip, 'address-list');
+
+                // 4. 모달 닫기
+                closeModal('address-list-modal-overlay');
+
+                // 5. 유효성 검사
+                checkAddressValidity(addressId, 'list');
+            }
+        }
+
+        // [NEW] 선택된 배송지 삭제 (칩 닫기)
+        function removeSelectedAddress(e) {
+            if (e) e.stopPropagation();
+
+            // 1. 칩 숨기기
+            const chip = document.getElementById('chip-address-list');
+            chip.style.display = 'none';
+            chip.classList.replace('single-chip-on', 'single-chip-off');
+
+            // 2. 기본 탭으로 전환 (기본 배송지)
+            const defaultTab = document.querySelector('#address-tabs [data-tab="default-addr"]');
+            switchAddressTab(defaultTab, 'default-addr');
+
+            // 3. (선택사항) 필드 초기화 로직이 필요하다면 여기에 추가
         }
 
         // --- Initialize ---

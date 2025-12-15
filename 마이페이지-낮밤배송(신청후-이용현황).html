@@ -1165,6 +1165,76 @@
             padding: 0 12px;
             width: 100%;
         }
+
+
+        /* [NEW] Image Slider Styles (v12 Mobile Friendly) */
+        .image-slider-container {
+            position: relative;
+            width: 100%;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            background: #f9f9f9;
+            aspect-ratio: 16 / 9;
+
+        }
+
+        .image-slider-wrapper {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            height: 100%;
+        }
+
+        .image-slider-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .image-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+        }
+
+        .image-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .slider-pagination {
+            position: absolute;
+            bottom: 12px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .slider-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
+            /* 밝은 이미지 위 식별을 위해 약간 어둡게 처리하거나, 이미지에 따라 조정 */
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.2s;
+        }
+
+        .slider-dot.active {
+            background: #fff;
+            width: 18px;
+            border-radius: 4px;
+            border: none;
+        }
     </style>
 </head>
 
@@ -1187,6 +1257,92 @@
 
         <main>
             <div class="sw-container">
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge pending">승인대기</span>
+                    </div>
+                    <div class="status-footer space-between" style="margin-top: -1px;"> <span class="footer-info-link">
+                            신청일 2025-09-21
+                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
+                        </span>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge rejected">반려</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="rejection-reason">
+                            <span class="status-label">반려 사유</span>
+                            <span class="reason-text">밤배송 가능한 위치가 아니에요</span>
+                        </div>
+                    </div>
+                    <div class="status-footer space-between">
+                        <span class="footer-info-link">
+                            신청일 2025-09-21
+                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
+                        </span>
+                        <button type="button" class="primary-button"
+                            style="height: 36px; padding: 0 12px; font-size: 13px;">재신청하기</button>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge waiting-payment">입금대기</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="virtual-account-info">
+                            <div class="account-row">
+                                <span class="status-label"
+                                    style="width: 100%; margin-bottom: 4px; display: block;">가상계좌</span>
+                            </div>
+                            <div class="account-row" style="margin-top: 0;">
+                                <div class="no-account-info">
+                                    <span>등록된 가상계좌가 없어요</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="status-footer space-between">
+                        <span class="footer-info-link">
+                            신청일 2025-09-21
+                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
+                        </span>
+                        <button type="button" class="primary-button"
+                            style="height: 36px; padding: 0 12px; font-size: 13px;">가상계좌 등록</button>
+                    </div>
+                </section>
+
+                <section class="status-card">
+                    <div class="status-header">
+                        <span class="status-title">이용 현황</span>
+                        <span class="status-badge waiting-payment">입금대기</span>
+                    </div>
+                    <div class="status-body">
+                        <div class="virtual-account-info">
+                            <div class="account-row">
+                                <span class="status-label">가상계좌</span>
+                                <span class="status-value">27560204147121 국민 정혜진</span>
+                            </div>
+                            <div class="account-row">
+                                <span class="status-label">입금금액</span>
+                                <span class="status-value amount">₩55,000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="status-footer space-between">
+                        <span class="footer-info-link">
+                            신청일 2025-09-21
+                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
+                        </span>
+                    </div>
+                </section>
+
                 <section class="status-card">
                     <div class="status-header">
                         <span class="status-title">이용 현황</span>
@@ -1264,95 +1420,12 @@
                     </div>
                 </section>
 
-                <section class="status-card">
-                    <div class="status-header">
-                        <span class="status-title">이용 현황</span>
-                        <span class="status-badge rejected">반려</span>
-                    </div>
-                    <div class="status-body">
-                        <div class="rejection-reason">
-                            <span class="status-label">반려 사유</span>
-                            <span class="reason-text">밤배송 가능한 위치가 아니에요</span>
-                        </div>
-                    </div>
-                    <div class="status-footer space-between">
-                        <span class="footer-info-link">
-                            신청일 2025-09-21
-                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
-                        </span>
-                        <button type="button" class="primary-button"
-                            style="height: 36px; padding: 0 12px; font-size: 13px;">재신청하기</button>
-                    </div>
-                </section>
-
-                <section class="status-card">
-                    <div class="status-header">
-                        <span class="status-title">이용 현황</span>
-                        <span class="status-badge pending">승인대기</span>
-                    </div>
-                    <div class="status-footer space-between" style="margin-top: 0;"> <span class="footer-info-link">
-                            신청일 2025-09-21
-                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
-                        </span>
-                    </div>
-                </section>
-
-                <section class="status-card">
-                    <div class="status-header">
-                        <span class="status-title">이용 현황</span>
-                        <span class="status-badge waiting-payment">입금대기</span>
-                    </div>
-                    <div class="status-body">
-                        <div class="virtual-account-info">
-                            <div class="account-row">
-                                <span class="status-label">가상계좌</span>
-                                <span class="status-value">27560204147121 국민 정혜진</span>
-                            </div>
-                            <div class="account-row">
-                                <span class="status-label">입금금액</span>
-                                <span class="status-value amount">₩55,000</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="status-footer space-between">
-                        <span class="footer-info-link">
-                            신청일 2025-09-21
-                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
-                        </span>
-                    </div>
-                </section>
-
-                <section class="status-card">
-                    <div class="status-header">
-                        <span class="status-title">이용 현황</span>
-                        <span class="status-badge waiting-payment">입금대기</span>
-                    </div>
-                    <div class="status-body">
-                        <div class="virtual-account-info">
-                            <div class="account-row">
-                                <span class="status-label"
-                                    style="width: 100%; margin-bottom: 4px; display: block;">가상계좌</span>
-                            </div>
-                            <div class="account-row" style="margin-top: 0;">
-                                <div class="no-account-info">
-                                    <span>등록된 가상계좌가 없어요</span>
-                                    <a href="#" class="status-link">가상계좌 등록</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="status-footer space-between">
-                        <span class="footer-info-link">
-                            신청일 2025-09-21
-                            <a class="status-link" onclick="showApplicationInfoModal(); return false;">신청 정보</a>
-                        </span>
-                    </div>
-                </section>
-
                 <section class="info-section">
                     <div class="info-sub-row">
                         <span class="label">신청비</span>
                         <span class="value">₩55,000(부가세 포함)</span>
+                        <span class="value description" style="font-size: 12px; color: #999;">※가입 시 납부하신 신청비는 서비스 해지 시에도
+                            환불이 어려워요</span>
                     </div>
                     <div class="info-sub-row">
                         <span class="label">서비스 제공 기간</span>
@@ -1413,11 +1486,9 @@
                     <div class="delivery-info-group">
                         <h3>장소</h3>
                         <div class="delivery-vehicle-row">
-                            <span class="value">고객님과 기사분과 선약속된 지정장소에 배송돼요</span>
+                            <span class="value">고객님과 기사분과 선약속된 지정장소에 배송돼요 <br>물량이 초과되는 경우에는 2회 배송이 될 수 있어요 (10R씩
+                                분할배송)</span>
                         </div>
-                        <ul class="disclaimer-list" style="margin-top: 12px;">
-                            <li>물량이 초과되는 경우에는 2회 배송이 될 수 있어요 (10R씩 분할배송)</li>
-                        </ul>
                     </div>
                     <div class="delivery-info-group">
                         <h3>유의사항</h3>
@@ -1502,20 +1573,16 @@
                     <div class="delivery-info-group">
                         <h3>배송시간</h3>
                         <div class="delivery-vehicle-row">
-                            <span class="value">야간 (24시 이후) 배송 시작</span>
+                            <span class="value">야간 (24시 이후) 배송 시작 <br>월요일 저녁(출발)부터 토요일 새벽(도착)까지 주 5회 배송돼요 (토, 일요일, 공휴일
+                                휴무)</span>
                         </div>
-                        <ul class="disclaimer-list" style="margin-top: 12px;">
-                            <li>월요일 저녁(출발)부터 토요일 새벽(도착)까지 주 5회 배송돼요 (토, 일요일, 공휴일 휴무)</li>
-                        </ul>
                     </div>
                     <div class="delivery-info-group">
                         <h3>장소</h3>
                         <div class="delivery-vehicle-row">
-                            <span class="value">고객님과 기사분과 선약속된 지정장소에 배송돼요</span>
+                            <span class="value">고객님과 기사분과 선약속된 지정장소에 배송돼요 <br>물량이 초과되는 경우에는 2회 배송이 될 수 있어요 (10R씩
+                                분할배송)</span>
                         </div>
-                        <ul class="disclaimer-list" style="margin-top: 12px;">
-                            <li>물량이 초과되는 경우에는 2회 배송이 될 수 있어요 (10R씩 분할배송)</li>
-                        </ul>
                     </div>
                     <div class="delivery-info-group">
                         <h3>유의사항</h3>
@@ -1624,7 +1691,24 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="modal-image"></div>
+                <div class="image-slider-container">
+                    <div class="image-slider-wrapper" id="delivery-slider" onscroll="updateSliderDots(this)">
+                        <div class="image-slide">
+                            <img src="assets/images/address.png" alt="배송사진 1">
+                        </div>
+                        <div class="image-slide">
+                            <img src="assets/images/address.png" alt="배송사진 2">
+                        </div>
+                        <div class="image-slide">
+                            <img src="assets/images/address.png" alt="배송사진 3">
+                        </div>
+                    </div>
+                    <div class="slider-pagination" id="delivery-slider-dots">
+                        <div class="slider-dot active"></div>
+                        <div class="slider-dot"></div>
+                        <div class="slider-dot"></div>
+                    </div>
+                </div>
                 <form>
                     <div class="form-group">
                         <label>이름(상호명)</label>
@@ -1703,7 +1787,26 @@
                 </section>
 
                 <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">배송지 정보</h3>
-                <div class="modal-image"></div>
+
+                <div class="image-slider-container">
+                    <div class="image-slider-wrapper" id="delivery-slider" onscroll="updateSliderDots(this)">
+                        <div class="image-slide">
+                            <img src="assets/images/address.png" alt="배송사진 1">
+                        </div>
+                        <div class="image-slide">
+                            <img src="assets/images/address.png" alt="배송사진 2">
+                        </div>
+                        <div class="image-slide">
+                            <img src="assets/images/address.png" alt="배송사진 3">
+                        </div>
+                    </div>
+                    <div class="slider-pagination" id="delivery-slider-dots">
+                        <div class="slider-dot active"></div>
+                        <div class="slider-dot"></div>
+                        <div class="slider-dot"></div>
+                    </div>
+                </div>
+
                 <form>
                     <div class="form-group">
                         <label>이름(상호명)</label>
@@ -1831,6 +1934,24 @@
         function showApplicationInfoModal() {
             // 이력이 아닌 신청정보 모달을 엽니다.
             openModal('application-info-modal-overlay');
+        }
+
+        function updateSliderDots(element) {
+            const slideWidth = element.offsetWidth;
+            const scrollLeft = element.scrollLeft;
+            const index = Math.round(scrollLeft / slideWidth);
+
+            const dotsContainer = element.nextElementSibling; // .slider-pagination
+            if (dotsContainer) {
+                const dots = dotsContainer.querySelectorAll('.slider-dot');
+                dots.forEach((dot, i) => {
+                    if (i === index) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
         }
 
         // --- [NEW] Initialize ---
