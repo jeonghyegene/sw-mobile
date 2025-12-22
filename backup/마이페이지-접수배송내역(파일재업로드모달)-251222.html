@@ -255,35 +255,14 @@
       }
       .file-upload-box {
         width: 100%;
-        min-height: 180px;
-        border: 1px dashed #d7d7d7;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #fafafa;
-        padding: 20px;
-        margin-bottom: 20px;
-      }
-      .upload-action-row {
-        display: flex;
-        gap: 8px;
-        justify-content: center;
-      }
-      .upload-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 40px;
-        padding: 0 20px;
-        border: 1px solid #dcdcdc;
-        background: #fff;
+        height: 52px;
+        border: 1px solid #d7d7d7;
         border-radius: 6px;
-        font-size: 13px;
-        font-weight: 500;
-        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
         cursor: pointer;
-        min-width: 100px;
       }
       .file-list-container {
         border: 1px solid #e8e8e9;
@@ -377,35 +356,34 @@
             작업 가이드 기준에 맞게 작업된 파일을 업로드해주세요
           </p>
 
-          <div id="direct-upload-section">
-            <div class="file-upload-box">
-              <div style="text-align: center; width: 100%">
-                <svg
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  style="margin: 0 auto 8px; color: #b0b0b0"
-                >
-                  <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                  <path
-                    d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"
-                  />
-                  <path d="M12 11v6M9 14l3-3 3 3" />
-                </svg>
-                <p style="font-size: 14px; color: #333; margin-bottom: 16px">
-                  파일을 선택하여 업로드할 수 있어요
-                </p>
-
-                <div class="upload-action-row">
-                  <label for="file-input" class="upload-btn">
-                    직접 업로드
-                  </label>
-                  <button class="upload-btn" onclick="openStorageModal()">
-                    파일 보관함
-                  </button>
-                </div>
-              </div>
+          <nav class="modal-tab-nav-main">
+            <div
+              class="single-chip single-chip-on"
+              id="tab-direct"
+              onclick="switchMainTab('direct')"
+            >
+              직접 업로드
             </div>
+            <div
+              class="single-chip single-chip-off"
+              id="tab-storage"
+              onclick="openStorageModal()"
+            >
+              파일 보관함
+            </div>
+          </nav>
+
+          <div id="direct-upload-section">
+            <label for="file-input" class="file-upload-box">
+              <svg width="20" height="20" viewBox="0 0 24 24">
+                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                <path
+                  d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"
+                />
+                <path d="M12 11v6M9 14l3-3 3 3" />
+              </svg>
+              <span>파일 선택</span>
+            </label>
             <input
               type="file"
               id="file-input"
@@ -614,6 +592,12 @@
 
       function openStorageModal() {
         document.getElementById("main-storage-modal").classList.add("active");
+        document
+          .getElementById("tab-storage")
+          .classList.replace("single-chip-off", "single-chip-on");
+        document
+          .getElementById("tab-direct")
+          .classList.replace("single-chip-on", "single-chip-off");
         document.body.style.overflow = "hidden";
       }
 
@@ -622,6 +606,19 @@
           .getElementById("main-storage-modal")
           .classList.remove("active");
         document.body.style.overflow = "";
+      }
+
+      function switchMainTab(type) {
+        if (type === "direct") {
+          document
+            .getElementById("tab-direct")
+            .classList.replace("single-chip-off", "single-chip-on");
+          document
+            .getElementById("tab-storage")
+            .classList.replace("single-chip-on", "single-chip-off");
+        } else {
+          openStorageModal();
+        }
       }
 
       function handleFileSelect(e) {
