@@ -1,607 +1,609 @@
 <!DOCTYPE html>
 <html lang="ko">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>현금영수증 발급 (신청)</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        /* [v12] Master Guide CSS */
+      /* [v12] Master Guide CSS */
+      .disqus-thread-wrap {
+        position: fixed;
+        top: 40px;
+        right: 40px;
+        width: 450px;
+        height: 100%;
+        overflow: auto;
+      }
+
+      @media all and (max-width: 1490px) {
         .disqus-thread-wrap {
-            position: fixed;
-            top: 40px;
-            right: 40px;
-            width: 450px;
-            height: 100%;
-            overflow: auto;
+          display: none;
         }
+      }
 
-        @media all and (max-width: 1490px) {
-            .disqus-thread-wrap {
-                display: none;
-            }
-        }
+      .disqus-thread-wrap {
+        position: fixed;
+        top: 40px;
+        right: 40px;
+        width: 450px;
+        height: 100%;
+        overflow: auto;
+      }
 
+      @media all and (max-width: 1490px) {
         .disqus-thread-wrap {
-            position: fixed;
-            top: 40px;
-            right: 40px;
-            width: 450px;
-            height: 100%;
-            overflow: auto;
-        }
-
-        @media all and (max-width: 1490px) {
-            .disqus-thread-wrap {
-                display: none;
-            }
-        }
-
-        /* Reset & Base */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html,
-        body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f5f7;
-            color: #333;
-            font-size: 16px;
-            line-height: 1.6;
-            overflow-x: visible;
-        }
-
-        ul,
-        li {
-            list-style: none;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        button {
-            font-family: inherit;
-            border: none;
-            cursor: pointer;
-            background: none;
-            padding: 0;
-        }
-
-        img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-
-        input {
-            font-family: inherit;
-        }
-
-        svg {
-            stroke-width: 2;
-            fill: none;
-            stroke: currentColor;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            flex-shrink: 0;
-            display: block;
-        }
-
-        /* Layout */
-        .mobile-wrap {
-            width: 100%;
-            max-width: 480px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding-bottom: 20px;
-            /* Pagination 여백 */
-        }
-
-        /* Header (v12 Standard) */
-        .app-header-sub {
-            height: 56px;
-            background: white;
-            border-bottom: 1px solid #cccccc;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            color: #333;
-        }
-
-        .header-btn:active {
-            transform: scale(0.9);
-        }
-
-        .header-left {
-            flex: 1 0 0;
-            display: flex;
-            justify-content: flex-start;
-        }
-
-        .header-title {
-            flex: 3 0 0;
-            font-size: 18px;
-            font-weight: 600;
-            text-align: center;
-            color: #212121;
-        }
-
-        .header-right {
-            flex: 1 0 0;
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-        }
-
-        .btn-icon {
-            cursor: pointer;
-            transition: transform 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            color: #333;
-        }
-
-        .btn-icon:active {
-            transform: scale(0.9);
-        }
-
-        .btn-icon svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Buttons (v12 Standard + Primary) */
-        .primary-button {
-            background-color: #4e6ee4;
-            color: white;
-            height: 44px;
-            padding: 7px 19px;
-            border-radius: 6px;
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: fit-content;
-        }
-
-        .primary-button:hover {
-            background: #3d5dd3;
-        }
-
-        .primary-button:active {
-            transform: scale(0.98);
-        }
-
-        .dark-button {
-            background: #424242;
-            color: white;
-            height: 44px;
-            padding: 7px 19px;
-            border-radius: 6px;
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: fit-content;
-        }
-
-        .dark-button:hover {
-            background: #333;
-        }
-
-        .dark-button:active {
-            transform: scale(0.98);
-        }
-
-        .white-button {
-            background: white;
-            color: #424242;
-            height: 44px;
-            padding: 7px 19px;
-            border-radius: 6px;
-            border: 1px solid #e8e8e9;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: fit-content;
-        }
-
-        .white-button:hover {
-            background: #f9f9f9;
-        }
-
-        .white-button:active {
-            transform: scale(0.98);
-        }
-
-        .dark-button:disabled,
-        .white-button:disabled,
-        .primary-button:disabled {
-            background-color: #e9ecef;
-            color: #adb5bd;
-            border-color: #e9ecef;
-            cursor: not-allowed;
-        }
-
-        /* Main Content */
-        .sw-container {
-            padding: 16px;
-        }
-
-        /* [NEW] Page Tabs (v12 Tab-Nav Style) */
-        .page-tabs {
-            width: 100%;
-            height: 44px;
-            /* v12 standard height */
-            background: white;
-            border-bottom: 1px solid #e8e8e9;
-            display: flex;
-            align-items: flex-end;
-            padding: 0 20px 1px 20px;
-            overflow-x: auto;
-            white-space: nowrap;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .page-tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .page-tab-item {
-            height: 42px;
-            padding: 10px 4px;
-            font-size: 16px;
-            /* v12 standard font size */
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-right: 16px;
-            position: relative;
-            color: #bcbcbc;
-            /* Inactive color */
-            border-bottom: 2px solid transparent;
-            flex-shrink: 0;
-            /* Prevent shrinking */
-        }
-
-        .page-tab-item.active {
-            color: black;
-            border-bottom: 2px solid black;
-        }
-
-        .page-tab-item:hover {
-            opacity: 0.8;
-        }
-
-
-        /* Account Section (v14) */
-        /* [MODIFIED] Lighter style for info-section */
-        .info-section {
-            background: #f8f8f9;
-            border: 1px solid #f0f0f0;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
-        .info-section .title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 8px;
-        }
-
-        /* [MODIFIED] Lighter title color */
-        .info-section .balance-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .info-section .balance {
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .info-section .balance-row .primary-button {
-            height: 36px;
-            font-size: 13px;
-        }
-
-        .account-info-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 0;
-            cursor: pointer;
-        }
-
-        .account-info-row:hover {
-            background-color: #f8f8f8;
-        }
-
-        .account-info {
-            font-size: 14px;
-            color: #333;
-            word-break: keep-all;
-            flex-grow: 1;
-            margin-right: 8px;
-        }
-
-        .account-info strong {
-            font-weight: 600;
-        }
-
-        .account-chevron {
-            width: 16px;
-            height: 16px;
-            color: #888;
-            flex-shrink: 0;
-        }
-
-        .info-sub-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            font-size: 14px;
-        }
-
-        .info-sub-row .label {
-            color: #555;
-        }
-
-        .info-sub-row .value {
-            color: #333;
-            font-weight: 600;
-        }
-
-        /* Filter Chip Section */
-        .filter-chip-section {
-            background: #fff;
-            padding: 8px 16px;
-            margin: 0 -16px;
-        }
-
-        .tabs-scroll-wrapper {
-            overflow-x: auto;
-            white-space: nowrap;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .tabs-scroll-wrapper::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-chip-section .tabs-scroll-wrapper {
-            display: flex;
-            gap: 8px;
-        }
-
-        .filter-chip-section .single-chip,
-        .filter-chip-section .multi-chip {
-            /* [MODIFIED] Apply to both chip types */
-            flex-shrink: 0;
-            white-space: nowrap;
-        }
-
-        /* Filter Section (v15) */
-        .filter-section {
-            padding: 0 0 16px 0;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-
-        .text-select-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            user-select: none;
-            padding: 8px 0;
-        }
-
-        .text-select-button:hover {
-            opacity: 0.8;
-        }
-
-        .text-select-button:active {
-            transform: scale(0.98);
-        }
-
-        .text-select-button-text {
-            font-size: 12px;
-            color: #333;
-            font-weight: 400;
-            white-space: nowrap;
-        }
-
-        .text-select-button-arrow {
-            width: 12px;
-            height: 12px;
-            color: #555;
-        }
-
-        .text-select-button-arrow svg {
-            width: 12px;
-            height: 12px;
-            transition: transform 0.2s;
-        }
-
-        .text-select-button.open .text-select-button-arrow svg {
-            transform: rotate(-180deg);
-        }
-
-        /* Transaction List Header */
-        .transaction-list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            color: #555;
-            padding: 16px;
-            margin: 0 -16px;
-            background-color: white;
-            position: sticky;
-            top: 56px;
-            z-index: 100;
-            margin-bottom: 5px;
-        }
-
-        /* [MODIFIED] Req 3: total-count styles */
-        .transaction-list-header .total-count {
-            font-size: 14px;
-            color: #555;
-        }
-
-        .transaction-list-header .total-count strong {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .view-count-select {
-            display: inline-flex;
-            align-items: center;
-            gap: 2px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            user-select: none;
-        }
-
-        .view-count-select:hover {
-            opacity: 0.8;
-        }
-
-        .view-count-select:active {
-            transform: scale(0.98);
-        }
-
-        .view-count-select-text {
-            font-size: 14px;
-            color: #2c2c2c;
-            font-weight: 400;
-            white-space: nowrap;
-        }
-
-        .view-count-select-arrow {
-            width: 12px;
-            height: 12px;
-        }
-
-        .view-count-select-arrow svg {
-            transition: transform 0.2s;
-            transform: translateY(-2px);
-        }
-
-        .transaction-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 24px;
-            /* Pagination 여백 */
-        }
-
-        .no-transactions {
-            padding: 40px 16px;
-            text-align: center;
-            color: #888;
-            font-size: 14px;
-        }
-
-        /* [NEW] v12 common-table-card (for Tax Invoice) */
-        .common-table-card {
-            width: 100%;
-            background: white;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            padding: 15px;
-            position: relative;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            /* [MODIFIED] margin-bottom: 15px; */
-            margin-bottom: 15px;
-        }
-
-        .card-column1 {
-            font-size: 16px;
-            font-weight: 500;
-            color: #212121;
-        }
-
-        /* [MODIFIED] Req 1: 접수번호 텍스트 버튼 스타일 */
-        .order-button:hover {
-            opacity: 0.7;
-        }
-
-        /* [NEW] 뱃지 그룹 (for tax_request) */
-        .card-header-badges {
-            display: inline-flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 5px;
-            flex-shrink: 0;
-            /* 뱃지 축소 방지 */
-        }
-
-        .card-badge {
-            background: white;
-            border: 1px solid #d7d7d7;
-            border-radius: 30px;
-            padding: 2px 10px;
-            font-size: 10px;
-            color: black;
-        }
-
-        /* [REMOVED] Req 2: card-column2 제거
+          display: none;
+        }
+      }
+
+      /* Reset & Base */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #f4f5f7;
+        color: #333;
+        font-size: 16px;
+        line-height: 1.6;
+        overflow-x: visible;
+      }
+
+      ul,
+      li {
+        list-style: none;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      button {
+        font-family: inherit;
+        border: none;
+        cursor: pointer;
+        background: none;
+        padding: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+
+      input {
+        font-family: inherit;
+      }
+
+      svg {
+        stroke-width: 2;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+        display: block;
+      }
+
+      /* Layout */
+      .mobile-wrap {
+        width: 100%;
+        max-width: 480px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding-bottom: 20px;
+        /* Pagination 여백 */
+      }
+
+      /* Header (v12 Standard) */
+      .app-header-sub {
+        height: 56px;
+        background: white;
+        border-bottom: 1px solid #cccccc;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+        transition: transform 0.2s;
+        color: #333;
+      }
+
+      .header-btn:active {
+        transform: scale(0.9);
+      }
+
+      .header-left {
+        flex: 1 0 0;
+        display: flex;
+        justify-content: flex-start;
+      }
+
+      .header-title {
+        flex: 3 0 0;
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+        color: #212121;
+      }
+
+      .header-right {
+        flex: 1 0 0;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .btn-icon {
+        cursor: pointer;
+        transition: transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        color: #333;
+      }
+
+      .btn-icon:active {
+        transform: scale(0.9);
+      }
+
+      .btn-icon svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Buttons (v12 Standard + Primary) */
+      .primary-button {
+        background-color: #4e6ee4;
+        color: white;
+        height: 44px;
+        padding: 7px 19px;
+        border-radius: 6px;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: fit-content;
+      }
+
+      .primary-button:hover {
+        background: #3d5dd3;
+      }
+
+      .primary-button:active {
+        transform: scale(0.98);
+      }
+
+      .dark-button {
+        background: #424242;
+        color: white;
+        height: 44px;
+        padding: 7px 19px;
+        border-radius: 6px;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: fit-content;
+      }
+
+      .dark-button:hover {
+        background: #333;
+      }
+
+      .dark-button:active {
+        transform: scale(0.98);
+      }
+
+      .white-button {
+        background: white;
+        color: #424242;
+        height: 44px;
+        padding: 7px 19px;
+        border-radius: 6px;
+        border: 1px solid #e8e8e9;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: fit-content;
+      }
+
+      .white-button:hover {
+        background: #f9f9f9;
+      }
+
+      .white-button:active {
+        transform: scale(0.98);
+      }
+
+      .dark-button:disabled,
+      .white-button:disabled,
+      .primary-button:disabled {
+        background-color: #e9ecef;
+        color: #adb5bd;
+        border-color: #e9ecef;
+        cursor: not-allowed;
+      }
+
+      /* Main Content */
+      .sw-container {
+        padding: 16px;
+      }
+
+      /* [NEW] Page Tabs (v12 Tab-Nav Style) */
+      .page-tabs {
+        width: 100%;
+        height: 44px;
+        /* v12 standard height */
+        background: white;
+        border-bottom: 1px solid #e8e8e9;
+        display: flex;
+        align-items: flex-end;
+        padding: 0 20px 1px 20px;
+        overflow-x: auto;
+        white-space: nowrap;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .page-tabs::-webkit-scrollbar {
+        display: none;
+      }
+
+      .page-tab-item {
+        height: 42px;
+        padding: 10px 4px;
+        font-size: 16px;
+        /* v12 standard font size */
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-right: 16px;
+        position: relative;
+        color: #bcbcbc;
+        /* Inactive color */
+        border-bottom: 2px solid transparent;
+        flex-shrink: 0;
+        /* Prevent shrinking */
+      }
+
+      .page-tab-item.active {
+        color: black;
+        border-bottom: 2px solid black;
+      }
+
+      .page-tab-item:hover {
+        opacity: 0.8;
+      }
+
+      /* Account Section (v14) */
+      /* [MODIFIED] Lighter style for info-section */
+      .info-section {
+        background: #f8f8f9;
+        border: 1px solid #f0f0f0;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+
+      .info-section .title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #666;
+        margin-bottom: 8px;
+      }
+
+      /* [MODIFIED] Lighter title color */
+      .info-section .balance-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .info-section .balance {
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+      }
+
+      .info-section .balance-row .primary-button {
+        height: 36px;
+        font-size: 13px;
+      }
+
+      .account-info-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 0;
+        cursor: pointer;
+      }
+
+      .account-info-row:hover {
+        background-color: #f8f8f8;
+      }
+
+      .account-info {
+        font-size: 14px;
+        color: #333;
+        word-break: keep-all;
+        flex-grow: 1;
+        margin-right: 8px;
+      }
+
+      .account-info strong {
+        font-weight: 600;
+      }
+
+      .account-chevron {
+        width: 16px;
+        height: 16px;
+        color: #888;
+        flex-shrink: 0;
+      }
+
+      .info-sub-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        font-size: 14px;
+      }
+
+      .info-sub-row .label {
+        color: #555;
+      }
+
+      .info-sub-row .value {
+        color: #333;
+        font-weight: 600;
+      }
+
+      /* Filter Chip Section */
+      .filter-chip-section {
+        background: #fff;
+        padding: 8px 16px;
+        margin: 0 -16px;
+      }
+
+      .tabs-scroll-wrapper {
+        overflow-x: auto;
+        white-space: nowrap;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .tabs-scroll-wrapper::-webkit-scrollbar {
+        display: none;
+      }
+
+      .filter-chip-section .tabs-scroll-wrapper {
+        display: flex;
+        gap: 8px;
+      }
+
+      .filter-chip-section .single-chip,
+      .filter-chip-section .multi-chip {
+        /* [MODIFIED] Apply to both chip types */
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      /* Filter Section (v15) */
+      .filter-section {
+        padding: 0 0 16px 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      .text-select-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        user-select: none;
+        padding: 8px 0;
+      }
+
+      .text-select-button:hover {
+        opacity: 0.8;
+      }
+
+      .text-select-button:active {
+        transform: scale(0.98);
+      }
+
+      .text-select-button-text {
+        font-size: 12px;
+        color: #333;
+        font-weight: 400;
+        white-space: nowrap;
+      }
+
+      .text-select-button-arrow {
+        width: 12px;
+        height: 12px;
+        color: #555;
+      }
+
+      .text-select-button-arrow svg {
+        width: 12px;
+        height: 12px;
+        transition: transform 0.2s;
+      }
+
+      .text-select-button.open .text-select-button-arrow svg {
+        transform: rotate(-180deg);
+      }
+
+      /* Transaction List Header */
+      .transaction-list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        color: #555;
+        padding: 16px;
+        margin: 0 -16px;
+        background-color: white;
+        position: sticky;
+        top: 56px;
+        z-index: 100;
+        margin-bottom: 5px;
+      }
+
+      /* [MODIFIED] Req 3: total-count styles */
+      .transaction-list-header .total-count {
+        font-size: 14px;
+        color: #555;
+      }
+
+      .transaction-list-header .total-count strong {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .view-count-select {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        user-select: none;
+      }
+
+      .view-count-select:hover {
+        opacity: 0.8;
+      }
+
+      .view-count-select:active {
+        transform: scale(0.98);
+      }
+
+      .view-count-select-text {
+        font-size: 14px;
+        color: #2c2c2c;
+        font-weight: 400;
+        white-space: nowrap;
+      }
+
+      .view-count-select-arrow {
+        width: 12px;
+        height: 12px;
+      }
+
+      .view-count-select-arrow svg {
+        transition: transform 0.2s;
+        transform: translateY(-2px);
+      }
+
+      .transaction-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+        /* Pagination 여백 */
+      }
+
+      .no-transactions {
+        padding: 40px 16px;
+        text-align: center;
+        color: #888;
+        font-size: 14px;
+      }
+
+      /* [NEW] v12 common-table-card (for Tax Invoice) */
+      .common-table-card {
+        width: 100%;
+        background: white;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        padding: 15px;
+        position: relative;
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        /* [MODIFIED] margin-bottom: 15px; */
+        margin-bottom: 15px;
+      }
+
+      .card-column1 {
+        font-size: 16px;
+        font-weight: 500;
+        color: #212121;
+      }
+
+      /* [MODIFIED] Req 1: 접수번호 텍스트 버튼 스타일 */
+      .order-button:hover {
+        opacity: 0.7;
+      }
+
+      /* [NEW] 뱃지 그룹 (for tax_request) */
+      .card-header-badges {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 5px;
+        flex-shrink: 0;
+        /* 뱃지 축소 방지 */
+      }
+
+      .card-badge {
+        background: white;
+        border: 1px solid #d7d7d7;
+        border-radius: 30px;
+        padding: 2px 10px;
+        font-size: 10px;
+        color: black;
+      }
+
+      /* [REMOVED] Req 2: card-column2 제거
         .card-column2 {
             font-size: 16px;
             font-weight: 600;
@@ -611,891 +613,892 @@
         }
         */
 
-        /* Modified for total amount */
-        .card-divider {
-            width: 100%;
-            height: 1px;
-            background: #e8e8e9;
-            margin: 10px 0;
-        }
+      /* Modified for total amount */
+      .card-divider {
+        width: 100%;
+        height: 1px;
+        background: #e8e8e9;
+        margin: 10px 0;
+      }
 
-        .card-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 12px;
-        }
+      .card-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 12px;
+      }
 
-        /* [NEW] Req 2: last-of-type to remove margin */
-        .card-row:last-of-type {
-            margin-bottom: 0;
-        }
+      /* [NEW] Req 2: last-of-type to remove margin */
+      .card-row:last-of-type {
+        margin-bottom: 0;
+      }
 
-        .card-row-label {
-            color: #333333;
-        }
+      .card-row-label {
+        color: #333333;
+      }
 
-        .card-row-value {
-            color: grey;
-        }
+      .card-row-value {
+        color: grey;
+      }
 
-        .card-footer {
-            padding-top: 10px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-        }
+      .card-footer {
+        padding-top: 10px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
 
-        .card-footer .btn {
-            height: 36px;
-            font-size: 13px;
-            padding: 0 12px;
-        }
+      .card-footer .btn {
+        height: 36px;
+        font-size: 13px;
+        padding: 0 12px;
+      }
 
-        /* [NEW] Status-specific badge colors */
-        .card-badge[data-status="미발급"] {
-            border-color: #dc3545;
-            color: #dc3545;
-        }
+      /* [NEW] Status-specific badge colors */
+      .card-badge[data-status="미발급"] {
+        border-color: #dc3545;
+        color: #dc3545;
+      }
 
-        .card-badge[data-status="발급대기"] {
-            border-color: #007bff;
-            color: #007bff;
-        }
+      .card-badge[data-status="발급대기"] {
+        border-color: #007bff;
+        color: #007bff;
+      }
 
-        .card-badge[data-status="발급실패"] {
-            border-color: #ffc107;
-            color: #ffc107;
-        }
+      .card-badge[data-status="발급실패"] {
+        border-color: #ffc107;
+        color: #ffc107;
+      }
 
-        /* [REMOVED] Req 1: 폐기처리 status badge */
-        /*
+      /* [REMOVED] Req 1: 폐기처리 status badge */
+      /*
         .card-badge[data-status="폐기처리"] {
             border-color: #28a745;
             color: #28a745;
         }
         */
 
-        /* [NEW] Req 1: Add remark style for 폐기처리 */
-        .card-badge[data-remark="폐기처리"] {
-            background-color: #ebebeb;
-            color: #5f5f5f;
-            border: 0;
+      /* [NEW] Req 1: Add remark style for 폐기처리 */
+      .card-badge[data-remark="폐기처리"] {
+        background-color: #ebebeb;
+        color: #5f5f5f;
+        border: 0;
+      }
+
+      /* [NEW] v12 Checkbox (from Master Guide) */
+      .checkbox {
+        width: 20px;
+        height: 20px;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+        flex-shrink: 0;
+      }
+
+      .checkbox-off {
+        width: 100%;
+        height: 100%;
+        background: white;
+        border: 1px solid #bdbdbd;
+        border-radius: 2px;
+      }
+
+      .checkbox-on {
+        width: 100%;
+        height: 100%;
+        background: #4e6ee4;
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .checkbox-on img {
+        width: 14px;
+        height: 14px;
+      }
+
+      .checkbox:active {
+        transform: scale(0.9);
+      }
+
+      /* [NEW] Disabled state for custom checkbox */
+      .checkbox[data-disabled="true"] .checkbox-off {
+        background-color: #f1f1f1;
+        border-color: #e0e0e0;
+        cursor: not-allowed;
+      }
+
+      .checkbox[data-disabled="true"] {
+        cursor: not-allowed;
+      }
+
+      .checkbox-text {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .checkbox-text span {
+        font-size: 14px;
+        color: #333;
+      }
+
+      /* [NEW] v12 Multi-chip (from Master Guide) */
+      .multi-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 100px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+      }
+
+      .multi-chip-off {
+        background: #fdfdfd;
+        border: 1px solid #e6e4e4;
+        color: #6d6d6d;
+      }
+
+      .multi-chip-on {
+        background: #c7d3ff;
+        border: 1px solid #4e6ee4;
+        color: #4e6ee4;
+      }
+
+      .multi-chip:active {
+        transform: scale(0.95);
+      }
+
+      /* [NEW] v12 Search (from Master Guide) */
+      .search {
+        width: 100%;
+        height: 40px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        position: relative;
+      }
+
+      .search input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        color: black;
+      }
+
+      .search input::placeholder {
+        color: #c6c6c8;
+      }
+
+      .search-input-right {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+
+      .search-del {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        display: none;
+      }
+
+      .search.has-text .search-del {
+        display: flex;
+      }
+
+      .search-icon,
+      .btn-search {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .search-icon:active,
+      .btn-search:active {
+        transform: scale(0.9);
+      }
+
+      .search-del img,
+      .btn-search img,
+      .search-icon img {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* [v17] Pagination (Master Guide Img) */
+      .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        margin-bottom: 24px;
+        /* [MODIFIED] Added bottom margin */
+      }
+
+      .pagination-arrow {
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+        transition: transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .pagination-arrow img {
+        width: 100%;
+        height: auto;
+      }
+
+      .pagination-arrow:active {
+        transform: scale(0.9);
+      }
+
+      .pagination-arrow.disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      .pagination-numbers {
+        display: flex;
+        gap: 3px;
+      }
+
+      .pagination-number {
+        min-width: 28px;
+        height: 28px;
+        padding: 4px 5px;
+        border-radius: 4px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+      }
+
+      .pagination-number.active {
+        background: #4e6ee4;
+        color: white;
+      }
+
+      .pagination-number:not(.active) {
+        background: white;
+        color: #bcbcbc;
+      }
+
+      .pagination-number:not(.active):hover {
+        background: #f5f5f5;
+      }
+
+      .pagination-number:active {
+        transform: scale(0.95);
+      }
+
+      /* [NEW] Sticky Footer Bar */
+      .sticky-footer-bar {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 480px;
+        /* Match .mobile-wrap */
+        background: #ffffff;
+        border-top: 1px solid #e0e0e0;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+        padding: 20px;
+        display: none;
+        /* Hidden by default */
+        align-items: center;
+        justify-content: space-between;
+        z-index: 500;
+        animation: slideUpFooter 0.3s ease-out;
+      }
+
+      .sticky-footer-bar.active {
+        display: flex;
+      }
+
+      @keyframes slideUpFooter {
+        from {
+          transform: translate(-50%, 100%);
         }
 
-
-        /* [NEW] v12 Checkbox (from Master Guide) */
-        .checkbox {
-            width: 20px;
-            height: 20px;
-            position: relative;
-            cursor: pointer;
-            user-select: none;
-            flex-shrink: 0;
+        to {
+          transform: translate(-50%, 0);
         }
+      }
 
-        .checkbox-off {
-            width: 100%;
-            height: 100%;
-            background: white;
-            border: 1px solid #bdbdbd;
-            border-radius: 2px;
-        }
+      .sticky-footer-bar span {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+      }
 
-        .checkbox-on {
-            width: 100%;
-            height: 100%;
-            background: #4e6ee4;
-            border-radius: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      .sticky-footer-bar .dark-button {
+        width: auto;
+        /* Override default 100% width */
+        flex-shrink: 0;
+      }
 
-        .checkbox-on img {
-            width: 14px;
-            height: 14px;
-        }
+      /* v12 Standard .single-chip */
+      .single-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 100px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+      }
 
-        .checkbox:active {
-            transform: scale(0.9);
-        }
+      .single-chip-off {
+        background: #f5f5f6;
+        color: #8a8a92;
+      }
 
-        /* [NEW] Disabled state for custom checkbox */
-        .checkbox[data-disabled="true"] .checkbox-off {
-            background-color: #f1f1f1;
-            border-color: #e0e0e0;
-            cursor: not-allowed;
-        }
+      .single-chip-on {
+        background: #4e6ee4;
+        color: white;
+      }
 
-        .checkbox[data-disabled="true"] {
-            cursor: not-allowed;
-        }
+      .single-chip:active {
+        transform: scale(0.95);
+      }
 
-        .checkbox-text {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            user-select: none;
-        }
+      /* v12 Standard .disclaimer */
+      .disclaimer {
+        font-size: 12px;
+        color: #888;
+        margin-top: 8px;
+        line-height: 1.5;
+      }
 
-        .checkbox-text span {
-            font-size: 14px;
-            color: #333;
-        }
+      .disclaimer.warning {
+        color: #dc3545;
+      }
 
-        /* [NEW] v12 Multi-chip (from Master Guide) */
-        .multi-chip {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px 12px;
-            border-radius: 100px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-
-        .multi-chip-off {
-            background: #fdfdfd;
-            border: 1px solid #e6e4e4;
-            color: #6d6d6d;
-        }
-
-        .multi-chip-on {
-            background: #c7d3ff;
-            border: 1px solid #4e6ee4;
-            color: #4e6ee4;
-        }
-
-        .multi-chip:active {
-            transform: scale(0.95);
-        }
-
-        /* [NEW] v12 Search (from Master Guide) */
-        .search {
-            width: 100%;
-            height: 40px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 12px;
-            position: relative;
-        }
-
-        .search input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: black;
-        }
-
-        .search input::placeholder {
-            color: #c6c6c8;
-        }
-
-        .search-input-right {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-        }
-
-        .search-del {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            display: none;
-        }
-
-        .search.has-text .search-del {
-            display: flex;
-        }
-
-        .search-icon,
-        .btn-search {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .search-icon:active,
-        .btn-search:active {
-            transform: scale(0.9);
-        }
-
-        .search-del img,
-        .btn-search img,
-        .search-icon img {
-            width: 100%;
-            height: 100%;
-        }
-
-
-        /* [v17] Pagination (Master Guide Img) */
-        .pagination {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            margin-bottom: 24px;
-            /* [MODIFIED] Added bottom margin */
-        }
-
-        .pagination-arrow {
-            width: 15px;
-            height: 15px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .pagination-arrow img {
-            width: 100%;
-            height: auto;
-        }
-
-        .pagination-arrow:active {
-            transform: scale(0.9);
-        }
-
-        .pagination-arrow.disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .pagination-numbers {
-            display: flex;
-            gap: 3px;
-        }
-
-        .pagination-number {
-            min-width: 28px;
-            height: 28px;
-            padding: 4px 5px;
-            border-radius: 4px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-
-        .pagination-number.active {
-            background: #4e6ee4;
-            color: white;
-        }
-
-        .pagination-number:not(.active) {
-            background: white;
-            color: #bcbcbc;
-        }
-
-        .pagination-number:not(.active):hover {
-            background: #f5f5f5;
-        }
-
-        .pagination-number:active {
-            transform: scale(0.95);
-        }
-
-        /* [NEW] Sticky Footer Bar */
-        .sticky-footer-bar {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            /* Match .mobile-wrap */
-            background: #ffffff;
-            border-top: 1px solid #e0e0e0;
-            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
-            padding: 20px;
-            display: none;
-            /* Hidden by default */
-            align-items: center;
-            justify-content: space-between;
-            z-index: 500;
-            animation: slideUpFooter 0.3s ease-out;
-        }
-
-        .sticky-footer-bar.active {
-            display: flex;
-        }
-
-        @keyframes slideUpFooter {
-            from {
-                transform: translate(-50%, 100%);
-            }
-
-            to {
-                transform: translate(-50%, 0);
-            }
-        }
-
-        .sticky-footer-bar span {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .sticky-footer-bar .dark-button {
-            width: auto;
-            /* Override default 100% width */
-            flex-shrink: 0;
-        }
-
-        /* v12 Standard .single-chip */
-        .single-chip {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px 12px;
-            border-radius: 100px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-
-        .single-chip-off {
-            background: #f5f5f6;
-            color: #8a8a92;
-        }
-
-        .single-chip-on {
-            background: #4e6ee4;
-            color: white;
-        }
-
-        .single-chip:active {
-            transform: scale(0.95);
-        }
-
-        /* v12 Standard .disclaimer */
-        .disclaimer {
-            font-size: 12px;
-            color: #888;
-            margin-top: 8px;
-            line-height: 1.5;
-        }
-
-        .disclaimer.warning {
-            color: #dc3545;
-        }
-
-
-        /* ========================================
+      /* ========================================
            [NEW] MODAL STYLES
         ======================================== */
 
-        /* [NEW] Modal (from v19 default / v12 guide) */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 16px;
+      /* [NEW] Modal (from v19 default / v12 guide) */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 16px;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+        animation: fadeInModal 0.2s ease-out;
+      }
+
+      @keyframes fadeInModal {
+        from {
+          opacity: 0;
         }
 
-        .modal-overlay.active {
-            display: flex;
-            animation: fadeInModal 0.2s ease-out;
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* [NEW] Added fade-out for overlay closing */
+      @keyframes fadeOutModal {
+        from {
+          opacity: 1;
         }
 
-        @keyframes fadeInModal {
-            from {
-                opacity: 0;
-            }
+        to {
+          opacity: 0;
+        }
+      }
 
-            to {
-                opacity: 1;
-            }
+      .modal-content {
+        background: white;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 360px;
+        /* Modal max width */
+        max-height: 90vh;
+        /* Limit height */
+        display: flex;
+        flex-direction: column;
+        animation: scaleUpModal 0.2s ease-out;
+      }
+
+      @keyframes scaleUpModal {
+        from {
+          transform: scale(0.9);
+          opacity: 0;
         }
 
-        /* [NEW] Added fade-out for overlay closing */
-        @keyframes fadeOutModal {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
+        to {
+          transform: scale(1);
+          opacity: 1;
         }
+      }
 
-        .modal-content {
-            background: white;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 360px;
-            /* Modal max width */
-            max-height: 90vh;
-            /* Limit height */
-            display: flex;
-            flex-direction: column;
-            animation: scaleUpModal 0.2s ease-out;
-        }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        border-bottom: 1px solid #e8e8e9;
+        position: relative;
+        /* For close button */
+        height: 57px;
+        /* Match v12 modal header */
+      }
 
-        @keyframes scaleUpModal {
-            from {
-                transform: scale(0.9);
-                opacity: 0;
-            }
+      .modal-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: black;
+        text-align: left;
+      }
 
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
+      .btn-modal-close {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        color: #333;
+        /* v12 guide color */
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px;
-            border-bottom: 1px solid #e8e8e9;
-            position: relative;
-            /* For close button */
-            height: 57px;
-            /* Match v12 modal header */
-        }
+      .btn-modal-close:hover {
+        color: #000;
+      }
 
-        .modal-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: black;
-            text-align: left;
-        }
+      .btn-modal-close svg {
+        width: 100%;
+        height: 100%;
+      }
 
-        .btn-modal-close {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            color: #333;
-            /* v12 guide color */
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
+      .modal-body {
+        padding: 16px;
+        overflow-y: auto;
+        flex-grow: 1;
+      }
 
-        .btn-modal-close:hover {
-            color: #000;
-        }
+      .modal-footer {
+        padding: 16px;
+        border-top: 1px solid #e8e8e9;
+        background: #fff;
+        display: flex;
+        gap: 8px;
+        border-radius: 0 0 7px 7px;
+      }
 
-        .btn-modal-close svg {
-            width: 100%;
-            height: 100%;
-        }
+      .modal-footer .btn {
+        flex: 1;
+        height: 44px;
+        font-size: 14px;
+      }
 
-        .modal-body {
-            padding: 16px;
-            overflow-y: auto;
-            flex-grow: 1;
-        }
+      /* [NEW] Modal Form Elements (from v12 guide / sungwon_money) */
+      .form-group {
+        margin-bottom: 20px;
+      }
 
-        .modal-footer {
-            padding: 16px;
-            border-top: 1px solid #e8e8e9;
-            background: #fff;
-            display: flex;
-            gap: 8px;
-            border-radius: 0 0 7px 7px;
-        }
+      .form-group:last-child {
+        margin-bottom: 0;
+      }
 
-        .modal-footer .btn {
-            flex: 1;
-            height: 44px;
-            font-size: 14px;
-        }
+      .form-group label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+      }
 
-        /* [NEW] Modal Form Elements (from v12 guide / sungwon_money) */
-        .form-group {
-            margin-bottom: 20px;
-        }
+      .readonly-value {
+        font-size: 14px;
+        color: #333;
+        padding: 10px 12px;
+        background: #f5f5f5;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+      }
 
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
+      .input {
+        width: 100%;
+        min-height: 40px;
+        background: white;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+      }
 
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
+      .input input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        color: black;
+        line-height: 1.5;
+      }
 
-        .readonly-value {
-            font-size: 14px;
-            color: #333;
-            padding: 10px 12px;
-            background: #f5f5f5;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-        }
+      .input input::placeholder {
+        color: #c6c6c8;
+      }
 
-        .input {
-            width: 100%;
-            min-height: 40px;
-            background: white;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-        }
+      .input input:disabled {
+        background: #f5f5f5;
+        color: #888;
+        cursor: not-allowed;
+      }
 
-        .input input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: black;
-            line-height: 1.5;
-        }
+      .input.disabled {
+        background: #f5f5f5;
+      }
 
-        .input input::placeholder {
-            color: #c6c6c8;
-        }
+      /* [NEW] Modal Tab Navigation */
+      .modal-tab-nav {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
 
-        .input input:disabled {
-            background: #f5f5f5;
-            color: #888;
-            cursor: not-allowed;
-        }
+      .modal-tab-nav .single-chip {
+        font-weight: 500;
+      }
 
-        .input.disabled {
-            background: #f5f5f5;
-        }
+      .modal-tab-nav .single-chip-on {
+        background: #4e6ee4;
+        color: white;
+      }
 
-        /* [NEW] Modal Tab Navigation */
-        .modal-tab-nav {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        .modal-tab-nav .single-chip {
-            font-weight: 500;
-        }
-
-        .modal-tab-nav .single-chip-on {
-            background: #4e6ee4;
-            color: white;
-        }
-
-        /* ========================================
+      /* ========================================
            [NEW] FULL MODAL STYLES (Req 2)
         ======================================== */
-        .full-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: flex-end;
-            /* Align to the right */
-            z-index: 1000;
-            animation: fadeInModal 0.3s ease-out;
-            /* Same fade-in for overlay */
+      .full-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: flex-end;
+        /* Align to the right */
+        z-index: 1000;
+        animation: fadeInModal 0.3s ease-out;
+        /* Same fade-in for overlay */
+      }
+
+      .full-modal-overlay.active {
+        display: flex;
+      }
+
+      .full-modal-overlay.closing {
+        animation: fadeOutModal 0.3s ease-out forwards;
+      }
+
+      .full-modal-content {
+        width: 100%;
+        /* [MODIFIED] max-width: 480px; -> 100% */
+        height: 100%;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        animation: slideInFromRight 0.3s ease-out;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+
+      .full-modal-overlay.closing .full-modal-content {
+        animation: slideOutToRight 0.3s ease-out forwards;
+      }
+
+      /* [NEW] Re-use existing modal header/body/footer but adapt for full-modal */
+      .full-modal-content .modal-header {
+        /* Use existing .modal-header styles */
+        position: sticky;
+        /* Stick to top */
+        top: 0;
+        background: white;
+        z-index: 1;
+      }
+
+      .full-modal-content .modal-body {
+        /* Use existing .modal-body styles */
+        overflow-y: auto;
+        flex-grow: 1;
+        /* [NEW] Add padding for sticky footer */
+        padding-bottom: 96px;
+      }
+
+      .full-modal-content .modal-footer {
+        /* Use existing .modal-footer styles */
+        position: sticky;
+        /* Stick to bottom */
+        bottom: 0;
+        background: white;
+        z-index: 1;
+      }
+
+      @keyframes slideInFromRight {
+        from {
+          transform: translateX(100%);
         }
 
-        .full-modal-overlay.active {
-            display: flex;
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideOutToRight {
+        from {
+          transform: translateX(0);
         }
 
-        .full-modal-overlay.closing {
-            animation: fadeOutModal 0.3s ease-out forwards;
+        to {
+          transform: translateX(100%);
+        }
+      }
+
+      /* [v12] Bottom Sheet Standard CSS */
+
+      /* 1. Overlay & Animations */
+      .bottom-sheet-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: flex-end;
+        justify-content: center;
+        z-index: 1000;
+        animation: fadeIn 0.2s ease-out;
+      }
+
+      .bottom-sheet-overlay.active {
+        display: flex;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
         }
 
-        .full-modal-content {
-            width: 100%;
-            /* [MODIFIED] max-width: 480px; -> 100% */
-            height: 100%;
-            background: white;
-            display: flex;
-            flex-direction: column;
-            animation: slideInFromRight 0.3s ease-out;
-            max-width: 480px;
-            margin: 0 auto;
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
         }
 
-        .full-modal-overlay.closing .full-modal-content {
-            animation: slideOutToRight 0.3s ease-out forwards;
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateY(0);
         }
 
-        /* [NEW] Re-use existing modal header/body/footer but adapt for full-modal */
-        .full-modal-content .modal-header {
-            /* Use existing .modal-header styles */
-            position: sticky;
-            /* Stick to top */
-            top: 0;
-            background: white;
-            z-index: 1;
+        to {
+          transform: translateY(100%);
         }
+      }
 
-        .full-modal-content .modal-body {
-            /* Use existing .modal-body styles */
-            overflow-y: auto;
-            flex-grow: 1;
-            /* [NEW] Add padding for sticky footer */
-            padding-bottom: 96px;
-        }
+      /* 2. Sheet Container */
+      .bottom-sheet {
+        width: 100%;
+        max-width: 480px;
+        /* Mobile Wrapper Max Width */
+        background: white;
+        border-top: 1px solid #d7d7d7;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        position: relative;
+        animation: slideUp 0.3s ease-out;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+      }
 
-        .full-modal-content .modal-footer {
-            /* Use existing .modal-footer styles */
-            position: sticky;
-            /* Stick to bottom */
-            bottom: 0;
-            background: white;
-            z-index: 1;
-        }
+      .bottom-sheet.closing {
+        animation: slideDown 0.3s ease-out;
+      }
 
-        @keyframes slideInFromRight {
-            from {
-                transform: translateX(100%);
-            }
+      /* 3. Handle & Header */
+      .sheet-handle {
+        width: 27px;
+        height: 4px;
+        background: #d9d9d9;
+        border-radius: 100px;
+        margin: 10px auto;
+        cursor: grab;
+      }
 
-            to {
-                transform: translateX(0);
-            }
-        }
+      .sheet-header {
+        height: 21px;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin-bottom: 20px;
+      }
 
-        @keyframes slideOutToRight {
-            from {
-                transform: translateX(0);
-            }
+      .sheet-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: black;
+      }
 
-            to {
-                transform: translateX(100%);
-            }
-        }
+      .btn-close {
+        position: absolute;
+        right: 20px;
+        top: 0;
+        width: 21px;
+        height: 21px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #333;
+      }
 
-        /* [v12] Bottom Sheet Standard CSS */
+      /* 4. Body Content */
+      .sheet-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0 20px 20px 20px;
+      }
 
-        /* 1. Overlay & Animations */
-        .bottom-sheet-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: flex-end;
-            justify-content: center;
-            z-index: 1000;
-            animation: fadeIn 0.2s ease-out;
-        }
+      /* 5. [v12] Option List Style (For Select/Menu Types) */
+      .option-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
 
-        .bottom-sheet-overlay.active {
-            display: flex;
-        }
+      .option-list li {
+        border-bottom: 1px solid #f0f0f0;
+      }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
+      .option-list li:last-child {
+        border-bottom: none;
+      }
 
-            to {
-                opacity: 1;
-            }
-        }
+      .option-list li button {
+        display: block;
+        width: 100%;
+        padding: 16px 20px;
+        font-size: 16px;
+        color: #333;
+        text-align: left;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
 
-        @keyframes slideUp {
-            from {
-                transform: translateY(100%);
-            }
+      .option-list li button:hover {
+        background-color: #f8f8f8;
+      }
 
-            to {
-                transform: translateY(0);
-            }
-        }
+      .option-list li button:active {
+        background-color: #f0f0f0;
+      }
 
-        @keyframes slideDown {
-            from {
-                transform: translateY(0);
-            }
+      /* [NEW] 신청 상태 뱃지 스타일 */
+      .card-badge[data-apply-status="신청완료"] {
+        border-color: #4e6ee4;
+        color: #4e6ee4;
+      }
 
-            to {
-                transform: translateY(100%);
-            }
-        }
+      .card-badge[data-apply-status="미신청"] {
+        border-color: #d7d7d7;
+        color: #666;
+      }
 
-        /* 2. Sheet Container */
-        .bottom-sheet {
-            width: 100%;
-            max-width: 480px;
-            /* Mobile Wrapper Max Width */
-            background: white;
-            border-top: 1px solid #d7d7d7;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            position: relative;
-            animation: slideUp 0.3s ease-out;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-        }
+      /* [NEW] 모달 경고 박스 (이미지 참고) */
+      .modal-warning-box {
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        padding: 12px 16px;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 20px;
+        font-size: 13px;
+        color: #333;
+        line-height: 1.4;
+        display: none;
+        /* 기본 숨김 */
+      }
 
-        .bottom-sheet.closing {
-            animation: slideDown 0.3s ease-out;
-        }
+      .modal-warning-box.active {
+        display: flex;
+      }
 
-        /* 3. Handle & Header */
-        .sheet-handle {
-            width: 27px;
-            height: 4px;
-            background: #d9d9d9;
-            border-radius: 100px;
-            margin: 10px auto;
-            cursor: grab;
-        }
-
-        .sheet-header {
-            height: 21px;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .sheet-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: black;
-        }
-
-        .btn-close {
-            position: absolute;
-            right: 20px;
-            top: 0;
-            width: 21px;
-            height: 21px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #333;
-        }
-
-        /* 4. Body Content */
-        .sheet-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 0 20px 20px 20px;
-        }
-
-        /* 5. [v12] Option List Style (For Select/Menu Types) */
-        .option-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .option-list li {
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .option-list li:last-child {
-            border-bottom: none;
-        }
-
-        .option-list li button {
-            display: block;
-            width: 100%;
-            padding: 16px 20px;
-            font-size: 16px;
-            color: #333;
-            text-align: left;
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .option-list li button:hover {
-            background-color: #f8f8f8;
-        }
-
-        .option-list li button:active {
-            background-color: #f0f0f0;
-        }
-
-        /* [NEW] 신청 상태 뱃지 스타일 */
-        .card-badge[data-apply-status="신청완료"] {
-            border-color: #4e6ee4;
-            color: #4e6ee4;
-        }
-
-        .card-badge[data-apply-status="미신청"] {
-            border-color: #d7d7d7;
-            color: #666;
-        }
-
-        /* [NEW] 모달 경고 박스 (이미지 참고) */
-        .modal-warning-box {
-            background-color: #f5f5f5;
-            border-radius: 4px;
-            padding: 12px 16px;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #333;
-            line-height: 1.4;
-            display: none;
-            /* 기본 숨김 */
-        }
-
-        .modal-warning-box.active {
-            display: flex;
-        }
-
-        .modal-warning-box svg {
-            width: 16px;
-            height: 16px;
-            color: #999;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
+      .modal-warning-box svg {
+        width: 16px;
+        height: 16px;
+        color: #999;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="mobile-wrap">
-
-        <header class="app-header-sub">
-            <div class="header-left">
-                <button type="button" class="header-btn" onclick="history.back();">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        id="icon-chevron-left">
-                        <path d="M15 6l-6 6l6 6" />
-                    </svg>
-                </button>
-            </div>
-            <h1 class="header-title">현금영수증 발급</h1>
-            <div class="header-right">
-                <!-- <button type="button" class="btn-icon">
+      <header class="app-header-sub">
+        <div class="header-left">
+          <button type="button" class="header-btn" onclick="history.back();">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              id="icon-chevron-left"
+            >
+              <path d="M15 6l-6 6l6 6" />
+            </svg>
+          </button>
+        </div>
+        <h1 class="header-title">현금영수증 발급</h1>
+        <div class="header-right">
+          <!-- <button type="button" class="btn-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
                         <path d="M21 21l-6 -6" />
@@ -1509,235 +1512,430 @@
                         <path d="M6 5l14 1l-1 7h-13" />
                     </svg>
                 </button> -->
-            </div>
-        </header>
+        </div>
+      </header>
 
-        <main>
-            <nav class="page-tabs" id="page-tab-nav">
-                <div class="page-tab-item active" data-page="request" onclick="selectPageTab(this)">신청</div>
-                <div class="page-tab-item" data-page="issue" onclick="location.href='마이페이지-현금영수증(발급내역).html';">발급 내역
+      <main>
+        <nav class="page-tabs" id="page-tab-nav">
+          <div
+            class="page-tab-item active"
+            data-page="request"
+            onclick="selectPageTab(this)"
+          >
+            신청
+          </div>
+          <div
+            class="page-tab-item"
+            data-page="issue"
+            onclick="location.href='마이페이지-현금영수증(발급내역).html';"
+          >
+            발급 내역
+          </div>
+        </nav>
+
+        <div id="page-content-request" style="display: block">
+          <div class="sw-container">
+            <section class="filter-section" style="padding-bottom: 8px">
+              <div class="tabs-scroll-wrapper" id="period-chip-group">
+                <div class="single-chip single-chip-on" data-period="current">
+                  2025년 8월
                 </div>
-            </nav>
+              </div>
+            </section>
 
-            <div id="page-content-request" style="display: block;">
-                <div class="sw-container">
+            <section class="filter-chip-section">
+              <div class="tabs-scroll-wrapper" id="apply-status-chip-group">
+                <div
+                  class="multi-chip multi-chip-on"
+                  data-status="전체"
+                  onclick="toggleStatusChip(this)"
+                >
+                  ✓ 전체
+                </div>
+                <div
+                  class="multi-chip multi-chip-off"
+                  data-status="미신청"
+                  onclick="toggleStatusChip(this)"
+                >
+                  미신청
+                </div>
+                <div
+                  class="multi-chip multi-chip-off"
+                  data-status="신청완료"
+                  onclick="toggleStatusChip(this)"
+                >
+                  신청완료
+                </div>
+              </div>
+            </section>
 
-                    <section class="filter-section" style="padding-bottom: 8px;">
-                        <div class="tabs-scroll-wrapper" id="period-chip-group">
-                            <div class="single-chip single-chip-on" data-period="current">
-                                2025년 8월</div>
-                        </div>
-                    </section>
+            <section class="filter-chip-section" style="margin-bottom: 8px">
+              <div class="tabs-scroll-wrapper" id="status-chip-group">
+                <div
+                  class="multi-chip multi-chip-off"
+                  data-status="전체"
+                  onclick="toggleStatusChip(this)"
+                >
+                  전체
+                </div>
+                <div
+                  class="multi-chip multi-chip-on"
+                  data-status="미발급"
+                  onclick="toggleStatusChip(this)"
+                >
+                  ✓ 미발급
+                </div>
+                <div
+                  class="multi-chip multi-chip-on"
+                  data-status="발급대기"
+                  onclick="toggleStatusChip(this)"
+                >
+                  ✓ 발급대기
+                </div>
+                <div
+                  class="multi-chip multi-chip-off"
+                  data-status="발급실패"
+                  onclick="toggleStatusChip(this)"
+                >
+                  발급실패
+                </div>
+              </div>
+            </section>
 
-                    <section class="filter-chip-section">
-                        <div class="tabs-scroll-wrapper" id="apply-status-chip-group">
-                            <div class="multi-chip multi-chip-on" data-status="전체" onclick="toggleStatusChip(this)">✓ 전체
-                            </div>
-                            <div class="multi-chip multi-chip-off" data-status="미신청" onclick="toggleStatusChip(this)">
-                                미신청
-                            </div>
-                            <div class="multi-chip multi-chip-off" data-status="신청완료" onclick="toggleStatusChip(this)">
-                                신청완료
-                            </div>
-                        </div>
-                    </section>
+            <section
+              class="filter-section"
+              style="
+                padding-top: 0;
+                border-bottom: 1px solid #e9e9e9;
+                padding-left: 16px;
+                padding-right: 16px;
+                margin: 0 -16px;
+              "
+            >
+              <div class="search" data-name="search" id="tax-search">
+                <input
+                  type="text"
+                  placeholder="접수번호를 입력해주세요"
+                  oninput="handleSearchInput(this)"
+                />
+                <div class="search-input-right">
+                  <div class="search-del" onclick="clearSearch(this)">
+                    <img src="assets/images/search-del.png" alt="지우기" />
+                  </div>
+                  <div class="btn-search" onclick="handleSearch(this)">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      id="icon-search"
+                    >
+                      <path
+                        stroke="#AAAAAD"
+                        d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"
+                      ></path>
+                      <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </section>
 
-                    <section class="filter-chip-section" style="margin-bottom: 8px;">
-                        <div class="tabs-scroll-wrapper" id="status-chip-group">
-                            <div class="multi-chip multi-chip-off" data-status="전체" onclick="toggleStatusChip(this)">전체
-                            </div>
-                            <div class="multi-chip multi-chip-on" data-status="미발급" onclick="toggleStatusChip(this)">✓
-                                미발급
-                            </div>
-                            <div class="multi-chip multi-chip-on" data-status="발급대기" onclick="toggleStatusChip(this)">✓
-                                발급대기
-                            </div>
-                            <div class="multi-chip multi-chip-off" data-status="발급실패" onclick="toggleStatusChip(this)">
-                                발급실패
-                            </div>
-                        </div>
-                    </section>
+            <section class="transaction-list-section">
+              <div class="transaction-list-header">
+                <div class="checkbox-text" onclick="toggleSelectAll(this)">
+                  <div
+                    class="checkbox"
+                    data-checked="false"
+                    id="select-all-checkbox"
+                  >
+                    <div class="checkbox-off"></div>
+                  </div>
+                  <span class="total-count"
+                    >전체선택
+                    <!-- 총 <strong id="transaction-count">2</strong>건 -->
+                  </span>
+                </div>
+                <div class="view-count-select" onclick="showViewCountSheet()">
+                  <span class="view-count-select-text" id="view-count-text"
+                    >20건씩 보기</span
+                  >
+                  <div class="view-count-select-arrow">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M6 9l6 6l6 -6" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
 
-                    <section class="filter-section"
-                        style="padding-top: 0; border-bottom: 1px solid #e9e9e9; padding-left: 16px; padding-right: 16px; margin: 0 -16px;">
-                        <div class="search" data-name="search" id="tax-search">
-                            <input type="text" placeholder="접수번호를 입력해주세요" oninput="handleSearchInput(this)">
-                            <div class="search-input-right">
-                                <div class="search-del" onclick="clearSearch(this)">
-                                    <img src="assets/images/search-del.png" alt="지우기">
-                                </div>
-                                <div class="btn-search" onclick="handleSearch(this)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
-                                        id="icon-search">
-                                        <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                        <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+              <div class="transaction-list" id="transaction-list-container">
+                <article
+                  class="common-table-card"
+                  data-status="미발급"
+                  data-apply-status="신청완료"
+                >
+                  <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 10px">
+                      <div
+                        class="checkbox"
+                        data-checked="false"
+                        data-disabled="false"
+                        onclick="toggleTaxCheckbox(this)"
+                      >
+                        <div class="checkbox-off"></div>
+                      </div>
+                      <div
+                        class="order-button"
+                        style="display: flex; align-items: baseline; gap: 6px"
+                      >
+                        <span
+                          style="font-weight: 500; color: #555; font-size: 13px"
+                          >접수번호</span
+                        >
+                        <span
+                          style="
+                            cursor: pointer;
+                            text-decoration: underline;
+                            font-size: 16px;
+                            font-weight: 600;
+                            color: #212121;
+                          "
+                          >sw765642</span
+                        >
+                      </div>
+                    </div>
+                    <div class="card-header-badges">
+                      <div class="card-badge" data-status="미발급">미발급</div>
+                      <div class="card-badge" data-apply-status="신청완료">
+                        신청완료
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-divider"></div>
+                  <div class="card-row" style="font-weight: 600">
+                    <div class="card-row-label" style="color: #333">
+                      결제금액
+                    </div>
+                    <div
+                      class="card-row-value"
+                      style="color: #333; font-size: 16px; font-weight: 700"
+                      data-field="total-amount"
+                    >
+                      ₩550,000
+                    </div>
+                  </div>
+                  <div class="card-divider"></div>
+                  <div class="card-row">
+                    <div class="card-row-label">접수일</div>
+                    <div class="card-row-value">2025-08-11</div>
+                  </div>
+                  <div class="card-row">
+                    <div class="card-row-label">배송시작일</div>
+                    <div class="card-row-value">2025-08-12</div>
+                  </div>
+                  <div class="card-footer">
+                    <button
+                      type="button"
+                      class="white-button btn"
+                      onclick="showReceiptEditModal(this, '수정', false)"
+                    >
+                      신청정보 수정
+                    </button>
+                  </div>
+                </article>
 
-                    <section class="transaction-list-section">
-                        <div class="transaction-list-header">
-                            <div class="checkbox-text" onclick="toggleSelectAll(this)">
-                                <div class="checkbox" data-checked="false" id="select-all-checkbox">
-                                    <div class="checkbox-off"></div>
-                                </div>
-                                <span class="total-count">전체선택
-                                    <!-- 총 <strong id="transaction-count">2</strong>건 -->
-                                </span>
-                            </div>
-                            <div class="view-count-select" onclick="showViewCountSheet()">
-                                <span class="view-count-select-text" id="view-count-text">20건씩 보기</span>
-                                <div class="view-count-select-arrow">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                                        <path d="M6 9l6 6l6 -6" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
+                <article
+                  class="common-table-card"
+                  data-status="미발급"
+                  data-apply-status="미신청"
+                >
+                  <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 10px">
+                      <div
+                        class="checkbox"
+                        data-checked="false"
+                        data-disabled="false"
+                        onclick="toggleTaxCheckbox(this)"
+                      >
+                        <div class="checkbox-off"></div>
+                      </div>
+                      <div
+                        class="order-button"
+                        style="display: flex; align-items: baseline; gap: 6px"
+                      >
+                        <span
+                          style="font-weight: 500; color: #555; font-size: 13px"
+                          >접수번호</span
+                        >
+                        <span
+                          style="
+                            cursor: pointer;
+                            text-decoration: underline;
+                            font-size: 16px;
+                            font-weight: 600;
+                            color: #212121;
+                          "
+                          >sw789651</span
+                        >
+                      </div>
+                    </div>
+                    <div class="card-header-badges">
+                      <div class="card-badge" data-status="미발급">미발급</div>
+                      <div class="card-badge" data-apply-status="미신청">
+                        미신청
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-divider"></div>
+                  <div class="card-row" style="font-weight: 600">
+                    <div class="card-row-label" style="color: #333">
+                      결제금액
+                    </div>
+                    <div
+                      class="card-row-value"
+                      style="color: #333; font-size: 16px; font-weight: 700"
+                      data-field="total-amount"
+                    >
+                      ₩320,000
+                    </div>
+                  </div>
+                  <div class="card-divider"></div>
+                  <div class="card-row">
+                    <div class="card-row-label">접수일</div>
+                    <div class="card-row-value">2025-08-09</div>
+                  </div>
+                  <div class="card-row">
+                    <div class="card-row-label">배송시작일</div>
+                    <div class="card-row-value">2025-08-10</div>
+                  </div>
+                  <div class="card-footer">
+                    <button
+                      type="button"
+                      class="primary-button btn"
+                      onclick="showReceiptEditModal(this, '신청', false)"
+                    >
+                      신청
+                    </button>
+                  </div>
+                </article>
 
-                        <div class="transaction-list" id="transaction-list-container">
+                <article
+                  class="common-table-card"
+                  data-status="발급대기"
+                  data-apply-status="신청완료"
+                >
+                  <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 10px">
+                      <div
+                        class="checkbox"
+                        data-checked="false"
+                        data-disabled="false"
+                        onclick="toggleTaxCheckbox(this)"
+                      >
+                        <div class="checkbox-off"></div>
+                      </div>
+                      <div
+                        class="order-button"
+                        style="display: flex; align-items: baseline; gap: 6px"
+                      >
+                        <span
+                          style="font-weight: 500; color: #555; font-size: 13px"
+                          >접수번호</span
+                        >
+                        <span
+                          style="
+                            cursor: pointer;
+                            text-decoration: underline;
+                            font-size: 16px;
+                            font-weight: 600;
+                            color: #212121;
+                          "
+                          >sw999888</span
+                        >
+                      </div>
+                    </div>
+                    <div class="card-header-badges">
+                      <div class="card-badge" data-status="발급대기">
+                        발급대기
+                      </div>
+                      <div class="card-badge" data-apply-status="신청완료">
+                        신청완료
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-divider"></div>
+                  <div class="card-row" style="font-weight: 600">
+                    <div class="card-row-label" style="color: #333">
+                      결제금액
+                    </div>
+                    <div
+                      class="card-row-value"
+                      style="color: #333; font-size: 16px; font-weight: 700"
+                      data-field="total-amount"
+                    >
+                      ₩1,250,000
+                    </div>
+                  </div>
+                  <div class="card-divider"></div>
+                  <div class="card-row">
+                    <div class="card-row-label">접수일</div>
+                    <div class="card-row-value">2025-08-01</div>
+                  </div>
+                  <div class="card-row">
+                    <div class="card-row-label">배송시작일</div>
+                    <div class="card-row-value">2025-08-03</div>
+                  </div>
+                  <div class="card-footer">
+                    <button
+                      type="button"
+                      class="white-button btn"
+                      onclick="showReceiptEditModal(this, '수정', true)"
+                    >
+                      신청정보 수정
+                    </button>
+                  </div>
+                </article>
+              </div>
 
-                            <article class="common-table-card" data-status="미발급" data-apply-status="신청완료">
-                                <div class="card-header">
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        <div class="checkbox" data-checked="false" data-disabled="false"
-                                            onclick="toggleTaxCheckbox(this)">
-                                            <div class="checkbox-off"></div>
-                                        </div>
-                                        <div class="order-button"
-                                            style="display: flex; align-items: baseline; gap: 6px;">
-                                            <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                            <span
-                                                style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw765642</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-header-badges">
-                                        <div class="card-badge" data-status="미발급">미발급</div>
-                                        <div class="card-badge" data-apply-status="신청완료">신청완료</div>
-                                    </div>
-                                </div>
-                                <div class="card-divider"></div>
-                                <div class="card-row" style="font-weight: 600;">
-                                    <div class="card-row-label" style="color: #333;">결제금액</div>
-                                    <div class="card-row-value" style="color: #333; font-size: 16px; font-weight: 700;"
-                                        data-field="total-amount">₩550,000
-                                    </div>
-                                </div>
-                                <div class="card-divider"></div>
-                                <div class="card-row">
-                                    <div class="card-row-label">접수일</div>
-                                    <div class="card-row-value">2025-08-11</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">배송시작일</div>
-                                    <div class="card-row-value">2025-08-12</div>
-                                </div>
-                                <div class="card-footer">
-                                    <button type="button" class="white-button btn"
-                                        onclick="showReceiptEditModal(this, '수정', false)">신청정보 수정</button>
-                                </div>
-                            </article>
+              <div
+                class="no-transactions"
+                id="no-request-list"
+                style="display: none"
+              >
+                신청할 현금영수증 내역이 없어요
+              </div>
 
-                            <article class="common-table-card" data-status="미발급" data-apply-status="미신청">
-                                <div class="card-header">
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        <div class="checkbox" data-checked="false" data-disabled="false"
-                                            onclick="toggleTaxCheckbox(this)">
-                                            <div class="checkbox-off"></div>
-                                        </div>
-                                        <div class="order-button"
-                                            style="display: flex; align-items: baseline; gap: 6px;">
-                                            <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                            <span
-                                                style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw789651</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-header-badges">
-                                        <div class="card-badge" data-status="미발급">미발급</div>
-                                        <div class="card-badge" data-apply-status="미신청">미신청</div>
-                                    </div>
-                                </div>
-                                <div class="card-divider"></div>
-                                <div class="card-row" style="font-weight: 600;">
-                                    <div class="card-row-label" style="color: #333;">결제금액</div>
-                                    <div class="card-row-value" style="color: #333; font-size: 16px; font-weight: 700;"
-                                        data-field="total-amount">₩320,000
-                                    </div>
-                                </div>
-                                <div class="card-divider"></div>
-                                <div class="card-row">
-                                    <div class="card-row-label">접수일</div>
-                                    <div class="card-row-value">2025-08-09</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">배송시작일</div>
-                                    <div class="card-row-value">2025-08-10</div>
-                                </div>
-                                <div class="card-footer">
-                                    <button type="button" class="primary-button btn"
-                                        onclick="showReceiptEditModal(this, '신청', false)">신청</button>
-                                </div>
-                            </article>
-
-                            <article class="common-table-card" data-status="발급대기" data-apply-status="신청완료">
-                                <div class="card-header">
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        <div class="checkbox" data-checked="false" data-disabled="false"
-                                            onclick="toggleTaxCheckbox(this)">
-                                            <div class="checkbox-off"></div>
-                                        </div>
-                                        <div class="order-button"
-                                            style="display: flex; align-items: baseline; gap: 6px;">
-                                            <span style="font-weight: 500; color: #555; font-size: 13px;">접수번호</span>
-                                            <span
-                                                style="cursor: pointer; text-decoration: underline; font-size: 16px; font-weight: 600; color: #212121;">sw999888</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-header-badges">
-                                        <div class="card-badge" data-status="발급대기">발급대기</div>
-                                        <div class="card-badge" data-apply-status="신청완료">신청완료</div>
-                                    </div>
-                                </div>
-                                <div class="card-divider"></div>
-                                <div class="card-row" style="font-weight: 600;">
-                                    <div class="card-row-label" style="color: #333;">결제금액</div>
-                                    <div class="card-row-value" style="color: #333; font-size: 16px; font-weight: 700;"
-                                        data-field="total-amount">₩1,250,000
-                                    </div>
-                                </div>
-                                <div class="card-divider"></div>
-                                <div class="card-row">
-                                    <div class="card-row-label">접수일</div>
-                                    <div class="card-row-value">2025-08-01</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">배송시작일</div>
-                                    <div class="card-row-value">2025-08-03</div>
-                                </div>
-                                <div class="card-footer">
-                                    <button type="button" class="white-button btn"
-                                        onclick="showReceiptEditModal(this, '수정', true)">신청정보 수정</button>
-                                </div>
-                            </article>
-
-                        </div>
-
-                        <div class="no-transactions" id="no-request-list" style="display: none;">신청할 현금영수증 내역이 없어요</div>
-
-
-                        <div style="margin-bottom: 24px;">
-                            <button type="button" class="white-button" style="width: 100%;"
-                                onclick="alert('더보기 동작')">더보기 <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                    height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"
-                                    class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M6 9l6 6l6 -6" />
-                                </svg></button>
-                        </div>
-                        <!-- <div class="pagination" data-name="Pagination">
+              <div style="margin-bottom: 24px">
+                <button
+                  type="button"
+                  class="white-button"
+                  style="width: 100%"
+                  onclick="alert('더보기 동작')"
+                >
+                  더보기
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M6 9l6 6l6 -6" />
+                  </svg>
+                </button>
+              </div>
+              <!-- <div class="pagination" data-name="Pagination">
                             <div class="pagination-arrow disabled" onclick="paginationFirst()">
                                 <img src="assets/images/nnext-arrow.svg" alt="처음" style="transform: rotate(90deg);">
                             </div>
@@ -1756,792 +1954,1021 @@
                                     style="transform: rotate(90deg) scaleY(-1);">
                             </div>
                         </div> -->
-                    </section>
+            </section>
 
-                    <section class="info-section">
-                        <div class="title">현금영수증 신청 이용 안내</div>
-                        <p class="disclaimer">* 성원페이로 결제한 주문만 현금영수증을 신청할 수 있어요</p>
-                        <p class="disclaimer">* 현금영수증은 배송이 시작된 후부터 신청할 수 있고, 다음 달 1일까지만 신청 가능해요</p>
-                        <p class="disclaimer">* 현금영수증은 국세청 회원가입 여부와 관계없이 발급돼요. 다만 소득공제 혜택을 받으려면 국세청 홈택스에 회원가입을 해야 해요</p>
-                        <p class="disclaimer">* 현금영수증 서비스 등록이나 자세한 내용은 국세청 홈택스(www.hometax.go.kr) 에서 확인할 수 있어요</p>
-                        <p class="disclaimer">* 자진발급한 현금영수증은 발급 내역에서 바로 확인할 수 있어요</p>
-                    </section>
+            <section class="info-section">
+              <div class="title">현금영수증 신청 이용 안내</div>
+              <p class="disclaimer">
+                * 성원페이로 결제한 주문만 현금영수증을 신청할 수 있어요
+              </p>
+              <p class="disclaimer">
+                * 현금영수증은 배송이 시작된 후부터 신청할 수 있고, 다음 달
+                1일까지만 신청 가능해요
+              </p>
+              <p class="disclaimer">
+                * 현금영수증은 국세청 회원가입 여부와 관계없이 발급돼요. 다만
+                소득공제 혜택을 받으려면 국세청 홈택스에 회원가입을 해야 해요
+              </p>
+              <p class="disclaimer">
+                * 현금영수증 서비스 등록이나 자세한 내용은 국세청
+                홈택스(www.hometax.go.kr) 에서 확인할 수 있어요
+              </p>
+              <p class="disclaimer">
+                * 자진발급한 현금영수증은 발급 내역에서 바로 확인할 수 있어요
+              </p>
+            </section>
+          </div>
+        </div>
 
-                </div>
-            </div>
-
-            <div id="page-content-issue" style="display: none;">
-            </div>
-        </main>
-
+        <div id="page-content-issue" style="display: none"></div>
+      </main>
     </div>
 
     <div class="sticky-footer-bar" id="tax-action-footer">
-        <span id="tax-selected-count">총 1건</span>
-        <button class="dark-button" id="tax-apply-button" onclick="openModalForSelection()">현금영수증 신청</button>
+      <span id="tax-selected-count">총 1건</span>
+      <button
+        class="dark-button"
+        id="tax-apply-button"
+        onclick="openModalForSelection()"
+      >
+        현금영수증 신청
+      </button>
     </div>
 
     <div class="full-modal-overlay" id="receipt-edit-modal-overlay">
-        <div class="full-modal-content" id="receipt-edit-modal">
-            <div class="modal-header">
-                <h2 class="modal-title" id="receipt-modal-title">현금영수증 신청 정보</h2>
-                <button class="btn-modal-close" onclick="closeModal('receipt-edit-modal-overlay')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-warning-box" id="modal-warning-msg">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="16" x2="12" y2="12"></line>
-                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                    </svg>
-                    <span>배송 시작 후, 현금영수증 신청 정보를 수정할 수 없습니다.</span>
-                </div>
-                <nav class="modal-tab-nav" id="receipt-edit-tabs">
-                    <div class="single-chip single-chip-on" data-tab="income-deduction"
-                        onclick="switchReceiptEditTab(this, 'income-deduction')">소득공제용</div>
-                    <div class="single-chip single-chip-off" data-tab="business-expense"
-                        onclick="switchReceiptEditTab(this, 'business-expense')">지출증빙용</div>
-                </nav>
-
-                <form id="receipt-edit-form">
-                    <div class="form-fields-wrapper" data-tab-content="income-deduction">
-                        <div class="form-group">
-                            <label for="receipt-id-income">발급번호</label>
-                            <div class="input">
-                                <input type="tel" id="receipt-id-income" placeholder="휴대폰 번호/현금영수증 카드 번호를 입력하세요">
-                            </div>
-                            <p class="disclaimer">* 외국인 고객이신 경우, 외국인 번호를 입력하세요</p>
-                        </div>
-                    </div>
-
-                    <div class="form-fields-wrapper" data-tab-content="business-expense" style="display: none;">
-                        <div class="form-group">
-                            <label for="receipt-biz-num">사업자등록번호</label>
-                            <div class="input">
-                                <input type="text" id="receipt-biz-num" placeholder="사업자 번호/현금영수증 카드 번호를 입력하세요">
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-                <div class="card-divider" style="margin-top: 24px; margin-bottom: 16px;"></div>
-                <div style="line-height: 1.5; text-align: right;">
-                    <div style="font-size: 13px; color: #666;" id="modal-receipt-count">총 1건 / 총 금액</div>
-                    <div style="font-size: 20px; color: #000; font-weight: 700;" id="modal-receipt-total">₩0</div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button class="btn dark-button" style="width: 100%;" id="receipt-modal-button"
-                    onclick="alert('신청하기 (구현 필요)')">신청하기</button>
-            </div>
+      <div class="full-modal-content" id="receipt-edit-modal">
+        <div class="modal-header">
+          <h2 class="modal-title" id="receipt-modal-title">
+            현금영수증 신청 정보
+          </h2>
+          <button
+            class="btn-modal-close"
+            onclick="closeModal('receipt-edit-modal-overlay')"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </button>
         </div>
+        <div class="modal-body">
+          <div class="modal-warning-box" id="modal-warning-msg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span
+              >배송 시작 후, 현금영수증 신청 정보를 수정할 수 없습니다.</span
+            >
+          </div>
+          <nav class="modal-tab-nav" id="receipt-edit-tabs">
+            <div
+              class="single-chip single-chip-on"
+              data-tab="income-deduction"
+              onclick="switchReceiptEditTab(this, 'income-deduction')"
+            >
+              소득공제용
+            </div>
+            <div
+              class="single-chip single-chip-off"
+              data-tab="business-expense"
+              onclick="switchReceiptEditTab(this, 'business-expense')"
+            >
+              지출증빙용
+            </div>
+          </nav>
+
+          <form id="receipt-edit-form">
+            <div
+              class="form-fields-wrapper"
+              data-tab-content="income-deduction"
+            >
+              <div class="form-group">
+                <label for="receipt-id-income">발급번호</label>
+                <div class="input">
+                  <input
+                    type="tel"
+                    id="receipt-id-income"
+                    placeholder="휴대폰 번호/현금영수증 카드 번호를 입력하세요"
+                  />
+                </div>
+                <p class="disclaimer">
+                  * 외국인 고객이신 경우, 외국인 번호를 입력하세요
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="form-fields-wrapper"
+              data-tab-content="business-expense"
+              style="display: none"
+            >
+              <div class="form-group">
+                <label for="receipt-biz-num">사업자등록번호</label>
+                <div class="input">
+                  <input
+                    type="text"
+                    id="receipt-biz-num"
+                    placeholder="사업자 번호/현금영수증 카드 번호를 입력하세요"
+                  />
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div
+            class="card-divider"
+            style="margin-top: 24px; margin-bottom: 16px"
+          ></div>
+          <div style="line-height: 1.5; text-align: right">
+            <div style="font-size: 13px; color: #666" id="modal-receipt-count">
+              총 1건 / 총 금액
+            </div>
+            <div
+              style="font-size: 20px; color: #000; font-weight: 700"
+              id="modal-receipt-total"
+            >
+              ₩0
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn dark-button"
+            style="width: 100%"
+            id="receipt-modal-button"
+            onclick="alert('신청하기 (구현 필요)')"
+          >
+            신청하기
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="bottom-sheet-overlay" id="view-count-sheet-overlay">
-        <div class="bottom-sheet" id="view-count-sheet">
-            <div class="sheet-handle" id="view-count-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">보기 설정</div>
-                <div class="btn-close" onclick="closeViewCountSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
-                </div>
-            </div>
-            <div class="sheet-body" style="padding: 0;">
-                <ul class="option-list">
-                    <li><button type="button" onclick="selectViewCount(10)">10건씩 보기</button></li>
-                    <li><button type="button" onclick="selectViewCount(20)">20건씩 보기</button></li>
-                    <li><button type="button" onclick="selectViewCount(30)">30건씩 보기</button></li>
-                    <li><button type="button" onclick="selectViewCount(40)">40건씩 보기</button></li>
-                </ul>
-            </div>
+      <div class="bottom-sheet" id="view-count-sheet">
+        <div class="sheet-handle" id="view-count-sheet-handle"></div>
+        <div class="sheet-header">
+          <div class="sheet-title">보기 설정</div>
+          <div class="btn-close" onclick="closeViewCountSheet()">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </div>
         </div>
+        <div class="sheet-body" style="padding: 0">
+          <ul class="option-list">
+            <li>
+              <button type="button" onclick="selectViewCount(10)">
+                10건씩 보기
+              </button>
+            </li>
+            <li>
+              <button type="button" onclick="selectViewCount(20)">
+                20건씩 보기
+              </button>
+            </li>
+            <li>
+              <button type="button" onclick="selectViewCount(30)">
+                30건씩 보기
+              </button>
+            </li>
+            <li>
+              <button type="button" onclick="selectViewCount(40)">
+                40건씩 보기
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <script>
-        // --- [NEW] Page Tab Logic ---
-        function selectPageTab(tab) {
-            const nav = tab.closest('#page-tab-nav');
-            if (!nav) return;
-            nav.querySelectorAll('.page-tab-item').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
+      // --- [NEW] Page Tab Logic ---
+      function selectPageTab(tab) {
+        const nav = tab.closest("#page-tab-nav");
+        if (!nav) return;
+        nav
+          .querySelectorAll(".page-tab-item")
+          .forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
 
-            const page = tab.getAttribute('data-page');
-            const requestPage = document.getElementById('page-content-request');
-            const issuePage = document.getElementById('page-content-issue');
-            const stickyFooter = document.getElementById('tax-action-footer');
+        const page = tab.getAttribute("data-page");
+        const requestPage = document.getElementById("page-content-request");
+        const issuePage = document.getElementById("page-content-issue");
+        const stickyFooter = document.getElementById("tax-action-footer");
 
-            if (page === 'issue') {
-                requestPage.style.display = 'none';
-                if (issuePage) issuePage.style.display = 'block';
-                if (stickyFooter) stickyFooter.classList.remove('active');
-                document.querySelector('.mobile-wrap').style.paddingBottom = '20px';
-            } else {
-                requestPage.style.display = 'block';
-                if (issuePage) issuePage.style.display = 'none';
-                updateTaxFooter(); // 신청 탭에서는 스티키 푸터 상태 업데이트
-            }
+        if (page === "issue") {
+          requestPage.style.display = "none";
+          if (issuePage) issuePage.style.display = "block";
+          if (stickyFooter) stickyFooter.classList.remove("active");
+          document.querySelector(".mobile-wrap").style.paddingBottom = "20px";
+        } else {
+          requestPage.style.display = "block";
+          if (issuePage) issuePage.style.display = "none";
+          updateTaxFooter(); // 신청 탭에서는 스티키 푸터 상태 업데이트
+        }
+      }
+
+      // --- [NEW] v12 Master Guide JS Components ---
+
+      // Checkbox
+      function toggleCheckbox(checkbox) {
+        const isChecked = checkbox.dataset.checked === "true";
+        if (isChecked) {
+          checkbox.dataset.checked = "false";
+          checkbox.innerHTML = '<div class="checkbox-off"></div>';
+        } else {
+          checkbox.dataset.checked = "true";
+          checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+        }
+      }
+
+      // MultiChip
+      function toggleMultiChip(chip, forceState) {
+        const isCurrentlyOn = chip.classList.contains("multi-chip-on");
+        let turnOn;
+
+        if (forceState === true) {
+          // Force On
+          turnOn = true;
+        } else if (forceState === false) {
+          // Force Off
+          turnOn = false;
+        } else {
+          // Toggle
+          turnOn = !isCurrentlyOn;
         }
 
-        // --- [NEW] v12 Master Guide JS Components ---
+        // [수정] 기존 '✓ ' replace 방식은 줄바꿈/공백 이슈로 중복될 수 있음 -> 텍스트 정제 방식 사용
+        // '✓' 문자를 제거하고 앞뒤 공백을 제거하여 순수 라벨만 추출
+        const cleanLabel = chip.textContent.replace(/✓/g, "").trim();
 
-        // Checkbox
-        function toggleCheckbox(checkbox) {
-            const isChecked = checkbox.dataset.checked === 'true';
-            if (isChecked) {
-                checkbox.dataset.checked = 'false';
-                checkbox.innerHTML = '<div class="checkbox-off"></div>';
-            } else {
-                checkbox.dataset.checked = 'true';
-                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
-            }
+        if (turnOn && !isCurrentlyOn) {
+          chip.classList.remove("multi-chip-off");
+          chip.classList.add("multi-chip-on");
+          chip.textContent = "✓ " + cleanLabel;
+        } else if (!turnOn && isCurrentlyOn) {
+          chip.classList.remove("multi-chip-on");
+          chip.classList.add("multi-chip-off");
+          chip.textContent = cleanLabel;
         }
+      }
 
-        // MultiChip
-        function toggleMultiChip(chip, forceState) {
-            const isCurrentlyOn = chip.classList.contains('multi-chip-on');
-            let turnOn;
+      // Search
+      function handleSearchInput(input) {
+        const searchBox = input.closest(".search");
+        searchBox.classList.toggle("has-text", input.value.trim() !== "");
+      }
+      function clearSearch(btn) {
+        const searchBox = btn.closest(".search");
+        const input = searchBox.querySelector("input");
+        input.value = "";
+        searchBox.classList.remove("has-text");
+        input.focus();
+      }
+      function handleSearch(btn) {
+        console.log(
+          "Search submitted:",
+          btn.closest(".search").querySelector("input").value
+        );
+      }
 
-            if (forceState === true) { // Force On
-                turnOn = true;
-            } else if (forceState === false) { // Force Off
-                turnOn = false;
-            } else { // Toggle
-                turnOn = !isCurrentlyOn;
-            }
+      // --- [NEW] Tax Invoice Page Logic ---
 
-            // [수정] 기존 '✓ ' replace 방식은 줄바꿈/공백 이슈로 중복될 수 있음 -> 텍스트 정제 방식 사용
-            // '✓' 문자를 제거하고 앞뒤 공백을 제거하여 순수 라벨만 추출
-            const cleanLabel = chip.textContent.replace(/✓/g, '').trim();
+      // [MODIFIED] Period Chip Logic - 월 선택 클릭 이벤트 제거
+      function selectPeriodChip(chip) {
+        // 월 선택은 1개만 표시되므로 클릭 이벤트 없음
+      }
 
-            if (turnOn && !isCurrentlyOn) {
-                chip.classList.remove('multi-chip-off');
-                chip.classList.add('multi-chip-on');
-                chip.textContent = '✓ ' + cleanLabel;
-            } else if (!turnOn && isCurrentlyOn) {
-                chip.classList.remove('multi-chip-on');
-                chip.classList.add('multi-chip-off');
-                chip.textContent = cleanLabel;
-            }
+      // [MODIFIED] Req 3: Updated function
+      function toggleTaxCheckbox(checkboxEl) {
+        if (checkboxEl.dataset.disabled === "true") {
+          return; // Do nothing
         }
+        // 1. Toggle the checkbox UI
+        toggleCheckbox(checkboxEl);
+        // 2. [NEW] Sync "Select All" state
+        updateSelectAllState();
+        // 3. Update the sticky footer
+        updateTaxFooter();
+      }
 
-        // Search
-        function handleSearchInput(input) {
-            const searchBox = input.closest('.search');
-            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+      function updateTaxFooter() {
+        const listContainer = document.getElementById(
+          "transaction-list-container"
+        );
+        if (!listContainer) return;
+
+        const checkedBoxes = listContainer.querySelectorAll(
+          '.checkbox[data-checked="true"]'
+        );
+        const count = checkedBoxes.length;
+        const footer = document.getElementById("tax-action-footer");
+        const body = document.body;
+
+        // 현재 '신청' 탭이 활성화 상태일 때만 푸터를 보여줌
+        if (
+          document.getElementById("page-content-request").style.display ===
+          "block"
+        ) {
+          if (count > 0) {
+            footer.classList.add("active");
+            document.getElementById(
+              "tax-selected-count"
+            ).textContent = `총 ${count}건`;
+            document.querySelector(".mobile-wrap").style.paddingBottom = "84px"; // 푸터 높이만큼 패딩 추가
+          } else {
+            footer.classList.remove("active");
+            document.querySelector(".mobile-wrap").style.paddingBottom = "20px"; // Reset to default
+          }
         }
-        function clearSearch(btn) {
-            const searchBox = btn.closest('.search');
-            const input = searchBox.querySelector('input');
-            input.value = '';
-            searchBox.classList.remove('has-text');
-            input.focus();
+      }
+
+      // [NEW] Multi-select chip filtering
+      function toggleStatusChip(chip) {
+        const status = chip.getAttribute("data-status");
+        // 기존: const group = chip.closest('#status-chip-group');
+        // 변경: 클릭한 칩의 부모 .tabs-scroll-wrapper를 찾음
+        const group = chip.closest(".tabs-scroll-wrapper");
+
+        if (!group) return; // 그룹이 없으면 중단
+
+        const allChip = group.querySelector('[data-status="전체"]');
+
+        if (status === "전체") {
+          const isTurningOn = !chip.classList.contains("multi-chip-on");
+          // Toggle '전체'
+          toggleMultiChip(chip, isTurningOn);
+          // Turn all others off in this group
+          group.querySelectorAll(".multi-chip").forEach((c) => {
+            if (c !== chip) toggleMultiChip(c, false);
+          });
+        } else {
+          // Toggle this chip
+          toggleMultiChip(chip);
+          // Turn '전체' off
+          if (allChip) toggleMultiChip(allChip, false);
+
+          // Check if all others are off
+          const anyOtherOn = Array.from(
+            group.querySelectorAll('.multi-chip:not([data-status="전체"])')
+          ).some((c) => c.classList.contains("multi-chip-on"));
+
+          if (!anyOtherOn && allChip) {
+            // If all are off, turn '전체' on
+            toggleMultiChip(allChip, true);
+          }
         }
-        function handleSearch(btn) { console.log('Search submitted:', btn.closest('.search').querySelector('input').value); }
-
-
-        // --- [NEW] Tax Invoice Page Logic ---
-
-        // [MODIFIED] Period Chip Logic - 월 선택 클릭 이벤트 제거
-        function selectPeriodChip(chip) {
-            // 월 선택은 1개만 표시되므로 클릭 이벤트 없음
-        }
-
-        // [MODIFIED] Req 3: Updated function
-        function toggleTaxCheckbox(checkboxEl) {
-            if (checkboxEl.dataset.disabled === 'true') {
-                return; // Do nothing
-            }
-            // 1. Toggle the checkbox UI
-            toggleCheckbox(checkboxEl);
-            // 2. [NEW] Sync "Select All" state
-            updateSelectAllState();
-            // 3. Update the sticky footer
-            updateTaxFooter();
-        }
-
-        function updateTaxFooter() {
-            const listContainer = document.getElementById('transaction-list-container');
-            if (!listContainer) return;
-
-            const checkedBoxes = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
-            const count = checkedBoxes.length;
-            const footer = document.getElementById('tax-action-footer');
-            const body = document.body;
-
-            // 현재 '신청' 탭이 활성화 상태일 때만 푸터를 보여줌
-            if (document.getElementById('page-content-request').style.display === 'block') {
-                if (count > 0) {
-                    footer.classList.add('active');
-                    document.getElementById('tax-selected-count').textContent = `총 ${count}건`;
-                    document.querySelector('.mobile-wrap').style.paddingBottom = '84px'; // 푸터 높이만큼 패딩 추가
-                } else {
-                    footer.classList.remove('active');
-                    document.querySelector('.mobile-wrap').style.paddingBottom = '20px'; // Reset to default
-                }
-            }
-        }
-
-        // [NEW] Multi-select chip filtering
-        function toggleStatusChip(chip) {
-            const status = chip.getAttribute('data-status');
-            // 기존: const group = chip.closest('#status-chip-group'); 
-            // 변경: 클릭한 칩의 부모 .tabs-scroll-wrapper를 찾음
-            const group = chip.closest('.tabs-scroll-wrapper');
-
-            if (!group) return; // 그룹이 없으면 중단
-
-            const allChip = group.querySelector('[data-status="전체"]');
-
-            if (status === '전체') {
-                const isTurningOn = !chip.classList.contains('multi-chip-on');
-                // Toggle '전체'
-                toggleMultiChip(chip, isTurningOn);
-                // Turn all others off in this group
-                group.querySelectorAll('.multi-chip').forEach(c => {
-                    if (c !== chip) toggleMultiChip(c, false);
-                });
-            } else {
-                // Toggle this chip
-                toggleMultiChip(chip);
-                // Turn '전체' off
-                if (allChip) toggleMultiChip(allChip, false);
-
-                // Check if all others are off
-                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-status="전체"])'))
-                    .some(c => c.classList.contains('multi-chip-on'));
-
-                if (!anyOtherOn && allChip) {
-                    // If all are off, turn '전체' on
-                    toggleMultiChip(allChip, true);
-                }
-            }
-            filterTaxInvoices();
-        }
-
-        // [MODIFIED] Req 3: Updated function
-        function filterTaxInvoices() {// 1. 기간 (기존 로직 유지)
-            const periodChip = document.querySelector('#period-chip-group .single-chip-on');
-            const selectedPeriod = periodChip ? periodChip.dataset.period : 'current';
-
-            // 2. 발급 상태 (기존)
-            const statusGroup = document.getElementById('status-chip-group');
-            const statusChips = statusGroup ? statusGroup.querySelectorAll('.multi-chip-on') : [];
-            const selectedStatuses = Array.from(statusChips).map(chip => chip.dataset.status);
-            const isAllStatus = selectedStatuses.includes('전체') || selectedStatuses.length === 0;
-
-            // 3. [신규] 신청 상태 (새로 추가된 그룹)
-            const applyGroup = document.getElementById('apply-status-chip-group');
-            const applyChips = applyGroup ? applyGroup.querySelectorAll('.multi-chip-on') : [];
-            const selectedApplies = Array.from(applyChips).map(chip => chip.dataset.status);
-            const isAllApply = selectedApplies.includes('전체') || selectedApplies.length === 0;
-
-            const listContainer = document.getElementById('transaction-list-container');
-            if (!listContainer) return;
-
-            const cards = listContainer.querySelectorAll('.common-table-card');
-            const noResultMsg = document.getElementById('no-request-list');
-            let visibleCount = 0;
-
-            cards.forEach(card => {
-                // 카드에 data-status="..." 속성이 있다고 가정 (발급 상태)
-                const cardStatus = card.getAttribute('data-status');
-
-                // [참고] 카드에 신청 상태(data-apply-status)가 있다면 여기서 읽어와야 함
-                // 현재는 HTML에 해당 속성이 없으므로, 로직만 구현해둡니다.
-                const cardApplyStatus = card.getAttribute('data-apply-status') || '미신청';
-
-                // 필터 조건 검사 (AND 조건: 발급 상태도 맞고 && 신청 상태도 맞아야 함)
-                const matchStatus = isAllStatus || selectedStatuses.includes(cardStatus);
-                const matchApply = isAllApply || selectedApplies.includes(cardApplyStatus);
-
-                if (matchStatus && matchApply) {
-                    card.style.display = '';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            const countEl = document.getElementById('transaction-count'); // (헤더에 카운트 요소가 있다면 업데이트)
-            // if (countEl) countEl.textContent = visibleCount;
-
-            if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
-
-            // Update "Select All" state based on new filter results
-            updateSelectAllState();
-        }
-
-        // --- [NEW] Req 3: Select All Logic ---
-
-        /**
-         * [Req 3] "Select All" 체크박스를 토글하고, 모든 보이는/활성화된 체크박스 상태를 동기화합니다.
-         */
-        function toggleSelectAll(wrapper) {
-            const mainCheckbox = wrapper.querySelector('.checkbox');
-            toggleCheckbox(mainCheckbox); // 메인 체크박스 토글
-            const isChecked = mainCheckbox.dataset.checked === 'true';
-
-            const listContainer = document.getElementById('transaction-list-container');
-            if (!listContainer) return;
-
-            // *보이는* 카드만 선택
-            const visibleCards = Array.from(listContainer.querySelectorAll('.common-table-card'))
-                .filter(card => card.style.display !== 'none');
-
-            visibleCards.forEach(card => {
-                const checkbox = card.querySelector('.checkbox');
-                // *활성화된* 체크박스만 상태 변경
-                if (checkbox && checkbox.dataset.disabled !== 'true') {
-                    const isCurrentlyOn = checkbox.dataset.checked === 'true';
-                    if (isChecked && !isCurrentlyOn) { // Turn On
-                        toggleCheckbox(checkbox);
-                    } else if (!isChecked && isCurrentlyOn) { // Turn Off
-                        toggleCheckbox(checkbox);
-                    }
-                }
-            });
-
-            updateTaxFooter(); // 푸터 카운트 업데이트
-        }
-
-        /**
-         * [Req 3] *보이는* 그리고 *활성화된* 아이템 체크박스 상태를 기반으로 "Select All" 체크박스 상태를 동기화합니다.
-         */
-        function updateSelectAllState() {
-            const listContainer = document.getElementById('transaction-list-container');
-            const mainCheckbox = document.getElementById('select-all-checkbox');
-            if (!listContainer || !mainCheckbox) return;
-
-            // *보이는* 카드 목록
-            const visibleCards = Array.from(listContainer.querySelectorAll('.common-table-card'))
-                .filter(card => card.style.display !== 'none');
-
-            // 보이는 카드 중에서 *활성화된* 체크박스 목록
-            const visibleEnabledCheckboxes = visibleCards
-                .map(card => card.querySelector('.checkbox:not([data-disabled="true"])'))
-                .filter(cb => cb); // nulls (e.g., card with no checkbox) filter
-
-            if (visibleEnabledCheckboxes.length === 0) {
-                // 선택할 항목이 없으면 "Select All"은 항상
-                if (mainCheckbox.dataset.checked === 'true') {
-                    toggleCheckbox(mainCheckbox); // Force off
-                }
-                return;
-            }
-
-            // *보이는* 그리고 *활성화된* 모든 항목이 체크되었는지
-            const allVisibleChecked = visibleEnabledCheckboxes.every(cb => cb.dataset.checked === 'true');
-            const isMainChecked = mainCheckbox.dataset.checked === 'true';
-
-            if (allVisibleChecked && !isMainChecked) {
-                toggleCheckbox(mainCheckbox); // Force on
-            } else if (!allVisibleChecked && isMainChecked) {
-                toggleCheckbox(mainCheckbox); // Force off
-            }
-        }
-
-
-        // --- [EXISTING] Pagination Logic ---
-        let currentPage = 1; const totalPages = 1; // [MODIFIED] Total pages
-        function paginationGo(page) { currentPage = page; updatePagination(); console.log('Page changed to:', page); }
-        function paginationPrev() { if (currentPage > 1) paginationGo(currentPage - 1); }
-        function paginationNext() { if (currentPage < totalPages) paginationGo(currentPage + 1); }
-        function paginationFirst() { paginationGo(1); }
-        function paginationLast() { paginationGo(totalPages); }
-        function updatePagination() {
-            const numbersContainer = document.getElementById('pagination-numbers');
-            if (!numbersContainer) return;
-
-            numbersContainer.innerHTML = ''; // Clear
-            for (let i = 1; i <= totalPages; i++) {
-                const numEl = document.createElement('div');
-                numEl.className = 'pagination-number' + (i === currentPage ? ' active' : '');
-                numEl.dataset.page = i;
-                numEl.textContent = i;
-                numEl.onclick = () => paginationGo(i);
-                numbersContainer.appendChild(numEl);
-            }
-
-            const paginationRoot = numbersContainer.closest('.pagination');
-            if (!paginationRoot) return;
-
-            const prevArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(-n+2)');
-            const nextArrows = paginationRoot.querySelectorAll('.pagination-arrow:nth-child(n+4)');
-
-            prevArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === 1));
-            nextArrows.forEach(arrow => arrow.classList.toggle('disabled', currentPage === totalPages));
-        }
-
-        // ========================================
-        // [MODIFIED] MODAL JAVASCRIPT (Req 2)
-        // ========================================
-
-        // --- Modal Helpers ---
-        function openModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (overlay) {
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        function closeModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (overlay) {
-                // [MODIFIED] Req 2: Check if it's the new full-modal
-                if (overlay.classList.contains('full-modal-overlay')) {
-                    overlay.classList.add('closing'); // Add closing animation class
-                    setTimeout(() => {
-                        overlay.classList.remove('active');
-                        overlay.classList.remove('closing'); // Clean up
-                        const anyModalActive = document.querySelector('.modal-overlay.active, .full-modal-overlay.active');
-                        if (!anyModalActive) {
-                            document.body.style.overflow = '';
-                        }
-                    }, 300); // Match animation duration
-                } else {
-                    // Original logic for centered modals
-                    overlay.classList.remove('active');
-                    const anyModalActive = document.querySelector('.modal-overlay.active, .full-modal-overlay.active');
-                    if (!anyModalActive) {
-                        document.body.style.overflow = '';
-                    }
-                }
-            }
-        }
-
-        // --- Checkbox in Modal ---
-        function toggleModalCheckbox(wrapper) {
-            const checkbox = wrapper.querySelector('.checkbox');
-            const isChecked = checkbox.dataset.checked === 'true';
-            if (isChecked) {
-                checkbox.dataset.checked = 'false';
-                checkbox.innerHTML = '<div class="checkbox-off"></div>';
-            } else {
-                checkbox.dataset.checked = 'true';
-                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
-            }
-        }
-
-        // --- Receipt Edit Modal Logic (MODIFIED) ---
-        const receiptEditForm = document.getElementById('receipt-edit-form');
-        const receiptModalTitle = document.getElementById('receipt-modal-title');
-        const receiptModalButton = document.getElementById('receipt-modal-button');
-        const receiptModalCount = document.getElementById('modal-receipt-count');
-        const receiptModalTotal = document.getElementById('modal-receipt-total');
-
-        // [MODIFIED] Req 2: JavaScript logic update
-        // [MODIFIED] showWarning(발급대기 상태)일 때 UI 제어 로직 추가 + 탭 전환 방지
-        function showReceiptEditModal(buttonEl, type, showWarning = false) {
-            // 1. 카드에서 데이터 읽기
-            const card = buttonEl.closest('.common-table-card');
-            const totalAmountEl = card.querySelector('[data-field="total-amount"]');
-            const totalAmount = totalAmountEl ? totalAmountEl.textContent.trim() : '₩0';
-
-            // 폼 초기화
-            receiptEditForm.reset();
-
-            // 2. 모달 타이틀 설정
-            if (type === '수정') {
-                receiptModalTitle.textContent = "현금영수증 신청 정보 수정";
-                receiptModalButton.textContent = "수정하기";
-            } else {
-                receiptModalTitle.textContent = "현금영수증 신청";
-                receiptModalButton.textContent = "신청하기";
-            }
-
-            // 3. 모달에 금액 및 건수 표시
-            receiptModalCount.textContent = "총 1건 / 총 금액";
-            receiptModalTotal.textContent = totalAmount;
-
-            // 4. UI 제어 요소 가져오기
-            const warningBox = document.getElementById('modal-warning-msg');
-            const submitBtn = document.getElementById('receipt-modal-button');
-            const foreignerMsg = receiptEditForm.querySelector('.disclaimer');
-            const inputs = receiptEditForm.querySelectorAll('input');
-            const tabNav = document.getElementById('receipt-edit-tabs'); // [NEW] 탭 컨테이너
-
-            // 5. 기본값 '소득공제' 탭으로 설정 (데이터가 있다면 여기서 분기 처리)
-            // *주의: pointer-events 설정 전에 먼저 탭을 세팅해야 함
-            switchReceiptEditTab(document.querySelector('#receipt-edit-tabs [data-tab="income-deduction"]'), 'income-deduction');
-
-            if (showWarning) {
-                /* --- [발급 대기 상태] --- */
-
-                // (1) 경고 문구 표시
-                warningBox.classList.add('active');
-
-                // (2) 하단 버튼 숨김
-                submitBtn.style.display = 'none';
-
-                // (3) 외국인 안내 문구 숨김
-                if (foreignerMsg) foreignerMsg.style.display = 'none';
-
-                // (4) 인풋 Readonly 처리
-                inputs.forEach(input => {
-                    input.value = "010-7312-3444";
-                    input.setAttribute('readonly', true);
-                    input.closest('.input').classList.add('disabled');
-                });
-
-                // (5) [NEW] 탭 전환 막기 (클릭 방지)
-                tabNav.style.pointerEvents = 'none';
-                tabNav.style.opacity = '0.7'; // (선택사항) 비활성화된 느낌을 주기 위해 투명도 조절
-
-            } else {
-                /* --- [일반 상태] --- */
-
-                // UI 복구
-                warningBox.classList.remove('active');
-                submitBtn.style.display = 'block';
-                if (foreignerMsg) foreignerMsg.style.display = 'block';
-
-                // 인풋 활성화
-                inputs.forEach(input => {
-                    input.removeAttribute('readonly');
-                    input.closest('.input').classList.remove('disabled');
-                });
-
-                // (5) [NEW] 탭 전환 다시 허용
-                tabNav.style.pointerEvents = 'auto';
-                tabNav.style.opacity = '1';
-            }
-
-            // 6. 모달 열기
-            openModal('receipt-edit-modal-overlay');
-        }
-
-        function switchReceiptEditTab(tabEl, tabName) {
-            // 1. 탭 활성화
-            const tabNav = tabEl.closest('.modal-tab-nav');
-            tabNav.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
-            tabEl.classList.replace('single-chip-off', 'single-chip-on');
-
-            // 2. 모든 폼 필드 래퍼 숨기기
-            receiptEditForm.querySelectorAll('.form-fields-wrapper').forEach(wrapper => {
-                wrapper.style.display = 'none';
-            });
-
-            // 3. 해당 탭의 폼 필드 보이기
-            receiptEditForm.querySelector(`.form-fields-wrapper[data-tab-content="${tabName}"]`).style.display = 'block';
-        }
-
-        // [MODIFIED] Req 2: JavaScript logic update
-        function openModalForSelection() {
-            const listContainer = document.getElementById('transaction-list-container');
-            if (!listContainer) return;
-
-            const checkedCards = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
-            const count = checkedCards.length;
-
-            if (count === 0) {
-                alert("선택된 항목이 없어요");
-                return;
-            }
-
-            let totalAmount = 0;
-            checkedCards.forEach(checkbox => {
-                const card = checkbox.closest('.common-table-card');
-                // [MODIFIED] Req 2: 금액을 .card-row .card-row-value[data-field="total-amount"] 에서 읽어옴
-                const amountTextEl = card.querySelector('[data-field="total-amount"]');
-                const amountText = amountTextEl ? amountTextEl.textContent.trim() : '0';
-                const amount = parseInt(amountText.replace(/,| 원/g, ''));
-                if (!isNaN(amount)) {
-                    totalAmount += amount;
-                }
-            });
-
-            // 1. 모달 내용 동적으로 변경 (신청 고정)
-            receiptModalTitle.textContent = "현금영수증 신청";
-            receiptModalButton.textContent = "신청하기";
-
-            // 2. 모달에 집계된 금액 및 건수 표시
-            receiptModalCount.textContent = `총 ${count}건 / 총 금액`;
-            receiptModalTotal.textContent = `₩${totalAmount.toLocaleString('ko-KR')}`;
-
-            // 3. 폼 초기화 (입력값 비우기)
-            receiptEditForm.reset();
-
-            // 4. 기본값 '소득공제' 탭으로 설정
-            switchReceiptEditTab(document.querySelector('#receipt-edit-tabs [data-tab="income-deduction"]'), 'income-deduction');
-
-            // 5. 모달 열기
-            openModal('receipt-edit-modal-overlay');
-        }
-
-        /* [v12 표준] 바텀시트 핵심 로직 (필수) */
-        function setupBottomSheet(overlayId, sheetId, handleId) {
-            const overlay = document.getElementById(overlayId);
-            const sheet = document.getElementById(sheetId);
-            const handle = document.getElementById(handleId);
-
-            // 요소가 없으면 빈 함수 반환 (에러 방지)
-            if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
-
-            let isDragging = false;
-            let startY = 0;
-            let currentY = 0;
-
-            const openSheet = () => {
-                overlay.classList.add('active');
-                sheet.classList.remove('closing');
-                document.body.style.overflow = 'hidden'; // 바디 스크롤 막기
-            };
-
-            const closeSheet = () => {
-                sheet.classList.add('closing');
-                // 다른 모달이 떠있지 않을 때만 스크롤 허용
-                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active:not(#' + overlayId + ')');
-                if (!anyModalActive) {
-                    document.body.style.overflow = '';
-                }
-                setTimeout(() => {
-                    overlay.classList.remove('active');
-                    sheet.classList.remove('closing');
-                    sheet.style.transform = ''; // 위치 초기화
-                }, 300); // CSS 애니메이션 시간과 동일
-            };
-
-            // 드래그 핸들러
-            const startDrag = (e) => {
-                isDragging = true;
-                startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
-                sheet.style.transition = 'none';
-            };
-
-            const drag = (e) => {
-                if (!isDragging) return;
-                // e.preventDefault(); // 필요시 활성화 (내부 스크롤과 충돌 주의)
-                currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
-                const deltaY = currentY - startY;
-                if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`;
-            };
-
-            const endDrag = () => {
-                if (!isDragging) return;
-                isDragging = false;
-                sheet.style.transition = '';
-                const deltaY = currentY - startY;
-                if (deltaY > 100) closeSheet(); // 100px 이상 내리면 닫기
-                else sheet.style.transform = '';
-            };
-
-            // 이벤트 리스너 등록
-            handle.addEventListener('mousedown', startDrag);
-            handle.addEventListener('touchstart', startDrag, { passive: false });
-
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('touchmove', drag, { passive: false });
-
-            document.addEventListener('mouseup', endDrag);
-            document.addEventListener('touchend', endDrag);
-
-            // 오버레이 클릭 시 닫기
-            overlay.addEventListener('click', (e) => {
-                if (e.target.id === overlayId) closeSheet();
-            });
-
-            return { openSheet, closeSheet };
-        }
-
-        /* ---------------------------------------------------- */
-
-        /* [기능 구현] 보기 갯수 설정 시트 초기화 및 로직 */
-
-        // 1. 바텀시트 셋업 (Overlay ID, Sheet ID, Handle ID 순서)
-        // 주의: HTML에 해당 ID를 가진 요소들이 반드시 존재해야 함
-        const viewCountSheetControl = setupBottomSheet('view-count-sheet-overlay', 'view-count-sheet', 'view-count-sheet-handle');
-
-        // 전역에서 접근 가능하도록 함수 할당 (필요시)
-        window.showViewCountSheet = viewCountSheetControl.openSheet;
-        window.closeViewCountSheet = viewCountSheetControl.closeSheet;
-
-        // 2. 선택 처리 함수
-        function selectViewCount(count) {
-            const textElement = document.getElementById('view-count-text');
-            if (textElement) {
-                textElement.textContent = `${count}건씩 보기`;
-            }
-
-            // 시트 닫기
-            if (window.closeViewCountSheet) window.closeViewCountSheet();
-
-            // 데이터 갱신 로직 (API 호출 등)
-            console.log(`[Action] ${count}건씩 보기로 리스트 갱신 요청`);
-        }
-
-        /* [추가] 3. JS 로직 추가 (script 태그 내부 setupBottomSheet 호출부 하단) */
-
-        // 보기 갯수 설정 시트 초기화
-        const { openSheet: showViewCountSheet, closeSheet: closeViewCountSheet } = setupBottomSheet('view-count-sheet-overlay', 'view-count-sheet', 'view-count-sheet-handle');
-
-        // 보기 갯수 선택 처리 함수
-        function selectViewCount(count) {
-            document.getElementById('view-count-text').textContent = `${count}건씩 보기`;
-            closeViewCountSheet();
-            // 추후 API 연동 시 여기서 리스트 갱신 함수 호출 (예: fetchIssueList(count))
-            console.log(`${count}건씩 보기 선택됨`);
-        }
-
-        // 오버레이 클릭 닫기 이벤트 리스너에 추가 (기존 코드의 document.querySelectorAll('.modal-overlay')... 부분 아래에 확인 필요)
-        // setupBottomSheet 함수 내부 로직에 의해 이미 처리되므로 별도 추가 불필요하지만,
-        // 명시적으로 제어하려면 아래 코드 확인
-        document.getElementById('view-count-sheet-overlay').addEventListener('click', (e) => {
-            if (e.target.id === 'view-count-sheet-overlay') closeViewCountSheet();
+        filterTaxInvoices();
+      }
+
+      // [MODIFIED] Req 3: Updated function
+      function filterTaxInvoices() {
+        // 1. 기간 (기존 로직 유지)
+        const periodChip = document.querySelector(
+          "#period-chip-group .single-chip-on"
+        );
+        const selectedPeriod = periodChip
+          ? periodChip.dataset.period
+          : "current";
+
+        // 2. 발급 상태 (기존)
+        const statusGroup = document.getElementById("status-chip-group");
+        const statusChips = statusGroup
+          ? statusGroup.querySelectorAll(".multi-chip-on")
+          : [];
+        const selectedStatuses = Array.from(statusChips).map(
+          (chip) => chip.dataset.status
+        );
+        const isAllStatus =
+          selectedStatuses.includes("전체") || selectedStatuses.length === 0;
+
+        // 3. [신규] 신청 상태 (새로 추가된 그룹)
+        const applyGroup = document.getElementById("apply-status-chip-group");
+        const applyChips = applyGroup
+          ? applyGroup.querySelectorAll(".multi-chip-on")
+          : [];
+        const selectedApplies = Array.from(applyChips).map(
+          (chip) => chip.dataset.status
+        );
+        const isAllApply =
+          selectedApplies.includes("전체") || selectedApplies.length === 0;
+
+        const listContainer = document.getElementById(
+          "transaction-list-container"
+        );
+        if (!listContainer) return;
+
+        const cards = listContainer.querySelectorAll(".common-table-card");
+        const noResultMsg = document.getElementById("no-request-list");
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          // 카드에 data-status="..." 속성이 있다고 가정 (발급 상태)
+          const cardStatus = card.getAttribute("data-status");
+
+          // [참고] 카드에 신청 상태(data-apply-status)가 있다면 여기서 읽어와야 함
+          // 현재는 HTML에 해당 속성이 없으므로, 로직만 구현해둡니다.
+          const cardApplyStatus =
+            card.getAttribute("data-apply-status") || "미신청";
+
+          // 필터 조건 검사 (AND 조건: 발급 상태도 맞고 && 신청 상태도 맞아야 함)
+          const matchStatus =
+            isAllStatus || selectedStatuses.includes(cardStatus);
+          const matchApply =
+            isAllApply || selectedApplies.includes(cardApplyStatus);
+
+          if (matchStatus && matchApply) {
+            card.style.display = "";
+            visibleCount++;
+          } else {
+            card.style.display = "none";
+          }
         });
 
+        const countEl = document.getElementById("transaction-count"); // (헤더에 카운트 요소가 있다면 업데이트)
+        // if (countEl) countEl.textContent = visibleCount;
 
-        // --- [MODIFIED] Initialize (Event listeners etc.) ---
-        document.addEventListener('DOMContentLoaded', () => {
-            updatePagination();
-            filterTaxInvoices(); // [NEW] Initial filter for tax page
-            updateTaxFooter(); // [NEW] Initial footer check
+        if (noResultMsg)
+          noResultMsg.style.display = visibleCount === 0 ? "block" : "none";
 
-            // [MODIFIED] Modal overlay click-to-close listeners
-            document.querySelectorAll('.modal-overlay, .full-modal-overlay').forEach(overlay => {
-                overlay.addEventListener('click', (e) => {
-                    if (e.target.id === overlay.id) {
-                        closeModal(overlay.id);
-                    }
-                });
-            });
+        // Update "Select All" state based on new filter results
+        updateSelectAllState();
+      }
+
+      // --- [NEW] Req 3: Select All Logic ---
+
+      /**
+       * [Req 3] "Select All" 체크박스를 토글하고, 모든 보이는/활성화된 체크박스 상태를 동기화합니다.
+       */
+      function toggleSelectAll(wrapper) {
+        const mainCheckbox = wrapper.querySelector(".checkbox");
+        toggleCheckbox(mainCheckbox); // 메인 체크박스 토글
+        const isChecked = mainCheckbox.dataset.checked === "true";
+
+        const listContainer = document.getElementById(
+          "transaction-list-container"
+        );
+        if (!listContainer) return;
+
+        // *보이는* 카드만 선택
+        const visibleCards = Array.from(
+          listContainer.querySelectorAll(".common-table-card")
+        ).filter((card) => card.style.display !== "none");
+
+        visibleCards.forEach((card) => {
+          const checkbox = card.querySelector(".checkbox");
+          // *활성화된* 체크박스만 상태 변경
+          if (checkbox && checkbox.dataset.disabled !== "true") {
+            const isCurrentlyOn = checkbox.dataset.checked === "true";
+            if (isChecked && !isCurrentlyOn) {
+              // Turn On
+              toggleCheckbox(checkbox);
+            } else if (!isChecked && isCurrentlyOn) {
+              // Turn Off
+              toggleCheckbox(checkbox);
+            }
+          }
         });
 
+        updateTaxFooter(); // 푸터 카운트 업데이트
+      }
+
+      /**
+       * [Req 3] *보이는* 그리고 *활성화된* 아이템 체크박스 상태를 기반으로 "Select All" 체크박스 상태를 동기화합니다.
+       */
+      function updateSelectAllState() {
+        const listContainer = document.getElementById(
+          "transaction-list-container"
+        );
+        const mainCheckbox = document.getElementById("select-all-checkbox");
+        if (!listContainer || !mainCheckbox) return;
+
+        // *보이는* 카드 목록
+        const visibleCards = Array.from(
+          listContainer.querySelectorAll(".common-table-card")
+        ).filter((card) => card.style.display !== "none");
+
+        // 보이는 카드 중에서 *활성화된* 체크박스 목록
+        const visibleEnabledCheckboxes = visibleCards
+          .map((card) =>
+            card.querySelector('.checkbox:not([data-disabled="true"])')
+          )
+          .filter((cb) => cb); // nulls (e.g., card with no checkbox) filter
+
+        if (visibleEnabledCheckboxes.length === 0) {
+          // 선택할 항목이 없으면 "Select All"은 항상
+          if (mainCheckbox.dataset.checked === "true") {
+            toggleCheckbox(mainCheckbox); // Force off
+          }
+          return;
+        }
+
+        // *보이는* 그리고 *활성화된* 모든 항목이 체크되었는지
+        const allVisibleChecked = visibleEnabledCheckboxes.every(
+          (cb) => cb.dataset.checked === "true"
+        );
+        const isMainChecked = mainCheckbox.dataset.checked === "true";
+
+        if (allVisibleChecked && !isMainChecked) {
+          toggleCheckbox(mainCheckbox); // Force on
+        } else if (!allVisibleChecked && isMainChecked) {
+          toggleCheckbox(mainCheckbox); // Force off
+        }
+      }
+
+      // --- [EXISTING] Pagination Logic ---
+      let currentPage = 1;
+      const totalPages = 1; // [MODIFIED] Total pages
+      function paginationGo(page) {
+        currentPage = page;
+        updatePagination();
+        console.log("Page changed to:", page);
+      }
+      function paginationPrev() {
+        if (currentPage > 1) paginationGo(currentPage - 1);
+      }
+      function paginationNext() {
+        if (currentPage < totalPages) paginationGo(currentPage + 1);
+      }
+      function paginationFirst() {
+        paginationGo(1);
+      }
+      function paginationLast() {
+        paginationGo(totalPages);
+      }
+      function updatePagination() {
+        const numbersContainer = document.getElementById("pagination-numbers");
+        if (!numbersContainer) return;
+
+        numbersContainer.innerHTML = ""; // Clear
+        for (let i = 1; i <= totalPages; i++) {
+          const numEl = document.createElement("div");
+          numEl.className =
+            "pagination-number" + (i === currentPage ? " active" : "");
+          numEl.dataset.page = i;
+          numEl.textContent = i;
+          numEl.onclick = () => paginationGo(i);
+          numbersContainer.appendChild(numEl);
+        }
+
+        const paginationRoot = numbersContainer.closest(".pagination");
+        if (!paginationRoot) return;
+
+        const prevArrows = paginationRoot.querySelectorAll(
+          ".pagination-arrow:nth-child(-n+2)"
+        );
+        const nextArrows = paginationRoot.querySelectorAll(
+          ".pagination-arrow:nth-child(n+4)"
+        );
+
+        prevArrows.forEach((arrow) =>
+          arrow.classList.toggle("disabled", currentPage === 1)
+        );
+        nextArrows.forEach((arrow) =>
+          arrow.classList.toggle("disabled", currentPage === totalPages)
+        );
+      }
+
+      // ========================================
+      // [MODIFIED] MODAL JAVASCRIPT (Req 2)
+      // ========================================
+
+      // --- Modal Helpers ---
+      function openModal(overlayId) {
+        const overlay = document.getElementById(overlayId);
+        if (overlay) {
+          overlay.classList.add("active");
+          document.body.style.overflow = "hidden";
+        }
+      }
+
+      function closeModal(overlayId) {
+        const overlay = document.getElementById(overlayId);
+        if (overlay) {
+          // [MODIFIED] Req 2: Check if it's the new full-modal
+          if (overlay.classList.contains("full-modal-overlay")) {
+            overlay.classList.add("closing"); // Add closing animation class
+            setTimeout(() => {
+              overlay.classList.remove("active");
+              overlay.classList.remove("closing"); // Clean up
+              const anyModalActive = document.querySelector(
+                ".modal-overlay.active, .full-modal-overlay.active"
+              );
+              if (!anyModalActive) {
+                document.body.style.overflow = "";
+              }
+            }, 300); // Match animation duration
+          } else {
+            // Original logic for centered modals
+            overlay.classList.remove("active");
+            const anyModalActive = document.querySelector(
+              ".modal-overlay.active, .full-modal-overlay.active"
+            );
+            if (!anyModalActive) {
+              document.body.style.overflow = "";
+            }
+          }
+        }
+      }
+
+      // --- Checkbox in Modal ---
+      function toggleModalCheckbox(wrapper) {
+        const checkbox = wrapper.querySelector(".checkbox");
+        const isChecked = checkbox.dataset.checked === "true";
+        if (isChecked) {
+          checkbox.dataset.checked = "false";
+          checkbox.innerHTML = '<div class="checkbox-off"></div>';
+        } else {
+          checkbox.dataset.checked = "true";
+          checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+        }
+      }
+
+      // --- Receipt Edit Modal Logic (MODIFIED) ---
+      const receiptEditForm = document.getElementById("receipt-edit-form");
+      const receiptModalTitle = document.getElementById("receipt-modal-title");
+      const receiptModalButton = document.getElementById(
+        "receipt-modal-button"
+      );
+      const receiptModalCount = document.getElementById("modal-receipt-count");
+      const receiptModalTotal = document.getElementById("modal-receipt-total");
+
+      // [MODIFIED] Req 2: JavaScript logic update
+      // [MODIFIED] showWarning(발급대기 상태)일 때 UI 제어 로직 추가 + 탭 전환 방지
+      function showReceiptEditModal(buttonEl, type, showWarning = false) {
+        // 1. 카드에서 데이터 읽기
+        const card = buttonEl.closest(".common-table-card");
+        const totalAmountEl = card.querySelector('[data-field="total-amount"]');
+        const totalAmount = totalAmountEl
+          ? totalAmountEl.textContent.trim()
+          : "₩0";
+
+        // 폼 초기화
+        receiptEditForm.reset();
+
+        // 2. 모달 타이틀 설정
+        if (type === "수정") {
+          receiptModalTitle.textContent = "현금영수증 신청 정보 수정";
+          receiptModalButton.textContent = "수정하기";
+        } else {
+          receiptModalTitle.textContent = "현금영수증 신청";
+          receiptModalButton.textContent = "신청하기";
+        }
+
+        // 3. 모달에 금액 및 건수 표시
+        receiptModalCount.textContent = "총 1건 / 총 금액";
+        receiptModalTotal.textContent = totalAmount;
+
+        // 4. UI 제어 요소 가져오기
+        const warningBox = document.getElementById("modal-warning-msg");
+        const submitBtn = document.getElementById("receipt-modal-button");
+        const foreignerMsg = receiptEditForm.querySelector(".disclaimer");
+        const inputs = receiptEditForm.querySelectorAll("input");
+        const tabNav = document.getElementById("receipt-edit-tabs"); // [NEW] 탭 컨테이너
+
+        // 5. 기본값 '소득공제' 탭으로 설정 (데이터가 있다면 여기서 분기 처리)
+        // *주의: pointer-events 설정 전에 먼저 탭을 세팅해야 함
+        switchReceiptEditTab(
+          document.querySelector(
+            '#receipt-edit-tabs [data-tab="income-deduction"]'
+          ),
+          "income-deduction"
+        );
+
+        if (showWarning) {
+          /* --- [발급 대기 상태] --- */
+
+          // (1) 경고 문구 표시
+          warningBox.classList.add("active");
+
+          // (2) 하단 버튼 숨김
+          submitBtn.style.display = "none";
+
+          // (3) 외국인 안내 문구 숨김
+          if (foreignerMsg) foreignerMsg.style.display = "none";
+
+          // (4) 인풋 Readonly 처리
+          inputs.forEach((input) => {
+            input.value = "010-7312-3444";
+            input.setAttribute("readonly", true);
+            input.closest(".input").classList.add("disabled");
+          });
+
+          // (5) [NEW] 탭 전환 막기 (클릭 방지)
+          tabNav.style.pointerEvents = "none";
+          tabNav.style.opacity = "0.7"; // (선택사항) 비활성화된 느낌을 주기 위해 투명도 조절
+        } else {
+          /* --- [일반 상태] --- */
+
+          // UI 복구
+          warningBox.classList.remove("active");
+          submitBtn.style.display = "block";
+          if (foreignerMsg) foreignerMsg.style.display = "block";
+
+          // 인풋 활성화
+          inputs.forEach((input) => {
+            input.removeAttribute("readonly");
+            input.closest(".input").classList.remove("disabled");
+          });
+
+          // (5) [NEW] 탭 전환 다시 허용
+          tabNav.style.pointerEvents = "auto";
+          tabNav.style.opacity = "1";
+        }
+
+        // 6. 모달 열기
+        openModal("receipt-edit-modal-overlay");
+      }
+
+      function switchReceiptEditTab(tabEl, tabName) {
+        // 1. 탭 활성화
+        const tabNav = tabEl.closest(".modal-tab-nav");
+        tabNav
+          .querySelectorAll(".single-chip")
+          .forEach((c) =>
+            c.classList.replace("single-chip-on", "single-chip-off")
+          );
+        tabEl.classList.replace("single-chip-off", "single-chip-on");
+
+        // 2. 모든 폼 필드 래퍼 숨기기
+        receiptEditForm
+          .querySelectorAll(".form-fields-wrapper")
+          .forEach((wrapper) => {
+            wrapper.style.display = "none";
+          });
+
+        // 3. 해당 탭의 폼 필드 보이기
+        receiptEditForm.querySelector(
+          `.form-fields-wrapper[data-tab-content="${tabName}"]`
+        ).style.display = "block";
+      }
+
+      // [MODIFIED] Req 2: JavaScript logic update
+      function openModalForSelection() {
+        const listContainer = document.getElementById(
+          "transaction-list-container"
+        );
+        if (!listContainer) return;
+
+        const checkedCards = listContainer.querySelectorAll(
+          '.checkbox[data-checked="true"]'
+        );
+        const count = checkedCards.length;
+
+        if (count === 0) {
+          alert("선택된 항목이 없어요");
+          return;
+        }
+
+        let totalAmount = 0;
+        checkedCards.forEach((checkbox) => {
+          const card = checkbox.closest(".common-table-card");
+          // [MODIFIED] Req 2: 금액을 .card-row .card-row-value[data-field="total-amount"] 에서 읽어옴
+          const amountTextEl = card.querySelector(
+            '[data-field="total-amount"]'
+          );
+          const amountText = amountTextEl
+            ? amountTextEl.textContent.trim()
+            : "0";
+          const amount = parseInt(amountText.replace(/,| 원/g, ""));
+          if (!isNaN(amount)) {
+            totalAmount += amount;
+          }
+        });
+
+        // 1. 모달 내용 동적으로 변경 (신청 고정)
+        receiptModalTitle.textContent = "현금영수증 신청";
+        receiptModalButton.textContent = "신청하기";
+
+        // 2. 모달에 집계된 금액 및 건수 표시
+        receiptModalCount.textContent = `총 ${count}건 / 총 금액`;
+        receiptModalTotal.textContent = `₩${totalAmount.toLocaleString(
+          "ko-KR"
+        )}`;
+
+        // 3. 폼 초기화 (입력값 비우기)
+        receiptEditForm.reset();
+
+        // 4. 기본값 '소득공제' 탭으로 설정
+        switchReceiptEditTab(
+          document.querySelector(
+            '#receipt-edit-tabs [data-tab="income-deduction"]'
+          ),
+          "income-deduction"
+        );
+
+        // 5. 모달 열기
+        openModal("receipt-edit-modal-overlay");
+      }
+
+      /* [v12 표준] 바텀시트 핵심 로직 (필수) */
+      function setupBottomSheet(overlayId, sheetId, handleId) {
+        const overlay = document.getElementById(overlayId);
+        const sheet = document.getElementById(sheetId);
+        const handle = document.getElementById(handleId);
+
+        // 요소가 없으면 빈 함수 반환 (에러 방지)
+        if (!overlay || !sheet || !handle)
+          return { openSheet: () => {}, closeSheet: () => {} };
+
+        let isDragging = false;
+        let startY = 0;
+        let currentY = 0;
+
+        const openSheet = () => {
+          overlay.classList.add("active");
+          sheet.classList.remove("closing");
+          document.body.style.overflow = "hidden"; // 바디 스크롤 막기
+        };
+
+        const closeSheet = () => {
+          sheet.classList.add("closing");
+          // 다른 모달이 떠있지 않을 때만 스크롤 허용
+          const anyModalActive = document.querySelector(
+            ".modal-overlay.active, .bottom-sheet-overlay.active:not(#" +
+              overlayId +
+              ")"
+          );
+          if (!anyModalActive) {
+            document.body.style.overflow = "";
+          }
+          setTimeout(() => {
+            overlay.classList.remove("active");
+            sheet.classList.remove("closing");
+            sheet.style.transform = ""; // 위치 초기화
+          }, 300); // CSS 애니메이션 시간과 동일
+        };
+
+        // 드래그 핸들러
+        const startDrag = (e) => {
+          isDragging = true;
+          startY = e.type === "mousedown" ? e.clientY : e.touches[0].clientY;
+          sheet.style.transition = "none";
+        };
+
+        const drag = (e) => {
+          if (!isDragging) return;
+          // e.preventDefault(); // 필요시 활성화 (내부 스크롤과 충돌 주의)
+          currentY = e.type === "mousemove" ? e.clientY : e.touches[0].clientY;
+          const deltaY = currentY - startY;
+          if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`;
+        };
+
+        const endDrag = () => {
+          if (!isDragging) return;
+          isDragging = false;
+          sheet.style.transition = "";
+          const deltaY = currentY - startY;
+          if (deltaY > 100) closeSheet(); // 100px 이상 내리면 닫기
+          else sheet.style.transform = "";
+        };
+
+        // 이벤트 리스너 등록
+        handle.addEventListener("mousedown", startDrag);
+        handle.addEventListener("touchstart", startDrag, { passive: false });
+
+        document.addEventListener("mousemove", drag);
+        document.addEventListener("touchmove", drag, { passive: false });
+
+        document.addEventListener("mouseup", endDrag);
+        document.addEventListener("touchend", endDrag);
+
+        // 오버레이 클릭 시 닫기
+        overlay.addEventListener("click", (e) => {
+          if (e.target.id === overlayId) closeSheet();
+        });
+
+        return { openSheet, closeSheet };
+      }
+
+      /* ---------------------------------------------------- */
+
+      /* [기능 구현] 보기 갯수 설정 시트 초기화 및 로직 */
+
+      // 1. 바텀시트 셋업 (Overlay ID, Sheet ID, Handle ID 순서)
+      // 주의: HTML에 해당 ID를 가진 요소들이 반드시 존재해야 함
+      const viewCountSheetControl = setupBottomSheet(
+        "view-count-sheet-overlay",
+        "view-count-sheet",
+        "view-count-sheet-handle"
+      );
+
+      // 전역에서 접근 가능하도록 함수 할당 (필요시)
+      window.showViewCountSheet = viewCountSheetControl.openSheet;
+      window.closeViewCountSheet = viewCountSheetControl.closeSheet;
+
+      // 2. 선택 처리 함수
+      function selectViewCount(count) {
+        const textElement = document.getElementById("view-count-text");
+        if (textElement) {
+          textElement.textContent = `${count}건씩 보기`;
+        }
+
+        // 시트 닫기
+        if (window.closeViewCountSheet) window.closeViewCountSheet();
+
+        // 데이터 갱신 로직 (API 호출 등)
+        console.log(`[Action] ${count}건씩 보기로 리스트 갱신 요청`);
+      }
+
+      /* [추가] 3. JS 로직 추가 (script 태그 내부 setupBottomSheet 호출부 하단) */
+
+      // 보기 갯수 설정 시트 초기화
+      const { openSheet: showViewCountSheet, closeSheet: closeViewCountSheet } =
+        setupBottomSheet(
+          "view-count-sheet-overlay",
+          "view-count-sheet",
+          "view-count-sheet-handle"
+        );
+
+      // 보기 갯수 선택 처리 함수
+      function selectViewCount(count) {
+        document.getElementById(
+          "view-count-text"
+        ).textContent = `${count}건씩 보기`;
+        closeViewCountSheet();
+        // 추후 API 연동 시 여기서 리스트 갱신 함수 호출 (예: fetchIssueList(count))
+        console.log(`${count}건씩 보기 선택됨`);
+      }
+
+      // 오버레이 클릭 닫기 이벤트 리스너에 추가 (기존 코드의 document.querySelectorAll('.modal-overlay')... 부분 아래에 확인 필요)
+      // setupBottomSheet 함수 내부 로직에 의해 이미 처리되므로 별도 추가 불필요하지만,
+      // 명시적으로 제어하려면 아래 코드 확인
+      document
+        .getElementById("view-count-sheet-overlay")
+        .addEventListener("click", (e) => {
+          if (e.target.id === "view-count-sheet-overlay") closeViewCountSheet();
+        });
+
+      // --- [MODIFIED] Initialize (Event listeners etc.) ---
+      document.addEventListener("DOMContentLoaded", () => {
+        updatePagination();
+        filterTaxInvoices(); // [NEW] Initial filter for tax page
+        updateTaxFooter(); // [NEW] Initial footer check
+
+        // [MODIFIED] Modal overlay click-to-close listeners
+        document
+          .querySelectorAll(".modal-overlay, .full-modal-overlay")
+          .forEach((overlay) => {
+            overlay.addEventListener("click", (e) => {
+              if (e.target.id === overlay.id) {
+                closeModal(overlay.id);
+              }
+            });
+          });
+      });
     </script>
 
-
     <div class="disqus-thread-wrap">
-        <div id="disqus_thread"></div>
-        <script>
-            /**
-            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-            /*
+      <div id="disqus_thread"></div>
+      <script>
+        /**
+         * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+        /*
             var disqus_config = function () {
             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
             this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
             };
             */
-            (function () { // DON'T EDIT BELOW THIS LINE
-                var d = document, s = d.createElement('script');
-                s.src = 'https://sw-mobile.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
-                Disqus.</a></noscript>
+        (function () {
+          // DON'T EDIT BELOW THIS LINE
+          var d = document,
+            s = d.createElement("script");
+          s.src = "https://sw-mobile.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+      <noscript
+        >Please enable JavaScript to view the
+        <a href="https://disqus.com/?ref_noscript"
+          >comments powered by Disqus.</a
+        ></noscript
+      >
     </div>
-    <script id="dsq-count-scr" src="//sw-mobile.disqus.com/count.js" async></script>
-</body>
-
+    <script
+      id="dsq-count-scr"
+      src="//sw-mobile.disqus.com/count.js"
+      async
+    ></script>
+  </body>
 </html>

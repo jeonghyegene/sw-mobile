@@ -723,6 +723,161 @@
       </div>
     </div>
 
+    <!-- 접수 취소 전 안내 모달 (New for >300k) -->
+    <div class="modal-overlay" id="modal-pre-cancel">
+      <div class="modal-content full-screen">
+        <div class="modal-header">
+          <div class="modal-title">접수 취소 전 안내</div>
+          <div
+            class="btn-modal-close"
+            onclick="document.getElementById('modal-pre-cancel').classList.remove('active')"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </div>
+        </div>
+        <div class="modal-body">
+          <p
+            style="
+              font-size: 14px;
+              color: #333;
+              line-height: 1.5;
+              margin-bottom: 24px;
+            "
+          >
+            접수 내역 수정이 필요하시거나, 불편하신 점이 있으신가요?<br />
+            전문 담당자를 통해 빠르고 정확하게 해결해드릴 수 있어요
+          </p>
+
+          <!-- Profile Section -->
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              margin-bottom: 24px;
+            "
+          >
+            <div
+              style="
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                background-color: #e0e0e0;
+                overflow: hidden;
+                flex-shrink: 0;
+              "
+            >
+              <!-- Placeholder for Avatar -->
+              <img
+                src="assets/images/damdangja.png"
+                style="width: 100%"
+                alt=""
+              />
+            </div>
+            <div>
+              <div style="font-size: 14px; font-weight: 400; color: #333">
+                홍길동 담당자
+              </div>
+              <div style="font-size: 16px; font-weight: 600; color: #333">
+                010-1234-1234
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div style="display: flex; gap: 8px">
+            <button
+              class="white-button"
+              style="flex: 1"
+              onclick="goToConfirm()"
+            >
+              즉시 취소하기
+            </button>
+            <button
+              class="dark-button"
+              style="background: #000; flex: 1"
+              onclick="openConsult()"
+            >
+              상담 신청하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 취소 상담 신청 모달 (New) -->
+    <div class="modal-overlay" id="modal-consult">
+      <div class="modal-content full-screen">
+        <div class="modal-header">
+          <div class="modal-title">취소 상담 신청</div>
+          <div class="btn-modal-close" onclick="closeConsult()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </div>
+        </div>
+        <div class="modal-body">
+          <p
+            style="
+              font-size: 14px;
+              color: #333;
+              line-height: 1.5;
+              margin-bottom: 24px;
+            "
+          >
+            연락 받으실 연락처를 입력해주시면<br />
+            담당자가 확인 후 빠르게 연락드릴 예정이에요
+          </p>
+
+          <div style="margin-bottom: 24px">
+            <label
+              style="
+                display: block;
+                font-size: 14px;
+                font-weight: 600;
+                margin-bottom: 8px;
+              "
+              >연락처</label
+            >
+            <input
+              type="text"
+              placeholder='"-"을 제외한 숫자만 입력해주세요'
+              style="
+                width: 100%;
+                height: 44px;
+                padding: 0 12px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 14px;
+              "
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div style="display: flex; gap: 8px">
+            <button
+              class="white-button"
+              style="flex: 1"
+              onclick="closeConsult()"
+            >
+              취소
+            </button>
+            <button
+              class="dark-button"
+              style="background: #000; flex: 1"
+              onclick="alert('신청되었습니다'); closeConsult(); document.getElementById('modal-pre-cancel').classList.remove('active'); document.getElementById('modal-request').classList.remove('active');"
+            >
+              신청하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
       function selectReason(element, reasonCode) {
         const list = document.getElementById("reason-list");
@@ -735,7 +890,26 @@
 
       function submitCancellation() {
         document.getElementById("modal-request").classList.remove("active");
+        // For >300k, assume this logic routes to pre-cancel first
+        document.getElementById("modal-pre-cancel").classList.add("active");
+      }
+
+      function goToConfirm() {
+        document.getElementById("modal-pre-cancel").classList.remove("active");
         document.getElementById("modal-confirm").classList.add("active");
+      }
+
+      function openConsult() {
+        // Keeping pre-cancel active in background or replacing? Image implies modal on top or separate.
+        // Let's hide pre-cancel to keep IT clean, or stack. Since overlay covers full screen, stacking might be weird visually if transparent.
+        // Let's hide pre-cancel for now to mimic "moving to next step".
+        document.getElementById("modal-pre-cancel").classList.remove("active");
+        document.getElementById("modal-consult").classList.add("active");
+      }
+
+      function closeConsult() {
+        document.getElementById("modal-consult").classList.remove("active");
+        document.getElementById("modal-pre-cancel").classList.add("active");
       }
 
       function confirmCancellation() {

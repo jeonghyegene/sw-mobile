@@ -309,66 +309,6 @@
         outline: none;
         font-family: inherit;
       }
-      /* Custom ComboBox Styles */
-      .combo-box {
-        position: relative;
-        width: 100%;
-      }
-      .combo-input {
-        width: 100%;
-        height: 44px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 0 40px 0 12px; /* right padding for arrow */
-        font-size: 14px;
-        color: #333;
-        background-color: #fff;
-        outline: none;
-      }
-      .combo-input:focus {
-        border-color: #4e6ee4;
-      }
-      .combo-arrow {
-        position: absolute;
-        top: 50%;
-        right: 12px;
-        transform: translateY(-50%);
-        width: 16px;
-        height: 16px;
-        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")
-          no-repeat center;
-        background-size: contain;
-        pointer-events: none; /* Let clicks pass to input */
-      }
-      .combo-options {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background: white;
-        z-index: 10;
-        margin-top: 4px;
-        max-height: 200px;
-        overflow-y: auto;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-          0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      }
-      .combo-options.active {
-        display: block;
-      }
-      .combo-option {
-        padding: 10px 12px;
-        font-size: 14px;
-        color: #333;
-        cursor: pointer;
-        transition: background-color 0.2s;
-      }
-      .combo-option:hover {
-        background-color: #f4f5f7;
-      }
       /* Success Message */
       .success-message {
         text-align: center;
@@ -420,54 +360,23 @@
                 class="white-button white-button-sm"
                 onclick="event.stopPropagation(); alert('파일 변경 페이지로 이동')"
               >
-                파일 변경 신청
+                파일 변경
               </button>
-            </div>
-            <div
-              class="reason-item"
-              onclick="selectReason(this, 'edit_content')"
-            >
-              <div class="reason-label">접수 내용 수정</div>
-              <div class="reason-desc">
-                간단한 옵션 수정은 고객센터를 통해 수정할 수 있어요 (1599-5555)
-              </div>
             </div>
             <div
               class="reason-item"
               onclick="selectReason(this, 'edit_duplicate')"
             >
-              <div class="reason-label">중복 접수</div>
-              <div class="reason-input-area">
-                <div class="combo-box" id="duplicate-combo">
-                  <input
-                    type="text"
-                    class="combo-input"
-                    placeholder="중복 접수된 접수번호를 선택해주세요"
-                    readonly
-                  />
-                  <div class="combo-arrow"></div>
-                  <div class="combo-options">
-                    <div class="combo-option">
-                      SW123456-1 (일반명함 - 홍길동 사원 명함)
-                    </div>
-                    <div class="combo-option">
-                      SW123456-2 (일반명함 - 김길동 사원 명함)
-                    </div>
-                    <div class="combo-option">
-                      SW123456-3 (일반명함 - 김길동 사원 명함)
-                    </div>
-                    <div class="combo-option">
-                      SW123456-4 (일반명함 - 김길동 사원 명함)
-                    </div>
-                  </div>
-                </div>
+              <div class="reason-label">접수 내용 수정 / 중복 접수</div>
+              <div class="reason-desc">
+                간단한 옵션 수정은 고객센터를 통해 수정할 수 있어요 (1599-5555)
               </div>
             </div>
             <div class="reason-item" onclick="selectReason(this, 'delivery')">
               <div class="reason-label">배송지 / 배송 방법 변경</div>
               <div class="reason-desc">
-                조판 전까지 [배송지 변경] 또는 고객센터를 통해 배송지를 변경할
-                수 있어요 (1599-5555)
+                조판 전까지 [배송지 변경] 또는 고객센터를 통해 변경할 수 있어요
+                (1599-5555)
               </div>
               <button
                 class="white-button white-button-sm"
@@ -507,6 +416,8 @@
             </div>
           </div>
           <ul class="disclaimer list">
+            <li>성원머니로 10만원 미만 결제한 접수 건일 경우 바로 취소돼요</li>
+            <li>그 외 접수건은 접수 담당자 확인 후 취소 처리가 진행돼요</li>
             <li>
               디자인 신청 접수 건일 경우, 디자인 작업이 시작된 이후에는 디자인
               신청 비용이 환불되지 않아요
@@ -526,8 +437,8 @@
       </div>
     </div>
 
-    <!-- 취소 확인 모달 (기존 success 모달 변경) -->
-    <div class="modal-overlay" id="modal-confirm">
+    <!-- 취소 완료 모달 -->
+    <div class="modal-overlay" id="modal-success">
       <div class="modal-content full-screen">
         <div class="modal-header">
           <div class="modal-title">접수 취소</div>
@@ -539,186 +450,59 @@
           </div>
         </div>
         <div class="modal-body">
-          <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px">
-            취소 상세 내용을 한번 더 확인해주세요
-          </h2>
-
-          <h3 style="font-size: 14px; font-weight: 400; margin-bottom: 8px">
+          <div class="success-message">
+            <h2>취소 신청이 완료되었어요</h2>
+          </div>
+          <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 10px">
             취소 제품
           </h3>
           <div class="order-card">
             <div class="oc-body">
               <div class="oc-title">
-                <span style="font-weight: 700"
-                  >[일반 명함] 홍길동 사원 명함</span
-                >
+                <span>[디지털엽서] A6 사이즈 양면 인쇄 접수</span>
               </div>
-              <div class="oc-option-box" style="margin-top: 4px">
-                용지: 스노우지 / 백색 / 150g | 인쇄: 양면 / CMYK / 금색 | 수량:
-                500매 / 2건 | 가공: 오시 / 박 / 코팅
+              <div class="oc-option-box">
+                용지: 아르떼 / 백색 / 230g | 인쇄: 양면 / CMYK / 금색 | 규격:
+                100x148mm | 가공: 오시 / 미싱
               </div>
             </div>
           </div>
-
-          <h3 style="font-size: 14px; font-weight: 400; margin-bottom: 8px">
-            취소 사유
-          </h3>
-          <div
-            style="
-              padding: 16px;
-              border: 1px solid #e8e8e9;
-              border-radius: 8px;
-              margin-bottom: 20px;
-              font-size: 14px;
-              color: #333;
-            "
-          >
-            접수 보류 / 원청 취소 / 단순 변심
-          </div>
-
-          <h3 style="font-size: 14px; font-weight: 400; margin-bottom: 8px">
-            환불 예정금액
-          </h3>
           <div class="info-section">
-            <div
-              class="info-sub-row"
-              style="border-bottom: none; padding-bottom: 0"
-            >
-              <span class="label" style="font-weight: 700; color: #333"
-                >총 환불 예정금액</span
-              >
-              <span class="value" style="color: #4e6ee4; font-size: 18px"
-                >₩17,750</span
-              >
-            </div>
-            <div class="info-sub-row" style="margin-top: 12px">
-              <span class="label">성원 머니</span>
-              <span class="value" style="font-weight: 400">₩16,750</span>
+            <div class="title">환불 예정금액</div>
+            <div class="info-sub-row total">
+              <span class="label">총 환불 예정금액</span>
+              <span class="value">₩8,500</span>
             </div>
             <div class="info-sub-row">
-              <span class="label">성원 포인트</span>
-              <span class="value" style="font-weight: 400">1,000P</span>
+              <span class="label">성원머니</span>
+              <span class="value">₩8,500</span>
             </div>
           </div>
-
-          <ul class="disclaimer list" style="margin-top: 20px">
+          <ul class="disclaimer list">
             <li>
               결제금액 환불은 취소일로부터 3~5 영업일이 소요돼요 (카드/은행사에
               따라 상이)
             </li>
             <li>성원머니로 결제했을 경우 성원머니로 환불 금액이 입금돼요</li>
-            <li>
-              간편결제 내부 할인 적용 건의 경우, 각 결제사의 정책에 따라 실제
-              환불 금액이 달라질 수 있어요
-            </li>
           </ul>
         </div>
         <div class="modal-footer">
-          <button
-            class="dark-button"
-            style="background: #000"
-            onclick="confirmCancellation()"
-          >
-            취소하기
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 접수 취소 완료 모달 (New) -->
-    <div class="modal-overlay" id="modal-complete">
-      <div class="modal-content full-screen">
-        <div class="modal-header">
-          <div class="modal-title">접수 취소 완료</div>
-          <div class="btn-modal-close" onclick="history.back()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path d="M18 6l-12 12" />
-              <path d="M6 6l12 12" />
-            </svg>
-          </div>
-        </div>
-        <div class="modal-body">
-          <div style="text-align: center; margin-bottom: 30px">
-            <h2
-              style="font-size: 18px; font-weight: 700; margin-bottom: 8px"
-              id="complete-title"
+          <div style="display: flex; gap: 8px">
+            <button
+              class="white-button"
+              style="flex: 1"
+              onclick="location.href='마이페이지-접수배송내역(취소상세).html'"
             >
-              취소가 완료되었어요 (2025-11-29)
-            </h2>
-            <p style="color: #4e6ee4; font-size: 14px">
-              3~5영업일 이내에 환불될 예정이에요
-            </p>
-          </div>
-
-          <h3 style="font-size: 14px; font-weight: 400; margin-bottom: 8px">
-            취소 제품
-          </h3>
-          <div class="order-card">
-            <div class="oc-body">
-              <div class="oc-title">
-                <span style="font-weight: 700"
-                  >[일반 명함] 홍길동 사원 명함</span
-                >
-              </div>
-              <div class="oc-option-box" style="margin-top: 4px">
-                용지: 스노우지 / 백색 / 150g | 인쇄: 양면 / CMYK / 금색 | 수량:
-                500매 / 2건 | 가공: 오시 / 박 / 코팅
-              </div>
-            </div>
-          </div>
-
-          <h3 style="font-size: 14px; font-weight: 400; margin-bottom: 8px">
-            취소 사유
-          </h3>
-          <div
-            style="
-              padding: 16px;
-              border: 1px solid #e8e8e9;
-              border-radius: 8px;
-              margin-bottom: 20px;
-              font-size: 14px;
-              color: #333;
-            "
-          >
-            접수 보류 / 원청 취소 / 단순 변심
-          </div>
-
-          <h3 style="font-size: 14px; font-weight: 400; margin-bottom: 8px">
-            환불 예정금액
-          </h3>
-          <div class="info-section">
-            <div
-              class="info-sub-row"
-              style="border-bottom: none; padding-bottom: 0"
+              취소내역 상세
+            </button>
+            <button
+              class="dark-button"
+              style="flex: 1"
+              onclick="alert('재접수 프로세스')"
             >
-              <span class="label" style="font-weight: 700; color: #333"
-                >총 환불 예정금액</span
-              >
-              <span class="value" style="color: #4e6ee4; font-size: 18px"
-                >₩17,750</span
-              >
-            </div>
-            <div class="info-sub-row" style="margin-top: 12px">
-              <span class="label">성원 머니</span>
-              <span class="value" style="font-weight: 400">₩16,750</span>
-            </div>
-            <div class="info-sub-row">
-              <span class="label">성원 포인트</span>
-              <span class="value" style="font-weight: 400">1,000P</span>
-            </div>
+              동일 옵션으로 재접수
+            </button>
           </div>
-
-          <ul class="disclaimer list" style="margin-top: 20px">
-            <li>
-              결제금액 환불은 취소일로부터 3~5 영업일이 소요돼요 (카드/은행사에
-              따라 상이)
-            </li>
-            <li>성원머니로 결제했을 경우 성원머니로 환불 금액이 입금돼요</li>
-            <li>
-              간편결제 내부 할인 적용 건의 경우, 각 결제사의 정책에 따라 실제
-              환불 금액이 달라질 수 있어요
-            </li>
-          </ul>
         </div>
       </div>
     </div>
@@ -735,70 +519,8 @@
 
       function submitCancellation() {
         document.getElementById("modal-request").classList.remove("active");
-        document.getElementById("modal-confirm").classList.add("active");
+        document.getElementById("modal-success").classList.add("active");
       }
-
-      function confirmCancellation() {
-        document.getElementById("modal-confirm").classList.remove("active");
-        document.getElementById("modal-complete").classList.add("active");
-
-        // Optional: Update date dynamically if needed
-        const today = new Date();
-        const dateStr =
-          today.getFullYear() +
-          "-" +
-          String(today.getMonth() + 1).padStart(2, "0") +
-          "-" +
-          String(today.getDate()).padStart(2, "0");
-        document.getElementById(
-          "complete-title"
-        ).innerText = `취소가 완료되었어요 (${dateStr})`;
-      }
-
-      // Combo Box Logic
-      document.addEventListener("DOMContentLoaded", () => {
-        const combo = document.getElementById("duplicate-combo");
-        const input = combo.querySelector(".combo-input");
-        const optionsContainer = combo.querySelector(".combo-options");
-        const options = combo.querySelectorAll(".combo-option");
-
-        // Toggle dropdown on input click
-        input.addEventListener("click", (e) => {
-          e.stopPropagation(); // Prevent selectReason triggering if bubble weirdly
-          optionsContainer.classList.toggle("active");
-        });
-
-        // Select option
-        options.forEach((option) => {
-          option.addEventListener("click", (e) => {
-            e.stopPropagation();
-            input.value = option.textContent.trim();
-            optionsContainer.classList.remove("active");
-          });
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener("click", (e) => {
-          if (!combo.contains(e.target)) {
-            optionsContainer.classList.remove("active");
-          }
-        });
-
-        // Optional: If user wants to type, we remove 'readonly' from input.
-        // But for now, since it mimics select with options, readonly + manual entry logic implies
-        // standard input behavior.
-        // User said "input text also", so I remove 'readonly' if they want free text.
-        // However, "options below appear as divs" suggests a combobox pattern.
-        // Let's enable typing.
-        input.removeAttribute("readonly");
-
-        input.addEventListener("input", () => {
-          // If typing, we can show list or filter. For now just show list.
-          if (!optionsContainer.classList.contains("active")) {
-            optionsContainer.classList.add("active");
-          }
-        });
-      });
     </script>
   </body>
 </html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>견적 비교 모달</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* [v12] Master Guide CSS Reset & Base */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        font-family: "Pretendard", -apple-system, sans-serif;
+        background-color: #f4f5f7;
+        color: #333;
+        font-size: 16px;
+        line-height: 1.6;
+        height: 100%;
+        overflow: hidden;
+      }
+      ul,
+      li {
+        list-style: none;
+      }
+      button {
+        font-family: inherit;
+        border: none;
+        cursor: pointer;
+        background: none;
+        padding: 0;
+      }
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      svg {
+        stroke-width: 2;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+        display: block;
+      }
+
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+      .full-modal-content {
+        width: 100%;
+        height: 100%;
+        max-width: 480px;
+        display: flex;
+        flex-direction: column;
+        background: white;
+        margin: 0 auto;
+      }
+
+      .modal-header-full {
+        height: 56px;
+        background: white;
+        border-bottom: 1px solid #cccccc;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        flex-shrink: 0;
+        position: relative;
+      }
+      .modal-title-full {
+        flex: 1;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: left;
+        color: #212121;
+      }
+      .btn-modal-close-full {
+        width: 24px;
+        height: 24px;
+        color: #333;
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .modal-body-full {
+        padding: 16px;
+        overflow-y: auto;
+        flex-grow: 1;
+      }
+      .modal-footer-full {
+        padding: 16px;
+        border-top: 1px solid #e8e8e9;
+        background: #fff;
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .quote-select-message {
+        font-size: 14px;
+        color: #888;
+        margin-bottom: 16px;
+      }
+      .quote-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .common-table-card.quote-select-card {
+        padding: 12px 15px;
+        cursor: pointer;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        background: white;
+        position: relative;
+        transition: all 0.2s;
+      }
+      .common-table-card.quote-select-card.selected {
+        border-color: #4e6ee4;
+        background-color: #f8fbff;
+      }
+
+      .quote-card-header-main {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      .quote-card-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 10px;
+      }
+      .quote-date {
+        font-size: 13px;
+        font-weight: 500;
+        color: #888;
+        flex-shrink: 0;
+      }
+      .card-divider {
+        width: 100%;
+        height: 1px;
+        background: #e8e8e9;
+        margin: 10px 0;
+      }
+      .quote-spec {
+        font-size: 13px;
+        color: #666;
+        line-height: 1.5;
+      }
+
+      .checkbox-text-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+        min-width: 0;
+      }
+      .checkbox {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        position: relative;
+      }
+      .checkbox-off {
+        width: 100%;
+        height: 100%;
+        background: white;
+        border: 1px solid #bdbdbd;
+        border-radius: 2px;
+      }
+      .checkbox-on {
+        width: 100%;
+        height: 100%;
+        background: #4e6ee4;
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .checkbox-on img {
+        width: 14px;
+        height: 14px;
+      }
+
+      .dark-button {
+        background: #424242;
+        color: white;
+        height: 44px;
+        width: 100%;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .dark-button:disabled {
+        background: #cccccc;
+        cursor: default;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="modal-overlay">
+      <div class="full-modal-content">
+        <header class="modal-header-full">
+          <h1 class="modal-title-full">견적 비교</h1>
+          <button
+            type="button"
+            class="btn-modal-close-full"
+            onclick="history.back();"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </button>
+        </header>
+        <div class="modal-body-full">
+          <p class="quote-select-message">
+            비교할 견적을 선택해주세요 (최대 2건)
+          </p>
+          <div class="quote-list" id="quote-list-container">
+            <div
+              class="common-table-card quote-select-card"
+              data-quote-id="1"
+              onclick="toggleQuoteSelection(this)"
+            >
+              <div class="quote-card-header-main">
+                <div class="checkbox-text-wrapper">
+                  <div class="checkbox" data-checked="false">
+                    <div class="checkbox-off"></div>
+                  </div>
+                  <span class="quote-card-title"
+                    >[일반 명함] 사원용 명함 견적</span
+                  >
+                </div>
+                <span class="quote-date">2025-09-16</span>
+              </div>
+              <div class="card-divider"></div>
+              <div class="quote-spec">
+                아르떼 울트라화이트 310g/208×154 / 양면칼라 8도 /
+                디지털인쇄(인디고)/...
+              </div>
+            </div>
+
+            <div
+              class="common-table-card quote-select-card"
+              data-quote-id="2"
+              onclick="toggleQuoteSelection(this)"
+            >
+              <div class="quote-card-header-main">
+                <div class="checkbox-text-wrapper">
+                  <div class="checkbox" data-checked="false">
+                    <div class="checkbox-off"></div>
+                  </div>
+                  <span class="quote-card-title"
+                    >[일반 명함] 사원용 명함 견적</span
+                  >
+                </div>
+                <span class="quote-date">2025-09-16</span>
+              </div>
+              <div class="card-divider"></div>
+              <div class="quote-spec">
+                아르떼 울트라화이트 310g/208×154 / 양면칼라 8도 /
+                디지털인쇄(인디고)/...
+              </div>
+            </div>
+
+            <div
+              class="common-table-card quote-select-card"
+              data-quote-id="3"
+              onclick="toggleQuoteSelection(this)"
+            >
+              <div class="quote-card-header-main">
+                <div
+                  class="checkbox-text-wrapper"
+                  data-checkbox-role="toggle-select"
+                >
+                  <div class="checkbox" data-checked="false">
+                    <div class="checkbox-off"></div>
+                  </div>
+                  <span class="quote-card-title"
+                    >[책자] 기업 홍보용 책자 (마감 임박)</span
+                  >
+                </div>
+                <span class="quote-date">2025-08-16</span>
+              </div>
+              <div class="card-divider" style="margin: 10px 0"></div>
+              <div class="quote-spec">
+                용지: 누브지/220g | 인쇄: 양면CMYK/고급 | 사이즈: 210x297mm /
+                중철
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer-full">
+          <button
+            class="dark-button"
+            id="quote-select-complete-btn"
+            onclick="handleQuoteSelectComplete()"
+          >
+            선택 완료
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const maxSelection = 2;
+      function getCheckedCount() {
+        return document.querySelectorAll(".quote-select-card.selected").length;
+      }
+
+      function updateQuoteSelectionButton() {
+        const selectedCount = getCheckedCount();
+        const completeBtn = document.getElementById(
+          "quote-select-complete-btn"
+        );
+        completeBtn.disabled = selectedCount === 0;
+        completeBtn.textContent =
+          selectedCount > 0 ? `선택 완료 (${selectedCount}개)` : "선택 완료";
+      }
+
+      function toggleQuoteSelection(card) {
+        const checkbox = card.querySelector(".checkbox");
+        const isSelected = card.classList.contains("selected");
+        if (isSelected) {
+          card.classList.remove("selected");
+          checkbox.dataset.checked = "false";
+          checkbox.innerHTML = '<div class="checkbox-off"></div>';
+        } else if (getCheckedCount() < maxSelection) {
+          card.classList.add("selected");
+          checkbox.dataset.checked = "true";
+          checkbox.innerHTML =
+            '<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>';
+        } else {
+          alert(`견적은 최대 ${maxSelection}개까지 선택 가능합니다.`);
+        }
+        updateQuoteSelectionButton();
+      }
+
+      function handleQuoteSelectComplete() {
+        const selectedQuotes = Array.from(
+          document.querySelectorAll(".quote-select-card.selected")
+        ).map((card) => card.dataset.quoteId);
+        alert(`선택 완료: ${selectedQuotes.join(", ")}번 견적`);
+      }
+      updateQuoteSelectionButton();
+    </script>
+  </body>
+</html>

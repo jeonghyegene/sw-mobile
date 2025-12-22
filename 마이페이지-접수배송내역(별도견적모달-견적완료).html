@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>별도견적 신청 상세</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* [v12] Master Guide CSS Inheritance */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #f4f5f7;
+        color: #333;
+        font-size: 16px;
+        line-height: 1.6;
+        height: 100%;
+        width: 100%;
+      }
+
+      /* Layout */
+      .mobile-wrap {
+        width: 100%;
+        max-width: 480px;
+        min-height: 100%;
+        margin: 0 auto;
+        background-color: #fff;
+        position: relative;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Modal Styles */
+      .modal-overlay {
+        position: absolute;
+        inset: 0;
+        background: #fff;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        z-index: 100;
+      }
+
+      .modal-content {
+        background: white;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 16px;
+        position: relative;
+        height: 56px;
+        flex-shrink: 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .modal-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: black;
+      }
+
+      .btn-modal-close {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        color: #333;
+      }
+
+      .modal-body {
+        padding: 0 20px 24px; /* Modified padding */
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex-grow: 1;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .info-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px; /* Increased gap */
+        margin-top: 10px;
+      }
+
+      .info-row {
+        display: flex;
+        align-items: flex-start;
+        font-size: 14px;
+      }
+
+      .info-label {
+        width: 80px; /* Adjusted width */
+        color: #666;
+        font-weight: 400;
+        flex-shrink: 0;
+      }
+
+      .info-value {
+        color: #333;
+        font-weight: 400;
+        line-height: 1.5;
+        word-break: keep-all;
+        flex: 1;
+      }
+
+      /* Table Styles */
+      .estimate-table-container {
+        margin-top: 24px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .estimate-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+      }
+
+      .estimate-table th {
+        background-color: #e0e0e0;
+        color: #333;
+        font-weight: 400;
+        padding: 10px 0;
+      }
+
+      .estimate-table td {
+        padding: 12px 0;
+        color: #333;
+        border-bottom: 1px solid #e0e0e0;
+        vertical-align: middle;
+      }
+
+      .estimate-table td:last-child {
+        border-bottom: none;
+      }
+
+      .estimate-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .estimate-table .price {
+        font-weight: 600;
+      }
+
+      .btn-view-quote {
+        border: 1px solid #c8c8c8;
+        background-color: white;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 13px;
+        cursor: pointer;
+        color: #333;
+      }
+
+      /* Footer Info */
+      .footer-info {
+        margin-top: 20px;
+      }
+
+      .info-text {
+        font-size: 13px;
+        color: #888;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .info-text svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+      }
+
+      svg {
+        display: block;
+      }
+
+      /* ========================================= */
+      /* [Added] CSS for 'Estimate Issue' Modal    */
+      /* Copied from 마이페이지-저장견적.html      */
+      /* ========================================= */
+
+      .full-page-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 16px;
+      }
+
+      .full-page-modal-overlay.active {
+        display: flex;
+        animation: fadeInModal 0.2s ease-out;
+      }
+
+      @keyframes fadeInModal {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .full-page-modal {
+        background: white;
+        border-radius: 0;
+        width: 100%;
+        max-width: 480px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        animation: scaleUpModal 0.2s ease-out;
+        position: fixed;
+        top: 0;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        z-index: 2001; /* Ensure it's on top */
+      }
+
+      @keyframes scaleUpModal {
+        from {
+          transform: translateX(-50%) scale(0.95);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(-50%) scale(1);
+          opacity: 1;
+        }
+      }
+
+      .full-page-modal .modal-header {
+        display: flex;
+        justify-content: space-between; /* Fix header layout */
+        align-items: center;
+        padding: 0 16px;
+        position: relative;
+        height: 56px;
+        flex-shrink: 0;
+        border-bottom: 1px solid #e8e8e9;
+      }
+
+      .full-page-modal .modal-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: black;
+        text-align: left;
+        flex: 1;
+      }
+
+      .full-page-modal .header-share-btn {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        color: #333;
+        margin-right: 12px;
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .header-share-btn svg {
+        stroke-width: 2px;
+      }
+
+      .full-page-modal .btn-modal-close {
+        position: static; /* Override absolute positioning */
+        transform: none;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .full-page-modal .modal-body {
+        padding: 16px;
+        overflow-y: auto;
+      }
+
+      .full-page-modal .modal-footer {
+        padding: 16px;
+        border-top: 1px solid #e8e8e9;
+        background: #fff;
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .full-page-modal .btn {
+        flex: 1;
+        height: 44px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .full-page-modal .white-button {
+        background: white;
+        color: #424242;
+        border: 1px solid #e8e8e9;
+      }
+
+      .full-page-modal .primary-button {
+        background-color: #4e6ee4;
+        color: white;
+        border: none;
+      }
+
+      /* Detail Box Styles */
+      .detail-box {
+        background: #f8f8f9;
+        padding: 16px;
+        border-radius: 6px;
+        margin-bottom: 16px;
+        margin-top: 15px;
+      }
+
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+      .detail-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .detail-label {
+        color: #555;
+      }
+      .detail-value {
+        color: #333;
+        font-weight: 500;
+        text-align: right;
+      }
+
+      .price-row.total {
+        font-weight: 700;
+        color: #333;
+        font-size: 16px;
+        margin-top: 8px;
+        border-top: 1px solid #e0e0e0;
+        padding-top: 12px;
+        display: flex;
+        justify-content: space-between; /* Validated fix for total row alignment */
+      }
+
+      /* Form Group */
+      .form-group {
+        margin-bottom: 16px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      .recipient-input-group {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 14px;
+        color: #333;
+      }
+      .recipient-input-group .input {
+        flex: 1;
+        height: 40px;
+        background: white;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+      }
+      .recipient-input-group .input input,
+      .recipient-input-group .input textarea {
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        font-family: inherit;
+        resize: none;
+      }
+      .recipient-input-group .suffix {
+        font-weight: 500;
+      }
+
+      .modal-section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #e8e8e9;
+        padding-bottom: 8px;
+        margin-top: 20px;
+      }
+
+      .history-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      .history-table th {
+        background: #f8f8f9;
+        padding: 10px 8px;
+        border-bottom: 1px solid #e8e8e9;
+        color: #555;
+        font-weight: 600;
+        text-align: center;
+        width: 100px;
+      }
+      .history-table td {
+        padding: 10px 8px 10px 12px;
+        border-bottom: 1px solid #f0f0f0;
+        color: #333;
+        text-align: left;
+      }
+
+      .disclaimer {
+        font-size: 12px;
+        color: #888;
+        margin-top: 8px;
+        line-height: 1.5;
+      }
+
+      /* Styles from 마이페이지-저장견적.html for the modal */
+      .full-page-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 16px;
+      }
+
+      .full-page-modal-overlay.active {
+        display: flex;
+        animation: fadeInModal 0.2s ease-out;
+      }
+
+      @keyframes fadeInModal {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .full-page-modal {
+        background: white;
+        border-radius: 0;
+        width: 100%;
+        max-width: 480px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        animation: scaleUpModal 0.2s ease-out;
+        position: fixed;
+        top: 0;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+      }
+
+      .full-page-modal .modal-header {
+        border-bottom: 1px solid #e8e8e9;
+        justify-content: space-between;
+      }
+
+      .full-page-modal .modal-title {
+        font-size: 16px;
+        font-weight: 700;
+        flex: 1;
+        text-align: left;
+      }
+
+      .full-page-modal .modal-body {
+        padding: 16px;
+        overflow-y: auto;
+      }
+
+      .full-page-modal .modal-footer {
+        padding: 16px;
+        border-top: 1px solid #e8e8e9;
+        background: #fff;
+        display: flex;
+        gap: 8px;
+      }
+
+      .full-page-modal .btn {
+        flex: 1;
+        height: 44px;
+        padding: 7px 10px;
+        border-radius: 6px;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .full-page-modal .white-button {
+        background: white;
+        color: #424242;
+        border: 1px solid #e8e8e9;
+      }
+
+      .full-page-modal .primary-button {
+        background-color: #4e6ee4;
+        color: white;
+      }
+
+      .header-share-btn {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        color: #333;
+        margin-right: 5px;
+        background: none;
+        border: none;
+      }
+
+      /* Detail Box Styles */
+      .detail-box {
+        background: #f8f8f9;
+        padding: 16px;
+        border-radius: 6px;
+        margin-bottom: 16px;
+        margin-top: 0;
+      }
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+      .detail-row:last-child {
+        margin-bottom: 0;
+      }
+      .detail-label {
+        color: #555;
+      }
+      .detail-value {
+        color: #333;
+        font-weight: 500;
+        text-align: right;
+      }
+      .price-row.total {
+        font-weight: 700;
+        color: #333;
+        font-size: 16px;
+        margin-top: 8px;
+        margin-bottom: 0;
+        border-top: 1px solid #e0e0e0;
+        padding-top: 8px;
+      }
+
+      /* Form Group */
+      .form-group {
+        margin-bottom: 16px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+      }
+      .recipient-input-group {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 14px;
+        color: #333;
+      }
+      .recipient-input-group .input {
+        flex: 1;
+        height: 40px;
+        background: white;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+      }
+      .recipient-input-group .input input {
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 14px;
+      }
+      .recipient-input-group .suffix {
+        font-weight: 500;
+      }
+
+      .modal-section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #e8e8e9;
+        padding-bottom: 8px;
+        margin-top: 20px;
+      }
+
+      .history-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      .history-table th {
+        background: #f8f8f9;
+        padding: 10px 8px;
+        border-bottom: 1px solid #e8e8e9;
+        color: #555;
+        font-weight: 600;
+        text-align: center;
+        width: 100px;
+      }
+      .history-table td {
+        padding: 10px 8px 10px 12px;
+        border-bottom: 1px solid #f0f0f0;
+        color: #333;
+        text-align: left;
+      }
+
+      .disclaimer {
+        font-size: 12px;
+        color: #888;
+        margin-top: 8px;
+        line-height: 1.5;
+      }
+
+      .input textarea {
+        width: 100%;
+        border: none;
+        outline: none;
+        resize: none;
+        font-family: inherit;
+        font-size: 14px;
+      }
+      .input {
+        width: 100%;
+        background: white;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        padding: 10px 12px;
+      }
+      button {
+        font-family: inherit;
+        border: none;
+        cursor: pointer;
+        background: none;
+        padding: 0;
+      }
+
+      /* Re-request Modal Styles */
+      .re-request-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none; /* Hidden by default */
+        align-items: center;
+        justify-content: center;
+        z-index: 3000; /* Highest z-index */
+        padding: 16px;
+      }
+
+      .re-request-modal-overlay.active {
+        display: flex;
+      }
+
+      .re-request-modal-overlay .modal-content {
+        width: 100%;
+        max-width: 480px;
+        height: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        background: white;
+      }
+
+      .re-request-modal-overlay .modal-header {
+        justify-content: space-between;
+        border-bottom: 1px solid #e8e8e9;
+      }
+
+      .re-request-modal-overlay .btn-modal-close {
+        position: static;
+        transform: none;
+      }
+
+      .re-request-modal-overlay .modal-footer {
+        padding: 16px;
+        border-top: 1px solid #e8e8e9;
+        background: #fff;
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .re-request-modal-overlay .modal-footer button {
+        flex: 1;
+      }
+
+      /* Buttons Global */
+      .dark-button {
+        background: #222;
+        color: white;
+        height: 44px;
+        padding: 0 19px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        cursor: pointer;
+      }
+
+      .white-button {
+        background: white;
+        color: #424242;
+        height: 44px;
+        padding: 0 19px;
+        border-radius: 6px;
+        border: 1px solid #e8e8e9;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="mobile-wrap">
+      <div class="modal-overlay">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title">별도견적 신청 상세</h2>
+            <div class="btn-modal-close" onclick="history.back();">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style="width: 24px; height: 24px"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </div>
+          </div>
+
+          <div class="modal-body">
+            <div class="info-section">
+              <div class="info-row">
+                <span class="info-label">신청 현황</span>
+                <span class="info-value">견적 완료</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">요청사항</span>
+                <span class="info-value"
+                  >기본 옵션에 있는 용지 말고, 제가 보유하고 있는 특수지로
+                  제작하고 싶습니다. 해당 용지 수급이 어렵다면 이와 가장 비슷한
+                  질감의 용지로 추천 및 견적 부탁드립니다.</span
+                >
+              </div>
+              <div class="info-row">
+                <span class="info-label">담당자</span>
+                <span class="info-value">홍길동 과장(010-1234-1234)</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 20px">
+              <div
+                class="info-label"
+                style="font-size: 14px; margin-bottom: 8px"
+              >
+                견적 내역
+              </div>
+              <div class="estimate-table-container">
+                <table class="estimate-table">
+                  <colgroup>
+                    <col width="33%" />
+                    <col width="33%" />
+                    <col width="33%" />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th>일시</th>
+                      <th>견적 금액</th>
+                      <th>상세</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>2025-11-18 10:00</td>
+                      <td class="price">₩8,500</td>
+                      <td>
+                        <button
+                          class="btn-view-quote"
+                          onclick="showEstimateModal()"
+                        >
+                          견적서 보기
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="footer-info">
+              <p class="info-text">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                  />
+                </svg>
+                가장 최근에 발급된 견적서를 기준으로 결제가 진행돼요
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden Estimate Modal (Copied from 마이페이지-저장견적.html) -->
+    <div
+      class="full-page-modal-overlay"
+      id="estimate-issue-single-modal-overlay"
+    >
+      <div class="full-page-modal" id="estimate-issue-single-modal">
+        <div class="modal-header">
+          <h2 class="modal-title">견적서 보기</h2>
+
+          <button
+            class="header-share-btn"
+            onclick="alert('공유 링크 복사 완료')"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              stroke-width="2.5"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+              <path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+              <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+              <path d="M8.7 10.7l6.6 -3.4" />
+              <path d="M8.7 13.3l6.6 3.4" />
+            </svg>
+          </button>
+          <button
+            class="btn-modal-close"
+            style="position: static; transform: none"
+            onclick="closeEstimateModal()"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="detail-box">
+            <div class="detail-row">
+              <span class="detail-label">견적일</span>
+              <span class="detail-value">2025년 09월 16일</span>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 16px">
+            <label>수신인</label>
+            <div class="recipient-input-group">
+              <div class="input">
+                <input
+                  type="text"
+                  value="김성수"
+                  placeholder="수신인 이름을 입력해주세요"
+                />
+              </div>
+              <span class="suffix">귀하</span>
+            </div>
+          </div>
+          <h3 class="modal-section-title">공급자 정보</h3>
+          <table class="history-table" style="width: 100%">
+            <tbody>
+              <tr>
+                <th>상호명</th>
+                <td>(주)성원애드피아</td>
+              </tr>
+              <tr>
+                <th>대표자명</th>
+                <td>
+                  정대원
+                  <img
+                    src="assets/images/stamp.png"
+                    alt=""
+                    style="
+                      display: inline-block;
+                      vertical-align: middle;
+                      width: 20px;
+                    "
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>사업자등록번호</th>
+                <td>201-85-22977</td>
+              </tr>
+              <tr>
+                <th>주소</th>
+                <td>성수시 성동구 성수일로 80</td>
+              </tr>
+              <tr>
+                <th>연락처</th>
+                <td>1599-5555</td>
+              </tr>
+              <tr>
+                <th>팩스</th>
+                <td>02-2266-0100</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 class="modal-section-title">제품 상세</h3>
+          <table class="history-table">
+            <tbody>
+              <tr>
+                <th>품명</th>
+                <td>디지털책자</td>
+              </tr>
+              <tr>
+                <th>용지</th>
+                <td>표지: 아트지/백색/160g<br />내지: 아트지/백색/160g</td>
+              </tr>
+              <tr>
+                <th>인쇄</th>
+                <td>내지: 양면/CMYK/일반<br />표지: 양면/CMYK/금색/일반</td>
+              </tr>
+              <tr>
+                <th>제본</th>
+                <td>왼쪽/중철</td>
+              </tr>
+              <tr>
+                <th>규격/수량</th>
+                <td>210x297(mm) / 200부 / 1건</td>
+              </tr>
+              <tr>
+                <th>가공</th>
+                <td>도무송(전체/라운드), 박(전면 금박)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="detail-box">
+            <div class="detail-row">
+              <span class="detail-label">제품금액</span>
+              <span class="detail-value">143,900 원</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">가공비</span>
+              <span class="detail-value">20,000 원</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">부가세</span>
+              <span class="detail-value">14,390 원</span>
+            </div>
+            <div class="price-row total">
+              <span class="detail-label">총 합계 금액</span>
+              <span class="detail-value" style="color: #000">154,240 원</span>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 20px">
+            <label>비고</label>
+            <div class="input">
+              <textarea
+                placeholder="비고 내용을 입력해주세요 (최대 100자)"
+                rows="2"
+              ></textarea>
+            </div>
+          </div>
+
+          <p class="disclaimer">* 본 견적은 견적일로부터 15일간 유효합니다.</p>
+          <p class="disclaimer">
+            * 본 견적은 사양과 작업의 난이도에 따라 가격이 변동될 수 있음을 안내
+            드립니다.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn white-button" onclick="openReRequestModal()">
+            재견적 요청
+          </button>
+          <button class="btn white-button" onclick="alert('이메일 발송')">
+            이메일 발송
+          </button>
+          <button
+            class="btn primary-button"
+            onclick="alert('PDF 다운로드 시작')"
+          >
+            PDF 다운로드
+          </button>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- Re-request Estimate Modal (Adapted from #modal-rework) -->
+    <div class="re-request-modal-overlay" id="modal-re-request">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">재견적 요청</h2>
+          <div class="btn-modal-close" onclick="closeReRequestModal()">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>요청사항</label>
+            <div class="input">
+              <textarea
+                rows="8"
+                placeholder="재견적이 필요한 사항을 자세하게 입력해주세요"
+                oninput="checkReRequestTextLength(this)"
+              ></textarea>
+            </div>
+            <div class="text-counter" id="re-request-text-counter">
+              0/1,000
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="white-button" onclick="closeReRequestModal()">
+            취소
+          </button>
+          <button class="dark-button" onclick="submitReRequest()">
+            재견적 요청
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showEstimateModal() {
+        document
+          .getElementById("estimate-issue-single-modal-overlay")
+          .classList.add("active");
+      }
+
+      function closeEstimateModal() {
+        document
+          .getElementById("estimate-issue-single-modal-overlay")
+          .classList.remove("active");
+      }
+
+      function openReRequestModal() {
+        document.getElementById("modal-re-request").classList.add("active");
+      }
+
+      function closeReRequestModal() {
+        document.getElementById("modal-re-request").classList.remove("active");
+      }
+
+      function submitReRequest() {
+        alert("재견적 요청이 접수되었습니다.");
+        closeReRequestModal();
+      }
+
+      function checkReRequestTextLength(el) {
+        const maxLength = 1000;
+        const currentLength = el.value.length;
+        document.getElementById(
+          "re-request-text-counter"
+        ).textContent = `${currentLength.toLocaleString()}/${maxLength.toLocaleString()}`;
+
+        if (currentLength > maxLength) {
+          el.value = el.value.substring(0, maxLength);
+          document.getElementById(
+            "re-request-text-counter"
+          ).textContent = `${maxLength.toLocaleString()}/${maxLength.toLocaleString()}`;
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>결제하기 (잔여 금액)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* [v12] Master Guide CSS */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #f4f5f7;
+        color: #333;
+        font-size: 16px;
+        line-height: 1.6;
+        height: 100%;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      ul,
+      li {
+        list-style: none;
+      }
+
+      button {
+        font-family: inherit;
+        border: none;
+        cursor: pointer;
+        background: none;
+        padding: 0;
+      }
+
+      input,
+      select {
+        font-family: inherit;
+      }
+
+      /* Layout : Max Width 480px & Center Align */
+      .mobile-wrap {
+        width: 100%;
+        max-width: 480px;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #fff;
+        position: relative;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Buttons */
+      .dark-button {
+        background: #424242;
+        color: white;
+        height: 44px;
+        padding: 7px 19px;
+        border-radius: 6px;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .dark-button:active {
+        transform: scale(0.98);
+      }
+
+      /* Modal Styles */
+      .modal-overlay {
+        position: absolute;
+        inset: 0;
+        background: #fff;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background: white;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 16px;
+        position: relative;
+        height: 56px;
+        flex-shrink: 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .modal-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: black;
+      }
+
+      .btn-modal-close {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        color: #333;
+      }
+
+      .modal-body {
+        padding: 0 20px 20px 20px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex-grow: 1;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+      }
+
+      .modal-footer {
+        padding: 20px;
+        background: #fff;
+        border-top: 1px solid #f0f0f0;
+        flex-shrink: 0;
+        padding-bottom: calc(20px + env(safe-area-inset-bottom));
+      }
+
+      /* [MODIFIED] Total Amount & Reason Section */
+      .payment-total-section {
+        padding: 20px;
+        background: #f9f9f9;
+        width: calc(100% + 40px);
+        margin-left: -20px;
+        margin-bottom: 24px;
+      }
+
+      .payment-summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .payment-summary-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .payment-summary-label {
+        font-size: 15px;
+        color: #333;
+      }
+
+      .payment-summary-value {
+        font-size: 15px;
+        color: #333;
+        text-align: right;
+      }
+
+      .payment-summary-value.amount {
+        font-size: 24px; /* Increased size for emphasis */
+        font-weight: 700;
+      }
+
+      .payment-summary-value.reason {
+        font-size: 15px;
+        font-weight: 400;
+      }
+
+      /* [NEW] Full Payment Option */
+      .full-payment-option {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 24px; /* Space from rows above */
+        gap: 8px;
+      }
+
+      .full-payment-option input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: #333; /* Dark checkbox */
+      }
+
+      .full-payment-option label {
+        font-size: 14px;
+        color: #333;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .section-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 12px;
+      }
+
+      /* Payment Method Chips (Main) */
+      .payment-method-chips {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .payment-chip-lg {
+        background: white;
+        border: 1px solid #e8e8e9;
+        color: #424242;
+        height: 48px;
+        padding: 7px 4px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      .payment-chip-lg.active {
+        border-color: #4e6ee4;
+        background: #f0f3ff;
+        color: #4e6ee4;
+        font-weight: 600;
+      }
+
+      .payment-chip-lg:active {
+        transform: scale(0.98);
+      }
+
+      .payment-chip-lg svg {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+
+      /* Simple Payment Provider Chips */
+      .simple-payment-chips {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 24px;
+      }
+
+      .payment-chip-sm {
+        background: white;
+        border: 1px solid #e8e8e9;
+        color: #424242;
+        height: 40px;
+        padding: 7px 8px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .payment-chip-sm img {
+        max-height: 16px;
+        max-width: 100%;
+      }
+
+      .payment-chip-sm.active {
+        border-color: #4e6ee4;
+        background: #f0f3ff;
+        color: #4e6ee4;
+        font-weight: 600;
+      }
+
+      .payment-chip-sm:active {
+        transform: scale(0.98);
+      }
+
+      /* Styles from payment-step-2.html */
+      .modal-tab-nav {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .modal-tab-nav .single-chip {
+        font-weight: 500;
+      }
+
+      .single-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 100px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+      }
+
+      .single-chip-off {
+        background: #f5f5f6;
+        color: #8a8a92;
+      }
+
+      .single-chip-on {
+        background: #4e6ee4;
+        color: white;
+      }
+
+      .single-chip:active {
+        transform: scale(0.95);
+      }
+
+      .tabs-scroll-wrapper {
+        overflow-x: auto;
+        white-space: nowrap;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        display: flex;
+        gap: 12px;
+        /* 간격 넓힘 */
+        padding-bottom: 4px;
+      }
+
+      .tabs-scroll-wrapper::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* [NEW] Detailed Card Item (Horizontal Scroll) */
+      .detailed-card-item {
+        display: flex;
+        align-items: flex-start;
+        width: 290px;
+        /* 카드 너비 */
+        flex-shrink: 0;
+        border: 1px solid #e8e8e9;
+        border-radius: 12px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: #fff;
+        position: relative;
+      }
+
+      .detailed-card-item.selected {
+        border: 1px solid #4e6ee4;
+        /* 선택 시 파란 테두리 */
+        background-color: #fff;
+      }
+
+      .detailed-card-item:hover {
+        background-color: #fcfcfc;
+      }
+
+      .card-visual-box {
+        width: 64px;
+        height: 100px;
+        flex-shrink: 0;
+        margin-right: 16px;
+        border-radius: 6px;
+        overflow: hidden;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .card-visual-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .card-info-box {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100px;
+        /* 이미지 높이와 맞춤 */
+      }
+
+      .card-name-row {
+        margin-bottom: 4px;
+        line-height: 1.3;
+      }
+
+      .bank-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: #212121;
+        display: block;
+      }
+
+      .card-product-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: #212121;
+      }
+
+      .card-type {
+        font-size: 13px;
+        color: #555;
+        margin-bottom: 12px;
+      }
+
+      .card-number-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-number-label {
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 2px;
+      }
+
+      .card-number-value {
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+
+      /* 카드 추가 버튼 스타일 (동일한 크기 유지) */
+      .detailed-card-item.add-card {
+        border-style: dashed;
+        border-color: #ccc;
+        background: #fcfcfc;
+        color: #666;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .detailed-card-item.add-card svg {
+        width: 24px;
+        height: 24px;
+        color: #888;
+      }
+
+      .detailed-card-item.add-card span {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      /* 계좌 리스트용 (기존 스타일 유지) */
+      .horizontal-card-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-shrink: 0;
+        width: 140px;
+        height: 100px;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        padding: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .horizontal-card-item.selected {
+        border-color: #4e6ee4;
+        background: #f0f3ff;
+      }
+
+      .horizontal-card-item:hover {
+        background-color: #f8f8f9;
+      }
+
+      .horizontal-card-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .horizontal-card-logo {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+        object-fit: contain;
+      }
+
+      .horizontal-card-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .horizontal-card-info {
+        font-size: 12px;
+        color: #888;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .horizontal-card-item.add-card {
+        border-style: dashed;
+        border-color: #ccc;
+        background: #fcfcfc;
+        color: #666;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .horizontal-card-item.add-card svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* View Panels */
+      .payment-content-panel {
+        display: none;
+      }
+
+      .payment-content-panel.active {
+        display: block;
+      }
+
+      .simple-payment-sub-view {
+        display: none;
+      }
+
+      .simple-payment-sub-view.active {
+        display: block;
+      }
+
+      .form-fields-wrapper {
+        display: none;
+      }
+
+      .form-fields-wrapper.active {
+        display: block;
+      }
+
+      /* Forms */
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 6px;
+      }
+
+      .input-wrapper {
+        position: relative;
+        width: 100%;
+      }
+
+      .input-wrapper select {
+        width: 100%;
+        height: 44px;
+        padding: 0 32px 0 12px;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        font-size: 14px;
+        background: #fff;
+        appearance: none;
+        outline: none;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .input-wrapper::after {
+        content: "";
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
+      }
+
+      .disclaimer {
+        font-size: 12px;
+        color: #888;
+        margin-top: 8px;
+        line-height: 1.5;
+      }
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* [NEW] Checkbox (from v12 guide) */
+      .checkbox {
+        width: 20px;
+        height: 20px;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+        flex-shrink: 0;
+      }
+
+      .checkbox-off {
+        width: 100%;
+        height: 100%;
+        background: white;
+        border: 1px solid #bdbdbd;
+        border-radius: 2px;
+      }
+
+      .checkbox-on {
+        width: 100%;
+        height: 100%;
+        background: #4e6ee4;
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .checkbox-on img {
+        width: 14px;
+        height: 14px;
+      }
+
+      .checkbox:active {
+        transform: scale(0.9);
+      }
+
+      .checkbox-text {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .checkbox-text span {
+        font-size: 14px;
+        color: #333;
+      }
+
+      /* [NEW] Payment Notice Box */
+      .payment-notice-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        margin-bottom: 12px;
+        font-size: 12px;
+        color: #666;
+      }
+
+      .payment-notice-box svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        color: #666;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="mobile-wrap">
+      <div class="modal-overlay" id="payment-modal-overlay">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title">결제하기</h2>
+            <div class="btn-modal-close" onclick="alert('닫기 버튼 클릭')">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </div>
+          </div>
+
+          <div class="modal-body">
+            <div class="payment-total-section">
+              <div class="payment-summary-row">
+                <span class="payment-summary-label">선결제 금액</span>
+                <span class="payment-summary-value amount">₩50,000</span>
+              </div>
+              <div class="payment-summary-row">
+                <span class="payment-summary-label">잔여 금액</span>
+                <span class="payment-summary-value reason">₩60,000</span>
+              </div>
+              <div class="full-payment-option">
+                <div
+                  class="checkbox"
+                  data-checked="false"
+                  id="full-payment-check"
+                  onclick="toggleCheckbox(this);"
+                >
+                  <div class="checkbox-off"></div>
+                </div>
+                <label for="full-payment-check">전체 금액 결제하기</label>
+              </div>
+            </div>
+
+            <h3 class="section-title">결제수단</h3>
+            <div class="payment-method-chips" id="payment-method-chips">
+              <button
+                class="payment-chip-lg active"
+                data-method="simple-payment"
+                onclick="selectPaymentMethod(this)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="icon icon-tabler icons-tabler-outline icon-tabler-wallet"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12"
+                  />
+                  <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" />
+                </svg>
+                간편결제
+              </button>
+              <button
+                class="payment-chip-lg"
+                data-method="credit-card"
+                onclick="selectPaymentMethod(this)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="icon icon-tabler icons-tabler-outline icon-tabler-credit-card"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    d="M3 5m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z"
+                  />
+                  <path d="M3 10l18 0" />
+                  <path d="M7 15l.01 0" />
+                  <path d="M11 15l2 0" />
+                </svg>
+                신용카드
+              </button>
+            </div>
+
+            <div
+              class="payment-content-panel active"
+              id="payment-content-simple-payment"
+            >
+              <div class="simple-payment-chips" id="simple-payment-chips">
+                <button
+                  class="payment-chip-sm"
+                  onclick="selectSimpleProvider(this, 'Kakao')"
+                >
+                  <img
+                    src="assets/images/kakaopay.png"
+                    alt="카카오페이"
+                    style="width: 60px"
+                  />
+                </button>
+                <button
+                  class="payment-chip-sm"
+                  onclick="selectSimpleProvider(this, 'Toss')"
+                >
+                  <img
+                    src="assets/images/tosspay.png"
+                    alt="토스페이"
+                    style="width: 80px; max-height: 30px"
+                  />
+                </button>
+                <button
+                  class="payment-chip-sm"
+                  onclick="selectSimpleProvider(this, 'Naver')"
+                >
+                  <img
+                    src="assets/images/npay.png"
+                    alt="네이버페이"
+                    style="width: 47px"
+                  />
+                </button>
+                <button
+                  class="payment-chip-sm"
+                  onclick="selectSimpleProvider(this, 'Payco')"
+                >
+                  <img
+                    src="assets/images/payco.png"
+                    alt="페이코"
+                    style="height: 12px"
+                  />
+                </button>
+                <button
+                  class="payment-chip-sm"
+                  onclick="selectSimpleProvider(this, 'PayPal')"
+                >
+                  <img
+                    src="assets/images/paypal.png"
+                    alt="페이팔"
+                    style="width: 55px"
+                  />
+                </button>
+              </div>
+
+              <div
+                class="simple-payment-sub-view active"
+                id="simple-payment-view-default"
+              >
+                <nav class="modal-tab-nav" id="simple-payment-tabs">
+                  <div
+                    class="single-chip single-chip-on"
+                    data-tab="card"
+                    onclick="selectSimplePaymentTab(this, 'card')"
+                  >
+                    신용/체크카드
+                  </div>
+                  <div
+                    class="single-chip single-chip-off"
+                    data-tab="account"
+                    onclick="selectSimplePaymentTab(this, 'account')"
+                  >
+                    계좌이체
+                  </div>
+                </nav>
+
+                <div
+                  class="form-fields-wrapper active"
+                  data-tab-content="card"
+                  id="simple-payment-content-card"
+                >
+                  <div class="tabs-scroll-wrapper">
+                    <div
+                      class="detailed-card-item selected"
+                      onclick="selectRegisteredPayment(this)"
+                    >
+                      <div class="card-visual-box">
+                        <img src="assets/images/card-kbank.png" alt="" />
+                      </div>
+                      <div class="card-info-box">
+                        <div class="card-name-row">
+                          <span class="bank-name">케이뱅크</span>
+                          <span class="card-product-name">SIMPLE 카드</span>
+                        </div>
+                        <div class="card-type">체크카드</div>
+                        <div class="card-number-group">
+                          <span class="card-number-label">카드번호</span>
+                          <span class="card-number-value"
+                            >123456******7890</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="detailed-card-item"
+                      onclick="selectRegisteredPayment(this)"
+                    >
+                      <div class="card-visual-box">
+                        <img src="assets/images/card-hyundai.png" alt="" />
+                      </div>
+                      <div class="card-info-box">
+                        <div class="card-name-row">
+                          <span class="bank-name">현대카드</span>
+                          <span class="card-product-name">ZERO Edition2</span>
+                        </div>
+                        <div class="card-type">신용카드</div>
+                        <div class="card-number-group">
+                          <span class="card-number-label">카드번호</span>
+                          <span class="card-number-value"
+                            >123456******1234</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      class="detailed-card-item add-card"
+                      onclick="alert('카드 등록 (구현 필요)')"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#888"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M12 5l0 14"></path>
+                        <path d="M5 12l14 0"></path>
+                      </svg>
+                      <span>카드 등록하기</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  class="form-fields-wrapper"
+                  data-tab-content="account"
+                  id="simple-payment-content-account"
+                >
+                  <div class="tabs-scroll-wrapper">
+                    <div
+                      class="horizontal-card-item"
+                      onclick="selectRegisteredPayment(this)"
+                    >
+                      <div class="horizontal-card-header">
+                        <img
+                          src="assets/images/bank-sh.png"
+                          alt="SH"
+                          class="horizontal-card-logo"
+                        />
+                        <div class="horizontal-card-name">신한은행</div>
+                      </div>
+                      <div>
+                        <div class="horizontal-card-info">110-***-***6204</div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="horizontal-card-item"
+                      onclick="selectRegisteredPayment(this)"
+                    >
+                      <div class="horizontal-card-header">
+                        <img
+                          src="assets/images/bank-woori.png"
+                          alt="SH"
+                          class="horizontal-card-logo"
+                        />
+                        <div class="horizontal-card-name">우리은행</div>
+                      </div>
+                      <div>
+                        <div class="horizontal-card-info">110-***-***6204</div>
+                      </div>
+                    </div>
+
+                    <button
+                      class="horizontal-card-item add-card"
+                      onclick="alert('계좌 등록 (구현 필요)')"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#555"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 5l0 14"></path>
+                        <path d="M5 12l14 0"></path>
+                      </svg>
+                      계좌 등록하기
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="simple-payment-sub-view"
+                id="simple-payment-view-provider"
+              >
+                <p
+                  class="disclaimer"
+                  style="text-align: center; margin-top: 40px"
+                  id="provider-message"
+                ></p>
+              </div>
+            </div>
+
+            <div class="payment-content-panel" id="payment-content-credit-card">
+              <div style="height: 8px"></div>
+
+              <div class="form-group">
+                <label>카드사 선택</label>
+                <div class="input-wrapper">
+                  <select>
+                    <option value="">카드사를 선택해주세요</option>
+                    <option value="shinhan">신한(구 LG카드 포함)</option>
+                    <option value="samsung">삼성</option>
+                    <option value="hyundai">현대</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>할부 개월</label>
+                <div class="input-wrapper">
+                  <select>
+                    <option value="0">일시불</option>
+                    <option value="3">3개월(무이자)</option>
+                  </select>
+                </div>
+                <p class="disclaimer">
+                  법인 카드로 결제 시, 할부 적용이 되지 않아요
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <div class="payment-notice-box">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span
+                >잔여 금액은 청구용 세금계산서 발행 후 별도로 결제가
+                진행돼요.</span
+              >
+            </div>
+            <button class="dark-button" onclick="alert('결제가 진행됩니다.')">
+              결제하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Payment Method Selection (Main Tabs)
+      function selectPaymentMethod(chip) {
+        const method = chip.dataset.method;
+        document
+          .querySelectorAll("#payment-method-chips .payment-chip-lg")
+          .forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        document.querySelectorAll(".payment-content-panel").forEach((panel) => {
+          panel.classList.remove("active");
+        });
+        document
+          .getElementById(`payment-content-${method}`)
+          .classList.add("active");
+
+        // [MODIFIED] Reset Simple Payment View if selected
+        if (method === "simple-payment") {
+          // Deselect all small provider chips
+          document
+            .querySelectorAll("#simple-payment-chips .payment-chip-sm")
+            .forEach((c) => c.classList.remove("active"));
+
+          // Show default tab view, hide provider message
+          document
+            .querySelectorAll(".simple-payment-sub-view")
+            .forEach((v) => v.classList.remove("active"));
+          document
+            .getElementById("simple-payment-view-default")
+            .classList.add("active");
+        }
+      }
+
+      // Simple Payment Provider Selection
+      function selectSimpleProvider(chip, providerName) {
+        // [MODIFIED] Uncheck Main 'Simple Payment' visual state
+        document
+          .querySelector('.payment-chip-lg[data-method="simple-payment"]')
+          .classList.remove("active");
+
+        // Highlight chip
+        document
+          .querySelectorAll("#simple-payment-chips .payment-chip-sm")
+          .forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+
+        // Show provider message or sub-view
+        document
+          .querySelectorAll(".simple-payment-sub-view")
+          .forEach((v) => v.classList.remove("active"));
+        const providerView = document.getElementById(
+          "simple-payment-view-provider"
+        );
+        providerView.classList.add("active");
+        const msg = document.getElementById("provider-message");
+        msg.textContent = `${providerName} 결제 화면으로 이동합니다.`;
+      }
+
+      // Simple Payment Sub-Tabs (Card vs Account) - For default view (simulated stored content)
+      // Reset to default view if background click or specific logic (optional)
+      // Here we just toggle tabs in the default view
+      function selectSimplePaymentTab(tab, type) {
+        const container = document.getElementById("simple-payment-tabs");
+        container.querySelectorAll(".single-chip").forEach((c) => {
+          c.classList.remove("single-chip-on");
+          c.classList.add("single-chip-off");
+        });
+        tab.classList.remove("single-chip-off");
+        tab.classList.add("single-chip-on");
+
+        document
+          .querySelectorAll("#simple-payment-view-default .form-fields-wrapper")
+          .forEach((w) => w.classList.remove("active"));
+        document
+          .getElementById(`simple-payment-content-${type}`)
+          .classList.add("active");
+      }
+
+      // Select Registered Card/Account
+      function selectRegisteredPayment(item) {
+        const parent = item.parentElement; // tabs-scroll-wrapper
+        parent
+          .querySelectorAll(".detailed-card-item, .horizontal-card-item")
+          .forEach((c) => c.classList.remove("selected"));
+        item.classList.add("selected");
+      }
+
+      // --- [NEW] Checkbox Logic (from v12 guide) ---
+      function toggleCheckbox(checkbox) {
+        const isChecked = checkbox.dataset.checked === "true";
+        if (isChecked) {
+          checkbox.dataset.checked = "false";
+          checkbox.innerHTML = '<div class="checkbox-off"></div>';
+        } else {
+          checkbox.dataset.checked = "true";
+          checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+        }
+      }
+    </script>
+  </body>
+</html>

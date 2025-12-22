@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>접수 상세 (통합-환불)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* [v12] Master Guide CSS */
+      /* Reset & Base */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #f4f5f7;
+        color: #333;
+        font-size: 16px;
+        line-height: 1.6;
+        overflow-x: visible;
+      }
+      ul,
+      li {
+        list-style: none;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      button {
+        font-family: inherit;
+        border: none;
+        cursor: pointer;
+        background: none;
+        padding: 0;
+      }
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      input {
+        font-family: inherit;
+      }
+      svg {
+        stroke-width: 2;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+        display: block;
+      }
+
+      /* Layout */
+      .mobile-wrap {
+        width: 100%;
+        max-width: 480px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding-bottom: 40px;
+        min-height: 100vh;
+      }
+
+      /* Buttons */
+      .primary-button {
+        background-color: #4e6ee4;
+        color: white;
+        height: 44px;
+        padding: 7px 19px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: fit-content;
+      }
+      .dark-button {
+        background: #424242;
+        color: white;
+        height: 44px;
+        padding: 7px 19px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: fit-content;
+      }
+      .white-button {
+        background: white;
+        color: #424242;
+        height: 44px;
+        padding: 7px 19px;
+        border-radius: 6px;
+        border: 1px solid #e8e8e9;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: fit-content;
+      }
+
+      /* Info Section (v14) */
+      .info-section {
+        background: #ffffff;
+        border: 1px solid #f0f0f0;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+      .info-sub-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 4px 0;
+        font-size: 14px;
+      }
+      .info-sub-row .label {
+        color: #555;
+        flex-shrink: 0;
+        margin-right: 10px;
+        min-width: 60px;
+        font-size: 12px;
+        margin-top: 2px;
+      }
+      .info-sub-row .value {
+        color: #333;
+        font-weight: 500;
+        text-align: right;
+        word-break: keep-all;
+        line-height: 1.5;
+        font-size: 13px;
+        margin-top: 2px;
+      }
+
+      /* Card Style */
+      .common-table-card {
+        width: 100%;
+        background: white;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        padding: 15px;
+        position: relative;
+        margin-bottom: 12px;
+      }
+      .card-divider {
+        width: 100%;
+        height: 1px;
+        background: #e8e8e9;
+        margin: 12px 0;
+      }
+      .card-badge {
+        color: #1976d2;
+        border-radius: 4px;
+        padding: 4px 0;
+        font-size: 14px;
+        font-weight: 600;
+        flex-shrink: 0;
+        display: inline-block;
+        line-height: 1;
+      }
+      .card-badge[data-status="접수완료"] {
+        border-color: #28a745;
+        color: #28a745;
+        background: #e8f5e9;
+      }
+      .card-badge[data-status="생산중"] {
+        border-color: #007bff;
+        color: #007bff;
+        background: #e3f2fd;
+      }
+      .card-badge[data-status="접수취소"] {
+        border-color: #dc3545;
+        color: #dc3545;
+        background: #ffebee;
+      }
+
+      .redesigned-card {
+        width: 100%;
+        background: white;
+        border: 1px solid #e8e8e9;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      }
+      .rc-header {
+        padding: 7px 16px;
+        border-bottom: 1px solid #e8e8e9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        min-height: 35px;
+        padding-right: 10px;
+      }
+      .rc-order-no {
+        font-size: 12px;
+        font-weight: 500;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+      }
+      .rc-order-no-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 12px;
+        letter-spacing: -0.2px;
+        color: #555;
+        gap: 2px;
+        margin-left: auto;
+      }
+      .rc-order-no-btn svg {
+        width: 16px;
+        height: 16px;
+        color: #999;
+      }
+      .rc-body {
+        padding: 16px;
+      }
+      .rc-status {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 8px;
+      }
+      .rc-status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #4e6ee4;
+      }
+      .rc-status-text {
+        font-size: 13px;
+        font-weight: 700;
+        color: #4e6ee4;
+      }
+      .status-blue .rc-status-dot {
+        background-color: #4e6ee4;
+      }
+      .status-blue .rc-status-text {
+        color: #4e6ee4;
+      }
+      .status-red .rc-status-dot {
+        background-color: #dc3545;
+      }
+      .status-red .rc-status-text {
+        color: #dc3545;
+      }
+      .rc-product-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 4px;
+      }
+      .rc-product-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #212121;
+        line-height: 1.4;
+        flex: 1;
+      }
+      .rc-price-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 0;
+      }
+      .rc-price {
+        font-size: 15px;
+        font-weight: 500;
+        color: #212121;
+      }
+
+      /* Modal Styles */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: flex-start;
+        justify-content: center;
+        z-index: 1000;
+        padding: 0;
+      }
+      .modal-overlay.active {
+        display: flex;
+      }
+      .modal-content {
+        background: white;
+        border-radius: 0;
+        width: 100%;
+        max-width: 480px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+      }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        border-bottom: 1px solid #e8e8e9;
+        position: relative;
+        height: 57px;
+        flex-shrink: 0;
+      }
+      .modal-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: black;
+      }
+      .btn-modal-close {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        color: #333;
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .btn-modal-close svg {
+        width: 100%;
+        height: 100%;
+      }
+      .modal-body {
+        padding: 16px;
+        overflow-y: auto;
+        flex-grow: 1;
+        background-color: #fff;
+      }
+      #transaction-statement-modal .modal-body {
+        background-color: white;
+      }
+      .modal-footer {
+        padding: 16px;
+        border-top: 1px solid #e8e8e9;
+        background: #fff;
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .modal-footer .btn {
+        flex: 1;
+        height: 44px;
+        font-size: 14px;
+      }
+      .section-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        margin-top: 24px;
+      }
+      .modal-section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 12px;
+        margin-top: 24px;
+        padding-bottom: 8px;
+      }
+      .btn-header-action {
+        height: 30px;
+        padding: 0 10px;
+        font-size: 12px;
+        border-radius: 4px;
+        border: 1px solid #d7d7d7;
+        background: white;
+        color: #555;
+      }
+      .modal-body .section-header-row:first-child,
+      .modal-body .modal-section-title:first-of-type {
+        margin-top: 0;
+      }
+
+      /* Full Modal */
+      .full-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: flex-end;
+        z-index: 1000;
+      }
+      .full-modal-overlay.active {
+        display: flex;
+      }
+      .full-modal-content {
+        width: 100%;
+        height: 100%;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+      .full-modal-content .modal-header,
+      .full-modal-content .modal-footer {
+        position: sticky;
+        background: white;
+        z-index: 1;
+      }
+      .full-modal-content .modal-header {
+        top: 0;
+      }
+      .full-modal-content .modal-footer {
+        bottom: 0;
+      }
+      .full-modal-content .modal-body {
+        padding-bottom: 96px;
+      }
+
+      /* Email Sheet */
+      .bottom-sheet-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: flex-end;
+        justify-content: center;
+        z-index: 1000;
+      }
+      .bottom-sheet-overlay.active {
+        display: flex;
+      }
+      .bottom-sheet-overlay.email-sheet {
+        align-items: center;
+      }
+      .bottom-sheet.email-sheet {
+        width: 90%;
+        max-width: 360px;
+        border-radius: 8px;
+        margin: 0;
+        max-height: none;
+        background: white;
+      }
+      .bottom-sheet.email-sheet .sheet-header {
+        height: 57px;
+        padding: 16px;
+        border-bottom: 1px solid #e8e8e9;
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+      }
+      .bottom-sheet.email-sheet .sheet-body {
+        padding: 16px;
+      }
+      .bottom-sheet.email-sheet .sheet-footer {
+        border-radius: 0 0 8px 8px;
+        border-top: 1px solid #e8e8e9;
+        padding: 16px;
+        display: flex;
+        gap: 10px;
+      }
+      .bottom-sheet.email-sheet .sheet-footer .btn {
+        flex: 1;
+      }
+      .input-group {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .input {
+        width: 100%;
+        min-height: 40px;
+        background: white;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+      }
+      .input input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 14px;
+      }
+      .combobox-wrapper {
+        position: relative;
+        width: 100%;
+      }
+      .combobox-dropdown {
+        position: absolute;
+        top: calc(100% + 2px);
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        z-index: 600;
+        max-height: 150px;
+        overflow-y: auto;
+        display: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      .combobox-item {
+        padding: 10px 12px;
+        font-size: 14px;
+        color: #333;
+        cursor: pointer;
+        border-bottom: 1px solid #f0f0f0;
+        display: block;
+        text-align: left;
+      }
+      .combobox-item:hover {
+        background: #f5f5f6;
+      }
+
+      /* Cash Receipt & Edit Modal */
+      .modal-tab-nav {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 24px;
+        align-items: center;
+      }
+      .single-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 100px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+      }
+      .single-chip-off {
+        background: #f5f5f6;
+        color: #8a8a92;
+      }
+      .single-chip-on {
+        background: #4e6ee4;
+        color: white;
+      }
+      .modal-summary-area {
+        margin-top: 24px;
+        text-align: right;
+      }
+      .modal-summary-total {
+        font-size: 24px;
+        font-weight: 700;
+        color: #000;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+      }
+      .history-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        margin-bottom: 24px;
+        border-top: 1px solid #e8e8e9;
+      }
+      .history-table th {
+        background: #f8f8f9;
+        padding: 10px 8px;
+        border-bottom: 1px solid #e8e8e9;
+        color: #555;
+        font-weight: 600;
+        text-align: center;
+        width: 30%;
+      }
+      .history-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #f0f0f0;
+        color: #333;
+        vertical-align: middle;
+        text-align: left;
+      }
+      .item-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .item-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .item-name {
+        font-size: 15px;
+        color: #212121;
+        font-weight: 600;
+      }
+      .item-desc {
+        font-size: 13px;
+        color: #666;
+        line-height: 1.5;
+      }
+      .item-price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 4px;
+        font-size: 14px;
+      }
+      .detail-box {
+        background: #f8f8f9;
+        padding: 16px;
+        border-radius: 6px;
+        margin-bottom: 16px;
+      }
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+      .price-summary {
+        border-top: 1px solid #e8e8e9;
+        padding-top: 12px;
+        margin-top: 12px;
+      }
+      .price-row.total {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 700;
+        color: #333;
+        font-size: 16px;
+        margin-bottom: 0;
+      }
+      .disclaimer-text {
+        font-size: 12px;
+        color: #888;
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      /* v12 Standard .disclaimer */
+      .disclaimer {
+        font-size: 12px;
+        color: #888;
+        margin-top: 8px;
+        line-height: 1.5;
+      }
+
+      .disclaimer.warning {
+        color: #dc3545;
+      }
+
+      .modal-tab-nav .nav-action-btn {
+        display: inline-flex;
+        height: 32px;
+        padding: 0 12px;
+        font-size: 13px;
+        font-weight: 500;
+        color: white;
+        background-color: #333;
+        border-radius: 6px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* 입력 필드 위계 (이미지 image_cbbef9.png 스타일 반영) */
+      .readonly-value {
+        font-size: 14px;
+        color: #333;
+        padding: 7px 12px;
+        background: #f5f5f5;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mobile-wrap"></div>
+
+    <!-- 접수 상세 모달 (통합-환불) -->
+    <div class="modal-overlay active" id="refund-detail-modal-overlay">
+      <div class="modal-content" id="refund-detail-modal">
+        <div class="modal-header">
+          <h2 class="modal-title">접수 상세</h2>
+          <button class="btn-modal-close" onclick="history.back()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <section class="info-section">
+            <div class="info-sub-row">
+              <span class="label">접수번호</span
+              ><span class="value" style="font-weight: 700">SW123456</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">접수일시</span
+              ><span class="value">2025-09-23 10:01:46</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">담당자</span><span class="value">김길동</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">대상 고객</span
+              ><span class="value">삼성 SDS</span>
+            </div>
+          </section>
+
+          <div class="section-header-row">
+            <h3
+              class="modal-section-title"
+              style="margin: 0; padding: 0; font-size: 16px"
+            >
+              제품 정보
+            </h3>
+          </div>
+          <div style="font-size: 14px; margin-bottom: 10px; font-weight: 500">
+            총 2건
+          </div>
+
+          <div class="redesigned-card">
+            <div class="rc-header">
+              <div class="rc-order-no">SW123456-02</div>
+              <button type="button" class="rc-order-no-btn">
+                접수상세<svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M9 6l6 6l-6 6" />
+                </svg>
+              </button>
+            </div>
+            <div class="rc-body">
+              <div class="rc-status status-red">
+                <span class="rc-status-text">접수 취소</span>
+              </div>
+              <div class="rc-product-row">
+                <span class="rc-product-name"
+                  >[일반 명함] 홍길동 사원 명함</span
+                >
+              </div>
+              <div class="rc-price-row">
+                <span class="rc-price">₩9,240</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="redesigned-card">
+            <div class="rc-header">
+              <div class="rc-order-no">SW123456-02</div>
+              <button type="button" class="rc-order-no-btn">
+                접수상세<svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M9 6l6 6l-6 6" />
+                </svg>
+              </button>
+            </div>
+            <div class="rc-body">
+              <div class="rc-status status-red">
+                <span class="rc-status-text">접수 취소</span>
+              </div>
+              <div class="rc-product-row">
+                <span class="rc-product-name">[책자] 기업 홍보용 책자</span>
+              </div>
+              <div class="rc-price-row">
+                <span class="rc-price">₩145,000</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-header-row">
+            <h3
+              class="modal-section-title"
+              style="margin: 0; border: none; padding: 0"
+            >
+              배송지 정보
+            </h3>
+            <button class="btn-header-action">배송지 변경</button>
+          </div>
+          <section class="info-section" style="background: white">
+            <div class="info-sub-row">
+              <span class="label">이름(상호명)</span
+              ><span class="value">김길동</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">연락처</span
+              ><span class="value">01012341234 (0212341234)</span>
+            </div>
+            <div class="info-sub-row" style="align-items: flex-start">
+              <span class="label" style="margin-top: 2px">주소</span
+              ><span class="value" style="text-align: right; line-height: 1.4"
+                >(56331) 서울특별시 성동구 성수일로 80 2층 201호</span
+              >
+            </div>
+            <div class="info-sub-row">
+              <span class="label">배송메모</span
+              ><span class="value">부재 시 경비실에 맡겨주세요</span>
+            </div>
+          </section>
+
+          <div class="section-header-row">
+            <h3
+              class="modal-section-title"
+              style="margin: 0; border: none; padding: 0"
+            >
+              배송 정보
+            </h3>
+            <button class="btn-header-action">배송방법 변경</button>
+          </div>
+          <section class="info-section" style="background: white">
+            <div class="info-sub-row">
+              <span class="label">배송방법</span
+              ><span class="value">택배(선불)</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">배송비</span><span class="value">₩2,500</span>
+            </div>
+            <div class="card-divider"></div>
+            <div class="info-sub-row" style="align-items: flex-start">
+              <span class="label" style="margin-top: 2px">묶음배송 1</span
+              ><span
+                class="value"
+                style="text-align: right; line-height: 1.4; color: #666"
+                >[일반 명함] 홍길동 사원 명함, [책자] 기업 홍보용...</span
+              >
+            </div>
+          </section>
+
+          <div class="section-header-row">
+            <h3
+              class="modal-section-title"
+              style="margin: 0; border: none; padding: 0"
+            >
+              결제 정보
+            </h3>
+            <div style="display: flex; gap: 6px">
+              <button class="btn-header-action">결제영수증</button
+              ><button
+                class="btn-header-action"
+                onclick="openModal('transaction-statement-modal-overlay')"
+              >
+                거래명세서
+              </button>
+            </div>
+          </div>
+          <section class="info-section" style="background: white">
+            <div class="info-sub-row">
+              <span class="label">결제수단</span
+              ><span class="value">성원머니 (신한 110354102347)</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">결제 상태</span
+              ><span class="value">결제완료</span>
+            </div>
+            <div class="card-divider"></div>
+            <div class="info-sub-row">
+              <span class="label">총 제품금액</span>
+              <div style="text-align: right">
+                <div class="value">₩5,000</div>
+                <div style="font-size: 12px; color: #888">(부가세 ₩500)</div>
+              </div>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">배송비</span><span class="value">₩2,500</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">포인트 사용</span
+              ><span class="value">-1,000P</span>
+            </div>
+            <div class="card-divider"></div>
+            <div class="info-sub-row">
+              <span class="label" style="font-weight: 700; color: #333"
+                >총 결제금액</span
+              ><span
+                class="value"
+                style="font-size: 18px; font-weight: 700; color: #4e6ee4"
+                >₩7,000</span
+              >
+            </div>
+          </section>
+
+          <section
+            class="info-section"
+            style="background-color: #eef2ff; border-color: #c7d3ff"
+          >
+            <div class="info-sub-row">
+              <span class="label" style="color: #3d5dd3; font-weight: 600"
+                >포인트 혜택</span
+              ><span class="value" style="color: #3d5dd3; font-weight: 700"
+                >+ 1,500P</span
+              >
+            </div>
+          </section>
+
+          <div class="section-header-row">
+            <h3
+              class="modal-section-title"
+              style="margin: 0; border: none; padding: 0"
+            >
+              환불 정보
+            </h3>
+          </div>
+          <section
+            class="info-section"
+            style="background-color: #f8f8f9; border: 1px solid #e8e8e9"
+          >
+            <div class="info-sub-row">
+              <span class="label">환불 제품금액</span
+              ><span class="value">₩154,240</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">부가세</span><span class="value">₩1,500</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">배송비</span><span class="value">₩2,500</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">포인트 사용</span
+              ><span class="value">-1,000P</span>
+            </div>
+            <div class="card-divider"></div>
+            <div class="info-sub-row">
+              <span class="label" style="font-weight: 700; color: #333"
+                >총 환불금액</span
+              ><span
+                class="value"
+                style="font-size: 18px; font-weight: 700; color: #4e6ee4"
+                >₩157,240</span
+              >
+            </div>
+            <div class="info-sub-row">
+              <span class="label">성원 머니</span
+              ><span class="value">₩155,740</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">성원 포인트</span
+              ><span class="value">1,000P</span>
+            </div>
+          </section>
+
+          <div class="section-header-row">
+            <h3
+              class="modal-section-title"
+              style="margin: 0; border: none; padding: 0"
+            >
+              발급 신청 정보
+            </h3>
+            <div style="display: flex; gap: 6px">
+              <button
+                class="btn-header-action"
+                onclick="openModal('cash-receipt-modal-overlay');"
+              >
+                현금영수증 발급 변경</button
+              ><button
+                class="btn-header-action"
+                onclick="openModal('issue-edit-modal-overlay')"
+              >
+                발급 정보 변경
+              </button>
+            </div>
+          </div>
+          <section
+            class="info-section"
+            style="background: white; margin-bottom: 24px"
+          >
+            <div class="info-sub-row">
+              <span class="label">발급 유형</span
+              ><span class="value">세금계산서</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">발급 상태</span
+              ><span class="value">미발급</span>
+            </div>
+            <div class="info-sub-row">
+              <span class="label">발급 정보</span
+              ><span class="value">삼성SDS / 김길동 / 123-45-67890</span>
+            </div>
+          </section>
+
+          <!-- <div class="disclaimer-text">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path d="M12 8h.01" stroke="currentColor" stroke-width="2" />
+              <path d="M11 12h1v4h1" stroke="currentColor" stroke-width="2" />
+            </svg>
+            결제 금액은 함께 접수한 제품의 총 합계 금액이 표시돼요
+          </div> -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn dark-button" onclick="alert('PDF 다운로드')">
+            PDF 다운로드
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 거래명세서 모달 (Same) -->
+    <div class="modal-overlay" id="transaction-statement-modal-overlay">
+      <div class="modal-content" id="transaction-statement-modal">
+        <div class="modal-header">
+          <h2 class="modal-title">거래명세서</h2>
+          <button
+            class="btn-modal-close"
+            onclick="closeModal('transaction-statement-modal-overlay')"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div
+            style="
+              text-align: center;
+              margin-bottom: 20px;
+              font-size: 14px;
+              color: #666;
+              margin-top: 20px;
+            "
+          >
+            <strong>2025년 09월 16일</strong> 하기 내용을 영수합니다.
+          </div>
+          <h3 class="modal-section-title">공급자</h3>
+          <table class="history-table" style="width: 100%">
+            <tbody>
+              <tr>
+                <th>상호명</th>
+                <td class="text-left">(주)성원애드피아</td>
+              </tr>
+              <tr>
+                <th>대표자명</th>
+                <td class="text-left">
+                  정대원
+                  <img
+                    src="assets/images/stamp.png"
+                    alt=""
+                    style="
+                      display: inline-block;
+                      vertical-align: middle;
+                      width: 20px;
+                    "
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>사업자등록번호</th>
+                <td class="text-left">201-85-22977</td>
+              </tr>
+              <tr>
+                <th>주소</th>
+                <td class="text-left">성수시 성동구 성수일로 80</td>
+              </tr>
+              <tr>
+                <th>연락처</th>
+                <td class="text-left">1599-5555</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3 class="modal-section-title">구매자</h3>
+          <table class="history-table" style="width: 100%">
+            <tbody>
+              <tr>
+                <th>구매자명</th>
+                <td class="text-left">홍길동 (test1234)</td>
+              </tr>
+              <tr>
+                <th>접수번호</th>
+                <td class="text-left">SW250001-01</td>
+              </tr>
+              <tr>
+                <th>결제일시</th>
+                <td class="text-left">2025-01-01 10:11</td>
+              </tr>
+              <tr>
+                <th>결제수단</th>
+                <td class="text-left">성원머니</td>
+              </tr>
+              <tr>
+                <th>결제번호</th>
+                <td class="text-left">1234567890</td>
+              </tr>
+              <tr>
+                <th>승인번호</th>
+                <td class="text-left">1234567890</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3 class="modal-section-title">접수 정보</h3>
+          <article class="common-table-card" style="margin-bottom: 0">
+            <div class="item-list">
+              <div class="item-row">
+                <div class="item-name">일반 명함</div>
+                <div class="item-desc">
+                  용지: 스노우지/백색/150g<br />인쇄: 양면 / CMYK / 금색<br />가공:
+                  오시/박/코팅
+                </div>
+                <div class="item-price-row">
+                  <span class="count">2건 (단가 4,620)</span
+                  ><span class="price">₩9,240</span>
+                </div>
+              </div>
+              <div class="card-divider"></div>
+              <div class="item-row">
+                <div class="item-name">책자</div>
+                <div class="item-desc">
+                  용지: (표지) 스노우지 / 150g<br />인쇄: (표지) 양면/CMYK<br />수량:
+                  200부
+                </div>
+                <div class="item-price-row">
+                  <span class="count">1건</span
+                  ><span class="price">₩145,000</span>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="detail-box" style="margin-top: 16px">
+            <div class="detail-row">
+              <span class="detail-label">제품금액</span
+              ><span class="detail-value">₩143,900 </span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">가공비</span
+              ><span class="detail-value">₩20,000 </span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">부가세</span
+              ><span class="detail-value">₩14,390 </span>
+            </div>
+            <div class="price-summary">
+              <div class="price-row total">
+                <span>총 합계 금액</span
+                ><span style="font-size: 20px; color: #333">₩154,240</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn white-button" onclick="openEmailSheet()">
+            이메일 발송</button
+          ><button class="btn dark-button" onclick="alert('PDF 다운로드 시작')">
+            PDF 다운로드
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 이메일 발송 시트 -->
+    <div class="modal-overlay email-sheet" id="email-sheet-overlay">
+      <div class="modal-content email-sheet" id="email-sheet">
+        <div class="modal-header">
+          <div class="sheet-title">이메일 발송</div>
+          <button class="btn-close" onclick="closeEmailSheet()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom: 20px">
+            <label for="recipient-email">받는 사람 이메일 주소</label>
+            <div class="input-group">
+              <div class="combobox-wrapper">
+                <div class="input">
+                  <input
+                    type="email"
+                    placeholder="이메일 주소를 입력해주세요"
+                    autocomplete="off"
+                    oninput="filterEmailSuggestions(this)"
+                    onfocus="filterEmailSuggestions(this)"
+                    onblur="hideEmailDropdown(this)"
+                  />
+                </div>
+                <div class="combobox-dropdown"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn white-button" onclick="closeEmailSheet()">
+            취소</button
+          ><button class="btn dark-button" onclick="alert('이메일 발송 완료')">
+            발송하기
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 현금영수증 발급 변경 모달 -->
+    <div class="full-modal-overlay" id="cash-receipt-modal-overlay">
+      <div class="full-modal-content cash-receipt-modal">
+        <div class="modal-header">
+          <h2 class="modal-title">현금영수증 발급 변경</h2>
+          <button
+            class="btn-modal-close"
+            onclick="closeModal('cash-receipt-modal-overlay')"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <nav class="modal-tab-nav">
+            <div
+              class="single-chip single-chip-on"
+              data-tab="personal"
+              onclick="switchReceiptTab(this, 'personal')"
+            >
+              소득공제용
+            </div>
+            <div
+              class="single-chip single-chip-off"
+              data-tab="business"
+              onclick="switchReceiptTab(this, 'business')"
+            >
+              지출증빙용
+            </div>
+          </nav>
+          <form id="cash-receipt-form">
+            <div class="form-group">
+              <label style="font-size: 14px; font-weight: 700">발급번호</label>
+              <div class="input">
+                <input
+                  type="tel"
+                  id="receipt-input"
+                  placeholder="휴대폰 번호/현금영수증 카드 번호를 입력하세요"
+                />
+              </div>
+              <p class="disclaimer" style="margin-top: 8px">
+                * 외국인 고객이신 경우, 외국인 번호를 입력하세요
+              </p>
+            </div>
+          </form>
+          <div class="card-divider" style="margin: 32px 0 16px 0"></div>
+          <div class="modal-summary-area">
+            <div class="modal-summary-label">총 1건 / 총 금액</div>
+            <div class="modal-summary-total">₩320,000</div>
+          </div>
+        </div>
+        <div
+          class="modal-footer"
+          style="border-top: 1px solid #e8e8e9; padding: 16px"
+        >
+          <button
+            class="btn-submit dark-button"
+            onclick="alert('신청이 완료되었습니다.'); closeModal('cash-receipt-modal-overlay');"
+            style="width: 100%"
+          >
+            신청하기
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 세금계산서 신청정보 수정 모달 -->
+    <div class="full-modal-overlay" id="issue-edit-modal-overlay">
+      <div class="full-modal-content issue-edit-modal">
+        <div class="modal-header">
+          <h2 class="modal-title">세금계산서 신청정보 수정</h2>
+          <button
+            class="btn-modal-close"
+            onclick="closeModal('issue-edit-modal-overlay')"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <nav class="modal-tab-nav">
+            <div
+              class="single-chip single-chip-on"
+              data-tab="my-info"
+              onclick="switchIssueTab(this, 'my-info')"
+            >
+              내 정보
+            </div>
+            <div
+              class="single-chip single-chip-off"
+              data-tab="direct-input"
+              onclick="switchIssueTab(this, 'direct-input')"
+            >
+              직접 입력
+            </div>
+            <button
+              type="button"
+              class="nav-action-btn"
+              onclick="alert('나의 고객 목록 열기');"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg
+              >&nbsp;나의 고객목록
+            </button>
+          </nav>
+          <form id="issue-edit-form">
+            <div class="form-fields-wrapper" id="issue-fields">
+              <div class="form-group">
+                <label>기업명</label>
+                <div
+                  class="readonly-value"
+                  style="
+                    background: #f5f5f5;
+                    border: 1px solid #e8e8e9;
+                    border-radius: 6px;
+                    padding: 10px 12px;
+                  "
+                >
+                  주식회사 메스 TX
+                </div>
+              </div>
+              <div class="form-group">
+                <label>사업자등록번호</label>
+                <div
+                  class="readonly-value"
+                  style="
+                    background: #f5f5f5;
+                    border: 1px solid #e8e8e9;
+                    border-radius: 6px;
+                    padding: 10px 12px;
+                  "
+                >
+                  434-34342-22
+                </div>
+              </div>
+              <div class="form-group">
+                <label>대표자명</label>
+                <div
+                  class="readonly-value"
+                  style="
+                    background: #f5f5f5;
+                    border: 1px solid #e8e8e9;
+                    border-radius: 6px;
+                    padding: 10px 12px;
+                  "
+                >
+                  김수한
+                </div>
+              </div>
+              <div class="form-group">
+                <label>회계담당자명</label>
+                <div class="input"><input type="text" value="김회계" /></div>
+              </div>
+              <div class="form-group">
+                <label>연락처</label>
+                <div class="input"><input type="tel" value="0233441688" /></div>
+              </div>
+              <div class="form-group" style="margin-bottom: 0">
+                <label>이메일 주소</label>
+                <div class="input">
+                  <input type="email" value="damdangja@email.com" />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn dark-button"
+            style="width: 100%"
+            onclick="alert('수정 정보가 저장되었습니다.'); closeModal('issue-edit-modal-overlay');"
+          >
+            수정하기
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function openModal(overlayId) {
+        const overlay = document.getElementById(overlayId);
+        if (overlay) {
+          overlay.classList.add("active");
+          document.body.style.overflow = "hidden";
+        }
+      }
+      function closeModal(overlayId) {
+        const overlay = document.getElementById(overlayId);
+        if (overlay) {
+          overlay.classList.remove("active");
+          if (
+            !document.querySelector(
+              ".modal-overlay.active, .full-modal-overlay.active"
+            )
+          ) {
+            document.body.style.overflow = "";
+          }
+        }
+      }
+      function openEmailSheet() {
+        document.getElementById("email-sheet-overlay").classList.add("active");
+      }
+      function closeEmailSheet() {
+        document
+          .getElementById("email-sheet-overlay")
+          .classList.remove("active");
+      }
+      const emailDomains = [
+        "naver.com",
+        "gmail.com",
+        "daum.net",
+        "hanmail.net",
+        "nate.com",
+      ];
+      function filterEmailSuggestions(input) {
+        const value = input.value;
+        const wrapper = input.closest(".combobox-wrapper");
+        const dropdown = wrapper.querySelector(".combobox-dropdown");
+        dropdown.innerHTML = "";
+        if (value.length === 0) {
+          dropdown.style.display = "none";
+          return;
+        }
+        const atIndex = value.indexOf("@");
+        let localPart = value;
+        let domainPart = "";
+        if (atIndex > -1) {
+          localPart = value.substring(0, atIndex);
+          domainPart = value.substring(atIndex + 1);
+        }
+        if (localPart.length === 0) {
+          dropdown.style.display = "none";
+          return;
+        }
+        const matchingDomains = emailDomains.filter((domain) =>
+          domain.startsWith(domainPart)
+        );
+        if (matchingDomains.length > 0) {
+          matchingDomains.forEach((domain) => {
+            const fullEmail = localPart + "@" + domain;
+            const item = document.createElement("div");
+            item.className = "combobox-item";
+            item.textContent = fullEmail;
+            item.onmousedown = function () {
+              input.value = fullEmail;
+              dropdown.style.display = "none";
+            };
+            dropdown.appendChild(item);
+          });
+          dropdown.style.display = "block";
+        } else {
+          dropdown.style.display = "none";
+        }
+      }
+      function hideEmailDropdown(input) {
+        setTimeout(() => {
+          const wrapper = input.closest(".combobox-wrapper");
+          const dropdown = wrapper.querySelector(".combobox-dropdown");
+          if (dropdown) dropdown.style.display = "none";
+        }, 200);
+      }
+      function switchReceiptTab(tabEl, type) {
+        const nav = tabEl.closest(".modal-tab-nav");
+        nav
+          .querySelectorAll(".single-chip")
+          .forEach((chip) =>
+            chip.classList.replace("single-chip-on", "single-chip-off")
+          );
+        tabEl.classList.replace("single-chip-off", "single-chip-on");
+        const input = document.getElementById("receipt-input");
+        input.placeholder =
+          type === "personal"
+            ? "휴대폰 번호/현금영수증 카드 번호를 입력하세요"
+            : "사업자 번호/현금영수증 카드 번호를 입력하세요";
+      }
+      function switchIssueTab(tabEl, tabName) {
+        const nav = tabEl.closest(".modal-tab-nav");
+        nav
+          .querySelectorAll(".single-chip")
+          .forEach((c) =>
+            c.classList.replace("single-chip-on", "single-chip-off")
+          );
+        tabEl.classList.replace("single-chip-off", "single-chip-on");
+        const fields = document.getElementById("issue-fields");
+        if (tabName === "direct-input") {
+          fields.querySelectorAll(".readonly-value").forEach((el) => {
+            const label = el.previousElementSibling.textContent;
+            el.outerHTML = `<div class="input"><input type="text" placeholder="${label}을 입력해주세요"></div>`;
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

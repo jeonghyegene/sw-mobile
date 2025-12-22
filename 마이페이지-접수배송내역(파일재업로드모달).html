@@ -1,684 +1,730 @@
 <!DOCTYPE html>
 <html lang="ko">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>파일 재업로드 (v12 - No Animation)</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>파일 재업로드 - 보관함 디테일 수정 (v12)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        /* =========================================
-           [v12] Master Guide CSS Reset & Base
-           ========================================= */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+      /* [v12] Master Guide Base */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        font-family: "Pretendard", sans-serif;
+        background-color: #f4f5f7;
+        color: #333;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      button {
+        border: none;
+        cursor: pointer;
+        background: none;
+        font-family: inherit;
+      }
+      svg {
+        stroke-width: 2;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        display: block;
+      }
 
-        html,
-        body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f5f7;
-            color: #333;
-            font-size: 16px;
-            line-height: 1.6;
-            overflow-x: visible;
-        }
+      .mobile-wrap {
+        width: 100%;
+        max-width: 480px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        min-height: 100vh;
+      }
 
-        ul,
-        li {
-            list-style: none;
-        }
+      /* Full Modal Standard Layout */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+      .modal-overlay.active {
+        display: flex;
+      }
+      .modal-content {
+        background: white;
+        width: 100%;
+        max-width: 480px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .modal-header {
+        height: 56px;
+        border-bottom: 1px solid #e8e8e9;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        flex-shrink: 0;
+      }
+      .modal-title {
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .modal-body {
+        overflow-y: auto;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .modal-footer {
+        padding: 16px;
+        border-top: 1px solid #e8e8e9;
+        flex-shrink: 0;
+      }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+      /* Filter & Chips */
+      .filter-chip-section {
+        padding: 16px 16px 0;
+        flex-shrink: 0;
+      }
+      .tabs-scroll-wrapper {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .tabs-scroll-wrapper::-webkit-scrollbar {
+        display: none;
+      }
+      .single-chip {
+        padding: 6px 16px;
+        border-radius: 100px;
+        font-size: 14px;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      .single-chip-on {
+        background: #4e6ee4;
+        color: white;
+      }
+      .single-chip-off {
+        background: #f5f5f6;
+        color: #8a8a92;
+      }
+      .multi-chip {
+        padding: 6px 12px;
+        border-radius: 100px;
+        font-size: 14px;
+        border: 1px solid #e6e4e4;
+        color: #6d6d6d;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      .multi-chip-on {
+        background: #c7d3ff;
+        border-color: #4e6ee4;
+        color: #4e6ee4;
+      }
 
-        button {
-            font-family: inherit;
-            border: none;
-            cursor: pointer;
-            background: none;
-            padding: 0;
-        }
+      /* Search Box */
+      .search-container {
+        padding: 16px;
+        flex-shrink: 0;
+      }
+      .search-box {
+        background: #f9f9f9;
+        border-radius: 8px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+      }
+      .search-box input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        outline: none;
+        font-size: 14px;
+      }
+      .search-box svg {
+        color: #aaa;
+        width: 20px;
+        height: 20px;
+      }
 
-        img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            display: block;
-        }
+      /* [File Card] 디테일 수정 (image_aeee8d.png 기준) */
+      .transaction-list {
+        padding: 0 16px 16px;
+      }
+      .file-card {
+        display: flex;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        background: #fff;
+        overflow: hidden;
+      }
+      .file-card-thumbnail {
+        width: 120px;
+        min-height: 140px;
+        background: #f9f9f9;
+        position: relative;
+        flex-shrink: 0;
+      }
+      .file-card-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .badge-type {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #4e6ee4;
+        color: #4e6ee4;
+        border-radius: 30px;
+        padding: 2px 8px;
+        font-size: 11px;
+        font-weight: 600;
+      }
 
-        input,
-        textarea,
-        select {
-            font-family: inherit;
-        }
+      .file-card-info {
+        flex: 1;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .info-top {
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 4px;
+      }
+      .info-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #212121;
+        line-height: 1.4;
+        margin-bottom: 4px;
+      }
+      .info-spec {
+        font-size: 13px;
+        color: #555;
+      }
+      .info-count {
+        font-size: 13px;
+        color: #888;
+        margin-top: 4px;
+      }
 
-        svg {
-            stroke-width: 2;
-            fill: none;
-            stroke: currentColor;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            flex-shrink: 0;
-            display: block;
-        }
+      /* [Middle Line] 가운데 선 디테일 */
+      .card-divider {
+        border-top: 1px solid #f0f0f0;
+        margin-top: 12px;
+        padding-top: 8px;
+        display: flex;
+        justify-content: flex-end;
+      }
+      .select-btn {
+        background: #424242;
+        color: white;
+        padding: 6px 16px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: 600;
+      }
 
-        /* Layout & Header */
-        .mobile-wrap {
-            width: 100%;
-            max-width: 480px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            min-height: 100vh;
-        }
+      /* Main Page Elements */
+      .modal-tab-nav-main {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .file-upload-box {
+        width: 100%;
+        height: 52px;
+        border: 1px solid #d7d7d7;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        cursor: pointer;
+      }
+      .file-list-container {
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        margin-top: 12px;
+        background: #fff;
+      }
+      .file-list-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 12px;
+        border-bottom: 1px solid #e8e8e9;
+        background: #f8f8f9;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .file-item {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        border-bottom: 1px solid #f0f0f0;
+        gap: 10px;
+      }
+      .file-name {
+        flex: 1;
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
 
-        .sw-container {
-            padding: 24px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        /* Header (Background Context) */
-        .app-header-sub {
-            height: 56px;
-            background: #ffffff;
-            border-bottom: 1px solid #cccccc;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            flex-shrink: 0;
-        }
-
-        .header-title {
-            flex: 3 0 0;
-            font-size: 18px;
-            font-weight: 600;
-            text-align: center;
-            color: #212121;
-        }
-
-        .header-left,
-        .header-right {
-            flex: 1 0 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .header-left {
-            justify-content: flex-start;
-        }
-
-        .header-right {
-            justify-content: flex-end;
-        }
-
-        .header-btn {
-            width: 28px;
-            height: 28px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Buttons */
-        .dark-button {
-            background: #424242;
-            color: white;
-            height: 44px;
-            padding: 7px 19px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: fit-content;
-            transition: background 0.1s;
-            width: 100%;
-        }
-
-        .white-button {
-            background: white;
-            color: #424242;
-            height: 44px;
-            padding: 7px 19px;
-            border-radius: 6px;
-            border: 1px solid #e8e8e9;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: fit-content;
-            width: 100%;
-            transition: background 0.1s;
-        }
-
-        .white-button:hover {
-            background: #f9f9f9;
-        }
-
-        .dark-button:disabled {
-            background: #cccccc;
-            color: #ffffff;
-            cursor: default;
-        }
-
-        /* Typography & Spacing */
-        .page-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #212121;
-            margin-bottom: 8px;
-        }
-
-        .page-desc {
-            font-size: 15px;
-            color: #333;
-            margin-bottom: 24px;
-            line-height: 1.5;
-            word-break: keep-all;
-        }
-
-        /* Form Elements */
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 12px;
-        }
-
-        .disclaimer {
-            font-size: 12px;
-            color: #888;
-            margin-top: 8px;
-            line-height: 1.5;
-            padding-left: 8px;
-            position: relative;
-        }
-
-        .disclaimer::before {
-            content: '*';
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-
-        /* Design Notice Link Style */
-        .design-notice-link {
-            display: inline-block;
-            margin-top: 12px;
-            font-size: 14px;
-            color: #333;
-            font-weight: 600;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-
-        /* =========================================
-           Full Modal Standard (v12) - No Animation
-           ========================================= */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 0;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-            /* Animation Removed */
-        }
-
-        /* [MODIFIED] Full Screen Modal Content */
-        .full-modal-content {
-            width: 100%;
-            height: 100%;
-            /* Full Height */
-            max-width: 480px;
-            /* Center constraint */
-            margin: 0 auto;
-            /* Center align */
-            display: flex;
-            flex-direction: column;
-            background: white;
-            border-radius: 0;
-            /* No corners for full page feel */
-            /* Animation Removed */
-        }
-
-        /* Alert Modal Content */
-        .alert-modal-content {
-            background: white;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 320px;
-            padding: 30px 20px 20px 20px;
-            text-align: center;
-            position: relative;
-            /* Animation Removed */
-        }
-
-        /* [MODIFIED] Header Style for Proper Alignment */
-        .modal-header-full {
-            height: 56px;
-            background: white;
-            border-bottom: 1px solid #cccccc;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            /* Push items to edges */
-            padding: 0 16px;
-            flex-shrink: 0;
-        }
-
-        .modal-title-full {
-            font-size: 16px;
-            font-weight: 700;
-            color: #212121;
-            flex: 1;
-            text-align: left;
-        }
-
-        .btn-modal-close-full {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-body-full {
-            padding: 24px 16px 20px;
-            overflow-y: auto;
-            flex-grow: 1;
-        }
-
-        .modal-footer-full {
-            padding: 16px;
-            border-top: 1px solid #e8e8e9;
-            background: #fff;
-            display: flex;
-            flex-direction: column;
-            /* For warning text stacking */
-            gap: 8px;
-            flex-shrink: 0;
-        }
-
-        /* Alert Modal Styles */
-        .alert-modal-content .modal-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: black;
-            margin-bottom: 16px;
-            display: block;
-        }
-
-        .alert-modal-content .modal-message {
-            font-size: 15px;
-            color: #333;
-            margin-bottom: 30px;
-            line-height: 1.5;
-            word-break: keep-all;
-        }
-
-        /* =========================================
-           [UI Component] File Upload (Visual Match)
-           ========================================= */
-        .form-group label.file-upload-box {
-            width: 100%;
-            height: 52px;
-            background-color: #ffffff;
-            border: 1px solid #d7d7d7;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            gap: 6px;
-        }
-
-        .form-group label.file-upload-box:hover {
-            background-color: #f9f9f9;
-        }
-
-        .form-group label.file-upload-box svg {
-            width: 20px;
-            height: 20px;
-            color: #333;
-        }
-
-        .form-group label.file-upload-box span {
-            font-size: 14px;
-            font-weight: 500;
-            color: #333;
-        }
-
-        /* File List Styling */
-        .file-list-container {
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            margin-top: 12px;
-            display: none;
-            /* Initial hidden */
-            background-color: #fff;
-        }
-
-        .file-list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 12px;
-            border-bottom: 1px solid #e8e8e9;
-            background-color: #f8f8f9;
-            border-radius: 6px 6px 0 0;
-        }
-
-        .file-list-header .total-count {
-            font-size: 13px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .file-list-header .total-size {
-            font-size: 13px;
-            color: #888;
-        }
-
-        .file-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .file-item:last-child {
-            border-bottom: none;
-        }
-
-        .file-item .file-name {
-            flex: 1;
-            font-size: 14px;
-            color: #333;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .file-item .file-size {
-            font-size: 12px;
-            color: #888;
-            flex-shrink: 0;
-        }
-
-        .file-item .remove-btn {
-            width: 24px;
-            height: 24px;
-            color: #bbb;
-            flex-shrink: 0;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* [Custom] Size Warning Text */
-        .size-warning-text {
-            font-size: 12px;
-            color: #dc3545;
-            /* Red color */
-            text-align: center;
-            margin-bottom: 4px;
-            line-height: 1.4;
-            display: none;
-            /* Hidden by default */
-            word-break: keep-all;
-        }
-
-        .size-warning-text.active {
-            display: block;
-        }
+      /* Footer Buttons */
+      .dark-button {
+        background: #424242;
+        color: white;
+        height: 44px;
+        width: 100%;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      /* Alert Modal Styles */
+      .alert-modal-content {
+        background: white;
+        width: 320px;
+        padding: 20px;
+        border-radius: 6px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .alert-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #000;
+      }
+      .alert-message {
+        font-size: 14px;
+        color: #000;
+        line-height: 1.4;
+        margin-bottom: 40px;
+      }
+      .alert-btn {
+        width: 100%;
+        max-width: 200px;
+        height: 44px;
+        background: #000;
+        color: #fff;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+      }
     </style>
-</head>
-
-<body>
-
-    <div class="mobile-wrap">
-        <header class="app-header-sub">
-            <div class="header-left">
-                <button type="button" class="header-btn" onclick="history.back()"><svg
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M15 6l-6 6l6 6" />
-                    </svg></button>
-            </div>
-            <h1 class="header-title">파일 재업로드</h1>
-            <div class="header-right"></div>
+  </head>
+  <body>
+    <div class="modal-overlay active" id="main-reupload-modal">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2 class="modal-title">파일 재업로드</h2>
+          <button class="btn-modal-close" onclick="history.back()">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
         </header>
-        <main class="sw-container">
-            <button class="white-button" onclick="openModal('file-reupload-modal-overlay')">1. 파일 재업로드 모달</button>
-            <button class="white-button" onclick="openModal('file-type-alert-overlay')">2. 허용 파일 외 업로드 (Alert)</button>
-        </main>
+        <div class="modal-body" style="padding: 16px">
+          <p style="font-size: 15px; margin-bottom: 24px">
+            작업 가이드 기준에 맞게 작업된 파일을 업로드해주세요
+          </p>
+
+          <nav class="modal-tab-nav-main">
+            <div
+              class="single-chip single-chip-on"
+              id="tab-direct"
+              onclick="switchMainTab('direct')"
+            >
+              직접 업로드
+            </div>
+            <div
+              class="single-chip single-chip-off"
+              id="tab-storage"
+              onclick="openStorageModal()"
+            >
+              파일 보관함
+            </div>
+          </nav>
+
+          <div id="direct-upload-section">
+            <label for="file-input" class="file-upload-box">
+              <svg width="20" height="20" viewBox="0 0 24 24">
+                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                <path
+                  d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"
+                />
+                <path d="M12 11v6M9 14l3-3 3 3" />
+              </svg>
+              <span>파일 선택</span>
+            </label>
+            <input
+              type="file"
+              id="file-input"
+              style="display: none"
+              multiple
+              onchange="handleFileSelect(event)"
+            />
+
+            <div
+              style="
+                margin-top: 12px;
+                font-size: 13px;
+                color: #666;
+                line-height: 1.5;
+              "
+            >
+              <p>
+                * 최대 1GB 크기의 PDF(권장), ai, psd, cdr, jpg, gif, png 형식의
+                파일을 첨부할 수 있어요.
+              </p>
+              <p style="margin-top: 4px">
+                * 2건 이상 필수 시, 파일명에 구분 가능한 내용과 건수
+                포함해주세요 (ex) 명함 일면 CMYK)
+              </p>
+              <a
+                href="#"
+                style="
+                  display: inline-block;
+                  margin-top: 4px;
+                  font-weight: 600;
+                  color: #333;
+                  text-decoration: underline;
+                "
+                >* 디자인 작업 시 주의사항을 꼭 확인해주세요! &gt;</a
+              >
+            </div>
+
+            <div
+              class="file-list-container"
+              id="file-list-area"
+              style="display: none"
+            >
+              <div class="file-list-header">
+                <span id="total-count">총 0개</span>
+                <span id="total-size">0KB/1GB</span>
+              </div>
+              <div id="file-items"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="dark-button" id="submit-btn" disabled>
+            파일 재업로드
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="modal-overlay" id="file-reupload-modal-overlay">
-        <div class="full-modal-content">
-            <header class="modal-header-full">
-                <h1 class="modal-title-full">파일 재업로드</h1>
-                <button type="button" class="btn-modal-close-full" onclick="closeModal('file-reupload-modal-overlay')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                    </svg>
-                </button>
-            </header>
+    <div class="modal-overlay" id="main-storage-modal">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2 class="modal-title">파일 보관함</h2>
+          <button onclick="closeStorageModal()">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </header>
 
-            <div class="modal-body-full">
-                <p class="page-desc">작업 가이드 기준에 맞게 작업된 파일을 업로드해주세요</p>
-
-                <div class="form-group">
-                    <label for="file-upload-input" class="file-upload-box">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                            <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                            <path d="M12 11v6" />
-                            <path d="M9 14l3 -3l3 3" />
-                        </svg>
-                        <span>파일 선택</span>
-                    </label>
-                    <input type="file" id="file-upload-input" style="display: none;" multiple
-                        onchange="handleFileSelect(event)">
-
-                    <div class="file-list-container" id="file-list-area">
-                        <div class="file-list-header">
-                            <span class="total-count" id="file-total-count">총 0개</span>
-                            <span class="total-size" id="file-total-size">0KB/1GB</span>
-                        </div>
-                        <div id="file-list-items">
-                        </div>
-                    </div>
-
-                    <div style="margin-top: 12px;">
-                        <p class="disclaimer">최대 1GB 크기의 PDF(권장), ai, psd, cdr, jpg, gif, png 형식의 파일을 첨부할 수 있어요.</p>
-                        <p class="disclaimer">2건 이상 필수 시, 파일명에 구분 가능한 내용과 건수 포함해주세요 (ex) 명함 일면 CMYK)</p>
-                        <div class="design-notice-link" onclick="alert('주의사항 팝업')">* 디자인 작업 시 주의사항을 꼭 확인해주세요! ></div>
-                    </div>
-                </div>
+        <div class="modal-body">
+          <section class="filter-chip-section">
+            <div class="tabs-scroll-wrapper">
+              <div
+                class="single-chip single-chip-on"
+                onclick="modalSelectTypeChip(this)"
+              >
+                전체
+              </div>
+              <div
+                class="single-chip single-chip-off"
+                onclick="modalSelectTypeChip(this)"
+              >
+                나의 템플릿
+              </div>
+              <div
+                class="single-chip single-chip-off"
+                onclick="modalSelectTypeChip(this)"
+              >
+                최근 접수
+              </div>
             </div>
+          </section>
 
-            <div class="modal-footer-full">
-                <div class="size-warning-text" id="size-warning-msg">
-                    업로드 가능한 최대 용량이 초과되었어요, 파일은 4GB 이하로 업로드해주세요
-                </div>
-                <button class="dark-button" id="submit-button" disabled onclick="alert('파일이 전송되었습니다.')">파일 재업로드</button>
+          <p style="font-size: 12px; color: #666; padding: 12px 16px 0">
+            * 현재 제품과 동일한 카테고리로 저장된 디자인 파일만 표시돼요
+          </p>
+
+          <section class="filter-chip-section" style="padding-top: 10px">
+            <div class="tabs-scroll-wrapper">
+              <div
+                class="multi-chip multi-chip-on"
+                onclick="modalToggleCategoryChip(this)"
+              >
+                ✓ 전체
+              </div>
+              <div class="multi-chip">명함</div>
+              <div class="multi-chip">홍보물</div>
+              <div class="multi-chip">패키지/봉투</div>
+              <div class="multi-chip">서식지</div>
             </div>
+          </section>
+
+          <div class="search-container">
+            <div class="search-box">
+              <input type="text" placeholder="검색어를 입력해주세요" />
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0M21 21l-6-6"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div style="padding: 0 16px 12px; font-size: 14px">
+            총 <strong>3</strong>건
+          </div>
+
+          <div class="transaction-list">
+            <article class="file-card">
+              <div class="file-card-thumbnail">
+                <img src="https://picsum.photos/seed/sw1/120/140" alt="thumb" />
+                <div class="badge-type">최근 접수</div>
+              </div>
+              <div class="file-card-info">
+                <div>
+                  <div class="info-top">2025-10-17 (SW250001-01)</div>
+                  <div class="info-title">
+                    [일반명함] 홍길동 사원 명함 요청 건
+                  </div>
+                  <div class="info-spec">XT(벡터) | 90x50mm</div>
+                  <div class="info-count">총 2건</div>
+                </div>
+                <div class="card-divider">
+                  <button
+                    class="select-btn"
+                    onclick="selectFromStorage('[일반명함] 홍길동 명함.pdf', 120000)"
+                  >
+                    선택
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="file-card">
+              <div class="file-card-thumbnail">
+                <img src="https://picsum.photos/seed/sw2/120/140" alt="thumb" />
+                <div
+                  class="badge-type"
+                  style="border-color: #28a745; color: #28a745"
+                >
+                  나의 템플릿
+                </div>
+              </div>
+              <div class="file-card-info">
+                <div>
+                  <div class="info-top">2025-10-17</div>
+                  <div class="info-title">[템플릿] 기본 명함 레이아웃</div>
+                  <div class="info-spec">XT(벡터) | 90x50mm</div>
+                  <div class="info-count">총 1건</div>
+                </div>
+                <div class="card-divider">
+                  <button
+                    class="select-btn"
+                    onclick="selectFromStorage('기본명함_템플릿.ai', 50000)"
+                  >
+                    선택
+                  </button>
+                </div>
+              </div>
+            </article>
+          </div>
         </div>
+
+        <div class="modal-footer">
+          <button class="dark-button" onclick="closeStorageModal()">
+            선택 완료
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="modal-overlay" id="file-type-alert-overlay">
-        <div class="alert-modal-content">
-            <h2 class="modal-title">업로드 가능 파일 형식</h2>
-            <div class="modal-message">
-                PDF, AI, PSD, CDR, JPG, GIF, PNG<br>
-                형식의 파일만 업로드할 수 있어요
-            </div>
-            <div style="width: 100%;">
-                <button class="dark-button" onclick="closeModal('file-type-alert-overlay')">확인</button>
-            </div>
+    <!-- Alert Modal -->
+    <div class="modal-overlay" id="alert-modal" style="z-index: 2000">
+      <div class="alert-modal-content">
+        <div class="alert-title">업로드 가능 파일 형식</div>
+        <div class="alert-message">
+          PDF, AI, PSD, CDR, JPG, GIF, PNG<br />
+          형식의 파일만 업로드할 수 있어요
         </div>
+        <button class="alert-btn" onclick="closeAlertModal()">확인</button>
+      </div>
     </div>
 
     <script>
-        // ========================================
-        // Modal Logic
-        // ========================================
-        function openModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (overlay) {
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
+      let fileList = [];
+
+      function openStorageModal() {
+        document.getElementById("main-storage-modal").classList.add("active");
+        document
+          .getElementById("tab-storage")
+          .classList.replace("single-chip-off", "single-chip-on");
+        document
+          .getElementById("tab-direct")
+          .classList.replace("single-chip-on", "single-chip-off");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeStorageModal() {
+        document
+          .getElementById("main-storage-modal")
+          .classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      function switchMainTab(type) {
+        if (type === "direct") {
+          document
+            .getElementById("tab-direct")
+            .classList.replace("single-chip-off", "single-chip-on");
+          document
+            .getElementById("tab-storage")
+            .classList.replace("single-chip-on", "single-chip-off");
+        } else {
+          openStorageModal();
+        }
+      }
+
+      function handleFileSelect(e) {
+        const files = Array.from(e.target.files);
+        const allowedExtensions = [
+          "pdf",
+          "ai",
+          "psd",
+          "cdr",
+          "jpg",
+          "gif",
+          "png",
+        ];
+        let hasInvalidFile = false;
+
+        files.forEach((f) => {
+          const extension = f.name.split(".").pop().toLowerCase();
+          if (allowedExtensions.includes(extension)) {
+            if (!fileList.some((item) => item.name === f.name)) {
+              fileList.push({ name: f.name, size: f.size });
             }
-        }
-
-        function closeModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (overlay) {
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        }
-
-        // ========================================
-        // File Upload Logic
-        // ========================================
-        let selectedFiles = [];
-        const warningThreshold = 3; // Simulate 4GB limit warning when 3+ files selected
-
-        function formatBytes(bytes, decimals = 2) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const dm = decimals < 0 ? 0 : decimals;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
-        }
-
-        function handleFileSelect(event) {
-            const files = Array.from(event.target.files);
-            if (!files.length) return;
-
-            files.forEach(file => {
-                if (!selectedFiles.some(f => f.name === file.name)) {
-                    selectedFiles.push(file);
-                }
-            });
-
-            updateFileUI();
-            event.target.value = null;
-        }
-
-        function removeFile(index) {
-            selectedFiles.splice(index, 1);
-            updateFileUI();
-        }
-
-        function updateFileUI() {
-            const container = document.getElementById('file-list-area');
-            const itemsContainer = document.getElementById('file-list-items');
-            const countEl = document.getElementById('file-total-count');
-            const sizeEl = document.getElementById('file-total-size');
-            const submitBtn = document.getElementById('submit-button');
-            const warningMsg = document.getElementById('size-warning-msg');
-
-            // Visibility
-            if (selectedFiles.length === 0) {
-                container.style.display = 'none';
-                submitBtn.disabled = true;
-                warningMsg.classList.remove('active');
-                return;
-            } else {
-                container.style.display = 'block';
-                submitBtn.disabled = false;
-            }
-
-            // Update List
-            itemsContainer.innerHTML = '';
-            let currentTotalSize = 0;
-
-            selectedFiles.forEach((file, index) => {
-                currentTotalSize += file.size;
-
-                const div = document.createElement('div');
-                div.className = 'file-item';
-                div.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" style="color:#888; flex-shrink:0; margin-right:8px;">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                    </svg>
-                    <span class="file-name">${file.name}</span>
-                    <span class="file-size">${formatBytes(file.size)}</span>
-                    <button type="button" class="remove-btn" onclick="removeFile(${index})">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M18 6l-12 12" />
-                            <path d="M6 6l12 12" />
-                        </svg>
-                    </button>
-                `;
-                itemsContainer.appendChild(div);
-            });
-
-            // Update Headers
-            countEl.textContent = `총 ${selectedFiles.length}개`;
-            sizeEl.textContent = `${formatBytes(currentTotalSize)}/1GB`;
-
-            // [Warning Logic] Simulate Over Limit
-            if (selectedFiles.length >= warningThreshold) {
-                warningMsg.classList.add('active');
-                submitBtn.disabled = true;
-                sizeEl.style.color = '#dc3545';
-            } else {
-                warningMsg.classList.remove('active');
-                submitBtn.disabled = false;
-                sizeEl.style.color = '#888';
-            }
-        }
-
-        // Close on overlay click
-        document.querySelectorAll('.modal-overlay').forEach(overlay => {
-            overlay.addEventListener('click', (e) => {
-                if (e.target.id === overlay.id) {
-                    closeModal(overlay.id);
-                }
-            });
+          } else {
+            hasInvalidFile = true;
+          }
         });
-    </script>
-</body>
 
+        if (hasInvalidFile) {
+          openAlertModal();
+          // Reset file input value to allow selecting the same file again if needed,
+          // though typically validation fails prevent adding.
+          // Here we just alerted and added valid ones.
+          // If we want to strictly reject the batch if one is bad, we would clear fileList.
+          // Assuming we add valid ones and warn about invalid ones or just warn.
+          // Based on user request "xlsx 파일 업로드 하면 이 alert 띄워줘", triggering the alert is key.
+          e.target.value = ""; // Clear input to allow re-selection
+        }
+
+        // Remove any invalid files if they were added (logic above prevents adding, but just to be safe/clear)
+        // Actually, the above loop only pushes VALID files. So fileList is clean.
+
+        updateFileUI();
+      }
+
+      function openAlertModal() {
+        document.getElementById("alert-modal").classList.add("active");
+      }
+
+      function closeAlertModal() {
+        document.getElementById("alert-modal").classList.remove("active");
+      }
+
+      function selectFromStorage(name, size) {
+        if (!fileList.some((item) => item.name === name)) {
+          fileList.push({ name, size });
+        }
+        updateFileUI();
+        closeStorageModal();
+      }
+
+      function updateFileUI() {
+        const area = document.getElementById("file-list-area");
+        const items = document.getElementById("file-items");
+        const submit = document.getElementById("submit-btn");
+
+        area.style.display = fileList.length > 0 ? "block" : "none";
+        submit.disabled = fileList.length === 0;
+
+        items.innerHTML = fileList
+          .map(
+            (f, i) => `
+          <div class="file-item">
+            <span class="file-name">${f.name}</span>
+            <span style="font-size:12px; color:#888">${(f.size / 1024).toFixed(
+              1
+            )}KB</span>
+            <button onclick="fileList.splice(${i},1); updateFileUI();">
+              <svg width="18" height="18" viewBox="0 0 24 24" style="color:#bbb"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>`
+          )
+          .join("");
+        document.getElementById(
+          "total-count"
+        ).innerText = `총 ${fileList.length}개`;
+      }
+
+      function modalSelectTypeChip(chip) {
+        const group = chip.closest(".tabs-scroll-wrapper");
+        group
+          .querySelectorAll(".single-chip")
+          .forEach((c) =>
+            c.classList.replace("single-chip-on", "single-chip-off")
+          );
+        chip.classList.replace("single-chip-off", "single-chip-on");
+      }
+
+      function modalToggleCategoryChip(chip) {
+        const isCurrentlyOn = chip.classList.contains("multi-chip-on");
+        if (isCurrentlyOn) {
+          chip.classList.replace("multi-chip-on", "multi-chip-off");
+          chip.innerHTML = chip.innerHTML.replace("✓ ", "");
+        } else {
+          chip.classList.replace("multi-chip-off", "multi-chip-on");
+          chip.innerHTML = "✓ " + chip.innerHTML.trim();
+        }
+      }
+    </script>
+  </body>
 </html>

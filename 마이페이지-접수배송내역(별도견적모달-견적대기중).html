@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>별도견적 신청 상세</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* [v12] Master Guide CSS Inheritance */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #f4f5f7;
+        color: #333;
+        font-size: 16px;
+        line-height: 1.6;
+        height: 100%;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      /* Layout */
+      .mobile-wrap {
+        width: 100%;
+        max-width: 480px;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #fff;
+        position: relative;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Modal Styles */
+      .modal-overlay {
+        position: absolute;
+        inset: 0;
+        background: #fff;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background: white;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 16px;
+        position: relative;
+        height: 56px;
+        flex-shrink: 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .modal-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: black;
+      }
+
+      .btn-modal-close {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        color: #333;
+      }
+
+      .modal-body {
+        padding: 0 20px 24px; /* Modified padding */
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex-grow: 1;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .info-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px; /* Increased gap */
+        margin-top: 10px;
+      }
+
+      .info-row {
+        display: flex;
+        align-items: flex-start;
+        font-size: 14px;
+      }
+
+      .info-label {
+        width: 80px; /* Adjusted width */
+        color: #666;
+        font-weight: 400;
+        flex-shrink: 0;
+      }
+
+      .info-value {
+        color: #333;
+        font-weight: 400;
+        line-height: 1.5;
+        word-break: keep-all;
+        flex: 1;
+      }
+
+      /* Table Styles */
+      .estimate-table-container {
+        margin-top: 24px;
+        border: 1px solid #e0e0e0; /* Border for container */
+        border-radius: 4px; /* Rounded corners */
+        overflow: hidden; /* For radius */
+      }
+
+      .estimate-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+      }
+
+      .estimate-table th {
+        background-color: #e0e0e0;
+        color: #333;
+        font-weight: 400;
+        padding: 10px 0;
+      }
+
+      .estimate-table td {
+        padding: 16px 0;
+        color: #888;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .estimate-table td:last-child {
+        border-bottom: none;
+      }
+
+      .estimate-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .empty-message {
+        padding: 20px 0;
+        color: #888;
+      }
+
+      /* Footer Info */
+      .modal-footer {
+        padding: 20px;
+        border-top: 1px solid #f0f0f0;
+        background: #fff;
+        flex-shrink: 0;
+      }
+
+      .footer-info {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .info-text {
+        font-size: 13px;
+        color: #888;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .info-text svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .btn-cancel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 48px;
+        padding: 0 24px;
+        border: 1px solid #c8c8c8;
+        background-color: white;
+        color: #333;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%; /* Make full width */
+      }
+
+      svg {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="mobile-wrap">
+      <div class="modal-overlay">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title">별도견적 신청 상세</h2>
+            <div class="btn-modal-close" onclick="history.back();">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style="width: 24px; height: 24px"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </div>
+          </div>
+
+          <div class="modal-body">
+            <div class="info-section">
+              <div class="info-row">
+                <span class="info-label">신청 현황</span>
+                <span class="info-value">견적 대기 중</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">요청사항</span>
+                <span class="info-value"
+                  >기본 옵션에 있는 용지 말고, 제가 보유하고 있는 특수지로
+                  제작하고 싶습니다. 해당 용지 수급이 어렵다면 이와 가장 비슷한
+                  질감의 용지로 추천 및 견적 부탁드립니다.</span
+                >
+              </div>
+              <div class="info-row">
+                <span class="info-label">담당자</span>
+                <span class="info-value">-</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 20px">
+              <div
+                class="info-label"
+                style="font-size: 14px; margin-bottom: 8px"
+              >
+                견적 내역
+              </div>
+              <div class="estimate-table-container">
+                <table class="estimate-table">
+                  <colgroup>
+                    <col width="33%" />
+                    <col width="33%" />
+                    <col width="33%" />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th>일시</th>
+                      <th>견적 금액</th>
+                      <th>상세</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colspan="3" class="empty-message">
+                        견적 내역이 없어요
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="footer-info">
+              <p class="info-text">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                  />
+                </svg>
+                견적신청 취소 시, 해당 접수 건은 자동으로 접수 취소 처리돼요
+              </p>
+              <button class="btn-cancel" onclick="alert('취소되었습니다.')">
+                견적신청 취소
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
