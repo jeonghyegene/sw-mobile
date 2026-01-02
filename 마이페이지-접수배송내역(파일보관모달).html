@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>파일 보관함 (CSS Unified)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ========================================
+           [v12] Master Guide CSS (Based on Uploaded File)
+        ======================================== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #f4f5f7;
+        color: #333;
+        font-size: 16px;
+        line-height: 1.6;
+        overflow: hidden; /* 모달 오픈 상태 유지 */
+      }
+
+      ul,
+      li {
+        list-style: none;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      button {
+        font-family: inherit;
+        border: none;
+        cursor: pointer;
+        background: none;
+        padding: 0;
+      }
+      input {
+        font-family: inherit;
+      }
+
+      svg {
+        stroke-width: 2;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+        display: block;
+      }
+
+      /* Buttons (v12 Standard) */
+      .dark-button {
+        background: #424242;
+        color: white;
+        height: 44px;
+        padding: 7px 19px;
+        border-radius: 6px;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .dark-button:active {
+        transform: scale(0.98);
+      }
+
+      .white-button {
+        background: white;
+        color: #424242;
+        height: 44px;
+        padding: 7px 19px;
+        border-radius: 6px;
+        border: 1px solid #e8e8e9;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .white-button:active {
+        transform: scale(0.98);
+      }
+
+      /* Form Styles */
+      .form-group {
+        margin-bottom: 24px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      .input {
+        width: 100%;
+        min-height: 40px;
+        background: white;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+      }
+      .input input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        color: black;
+        line-height: 1.5;
+      }
+      .input input::placeholder {
+        color: #c6c6c8;
+      }
+
+      /* ========================================
+           FULL SCREEN MODAL STYLES (Matches Sample File)
+        ======================================== */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex; /* Always visible for demo */
+        align-items: center; /* Center vertically */
+        justify-content: center;
+        z-index: 1000;
+        padding: 0;
+      }
+
+      .modal-content {
+        background: white;
+        width: 100%;
+        height: 100%;
+        max-width: 480px; /* 요청하신 480px 제한 */
+        max-height: none; /* 세로 꽉 채움 */
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Header */
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-bottom: 1px solid #e8e8e9;
+        position: relative;
+        height: 56px;
+        flex-shrink: 0;
+      }
+      .modal-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #212121;
+        text-align: left;
+        flex: 1;
+      }
+      .btn-modal-close {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Body */
+      .modal-body {
+        padding: 24px 20px;
+        overflow-y: auto;
+        flex-grow: 1;
+      }
+      .modal-description {
+        font-size: 15px;
+        color: #333;
+        margin-bottom: 24px;
+        line-height: 1.5;
+        word-break: keep-all;
+      }
+
+      /* Footer */
+      .modal-footer {
+        padding: 20px;
+        border-top: 1px solid #f0f0f0;
+        background: #fff;
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .modal-footer .btn {
+        flex: 1; /* 버튼 너비 균등 분배 */
+        height: 48px;
+        font-size: 15px;
+      }
+
+      /* ========================================
+           POPUP ALERT STYLES (Custom for Logic)
+        ======================================== */
+      .alert-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1100;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+      .alert-overlay.active {
+        display: flex;
+      }
+
+      .alert-box {
+        width: 300px;
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        animation: popIn 0.2s ease-out;
+      }
+      @keyframes popIn {
+        from {
+          transform: scale(0.9);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .alert-content {
+        padding: 32px 24px 24px;
+      }
+      .alert-msg-main {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 6px;
+        line-height: 1.5;
+      }
+      .alert-msg-sub {
+        font-size: 13px;
+        color: #888;
+        font-weight: 400;
+        line-height: 1.5;
+      }
+
+      .alert-btn-group {
+        display: flex;
+        border-top: 1px solid #eee;
+      }
+      .alert-btn {
+        flex: 1;
+        height: 56px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .alert-btn:active {
+        background: #f9f9f9;
+      }
+      .alert-btn.confirm {
+        color: #333;
+        font-weight: 700;
+        border-left: 1px solid #eee;
+      }
+
+      /* ========================================
+           TOAST STYLES
+        ======================================== */
+      .toast-container {
+        position: fixed;
+        bottom: 80px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        pointer-events: none;
+        z-index: 12000;
+      }
+      .toast-box {
+        background: rgba(33, 33, 33, 0.95);
+        color: #fff;
+        padding: 14px 24px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 500;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+      }
+      .toast-box.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="modal-overlay" id="file-storage-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">파일 보관</h2>
+          <button class="btn-modal-close" onclick="window.close()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <p class="modal-description">보관할 파일의 제목을 입력해주세요</p>
+
+          <div class="form-group">
+            <label>파일 제목</label>
+            <div class="input">
+              <input
+                type="text"
+                class="common-input"
+                id="file-title-input"
+                placeholder="제목을 입력해 주세요."
+                value="명함 디자인 시안 보관"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="white-button btn" onclick="window.location.reload()">
+            닫기
+          </button>
+          <button class="dark-button btn" onclick="checkAndAlert()">
+            보관하기
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="alert-confirm" class="alert-overlay">
+      <div class="alert-box">
+        <div class="alert-content">
+          <p class="alert-msg-main">보관 가능한 용량이 초과되었어요</p>
+          <p class="alert-msg-sub">
+            가장 오래전에 저장된 파일을 삭제하고<br />현재 파일을 보관할까요?
+          </p>
+        </div>
+        <div class="alert-btn-group">
+          <button class="alert-btn" onclick="closePopup('alert-confirm')">
+            취소
+          </button>
+          <button class="alert-btn confirm" onclick="processArchive()">
+            삭제 후 보관하기
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast-container">
+      <div id="toast-msg" class="toast-box">파일 보관이 완료되었습니다.</div>
+    </div>
+
+    <script>
+      /* --- Popup Logic --- */
+      function openPopup(id) {
+        document.getElementById(id).classList.add("active");
+      }
+
+      function closePopup(id) {
+        document.getElementById(id).classList.remove("active");
+      }
+
+      /* --- Workflow Logic --- */
+      function checkAndAlert() {
+        // 제목 입력 값 확인
+        const titleInput = document.getElementById("file-title-input");
+        if (!titleInput.value.trim()) {
+          alert("제목을 입력해주세요.");
+          return;
+        }
+
+        // 용량 초과 알림 띄우기
+        openPopup("alert-confirm");
+      }
+
+      function processArchive() {
+        closePopup("alert-confirm");
+
+        // 보관 완료 시뮬레이션 (메인 모달 숨김 & 토스트)
+        document.getElementById("file-storage-modal").style.display = "none";
+        showToast();
+      }
+
+      function showToast() {
+        const toast = document.getElementById("toast-msg");
+        toast.classList.add("show");
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>
