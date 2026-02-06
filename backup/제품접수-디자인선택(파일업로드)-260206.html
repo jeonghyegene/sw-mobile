@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>디자인 선택 - 디자인 신청 (v12 수정)</title>
+    <title>디자인 선택 - 파일 업로드 (모바일 최적화)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -11,7 +11,7 @@
       rel="stylesheet"
     />
     <style>
-      /* [v12] Master Guide CSS (Base from tax_request_write) */
+      /* [v12] Master Guide CSS (Base from design_choice(파일 업로드).html) */
       .disqus-thread-wrap {
         position: fixed;
         top: 40px;
@@ -36,15 +36,8 @@
 
       html,
       body {
-        font-family:
-          "Pretendard",
-          -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          Roboto,
-          "Helvetica Neue",
-          Arial,
-          sans-serif;
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
         background-color: #f4f5f7;
         color: #333;
         font-size: 16px;
@@ -68,7 +61,6 @@
         cursor: pointer;
         background: none;
         padding: 0;
-        text-align: left;
       }
 
       img {
@@ -93,13 +85,6 @@
         display: block;
       }
 
-      /* [MODIFIED] Hide file inputs */
-      #file-input,
-      #photo-input,
-      #edit-photo-input {
-        display: none;
-      }
-
       /* Layout */
       .mobile-wrap {
         width: 100%;
@@ -107,7 +92,7 @@
         margin: 0 auto;
         background-color: #ffffff;
         padding-bottom: 150px;
-        /* Sticky Footer 여백 확보 */
+        /* Sticky Footer 높이만큼 여백 확보 */
       }
 
       /* Header (v12 Standard) */
@@ -220,18 +205,6 @@
         cursor: not-allowed;
       }
 
-      /* [NEW] Special delete button style (from qna_detail) */
-      .delete-button {
-        background: white;
-        color: #dc3545;
-        border-color: #e8e8e9;
-      }
-
-      .delete-button:hover {
-        background: #fefafa;
-        border-color: #dc3545;
-      }
-
       /* Main Content */
       .sw-container {
         padding: 16px;
@@ -248,7 +221,6 @@
 
       .sw-container .section-title:first-child {
         margin-top: 0;
-        /* [MODIFIED] Reduced top margin for page title */
       }
 
       /* Form Styles (v12 Standard) */
@@ -357,6 +329,18 @@
         transform: scale(0.95);
       }
 
+      /* [MODIFIED] Added missing tabs-scroll-wrapper base styles */
+      .tabs-scroll-wrapper {
+        overflow-x: auto;
+        white-space: nowrap;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .tabs-scroll-wrapper::-webkit-scrollbar {
+        display: none;
+      }
+
       /* [NEW] v12 Multi-chip (from cr_request) */
       .multi-chip {
         display: inline-flex;
@@ -386,32 +370,6 @@
         transform: scale(0.95);
       }
 
-      /* [NEW] v12 standard filter-group-content */
-      .filter-group-content {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      /* [MODIFIED] Added missing tabs-scroll-wrapper base styles */
-      .tabs-scroll-wrapper {
-        overflow-x: auto;
-        white-space: nowrap;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-
-      .tabs-scroll-wrapper::-webkit-scrollbar {
-        display: none;
-      }
-
-      /* [NEW] Add flex to scroll wrapper (for chips) */
-      .tabs-scroll-wrapper .filter-group-content {
-        display: flex;
-        flex-wrap: nowrap;
-        /* Prevent wrapping inside scroller */
-      }
-
       /* v12 Standard .disclaimer (from cr_request) */
       .disclaimer {
         font-size: 12px;
@@ -432,7 +390,6 @@
 
       /* [MODIFIED] File Upload Button */
       .file-upload-button {
-        /* Use v12 white-button styles */
         height: 44px;
         font-weight: 500;
         width: 100%;
@@ -442,13 +399,14 @@
         gap: 6px;
       }
 
-      /* [NEW] Disabled style for File Upload Button */
+      /* [MODIFIED] Disabled style */
       .file-upload-button.disabled {
         background-color: #e9ecef;
         color: #adb5bd;
         border-color: #e9ecef;
         cursor: not-allowed;
         pointer-events: none;
+        /* 클릭 이벤트 방지 */
       }
 
       .file-upload-button svg {
@@ -520,21 +478,6 @@
 
       .file-item .remove-btn:hover {
         color: #dc3545;
-      }
-
-      /* [NEW] Upload After Notice */
-      .upload-after-notice {
-        font-size: 12px;
-        color: #888;
-        margin-top: 8px;
-        margin-left: 28px;
-        /* Align with checkbox text */
-        line-height: 1.5;
-        display: none;
-      }
-
-      .upload-after-notice.active {
-        display: block;
       }
 
       /* [NEW] No Transactions (from cr_request) */
@@ -612,7 +555,6 @@
 
       /* [MODIFIED] Back Link Button (Req 3) */
       .back-link-button {
-        /* Use v12 white-button styles */
         height: 44px;
         font-weight: 500;
         width: 100%;
@@ -628,7 +570,7 @@
         height: 16px;
       }
 
-      /* [UPDATED] Sticky Footer Bar (to match file upload new) */
+      /* [UPDATED] Sticky Footer Bar (to match image_19e53a.png) */
       .sticky-footer-bar {
         position: fixed;
         bottom: 0;
@@ -678,14 +620,14 @@
         color: #333;
       }
 
-      /* [MODIFIED] Button group */
+      /* Button group */
       .button-group {
         display: flex;
         flex-shrink: 0;
         gap: 8px;
         /* Add gap between buttons */
         width: 100%;
-        /* [NEW] Make button group full width */
+        /* Make button group full width */
       }
 
       .button-group .btn {
@@ -693,80 +635,24 @@
         /* v12 Standard height */
         border-radius: 6px;
         /* v12 Standard radius */
-        /* [MODIFIED] Use flex-grow instead of fixed width */
-        flex: 1;
-        flex-basis: 0;
-        /* [NEW] */
         font-size: 14px;
         font-weight: 600;
         padding: 7px 12px;
       }
 
       .button-group .white-button {
+        flex: 1;
         border: 1px solid #e8e8e9;
       }
 
       .button-group .dark-button {
+        flex: 1.8;
+        /* Make dark button wider as per image */
         border: none;
-        flex-grow: 1.8;
-        /* [NEW] Make this button wider (from file upload new) */
       }
 
       /* ========================================
-           [NEW] DYNAMIC DESIGN BLOCK STYLES
-        ======================================== */
-      .design-request-block {
-        border: 1px solid #e8e8e9;
-        border-radius: 8px;
-        padding: 16px;
-        margin-bottom: 16px;
-        position: relative;
-      }
-
-      .design-block-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 16px;
-      }
-
-      .design-block-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-      }
-
-      .delete-design-btn {
-        width: 24px;
-        height: 24px;
-        color: #888;
-        cursor: pointer;
-        display: flex;
-        /* [MODIFIED] Use flex for centering */
-        align-items: center;
-        justify-content: center;
-      }
-
-      .delete-design-btn:hover {
-        color: #dc3545;
-      }
-
-      .conditional-options {
-        display: none;
-        /* Hide by default */
-        margin-top: 20px;
-        /* Add space from '유형' */
-      }
-
-      #add-design-btn {
-        width: 100%;
-        font-weight: 500;
-        justify-content: center;
-        /* Center icon+text */
-      }
-
-      /* ========================================
-           [NEW] MODAL STYLES (Req 2)
+           [MODIFIED] FULL MODAL STYLES
         ======================================== */
       .modal-overlay {
         position: fixed;
@@ -794,33 +680,11 @@
         }
       }
 
-      /* [NEW] Full Modal Styles (from design_choice(파일 업로드).html) */
-      #file-storage-modal-overlay.full-modal {
-        padding: 0;
-      }
-
-      #file-storage-modal-overlay.full-modal .modal-content {
-        width: 100%;
-        max-width: 480px;
-        height: 100%;
-        max-height: 100vh;
-        border-radius: 0;
-      }
-
-      #file-storage-modal-overlay.full-modal .modal-body {
-        padding: 0;
-        padding-top: 0;
-      }
-
-      #file-storage-modal-overlay.full-modal .modal-footer {
-        border-radius: 0;
-      }
-
       .modal-content {
         background: white;
         border-radius: 0;
         width: 100%;
-        max-width: 480px;
+        max-width: 100%;
         max-height: 100vh;
         height: 100%;
         display: flex;
@@ -838,6 +702,29 @@
           transform: scale(1);
           opacity: 1;
         }
+      }
+
+      /* Full Modal Specific Overrides */
+      #file-storage-modal-overlay.full-modal {
+        padding: 0;
+      }
+
+      #file-storage-modal-overlay.full-modal .modal-content {
+        width: 100%;
+        max-width: 480px;
+        /* Match mobile-wrap */
+        height: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+      }
+
+      #file-storage-modal-overlay.full-modal .modal-body {
+        padding: 0;
+        padding-top: 0;
+      }
+
+      #file-storage-modal-overlay.full-modal .modal-footer {
+        border-radius: 0;
       }
 
       .modal-header {
@@ -880,13 +767,10 @@
 
       .modal-body {
         padding: 0;
-        /* Remove padding for internal sections */
         overflow-y: auto;
         flex-grow: 1;
         display: flex;
-        /* [NEW] Allow flex-direction */
         flex-direction: column;
-        /* [NEW] */
       }
 
       .modal-footer {
@@ -896,7 +780,6 @@
         display: flex;
         gap: 8px;
         flex-shrink: 0;
-        /* [NEW] */
         border-radius: 0;
       }
 
@@ -906,16 +789,15 @@
         font-size: 14px;
       }
 
-      /* [NEW] Modal Content Styles (Req 2) */
+      /* Modal Content Styles */
       .modal-body .filter-chip-section {
         margin: 0;
         padding: 16px;
         border-bottom: 1px solid #e9e9e9;
         flex-shrink: 0;
-        /* [NEW] */
       }
 
-      /* [MODIFIED] Req 1: Add disclaimer */
+      /* Disclaimer */
       .modal-body .disclaimer {
         padding: 10px 16px;
         margin: 0;
@@ -929,7 +811,6 @@
         flex-shrink: 0;
       }
 
-      /* [MODIFIED] Added rule for flex wrapper */
       .modal-body .filter-chip-section .tabs-scroll-wrapper {
         display: flex;
         gap: 8px;
@@ -945,7 +826,6 @@
       .modal-body .transaction-list {
         padding: 0 16px 16px 16px;
         margin-bottom: 0;
-        /* [MODIFIED] Make list scrollable */
         flex-grow: 1;
         overflow-y: auto;
       }
@@ -1017,43 +897,49 @@
         height: 100%;
       }
 
-      /* [NEW] Styles from file_list.html (Req 2) & Updated for Horizontal Cards */
+      /* [NEW] File Card (from design_choice(파일 업로드).html) */
       .transaction-list-header .total-count strong {
         font-weight: 600;
         color: #333;
       }
 
-      /* [MODIFIED] Horizontal File Card Styles */
       .file-card {
+        /* [MODIFIED] Horizontal layout */
         display: flex;
         flex-direction: row;
         align-items: stretch;
         min-height: 120px;
         gap: 0;
-        padding: 0;
-        position: relative;
-        overflow: hidden;
-        margin-bottom: 15px;
         border: 1px solid #e8e8e9;
         border-radius: 6px;
         background: #fff;
+        padding: 0;
+        position: relative;
+        overflow: hidden;
+        /* For rounded corners on thumbnail */
+        margin-bottom: 15px;
       }
 
       .file-card .card-header {
+        /* Hide old card header elements */
         display: none;
       }
 
       .file-card-thumbnail {
+        /* [MODIFIED] Fixed size for thumbnail on the left */
         width: 120px;
-        height: auto;
-        aspect-ratio: auto;
-        border-right: 1px solid #f0f0f0;
+        height: 100%;
+        /* Height fills the card */
+        aspect-ratio: 1 / 1.5;
+        object-fit: cover;
         border-top: none;
         border-bottom: none;
+        border-right: 1px solid #f0f0f0;
+        background: #f9f9f9;
         border-radius: 6px 0 0 6px;
         flex-shrink: 0;
         position: relative;
-        background: #f9f9f9;
+        /* Context for absolute badge */
       }
 
       .file-card-thumbnail img {
@@ -1063,6 +949,7 @@
       }
 
       .file-card-info {
+        /* [MODIFIED] Right side content wrapper */
         flex: 1;
         min-width: 0;
         padding: 12px;
@@ -1071,11 +958,61 @@
         justify-content: space-between;
       }
 
+      .file-info-header {
+        font-size: 13px;
+        color: #888;
+        margin-bottom: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* [NEW] Meta and Title Structure */
+      .file-info-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      .file-info-title {
+        /* [MODIFIED] Font size to 14px */
+        font-size: 14px;
+        font-weight: 600;
+        color: #212121;
+        margin-bottom: 4px;
+        /* Space from spec */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        white-space: normal;
+        line-height: 1.4;
+        max-height: 39px;
+      }
+
+      .file-info-spec {
+        font-size: 13px;
+        /* Reduced to 13px for subtle spec */
+        color: #555;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .file-info-count {
+        font-size: 13px;
+        color: #888;
+        margin-top: 4px;
+      }
+
       .card-body-wrapper {
         flex-grow: 1;
       }
 
       .card-action-footer {
+        /* New footer for horizontal card */
         padding-top: 8px;
         border-top: 1px solid #f0f0f0;
         display: flex;
@@ -1090,16 +1027,21 @@
         padding: 0 12px;
       }
 
+      /* [MODIFIED] Badge is now absolutely positioned on the thumbnail */
       .card-badge {
         position: absolute;
         top: 8px;
         right: 8px;
         z-index: 10;
+        /* Above thumbnail */
+        padding: 2px 8px;
+        font-size: 11px;
         background: rgba(255, 255, 255, 0.9);
         border: 1px solid;
         border-radius: 30px;
-        padding: 2px 8px;
-        font-size: 11px;
+        line-height: 1;
+        /* Added styles to match the provided image */
+        color: #333;
         font-weight: 500;
       }
 
@@ -1113,47 +1055,93 @@
         color: #28a745;
       }
 
-      .file-info-header {
-        font-size: 13px;
-        color: #888;
-        margin-bottom: 4px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      /* [NEW] Sample Address Info Box (from design_choice(파일 업로드).html) */
+      .info-box-bullets {
+        background: #f8f8f9;
+        border: 1px solid #f0f0f0;
+        border-radius: 6px;
+        padding: 16px;
+        margin-top: 12px;
       }
 
-      .file-info-title {
-        font-size: 14px;
-        font-weight: 600;
-        color: #212121;
-        margin-bottom: 4px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        white-space: normal;
-        line-height: 1.4;
-        max-height: 39px;
+      .info-box-bullets ul {
+        list-style: none;
+        padding-left: 0;
       }
 
-      .file-info-spec {
+      .info-box-bullets li {
         font-size: 13px;
         color: #555;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        position: relative;
+        padding-left: 12px;
+        margin-bottom: 8px;
       }
 
-      .file-info-count {
-        font-size: 13px;
+      .info-box-bullets li:last-child {
+        margin-bottom: 0;
+      }
+
+      .info-box-bullets li::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        top: 0;
         color: #888;
-        margin-top: 4px;
+        font-weight: 600;
       }
 
-      /* ========================================
-           [NEW] BOTTOM SHEET STYLES (Req 3)
-        ======================================== */
+      /* Address Link */
+      .info-box-bullets .address-link {
+        background: none;
+        border: none;
+        padding: 0;
+        font-family: inherit;
+        font-size: 13px;
+        color: #4e6ee4;
+        font-weight: 500;
+        text-decoration: underline;
+        padding-left: 12px;
+        margin-top: 4px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .info-box-bullets .address-link:hover {
+        text-decoration: none;
+        opacity: 0.8;
+      }
+
+      .info-box-bullets .address-link svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        stroke-width: 2.5;
+        color: #4e6ee4;
+      }
+
+      .info-box-bullets .address-link span {
+        text-align: left;
+      }
+
+      /* [NEW] File Upload After Notice */
+      .upload-after-notice {
+        font-size: 12px;
+        color: #888;
+        margin-top: 8px;
+        margin-left: 28px;
+        /* Align with checkbox text */
+        line-height: 1.5;
+        display: none;
+      }
+
+      .upload-after-notice.active {
+        display: block;
+      }
+
+      /* [NEW] Bottom Sheet Styles (Required for proper setupBottomSheet function) */
       .bottom-sheet-overlay {
         position: fixed;
         inset: 0;
@@ -1217,7 +1205,7 @@
         animation: slideDown 0.3s ease-out;
       }
 
-      /* [UPDATED] Sheet Header - Simple Arrow (from file upload new) */
+      /* [UPDATED] Sheet Header - Simple Arrow */
       .sheet-header-simple {
         padding: 8px 0;
         display: flex;
@@ -1233,24 +1221,7 @@
         padding: 10px 20px 10px 20px;
       }
 
-      .sheet-footer {
-        padding: 20px;
-        border-top: 1px solid #f0f0f0;
-        background: #fff;
-        display: flex;
-        gap: 8px;
-        flex-shrink: 0;
-      }
-
-      .sheet-footer .btn {
-        flex: 1;
-      }
-
-      .sheet-footer .btn.dark-button {
-        flex: 1.8;
-      }
-
-      /* [UPDATED] Price Rows for Design Request */
+      /* [UPDATED] Sheet Price Rows (to match image_19e0da.png) */
       .price-detail-row {
         display: flex;
         justify-content: space-between;
@@ -1271,6 +1242,15 @@
         width: 100%;
       }
 
+      .price-total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
       .final-total {
         display: flex;
         justify-content: space-between;
@@ -1287,139 +1267,21 @@
         color: #333;
       }
 
-      /* [NEW] Req 3: Sample Address Info Box */
-      .info-box-bullets {
-        background: #f8f8f9;
-        border: 1px solid #f0f0f0;
-        border-radius: 6px;
-        padding: 16px;
-        margin-top: 12px;
-      }
-
-      .info-box-bullets ul {
-        list-style-type: none;
-        padding-left: 0;
-      }
-
-      .info-box-bullets li {
-        font-size: 13px;
-        color: #555;
-        position: relative;
-        padding-left: 12px;
-        margin-bottom: 8px;
-      }
-
-      .info-box-bullets li:last-child {
-        margin-bottom: 0;
-      }
-
-      .info-box-bullets li::before {
-        content: "•";
-        position: absolute;
-        left: 0;
-        top: 0;
-        color: #888;
-        font-weight: 600;
-      }
-
-      /* [MODIFIED] Address Link */
-      .info-box-bullets .address-link {
-        /* Reset button styles */
-        background: none;
-        border: none;
-        padding: 0;
-        font-family: inherit;
-
-        /* Original styles */
-        font-size: 13px;
-        color: #4e6ee4;
-        font-weight: 500;
-        text-decoration: underline;
-        /* display: block; -> changed */
-        padding-left: 12px;
-        margin-top: 4px;
-        margin-bottom: 8px;
-        cursor: pointer;
-
-        /* New flex styles */
-        display: inline-flex;
-        /* Use inline-flex to keep it with the flow */
-        align-items: center;
-        gap: 4px;
-      }
-
-      .info-box-bullets .address-link:hover {
-        text-decoration: none;
-        opacity: 0.8;
-        /* Add hover effect */
-      }
-
-      .info-box-bullets .address-link svg {
-        width: 14px;
-        height: 14px;
-        flex-shrink: 0;
-        stroke-width: 2.5;
-        color: #4e6ee4;
-        /* Match link color */
-      }
-
-      .info-box-bullets .address-link span {
-        text-align: left;
-      }
-
-      /* [NEW] Alert Modal (from qna_write) */
-      .alert-modal {
+      .sheet-footer {
         padding: 20px;
-        text-align: center;
-      }
-
-      .alert-modal .modal-title {
-        text-align: center;
-        margin-bottom: 15px;
-      }
-
-      .alert-modal .modal-message {
-        font-size: 14px;
-        color: black;
-        margin-bottom: 30px;
-        line-height: 1.5;
-      }
-
-      .alert-modal .modal-buttons {
+        border-top: 1px solid #f0f0f0;
+        background: #fff;
         display: flex;
-        gap: 10px;
-        justify-content: center;
+        gap: 8px;
+        flex-shrink: 0;
       }
 
-      .alert-modal .modal-button {
+      .sheet-footer .btn {
         flex: 1;
-        height: 44px;
-        padding: 7px;
-        border-radius: 6px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: all 0.2s;
-        /* [MODIFIED] Add v12 styles */
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
       }
 
-      .alert-modal .modal-button-primary {
-        background: #424242;
-        color: white;
-        border: none;
-      }
-
-      .alert-modal .modal-button-secondary {
-        background: white;
-        color: #424242;
-        border: 1px solid #e8e8e9;
-      }
-
-      .alert-modal .modal-button:active {
-        transform: scale(0.98);
+      .sheet-footer .btn.dark-button {
+        flex: 1.8;
       }
 
       /* [NEW] Option Box Style (for Bottom Sheet) */
@@ -1431,70 +1293,53 @@
         margin-bottom: 20px;
         display: flex;
         align-items: center;
-        /* [MODIFIED] Relative positioning for tooltip centering */
-        position: relative;
       }
 
       .option-box-gray .checkbox-text {
         margin: 0;
         width: 100%;
-        /* [MODIFIED] Allow shrinking for icon */
-        flex: 1;
       }
-
-      /* [NEW] Info Icon & Tooltip (from payment step 1) */
-      .info-icon-btn {
-        width: 24px;
-        height: 24px;
+      /* [NEW] Mobile Upload Box Styles */
+      .file-upload-box {
+        width: 100%;
+        min-height: 180px;
+        border: 1px dashed #d7d7d7;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #888;
-        cursor: pointer;
-        margin-left: 8px;
-        position: relative;
-        z-index: 10;
+        background-color: #fafafa;
+        padding: 20px;
+        margin-bottom: 20px;
       }
 
-      .info-icon-btn.active {
-        color: #333;
+      .upload-action-row {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
       }
 
-      .today-tooltip {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%; /* Ensure centering works well for long text */
-        max-width: 250px;
-        background-color: rgba(33, 33, 33, 0.95);
-        color: white;
-        padding: 8px 12px;
+      .upload-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        padding: 0 20px;
+        border: 1px solid #dcdcdc;
+        background: #fff;
         border-radius: 6px;
         font-size: 13px;
-        line-height: 1.4;
-        white-space: nowrap;
-        margin-top: 12px;
-        display: none;
-        z-index: 100;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        font-weight: 500;
+        color: #333;
+        cursor: pointer;
+        min-width: 100px;
       }
 
-      .today-tooltip::after {
-        content: "";
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: transparent transparent rgba(33, 33, 33, 0.95) transparent;
-      }
-
-      .today-tooltip.active {
-        display: block;
-        animation: fadeIn 0.2s ease-out;
+      /* [NEW] Disabled Style */
+      .file-upload-box.disabled {
+        opacity: 0.6;
+        pointer-events: none;
+        background-color: #f0f0f0;
       }
     </style>
   </head>
@@ -1503,7 +1348,7 @@
     <div class="mobile-wrap">
       <header class="app-header-sub">
         <div class="header-left">
-          <button type="button" class="header-btn" onclick="checkBeforeExit()">
+          <button type="button" class="header-btn" onclick="history.back();">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -1521,176 +1366,17 @@
 
       <main>
         <div class="sw-container">
-          <h2 class="section-title">전문 디자이너에게 디자인 신청하기</h2>
-
-          <div id="design-request-list">
-            <div class="design-request-block">
-              <div class="design-block-header">
-                <h3 class="design-block-title">디자인 1</h3>
-                <button
-                  type="button"
-                  class="delete-design-btn"
-                  style="display: none"
-                  onclick="removeDesignBlock(this)"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-
-              <div class="form-group">
-                <label>유형</label>
-                <div class="filter-group-content" data-group-name="design-type">
-                  <div
-                    class="single-chip single-chip-off"
-                    data-type="simple"
-                    onclick="selectDesignType(this)"
-                  >
-                    간단 수정 (₩7,000)
-                  </div>
-                  <div
-                    class="single-chip single-chip-on"
-                    data-type="basic"
-                    onclick="selectDesignType(this)"
-                  >
-                    심플 디자인 (₩15,000)
-                  </div>
-                  <div
-                    class="single-chip single-chip-off"
-                    data-type="premium"
-                    onclick="selectDesignType(this)"
-                  >
-                    고급 디자인 (₩25,000)
-                  </div>
-                  <div
-                    class="single-chip single-chip-off"
-                    data-type="original"
-                    onclick="selectDesignType(this)"
-                  >
-                    원본 변경 (₩50,000)
-                  </div>
-                  <div
-                    class="single-chip single-chip-off"
-                    data-type="consult"
-                    onclick="selectDesignType(this)"
-                  >
-                    디자인 상담
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="form-group conditional-options"
-                data-type-target="basic premium"
-                style="display: block"
-              >
-                <label>추가 옵션</label>
-                <div
-                  class="filter-group-content"
-                  data-group-name="additional-options"
-                >
-                  <div
-                    class="multi-chip multi-chip-off"
-                    onclick="toggleMultiChip(this)"
-                  >
-                    로고 디자인 (₩0)
-                  </div>
-                  <div
-                    class="multi-chip multi-chip-off"
-                    onclick="toggleMultiChip(this)"
-                  >
-                    로고 따기 (₩0)
-                  </div>
-                  <div
-                    class="multi-chip multi-chip-off"
-                    onclick="toggleMultiChip(this)"
-                  >
-                    약도 추가 (₩0)
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>건수(건)</label>
-                <div class="input">
-                  <input
-                    type="tel"
-                    value="1"
-                    oninput="
-                      updateTotalPrice();
-                      isFormDirty = true;
-                    "
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <button
-            type="button"
-            class="white-button"
-            id="add-design-btn"
-            onclick="addDesignBlock()"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              style="margin-right: 4px; stroke-width: 2.5"
-            >
-              <path d="M12 5l0 14" />
-              <path d="M5 12l14 0" />
-            </svg>
-            디자인 추가
-          </button>
-
-          <h2
-            class="section-title"
-            style="
-              margin-top: 32px;
-              border-top: 8px solid #f4f5f7;
-              padding-top: 24px;
-            "
-          >
-            디자인 소스 업로드
-          </h2>
-
-          <nav class="modal-tab-nav" id="upload-source-tabs">
-            <div
-              class="single-chip single-chip-on"
-              data-tab="direct-upload"
-              onclick="switchUploadTab(this, 'direct-upload')"
-            >
-              직접 업로드
-            </div>
-            <div
-              class="single-chip single-chip-off"
-              data-tab="file-storage"
-              onclick="openModal('file-storage-modal-overlay')"
-            >
-              파일 보관함
-            </div>
-          </nav>
+          <h2 class="section-title">나의 디자인 파일 업로드 하기</h2>
 
           <div id="upload-content-wrapper">
-            <div data-tab-content="direct-upload" style="display: block">
-              <label
-                for="file-input"
-                class="white-button file-upload-button"
-                id="file-upload-label"
-              >
+            <!-- [NEW] Mobile Upload Box -->
+            <div class="file-upload-box">
+              <div style="text-align: center; width: 100%">
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
+                  width="32"
+                  height="32"
                   viewBox="0 0 24 24"
+                  style="margin: 0 auto 8px; color: #b0b0b0"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="2"
@@ -1700,52 +1386,78 @@
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <path d="M14 3v4a1 1 0 0 0 1 1h4" />
                   <path
-                    d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"
+                    d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"
                   />
                   <path d="M12 11v6" />
-                  <path d="M9 14l3 -3l3 3" />
+                  <path d="M9 14l3-3 3 3" />
                 </svg>
-                파일 선택
-              </label>
-              <input
-                type="file"
-                id="file-input"
-                style="display: none"
-                multiple
-                onchange="handleFileSelect(event)"
-              />
+                <p style="font-size: 14px; color: #333; margin: 0 0 16px 0">
+                  파일을 선택하여 업로드할 수 있어요
+                </p>
 
-              <div
-                class="file-list-container"
-                id="file-list-area"
-                style="display: none"
-              >
-                <div class="file-list-header">
-                  <span class="total-count" id="file-total-count">총 0개</span>
-                  <span class="total-size" id="file-total-size">0KB/4GB</span>
+                <div class="upload-action-row">
+                  <label for="file-input" class="upload-btn">
+                    직접 업로드
+                  </label>
+                  <button
+                    type="button"
+                    class="upload-btn"
+                    onclick="openModal('file-storage-modal-overlay')"
+                  >
+                    파일 보관함
+                  </button>
                 </div>
-                <div id="file-list-items"></div>
               </div>
-
-              <p class="disclaimer">
-                * 최대 4GB 크기 PDF(권장), ai, psd, cdr, jpg, gif, png 형식의
-                파일을 첨부할 수 있어요
-              </p>
-
-              <p class="disclaimer">
-                * Wi-Fi가 아닌 환경에서는 데이터 요금이 발생할 수 있습니다.
-              </p>
-
-              <p class="disclaimer">
-                * 2건 이상 필수 시, 파일명에 구분 가능한 내용과 건수
-                포함해주세요 (ex) 명함 일면 CMYK)
-              </p>
-              <a href="#" class="disclaimer-link"
-                >ⓘ 디자인 작업 시 주의사항을 꼭 확인해주세요! &gt;</a
-              >
             </div>
 
-            <div data-tab-content="file-storage" style="display: none"></div>
+            <input
+              type="file"
+              id="file-input"
+              style="display: none"
+              multiple
+              onchange="handleFileSelect(event)"
+            />
+
+            <div
+              class="file-list-container"
+              id="file-list-area"
+              style="display: none"
+            >
+              <div class="file-list-header">
+                <span class="total-count" id="file-total-count">총 0개</span>
+                <span class="total-size" id="file-total-size">0KB/1GB</span>
+              </div>
+              <div id="file-list-items"></div>
+            </div>
+
+            <div
+              class="checkbox-text"
+              style="margin-top: 16px"
+              onclick="toggleUploadLaterCheckbox(this)"
+            >
+              <div
+                class="checkbox"
+                data-checked="false"
+                id="upload-later-checkbox"
+              >
+                <div class="checkbox-off"></div>
+              </div>
+              <span>나중에 파일 업로드</span>
+            </div>
+            <p class="upload-after-notice" id="upload-after-notice">
+              * 접수 후 마이페이지 > 접수 내역에서 파일을 업로드할 수 있어요.
+            </p>
+            <p class="disclaimer">
+              * 최대 1GB 크기 PDF(권장), ai, psd, cdr, jpg, gif, png 형식의
+              파일을 첨부할 수 있어요
+            </p>
+            <p class="disclaimer">
+              * 2건 이상 필수 시, 파일명에 구분 가능한 내용과 건수 포함해주세요
+              (ex) 명함 일면 CMYK)
+            </p>
+            <a href="#" class="disclaimer-link"
+              >디자인 작업 시 주의사항을 꼭 확인해주세요! &gt;</a
+            >
           </div>
 
           <h2 class="section-title">추가 요청</h2>
@@ -1769,11 +1481,7 @@
               <div class="conditional-input" id="conditional-input-1">
                 <label style="margin-bottom: 4px">휴대번호</label>
                 <div class="input">
-                  <input
-                    type="tel"
-                    placeholder="'-'없이 숫자만 입력해주세요"
-                    oninput="isFormDirty = true"
-                  />
+                  <input type="tel" placeholder="'-'없이 숫자만 입력해주세요" />
                 </div>
               </div>
             </div>
@@ -1791,11 +1499,7 @@
               <div class="conditional-input" id="conditional-input-2">
                 <label style="margin-bottom: 4px">휴대폰 번호</label>
                 <div class="input">
-                  <input
-                    type="tel"
-                    placeholder="'-'없이 숫자만 입력해주세요"
-                    oninput="isFormDirty = true"
-                  />
+                  <input type="tel" placeholder="'-'없이 숫자만 입력해주세요" />
                 </div>
               </div>
             </div>
@@ -1865,7 +1569,6 @@
                 type="text"
                 id="receipt-title"
                 placeholder="접수 구분을 위한 접수명을 입력해주세요 (최대 30자)"
-                oninput="isFormDirty = true"
               />
             </div>
           </div>
@@ -1881,19 +1584,10 @@
             <div class="text-counter" id="memo-counter">0/200</div>
           </div>
 
-          <p class="disclaimer" style="font-weight: 500; color: #555">
-            * 디자인 신청은 작업이 시작되기 전까지만 취소하거나 환불할 수
-            있어요.
-          </p>
-          <p class="disclaimer" style="font-weight: 500; color: #555">
-            * 한 번 작업이 시작되면, 접수를 취소하더라도 디자인 비용은 환불되지
-            않아요.
-          </p>
-
           <button
             type="button"
             class="white-button back-link-button"
-            onclick="history.back()"
+            onclick="history.back();"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -1925,6 +1619,7 @@
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-compact-up"
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M4 13l8 -3l8 3" />
@@ -1932,110 +1627,11 @@
         </div>
         <div class="footer-info-row">
           <span class="label">총 결제금액</span>
-          <span id="sticky-total-price" class="price">₩53,000</span>
+          <span id="sticky-total-price" class="price">₩295,450</span>
         </div>
         <div class="button-group">
           <button class="white-button btn">장바구니 담기</button>
           <button class="dark-button btn">바로 접수하기</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="bottom-sheet-overlay" id="price-detail-sheet-overlay">
-      <div
-        class="bottom-sheet"
-        data-name="bottom-sheet"
-        id="price-detail-sheet"
-      >
-        <div class="sheet-header-simple" onclick="closePriceSheet()">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 11l8 3l8 -3" />
-          </svg>
-        </div>
-        <div class="sheet-body">
-          <div class="option-box-gray">
-            <div class="checkbox-text" onclick="toggleTodayCheckbox(this)">
-              <div
-                class="checkbox"
-                data-checked="false"
-                id="today-option-checkbox"
-              >
-                <div class="checkbox-off"></div>
-              </div>
-              <span style="font-weight: 500; font-size: 14px"
-                >오늘판 신청 (+1,200)</span
-              >
-            </div>
-
-            <div class="info-icon-btn" onclick="toggleTodayTooltip(event)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-              </svg>
-            </div>
-
-            <div id="today-tooltip-content" class="today-tooltip">
-              오후 2시 전까지 결제 완료 시<br />오늘 출고돼요!
-            </div>
-          </div>
-
-          <div class="price-detail-row">
-            <span style="color: #666">제품 금액</span>
-            <span style="font-weight: 600">₩38,000</span>
-          </div>
-          <div class="price-detail-row">
-            <span style="color: #666">부가세</span>
-            <span style="font-weight: 600">₩38,000</span>
-          </div>
-          <div class="price-detail-row">
-            <span style="color: #666">디자인 신청비</span>
-            <span id="display-design-fee" style="font-weight: 600"
-              >₩15,000</span
-            >
-          </div>
-          <div
-            class="price-detail-row"
-            id="row-today-price"
-            style="display: none"
-          >
-            <span style="color: #666">오늘판</span>
-            <span style="font-weight: 600">₩1,200</span>
-          </div>
-
-          <div class="price-divider"></div>
-
-          <div class="final-total">
-            <span>총 결제금액</span>
-            <span class="amount" id="display-total">₩53,000</span>
-          </div>
-        </div>
-        <div class="sheet-footer">
-          <div class="button-group">
-            <button class="white-button btn">장바구니 담기</button>
-            <button class="dark-button btn">바로 접수하기</button>
-          </div>
         </div>
       </div>
     </div>
@@ -2305,55 +1901,84 @@
       </div>
     </div>
 
-    <div class="modal-overlay" id="exit-alert-modal">
-      <div class="modal-content alert-modal" data-name="Alert">
-        <div class="modal-title">안내</div>
-        <div class="modal-message">
-          입력한 내용이 모두 사라져요.<br />정말 나가시겠어요?
+    <div class="bottom-sheet-overlay" id="price-detail-sheet-overlay">
+      <div
+        class="bottom-sheet"
+        data-name="bottom-sheet"
+        id="price-detail-sheet"
+      >
+        <div class="sheet-header-simple" onclick="closePriceSheet()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-compact-down"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 11l8 3l8 -3" />
+          </svg>
         </div>
-        <div class="modal-buttons">
-          <button
-            class="modal-button modal-button-secondary"
-            onclick="closeModal('exit-alert-modal')"
-          >
-            계속 작성하기
-          </button>
-          <button
-            class="modal-button modal-button-primary"
-            onclick="confirmExit()"
-          >
-            나가기
-          </button>
+        <div class="sheet-body">
+          <div class="option-box-gray">
+            <div class="checkbox-text" onclick="toggleTodayCheckbox(this)">
+              <div
+                class="checkbox"
+                data-checked="true"
+                id="today-option-checkbox"
+              >
+                <div class="checkbox-on">
+                  <img src="assets/images/checked.svg" alt="체크" />
+                </div>
+              </div>
+              <span style="font-weight: 500; font-size: 14px"
+                >오늘판 신청 (+1,200)</span
+              >
+            </div>
+          </div>
+
+          <div class="price-detail-row">
+            <span style="color: #666"
+              >제품 금액
+              <span style="font-size: 12px; color: #999"
+                >(부가세 포함)</span
+              ></span
+            >
+            <span id="price-product" style="font-weight: 600">₩267,500</span>
+          </div>
+          <!-- <div class="price-detail-row">
+                    <span style="color: #666;">디자인 신청비</span>
+                    <span style="font-weight: 600;">₩12,000</span>
+                </div> -->
+          <div id="row-today-price" class="price-detail-row">
+            <span style="color: #666">오늘판</span>
+            <span style="font-weight: 600" id="price-today">₩1,200</span>
+          </div>
+
+          <div class="price-divider"></div>
+
+          <div class="final-total">
+            <span>총 결제금액</span>
+            <span class="amount" id="sheet-total-price">₩295,450</span>
+          </div>
+        </div>
+        <div class="sheet-footer">
+          <div class="button-group">
+            <button class="white-button btn">장바구니 담기</button>
+            <button class="dark-button btn">바로 접수하기</button>
+          </div>
         </div>
       </div>
     </div>
 
     <script>
-      // --- [NEW] Form Dirty Check & Exit Alert ---
-      let isFormDirty = false;
-
-      function checkBeforeExit() {
-        if (isFormDirty) {
-          openModal("exit-alert-modal");
-        } else {
-          goBack();
-        }
-      }
-
-      function confirmExit() {
-        isFormDirty = false; // Reset flag
-        closeModal("exit-alert-modal");
-        goBack();
-      }
-
-      function goBack() {
-        // Simple history back. In a real app, you might want a more robust routing.
-        history.back();
-      }
-
       // --- [NEW] Address Copy Logic ---
       function copyAddress(buttonEl) {
-        isFormDirty = true;
         const textToCopy = buttonEl.dataset.copyText;
         if (navigator.clipboard && window.isSecureContext) {
           navigator.clipboard
@@ -2366,11 +1991,10 @@
               console.error("Clipboard copy failed: ", err);
             });
         } else {
-          // Fallback for insecure contexts (e.g., http) or old browsers
           try {
             const textArea = document.createElement("textarea");
             textArea.value = textToCopy;
-            textArea.style.position = "fixed"; // Avoid scrolling to bottom
+            textArea.style.position = "fixed";
             textArea.style.top = "0";
             textArea.style.left = "0";
             textArea.style.opacity = "0";
@@ -2401,7 +2025,6 @@
           checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
           if (targetElement) targetElement.style.display = "block";
         }
-        isFormDirty = true;
       }
 
       function toggleCheckboxText(wrapper, targetId) {
@@ -2409,12 +2032,9 @@
         toggleCheckbox(checkbox, targetId);
       }
 
-      // --- [MODIFIED] Upload Source Tab Logic (Req 2) ---
+      // --- [MODIFIED] Upload Source Tab Logic ---
       function switchUploadTab(tabEl, tabName) {
-        isFormDirty = true;
-        // 1. 탭 활성화
         const tabNav = tabEl.closest(".modal-tab-nav");
-        // '파일 보관함' 탭은 모달을 띄우므로, 탭 상태를 변경하지 않음
         if (tabEl.dataset.tab === "file-storage") {
           return;
         }
@@ -2422,47 +2042,47 @@
         tabNav
           .querySelectorAll(".single-chip")
           .forEach((c) =>
-            c.classList.replace("single-chip-on", "single-chip-off"),
+            c.classList.replace("single-chip-on", "single-chip-off")
           );
         tabEl.classList.replace("single-chip-off", "single-chip-on");
 
-        // 2. 폼 필드 래퍼 찾기
         const formContentWrapper = document.getElementById(
-          "upload-content-wrapper",
+          "upload-content-wrapper"
         );
-
-        // 3. 모든 폼 필드 숨기기
         formContentWrapper
           .querySelectorAll("[data-tab-content]")
           .forEach((wrapper) => {
             wrapper.style.display = "none";
           });
-
-        // 4. '직접 업로드' 탭만 보이도록 처리
         if (tabName === "direct-upload") {
           formContentWrapper.querySelector(
-            `[data-tab-content="direct-upload"]`,
+            `[data-tab-content="direct-upload"]`
           ).style.display = "block";
         }
       }
 
       // --- [v12] Textarea Counter ---
       function updateTextCounter() {
-        isFormDirty = true;
         const memoInput = document.getElementById("receipt-memo");
         const counter = document.getElementById("memo-counter");
         const maxLength = 200;
         counter.textContent = `${memoInput.value.length}/${maxLength}`;
       }
 
-      // --- [MODIFIED] File Upload Logic (Req 1 & 2) ---
+      // --- [MODIFIED] File Upload Logic ---
       let fileList = [];
       let totalSize = 0;
+      const maxFileSizeGB = 1;
 
       function handleFileSelect(event) {
-        isFormDirty = true;
         const files = event.target.files;
         if (!files.length) return;
+
+        document.getElementById("receipt-title").value =
+          "일반 사원 명함 요청 건";
+        document.getElementById("receipt-memo").value =
+          "디자인 파일에 문제가 있는 경우 연락주세요";
+        updateTextCounter();
 
         for (let i = 0; i < files.length; i++) {
           const file = files[i];
@@ -2470,11 +2090,12 @@
             addFileToList(file.name, file.size);
           }
         }
+
         document.getElementById("file-list-area").style.display = "block";
 
-        // [NEW] "나중에 업로드" 체크박스 해제
+        // [NEW] "나중에 업로드" 체크박스 해제 (파일을 올렸으므로)
         const uploadLaterCheckbox = document.getElementById(
-          "upload-later-checkbox",
+          "upload-later-checkbox"
         );
         if (
           uploadLaterCheckbox &&
@@ -2482,7 +2103,7 @@
         ) {
           toggleUploadLaterCheckbox(
             uploadLaterCheckbox.closest(".checkbox-text"),
-            false,
+            false
           );
         }
 
@@ -2502,7 +2123,7 @@
         fileItem.innerHTML = `
                 <span class="file-name">${name}</span>
                 <span class="file-size">${formatBytes(size)}</span>
-                <button class="remove-btn" onclick="removeFile(this, '${name}', ${size})">
+                <button type="button" class="remove-btn" onclick="removeFile(this, '${name}', ${size})">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                 </button>
             `;
@@ -2511,7 +2132,6 @@
       }
 
       function removeFile(buttonEl, fileName, size) {
-        isFormDirty = true;
         fileList = fileList.filter((f) => f.name !== fileName);
         totalSize -= size;
 
@@ -2524,11 +2144,12 @@
       }
 
       function updateFileSummary() {
-        document.getElementById("file-total-count").textContent =
-          `총 ${fileList.length}개`;
-        // [MODIFIED] 4GB -> 1GB
-        document.getElementById("file-total-size").textContent =
-          `${formatBytes(totalSize)}/4GB`;
+        document.getElementById(
+          "file-total-count"
+        ).textContent = `총 ${fileList.length}개`;
+        document.getElementById("file-total-size").textContent = `${formatBytes(
+          totalSize
+        )}/${maxFileSizeGB}GB`;
       }
 
       function formatBytes(bytes, decimals = 2) {
@@ -2544,11 +2165,10 @@
 
       // --- [NEW] Upload Later Checkbox Logic ---
       function toggleUploadLaterCheckbox(wrapper, forcedState) {
-        isFormDirty = true;
         const checkbox = wrapper.querySelector(".checkbox");
-        const fileUploadLabel = document.getElementById("file-upload-label");
+        const fileUploadBox = document.querySelector(".file-upload-box"); // [MODIFIED] Target new box
         const uploadAfterNotice = document.getElementById(
-          "upload-after-notice",
+          "upload-after-notice"
         );
         let isChecked = checkbox.dataset.checked === "true";
 
@@ -2560,15 +2180,15 @@
         isChecked = checkbox.dataset.checked === "true";
 
         if (isChecked) {
-          fileUploadLabel.classList.add("disabled");
-          uploadAfterNotice.classList.add("active");
+          if (fileUploadBox) fileUploadBox.classList.add("disabled");
+          if (uploadAfterNotice) uploadAfterNotice.classList.add("active");
         } else {
-          fileUploadLabel.classList.remove("disabled");
-          uploadAfterNotice.classList.remove("active");
+          if (fileUploadBox) fileUploadBox.classList.remove("disabled");
+          if (uploadAfterNotice) uploadAfterNotice.classList.remove("active");
         }
       }
 
-      // --- [NEW] v12 Modal JS (Req 2) ---
+      // --- [v12] Modal JS (Modified for new UI) ---
       function openModal(overlayId) {
         const overlay = document.getElementById(overlayId);
         if (overlay) {
@@ -2577,10 +2197,6 @@
         }
         if (overlayId === "file-storage-modal-overlay") {
           modalFilterArchiveList();
-          const directUploadTab = document.querySelector(
-            '#upload-source-tabs [data-tab="direct-upload"]',
-          );
-          switchUploadTab(directUploadTab, "direct-upload");
         }
       }
       function closeModal(overlayId) {
@@ -2588,31 +2204,15 @@
         if (overlay) {
           overlay.classList.remove("active");
           const anyModalActive = document.querySelector(
-            ".modal-overlay.active, .bottom-sheet-overlay.active",
+            ".modal-overlay.active, .bottom-sheet-overlay.active"
           );
           if (!anyModalActive) {
             document.body.style.overflow = "";
           }
         }
-
-        if (overlayId === "file-storage-modal-overlay") {
-          // 모달 닫힐 때 '파일 보관함' 탭 활성화 해제
-          const fileStorageTab = document.querySelector(
-            '#upload-source-tabs [data-tab="file-storage"]',
-          );
-          fileStorageTab.classList.replace("single-chip-on", "single-chip-off");
-          // '직접 업로드' 탭 활성화
-          const directUploadTab = document.querySelector(
-            '#upload-source-tabs [data-tab="direct-upload"]',
-          );
-          directUploadTab.classList.replace(
-            "single-chip-off",
-            "single-chip-on",
-          );
-        }
       }
 
-      // --- [NEW] v12 Search (Modal) (Req 2) ---
+      // --- [v12] Search (Modal) ---
       function handleSearchInput(input) {
         const searchBox = input.closest(".search");
         searchBox.classList.toggle("has-text", input.value.trim() !== "");
@@ -2628,41 +2228,37 @@
       function handleSearch(btn, isModal = false) {
         console.log(
           "Search submitted:",
-          btn.closest(".search").querySelector("input").value,
+          btn.closest(".search").querySelector("input").value
         );
         if (isModal) modalFilterArchiveList();
       }
 
-      // --- [MODIFIED] v12 MultiChip Component JS (Req 1) ---
+      // --- [v12] MultiChip Component JS ---
       function toggleMultiChip(chip, forceState) {
-        isFormDirty = true;
         const isCurrentlyOn = chip.classList.contains("multi-chip-on");
         let turnOn;
         if (forceState === true) turnOn = true;
         else if (forceState === false) turnOn = false;
         else turnOn = !isCurrentlyOn;
-
         if (turnOn && !isCurrentlyOn) {
           chip.classList.remove("multi-chip-off");
           chip.classList.add("multi-chip-on");
-          // [MODIFIED] 체크 아이콘 추가
           chip.innerHTML = "✓ " + chip.innerHTML.trim();
         } else if (!turnOn && isCurrentlyOn) {
           chip.classList.remove("multi-chip-on");
           chip.classList.add("multi-chip-off");
-          // [MODIFIED] 체크 아이콘 제거
           chip.innerHTML = chip.innerHTML.replace("✓ ", "");
         }
       }
 
-      // --- [NEW] Modal Filter Logic (Req 1 & 2) ---
+      // --- [v12] Modal Filter Logic ---
       function modalSelectTypeChip(chip) {
         const group = chip.closest("#modal-type-chip-group");
         if (!group) return;
         group
           .querySelectorAll(".single-chip")
           .forEach((c) =>
-            c.classList.replace("single-chip-on", "single-chip-off"),
+            c.classList.replace("single-chip-on", "single-chip-off")
           );
         chip.classList.replace("single-chip-off", "single-chip-on");
         modalFilterArchiveList();
@@ -2672,7 +2268,6 @@
         const category = chip.getAttribute("data-category");
         const group = chip.closest("#modal-category-chip-group");
         const allChip = group.querySelector('[data-category="전체"]');
-
         if (category === "전체") {
           const isTurningOn = !chip.classList.contains("multi-chip-on");
           toggleMultiChip(chip, isTurningOn);
@@ -2683,7 +2278,7 @@
           toggleMultiChip(chip);
           toggleMultiChip(allChip, false);
           const anyOtherOn = Array.from(
-            group.querySelectorAll('.multi-chip:not([data-category="전체"])'),
+            group.querySelectorAll('.multi-chip:not([data-category="전체"])')
           ).some((c) => c.classList.contains("multi-chip-on"));
           if (!anyOtherOn) {
             toggleMultiChip(allChip, true);
@@ -2695,7 +2290,7 @@
       function modalFilterArchiveList() {
         // 1. Get Type Filter
         const typeChip = document.querySelector(
-          "#modal-type-chip-group .single-chip-on",
+          "#modal-type-chip-group .single-chip-on"
         );
         const selectedType = typeChip ? typeChip.dataset.type : "전체";
 
@@ -2714,7 +2309,7 @@
           .value.toLowerCase();
 
         const listContainer = document.getElementById(
-          "modal-transaction-list-container",
+          "modal-transaction-list-container"
         );
         if (!listContainer) return;
 
@@ -2750,9 +2345,8 @@
           noResultMsg.style.display = visibleCount === 0 ? "block" : "none";
       }
 
-      // --- [NEW] Modal Selection Logic (Req 2) ---
+      // --- [v12] Modal Selection Logic ---
       function selectFileFromStorage(buttonEl) {
-        isFormDirty = true;
         const card = buttonEl.closest(".file-card");
         const filesString = card.dataset.files || "";
         const files = filesString.split(",");
@@ -2769,10 +2363,9 @@
       }
 
       function selectFilesFromStorage() {
-        isFormDirty = true;
-        // [MODIFIED] Use the first visible card as the selection (as per file upload logic behavior)
+        // UX 개선을 위해, 현재는 '선택 완료' 시 보이는 첫 번째 카드만 선택하도록 구현합니다.
         const firstVisibleCard = document.querySelector(
-          '#modal-transaction-list-container .file-card[style*="display: flex"]',
+          '#modal-transaction-list-container .file-card[style*="display: flex"]'
         );
 
         if (firstVisibleCard) {
@@ -2785,35 +2378,18 @@
               addFileToList(files[0], size / files.length);
             }
           }
-        } else {
-          // Fallback if checked cards exist (compatibility)
-          const checkedCards = document.querySelectorAll(
-            '#modal-transaction-list-container .checkbox[data-checked="true"]',
-          );
-          if (checkedCards.length > 0) {
-            checkedCards.forEach((checkbox) => {
-              const card = checkbox.closest(".file-card");
-              const filesString = card.dataset.files || "";
-              const files = filesString.split(",");
-              const size = parseInt(card.dataset.size || 0);
-
-              if (files.length > 0) {
-                if (!fileList.find((f) => f.name === files[0])) {
-                  addFileToList(files[0], size / files.length);
-                }
-              }
-            });
-          }
         }
 
         document.getElementById("file-list-area").style.display = "block";
         closeModal("file-storage-modal-overlay");
       }
 
-      // --- [NEW] Bottom Sheet JS (Req 3) ---
-      function setupBottomSheet(overlayId, sheetId, handleId) {
+      // --- [v12] Bottom Sheet JS (FIXED) ---
+      function setupBottomSheet(overlayId, sheetId) {
         const overlay = document.getElementById(overlayId);
         const sheet = document.getElementById(sheetId);
+        // Handle removed from JS binding because click is on element itself now (simpler)
+
         if (!overlay || !sheet)
           return { openSheet: () => {}, closeSheet: () => {} };
 
@@ -2822,231 +2398,91 @@
           sheet.classList.remove("closing");
           document.body.style.overflow = "hidden";
         };
+
         const closeSheet = () => {
           sheet.classList.add("closing");
           document.body.style.overflow = "";
           setTimeout(() => {
             overlay.classList.remove("active");
             sheet.classList.remove("closing");
+            sheet.style.transform = ""; // Reset visual transform
           }, 300);
         };
 
         overlay.addEventListener("click", (e) => {
-          if (e.target.id === overlayId) closeSheet();
+          if (e.target.id === overlayId) {
+            closeSheet();
+          }
         });
 
         return { openSheet, closeSheet };
       }
+
+      // Define module exports in global scope for access
       const { openSheet: showPriceSheet, closeSheet: closePriceSheet } =
         setupBottomSheet("price-detail-sheet-overlay", "price-detail-sheet");
 
-      // ========================================
-      // [NEW] DYNAMIC DESIGN BLOCK LOGIC
-      // ========================================
+      // [기존 코드 아래에 추가]
 
-      const DESIGN_PRICES = {
-        simple: 7000,
-        basic: 15000,
-        premium: 25000,
-        original: 50000,
-        consult: 0,
-      };
-      const BASE_PRODUCT_PRICE = 38000;
-
-      let designBlockCounter = 1;
-
-      // [상수 추가]
+      // 기본 금액 설정 (DB나 API에서 가져온 값이라고 가정)
+      const BASE_PRODUCT_PRICE = 267500;
       const TODAY_OPTION_PRICE = 1200;
-      // const BASE_PRODUCT_PRICE = 38000; (기존 유지)
 
       /**
-       * [NEW] 오늘판 체크박스 토글 핸들러
+       * 오늘판 체크박스 토글 핸들러
        */
       function toggleTodayCheckbox(wrapper) {
-        isFormDirty = true;
         const checkbox = wrapper.querySelector(".checkbox");
-
-        // 기존 체크박스 UI 토글 로직 재사용 (v12 공통 함수)
+        // 기존 UI 토글 로직 재사용 (체크 아이콘 표시/숨김)
         toggleCheckbox(checkbox);
 
         // 가격 재계산 실행
-        updateTotalPrice();
+        calculateTotal();
       }
 
       /**
-       * [MODIFIED] 가격 계산 함수 (부가세 별도 계산 로직 제거)
+       * 총 금액 계산 및 UI 업데이트 함수
        */
-      function updateTotalPrice() {
-        // 1. 디자인 비용 계산 (기존 로직 유지)
-        let totalDesignFee = 0;
-        const blocks = document.querySelectorAll(".design-request-block");
+      function calculateTotal() {
+        const checkbox = document.getElementById("today-option-checkbox");
+        const isChecked = checkbox.dataset.checked === "true";
 
-        blocks.forEach((block) => {
-          const selectedChip = block.querySelector(
-            '.filter-group-content[data-group-name="design-type"] .single-chip-on',
-          );
-          if (selectedChip) {
-            const type = selectedChip.dataset.type;
-            const price = DESIGN_PRICES[type] || 0;
-            const countInput = block.querySelector('input[type="tel"]');
-            const count = parseInt(countInput.value) || 1;
-            totalDesignFee += price * count;
-          }
-        });
-
-        // 2. 오늘판 비용 계산
-        let todayFee = 0;
-        const todayCheckbox = document.getElementById("today-option-checkbox");
-        const isTodayChecked =
-          todayCheckbox && todayCheckbox.dataset.checked === "true";
-
-        if (isTodayChecked) {
-          todayFee = TODAY_OPTION_PRICE;
-          // 체크 시 아이콘 이미지 처리 (v12 스타일)
-          todayCheckbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
-        } else if (todayCheckbox) {
-          todayCheckbox.innerHTML = `<div class="checkbox-off"></div>`;
+        // 1. 총액 계산
+        let total = BASE_PRODUCT_PRICE;
+        if (isChecked) {
+          total += TODAY_OPTION_PRICE;
         }
 
-        // 3. 총액 계산 (제품가 + 디자인비 + 오늘판)
-        // [변경] 부가세 10% 별도 합산 로직 제거됨
-        const finalTotal = BASE_PRODUCT_PRICE + totalDesignFee + todayFee;
-
-        // 4. UI 업데이트
-        // 디자인비
-        document.getElementById("display-design-fee").textContent =
-          formatCurrency(totalDesignFee);
-
-        // 오늘판 행 표시/숨김
+        // 2. 오늘판 가격 행 표시/숨김 처리
         const todayRow = document.getElementById("row-today-price");
         if (todayRow) {
-          todayRow.style.display = isTodayChecked ? "flex" : "none";
+          todayRow.style.display = isChecked ? "flex" : "none";
         }
 
-        // 총액 (바텀 시트 & 스티키 푸터)
-        document.getElementById("display-total").textContent =
-          formatCurrency(finalTotal);
-        document.getElementById("sticky-total-price").textContent =
-          formatCurrency(finalTotal);
+        // 3. 텍스트 업데이트 (Bottom Sheet & Sticky Footer)
+        const formattedTotal = formatCurrency(total);
+
+        // Bottom Sheet 총액
+        const sheetTotalEl = document.getElementById("sheet-total-price");
+        if (sheetTotalEl) sheetTotalEl.textContent = formattedTotal;
+
+        // Sticky Footer 총액
+        const stickyTotalEl = document.getElementById("sticky-total-price");
+        if (stickyTotalEl) stickyTotalEl.textContent = formattedTotal;
       }
 
-      // [NEW] 오늘판 툴팁 토글 함수
-      function toggleTodayTooltip(event) {
-        event.stopPropagation();
-        const tooltip = document.getElementById("today-tooltip-content");
-        const icon = event.currentTarget;
-
-        const isActive = tooltip.classList.contains("active");
-
-        if (isActive) {
-          tooltip.classList.remove("active");
-          icon.classList.remove("active");
-        } else {
-          // 다른 열린 툴팁이 있다면 닫는 로직 추가 가능
-          tooltip.classList.add("active");
-          icon.classList.add("active");
-
-          // 3초 후 자동 닫기
-          setTimeout(() => {
-            tooltip.classList.remove("active");
-            icon.classList.remove("active");
-          }, 3000);
-        }
-      }
-
+      /**
+       * 숫자 -> 통화 형식 변환 (예: 267500 -> ₩267,500)
+       */
       function formatCurrency(amount) {
-        return "₩" + Math.floor(amount).toLocaleString("ko-KR");
+        return "₩" + amount.toLocaleString("ko-KR");
       }
 
-      function selectDesignType(chip) {
-        isFormDirty = true;
-        const group = chip.closest(".filter-group-content");
-        group
-          .querySelectorAll(".single-chip")
-          .forEach((c) =>
-            c.classList.replace("single-chip-on", "single-chip-off"),
-          );
-        chip.classList.replace("single-chip-off", "single-chip-on");
-
-        // Handle conditional options
-        const block = chip.closest(".design-request-block");
-        const optionsWrapper = block.querySelector(".conditional-options");
-        const targetTypes = optionsWrapper.dataset.typeTarget.split(" "); // e.g., "basic premium"
-        const selectedType = chip.dataset.type;
-
-        if (targetTypes.includes(selectedType)) {
-          optionsWrapper.style.display = "block";
-        } else {
-          optionsWrapper.style.display = "none";
-        }
-
-        updateTotalPrice();
-      }
-
-      function addDesignBlock() {
-        isFormDirty = true;
-        designBlockCounter++;
-        const list = document.getElementById("design-request-list");
-        const firstBlock = list.querySelector(".design-request-block");
-        const newBlock = firstBlock.cloneNode(true);
-
-        // Update title
-        newBlock.querySelector(".design-block-title").textContent =
-          `디자인 ${designBlockCounter}`;
-
-        // Show delete button
-        newBlock.querySelector(".delete-design-btn").style.display = "flex";
-
-        // Reset chip states
-        newBlock.querySelectorAll(".single-chip").forEach((chip, index) => {
-          if (index === 0) {
-            // Select first chip ("간단 수정") by default
-            chip.classList.replace("single-chip-off", "single-chip-on");
-            // Manually set data-type for logic
-            chip.dataset.type = "simple";
-          } else {
-            chip.classList.replace("single-chip-on", "single-chip-off");
-          }
-        });
-        newBlock.querySelectorAll(".multi-chip").forEach((chip) => {
-          // Ensure 'on' class is removed and text is reset
-          chip.classList.remove("multi-chip-on");
-          chip.classList.add("multi-chip-off");
-          chip.innerHTML = chip.innerHTML.replace("✓ ", ""); // [MODIFIED] Ensure text is reset
-        });
-
-        // Hide conditional options by default (since "간단 수정" is selected)
-        newBlock.querySelector(".conditional-options").style.display = "none";
-
-        // Reset quantity
-        const qtyInput = newBlock.querySelector('input[type="tel"]');
-        qtyInput.value = "1";
-        qtyInput.oninput = function () {
-          updateTotalPrice();
-          isFormDirty = true;
-        };
-
-        list.appendChild(newBlock);
-
-        updateTotalPrice();
-      }
-
-      function removeDesignBlock(button) {
-        isFormDirty = true;
-        button.closest(".design-request-block").remove();
-
-        // After removing, re-index titles
-        const blocks = document.querySelectorAll(
-          "#design-request-list .design-request-block",
-        );
-        blocks.forEach((block, index) => {
-          block.querySelector(".design-block-title").textContent =
-            `디자인 ${index + 1}`;
-        });
-        designBlockCounter = blocks.length;
-
-        updateTotalPrice();
-      }
+      // 페이지 로드 시 초기 계산 실행 (초기 상태 동기화)
+      document.addEventListener("DOMContentLoaded", () => {
+        // 초기화 시 한번 실행하여 UI 싱크 맞춤
+        calculateTotal();
+      });
 
       // --- Initialize ---
       document.addEventListener("DOMContentLoaded", () => {
@@ -3059,18 +2495,7 @@
           });
         });
 
-        // Mark form dirty on text input
-        document
-          .querySelectorAll(
-            "#receipt-title, #receipt-memo, .conditional-input input",
-          )
-          .forEach((input) => {
-            input.addEventListener("input", () => {
-              isFormDirty = true;
-            });
-          });
-
-        // [NEW] File label click prevention
+        // 파일 입력 태그와 연결된 라벨 클릭 시, 나중에 업로드 체크박스 상태에 따라 동작 제어
         document
           .getElementById("file-upload-label")
           ?.addEventListener("click", (e) => {
@@ -3080,9 +2505,6 @@
               return false;
             }
           });
-
-        // Initial price calculation
-        updateTotalPrice();
       });
     </script>
   </body>

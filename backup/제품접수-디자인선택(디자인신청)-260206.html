@@ -1431,70 +1431,11 @@
         margin-bottom: 20px;
         display: flex;
         align-items: center;
-        /* [MODIFIED] Relative positioning for tooltip centering */
-        position: relative;
       }
 
       .option-box-gray .checkbox-text {
         margin: 0;
         width: 100%;
-        /* [MODIFIED] Allow shrinking for icon */
-        flex: 1;
-      }
-
-      /* [NEW] Info Icon & Tooltip (from payment step 1) */
-      .info-icon-btn {
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #888;
-        cursor: pointer;
-        margin-left: 8px;
-        position: relative;
-        z-index: 10;
-      }
-
-      .info-icon-btn.active {
-        color: #333;
-      }
-
-      .today-tooltip {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%; /* Ensure centering works well for long text */
-        max-width: 250px;
-        background-color: rgba(33, 33, 33, 0.95);
-        color: white;
-        padding: 8px 12px;
-        border-radius: 6px;
-        font-size: 13px;
-        line-height: 1.4;
-        white-space: nowrap;
-        margin-top: 12px;
-        display: none;
-        z-index: 100;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      }
-
-      .today-tooltip::after {
-        content: "";
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: transparent transparent rgba(33, 33, 33, 0.95) transparent;
-      }
-
-      .today-tooltip.active {
-        display: block;
-        animation: fadeIn 0.2s ease-out;
       }
     </style>
   </head>
@@ -1977,36 +1918,15 @@
                 >오늘판 신청 (+1,200)</span
               >
             </div>
-
-            <div class="info-icon-btn" onclick="toggleTodayTooltip(event)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-              </svg>
-            </div>
-
-            <div id="today-tooltip-content" class="today-tooltip">
-              오후 2시 전까지 결제 완료 시<br />오늘 출고돼요!
-            </div>
           </div>
 
           <div class="price-detail-row">
-            <span style="color: #666">제품 금액</span>
-            <span style="font-weight: 600">₩38,000</span>
-          </div>
-          <div class="price-detail-row">
-            <span style="color: #666">부가세</span>
+            <span style="color: #666"
+              >제품 금액
+              <span style="font-size: 12px; color: #999"
+                >(부가세 포함)</span
+              ></span
+            >
             <span style="font-weight: 600">₩38,000</span>
           </div>
           <div class="price-detail-row">
@@ -2928,30 +2848,6 @@
           formatCurrency(finalTotal);
         document.getElementById("sticky-total-price").textContent =
           formatCurrency(finalTotal);
-      }
-
-      // [NEW] 오늘판 툴팁 토글 함수
-      function toggleTodayTooltip(event) {
-        event.stopPropagation();
-        const tooltip = document.getElementById("today-tooltip-content");
-        const icon = event.currentTarget;
-
-        const isActive = tooltip.classList.contains("active");
-
-        if (isActive) {
-          tooltip.classList.remove("active");
-          icon.classList.remove("active");
-        } else {
-          // 다른 열린 툴팁이 있다면 닫는 로직 추가 가능
-          tooltip.classList.add("active");
-          icon.classList.add("active");
-
-          // 3초 후 자동 닫기
-          setTimeout(() => {
-            tooltip.classList.remove("active");
-            icon.classList.remove("active");
-          }, 3000);
-        }
       }
 
       function formatCurrency(amount) {
