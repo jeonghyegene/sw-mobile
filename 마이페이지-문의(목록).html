@@ -247,13 +247,13 @@
 
         /* Main Content */
         .sw-container {
-            padding: 12px 16px 16px 16px;
+            padding: 8px 16px 16px;
         }
 
         /* Filter Chip Section */
         .filter-chip-section {
             background: #fff;
-            padding: 8px 16px;
+            padding: 5px 16px;
             margin: 0 -16px;
         }
 
@@ -1053,6 +1053,104 @@
             color: #4e6ee4;
             border-radius: 0;
         }
+
+        /* Page Tabs */
+        .page-tabs {
+            width: 100%;
+            height: 44px;
+            background: white;
+            border-bottom: 1px solid #e8e8e9;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 20px 1px 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            position: sticky;
+            top: 56px;
+            z-index: 99;
+        }
+        .page-tabs::-webkit-scrollbar { display: none; }
+        .page-tab-item {
+            height: 42px;
+            padding: 10px 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 16px;
+            position: relative;
+            color: #bcbcbc;
+            border-bottom: 2px solid transparent;
+            flex-shrink: 0;
+        }
+        .page-tab-item.active {
+            color: black;
+            border-bottom: 2px solid black;
+        }
+        .page-tab-item:hover { opacity: 0.8; }
+
+        /* List Period Bar */
+        .list-period-bar {
+            position: sticky;
+            top: 100px;
+            z-index: 95;
+            margin: 0 -16px;
+            background: white;
+            height: 36px;
+            overflow: hidden;
+            border-bottom: 1px solid #e9e9e9;
+            margin-bottom: 16px;
+        }
+        .period-normal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            height: 100%;
+        }
+        .btn-search-toggle {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #555;
+            transition: color 0.2s, transform 0.2s;
+            flex-shrink: 0;
+        }
+        .btn-search-toggle:active { transform: scale(0.9); }
+        .info-search {
+            position: absolute;
+            inset: 0;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 0 16px;
+            background: white;
+        }
+        .list-period-bar.search-open .period-normal { display: none; }
+        .list-period-bar.search-open .info-search { display: flex; }
+        .list-period-bar .search {
+            flex: 1;
+            height: 28px;
+            width: auto;
+            background: #f2f2f4;
+            padding: 0 10px;
+            gap: 6px;
+        }
+        .btn-search-close {
+            font-size: 13px;
+            color: #555;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+            padding: 4px 0;
+            transition: color 0.2s;
+        }
+        .btn-search-close:hover { color: #333; }
     </style>
 </head>
 
@@ -1088,20 +1186,14 @@
         </header>
 
         <main>
+            <nav class="page-tabs" id="status-tab-nav">
+                <div class="page-tab-item active" data-status="전체" onclick="selectPageTab(this)">전체</div>
+                <div class="page-tab-item" data-status="답변 대기" onclick="selectPageTab(this)">답변 대기</div>
+                <div class="page-tab-item" data-status="답변 완료" onclick="selectPageTab(this)">답변 완료</div>
+            </nav>
             <div class="sw-container">
 
-                <section class="filter-chip-section" style="padding-top: 4px; border-bottom: none; margin-bottom: 0;">
-                    <div class="tabs-scroll-wrapper" id="status-chip-group">
-                        <div class="single-chip single-chip-on" data-status="전체" onclick="selectStatusChip(this)">전체
-                        </div>
-                        <div class="single-chip single-chip-off" data-status="답변 대기" onclick="selectStatusChip(this)">
-                            답변 대기</div>
-                        <div class="single-chip single-chip-off" data-status="답변 완료" onclick="selectStatusChip(this)">
-                            답변 완료</div>
-                    </div>
-                </section>
-
-                <section class="filter-chip-section" style="margin-bottom: 0; padding-bottom: 16px;">
+                <section class="filter-chip-section" style="margin-bottom: 0;">
                     <div class="tabs-scroll-wrapper" id="category-chip-group">
                         <div class="multi-chip multi-chip-on" data-category="전체" onclick="toggleCategoryChip(this)">✓ 전체
                         </div>
@@ -1128,34 +1220,40 @@
                     </div>
                 </section>
 
-                <section class="filter-section" style="padding-top: 0; padding-bottom: 0;">
-                    <div class="search" data-name="search" id="qna-search">
-                        <input type="text" placeholder="접수번호 또는 문의 내용, 작성자를 입력해주세요" oninput="handleSearchInput(this)">
-                        <div class="search-input-right">
-                            <div class="search-del" onclick="clearSearch(this)">
-                                <img src="assets/images/search-del.png" alt="지우기">
+                <div class="list-period-bar" id="list-period-bar">
+                    <div class="period-normal">
+                        <button type="button" class="text-select-button" id="demo-period-btn" onclick="showListSheet()">
+                            <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
+                            <div class="text-select-button-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6l6 -6" />
+                                </svg>
                             </div>
-                            <div class="btn-search" onclick="handleSearch(this)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
-                                    id="icon-search">
-                                    <path stroke="#AAAAAD" d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                    <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                        </button>
+                        <button type="button" class="btn-search-toggle" onclick="openSearch()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                                <path d="M21 21l-6 -6" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="info-search">
+                        <div class="search" id="qna-bar-search">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="color: #aaa; flex-shrink: 0;">
+                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                                <path d="M21 21l-6 -6" />
+                            </svg>
+                            <input type="text" id="search-input" placeholder="접수번호 또는 문의 내용을 입력해주세요" oninput="handleSearchInput(this)">
+                            <div class="search-del" onclick="clearSearch(this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M9 9l6 6M15 9l-6 6" />
                                 </svg>
                             </div>
                         </div>
+                        <button type="button" class="btn-search-close" onclick="closeSearch()">닫기</button>
                     </div>
-                </section>
-
-                <section class="filter-section filter-period-section">
-                    <button type="button" class="text-select-button" id="demo-period-btn" onclick="showListSheet()">
-                        <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
-                        <div class="text-select-button-arrow">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                                <path d="M6 9l6 6l6 -6" />
-                            </svg>
-                        </div>
-                    </button>
-                </section>
+                </div>
 
                 <section class="transaction-list-section">
                     <!-- <div class="transaction-list-header">
@@ -1465,6 +1563,7 @@
         function handleSearchInput(input) {
             const searchBox = input.closest('.search');
             searchBox.classList.toggle('has-text', input.value.trim() !== '');
+            filterQnaList();
         }
         function clearSearch(btn) {
             const searchBox = btn.closest('.search');
@@ -1472,9 +1571,25 @@
             input.value = '';
             searchBox.classList.remove('has-text');
             input.focus();
+            filterQnaList();
         }
-        function handleSearch(btn) {
-            console.log('Search submitted:', btn.closest('.search').querySelector('input').value);
+
+        // --- Status Tab ---
+        function selectPageTab(tab) {
+            document.querySelectorAll('#status-tab-nav .page-tab-item').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            filterQnaList();
+        }
+
+        function openSearch() {
+            document.getElementById('list-period-bar').classList.add('search-open');
+            document.getElementById('search-input').focus();
+        }
+        function closeSearch() {
+            document.getElementById('list-period-bar').classList.remove('search-open');
+            const input = document.getElementById('search-input');
+            input.value = '';
+            document.getElementById('qna-bar-search').classList.remove('has-text');
             filterQnaList();
         }
 
@@ -1630,15 +1745,6 @@
         }
 
 
-        // --- Other Filters ---
-        function selectStatusChip(chip) {
-            const group = chip.closest('#status-chip-group');
-            if (!group) return;
-            group.querySelectorAll('.single-chip').forEach(c => c.classList.replace('single-chip-on', 'single-chip-off'));
-            chip.classList.replace('single-chip-off', 'single-chip-on');
-            filterQnaList();
-        }
-
         function toggleCategoryChip(chip) {
             const category = chip.getAttribute('data-category');
             const group = chip.closest('#category-chip-group');
@@ -1666,15 +1772,16 @@
         function filterQnaList() {
             // Get all filter values
             const period = selectedPeriodValue;
-            const statusChip = document.querySelector('#status-chip-group .single-chip-on');
-            const status = statusChip ? statusChip.dataset.status : '전체';
+            const statusTab = document.querySelector('#status-tab-nav .page-tab-item.active');
+            const status = statusTab ? statusTab.dataset.status : '전체';
 
             const selectedCategories = [];
             document.querySelectorAll('#category-chip-group .multi-chip-on').forEach(chip => {
                 selectedCategories.push(chip.dataset.category);
             });
 
-            const searchTerm = document.querySelector('#qna-search input').value.toLowerCase();
+            const searchInput = document.getElementById('search-input');
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
 
             console.log("Filtering Q&A List:", { period, status, selectedCategories, searchTerm });
 

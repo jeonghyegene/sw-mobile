@@ -228,13 +228,89 @@
       /* Filter Bar */
       .filter-bar {
         gap: 3px;
-        padding: 12px 16px;
+        padding: 0 16px;
+        height: 44px;
         border-bottom: 1px solid #e9e9e9;
         background: #fff;
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         margin-bottom: 15px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Filter Bar Search Overlay (샘플 기준) */
+      .btn-search-toggle {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #555;
+        background: none;
+        border: none;
+        flex-shrink: 0;
+      }
+      .filter-bar .info-search {
+        position: absolute;
+        inset: 0;
+        display: none;
+        align-items: center;
+        gap: 8px;
+        padding: 0 16px;
+        background: white;
+      }
+      .filter-bar.search-open .filter-txt,
+      .filter-bar.search-open .btn-search-toggle {
+        visibility: hidden;
+      }
+      .filter-bar.search-open .info-search {
+        display: flex;
+      }
+      .filter-bar .search {
+        flex: 1;
+        height: 28px;
+        background: #f2f2f4;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        gap: 6px;
+      }
+      .filter-bar .search input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 13px;
+        color: #333;
+      }
+      .filter-bar .search input::placeholder {
+        color: #c6c6c8;
+      }
+      .filter-bar .search-del {
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+        display: none;
+        color: #aaa;
+        flex-shrink: 0;
+      }
+      .filter-bar .search.has-text .search-del {
+        display: flex;
+        align-items: center;
+      }
+      .btn-search-close {
+        font-size: 13px;
+        color: #555;
+        cursor: pointer;
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 4px 0;
+        background: none;
+        border: none;
       }
 
       .filter-txt {
@@ -2212,81 +2288,27 @@
           </div>
         </div>
 
-        <div class="sw-container" style="padding: 16px; padding-bottom: 0">
-          <section
-            class="filter-section"
-            style="padding-top: 0; padding-bottom: 0"
-          >
-            <div class="search" data-name="search" id="qna-search">
-              <input
-                type="text"
-                placeholder="접수번호 또는 접수제목, 제품명을 입력해주세요"
-                oninput="handleSearchInput(this)"
-              />
-              <div class="search-input-right">
-                <div class="search-del" onclick="clearSearch(this)">
-                  <svg
-                    xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                  </svg>
-                </div>
-                <div class="btn-search" onclick="handleSearch(this)">
-                  <svg
-                    xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
-                    width="20"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    id="icon-search"
-                  >
-                    <path
-                      stroke="#AAAAAD"
-                      d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"
-                    ></path>
-                    <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        <div class="filter-bar">
+        <div class="filter-bar" id="filter-bar">
           <div class="filter-txt" onclick="openCombinedFilterSheet();">
-            <span class="text-select-button-text" id="selected-period-text"
-              >최근 1개월</span
-            >·
-            <span class="text-select-button-text" id="selected-manager-text"
-              >담당자 (전체)</span
-            >·
-            <span class="text-select-button-text" id="selected-customer-text"
-              >고객 (전체)</span
-            >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>·
+            <span class="text-select-button-text" id="selected-manager-text">담당자 (전체)</span>·
+            <span class="text-select-button-text" id="selected-customer-text">고객 (전체)</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24">
               <path d="M6 9l6 6l6 -6" />
             </svg>
+          </div>
+          <button type="button" class="btn-search-toggle" onclick="openSearch()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/><path d="M21 21l-6 -6"/></svg>
+          </button>
+          <div class="info-search">
+            <div class="search" id="filter-search-box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="color: #aaa; flex-shrink: 0"><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/><path d="M21 21l-6 -6"/></svg>
+              <input type="text" id="filter-search-input" placeholder="접수번호 또는 접수제목, 제품명을 입력해주세요" oninput="handleSearchInput(this)" />
+              <div class="search-del" onclick="clearSearch(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+              </div>
+            </div>
+            <button type="button" class="btn-search-close" onclick="closeSearch()">닫기</button>
           </div>
         </div>
 
@@ -3908,9 +3930,19 @@
       }
 
       // --- [v12] Search Component JS ---
+      function openSearch() {
+        document.getElementById("filter-bar").classList.add("search-open");
+        document.getElementById("filter-search-input").focus();
+      }
+      function closeSearch() {
+        document.getElementById("filter-bar").classList.remove("search-open");
+        const input = document.getElementById("filter-search-input");
+        input.value = "";
+        document.getElementById("filter-search-box").classList.remove("has-text");
+      }
       function handleSearchInput(input) {
         const searchBox = input.closest(".search");
-        searchBox.classList.toggle("has-text", input.value.trim() !== "");
+        if (searchBox) searchBox.classList.toggle("has-text", input.value.trim() !== "");
       }
       function clearSearch(btn) {
         const searchBox = btn.closest(".search");

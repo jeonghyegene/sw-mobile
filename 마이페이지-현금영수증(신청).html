@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -13,7 +13,7 @@
     <style>
       /* [v12] Master Guide CSS */
 
-/* Reset & Base */
+      /* Reset & Base */
       * {
         box-sizing: border-box;
         margin: 0;
@@ -22,8 +22,15 @@
 
       html,
       body {
-        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
-          Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-family:
+          "Pretendard",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial,
+          sans-serif;
         background-color: #f4f5f7;
         color: #333;
         font-size: 16px;
@@ -238,7 +245,7 @@
 
       /* Main Content */
       .sw-container {
-        padding: 16px;
+        padding: 8px 16px 16px;
       }
 
       /* [NEW] Page Tabs (v12 Tab-Nav Style) */
@@ -374,7 +381,7 @@
       /* Filter Chip Section */
       .filter-chip-section {
         background: #fff;
-        padding: 8px 16px;
+        padding: 5px 16px;
         margin: 0 -16px;
       }
 
@@ -457,11 +464,11 @@
         align-items: center;
         font-size: 14px;
         color: #555;
-        padding: 16px;
+        padding: 5px 16px;
         margin: 0 -16px;
         background-color: white;
         position: sticky;
-        top: 56px;
+        top: 92px;
         z-index: 100;
         margin-bottom: 5px;
       }
@@ -509,6 +516,115 @@
       .view-count-select-arrow svg {
         transition: transform 0.2s;
         transform: translateY(-2px);
+      }
+
+      /* List Period Bar */
+      .list-period-bar {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 56px;
+        z-index: 95;
+        margin: 0 -16px;
+        background: white;
+        height: 36px;
+        overflow: hidden;
+      }
+      .period-normal {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        height: 100%;
+      }
+      .btn-search-toggle {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #555;
+        background: none;
+        border: none;
+        flex-shrink: 0;
+      }
+      .list-period-bar .info-search {
+        position: absolute;
+        inset: 0;
+        display: none;
+        align-items: center;
+        gap: 8px;
+        padding: 0 16px;
+        background: white;
+      }
+      .list-period-bar.search-open .period-normal {
+        display: none;
+      }
+      .list-period-bar.search-open .info-search {
+        display: flex;
+      }
+      .list-period-bar .search {
+        flex: 1;
+        height: 28px;
+        background: #f2f2f4;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        gap: 6px;
+      }
+      .list-period-bar .search input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 13px;
+        color: #333;
+      }
+      .list-period-bar .search input::placeholder {
+        color: #c6c6c8;
+      }
+      .list-period-bar .search-del {
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+        display: none;
+        color: #aaa;
+        flex-shrink: 0;
+      }
+      .list-period-bar .search.has-text .search-del {
+        display: flex;
+        align-items: center;
+      }
+      .btn-search-close {
+        font-size: 13px;
+        color: #555;
+        cursor: pointer;
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 4px 0;
+        background: none;
+        border: none;
+      }
+
+      /* Btn Header Action */
+      .btn-header-action {
+        height: 32px;
+        padding: 0 12px;
+        font-size: 13px;
+        border-radius: 4px;
+        border: 1px solid #d7d7d7;
+        background: white;
+        color: #333;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-header-action:hover {
+        background: #f5f5f5;
       }
 
       .transaction-list {
@@ -1455,7 +1571,7 @@
     <div class="mobile-wrap">
       <header class="app-header-sub">
         <div class="header-left">
-          <button type="button" class="header-btn" onclick="history.back();">
+          <button type="button" class="header-btn" onclick="history.back()">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -1498,7 +1614,7 @@
           <div
             class="page-tab-item"
             data-page="issue"
-            onclick="location.href='마이페이지-현금영수증(발급내역).html';"
+            onclick="location.href = '마이페이지-현금영수증(발급내역).html'"
           >
             발급 내역
           </div>
@@ -1506,41 +1622,33 @@
 
         <div id="page-content-request" style="display: block">
           <div class="sw-container">
-            <section class="filter-section" style="padding-bottom: 8px">
-              <div class="tabs-scroll-wrapper" id="period-chip-group">
-                <div class="single-chip single-chip-on" data-period="current">
-                  2025년 8월
-                </div>
-              </div>
-            </section>
-
             <section class="filter-chip-section">
               <div class="tabs-scroll-wrapper" id="apply-status-chip-group">
                 <div
-                  class="multi-chip multi-chip-on"
+                  class="single-chip single-chip-on"
                   data-status="전체"
-                  onclick="toggleStatusChip(this)"
+                  onclick="selectApplyStatusChip(this)"
                 >
-                  ✓ 전체
+                  전체
                 </div>
                 <div
-                  class="multi-chip multi-chip-off"
+                  class="single-chip single-chip-off"
                   data-status="미신청"
-                  onclick="toggleStatusChip(this)"
+                  onclick="selectApplyStatusChip(this)"
                 >
                   미신청
                 </div>
                 <div
-                  class="multi-chip multi-chip-off"
+                  class="single-chip single-chip-off"
                   data-status="신청완료"
-                  onclick="toggleStatusChip(this)"
+                  onclick="selectApplyStatusChip(this)"
                 >
                   신청완료
                 </div>
               </div>
             </section>
 
-            <section class="filter-chip-section" style="margin-bottom: 8px">
+            <section class="filter-chip-section" id="status-filter-section" style="margin-bottom: 8px; display: none">
               <div class="tabs-scroll-wrapper" id="status-chip-group">
                 <div
                   class="multi-chip multi-chip-off"
@@ -1573,44 +1681,75 @@
               </div>
             </section>
 
-            <section
-              class="filter-section"
-              style="
-                padding-top: 0;
-                border-bottom: 1px solid #e9e9e9;
-                padding-left: 16px;
-                padding-right: 16px;
-                margin: 0 -16px;
-              "
-            >
-              <div class="search" data-name="search" id="tax-search">
-                <input
-                  type="text"
-                  placeholder="접수번호를 입력해주세요"
-                  oninput="handleSearchInput(this)"
-                />
-                <div class="search-input-right">
-                  <div class="search-del" onclick="clearSearch(this)">
-                    <img src="assets/images/search-del.png" alt="지우기" />
+            <div class="list-period-bar" id="period-bar">
+              <div class="period-normal">
+                <button
+                  type="button"
+                  class="text-select-button"
+                  onclick="showPeriodSheet()"
+                >
+                  <span class="text-select-button-text">2025년 8월</span>
+                  <div class="text-select-button-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <path d="M6 9l6 6l6 -6" />
+                    </svg>
                   </div>
-                  <div class="btn-search" onclick="handleSearch(this)">
+                </button>
+                <button
+                  type="button"
+                  class="btn-search-toggle"
+                  onclick="openSearch()"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                    <path d="M21 21l-6 -6" />
+                  </svg>
+                </button>
+              </div>
+              <div class="info-search">
+                <div class="search" id="period-search-box">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    style="color: #aaa; flex-shrink: 0"
+                  >
+                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                    <path d="M21 21l-6 -6" />
+                  </svg>
+                  <input
+                    type="text"
+                    id="period-search-input"
+                    placeholder="접수번호를 입력해주세요"
+                    oninput="handleSearchInput(this)"
+                  />
+                  <div class="search-del" onclick="clearSearch(this)">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="24"
                       viewBox="0 0 24 24"
-                      id="icon-search"
+                      width="14"
+                      height="14"
                     >
-                      <path
-                        stroke="#AAAAAD"
-                        d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"
-                      ></path>
-                      <path stroke="#AAAAAD" d="M21 21l-6 -6"></path>
+                      <circle cx="12" cy="12" r="9" />
+                      <path d="M9 9l6 6M15 9l-6 6" />
                     </svg>
                   </div>
                 </div>
+                <button
+                  type="button"
+                  class="btn-search-close"
+                  onclick="closeSearch()"
+                >
+                  닫기
+                </button>
               </div>
-            </section>
+            </div>
 
             <section class="transaction-list-section">
               <div class="transaction-list-header">
@@ -1627,21 +1766,9 @@
                     <!-- 총 <strong id="transaction-count">2</strong>건 -->
                   </span>
                 </div>
-                <div class="view-count-select" onclick="showViewCountSheet()">
-                  <span class="view-count-select-text" id="view-count-text"
-                    >20건씩 보기</span
-                  >
-                  <div class="view-count-select-arrow">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M6 9l6 6l6 -6" />
-                    </svg>
-                  </div>
-                </div>
+                <button class="btn-header-action" onclick="applySelected()">
+                  신청
+                </button>
               </div>
 
               <div class="transaction-list" id="transaction-list-container">
@@ -2202,10 +2329,25 @@
         }
       }
 
+      // Period Bar Search
+      function openSearch() {
+        document.getElementById("period-bar").classList.add("search-open");
+        document.getElementById("period-search-input").focus();
+      }
+      function closeSearch() {
+        document.getElementById("period-bar").classList.remove("search-open");
+        const input = document.getElementById("period-search-input");
+        input.value = "";
+        document
+          .getElementById("period-search-box")
+          .classList.remove("has-text");
+      }
+
       // Search
       function handleSearchInput(input) {
         const searchBox = input.closest(".search");
-        searchBox.classList.toggle("has-text", input.value.trim() !== "");
+        if (searchBox)
+          searchBox.classList.toggle("has-text", input.value.trim() !== "");
       }
       function clearSearch(btn) {
         const searchBox = btn.closest(".search");
@@ -2217,7 +2359,7 @@
       function handleSearch(btn) {
         console.log(
           "Search submitted:",
-          btn.closest(".search").querySelector("input").value
+          btn.closest(".search").querySelector("input").value,
         );
       }
 
@@ -2243,12 +2385,12 @@
 
       function updateTaxFooter() {
         const listContainer = document.getElementById(
-          "transaction-list-container"
+          "transaction-list-container",
         );
         if (!listContainer) return;
 
         const checkedBoxes = listContainer.querySelectorAll(
-          '.checkbox[data-checked="true"]'
+          '.checkbox[data-checked="true"]',
         );
         const count = checkedBoxes.length;
         const footer = document.getElementById("tax-action-footer");
@@ -2261,15 +2403,38 @@
         ) {
           if (count > 0) {
             footer.classList.add("active");
-            document.getElementById(
-              "tax-selected-count"
-            ).textContent = `총 ${count}건`;
+            document.getElementById("tax-selected-count").textContent =
+              `총 ${count}건`;
             document.querySelector(".mobile-wrap").style.paddingBottom = "84px"; // 푸터 높이만큼 패딩 추가
           } else {
             footer.classList.remove("active");
             document.querySelector(".mobile-wrap").style.paddingBottom = "20px"; // Reset to default
           }
         }
+      }
+
+      // [NEW] Apply status single-chip 선택
+      function selectApplyStatusChip(chip) {
+        const group = chip.closest(".tabs-scroll-wrapper");
+        if (!group) return;
+
+        // 모든 chip을 off로
+        group.querySelectorAll(".single-chip").forEach((c) => {
+          c.classList.remove("single-chip-on");
+          c.classList.add("single-chip-off");
+        });
+
+        // 클릭한 chip만 on
+        chip.classList.remove("single-chip-off");
+        chip.classList.add("single-chip-on");
+
+        // 두 번째 필터 섹션 표시/숨김
+        const statusFilterSection = document.getElementById("status-filter-section");
+        if (statusFilterSection) {
+          statusFilterSection.style.display = chip.dataset.status === "신청완료" ? "" : "none";
+        }
+
+        filterTaxInvoices();
       }
 
       // [NEW] Multi-select chip filtering
@@ -2299,7 +2464,7 @@
 
           // Check if all others are off
           const anyOtherOn = Array.from(
-            group.querySelectorAll('.multi-chip:not([data-status="전체"])')
+            group.querySelectorAll('.multi-chip:not([data-status="전체"])'),
           ).some((c) => c.classList.contains("multi-chip-on"));
 
           if (!anyOtherOn && allChip) {
@@ -2314,7 +2479,7 @@
       function filterTaxInvoices() {
         // 1. 기간 (기존 로직 유지)
         const periodChip = document.querySelector(
-          "#period-chip-group .single-chip-on"
+          "#period-chip-group .single-chip-on",
         );
         const selectedPeriod = periodChip
           ? periodChip.dataset.period
@@ -2326,24 +2491,22 @@
           ? statusGroup.querySelectorAll(".multi-chip-on")
           : [];
         const selectedStatuses = Array.from(statusChips).map(
-          (chip) => chip.dataset.status
+          (chip) => chip.dataset.status,
         );
         const isAllStatus =
           selectedStatuses.includes("전체") || selectedStatuses.length === 0;
 
-        // 3. [신규] 신청 상태 (새로 추가된 그룹)
+        // 3. [신규] 신청 상태 (single-chip 그룹)
         const applyGroup = document.getElementById("apply-status-chip-group");
-        const applyChips = applyGroup
-          ? applyGroup.querySelectorAll(".multi-chip-on")
-          : [];
-        const selectedApplies = Array.from(applyChips).map(
-          (chip) => chip.dataset.status
-        );
-        const isAllApply =
-          selectedApplies.includes("전체") || selectedApplies.length === 0;
+        const applyChip = applyGroup
+          ? applyGroup.querySelector(".single-chip-on")
+          : null;
+        const selectedApply = applyChip ? applyChip.dataset.status : "전체";
+        const isAllApply = selectedApply === "전체";
+        const selectedApplies = isAllApply ? [] : [selectedApply];
 
         const listContainer = document.getElementById(
-          "transaction-list-container"
+          "transaction-list-container",
         );
         if (!listContainer) return;
 
@@ -2395,13 +2558,13 @@
         const isChecked = mainCheckbox.dataset.checked === "true";
 
         const listContainer = document.getElementById(
-          "transaction-list-container"
+          "transaction-list-container",
         );
         if (!listContainer) return;
 
         // *보이는* 카드만 선택
         const visibleCards = Array.from(
-          listContainer.querySelectorAll(".common-table-card")
+          listContainer.querySelectorAll(".common-table-card"),
         ).filter((card) => card.style.display !== "none");
 
         visibleCards.forEach((card) => {
@@ -2427,20 +2590,20 @@
        */
       function updateSelectAllState() {
         const listContainer = document.getElementById(
-          "transaction-list-container"
+          "transaction-list-container",
         );
         const mainCheckbox = document.getElementById("select-all-checkbox");
         if (!listContainer || !mainCheckbox) return;
 
         // *보이는* 카드 목록
         const visibleCards = Array.from(
-          listContainer.querySelectorAll(".common-table-card")
+          listContainer.querySelectorAll(".common-table-card"),
         ).filter((card) => card.style.display !== "none");
 
         // 보이는 카드 중에서 *활성화된* 체크박스 목록
         const visibleEnabledCheckboxes = visibleCards
           .map((card) =>
-            card.querySelector('.checkbox:not([data-disabled="true"])')
+            card.querySelector('.checkbox:not([data-disabled="true"])'),
           )
           .filter((cb) => cb); // nulls (e.g., card with no checkbox) filter
 
@@ -2454,7 +2617,7 @@
 
         // *보이는* 그리고 *활성화된* 모든 항목이 체크되었는지
         const allVisibleChecked = visibleEnabledCheckboxes.every(
-          (cb) => cb.dataset.checked === "true"
+          (cb) => cb.dataset.checked === "true",
         );
         const isMainChecked = mainCheckbox.dataset.checked === "true";
 
@@ -2504,17 +2667,17 @@
         if (!paginationRoot) return;
 
         const prevArrows = paginationRoot.querySelectorAll(
-          ".pagination-arrow:nth-child(-n+2)"
+          ".pagination-arrow:nth-child(-n+2)",
         );
         const nextArrows = paginationRoot.querySelectorAll(
-          ".pagination-arrow:nth-child(n+4)"
+          ".pagination-arrow:nth-child(n+4)",
         );
 
         prevArrows.forEach((arrow) =>
-          arrow.classList.toggle("disabled", currentPage === 1)
+          arrow.classList.toggle("disabled", currentPage === 1),
         );
         nextArrows.forEach((arrow) =>
-          arrow.classList.toggle("disabled", currentPage === totalPages)
+          arrow.classList.toggle("disabled", currentPage === totalPages),
         );
       }
 
@@ -2541,7 +2704,7 @@
               overlay.classList.remove("active");
               overlay.classList.remove("closing"); // Clean up
               const anyModalActive = document.querySelector(
-                ".modal-overlay.active, .full-modal-overlay.active"
+                ".modal-overlay.active, .full-modal-overlay.active",
               );
               if (!anyModalActive) {
                 document.body.style.overflow = "";
@@ -2551,7 +2714,7 @@
             // Original logic for centered modals
             overlay.classList.remove("active");
             const anyModalActive = document.querySelector(
-              ".modal-overlay.active, .full-modal-overlay.active"
+              ".modal-overlay.active, .full-modal-overlay.active",
             );
             if (!anyModalActive) {
               document.body.style.overflow = "";
@@ -2577,7 +2740,7 @@
       const receiptEditForm = document.getElementById("receipt-edit-form");
       const receiptModalTitle = document.getElementById("receipt-modal-title");
       const receiptModalButton = document.getElementById(
-        "receipt-modal-button"
+        "receipt-modal-button",
       );
       const receiptModalCount = document.getElementById("modal-receipt-count");
       const receiptModalTotal = document.getElementById("modal-receipt-total");
@@ -2619,9 +2782,9 @@
         // *주의: pointer-events 설정 전에 먼저 탭을 세팅해야 함
         switchReceiptEditTab(
           document.querySelector(
-            '#receipt-edit-tabs [data-tab="income-deduction"]'
+            '#receipt-edit-tabs [data-tab="income-deduction"]',
           ),
-          "income-deduction"
+          "income-deduction",
         );
 
         if (showWarning) {
@@ -2675,7 +2838,7 @@
         tabNav
           .querySelectorAll(".single-chip")
           .forEach((c) =>
-            c.classList.replace("single-chip-on", "single-chip-off")
+            c.classList.replace("single-chip-on", "single-chip-off"),
           );
         tabEl.classList.replace("single-chip-off", "single-chip-on");
 
@@ -2688,19 +2851,19 @@
 
         // 3. 해당 탭의 폼 필드 보이기
         receiptEditForm.querySelector(
-          `.form-fields-wrapper[data-tab-content="${tabName}"]`
+          `.form-fields-wrapper[data-tab-content="${tabName}"]`,
         ).style.display = "block";
       }
 
       // [MODIFIED] Req 2: JavaScript logic update
       function openModalForSelection() {
         const listContainer = document.getElementById(
-          "transaction-list-container"
+          "transaction-list-container",
         );
         if (!listContainer) return;
 
         const checkedCards = listContainer.querySelectorAll(
-          '.checkbox[data-checked="true"]'
+          '.checkbox[data-checked="true"]',
         );
         const count = checkedCards.length;
 
@@ -2714,7 +2877,7 @@
           const card = checkbox.closest(".common-table-card");
           // [MODIFIED] Req 2: 금액을 .card-row .card-row-value[data-field="total-amount"] 에서 읽어옴
           const amountTextEl = card.querySelector(
-            '[data-field="total-amount"]'
+            '[data-field="total-amount"]',
           );
           const amountText = amountTextEl
             ? amountTextEl.textContent.trim()
@@ -2732,7 +2895,7 @@
         // 2. 모달에 집계된 금액 및 건수 표시
         receiptModalCount.textContent = `총 ${count}건 / 총 금액`;
         receiptModalTotal.textContent = `₩${totalAmount.toLocaleString(
-          "ko-KR"
+          "ko-KR",
         )}`;
 
         // 3. 폼 초기화 (입력값 비우기)
@@ -2741,9 +2904,9 @@
         // 4. 기본값 '소득공제' 탭으로 설정
         switchReceiptEditTab(
           document.querySelector(
-            '#receipt-edit-tabs [data-tab="income-deduction"]'
+            '#receipt-edit-tabs [data-tab="income-deduction"]',
           ),
-          "income-deduction"
+          "income-deduction",
         );
 
         // 5. 모달 열기
@@ -2776,7 +2939,7 @@
           const anyModalActive = document.querySelector(
             ".modal-overlay.active, .bottom-sheet-overlay.active:not(#" +
               overlayId +
-              ")"
+              ")",
           );
           if (!anyModalActive) {
             document.body.style.overflow = "";
@@ -2808,7 +2971,8 @@
           isDragging = false;
           sheet.style.transition = "";
           const deltaY = currentY - startY;
-          if (deltaY > 100) closeSheet(); // 100px 이상 내리면 닫기
+          if (deltaY > 100)
+            closeSheet(); // 100px 이상 내리면 닫기
           else sheet.style.transform = "";
         };
 
@@ -2839,7 +3003,7 @@
       const viewCountSheetControl = setupBottomSheet(
         "view-count-sheet-overlay",
         "view-count-sheet",
-        "view-count-sheet-handle"
+        "view-count-sheet-handle",
       );
 
       // 전역에서 접근 가능하도록 함수 할당 (필요시)
@@ -2867,14 +3031,13 @@
         setupBottomSheet(
           "view-count-sheet-overlay",
           "view-count-sheet",
-          "view-count-sheet-handle"
+          "view-count-sheet-handle",
         );
 
       // 보기 갯수 선택 처리 함수
       function selectViewCount(count) {
-        document.getElementById(
-          "view-count-text"
-        ).textContent = `${count}건씩 보기`;
+        document.getElementById("view-count-text").textContent =
+          `${count}건씩 보기`;
         closeViewCountSheet();
         // 추후 API 연동 시 여기서 리스트 갱신 함수 호출 (예: fetchIssueList(count))
         console.log(`${count}건씩 보기 선택됨`);
