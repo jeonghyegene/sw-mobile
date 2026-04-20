@@ -1136,6 +1136,106 @@
     </div>
 
 
+    <!-- ===== DEV REMOTE CONTROL ===== -->
+    <div id="dev-remote">
+        <button id="dev-remote-toggle" onclick="toggleRemote()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
+            <span>케이스</span>
+        </button>
+        <div id="dev-remote-panel">
+            <div class="remote-title">🎮 케이스 리모콘</div>
+            <div class="remote-section-label">리뷰 상세 모달</div>
+            <button class="remote-btn" onclick="rc_openReviewDetail(0)">리뷰 상세 · 이미지 있음 (3장)</button>
+            <button class="remote-btn" onclick="rc_openReviewDetail(1)">리뷰 상세 · 이미지 없음</button>
+            <div class="remote-section-label">통계 아코디언</div>
+            <button class="remote-btn" onclick="rc_statsAll(true)">통계 전체 펼치기</button>
+            <button class="remote-btn" onclick="rc_statsAll(false)">통계 전체 접기</button>
+            <div class="remote-section-label">리뷰 텍스트</div>
+            <button class="remote-btn" onclick="rc_expandAllReviews(true)">모든 리뷰 텍스트 펼치기</button>
+            <button class="remote-btn" onclick="rc_expandAllReviews(false)">모든 리뷰 텍스트 접기</button>
+            <div class="remote-section-label">포토 리뷰 필터</div>
+            <button class="remote-btn" onclick="rc_photoFilter(true)">포토 리뷰 필터 ON</button>
+            <button class="remote-btn" onclick="rc_photoFilter(false)">포토 리뷰 필터 OFF</button>
+        </div>
+    </div>
+    <style>
+        #dev-remote {
+            position: fixed;
+            bottom: 24px;
+            right: 16px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+            font-family: 'Pretendard', sans-serif;
+        }
+        #dev-remote-panel {
+            display: none;
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 12px;
+            width: 220px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+            flex-direction: column;
+            gap: 4px;
+        }
+        #dev-remote-panel.open { display: flex; }
+        .remote-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #cdd6f4;
+            margin-bottom: 6px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #313244;
+        }
+        .remote-section-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: #6c7086;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 8px;
+            margin-bottom: 2px;
+            padding: 0 4px;
+        }
+        .remote-btn {
+            background: #313244;
+            color: #cdd6f4;
+            border: none;
+            border-radius: 6px;
+            padding: 7px 10px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.15s;
+            width: 100%;
+            font-family: inherit;
+        }
+        .remote-btn:hover { background: #45475a; }
+        .remote-btn:active { background: #4e6ee4; color: white; }
+        #dev-remote-toggle {
+            background: #4e6ee4;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 16px rgba(78, 110, 228, 0.45);
+            transition: background 0.15s, transform 0.15s;
+            font-family: inherit;
+        }
+        #dev-remote-toggle:hover { background: #3d5dd3; }
+        #dev-remote-toggle:active { transform: scale(0.96); }
+    </style>
+    <!-- ===== /DEV REMOTE CONTROL ===== -->
+
     <script>
         // --- Checkbox (v12) ---
         function toggleCheckbox(checkbox) {
@@ -1386,6 +1486,58 @@
                 }
             });
         });
+
+        // ===== DEV REMOTE FUNCTIONS =====
+        function toggleRemote() {
+            document.getElementById('dev-remote-panel').classList.toggle('open');
+        }
+
+        function rc_openReviewDetail(cardIndex) {
+            const cards = document.querySelectorAll('.written-review-card');
+            if (cards[cardIndex]) {
+                const body = cards[cardIndex].querySelector('.card-body');
+                if (body) openReviewDetailModal(body);
+            }
+            document.getElementById('dev-remote-panel').classList.remove('open');
+        }
+
+        function rc_statsAll(expand) {
+            document.querySelectorAll('.stats-item-card').forEach(card => {
+                const body = card.querySelector('.stats-item-body');
+                if (expand) {
+                    card.classList.add('expanded');
+                    body.style.display = 'block';
+                } else {
+                    card.classList.remove('expanded');
+                    body.style.display = 'none';
+                }
+            });
+            document.getElementById('dev-remote-panel').classList.remove('open');
+        }
+
+        function rc_expandAllReviews(expand) {
+            document.querySelectorAll('.card-review-text').forEach(el => {
+                if (expand) {
+                    el.classList.add('expanded');
+                } else {
+                    el.classList.remove('expanded');
+                }
+            });
+            document.querySelectorAll('.expand-toggle').forEach(btn => {
+                btn.textContent = expand ? '접기' : '더보기';
+            });
+            document.getElementById('dev-remote-panel').classList.remove('open');
+        }
+
+        function rc_photoFilter(on) {
+            const wrapper = document.querySelector('.checkbox-text');
+            if (!wrapper) return;
+            const checkbox = wrapper.querySelector('.checkbox');
+            const currentlyChecked = checkbox.dataset.checked === 'true';
+            if (currentlyChecked !== on) toggleCheckboxText(wrapper);
+            document.getElementById('dev-remote-panel').classList.remove('open');
+        }
+        // ===== /DEV REMOTE FUNCTIONS =====
     </script>
 </body>
 

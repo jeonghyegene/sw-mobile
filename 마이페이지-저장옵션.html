@@ -1895,7 +1895,35 @@
                 if (e.target.id === o.id) closeModal(o.id);
             }));
         });
+        // ===== RC FUNCTIONS =====
+        function rc_closeAll() {
+            document.querySelectorAll('.modal-overlay.active, .bottom-sheet-overlay.active').forEach(el => el.classList.remove('active'));
+        }
+        function rc_closePanel() { document.getElementById('dev-remote-panel').classList.remove('open'); }
+        function rc_open(id) { rc_closeAll(); openModal(id); rc_closePanel(); }
     </script>
+
+<!-- ===== DEV REMOTE CONTROL ===== -->
+<style>
+#dev-remote-toggle{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:#1e1e2e;border:2px solid #cdd6f4;color:#cdd6f4;font-size:18px;cursor:pointer;z-index:99999;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.5)}
+#dev-remote-panel{position:fixed;bottom:72px;right:20px;width:220px;background:#1e1e2e;border:1px solid #313244;border-radius:12px;padding:12px;z-index:99998;display:none;box-shadow:0 8px 24px rgba(0,0,0,.6)}
+#dev-remote-panel.open{display:block}
+#dev-remote-panel h4{color:#cdd6f4;font-size:11px;margin:0 0 8px;text-transform:uppercase;letter-spacing:.08em}
+#dev-remote-panel hr{border:none;border-top:1px solid #313244;margin:8px 0}
+.rc-btn{display:block;width:100%;padding:7px 10px;margin-bottom:4px;background:#313244;border:none;border-radius:6px;color:#cdd6f4;font-size:12px;text-align:left;cursor:pointer}
+.rc-btn:hover{background:#45475a}
+.rc-label{color:#6c7086;font-size:10px;margin:6px 0 4px;display:block}
+</style>
+<button id="dev-remote-toggle" onclick="document.getElementById('dev-remote-panel').classList.toggle('open')">🎮</button>
+<div id="dev-remote-panel">
+  <h4>🔧 케이스 리모콘</h4>
+  <span class="rc-label">모달 열기</span>
+  <button class="rc-btn" onclick="rc_open('option-detail-modal-overlay')">옵션 상세 모달</button>
+  <button class="rc-btn" onclick="rc_open('delete-alert-overlay')">삭제 확인 모달</button>
+  <button class="rc-btn" onclick="rc_open('limit-alert-overlay')">제한 안내 모달</button>
+  <hr>
+  <button class="rc-btn" onclick="rc_closeAll();rc_closePanel()">모두 닫기</button>
+</div>
 </body>
 
 </html>

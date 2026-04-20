@@ -1271,7 +1271,111 @@
     </div>
 
 
+    <!-- ===== DEV REMOTE CONTROL ===== -->
+<style>
+#dev-remote-toggle{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:#1e1e2e;border:2px solid #cdd6f4;color:#cdd6f4;font-size:18px;cursor:pointer;z-index:99999;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.5)}
+#dev-remote-panel{position:fixed;bottom:72px;right:20px;width:220px;background:#1e1e2e;border:1px solid #313244;border-radius:12px;padding:12px;z-index:99998;display:none;box-shadow:0 8px 24px rgba(0,0,0,.6);max-height:80vh;overflow-y:auto}
+#dev-remote-panel.open{display:block}
+#dev-remote-panel h4{color:#cdd6f4;font-size:11px;margin:0 0 8px;text-transform:uppercase;letter-spacing:.08em}
+#dev-remote-panel hr{border:none;border-top:1px solid #313244;margin:8px 0}
+.rc-btn{display:block;width:100%;padding:7px 10px;margin-bottom:4px;background:#313244;border:none;border-radius:6px;color:#cdd6f4;font-size:12px;text-align:left;cursor:pointer}
+.rc-btn:hover{background:#45475a}
+.rc-label{color:#6c7086;font-size:10px;margin:6px 0 4px;display:block}
+</style>
+<button id="dev-remote-toggle" onclick="document.getElementById('dev-remote-panel').classList.toggle('open')">🎮</button>
+<div id="dev-remote-panel">
+  <h4>🔧 케이스 리모콘</h4>
+
+  <span class="rc-label">--- 단계 이동 ---</span>
+  <button class="rc-btn" onclick="rc_closePanel();rc_step_terms()">1단계: 약관동의</button>
+  <button class="rc-btn" onclick="rc_closePanel();rc_step_info()">2단계: 추가 정보 입력</button>
+  <button class="rc-btn" onclick="rc_closePanel();rc_step_complete()">3단계: 가입완료</button>
+
+  <hr>
+  <span class="rc-label">--- 약관 동의 상태 ---</span>
+  <button class="rc-btn" onclick="rc_closePanel();rc_terms_allOn()">전체 동의 ON</button>
+  <button class="rc-btn" onclick="rc_closePanel();rc_terms_allOff()">전체 동의 OFF</button>
+  <button class="rc-btn" onclick="rc_closePanel();rc_terms_requiredOnly()">필수만 동의</button>
+
+  <hr>
+  <span class="rc-label">--- SNS 연결 흐름 ---</span>
+  <button class="rc-btn" onclick="rc_closePanel();rc_sns_kakaoFlow()">카카오 연동 플로우 (약관→완료)</button>
+  <button class="rc-btn" onclick="rc_closePanel();rc_sns_accountGuide()">계정 안내 모달</button>
+  <button class="rc-btn" onclick="rc_closePanel();rc_sns_linkComplete()">계정 연동 완료 모달</button>
+
+  <hr>
+  <span class="rc-label">--- 모달 ---</span>
+  <button class="rc-btn" onclick="rc_closePanel();openModal('signup-type-modal')">회원가입 유형 선택 모달</button>
+  <button class="rc-btn" onclick="rc_closePanel();openModal('auth-modal')">본인인증 완료 모달</button>
+  <button class="rc-btn" onclick="rc_closePanel();openModal('cancel-modal')">나가기 확인 모달</button>
+  <button class="rc-btn" onclick="rc_closePanel();openModal('account-guide-modal')">계정 안내 모달</button>
+  <button class="rc-btn" onclick="rc_closePanel();openModal('account-link-complete-modal')">계정 연동 완료 모달</button>
+</div>
+
     <script>
+        // ===== RC FUNCTIONS =====
+        function rc_closeAll() {
+            document.querySelectorAll('.modal-overlay.active,.bottom-sheet-overlay.active').forEach(el=>el.classList.remove('active'));
+        }
+        function rc_closePanel() { document.getElementById('dev-remote-panel').classList.remove('open'); }
+
+        function rc_setCheckbox(cb, state) {
+            if (!cb) return;
+            const current = cb.dataset.checked === 'true';
+            if (current !== state) {
+                cb.dataset.checked = state ? 'true' : 'false';
+                cb.innerHTML = state
+                    ? '<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>'
+                    : '<div class="checkbox-off"></div>';
+            }
+        }
+
+        function rc_step_terms() {
+            rc_closeAll();
+            showPage('page-terms', '개인 회원가입');
+        }
+        function rc_step_info() {
+            rc_closeAll();
+            showPage('page-info', '개인 회원가입');
+        }
+        function rc_step_complete() {
+            rc_closeAll();
+            showPage('page-complete', '회원가입 완료');
+        }
+
+        function rc_terms_allOn() {
+            rc_step_terms();
+            document.querySelectorAll('#page-terms .checkbox').forEach(cb => rc_setCheckbox(cb, true));
+            validateTerms();
+        }
+        function rc_terms_allOff() {
+            rc_step_terms();
+            document.querySelectorAll('#page-terms .checkbox').forEach(cb => rc_setCheckbox(cb, false));
+            validateTerms();
+        }
+        function rc_terms_requiredOnly() {
+            rc_step_terms();
+            document.querySelectorAll('#page-terms .checkbox').forEach(cb => {
+                rc_setCheckbox(cb, cb.dataset.required === 'true');
+            });
+            rc_setCheckbox(document.getElementById('terms-all'), false);
+            validateTerms();
+        }
+
+        function rc_sns_kakaoFlow() {
+            rc_closeAll();
+            isSocialSignup = 'kakao';
+            rc_step_terms();
+        }
+        function rc_sns_accountGuide() {
+            rc_closeAll();
+            openModal('account-guide-modal');
+        }
+        function rc_sns_linkComplete() {
+            rc_closeAll();
+            openModal('account-link-complete-modal');
+        }
+
         let currentPage = '';
         let isFormDirty = false;
         let isSocialSignup = false; // <-- ADDED

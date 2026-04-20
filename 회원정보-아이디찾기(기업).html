@@ -1751,7 +1751,159 @@
 
         openModal('find-id-modal-overlay')
 
+        // ===== RC FUNCTIONS =====
+        function rc_closeAll() {
+            document.querySelectorAll('.modal-overlay.active,.bottom-sheet-overlay.active').forEach(el=>el.classList.remove('active'));
+        }
+        function rc_closePanel() { document.getElementById('dev-remote-panel').classList.remove('open'); }
+
+        // RC: 회원유형 탭 전환
+        function rc_switchType(typeName) {
+            openModal('find-id-modal-overlay');
+            setTimeout(() => {
+                const tabEl = document.querySelector(`#find-id-type-tabs .type-tab-item[data-type="${typeName}"]`);
+                if (tabEl) switchFindIdType(tabEl, typeName);
+            }, 50);
+            rc_closePanel();
+        }
+
+        // RC: 인증 방법 탭 전환
+        function rc_switchAuthTab(tabName) {
+            openModal('find-id-modal-overlay');
+            setTimeout(() => {
+                const tabEl = document.querySelector(`#find-id-tabs .single-chip[data-tab="${tabName}"]`);
+                if (tabEl) switchFindIdTab(tabEl, tabName);
+            }, 50);
+            rc_closePanel();
+        }
+
+        // RC: 휴대폰 인증번호 발송 후 상태 (기업 – 사업자등록번호 포함)
+        function rc_phoneAfterSend() {
+            openModal('find-id-modal-overlay');
+            setTimeout(() => {
+                const phoneTab = document.querySelector('#find-id-tabs .single-chip[data-tab="phone"]');
+                if (phoneTab) switchFindIdTab(phoneTab, 'phone');
+                setTimeout(() => {
+                    document.getElementById('find-id-biz-num-phone').value = '1234567890';
+                    document.getElementById('find-id-phone').value = '01012345678';
+                    startVerificationProcess();
+                }, 100);
+            }, 50);
+            rc_closePanel();
+        }
+
+        // RC: 이메일 인증번호 발송 후 상태 (기업)
+        function rc_emailAfterSend() {
+            openModal('find-id-modal-overlay');
+            setTimeout(() => {
+                const emailTab = document.querySelector('#find-id-tabs .single-chip[data-tab="email"]');
+                if (emailTab) switchFindIdTab(emailTab, 'email');
+                setTimeout(() => {
+                    document.getElementById('find-id-biz-num-email').value = '1234567890';
+                    document.getElementById('find-id-email').value = 'company@naver.com';
+                    startEmailVerificationProcess(false);
+                }, 100);
+            }, 50);
+            rc_closePanel();
+        }
+
+        // RC: 결과 – 1건
+        function rc_result1() {
+            rc_closeAll();
+            showIdResultModal([
+                { type: null, value: 'CompUser123', date: '2025-10-31', social: false }
+            ]);
+            rc_closePanel();
+        }
+
+        // RC: 결과 – 다건 (일반+소셜)
+        function rc_resultMulti() {
+            rc_closeAll();
+            showIdResultModal([
+                { type: null, value: 'CompUser123', date: '2025-10-31', social: false },
+                { type: 'N', value: 'comp@naver.com', date: '2025-10-31', social: true }
+            ]);
+            rc_closePanel();
+        }
+
+        // RC: 결과 – 없음
+        function rc_resultNone() {
+            rc_closeAll();
+            showNoResultModal();
+            rc_closePanel();
+        }
+
+        // RC: 나가기 알럿
+        function rc_exitAlert() {
+            openModal('find-id-modal-overlay');
+            setTimeout(() => {
+                isFormDirty = true;
+                openModal('exit-alert-modal');
+            }, 100);
+            rc_closePanel();
+        }
+
+        // RC: 유효성 에러 – 사업자등록번호 오류 (휴대폰 탭)
+        function rc_bizNumValidationError() {
+            openModal('find-id-modal-overlay');
+            setTimeout(() => {
+                const phoneTab = document.querySelector('#find-id-tabs .single-chip[data-tab="phone"]');
+                if (phoneTab) switchFindIdTab(phoneTab, 'phone');
+                setTimeout(() => {
+                    document.getElementById('find-id-biz-num-phone').value = '123';
+                    document.getElementById('find-id-phone').value = '';
+                    document.getElementById('error-biz-num-phone').textContent = '사업자등록번호 10자리를 정확히 입력해주세요';
+                    document.getElementById('error-biz-num-phone').style.display = 'block';
+                    document.getElementById('find-id-biz-num-phone').closest('.input').classList.add('error');
+                    document.getElementById('error-phone').textContent = '휴대폰 번호를 입력해주세요';
+                    document.getElementById('error-phone').style.display = 'block';
+                    document.getElementById('find-id-phone').closest('.input').classList.add('error');
+                }, 100);
+            }, 50);
+            rc_closePanel();
+        }
+
     </script>
 </body>
+
+<!-- ===== DEV REMOTE CONTROL ===== -->
+<style>
+#dev-remote-toggle{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:#1e1e2e;border:2px solid #cdd6f4;color:#cdd6f4;font-size:18px;cursor:pointer;z-index:99999;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.5)}
+#dev-remote-panel{position:fixed;bottom:72px;right:20px;width:220px;background:#1e1e2e;border:1px solid #313244;border-radius:12px;padding:12px;z-index:99998;display:none;box-shadow:0 8px 24px rgba(0,0,0,.6);max-height:80vh;overflow-y:auto}
+#dev-remote-panel.open{display:block}
+#dev-remote-panel h4{color:#cdd6f4;font-size:11px;margin:0 0 8px;text-transform:uppercase;letter-spacing:.08em}
+#dev-remote-panel hr{border:none;border-top:1px solid #313244;margin:8px 0}
+.rc-btn{display:block;width:100%;padding:7px 10px;margin-bottom:4px;background:#313244;border:none;border-radius:6px;color:#cdd6f4;font-size:12px;text-align:left;cursor:pointer}
+.rc-btn:hover{background:#45475a}
+.rc-label{color:#6c7086;font-size:10px;margin:6px 0 4px;display:block}
+</style>
+<button id="dev-remote-toggle" onclick="document.getElementById('dev-remote-panel').classList.toggle('open')">🎮</button>
+<div id="dev-remote-panel">
+  <h4>🔧 케이스 리모콘</h4>
+  <span class="rc-label">회원유형 탭</span>
+  <button class="rc-btn" onclick="rc_switchType('business')">기업 회원 탭</button>
+  <button class="rc-btn" onclick="rc_switchType('personal')">개인 회원 탭</button>
+  <button class="rc-btn" onclick="rc_switchType('foreign')">외국인 회원 탭</button>
+  <hr>
+  <span class="rc-label">인증 방법 탭</span>
+  <button class="rc-btn" onclick="rc_switchAuthTab('phone')">휴대폰 번호 인증 탭</button>
+  <button class="rc-btn" onclick="rc_switchAuthTab('email')">이메일 주소 인증 탭</button>
+  <hr>
+  <span class="rc-label">인증 발송 후 상태</span>
+  <button class="rc-btn" onclick="rc_phoneAfterSend()">휴대폰 인증번호 발송 후</button>
+  <button class="rc-btn" onclick="rc_emailAfterSend()">이메일 인증번호 발송 후</button>
+  <hr>
+  <span class="rc-label">결과 모달</span>
+  <button class="rc-btn" onclick="rc_result1()">결과 – 1건</button>
+  <button class="rc-btn" onclick="rc_resultMulti()">결과 – 다건 (일반+소셜)</button>
+  <button class="rc-btn" onclick="rc_resultNone()">결과 – 없음</button>
+  <hr>
+  <span class="rc-label">알럿 / 에러</span>
+  <button class="rc-btn" onclick="rc_exitAlert()">나가기 확인 알럿</button>
+  <button class="rc-btn" onclick="rc_bizNumValidationError()">유효성 에러 (사업자등록번호)</button>
+  <hr>
+  <span class="rc-label">전체 닫기</span>
+  <button class="rc-btn" onclick="rc_closeAll();rc_closePanel()">모든 모달 닫기</button>
+</div>
 
 </html>

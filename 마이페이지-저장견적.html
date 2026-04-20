@@ -2431,8 +2431,10 @@
         id="estimate-issue-multi-modal"
       >
         <div class="modal-header">
+          <h2 class="modal-title">견적서 발급</h2>
           <button
             class="header-share-btn"
+            style="margin-right: 10px"
             onclick="showToast('공유 링크 복사 완료, 복사된 링크로 견적서를 공유해보세요')"
           >
             <svg
@@ -2455,7 +2457,6 @@
               <path d="M8.7 13.3l6.6 3.4" />
             </svg>
           </button>
-          <h2 class="modal-title">견적서 발급</h2>
           <button
             class="btn-modal-close"
             onclick="closeModal('estimate-issue-multi-modal-overlay')"
@@ -3050,6 +3051,59 @@
       </div>
     </div>
 
+    <!-- ===== DEV REMOTE CONTROL ===== -->
+    <div id="dev-remote">
+      <button id="dev-remote-toggle" onclick="toggleRemote()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
+        <span>케이스</span>
+      </button>
+      <div id="dev-remote-panel">
+        <div class="remote-title">🎮 케이스 리모콘</div>
+        <div class="remote-section-label">견적서 상세</div>
+        <button class="remote-btn" onclick="rc('estimate-detail-modal-overlay')">견적서 상세보기</button>
+        <div class="remote-section-label">견적서 발급</div>
+        <button class="remote-btn" onclick="rc('estimate-issue-single-modal-overlay')">견적서 발급 · 단일</button>
+        <button class="remote-btn" onclick="rc('estimate-issue-multi-modal-overlay')">견적서 발급 · 다중</button>
+        <div class="remote-section-label">이메일 발송</div>
+        <button class="remote-btn" onclick="rcEmail('detail')">이메일 발송 (상세에서)</button>
+        <button class="remote-btn" onclick="rcEmail('issue-single')">이메일 발송 (발급에서)</button>
+        <div class="remote-section-label">견적 비교</div>
+        <button class="remote-btn" onclick="rc('estimate-compare-2-modal-overlay')">견적 비교 · 2개</button>
+        <button class="remote-btn" onclick="rc('estimate-compare-3-modal-overlay')">견적 비교 · 3개</button>
+        <div class="remote-section-label">알림</div>
+        <button class="remote-btn" onclick="rc('delete-alert-overlay')">삭제 확인 알림</button>
+        <button class="remote-btn" onclick="rc('limit-alert-overlay')">비교 개수 초과 알림</button>
+        <div class="remote-section-label">하단 액션바</div>
+        <button class="remote-btn" onclick="rcFooter(1)">액션바 · 1건 선택</button>
+        <button class="remote-btn" onclick="rcFooter(2)">액션바 · 2건 선택 (비교 활성)</button>
+        <button class="remote-btn" onclick="rcFooter(0)">액션바 숨기기</button>
+        <div class="remote-section-label">토스트</div>
+        <button class="remote-btn" onclick="rcToast()">공유 링크 복사 토스트</button>
+      </div>
+    </div>
+    <style>
+      #dev-remote {
+        position: fixed; bottom: 24px; right: 16px; z-index: 9999;
+        display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+        font-family: 'Pretendard', sans-serif;
+      }
+      #dev-remote-panel {
+        display: none; background: #1e1e2e; border-radius: 12px; padding: 12px;
+        width: 220px; box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+        flex-direction: column; gap: 4px;
+      }
+      #dev-remote-panel.open { display: flex; }
+      .remote-title { font-size: 13px; font-weight: 700; color: #cdd6f4; margin-bottom: 6px; padding-bottom: 8px; border-bottom: 1px solid #313244; }
+      .remote-section-label { font-size: 10px; font-weight: 600; color: #6c7086; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 8px; margin-bottom: 2px; padding: 0 4px; }
+      .remote-btn { background: #313244; color: #cdd6f4; border: none; border-radius: 6px; padding: 7px 10px; font-size: 12px; font-weight: 500; cursor: pointer; text-align: left; transition: background 0.15s; width: 100%; font-family: inherit; }
+      .remote-btn:hover { background: #45475a; }
+      .remote-btn:active { background: #4e6ee4; color: white; }
+      #dev-remote-toggle { background: #4e6ee4; color: white; border: none; border-radius: 50px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 16px rgba(78,110,228,0.45); transition: background 0.15s, transform 0.15s; font-family: inherit; }
+      #dev-remote-toggle:hover { background: #3d5dd3; }
+      #dev-remote-toggle:active { transform: scale(0.96); }
+    </style>
+    <!-- ===== /DEV REMOTE CONTROL ===== -->
+
     <script>
       // --- Search ---
       function handleSearchInput(input) {
@@ -3510,6 +3564,42 @@
       }
 
       /* ---------------------------------------------------- */
+
+      // ===== DEV REMOTE FUNCTIONS =====
+      function toggleRemote() {
+        document.getElementById('dev-remote-panel').classList.toggle('open');
+      }
+      function rc(overlayId) {
+        // 모든 모달 닫고 해당 모달만 열기
+        document.querySelectorAll('.modal-overlay.active').forEach(el => el.classList.remove('active'));
+        openModal(overlayId);
+        document.getElementById('dev-remote-panel').classList.remove('open');
+      }
+      function rcEmail(context) {
+        document.querySelectorAll('.modal-overlay.active').forEach(el => el.classList.remove('active'));
+        openEmailSheet(context);
+        document.getElementById('dev-remote-panel').classList.remove('open');
+      }
+      function rcFooter(count) {
+        const footer = document.getElementById('estimate-action-footer');
+        const compareBtn = document.getElementById('btn-compare');
+        const countEl = document.getElementById('selected-count');
+        if (count === 0) {
+          footer.classList.remove('active');
+          document.querySelector('.mobile-wrap').style.paddingBottom = '20px';
+        } else {
+          footer.classList.add('active');
+          countEl.textContent = `총 ${count}건`;
+          document.querySelector('.mobile-wrap').style.paddingBottom = '88px';
+          compareBtn.disabled = !(count >= 2 && count <= 3);
+        }
+        document.getElementById('dev-remote-panel').classList.remove('open');
+      }
+      function rcToast() {
+        showToast('공유 링크 복사 완료, 복사된 링크로 견적서를 공유해보세요');
+        document.getElementById('dev-remote-panel').classList.remove('open');
+      }
+      // ===== /DEV REMOTE FUNCTIONS =====
 
       // --- Init ---
       document.addEventListener("DOMContentLoaded", () => {

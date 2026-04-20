@@ -1871,7 +1871,59 @@
             });
         });
 
+        // ===== RC FUNCTIONS =====
+        function rc_closeAll() {
+            document.querySelectorAll('.modal-overlay.active, .bottom-sheet-overlay.active').forEach(el => el.classList.remove('active'));
+        }
+        function rc_closePanel() { document.getElementById('dev-remote-panel').classList.remove('open'); }
+        function rc_showEmpty() {
+            document.querySelectorAll('#transaction-list-container .qna-card').forEach(c => c.style.display = 'none');
+            document.querySelector('.no-transactions').style.display = 'block';
+            rc_closePanel();
+        }
+        function rc_showList() {
+            document.querySelectorAll('#transaction-list-container .qna-card').forEach(c => c.style.display = '');
+            document.querySelector('.no-transactions').style.display = 'none';
+            rc_closePanel();
+        }
+        function rc_showPeriodSheet() { showListSheet(); rc_closePanel(); }
+        function rc_showCustomPeriodSheet() { showCustomPeriodSheetBase(); rc_closePanel(); }
+        function rc_showCalendarSheet() { showCalendarSheetBase(); rc_closePanel(); }
+        function rc_tabAll() { document.querySelector('[data-status="전체"]').click(); rc_closePanel(); }
+        function rc_tabWaiting() { document.querySelector('[data-status="답변 대기"]').click(); rc_closePanel(); }
+        function rc_tabDone() { document.querySelector('[data-status="답변 완료"]').click(); rc_closePanel(); }
     </script>
+
+<!-- ===== DEV REMOTE CONTROL ===== -->
+<style>
+#dev-remote-toggle{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:#1e1e2e;border:2px solid #cdd6f4;color:#cdd6f4;font-size:18px;cursor:pointer;z-index:99999;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.5)}
+#dev-remote-panel{position:fixed;bottom:72px;right:20px;width:220px;background:#1e1e2e;border:1px solid #313244;border-radius:12px;padding:12px;z-index:99998;display:none;box-shadow:0 8px 24px rgba(0,0,0,.6)}
+#dev-remote-panel.open{display:block}
+#dev-remote-panel h4{color:#cdd6f4;font-size:11px;margin:0 0 8px;text-transform:uppercase;letter-spacing:.08em}
+#dev-remote-panel hr{border:none;border-top:1px solid #313244;margin:8px 0}
+.rc-btn{display:block;width:100%;padding:7px 10px;margin-bottom:4px;background:#313244;border:none;border-radius:6px;color:#cdd6f4;font-size:12px;text-align:left;cursor:pointer}
+.rc-btn:hover{background:#45475a}
+.rc-label{color:#6c7086;font-size:10px;margin:6px 0 4px;display:block}
+</style>
+<button id="dev-remote-toggle" onclick="document.getElementById('dev-remote-panel').classList.toggle('open')">🎮</button>
+<div id="dev-remote-panel">
+  <h4>🔧 케이스 리모콘</h4>
+  <span class="rc-label">상태 탭</span>
+  <button class="rc-btn" onclick="rc_tabAll()">전체 탭</button>
+  <button class="rc-btn" onclick="rc_tabWaiting()">답변 대기 탭</button>
+  <button class="rc-btn" onclick="rc_tabDone()">답변 완료 탭</button>
+  <hr>
+  <span class="rc-label">목록 상태</span>
+  <button class="rc-btn" onclick="rc_showList()">목록 있음</button>
+  <button class="rc-btn" onclick="rc_showEmpty()">빈 상태 (결과없음)</button>
+  <hr>
+  <span class="rc-label">바텀시트</span>
+  <button class="rc-btn" onclick="rc_showPeriodSheet()">기간 선택 시트</button>
+  <button class="rc-btn" onclick="rc_showCustomPeriodSheet()">기간 설정 시트</button>
+  <button class="rc-btn" onclick="rc_showCalendarSheet()">캘린더 시트</button>
+  <hr>
+  <button class="rc-btn" onclick="rc_closeAll()">모두 닫기</button>
+</div>
 </body>
 
 </html>
