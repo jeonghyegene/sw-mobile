@@ -1,1505 +1,1557 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>세금계산서 발급 (v12 수정)</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        /* [v12] Master Guide CSS */
-/* Reset & Base */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html,
-        body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f5f7;
-            color: #333;
-            font-size: 16px;
-            line-height: 1.6;
-            overflow-x: visible;
-        }
-
-        ul,
-        li {
-            list-style: none;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        button {
-            font-family: inherit;
-            border: none;
-            cursor: pointer;
-            background: none;
-            padding: 0;
-        }
-
-        img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-
-        input,
-        select {
-            font-family: inherit;
-        }
-
-        /* [v12] Master Guide: Input Button (for Date/Calendar Trigger) */
-        .input button {
-            width: 100%;
-            height: 100%;
-            text-align: left;
-            border: none;
-            background: none;
-            font-size: 14px;
-            color: #333;
-            cursor: pointer;
-        }
-
-        svg {
-            stroke-width: 2;
-            fill: none;
-            stroke: currentColor;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            flex-shrink: 0;
-            display: block;
-        }
-
-        /* Layout */
-        .mobile-wrap {
-            width: 100%;
-            max-width: 480px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding-bottom: 20px;
-        }
-
-        /* Header (v12 Standard) */
-        .app-header-sub {
-            height: 56px;
-            background: white;
-            border-bottom: 1px solid #cccccc;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            color: #333;
-        }
-
-        .header-btn:active {
-            transform: scale(0.9);
-        }
-
-        .header-left {
-            flex: 1 0 0;
-            display: flex;
-            justify-content: flex-start;
-        }
-
-        .header-title {
-            flex: 2 0 0;
-            font-size: 18px;
-            font-weight: 600;
-            text-align: center;
-            color: #212121;
-        }
-
-        .header-right {
-            flex: 1 0 0;
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-        }
-
-        .btn-icon {
-            cursor: pointer;
-            transition: transform 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            color: #333;
-        }
-
-        .btn-icon:active {
-            transform: scale(0.9);
-        }
-
-        .btn-icon svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Buttons */
-        .primary-button {
-            background-color: #4e6ee4;
-            color: white;
-            height: 44px;
-            padding: 7px 19px;
-            border-radius: 6px;
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: fit-content;
-        }
-
-        .primary-button:hover {
-            background: #3d5dd3;
-        }
-
-        .primary-button:active {
-            transform: scale(0.98);
-        }
-
-        .dark-button {
-            background: #424242;
-            color: white;
-            height: 44px;
-            padding: 7px 19px;
-            border-radius: 6px;
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: fit-content;
-        }
-
-        .dark-button:hover {
-            background: #333;
-        }
-
-        .dark-button:active {
-            transform: scale(0.98);
-        }
-
-        .white-button {
-            background: white;
-            color: #424242;
-            height: 44px;
-            padding: 7px 19px;
-            border-radius: 6px;
-            border: 1px solid #e8e8e9;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: fit-content;
-        }
-
-        .white-button:hover {
-            background: #f9f9f9;
-        }
-
-        .white-button:active {
-            transform: scale(0.98);
-        }
-
-        .dark-button:disabled,
-        .white-button:disabled,
-        .primary-button:disabled {
-            background-color: #e9ecef;
-            color: #adb5bd;
-            border-color: #e9ecef;
-            cursor: not-allowed;
-        }
-
-        /* Main Content */
-        .sw-container {
-            padding: 16px;
-        }
-
-        /* Page Tabs */
-        .page-tabs {
-            width: 100%;
-            height: 44px;
-            background: white;
-            border-bottom: 1px solid #e8e8e9;
-            display: flex;
-            align-items: flex-end;
-            padding: 0 20px 1px 20px;
-            overflow-x: auto;
-            white-space: nowrap;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            position: sticky;
-            top: 56px;
-            z-index: 99;
-        }
-
-        .page-tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .page-tab-item {
-            height: 42px;
-            padding: 10px 4px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-right: 16px;
-            position: relative;
-            color: #bcbcbc;
-            border-bottom: 2px solid transparent;
-            flex-shrink: 0;
-        }
-
-        .page-tab-item.active {
-            color: black;
-            border-bottom: 2px solid black;
-        }
-
-        /* Info Section */
-        .info-section {
-            background: #f8f8f9;
-            border: 1px solid #f0f0f0;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
-        .info-section .title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 8px;
-        }
-
-        /* Filter Chip Section */
-        .filter-chip-section {
-            background: #fff;
-            padding: 16px;
-            padding-top: 0;
-            padding-bottom: 0;
-            margin: 0 -16px 8px -16px;
-        }
-
-        .tabs-scroll-wrapper {
-            overflow-x: auto;
-            white-space: nowrap;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .tabs-scroll-wrapper::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-chip-section .tabs-scroll-wrapper {
-            display: flex;
-            gap: 8px;
-        }
-
-        .filter-chip-section .single-chip,
-        .filter-chip-section .multi-chip {
-            flex-shrink: 0;
-            white-space: nowrap;
-        }
-
-        /* Filter Section */
-        .filter-section {
-            padding: 0 0 16px 0;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-
-        .filter-period-section {
-            margin: 0 -16px;
-            padding: 16px;
-            border-bottom: 1px solid #e9e9e9;
-            /* margin-bottom: 16px; */
-        }
-
-        /* [v12] Text Select Button */
-        .text-select-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 2px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            user-select: none;
-        }
-
-
-        .text-select-button:hover {
-            opacity: 0.8;
-        }
-
-        .text-select-button:active {
-            transform: scale(0.98);
-        }
-
-        .text-select-button-text {
-            font-size: 12px;
-            color: #333;
-            font-weight: 400;
-            white-space: nowrap;
-        }
-
-        .text-select-button-arrow {
-            width: 12px;
-            height: 12px;
-            color: #555;
-        }
-
-        .text-select-button-arrow svg {
-            width: 12px;
-            height: 12px;
-            transition: transform 0.2s;
-        }
-
-        .text-select-button.open .text-select-button-arrow svg {
-            transform: rotate(-180deg);
-        }
-
-        /* Transaction List Header */
-        .transaction-list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            color: #555;
-            padding: 15px;
-            margin: 0 -15px;
-            position: sticky;
-            top: 56px;
-            z-index: 100;
-            background-color: white;
-        }
-
-        .transaction-list-header .total-count strong {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .view-count-select {
-            display: inline-flex;
-            align-items: center;
-            gap: 2px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            user-select: none;
-        }
-
-        .view-count-select-text {
-            font-size: 14px;
-            color: #2c2c2c;
-            font-weight: 400;
-            white-space: nowrap;
-        }
-
-        .view-count-select-arrow {
-            width: 12px;
-            height: 12px;
-        }
-
-        .view-count-select-arrow svg {
-            transition: transform 0.2s;
-            transform: translateY(-2px);
-        }
-
-        .transaction-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .no-transactions {
-            padding: 40px 16px;
-            text-align: center;
-            color: #888;
-            font-size: 14px;
-        }
-
-        /* Common Table Card */
-        .common-table-card {
-            width: 100%;
-            background: white;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            padding: 15px;
-            position: relative;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .card-badge {
-            background: white;
-            border: 1px solid #d7d7d7;
-            border-radius: 30px;
-            padding: 2px 10px;
-            font-size: 10px;
-            color: black;
-            flex-shrink: 0;
-        }
-
-        .card-divider {
-            width: 100%;
-            height: 1px;
-            background: #e8e8e9;
-            margin: 10px 0;
-        }
-
-        .card-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 12px;
-        }
-
-        .card-row-label {
-            color: #333333;
-            flex-shrink: 0;
-            margin-right: 8px;
-        }
-
-        .card-row-value {
-            color: grey;
-            text-align: right;
-            word-break: break-all;
-        }
-
-        .card-footer {
-            padding-top: 10px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-        }
-
-        .card-footer .btn {
-            height: 36px;
-            font-size: 13px;
-            padding: 0 12px;
-        }
-
-        /* Status Colors */
-        .card-badge[data-type="건별"] {
-            border-color: #007bff;
-            color: #007bff;
-        }
-
-        .card-badge[data-type="합산"] {
-            border-color: #28a745;
-            color: #28a745;
-        }
-
-        /* [v12] Checkbox */
-        .checkbox {
-            width: 20px;
-            height: 20px;
-            position: relative;
-            cursor: pointer;
-            user-select: none;
-            flex-shrink: 0;
-        }
-
-        .checkbox-off {
-            width: 100%;
-            height: 100%;
-            background: white;
-            border: 1px solid #bdbdbd;
-            border-radius: 2px;
-        }
-
-        .checkbox-on {
-            width: 100%;
-            height: 100%;
-            background: #4e6ee4;
-            border-radius: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .checkbox-on img {
-            width: 14px;
-            height: 14px;
-        }
-
-        /* [v12] Multi-chip */
-        .multi-chip {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px 12px;
-            border-radius: 100px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-
-        .multi-chip-off {
-            background: #fdfdfd;
-            border: 1px solid #e6e4e4;
-            color: #6d6d6d;
-        }
-
-        .multi-chip-on {
-            background: #c7d3ff;
-            border: 1px solid #4e6ee4;
-            color: #4e6ee4;
-        }
-
-        .multi-chip:active {
-            transform: scale(0.95);
-        }
-
-        /* [v12] Search */
-        .search {
-            width: 100%;
-            height: 40px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 12px;
-            position: relative;
-        }
-
-        .search input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: black;
-        }
-
-        .search input::placeholder {
-            color: #c6c6c8;
-        }
-
-        .search-input-right {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-        }
-
-        .search-del {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            display: none;
-        }
-
-        .search.has-text .search-del {
-            display: flex;
-        }
-
-        .search-icon,
-        .btn-search {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .search-del img,
-        .btn-search img,
-        .search-icon img {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Sticky Footer */
-        .sticky-footer-bar {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            background: #ffffff;
-            border-top: 1px solid #e0e0e0;
-            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
-            padding: 20px;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 500;
-            animation: slideUpFooter 0.3s ease-out;
-        }
-
-        .sticky-footer-bar.active {
-            display: flex;
-        }
-
-        .sticky-footer-bar .dark-button {
-            width: auto;
-            flex-shrink: 0;
-        }
-
-        /* [v12] Single-chip */
-        .single-chip {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px 12px;
-            border-radius: 100px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-
-        .single-chip-off {
-            background: #f5f5f6;
-            color: #8a8a92;
-        }
-
-        .single-chip-on {
-            background: #4e6ee4;
-            color: white;
-        }
-
-        /* Disclaimer */
-        .disclaimer {
-            font-size: 12px;
-            color: #888;
-            margin-top: 8px;
-            line-height: 1.5;
-        }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 16px;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-            animation: fadeInModal 0.2s ease-out;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 360px;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            animation: scaleUpModal 0.2s ease-out;
-        }
-
-        /* [MODIFIED] issue-full-details-modal 스타일 재정의 */
-        #issue-full-details-modal {
-            max-width: 480px;
-            /* 요청사항 반영: 480px */
-            /* Full modal 스타일 제거, 중앙 정렬은 modal-overlay가 담당 */
-        }
-
+      /* [v12] Master Guide CSS */
+      /* Reset & Base */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        font-family:
+          "Pretendard",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial,
+          sans-serif;
+        background-color: #f4f5f7;
+        color: #333;
+        font-size: 16px;
+        line-height: 1.6;
+        overflow-x: visible;
+      }
+
+      ul,
+      li {
+        list-style: none;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      button {
+        font-family: inherit;
+        border: none;
+        cursor: pointer;
+        background: none;
+        padding: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+
+      input,
+      select {
+        font-family: inherit;
+      }
+
+      /* [v12] Master Guide: Input Button (for Date/Calendar Trigger) */
+      .input button {
+        width: 100%;
+        height: 100%;
+        text-align: left;
+        border: none;
+        background: none;
+        font-size: 14px;
+        color: #333;
+        cursor: pointer;
+      }
+
+      svg {
+        stroke-width: 2;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+        display: block;
+      }
+
+      /* Layout */
+      .mobile-wrap {
+        width: 100%;
+        max-width: 480px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding-bottom: 20px;
+      }
+
+      /* Header (v12 Standard) */
+      .app-header-sub {
+        height: 56px;
+        background: white;
+        border-bottom: 1px solid #cccccc;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+        transition: transform 0.2s;
+        color: #333;
+      }
+
+      .header-btn:active {
+        transform: scale(0.9);
+      }
+
+      .header-left {
+        flex: 1 0 0;
+        display: flex;
+        justify-content: flex-start;
+      }
+
+      .header-title {
+        flex: 2 0 0;
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+        color: #212121;
+      }
+
+      .header-right {
+        flex: 1 0 0;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .btn-icon {
+        cursor: pointer;
+        transition: transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        color: #333;
+      }
+
+      .btn-icon:active {
+        transform: scale(0.9);
+      }
+
+      .btn-icon svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Buttons */
+      .primary-button {
+        background-color: #4e6ee4;
+        color: white;
+        height: 44px;
+        padding: 7px 19px;
+        border-radius: 6px;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: fit-content;
+      }
+
+      .primary-button:hover {
+        background: #3d5dd3;
+      }
+
+      .primary-button:active {
+        transform: scale(0.98);
+      }
+
+      .dark-button {
+        background: #424242;
+        color: white;
+        height: 44px;
+        padding: 7px 19px;
+        border-radius: 6px;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: fit-content;
+      }
+
+      .dark-button:hover {
+        background: #333;
+      }
+
+      .dark-button:active {
+        transform: scale(0.98);
+      }
+
+      .white-button {
+        background: white;
+        color: #424242;
+        height: 44px;
+        padding: 7px 19px;
+        border-radius: 6px;
+        border: 1px solid #e8e8e9;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: fit-content;
+      }
+
+      .white-button:hover {
+        background: #f9f9f9;
+      }
+
+      .white-button:active {
+        transform: scale(0.98);
+      }
+
+      .dark-button:disabled,
+      .white-button:disabled,
+      .primary-button:disabled {
+        background-color: #e9ecef;
+        color: #adb5bd;
+        border-color: #e9ecef;
+        cursor: not-allowed;
+      }
+
+      /* Main Content */
+      .sw-container {
+        padding: 16px;
+      }
+
+      /* Page Tabs */
+      .page-tabs {
+        width: 100%;
+        height: 44px;
+        background: white;
+        border-bottom: 1px solid #e8e8e9;
+        display: flex;
+        align-items: flex-end;
+        padding: 0 20px 1px 20px;
+        overflow-x: auto;
+        white-space: nowrap;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        position: sticky;
+        top: 56px;
+        z-index: 99;
+      }
+
+      .page-tabs::-webkit-scrollbar {
+        display: none;
+      }
+
+      .page-tab-item {
+        height: 42px;
+        padding: 10px 4px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-right: 16px;
+        position: relative;
+        color: #bcbcbc;
+        border-bottom: 2px solid transparent;
+        flex-shrink: 0;
+      }
+
+      .page-tab-item.active {
+        color: black;
+        border-bottom: 2px solid black;
+      }
+
+      /* Info Section */
+      .info-section {
+        background: #f8f8f9;
+        border: 1px solid #f0f0f0;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+
+      .info-section .title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #666;
+        margin-bottom: 8px;
+      }
+
+      /* Filter Chip Section */
+      .filter-chip-section {
+        background: #fff;
+        padding: 16px;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin: 0 -16px 8px -16px;
+      }
+
+      .tabs-scroll-wrapper {
+        overflow-x: auto;
+        white-space: nowrap;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .tabs-scroll-wrapper::-webkit-scrollbar {
+        display: none;
+      }
+
+      .filter-chip-section .tabs-scroll-wrapper {
+        display: flex;
+        gap: 8px;
+      }
+
+      .filter-chip-section .single-chip,
+      .filter-chip-section .multi-chip {
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      /* Filter Section */
+      .filter-section {
+        padding: 0 0 16px 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      .filter-period-section {
+        margin: 0 -16px;
+        padding: 16px;
+        border-bottom: 1px solid #e9e9e9;
+        /* margin-bottom: 16px; */
+      }
+
+      /* [v12] Text Select Button */
+      .text-select-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        user-select: none;
+      }
+
+      .text-select-button:hover {
+        opacity: 0.8;
+      }
+
+      .text-select-button:active {
+        transform: scale(0.98);
+      }
+
+      .text-select-button-text {
+        font-size: 12px;
+        color: #333;
+        font-weight: 400;
+        white-space: nowrap;
+      }
+
+      .text-select-button-arrow {
+        width: 12px;
+        height: 12px;
+        color: #555;
+      }
+
+      .text-select-button-arrow svg {
+        width: 12px;
+        height: 12px;
+        transition: transform 0.2s;
+      }
+
+      .text-select-button.open .text-select-button-arrow svg {
+        transform: rotate(-180deg);
+      }
+
+      /* Transaction List Header */
+      .transaction-list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        color: #555;
+        padding: 15px;
+        margin: 0 -15px;
+        position: sticky;
+        top: 56px;
+        z-index: 100;
+        background-color: white;
+      }
+
+      .transaction-list-header .total-count strong {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .view-count-select {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        user-select: none;
+      }
+
+      .view-count-select-text {
+        font-size: 14px;
+        color: #2c2c2c;
+        font-weight: 400;
+        white-space: nowrap;
+      }
+
+      .view-count-select-arrow {
+        width: 12px;
+        height: 12px;
+      }
+
+      .view-count-select-arrow svg {
+        transition: transform 0.2s;
+        transform: translateY(-2px);
+      }
+
+      .transaction-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .no-transactions {
+        padding: 40px 16px;
+        text-align: center;
+        color: #888;
+        font-size: 14px;
+      }
+
+      /* Common Table Card */
+      .common-table-card {
+        width: 100%;
+        background: white;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        padding: 15px;
+        position: relative;
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+      }
+
+      .card-badge {
+        background: white;
+        border: 1px solid #d7d7d7;
+        border-radius: 30px;
+        padding: 2px 10px;
+        font-size: 10px;
+        color: black;
+        flex-shrink: 0;
+      }
+
+      .card-divider {
+        width: 100%;
+        height: 1px;
+        background: #e8e8e9;
+        margin: 10px 0;
+      }
+
+      .card-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 12px;
+      }
+
+      .card-row-label {
+        color: #333333;
+        flex-shrink: 0;
+        margin-right: 8px;
+      }
+
+      .card-row-value {
+        color: grey;
+        text-align: right;
+        word-break: break-all;
+      }
+
+      .card-footer {
+        padding-top: 10px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .card-footer .btn {
+        height: 36px;
+        font-size: 13px;
+        padding: 0 12px;
+      }
+
+      /* Status Colors */
+      .card-badge[data-type="건별"] {
+        border-color: #007bff;
+        color: #007bff;
+      }
+
+      .card-badge[data-type="합산"] {
+        border-color: #28a745;
+        color: #28a745;
+      }
+
+      /* [v12] Checkbox */
+      .checkbox {
+        width: 20px;
+        height: 20px;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+        flex-shrink: 0;
+      }
+
+      .checkbox-off {
+        width: 100%;
+        height: 100%;
+        background: white;
+        border: 1px solid #bdbdbd;
+        border-radius: 2px;
+      }
+
+      .checkbox-on {
+        width: 100%;
+        height: 100%;
+        background: #4e6ee4;
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .checkbox-on img {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* [v12] Multi-chip */
+      .multi-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 100px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+      }
+
+      .multi-chip-off {
+        background: #fdfdfd;
+        border: 1px solid #e6e4e4;
+        color: #6d6d6d;
+      }
+
+      .multi-chip-on {
+        background: #c7d3ff;
+        border: 1px solid #4e6ee4;
+        color: #4e6ee4;
+      }
+
+      .multi-chip:active {
+        transform: scale(0.95);
+      }
+
+      /* [v12] Search */
+      .search {
+        width: 100%;
+        height: 40px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        position: relative;
+      }
+
+      .search input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        color: black;
+      }
+
+      .search input::placeholder {
+        color: #c6c6c8;
+      }
+
+      .search-input-right {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+
+      .search-del {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        display: none;
+      }
+
+      .search.has-text .search-del {
+        display: flex;
+      }
+
+      .search-icon,
+      .btn-search {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .search-del img,
+      .btn-search img,
+      .search-icon img {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Sticky Footer */
+      .sticky-footer-bar {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 480px;
+        background: #ffffff;
+        border-top: 1px solid #e0e0e0;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+        padding: 20px;
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 500;
+        animation: slideUpFooter 0.3s ease-out;
+      }
+
+      .sticky-footer-bar.active {
+        display: flex;
+      }
+
+      .sticky-footer-bar .dark-button {
+        width: auto;
+        flex-shrink: 0;
+      }
+
+      /* [v12] Single-chip */
+      .single-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 100px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+      }
+
+      .single-chip-off {
+        background: #f5f5f6;
+        color: #8a8a92;
+      }
+
+      .single-chip-on {
+        background: #4e6ee4;
+        color: white;
+      }
+
+      /* Disclaimer */
+      .disclaimer {
+        font-size: 12px;
+        color: #888;
+        margin-top: 8px;
+        line-height: 1.5;
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 16px;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+        animation: fadeInModal 0.2s ease-out;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 360px;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        animation: scaleUpModal 0.2s ease-out;
+      }
+
+      /* [MODIFIED] issue-full-details-modal 스타일 재정의 */
+      #issue-full-details-modal {
+        max-width: 480px;
+        /* 요청사항 반영: 480px */
+        /* Full modal 스타일 제거, 중앙 정렬은 modal-overlay가 담당 */
+      }
+
+      #issue-full-details-modal.full-modal {
+        max-width: 480px;
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+
+        position: fixed;
+        top: 0;
+        bottom: 0;
+
+        /* Center alignment logic for PC/Tablet */
+        left: 50%;
+        margin-left: -240px;
+
+        /* Animation: Slide from right */
+        transform: translateX(100%);
+        transition: transform 0.3s ease-out;
+        animation: none;
+        /* Reset inherited animation */
+      }
+
+      /* Mobile Responsive Override */
+      @media (max-width: 480px) {
         #issue-full-details-modal.full-modal {
-            max-width: 480px;
-            width: 100%;
-            height: 100%;
-            max-height: 100%;
-            border-radius: 0;
-
-            position: fixed;
-            top: 0;
-            bottom: 0;
-
-            /* Center alignment logic for PC/Tablet */
-            left: 50%;
-            margin-left: -240px;
-
-            /* Animation: Slide from right */
-            transform: translateX(100%);
-            transition: transform 0.3s ease-out;
-            animation: none;
-            /* Reset inherited animation */
-        }
-
-        /* Mobile Responsive Override */
-        @media (max-width: 480px) {
-            #issue-full-details-modal.full-modal {
-                left: 0;
-                margin-left: 0;
-            }
-        }
-
-        /* Active State (Open) */
-        .modal-overlay.active #issue-full-details-modal.full-modal {
-            transform: translateX(0);
-        }
-
-        /* Closing State */
-        #issue-full-details-modal.full-modal.closing {
-            transform: translateX(100%);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 16px;
-            border-bottom: 1px solid #e8e8e9;
-            height: 56px;
-            flex-shrink: 0;
-        }
-
-        .modal-title {
-            flex: 1;
-            /* Occupy remaining space */
-            text-align: left;
-            /* Center text */
-            font-size: 16px;
-            font-weight: 700;
-            color: black;
-        }
-
-        .btn-modal-close {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            color: #333;
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        /* Dummy Left & Close Button Symmetry */
-        .header-dummy-left,
-        .btn-modal-close {
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            color: #333;
-            position: static;
-            /* Remove absolute positioning */
-            transform: none;
-            cursor: pointer;
-        }
-
-        .modal-body {
-            padding: 16px;
-            overflow-y: auto;
-            flex-grow: 1;
-        }
-
-        .modal-footer {
-            padding: 16px;
-            border-top: 1px solid #e8e8e9;
-            background: #fff;
-            display: flex;
-            gap: 8px;
-            border-radius: 0 0 7px 7px;
-            flex-shrink: 0;
-        }
-
-        .modal-footer .btn {
-            flex: 1;
-            height: 44px;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .readonly-value {
-            font-size: 14px;
-            color: #333;
-            padding: 10px 12px;
-            background: #f5f5f5;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-        }
-
-        .readonly-value.emphasis {
-            font-weight: 700;
-            color: #333;
-            font-size: 16px;
-        }
-
-        .input {
-            width: 100%;
-            min-height: 40px;
-            background: white;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Select Wrapper */
-        .input.select-wrapper {
-            padding: 0;
-            position: relative;
-        }
-
-        .input select {
-            height: 38px;
-            padding: 0 12px;
-            appearance: none;
-            -webkit-appearance: none;
-            cursor: pointer;
-            width: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: black;
-        }
-
-        .input.select-wrapper::after {
-            content: '';
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: center;
-            pointer-events: none;
-        }
-
-        .modal-section-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 12px;
-            margin-top: 16px;
-        }
-
-        .modal-body .modal-section-title:first-child {
-            margin-top: 0;
-        }
-
-        /* Item Detail */
-        .item-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .item-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .item-name {
-            font-size: 14px;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .item-price-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .item-price-total {
-            font-size: 14px;
-            font-weight: 500;
-            color: #333;
-        }
-
-        .item-price-details {
-            font-size: 12px;
-            color: #888;
-        }
-
-        /* Bottom Sheet */
-        .bottom-sheet-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: flex-end;
-            justify-content: center;
-            z-index: 1000;
-            animation: fadeIn 0.2s ease-out;
-        }
-
-        .bottom-sheet-overlay.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(100%);
-            }
-
-            to {
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(0);
-            }
-
-            to {
-                transform: translateY(100%);
-            }
-        }
-
-        .bottom-sheet {
-            width: 100%;
-            max-width: 480px;
-            background: white;
-            border-top: 1px solid #d7d7d7;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            position: relative;
-            animation: slideUp 0.3s ease-out;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .bottom-sheet.closing {
-            animation: slideDown 0.3s ease-out;
-        }
-
-        .sheet-handle {
-            width: 27px;
-            height: 4px;
-            background: #d9d9d9;
-            border-radius: 100px;
-            margin: 10px auto;
-            cursor: grab;
-        }
-
-        .sheet-header {
-            height: 21px;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .sheet-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: black;
-        }
-
-        .btn-close {
-            position: absolute;
-            right: 20px;
-            top: 0;
-            width: 21px;
-            height: 21px;
-            cursor: pointer;
-        }
-
-        .sheet-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 0 20px 20px 20px;
-        }
-
-        .filter-group {
-            margin-bottom: 24px;
-        }
-
-        .filter-group-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 12px;
-        }
-
-        .filter-group-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .sheet-footer {
-            padding: 20px;
-            border-top: 1px solid #f0f0f0;
-            background: #fff;
-            display: flex;
-            gap: 8px;
-        }
-
-        .sheet-footer .btn {
-            flex: 1;
-        }
-
-        /* [v12] Option List (Bottom Sheet List Type) */
-        .option-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .option-list li {
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .option-list li:last-child {
-            border-bottom: none;
-        }
-
-        .option-list li button {
-            display: block;
-            width: 100%;
-            padding: 16px 20px;
-            font-size: 16px;
-            color: #333;
-            text-align: left;
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .option-list li button:hover {
-            background-color: #f8f8f8;
-        }
-
-        .option-list li button:active {
-            background-color: #f0f0f0;
-        }
-
-        /* [v12] Calendar (Date Picker) */
-        .calendar-container {
-            padding: 10px 0;
-        }
-
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .calendar-month-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .calendar-nav-btn {
-            font-size: 16px;
-            color: #888;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-
-        .calendar-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .calendar-row {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .calendar-row span {
-            width: 14.28%;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #333;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .calendar-row.week-header span {
-            font-weight: 600;
-            color: #888;
-            font-size: 12px;
-            cursor: default;
-        }
-
-        .calendar-row span.empty {
-            pointer-events: none;
-        }
-
-        .calendar-row span:not(.week-header span):not(.empty):hover {
-            background-color: #f5f5f5;
-        }
-
-        .calendar-row span.selected {
-            background-color: #4e6ee4;
-            color: white;
-            border-radius: 50%;
-            font-weight: 600;
-        }
-
-        .calendar-row span.range-bg {
-            background-color: #eef1ff;
-            color: #4e6ee4;
-            border-radius: 0;
-        }
-
-        /* [v12] Issue Detail Modal Specific Styles */
-        /* 발급 정보 요약 테이블 스타일 */
-        .summary-grid {
-            display: grid;
-            grid-template-columns: 100px 1fr;
-            gap: 0;
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 24px;
-        }
-
-        .summary-row {
-            display: contents;
-        }
-
-        .summary-label {
-            background: #f8f8f9;
-            padding: 12px;
-            font-size: 13px;
-            color: #666;
-            font-weight: 500;
-            border-bottom: 1px solid #e8e8e9;
-            display: flex;
-            align-items: center;
-        }
-
-        .summary-value {
-            background: #fff;
-            padding: 12px;
-            font-size: 14px;
-            color: #333;
-            font-weight: 500;
-            border-bottom: 1px solid #e8e8e9;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            text-align: right;
-        }
-
-        .summary-row:last-child .summary-label,
-        .summary-row:last-child .summary-value {
-            border-bottom: none;
-        }
-
-        .summary-total-row .summary-label,
-        .summary-total-row .summary-value {
-            background: #eef1ff;
-            color: #4e6ee4;
-            font-weight: 700;
-        }
-
-        /* 접수 정보 아코디언 스타일 */
-        .issue-accordion {
-            border: 1px solid #e8e8e9;
-            border-radius: 6px;
-            margin-bottom: 24px;
-            overflow: hidden;
-        }
-
-        .acc-item {
-            border-bottom: 1px solid #e8e8e9;
-            background: white;
-        }
-
-        .acc-item:last-child {
-            border-bottom: none;
-        }
-
-        .acc-header {
-            padding: 16px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: white;
-            transition: background-color 0.2s;
-        }
-
-        .acc-header:active {
-            background-color: #f9f9f9;
-        }
-
-        .acc-header-left {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .acc-date {
-            font-size: 12px;
-            color: #888;
-        }
-
-        .acc-order-no {
-            font-size: 15px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .acc-header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .acc-total-amt {
-            font-size: 15px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .acc-arrow {
-            width: 20px;
-            height: 20px;
-            color: #999;
-            transition: transform 0.3s;
-        }
-
-        .acc-item.open .acc-arrow {
-            transform: rotate(180deg);
-        }
-
-        .acc-body {
-            display: none;
-            background: #f8f8f9;
-            padding: 16px;
-            border-top: 1px solid #e8e8e9;
-        }
-
-        .acc-item.open .acc-body {
-            display: block;
-        }
-
-        /* 아코디언 내부 품목 리스트 */
-        .acc-product-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .acc-product-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding-bottom: 12px;
-            border-bottom: 1px dashed #d0d0d0;
-        }
-
-        .acc-product-row:last-child {
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .prod-name {
-            font-size: 14px;
-            color: #333;
-            font-weight: 500;
-            flex: 1;
-            margin-right: 10px;
-            word-break: keep-all;
-        }
-
-        .prod-price-box {
-            text-align: right;
-            flex-shrink: 0;
-        }
-
-        .prod-total {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            display: block;
-        }
-
-        .prod-sub {
-            font-size: 11px;
-            color: #888;
-            margin-top: 2px;
-            display: block;
-        }
-
-        /* ── list-info-bar (총 n건 | n건씩 보기) ── */
-        .list-info-bar {
-            position: sticky;
-            top: 136px; /* 헤더(56px) + 탭(44px) + 기간바(36px) */
-            z-index: 94;
-            margin: 0 -16px;
-            background: white;
-            height: 36px;
-        }
-        .info-normal {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 16px;
-            height: 100%;
-        }
-        .list-info-left {
-            display: flex;
-            align-items: center;
-        }
-        .total-count-text { font-size: 12px; color: #555; white-space: nowrap; }
-        .total-count-text strong { font-weight: 600; color: #333; }
-        .info-divider { font-size: 12px; color: #ccc; margin: 0 8px; user-select: none; }
-        .view-count-select {
-            display: inline-flex; align-items: center; gap: 2px;
-            cursor: pointer; user-select: none;
-        }
-        .view-count-select:active { transform: scale(0.98); }
-        .view-count-select-text { font-size: 12px; color: #2c2c2c; font-weight: 400; white-space: nowrap; }
-        .view-count-select-arrow { width: 10px; height: 10px; margin-top: 1px; }
-        .view-count-select-arrow svg { width: 10px; height: 10px; }
-        .btn-search-toggle {
-            width: 28px; height: 28px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; color: #555;
-            flex-shrink: 0;
-        }
-        .btn-search-toggle:active { transform: scale(0.9); }
-        .info-search {
-            position: absolute;
-            inset: 0;
-            display: none;
-            align-items: center;
-            gap: 8px;
-            padding: 0 16px;
-            background: white;
-        }
-        .list-period-bar.search-open .period-normal { display: none; }
-        .list-period-bar.search-open .info-search { display: flex; }
-        .btn-search-close {
-            font-size: 13px;
-            color: #555;
-            cursor: pointer;
-            white-space: nowrap;
-            flex-shrink: 0;
-            padding: 4px 0;
-            background: none;
-            border: none;
-            font-family: inherit;
-        }
-
-        /* ── list-period-bar (기간 ▼ + 검색 아이콘) ── */
-        .list-period-bar {
-            position: sticky;
-            top: 100px; /* 헤더(56px) + 탭(44px) */
-            z-index: 95;
-            margin: 0 -16px;
-            background: white;
-            height: 48px;
-            overflow: hidden;
-        }
-        .period-normal {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 16px;
-            height: 100%;
-        }
+          left: 0;
+          margin-left: 0;
+        }
+      }
+
+      /* Active State (Open) */
+      .modal-overlay.active #issue-full-details-modal.full-modal {
+        transform: translateX(0);
+      }
+
+      /* Closing State */
+      #issue-full-details-modal.full-modal.closing {
+        transform: translateX(100%);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        border-bottom: 1px solid #e8e8e9;
+        height: 56px;
+        flex-shrink: 0;
+      }
+
+      .modal-title {
+        flex: 1;
+        /* Occupy remaining space */
+        text-align: left;
+        /* Center text */
+        font-size: 16px;
+        font-weight: 700;
+        color: black;
+      }
+
+      .btn-modal-close {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        color: #333;
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      /* Dummy Left & Close Button Symmetry */
+      .header-dummy-left,
+      .btn-modal-close {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #333;
+        position: static;
+        /* Remove absolute positioning */
+        transform: none;
+        cursor: pointer;
+      }
+
+      .modal-body {
+        padding: 16px;
+        overflow-y: auto;
+        flex-grow: 1;
+      }
+
+      .modal-footer {
+        padding: 16px;
+        border-top: 1px solid #e8e8e9;
+        background: #fff;
+        display: flex;
+        gap: 8px;
+        border-radius: 0 0 7px 7px;
+        flex-shrink: 0;
+      }
+
+      .modal-footer .btn {
+        flex: 1;
+        height: 44px;
+        font-size: 14px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      .readonly-value {
+        font-size: 14px;
+        color: #333;
+        padding: 10px 12px;
+        background: #f5f5f5;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+      }
+
+      .readonly-value.emphasis {
+        font-weight: 700;
+        color: #333;
+        font-size: 16px;
+      }
+
+      .input {
+        width: 100%;
+        min-height: 40px;
+        background: white;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+      }
+
+      /* Select Wrapper */
+      .input.select-wrapper {
+        padding: 0;
+        position: relative;
+      }
+
+      .input select {
+        height: 38px;
+        padding: 0 12px;
+        appearance: none;
+        -webkit-appearance: none;
+        cursor: pointer;
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        color: black;
+      }
+
+      .input.select-wrapper::after {
+        content: "";
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: center;
+        pointer-events: none;
+      }
+
+      .modal-section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 12px;
+        margin-top: 16px;
+      }
+
+      .modal-body .modal-section-title:first-child {
+        margin-top: 0;
+      }
+
+      /* Item Detail */
+      .item-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .item-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      .item-name {
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .item-price-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      .item-price-total {
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .item-price-details {
+        font-size: 12px;
+        color: #888;
+      }
+
+      /* Bottom Sheet */
+      .bottom-sheet-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: flex-end;
+        justify-content: center;
+        z-index: 1000;
+        animation: fadeIn 0.2s ease-out;
+      }
+
+      .bottom-sheet-overlay.active {
+        display: flex;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+        }
+
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateY(0);
+        }
+
+        to {
+          transform: translateY(100%);
+        }
+      }
+
+      .bottom-sheet {
+        width: 100%;
+        max-width: 480px;
+        background: white;
+        border-top: 1px solid #d7d7d7;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        position: relative;
+        animation: slideUp 0.3s ease-out;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bottom-sheet.closing {
+        animation: slideDown 0.3s ease-out;
+      }
+
+      .sheet-handle {
+        width: 27px;
+        height: 4px;
+        background: #d9d9d9;
+        border-radius: 100px;
+        margin: 10px auto;
+        cursor: grab;
+      }
+
+      .sheet-header {
+        height: 21px;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .sheet-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: black;
+      }
+
+      .btn-close {
+        position: absolute;
+        right: 20px;
+        top: 0;
+        width: 21px;
+        height: 21px;
+        cursor: pointer;
+      }
+
+      .sheet-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0 20px 20px 20px;
+      }
+
+      .filter-group {
+        margin-bottom: 24px;
+      }
+
+      .filter-group-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 12px;
+      }
+
+      .filter-group-content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .sheet-footer {
+        padding: 20px;
+        border-top: 1px solid #f0f0f0;
+        background: #fff;
+        display: flex;
+        gap: 8px;
+      }
+
+      .sheet-footer .btn {
+        flex: 1;
+      }
+
+      /* [v12] Option List (Bottom Sheet List Type) */
+      .option-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .option-list li {
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .option-list li:last-child {
+        border-bottom: none;
+      }
+
+      .option-list li button {
+        display: block;
+        width: 100%;
+        padding: 16px 20px;
+        font-size: 16px;
+        color: #333;
+        text-align: left;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .option-list li button:hover {
+        background-color: #f8f8f8;
+      }
+
+      .option-list li button:active {
+        background-color: #f0f0f0;
+      }
+
+      /* [v12] Calendar (Date Picker) */
+      .calendar-container {
+        padding: 10px 0;
+      }
+
+      .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .calendar-month-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #333;
+      }
+
+      .calendar-nav-btn {
+        font-size: 16px;
+        color: #888;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .calendar-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .calendar-row {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .calendar-row span {
+        width: 14.28%;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #333;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+
+      .calendar-row.week-header span {
+        font-weight: 600;
+        color: #888;
+        font-size: 12px;
+        cursor: default;
+      }
+
+      .calendar-row span.empty {
+        pointer-events: none;
+      }
+
+      .calendar-row span:not(.week-header span):not(.empty):hover {
+        background-color: #f5f5f5;
+      }
+
+      .calendar-row span.selected {
+        background-color: #4e6ee4;
+        color: white;
+        border-radius: 50%;
+        font-weight: 600;
+      }
+
+      .calendar-row span.range-bg {
+        background-color: #eef1ff;
+        color: #4e6ee4;
+        border-radius: 0;
+      }
+
+      /* [v12] Issue Detail Modal Specific Styles */
+      /* 발급 정보 요약 테이블 스타일 */
+      .summary-grid {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        gap: 0;
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        overflow: hidden;
+        margin-bottom: 24px;
+      }
+
+      .summary-row {
+        display: contents;
+      }
+
+      .summary-label {
+        background: #f8f8f9;
+        padding: 12px;
+        font-size: 13px;
+        color: #666;
+        font-weight: 500;
+        border-bottom: 1px solid #e8e8e9;
+        display: flex;
+        align-items: center;
+      }
+
+      .summary-value {
+        background: #fff;
+        padding: 12px;
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+        border-bottom: 1px solid #e8e8e9;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        text-align: right;
+      }
+
+      .summary-row:last-child .summary-label,
+      .summary-row:last-child .summary-value {
+        border-bottom: none;
+      }
+
+      .summary-total-row .summary-label,
+      .summary-total-row .summary-value {
+        background: #eef1ff;
+        color: #4e6ee4;
+        font-weight: 700;
+      }
+
+      /* 접수 정보 아코디언 스타일 */
+      .issue-accordion {
+        border: 1px solid #e8e8e9;
+        border-radius: 6px;
+        margin-bottom: 24px;
+        overflow: hidden;
+      }
+
+      .acc-item {
+        border-bottom: 1px solid #e8e8e9;
+        background: white;
+      }
+
+      .acc-item:last-child {
+        border-bottom: none;
+      }
+
+      .acc-header {
+        padding: 16px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        transition: background-color 0.2s;
+      }
+
+      .acc-header:active {
+        background-color: #f9f9f9;
+      }
+
+      .acc-header-left {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .acc-date {
+        font-size: 12px;
+        color: #888;
+      }
+
+      .acc-order-no {
+        font-size: 15px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .acc-header-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .acc-total-amt {
+        font-size: 15px;
+        font-weight: 700;
+        color: #333;
+      }
+
+      .acc-arrow {
+        width: 20px;
+        height: 20px;
+        color: #999;
+        transition: transform 0.3s;
+      }
+
+      .acc-item.open .acc-arrow {
+        transform: rotate(180deg);
+      }
+
+      .acc-body {
+        display: none;
+        background: #f8f8f9;
+        padding: 16px;
+        border-top: 1px solid #e8e8e9;
+      }
+
+      .acc-item.open .acc-body {
+        display: block;
+      }
+
+      /* 아코디언 내부 품목 리스트 */
+      .acc-product-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .acc-product-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-bottom: 12px;
+        border-bottom: 1px dashed #d0d0d0;
+      }
+
+      .acc-product-row:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+
+      .prod-name {
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+        flex: 1;
+        margin-right: 10px;
+        word-break: keep-all;
+      }
+
+      .prod-price-box {
+        text-align: right;
+        flex-shrink: 0;
+      }
+
+      .prod-total {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        display: block;
+      }
+
+      .prod-sub {
+        font-size: 11px;
+        color: #888;
+        margin-top: 2px;
+        display: block;
+      }
+
+      /* ── list-info-bar (총 n건 | n건씩 보기) ── */
+      .list-info-bar {
+        position: sticky;
+        top: 136px; /* 헤더(56px) + 탭(44px) + 기간바(36px) */
+        z-index: 94;
+        margin: 0 -16px;
+        background: white;
+        height: 36px;
+      }
+      .info-normal {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        height: 100%;
+      }
+      .list-info-left {
+        display: flex;
+        align-items: center;
+      }
+      .total-count-text {
+        font-size: 12px;
+        color: #555;
+        white-space: nowrap;
+      }
+      .total-count-text strong {
+        font-weight: 600;
+        color: #333;
+      }
+      .info-divider {
+        font-size: 12px;
+        color: #ccc;
+        margin: 0 8px;
+        user-select: none;
+      }
+      .view-count-select {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .view-count-select:active {
+        transform: scale(0.98);
+      }
+      .view-count-select-text {
+        font-size: 12px;
+        color: #2c2c2c;
+        font-weight: 400;
+        white-space: nowrap;
+      }
+      .view-count-select-arrow {
+        width: 10px;
+        height: 10px;
+        margin-top: 1px;
+      }
+      .view-count-select-arrow svg {
+        width: 10px;
+        height: 10px;
+      }
+      .btn-search-toggle {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #555;
+        flex-shrink: 0;
+      }
+      .btn-search-toggle:active {
+        transform: scale(0.9);
+      }
+      .info-search {
+        position: absolute;
+        inset: 0;
+        display: none;
+        align-items: center;
+        gap: 8px;
+        padding: 0 16px;
+        background: white;
+      }
+      .list-period-bar.search-open .period-normal {
+        display: none;
+      }
+      .list-period-bar.search-open .info-search {
+        display: flex;
+      }
+      .btn-search-close {
+        font-size: 13px;
+        color: #555;
+        cursor: pointer;
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 4px 0;
+        background: none;
+        border: none;
+        font-family: inherit;
+      }
+
+      /* ── list-period-bar (기간 ▼ + 검색 아이콘) ── */
+      .list-period-bar {
+        position: sticky;
+        top: 100px; /* 헤더(56px) + 탭(44px) */
+        z-index: 95;
+        margin: 0 -16px;
+        background: white;
+        height: 48px;
+        overflow: hidden;
+      }
+      .period-normal {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        height: 100%;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="mobile-wrap">
-
-        <header class="app-header-sub">
-            <div class="header-left">
-                <button type="button" class="header-btn" onclick="history.back();">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        id="icon-chevron-left">
-                        <path d="M15 6l-6 6l6 6" />
-                    </svg>
-                </button>
-            </div>
-            <h1 class="header-title">세금계산서 발급</h1>
-            <div class="header-right">
-                <!-- <button type="button" class="btn-icon">
+      <header class="app-header-sub">
+        <div class="header-left">
+          <button type="button" class="header-btn" onclick="history.back()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              id="icon-chevron-left"
+            >
+              <path d="M15 6l-6 6l6 6" />
+            </svg>
+          </button>
+        </div>
+        <h1 class="header-title">세금계산서 발급</h1>
+        <div class="header-right">
+          <!-- <button type="button" class="btn-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="icon-search">
                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
                         <path d="M21 21l-6 -6" />
@@ -1513,874 +1565,1322 @@
                         <path d="M6 5l14 1l-1 7h-13" />
                     </svg>
                 </button> -->
+        </div>
+      </header>
+
+      <main>
+        <nav class="page-tabs" id="page-tab-nav">
+          <div
+            class="page-tab-item"
+            data-page="request"
+            onclick="location.href = '마이페이지-세금계산서(신청).html'"
+          >
+            신청
+          </div>
+          <div
+            class="page-tab-item active"
+            data-page="issue"
+            onclick="selectPageTab(this)"
+          >
+            발급 내역
+          </div>
+        </nav>
+
+        <div id="page-content-request" style="display: none">
+          <div class="sw-container">
+            <div class="no-transactions" id="no-request-list">
+              신청할 세금계산서 내역이 없어요
             </div>
-        </header>
+          </div>
+        </div>
 
-        <main>
-            <nav class="page-tabs" id="page-tab-nav">
-                <div class="page-tab-item" data-page="request" onclick="location.href='마이페이지-세금계산서(신청).html';">신청</div>
-                <div class="page-tab-item active" data-page="issue" onclick="selectPageTab(this)">발급 내역</div>
-            </nav>
-
-            <div id="page-content-request" style="display: none;">
-                <div class="sw-container">
-                    <div class="no-transactions" id="no-request-list">신청할 세금계산서 내역이 없어요</div>
+        <div id="page-content-issue" style="display: block">
+          <div class="sw-container">
+            <section class="filter-chip-section">
+              <div class="tabs-scroll-wrapper" id="issue-type-chip-group">
+                <div
+                  class="multi-chip multi-chip-on"
+                  data-status="전체"
+                  onclick="toggleIssueTypeChip(this)"
+                >
+                  ✓ 전체
                 </div>
+                <div
+                  class="multi-chip multi-chip-off"
+                  data-status="건별"
+                  onclick="toggleIssueTypeChip(this)"
+                >
+                  건별
+                </div>
+                <div
+                  class="multi-chip multi-chip-off"
+                  data-status="합산"
+                  onclick="toggleIssueTypeChip(this)"
+                >
+                  합산
+                </div>
+              </div>
+            </section>
+
+            <!-- list-period-bar: 기간 ▼ + 검색 아이콘 (검색 오버레이 포함) -->
+            <div class="list-period-bar" id="list-period-bar">
+              <!-- 일반 상태 -->
+              <div class="period-normal">
+                <button
+                  type="button"
+                  class="text-select-button"
+                  id="demo-period-btn"
+                  onclick="showListSheet()"
+                >
+                  <span
+                    class="text-select-button-text"
+                    id="selected-period-text"
+                    >최근 1개월</span
+                  >
+                  <div class="text-select-button-arrow">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M6 9l6 6l6 -6" />
+                    </svg>
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  class="btn-search-toggle"
+                  onclick="openSearch()"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                    <path d="M21 21l-6 -6" />
+                  </svg>
+                </button>
+              </div>
+              <!-- 검색 상태 -->
+              <div class="info-search">
+                <div class="search" id="issue-search">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    style="color: #aaa; flex-shrink: 0"
+                  >
+                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                    <path d="M21 21l-6 -6" />
+                  </svg>
+                  <input
+                    type="text"
+                    id="issue-search-input"
+                    placeholder="접수번호 또는 기업명, 사업자등록번호를 입력해주세요"
+                    oninput="handleSearchInput(this)"
+                  />
+                  <div class="search-del" onclick="clearSearch(this)">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="16"
+                      height="16"
+                    >
+                      <circle cx="12" cy="12" r="9" />
+                      <path d="M9 9l6 6M15 9l-6 6" />
+                    </svg>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="btn-search-close"
+                  onclick="closeSearch()"
+                >
+                  닫기
+                </button>
+              </div>
             </div>
 
-            <div id="page-content-issue" style="display: block;">
-                <div class="sw-container">
-
-                    <section class="filter-chip-section">
-                        <div class="tabs-scroll-wrapper" id="issue-type-chip-group">
-                            <div class="multi-chip multi-chip-on" data-status="전체" onclick="toggleIssueTypeChip(this)">✓
-                                전체
-                            </div>
-                            <div class="multi-chip multi-chip-off" data-status="건별" onclick="toggleIssueTypeChip(this)">
-                                건별
-                            </div>
-                            <div class="multi-chip multi-chip-off" data-status="합산" onclick="toggleIssueTypeChip(this)">
-                                합산
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- list-period-bar: 기간 ▼ + 검색 아이콘 (검색 오버레이 포함) -->
-                    <div class="list-period-bar" id="list-period-bar">
-                        <!-- 일반 상태 -->
-                        <div class="period-normal">
-                            <button type="button" class="text-select-button" id="demo-period-btn" onclick="showListSheet()">
-                                <span class="text-select-button-text" id="selected-period-text">최근 1개월</span>
-                                <div class="text-select-button-arrow">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                                        <path d="M6 9l6 6l6 -6" />
-                                    </svg>
-                                </div>
-                            </button>
-                            <button type="button" class="btn-search-toggle" onclick="openSearch()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                                    <path d="M21 21l-6 -6" />
-                                </svg>
-                            </button>
-                        </div>
-                        <!-- 검색 상태 -->
-                        <div class="info-search">
-                            <div class="search" id="issue-search">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="color:#aaa; flex-shrink:0;">
-                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                                    <path d="M21 21l-6 -6" />
-                                </svg>
-                                <input type="text" id="issue-search-input"
-                                    placeholder="접수번호 또는 기업명, 사업자등록번호를 입력해주세요"
-                                    oninput="handleSearchInput(this)" />
-                                <div class="search-del" onclick="clearSearch(this)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                                        <circle cx="12" cy="12" r="9"/>
-                                        <path d="M9 9l6 6M15 9l-6 6"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <button type="button" class="btn-search-close" onclick="closeSearch()">닫기</button>
-                        </div>
+            <section class="transaction-list-section">
+              <div class="transaction-list" id="issue-list-container">
+                <article class="common-table-card" data-type="합산">
+                  <div class="card-header">
+                    <div>
+                      <span
+                        style="font-weight: 500; color: #555; font-size: 13px"
+                        >발급번호</span
+                      >
+                      <span
+                        style="
+                          font-size: 16px;
+                          font-weight: 600;
+                          color: #212121;
+                        "
+                        >324111</span
+                      >
                     </div>
+                    <div class="card-badge" data-type="합산">합산</div>
+                  </div>
 
-                    <section class="transaction-list-section">
-                        <div class="transaction-list" id="issue-list-container">
+                  <div class="card-row" style="margin-top: 8px">
+                    <div
+                      class="card-row-label"
+                      style="font-weight: 600; color: #333"
+                    >
+                      합계금액
+                    </div>
+                    <div
+                      class="card-row-value"
+                      style="font-weight: 700; color: #333; font-size: 16px"
+                    >
+                      ₩1,003,305,000
+                    </div>
+                  </div>
+                  <div
+                    class="card-row"
+                    style="justify-content: flex-end; margin-top: -5px"
+                  >
+                    <span style="font-size: 12px; color: #888"
+                      >(공급가액: ₩103,305,000 / 부가세액: ₩1,003,305,000)</span
+                    >
+                  </div>
 
-                            <article class="common-table-card" data-type="합산">
-                                <div class="card-header">
-                                    <div>
-                                        <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
-                                        <span style="font-size: 16px; font-weight: 600; color: #212121;">324111</span>
-                                    </div>
-                                    <div class="card-badge" data-type="합산">합산</div>
-                                </div>
+                  <div class="card-divider"></div>
+                  <div class="card-row">
+                    <div class="card-row-label">발급일</div>
+                    <div class="card-row-value">2025-08-01</div>
+                  </div>
+                  <div class="card-row">
+                    <div class="card-row-label">접수번호</div>
+                    <div class="card-row-value">sw675541 외 999건+</div>
+                  </div>
+                  <div class="card-row">
+                    <div class="card-row-label">기업명</div>
+                    <div class="card-row-value">주식회사티엑스</div>
+                  </div>
+                  <div class="card-row">
+                    <div class="card-row-label">사업자등록번호</div>
+                    <div class="card-row-value">123-45-23155</div>
+                  </div>
 
-                                <div class="card-row" style="margin-top: 8px;">
-                                    <div class="card-row-label" style="font-weight: 600; color: #333;">합계금액</div>
-                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">
-                                        ₩1,003,305,000</div>
-                                </div>
-                                <div class="card-row" style="justify-content: flex-end; margin-top: -5px;">
-                                    <span style="font-size: 12px; color: #888;">(공급가액: ₩103,305,000 / 부가세액:
-                                        ₩1,003,305,000)</span>
-                                </div>
+                  <div class="card-footer">
+                    <button
+                      type="button"
+                      class="white-button btn"
+                      onclick="
+                        showIssueFullDetailsModal({
+                          issueNo: '324111',
+                          issueDate: '2025-08-01',
+                          issueType: '합산',
+                          totalAmount: '1,003,305,000',
+                          totalSupply: '103,305,000',
+                          totalTax: '1,003,305,000',
+                          orders: [
+                            {
+                              writeDate: '2025-08-02',
+                              orderNo: 'sw675541',
+                              shipDate: '2025-08-02',
+                              items: [
+                                {
+                                  name: '대봉투 1000매 (컬러)',
+                                  supply: '50,000,000',
+                                  tax: '5,000,000',
+                                  total: '55,000,000',
+                                },
+                                {
+                                  name: '명함 고급지 500매',
+                                  supply: '3,305,000',
+                                  tax: '330,500',
+                                  total: '3,635,500',
+                                },
+                                {
+                                  name: '전단지 A4 양면 4000부',
+                                  supply: '50,000,000',
+                                  tax: '5,000,000',
+                                  total: '55,000,000',
+                                },
+                              ],
+                              orderTotal: {
+                                supply: '103,305,000',
+                                tax: '10,330,500',
+                                total: '113,635,500',
+                              },
+                            },
+                            {
+                              writeDate: '2025-08-05',
+                              orderNo: 'sw675542',
+                              shipDate: '2025-08-05',
+                              items: [
+                                {
+                                  name: '추가 배송비',
+                                  supply: '2,500',
+                                  tax: '250',
+                                  total: '2,750',
+                                },
+                              ],
+                              orderTotal: {
+                                supply: '2,500',
+                                tax: '250',
+                                total: '2,750',
+                              },
+                            },
+                          ],
+                          company: '주식회사티엑스',
+                          bizNo: '123-45-23155',
+                          repName: '김수현',
+                          contactName: '김회계',
+                          contactPhone: '0233441688',
+                          contactEmail: 'damdangja@email.com',
+                        })
+                      "
+                    >
+                      발급 상세
+                    </button>
+                    <button
+                      type="button"
+                      class="white-button btn"
+                      onclick="alert('PDF 다운로드')"
+                    >
+                      PDF 다운로드
+                    </button>
+                  </div>
+                </article>
 
-                                <div class="card-divider"></div>
-                                <div class="card-row">
-                                    <div class="card-row-label">발급일</div>
-                                    <div class="card-row-value">2025-08-01</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">접수번호</div>
-                                    <div class="card-row-value">sw675541 외 999건+</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">기업명</div>
-                                    <div class="card-row-value">주식회사티엑스</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">사업자등록번호</div>
-                                    <div class="card-row-value">123-45-23155</div>
-                                </div>
+                <article class="common-table-card" data-type="건별">
+                  <div class="card-header">
+                    <div>
+                      <span
+                        style="font-weight: 500; color: #555; font-size: 13px"
+                        >발급번호</span
+                      >
+                      <span
+                        style="
+                          font-size: 16px;
+                          font-weight: 600;
+                          color: #212121;
+                        "
+                        >102032</span
+                      >
+                    </div>
+                    <div class="card-badge" data-type="건별">건별</div>
+                  </div>
 
-                                <div class="card-footer">
-                                    <button type="button" class="white-button btn" onclick="showIssueFullDetailsModal({
-            issueNo: '324111',
-            issueDate: '2025-08-01',
-            issueType: '합산',
-            totalAmount: '1,003,305,000',
-            totalSupply: '103,305,000',
-            totalTax: '1,003,305,000',
-            orders: [
-                { 
-                    writeDate: '2025-08-02', 
-                    orderNo: 'sw675541', 
-                    shipDate: '2025-08-02', 
-                    items: [
-                        { name: '대봉투 1000매 (컬러)', supply: '50,000,000', tax: '5,000,000', total: '55,000,000' },
-                        { name: '명함 고급지 500매', supply: '3,305,000', tax: '330,500', total: '3,635,500' },
-                        { name: '전단지 A4 양면 4000부', supply: '50,000,000', tax: '5,000,000', total: '55,000,000' }
-                    ], 
-                    orderTotal: { supply: '103,305,000', tax: '10,330,500', total: '113,635,500' }
-                },
-                { 
-                    writeDate: '2025-08-05', 
-                    orderNo: 'sw675542', 
-                    shipDate: '2025-08-05', 
-                    items: [
-                         { name: '추가 배송비', supply: '2,500', tax: '250', total: '2,750' }
-                    ], 
-                    orderTotal: { supply: '2,500', tax: '250', total: '2,750' }
-                }
-            ],
-            company: '주식회사티엑스',
-            bizNo: '123-45-23155',
-            repName: '김수현',
-            contactName: '김회계',
-            contactPhone: '0233441688',
-            contactEmail: 'damdangja@email.com'
-        })">발급 상세</button>
-                                    <button type="button" class="white-button btn" onclick="alert('PDF 다운로드')">PDF
-                                        다운로드</button>
-                                </div>
-                            </article>
+                  <div class="card-row" style="margin-top: 8px">
+                    <div
+                      class="card-row-label"
+                      style="font-weight: 600; color: #333"
+                    >
+                      합계금액
+                    </div>
+                    <div
+                      class="card-row-value"
+                      style="font-weight: 700; color: #333; font-size: 16px"
+                    >
+                      ₩9,020
+                    </div>
+                  </div>
+                  <div
+                    class="card-row"
+                    style="justify-content: flex-end; margin-top: -5px"
+                  >
+                    <span style="font-size: 12px; color: #888"
+                      >(공급가액: ₩8,200 / 부가세액: ₩820)</span
+                    >
+                  </div>
 
-                            <article class="common-table-card" data-type="건별">
-                                <div class="card-header">
-                                    <div>
-                                        <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
-                                        <span style="font-size: 16px; font-weight: 600; color: #212121;">102032</span>
-                                    </div>
-                                    <div class="card-badge" data-type="건별">건별</div>
-                                </div>
+                  <div class="card-divider"></div>
+                  <div class="card-row">
+                    <div class="card-row-label">발급일</div>
+                    <div class="card-row-value">2025-08-13</div>
+                  </div>
+                  <div class="card-row">
+                    <div class="card-row-label">접수번호</div>
+                    <div class="card-row-value">sw243222</div>
+                  </div>
+                  <div class="card-row">
+                    <div class="card-row-label">기업명</div>
+                    <div class="card-row-value">주식회사티엑스</div>
+                  </div>
+                  <div class="card-row">
+                    <div class="card-row-label">사업자등록번호</div>
+                    <div class="card-row-value">123-45-23155</div>
+                  </div>
 
-                                <div class="card-row" style="margin-top: 8px;">
-                                    <div class="card-row-label" style="font-weight: 600; color: #333;">합계금액</div>
-                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">
-                                        ₩9,020</div>
-                                </div>
-                                <div class="card-row" style="justify-content: flex-end; margin-top: -5px;">
-                                    <span style="font-size: 12px; color: #888;">(공급가액: ₩8,200 / 부가세액: ₩820)</span>
-                                </div>
+                  <div class="card-footer">
+                    <button
+                      type="button"
+                      class="white-button btn"
+                      onclick="
+                        showIssueFullDetailsModal({
+                          issueNo: '102032',
+                          issueDate: '2025-08-13',
+                          issueType: '건별',
+                          totalAmount: '9,020',
+                          totalSupply: '8,200',
+                          totalTax: '820',
+                          orders: [
+                            {
+                              writeDate: '2025-08-15',
+                              orderNo: 'sw456426',
+                              shipDate: '2025-08-15',
+                              items: [
+                                {
+                                  name: '대봉투 외 1건',
+                                  supply: '5,927',
+                                  tax: '593',
+                                  total: '6,520',
+                                },
+                                {
+                                  name: '택배비',
+                                  supply: '2,273',
+                                  tax: '227',
+                                  total: '2,500',
+                                },
+                              ],
+                              orderTotal: {
+                                supply: '8,200',
+                                tax: '820',
+                                total: '9,020',
+                              },
+                            },
+                          ],
+                          company: '주식회사 티엑스(TX)',
+                          bizNo: '4343434222',
+                          repName: '김수현',
+                          contactName: '김회계',
+                          contactPhone: '0233441688',
+                          contactEmail: 'damdangja@email.com',
+                        })
+                      "
+                    >
+                      발급 상세
+                    </button>
+                    <button
+                      type="button"
+                      class="white-button btn"
+                      onclick="alert('PDF 다운로드')"
+                    >
+                      PDF 다운로드
+                    </button>
+                  </div>
+                </article>
 
-                                <div class="card-divider"></div>
-                                <div class="card-row">
-                                    <div class="card-row-label">발급일</div>
-                                    <div class="card-row-value">2025-08-13</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">접수번호</div>
-                                    <div class="card-row-value">sw243222</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">기업명</div>
-                                    <div class="card-row-value">주식회사티엑스</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">사업자등록번호</div>
-                                    <div class="card-row-value">123-45-23155</div>
-                                </div>
+                <article class="common-table-card" data-type="건별">
+                  <div class="card-header">
+                    <div>
+                      <span
+                        style="font-weight: 500; color: #555; font-size: 13px"
+                        >발급번호</span
+                      >
+                      <span
+                        style="
+                          font-size: 16px;
+                          font-weight: 600;
+                          color: #212121;
+                        "
+                        >102032</span
+                      >
+                    </div>
+                    <div class="card-badge" data-type="건별">건별</div>
+                  </div>
 
-                                <div class="card-footer">
-                                    <button type="button" class="white-button btn" onclick="showIssueFullDetailsModal({
-                                        issueNo: '102032',
-                                        issueDate: '2025-08-13',
-                                        issueType: '건별',
-                                        totalAmount: '9,020',
-                                        totalSupply: '8,200',
-                                        totalTax: '820',
-                                        orders: [
-                                            { writeDate: '2025-08-15', orderNo: 'sw456426', shipDate: '2025-08-15', items: [{ name: '대봉투 외 1건', supply: '5,927', tax: '593', total: '6,520' }, { name: '택배비', supply: '2,273', tax: '227', total: '2,500' }], orderTotal: { supply: '8,200', tax: '820', total: '9,020' }}
-                                        ],
-                                        company: '주식회사 티엑스(TX)',
-                                        bizNo: '4343434222',
-                                        repName: '김수현',
-                                        contactName: '김회계',
-                                        contactPhone: '0233441688',
-                                        contactEmail: 'damdangja@email.com'
-                                    })">발급 상세</button>
-                                    <button type="button" class="white-button btn" onclick="alert('PDF 다운로드')">PDF
-                                        다운로드</button>
-                                </div>
-                            </article>
+                  <div class="card-row" style="margin-top: 8px">
+                    <div
+                      class="card-row-label"
+                      style="font-weight: 600; color: #333"
+                    >
+                      합계금액
+                    </div>
+                    <div
+                      class="card-row-value"
+                      style="font-weight: 700; color: #333; font-size: 16px"
+                    >
+                      ₩1,100,000
+                    </div>
+                  </div>
+                  <div
+                    class="card-row"
+                    style="justify-content: flex-end; margin-top: -5px"
+                  >
+                    <span style="font-size: 12px; color: #888"
+                      >(공급가액: ₩1,000,000 / 부가세액: ₩100,000)</span
+                    >
+                  </div>
 
-                            <article class="common-table-card" data-type="건별">
-                                <div class="card-header">
-                                    <div>
-                                        <span style="font-weight: 500; color: #555; font-size: 13px;">발급번호</span>
-                                        <span style="font-size: 16px; font-weight: 600; color: #212121;">102032</span>
-                                    </div>
-                                    <div class="card-badge" data-type="건별">건별</div>
-                                </div>
+                  <div class="card-divider"></div>
+                  <div class="card-row">
+                    <div class="card-row-label">발급일</div>
+                    <div class="card-row-value">2025-08-20</div>
+                  </div>
+                  <div class="card-row">
+                    <div class="card-row-label">접수번호</div>
+                    <div class="card-row-value">sw645721</div>
+                  </div>
+                  <div class="card-row">
+                    <div class="card-row-label">기업명</div>
+                    <div class="card-row-value">주식회사티엑스</div>
+                  </div>
+                  <div class="card-row">
+                    <div class="card-row-label">사업자등록번호</div>
+                    <div class="card-row-value">123-45-23155</div>
+                  </div>
 
-                                <div class="card-row" style="margin-top: 8px;">
-                                    <div class="card-row-label" style="font-weight: 600; color: #333;">합계금액</div>
-                                    <div class="card-row-value" style="font-weight: 700; color: #333; font-size: 16px;">
-                                        ₩1,100,000</div>
-                                </div>
-                                <div class="card-row" style="justify-content: flex-end; margin-top: -5px;">
-                                    <span style="font-size: 12px; color: #888;">(공급가액: ₩1,000,000 / 부가세액:
-                                        ₩100,000)</span>
-                                </div>
+                  <div class="card-footer">
+                    <button
+                      type="button"
+                      class="white-button btn"
+                      onclick="
+                        showIssueFullDetailsModal({
+                          issueNo: '102032',
+                          issueDate: '2025-08-20',
+                          issueType: '건별',
+                          totalAmount: '1,100,000',
+                          totalSupply: '1,000,000',
+                          totalTax: '100,000',
+                          orders: [
+                            {
+                              writeDate: '2025-08-15',
+                              orderNo: 'sw645721',
+                              shipDate: '2025-08-15',
+                              items: [
+                                {
+                                  name: '품목 예시',
+                                  supply: '1,000,000',
+                                  tax: '100,000',
+                                  total: '1,100,000',
+                                },
+                              ],
+                              orderTotal: {
+                                supply: '1,000,000',
+                                tax: '100,000',
+                                total: '1,100,000',
+                              },
+                            },
+                          ],
+                          company: '주식회사티엑스',
+                          bizNo: '123-45-23155',
+                          repName: '김수현',
+                          contactName: '김회계',
+                          contactPhone: '0233441688',
+                          contactEmail: 'damdangja@email.com',
+                        })
+                      "
+                    >
+                      발급 상세
+                    </button>
+                    <button
+                      type="button"
+                      class="white-button btn"
+                      onclick="alert('PDF 다운로드')"
+                    >
+                      PDF 다운로드
+                    </button>
+                  </div>
+                </article>
+              </div>
 
-                                <div class="card-divider"></div>
-                                <div class="card-row">
-                                    <div class="card-row-label">발급일</div>
-                                    <div class="card-row-value">2025-08-20</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">접수번호</div>
-                                    <div class="card-row-value">sw645721</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">기업명</div>
-                                    <div class="card-row-value">주식회사티엑스</div>
-                                </div>
-                                <div class="card-row">
-                                    <div class="card-row-label">사업자등록번호</div>
-                                    <div class="card-row-value">123-45-23155</div>
-                                </div>
+              <div
+                class="no-transactions"
+                id="no-issue-list"
+                style="display: none"
+              >
+                발급된 세금계산서 내역이 없어요
+              </div>
 
-                                <div class="card-footer">
-                                    <button type="button" class="white-button btn" onclick="showIssueFullDetailsModal({
-                                        issueNo: '102032',
-                                        issueDate: '2025-08-20',
-                                        issueType: '건별',
-                                        totalAmount: '1,100,000',
-                                        totalSupply: '1,000,000',
-                                        totalTax: '100,000',
-                                        orders: [
-                                            { writeDate: '2025-08-15', orderNo: 'sw645721', shipDate: '2025-08-15', items: [{ name: '품목 예시', supply: '1,000,000', tax: '100,000', total: '1,100,000' }], orderTotal: { supply: '1,000,000', tax: '100,000', total: '1,100,000' }}
-                                        ],
-                                        company: '주식회사티엑스',
-                                        bizNo: '123-45-23155',
-                                        repName: '김수현',
-                                        contactName: '김회계',
-                                        contactPhone: '0233441688',
-                                        contactEmail: 'damdangja@email.com'
-                                    })">발급 상세</button>
-                                    <button type="button" class="white-button btn" onclick="alert('PDF 다운로드')">PDF
-                                        다운로드</button>
-                                </div>
-                            </article>
+              <div style="margin-bottom: 24px">
+                <button
+                  type="button"
+                  class="white-button"
+                  style="width: 100%"
+                  onclick="alert('더보기 동작')"
+                >
+                  더보기
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M6 9l6 6l6 -6" />
+                  </svg>
+                </button>
+              </div>
+            </section>
 
-                        </div>
-
-                        <div class="no-transactions" id="no-issue-list" style="display: none;">발급된 세금계산서 내역이 없어요</div>
-
-                        <div style="margin-bottom: 24px;">
-                            <button type="button" class="white-button" style="width: 100%;"
-                                onclick="alert('더보기 동작')">더보기 <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                    height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"
-                                    class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M6 9l6 6l6 -6" />
-                                </svg>
-                            </button>
-                        </div>
-                    </section>
-
-                    <section class="info-section">
-                        <div class="title">세금계산서 발급 내역 이용 안내</div>
-                        <p class="disclaimer" style="font-weight: 600; color: #555;">발급 유형 안내</p>
-                        <p class="disclaimer">* 합산: 합산 발행은 여러 접수건을 한 장의 세금계산서로 묶어 처리하는 방식이에요</p>
-                        <p class="disclaimer">* 건별: 건별 발행은 한 건의 접수건마다 각각 세금계산서를 발급하는 방식이에요</p>
-                        <p class="disclaimer" style="margin-top: 12px;">* 세금계산서를 직접 신청하지 않으면, 다음 달 1일에 자동으로 합산 발급돼요</p>
-                        <p class="disclaimer">* 자동으로 묶여 발급된 세금계산서를 건별로 다시 발급받으려면, 국세청 신고 마감일인 다음 달 10일까지만 신청할 수 있어요</p>
-                    </section>
-
-                </div>
-            </div>
-
-        </main>
-
+            <section class="info-section">
+              <div class="title">세금계산서 발급 내역 이용 안내</div>
+              <p class="disclaimer" style="font-weight: 600; color: #555">
+                발급 유형 안내
+              </p>
+              <p class="disclaimer">
+                * 합산: 합산 발행은 여러 접수건을 한 장의 세금계산서로 묶어
+                처리하는 방식이에요
+              </p>
+              <p class="disclaimer">
+                * 건별: 건별 발행은 한 건의 접수건마다 각각 세금계산서를
+                발급하는 방식이에요
+              </p>
+              <p class="disclaimer" style="margin-top: 12px">
+                * 세금계산서를 직접 신청하지 않으면, 다음 달 1일에 자동으로 합산
+                발급돼요
+              </p>
+              <p class="disclaimer">
+                * 자동으로 묶여 발급된 세금계산서를 건별로 다시 발급받으려면,
+                국세청 신고 마감일인 다음 달 10일까지만 신청할 수 있어요
+              </p>
+            </section>
+          </div>
+        </div>
+      </main>
     </div>
 
     <div class="sticky-footer-bar" id="tax-action-footer">
-        <span id="tax-selected-count">총 1건</span>
-        <button class="dark-button" id="tax-apply-button" onclick="alert('세금계산서 신청 (구현 필요)')">세금계산서 신청</button>
+      <span id="tax-selected-count">총 1건</span>
+      <button
+        class="dark-button"
+        id="tax-apply-button"
+        onclick="alert('세금계산서 신청 (구현 필요)')"
+      >
+        세금계산서 신청
+      </button>
     </div>
 
-    <div class="modal-overlay" id="tax-edit-modal-overlay">
-    </div>
+    <div class="modal-overlay" id="tax-edit-modal-overlay"></div>
 
     <div class="bottom-sheet-overlay" id="list-sheet-overlay">
-        <div class="bottom-sheet" id="list-sheet">
-            <div class="sheet-handle" id="list-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">기간 상세검색</div>
-                <div class="btn-close" onclick="closeListSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
-                </div>
-            </div>
-            <div class="sheet-body" style="padding: 0;">
-                <ul class="option-list">
-                    <li><button type="button" onclick="selectListOption('최근 1개월')">최근 1개월</button></li>
-                    <li><button type="button" onclick="selectListOption('최근 3개월')">최근 3개월</button></li>
-                    <li><button type="button" onclick="openMonthlySheet()">월별</button></li>
-                    <li><button type="button" onclick="openCustomPeriodSheet()">기간 설정</button></li>
-                </ul>
-            </div>
+      <div class="bottom-sheet" id="list-sheet">
+        <div class="sheet-handle" id="list-sheet-handle"></div>
+        <div class="sheet-header">
+          <div class="sheet-title">기간 상세검색</div>
+          <div class="btn-close" onclick="closeListSheet()">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </div>
         </div>
+        <div class="sheet-body" style="padding: 0">
+          <ul class="option-list">
+            <li>
+              <button type="button" onclick="selectListOption('최근 1개월')">
+                최근 1개월
+              </button>
+            </li>
+            <li>
+              <button type="button" onclick="selectListOption('최근 3개월')">
+                최근 3개월
+              </button>
+            </li>
+            <li>
+              <button type="button" onclick="openMonthlySheet()">월별</button>
+            </li>
+            <li>
+              <button type="button" onclick="openCustomPeriodSheet()">
+                기간 설정
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <div class="bottom-sheet-overlay" id="custom-period-overlay">
-        <div class="bottom-sheet" id="custom-period-sheet">
-            <div class="sheet-handle" id="custom-period-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">기간 설정</div>
-                <div class="btn-close" onclick="closeCustomPeriodSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="form-group">
-                    <label>시작일</label>
-                    <div class="input">
-                        <button type="button" id="demo-start-date"
-                            onclick="showCalendarSheet('start')">2025-10-11</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>종료일</label>
-                    <div class="input">
-                        <button type="button" id="demo-end-date" onclick="showCalendarSheet('end')">2025-11-11</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>간편 설정</label>
-                    <div class="filter-group-content">
-                        <div class="single-chip single-chip-off" onclick="setPresetPeriod(0)">오늘</div>
-                        <div class="single-chip single-chip-off" onclick="setPresetPeriod(7)">1주일</div>
-                        <div class="single-chip single-chip-off" onclick="setPresetPeriod(30)">1개월</div>
-                    </div>
-                </div>
-            </div>
-            <div class="sheet-footer">
-                <button class="btn white-button" onclick="closeCustomPeriodSheet()">취소</button>
-                <button class="btn dark-button" onclick="applyCustomPeriod()">조회하기</button>
-            </div>
+      <div class="bottom-sheet" id="custom-period-sheet">
+        <div class="sheet-handle" id="custom-period-sheet-handle"></div>
+        <div class="sheet-header">
+          <div class="sheet-title">기간 설정</div>
+          <div class="btn-close" onclick="closeCustomPeriodSheet()">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </div>
         </div>
+        <div class="sheet-body">
+          <div class="form-group">
+            <label>시작일</label>
+            <div class="input">
+              <button
+                type="button"
+                id="demo-start-date"
+                onclick="showCalendarSheet('start')"
+              >
+                2025-10-11
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>종료일</label>
+            <div class="input">
+              <button
+                type="button"
+                id="demo-end-date"
+                onclick="showCalendarSheet('end')"
+              >
+                2025-11-11
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>간편 설정</label>
+            <div class="filter-group-content">
+              <div
+                class="single-chip single-chip-off"
+                onclick="setPresetPeriod(0)"
+              >
+                오늘
+              </div>
+              <div
+                class="single-chip single-chip-off"
+                onclick="setPresetPeriod(7)"
+              >
+                1주일
+              </div>
+              <div
+                class="single-chip single-chip-off"
+                onclick="setPresetPeriod(30)"
+              >
+                1개월
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sheet-footer">
+          <button class="btn white-button" onclick="closeCustomPeriodSheet()">
+            취소
+          </button>
+          <button class="btn dark-button" onclick="applyCustomPeriod()">
+            조회하기
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="bottom-sheet-overlay" id="calendar-sheet-overlay">
-        <div class="bottom-sheet" id="calendar-sheet">
-            <div class="sheet-handle" id="calendar-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">날짜 선택</div>
-                <div class="btn-close" onclick="closeCalendarSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="calendar-container">
-                    <div class="calendar-header">
-                        <button type="button" class="calendar-nav-btn">&lt;</button>
-                        <span class="calendar-month-title">2025.10</span>
-                        <button type="button" class="calendar-nav-btn">&gt;</button>
-                    </div>
-                    <div class="calendar-grid">
-                        <div class="calendar-row week-header">
-                            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span class="empty"></span><span
-                                class="empty"></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
-                            <span class="selected" onclick="confirmDateSelection(11)">11</span><span>12</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span>
-                        </div>
-                        <div class="calendar-row">
-                            <span>27</span><span>28</span><span>29</span><span>30</span><span>31</span><span
-                                class="empty"></span><span class="empty"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="bottom-sheet" id="calendar-sheet">
+        <div class="sheet-handle" id="calendar-sheet-handle"></div>
+        <div class="sheet-header">
+          <div class="sheet-title">날짜 선택</div>
+          <div class="btn-close" onclick="closeCalendarSheet()">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </div>
         </div>
+        <div class="sheet-body">
+          <div class="calendar-container">
+            <div class="calendar-header">
+              <button type="button" class="calendar-nav-btn">&lt;</button>
+              <span class="calendar-month-title">2025.10</span>
+              <button type="button" class="calendar-nav-btn">&gt;</button>
+            </div>
+            <div class="calendar-grid">
+              <div class="calendar-row week-header">
+                <span>일</span><span>월</span><span>화</span><span>수</span
+                ><span>목</span><span>금</span><span>토</span>
+              </div>
+              <div class="calendar-row">
+                <span class="empty"></span><span class="empty"></span
+                ><span>1</span><span>2</span><span>3</span><span>4</span
+                ><span>5</span>
+              </div>
+              <div class="calendar-row">
+                <span>6</span><span>7</span><span>8</span><span>9</span
+                ><span>10</span>
+                <span class="selected" onclick="confirmDateSelection(11)"
+                  >11</span
+                ><span>12</span>
+              </div>
+              <div class="calendar-row">
+                <span>13</span><span>14</span><span>15</span><span>16</span
+                ><span>17</span><span>18</span><span>19</span>
+              </div>
+              <div class="calendar-row">
+                <span>20</span><span>21</span><span>22</span><span>23</span
+                ><span>24</span><span>25</span><span>26</span>
+              </div>
+              <div class="calendar-row">
+                <span>27</span><span>28</span><span>29</span><span>30</span
+                ><span>31</span><span class="empty"></span
+                ><span class="empty"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="bottom-sheet-overlay" id="period-monthly-sheet-overlay">
-        <div class="bottom-sheet" data-name="bottom-sheet" id="period-monthly-sheet">
-            <div class="sheet-handle" id="period-monthly-sheet-handle"></div>
-            <div class="sheet-header">
-                <div class="sheet-title">월별 설정</div>
-                <div class="btn-close" onclick="closeMonthlyPeriodSheet()">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                    </svg>
-                </div>
-            </div>
-            <div class="sheet-body">
-                <div class="form-group">
-                    <label for="select-year">년도</label>
-                    <div class="input select-wrapper">
-                        <select id="select-year">
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="select-month">월</label>
-                    <div class="input select-wrapper">
-                        <select id="select-month">
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="sheet-footer">
-                <button class="btn white-button" onclick="closeMonthlyPeriodSheet()">취소</button>
-                <button class="btn dark-button" onclick="applyMonthlyPeriod()">조회하기</button>
-            </div>
+      <div
+        class="bottom-sheet"
+        data-name="bottom-sheet"
+        id="period-monthly-sheet"
+      >
+        <div class="sheet-handle" id="period-monthly-sheet-handle"></div>
+        <div class="sheet-header">
+          <div class="sheet-title">월별 설정</div>
+          <div class="btn-close" onclick="closeMonthlyPeriodSheet()">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </div>
         </div>
+        <div class="sheet-body">
+          <div class="form-group">
+            <label for="select-year">년도</label>
+            <div class="input select-wrapper">
+              <select id="select-year"></select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="select-month">월</label>
+            <div class="input select-wrapper">
+              <select id="select-month"></select>
+            </div>
+          </div>
+        </div>
+        <div class="sheet-footer">
+          <button class="btn white-button" onclick="closeMonthlyPeriodSheet()">
+            취소
+          </button>
+          <button class="btn dark-button" onclick="applyMonthlyPeriod()">
+            조회하기
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="modal-overlay" id="issue-full-details-modal-overlay">
-        <div class="modal-content full-modal" id="issue-full-details-modal">
-            <div class="modal-header">
+      <div class="modal-content full-modal" id="issue-full-details-modal">
+        <div class="modal-header">
+          <h2 class="modal-title">발급 상세</h2>
 
-                <h2 class="modal-title">발급 상세</h2>
-
-                <button class="btn-modal-close" onclick="closeModal('issue-full-details-modal-overlay')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body" id="issue-detail-body">
-            </div>
+          <button
+            class="btn-modal-close"
+            onclick="closeModal('issue-full-details-modal-overlay')"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
         </div>
+        <div class="modal-body" id="issue-detail-body"></div>
+      </div>
     </div>
 
-
     <script>
-        // --- [NEW] Page Tab Logic ---
-        function selectPageTab(tab) {
-            const nav = tab.closest('#page-tab-nav');
-            if (!nav) return;
-            nav.querySelectorAll('.page-tab-item').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
+      // --- [NEW] Page Tab Logic ---
+      function selectPageTab(tab) {
+        const nav = tab.closest("#page-tab-nav");
+        if (!nav) return;
+        nav
+          .querySelectorAll(".page-tab-item")
+          .forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
 
-            const page = tab.getAttribute('data-page');
-            const requestPage = document.getElementById('page-content-request');
-            const issuePage = document.getElementById('page-content-issue');
-            const stickyFooter = document.getElementById('tax-action-footer');
+        const page = tab.getAttribute("data-page");
+        const requestPage = document.getElementById("page-content-request");
+        const issuePage = document.getElementById("page-content-issue");
+        const stickyFooter = document.getElementById("tax-action-footer");
 
-            if (page === 'issue') {
-                requestPage.style.display = 'none';
-                issuePage.style.display = 'block';
-                if (stickyFooter) stickyFooter.classList.remove('active'); // 발급 내역 탭에서는 스티키 푸터 숨김
-                document.querySelector('.mobile-wrap').style.paddingBottom = '20px';
-            } else {
-                requestPage.style.display = 'block';
-                issuePage.style.display = 'none';
-                updateTaxFooter(); // 신청 탭에서는 스티키 푸터 상태 업데이트
-            }
+        if (page === "issue") {
+          requestPage.style.display = "none";
+          issuePage.style.display = "block";
+          if (stickyFooter) stickyFooter.classList.remove("active"); // 발급 내역 탭에서는 스티키 푸터 숨김
+          document.querySelector(".mobile-wrap").style.paddingBottom = "20px";
+        } else {
+          requestPage.style.display = "block";
+          issuePage.style.display = "none";
+          updateTaxFooter(); // 신청 탭에서는 스티키 푸터 상태 업데이트
+        }
+      }
+
+      // --- [NEW] v12 Master Guide JS Components ---
+
+      // Checkbox
+      function toggleCheckbox(checkbox) {
+        const isChecked = checkbox.dataset.checked === "true";
+        if (isChecked) {
+          checkbox.dataset.checked = "false";
+          checkbox.innerHTML = '<div class="checkbox-off"></div>';
+        } else {
+          checkbox.dataset.checked = "true";
+          checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
+        }
+      }
+
+      // MultiChip
+      function toggleMultiChip(chip, forceState) {
+        const isCurrentlyOn = chip.classList.contains("multi-chip-on");
+        let turnOn;
+
+        if (forceState === true) {
+          // Force On
+          turnOn = true;
+        } else if (forceState === false) {
+          // Force Off
+          turnOn = false;
+        } else {
+          // Toggle
+          turnOn = !isCurrentlyOn;
         }
 
-        // --- [NEW] v12 Master Guide JS Components ---
+        if (turnOn && !isCurrentlyOn) {
+          chip.classList.remove("multi-chip-off");
+          chip.classList.add("multi-chip-on");
+          chip.textContent =
+            "✓ " + chip.textContent.trim().replace(/^✓\s*/, "");
+        } else if (!turnOn && isCurrentlyOn) {
+          chip.classList.remove("multi-chip-on");
+          chip.classList.add("multi-chip-off");
+          chip.textContent = chip.textContent.trim().replace(/^✓\s*/, "");
+        }
+      }
 
-        // Checkbox
-        function toggleCheckbox(checkbox) {
-            const isChecked = checkbox.dataset.checked === 'true';
-            if (isChecked) {
-                checkbox.dataset.checked = 'false';
-                checkbox.innerHTML = '<div class="checkbox-off"></div>';
-            } else {
-                checkbox.dataset.checked = 'true';
-                checkbox.innerHTML = `<div class="checkbox-on"><img src="assets/images/checked.svg" alt="체크"></div>`;
-            }
+      // Search
+      function handleSearchInput(input) {
+        const searchBox = input.closest(".search");
+        searchBox.classList.toggle("has-text", input.value.trim() !== "");
+      }
+      function clearSearch(btn) {
+        const searchBox = btn.closest(".search");
+        const input = searchBox.querySelector("input");
+        input.value = "";
+        searchBox.classList.remove("has-text");
+        input.focus();
+      }
+      function handleSearch(btn) {
+        console.log(
+          "Search submitted:",
+          btn.closest(".search").querySelector("input").value,
+        );
+      }
+
+      function openSearch() {
+        document.getElementById("list-period-bar").classList.add("search-open");
+        document.getElementById("issue-search-input").focus();
+      }
+      function closeSearch() {
+        document
+          .getElementById("list-period-bar")
+          .classList.remove("search-open");
+        const input = document.getElementById("issue-search-input");
+        input.value = "";
+        document.getElementById("issue-search").classList.remove("has-text");
+      }
+
+      // --- '신청' 탭 Logic (Placeholder) ---
+
+      function updateTaxFooter() {
+        // (함수 내용은 tax_request.html과 동일)
+        const listContainer = document.getElementById(
+          "transaction-list-container",
+        );
+        if (!listContainer) return;
+        const checkedBoxes = listContainer.querySelectorAll(
+          '.checkbox[data-checked="true"]',
+        );
+        const count = checkedBoxes.length;
+        const footer = document.getElementById("tax-action-footer");
+
+        if (
+          document.getElementById("page-content-request").style.display ===
+          "block"
+        ) {
+          if (count > 0) {
+            footer.classList.add("active");
+            document.getElementById("tax-selected-count").textContent =
+              `총 ${count}건`;
+            document.querySelector(".mobile-wrap").style.paddingBottom = "84px";
+          } else {
+            footer.classList.remove("active");
+            document.querySelector(".mobile-wrap").style.paddingBottom = "20px"; // Reset to default
+          }
+        }
+      }
+
+      function toggleStatusChip(chip) {
+        // (함수 내용은 tax_request.html과 동일)
+        const status = chip.getAttribute("data-status");
+        const group = chip.closest("#status-chip-group");
+        const allChip = group.querySelector('[data-status="전체"]');
+
+        if (status === "전체") {
+          const isTurningOn = !chip.classList.contains("multi-chip-on");
+          toggleMultiChip(chip, isTurningOn);
+          group.querySelectorAll(".multi-chip").forEach((c) => {
+            if (c !== chip) toggleMultiChip(c, false);
+          });
+        } else {
+          toggleMultiChip(chip);
+          toggleMultiChip(allChip, false);
+          const anyOtherOn = Array.from(
+            group.querySelectorAll('.multi-chip:not([data-status="전체"])'),
+          ).some((c) => c.classList.contains("multi-chip-on"));
+          if (!anyOtherOn) {
+            toggleMultiChip(allChip, true);
+          }
+        }
+        filterTaxInvoices();
+      }
+
+      function filterTaxInvoices() {
+        // (함수 내용은 tax_request.html과 동일 - 신청 탭의 목록을 필터링)
+        const listContainer = document.getElementById(
+          "transaction-list-container",
+        );
+        if (!listContainer) return;
+        const noResultMsg = document.getElementById("no-request-list");
+        let visibleCount = 0; // 예시로 0건
+
+        if (document.getElementById("transaction-count")) {
+          document.getElementById("transaction-count").textContent =
+            visibleCount;
+        }
+        if (noResultMsg) {
+          noResultMsg.style.display = visibleCount === 0 ? "block" : "none";
+        }
+        console.log("Filtering request list...");
+      }
+
+      // --- '신청' 탭 Modal Logic (Placeholder) ---
+      function openModal(overlayId) {
+        const overlay = document.getElementById(overlayId);
+        if (!overlay) return;
+
+        const modal = overlay.querySelector(".modal-content");
+
+        if (modal && modal.classList.contains("full-modal")) {
+          // Full Modal Open Logic
+          overlay.classList.add("overlay-full-modal");
+          overlay.style.display = "flex";
+          requestAnimationFrame(() => {
+            overlay.classList.add("active");
+          });
+        } else {
+          // Default Modal Open Logic
+          overlay.classList.add("active");
+        }
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal(overlayId) {
+        const overlay = document.getElementById(overlayId);
+        if (!overlay) return;
+
+        const modal = overlay.querySelector(".modal-content");
+
+        if (modal && modal.classList.contains("full-modal")) {
+          // Full Modal Close Logic
+          modal.classList.add("closing");
+          overlay.classList.remove("active");
+
+          setTimeout(() => {
+            overlay.style.display = "none";
+            overlay.classList.remove("overlay-full-modal");
+            modal.classList.remove("closing");
+          }, 300); // Match CSS transition
+        } else {
+          // Default Modal Close Logic
+          overlay.classList.remove("active");
         }
 
-        // MultiChip
-        function toggleMultiChip(chip, forceState) {
-            const isCurrentlyOn = chip.classList.contains('multi-chip-on');
-            let turnOn;
+        // Check for other modals/sheets
+        const anyModalActive = document.querySelector(
+          ".modal-overlay.active:not(#" +
+            overlayId +
+            "), .bottom-sheet-overlay.active",
+        );
+        if (!anyModalActive) {
+          document.body.style.overflow = "";
+        }
+      }
 
-            if (forceState === true) { // Force On
-                turnOn = true;
-            } else if (forceState === false) { // Force Off
-                turnOn = false;
-            } else { // Toggle
-                turnOn = !isCurrentlyOn;
-            }
+      // --- [NEW] '발급 내역' 탭 Logic ---
 
-            if (turnOn && !isCurrentlyOn) {
-                chip.classList.remove('multi-chip-off');
-                chip.classList.add('multi-chip-on');
-                chip.textContent = '✓ ' + chip.textContent.trim().replace(/^✓\s*/, '');
-            } else if (!turnOn && isCurrentlyOn) {
-                chip.classList.remove('multi-chip-on');
-                chip.classList.add('multi-chip-off');
-                chip.textContent = chip.textContent.trim().replace(/^✓\s*/, '');
-            }
+      // Bottom Sheet (v12 Standard)
+      function setupBottomSheet(overlayId, sheetId, handleId) {
+        const overlay = document.getElementById(overlayId);
+        const sheet = document.getElementById(sheetId);
+        const handle = document.getElementById(handleId);
+        if (!overlay || !sheet || !handle)
+          return { openSheet: () => {}, closeSheet: () => {} };
+        let isDragging = false,
+          startY = 0,
+          currentY = 0;
+        const openSheet = () => {
+          overlay.classList.add("active");
+          sheet.classList.remove("closing");
+          document.body.style.overflow = "hidden";
+        };
+        const closeSheet = () => {
+          sheet.classList.add("closing");
+          const anyModalActive = document.querySelector(
+            ".modal-overlay.active, .bottom-sheet-overlay.active:not(#" +
+              overlayId +
+              ")",
+          );
+          if (!anyModalActive) {
+            document.body.style.overflow = "";
+          }
+          setTimeout(() => {
+            overlay.classList.remove("active");
+            sheet.classList.remove("closing");
+            sheet.style.transform = ""; // Reset transform
+          }, 300);
+        };
+        const startDrag = (e) => {
+          isDragging = true;
+          startY = e.type === "mousedown" ? e.clientY : e.touches[0].clientY;
+          sheet.style.transition = "none";
+        };
+        const drag = (e) => {
+          if (!isDragging) return;
+          e.preventDefault();
+          currentY = e.type === "mousemove" ? e.clientY : e.touches[0].clientY;
+          const deltaY = currentY - startY;
+          if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`;
+        };
+        const endDrag = () => {
+          if (!isDragging) return;
+          isDragging = false;
+          sheet.style.transition = "";
+          const deltaY = currentY - startY;
+          if (deltaY > 100) closeSheet();
+          else sheet.style.transform = "";
+        };
+        handle.addEventListener("mousedown", startDrag);
+        handle.addEventListener("touchstart", startDrag, { passive: false });
+        document.addEventListener("mousemove", drag);
+        document.addEventListener("touchmove", drag, { passive: false });
+        document.addEventListener("mouseup", endDrag);
+        document.addEventListener("touchend", endDrag);
+        overlay.addEventListener("click", (e) => {
+          if (e.target.id === overlayId) closeSheet();
+        });
+        return { openSheet, closeSheet };
+      }
+
+      // Setup Sheets
+      const { openSheet: showListSheet, closeSheet: closeListSheet } =
+        setupBottomSheet(
+          "list-sheet-overlay",
+          "list-sheet",
+          "list-sheet-handle",
+        );
+      const {
+        openSheet: showCustomPeriodSheetBase,
+        closeSheet: closeCustomPeriodSheet,
+      } = setupBottomSheet(
+        "custom-period-overlay",
+        "custom-period-sheet",
+        "custom-period-sheet-handle",
+      );
+      const {
+        openSheet: showCalendarSheetBase,
+        closeSheet: closeCalendarSheet,
+      } = setupBottomSheet(
+        "calendar-sheet-overlay",
+        "calendar-sheet",
+        "calendar-sheet-handle",
+      );
+      const {
+        openSheet: showMonthlyPeriodSheetBase,
+        closeSheet: closeMonthlyPeriodSheet,
+      } = setupBottomSheet(
+        "period-monthly-sheet-overlay",
+        "period-monthly-sheet",
+        "period-monthly-sheet-handle",
+      );
+
+      // --- [v12 Standard] COMPLEX FILTER INTERACTION ---
+      let selectedPeriodValue = "최근 1개월";
+      let currentTargetDateInputId = null;
+
+      // 1. List Sheet Interaction
+      function selectListOption(value) {
+        // Update main button text directly
+        document.getElementById("selected-period-text").textContent = value;
+        document.getElementById("demo-period-btn").classList.remove("open");
+        closeListSheet();
+        filterIssueList();
+      }
+
+      function openCustomPeriodSheet() {
+        document
+          .getElementById("list-sheet-overlay")
+          .classList.remove("active");
+
+        // Set default dates if needed
+        if (
+          !document.getElementById("demo-start-date").textContent.includes("-")
+        ) {
+          const today = new Date();
+          document.getElementById("demo-start-date").textContent = today
+            .toISOString()
+            .split("T")[0];
+          document.getElementById("demo-end-date").textContent = today
+            .toISOString()
+            .split("T")[0];
         }
 
-        // Search
-        function handleSearchInput(input) {
-            const searchBox = input.closest('.search');
-            searchBox.classList.toggle('has-text', input.value.trim() !== '');
+        showCustomPeriodSheetBase();
+      }
+
+      function openMonthlySheet() {
+        document
+          .getElementById("list-sheet-overlay")
+          .classList.remove("active");
+        populateMonthyPicker();
+        showMonthlyPeriodSheetBase();
+      }
+
+      // 2. Custom Period Logic
+      function showCalendarSheet(targetInputId) {
+        if (targetInputId === "start")
+          currentTargetDateInputId = "demo-start-date";
+        else if (targetInputId === "end")
+          currentTargetDateInputId = "demo-end-date";
+        showCalendarSheetBase();
+      }
+
+      function confirmDateSelection(day) {
+        if (currentTargetDateInputId) {
+          document.getElementById(currentTargetDateInputId).textContent =
+            `2025-10-${day}`;
         }
-        function clearSearch(btn) {
-            const searchBox = btn.closest('.search');
-            const input = searchBox.querySelector('input');
-            input.value = '';
-            searchBox.classList.remove('has-text');
-            input.focus();
+        closeCalendarSheet();
+      }
+
+      function applyCustomPeriod() {
+        const start = document.getElementById("demo-start-date").textContent;
+        const end = document.getElementById("demo-end-date").textContent;
+        selectedPeriodValue = `${start} ~ ${end}`;
+        document.getElementById("selected-period-text").textContent =
+          selectedPeriodValue;
+        document.getElementById("demo-period-btn").classList.remove("open");
+        closeCustomPeriodSheet();
+        filterIssueList();
+      }
+
+      function setPresetPeriod(days) {
+        alert(days + "일 기간 자동 설정 (데모)");
+      }
+
+      // 3. Monthly Period Logic
+      function populateMonthyPicker() {
+        const yearSelect = document.getElementById("select-year");
+        const monthSelect = document.getElementById("select-month");
+        const currentYear = new Date().getFullYear();
+        const currentMonth = new Date().getMonth() + 1;
+
+        if (yearSelect.options.length === 0) {
+          for (let i = 0; i < 5; i++) {
+            const year = currentYear - i;
+            yearSelect.add(new Option(`${year}년`, year));
+          }
         }
-        function handleSearch(btn) { console.log('Search submitted:', btn.closest('.search').querySelector('input').value); }
-
-        function openSearch() {
-            document.getElementById('list-period-bar').classList.add('search-open');
-            document.getElementById('issue-search-input').focus();
+        if (monthSelect.options.length === 0) {
+          for (let i = 1; i <= 12; i++) {
+            monthSelect.add(new Option(`${i}월`, i));
+          }
         }
-        function closeSearch() {
-            document.getElementById('list-period-bar').classList.remove('search-open');
-            const input = document.getElementById('issue-search-input');
-            input.value = '';
-            document.getElementById('issue-search').classList.remove('has-text');
+        yearSelect.value = currentYear;
+        monthSelect.value = currentMonth;
+      }
+
+      function applyMonthlyPeriod() {
+        const year = document.getElementById("select-year").value;
+        const month = document.getElementById("select-month").value;
+        selectedPeriodValue = `${year}년 ${month}월`;
+        document.getElementById("selected-period-text").textContent =
+          selectedPeriodValue;
+        document.getElementById("demo-period-btn").classList.remove("open");
+        closeMonthlyPeriodSheet();
+        filterIssueList();
+      }
+
+      // '발급 내역' 발급유형 필터
+      function toggleIssueTypeChip(chip) {
+        const status = chip.getAttribute("data-status");
+        const group = chip.closest("#issue-type-chip-group");
+        const allChip = group.querySelector('[data-status="전체"]');
+
+        if (status === "전체") {
+          const isTurningOn = !chip.classList.contains("multi-chip-on");
+          toggleMultiChip(chip, isTurningOn);
+          group.querySelectorAll(".multi-chip").forEach((c) => {
+            if (c !== chip) toggleMultiChip(c, false);
+          });
+        } else {
+          toggleMultiChip(chip);
+          toggleMultiChip(allChip, false);
+          const anyOtherOn = Array.from(
+            group.querySelectorAll('.multi-chip:not([data-status="전체"])'),
+          ).some((c) => c.classList.contains("multi-chip-on"));
+          if (!anyOtherOn) {
+            toggleMultiChip(allChip, true);
+          }
         }
+        filterIssueList();
+      }
 
+      // '발급 내역' 목록 필터링
+      function filterIssueList() {
+        const selectedStatuses = [];
+        document
+          .querySelectorAll("#issue-type-chip-group .multi-chip-on")
+          .forEach((chip) => {
+            selectedStatuses.push(chip.dataset.status);
+          });
 
-        // --- '신청' 탭 Logic (Placeholder) ---
+        const listContainer = document.getElementById("issue-list-container");
+        if (!listContainer) return;
 
-        function updateTaxFooter() {
-            // (함수 내용은 tax_request.html과 동일)
-            const listContainer = document.getElementById('transaction-list-container');
-            if (!listContainer) return;
-            const checkedBoxes = listContainer.querySelectorAll('.checkbox[data-checked="true"]');
-            const count = checkedBoxes.length;
-            const footer = document.getElementById('tax-action-footer');
+        const cards = listContainer.querySelectorAll(".common-table-card");
+        const noResultMsg = document.getElementById("no-issue-list");
+        let visibleCount = 0;
+        const isAllSelected = selectedStatuses.includes("전체");
 
-            if (document.getElementById('page-content-request').style.display === 'block') {
-                if (count > 0) {
-                    footer.classList.add('active');
-                    document.getElementById('tax-selected-count').textContent = `총 ${count}건`;
-                    document.querySelector('.mobile-wrap').style.paddingBottom = '84px';
-                } else {
-                    footer.classList.remove('active');
-                    document.querySelector('.mobile-wrap').style.paddingBottom = '20px'; // Reset to default
-                }
-            }
-        }
+        cards.forEach((card) => {
+          const cardType = card.getAttribute("data-type");
+          if (isAllSelected || selectedStatuses.includes(cardType)) {
+            card.style.display = "";
+            visibleCount++;
+          } else {
+            card.style.display = "none";
+          }
+        });
 
-        function toggleStatusChip(chip) {
-            // (함수 내용은 tax_request.html과 동일)
-            const status = chip.getAttribute('data-status');
-            const group = chip.closest('#status-chip-group');
-            const allChip = group.querySelector('[data-status="전체"]');
+        const countEl = document.getElementById("issue-count");
+        if (countEl) countEl.textContent = visibleCount;
+        if (noResultMsg)
+          noResultMsg.style.display = visibleCount === 0 ? "block" : "none";
+      }
 
-            if (status === '전체') {
-                const isTurningOn = !chip.classList.contains('multi-chip-on');
-                toggleMultiChip(chip, isTurningOn);
-                group.querySelectorAll('.multi-chip').forEach(c => {
-                    if (c !== chip) toggleMultiChip(c, false);
-                });
-            } else {
-                toggleMultiChip(chip);
-                toggleMultiChip(allChip, false);
-                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-status="전체"])'))
-                    .some(c => c.classList.contains('multi-chip-on'));
-                if (!anyOtherOn) {
-                    toggleMultiChip(allChip, true);
-                }
-            }
-            filterTaxInvoices();
-        }
+      // --- [MODIFIED] 발급 상세 모달 데이터 바인딩 및 아코디언 로직 ---
 
-        function filterTaxInvoices() {
-            // (함수 내용은 tax_request.html과 동일 - 신청 탭의 목록을 필터링)
-            const listContainer = document.getElementById('transaction-list-container');
-            if (!listContainer) return;
-            const noResultMsg = document.getElementById('no-request-list');
-            let visibleCount = 0; // 예시로 0건
+      function showIssueFullDetailsModal(details) {
+        const modalBody = document.getElementById("issue-detail-body");
+        if (!modalBody) return;
 
-            if (document.getElementById('transaction-count')) {
-                document.getElementById('transaction-count').textContent = visibleCount;
-            }
-            if (noResultMsg) {
-                noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
-            }
-            console.log("Filtering request list...");
-        }
-
-        // --- '신청' 탭 Modal Logic (Placeholder) ---
-        function openModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (!overlay) return;
-
-            const modal = overlay.querySelector('.modal-content');
-
-            if (modal && modal.classList.contains('full-modal')) {
-                // Full Modal Open Logic
-                overlay.classList.add('overlay-full-modal');
-                overlay.style.display = 'flex';
-                requestAnimationFrame(() => {
-                    overlay.classList.add('active');
-                });
-            } else {
-                // Default Modal Open Logic
-                overlay.classList.add('active');
-            }
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal(overlayId) {
-            const overlay = document.getElementById(overlayId);
-            if (!overlay) return;
-
-            const modal = overlay.querySelector('.modal-content');
-
-            if (modal && modal.classList.contains('full-modal')) {
-                // Full Modal Close Logic
-                modal.classList.add('closing');
-                overlay.classList.remove('active');
-
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                    overlay.classList.remove('overlay-full-modal');
-                    modal.classList.remove('closing');
-                }, 300); // Match CSS transition
-
-            } else {
-                // Default Modal Close Logic
-                overlay.classList.remove('active');
-            }
-
-            // Check for other modals/sheets
-            const anyModalActive = document.querySelector('.modal-overlay.active:not(#' + overlayId + '), .bottom-sheet-overlay.active');
-            if (!anyModalActive) {
-                document.body.style.overflow = '';
-            }
-        }
-
-        // --- [NEW] '발급 내역' 탭 Logic ---
-
-        // Bottom Sheet (v12 Standard)
-        function setupBottomSheet(overlayId, sheetId, handleId) {
-            const overlay = document.getElementById(overlayId); const sheet = document.getElementById(sheetId); const handle = document.getElementById(handleId);
-            if (!overlay || !sheet || !handle) return { openSheet: () => { }, closeSheet: () => { } };
-            let isDragging = false, startY = 0, currentY = 0;
-            const openSheet = () => { overlay.classList.add('active'); sheet.classList.remove('closing'); document.body.style.overflow = 'hidden'; };
-            const closeSheet = () => {
-                sheet.classList.add('closing');
-                const anyModalActive = document.querySelector('.modal-overlay.active, .bottom-sheet-overlay.active:not(#' + overlayId + ')');
-                if (!anyModalActive) {
-                    document.body.style.overflow = '';
-                }
-                setTimeout(() => {
-                    overlay.classList.remove('active');
-                    sheet.classList.remove('closing');
-                    sheet.style.transform = ''; // Reset transform
-                }, 300);
-            };
-            const startDrag = (e) => { isDragging = true; startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY; sheet.style.transition = 'none'; };
-            const drag = (e) => { if (!isDragging) return; e.preventDefault(); currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY; const deltaY = currentY - startY; if (deltaY > 0) sheet.style.transform = `translateY(${deltaY}px)`; };
-            const endDrag = () => { if (!isDragging) return; isDragging = false; sheet.style.transition = ''; const deltaY = currentY - startY; if (deltaY > 100) closeSheet(); else sheet.style.transform = ''; };
-            handle.addEventListener('mousedown', startDrag); handle.addEventListener('touchstart', startDrag, { passive: false });
-            document.addEventListener('mousemove', drag); document.addEventListener('touchmove', drag, { passive: false });
-            document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag);
-            overlay.addEventListener('click', (e) => { if (e.target.id === overlayId) closeSheet(); });
-            return { openSheet, closeSheet };
-        }
-
-        // Setup Sheets
-        const { openSheet: showListSheet, closeSheet: closeListSheet } = setupBottomSheet('list-sheet-overlay', 'list-sheet', 'list-sheet-handle');
-        const { openSheet: showCustomPeriodSheetBase, closeSheet: closeCustomPeriodSheet } = setupBottomSheet('custom-period-overlay', 'custom-period-sheet', 'custom-period-sheet-handle');
-        const { openSheet: showCalendarSheetBase, closeSheet: closeCalendarSheet } = setupBottomSheet('calendar-sheet-overlay', 'calendar-sheet', 'calendar-sheet-handle');
-        const { openSheet: showMonthlyPeriodSheetBase, closeSheet: closeMonthlyPeriodSheet } = setupBottomSheet('period-monthly-sheet-overlay', 'period-monthly-sheet', 'period-monthly-sheet-handle');
-
-
-        // --- [v12 Standard] COMPLEX FILTER INTERACTION ---
-        let selectedPeriodValue = "최근 1개월";
-        let currentTargetDateInputId = null;
-
-        // 1. List Sheet Interaction
-        function selectListOption(value) {
-            // Update main button text directly
-            document.getElementById('selected-period-text').textContent = value;
-            document.getElementById('demo-period-btn').classList.remove('open');
-            closeListSheet();
-            filterIssueList();
-        }
-
-        function openCustomPeriodSheet() {
-            document.getElementById('list-sheet-overlay').classList.remove('active');
-
-            // Set default dates if needed
-            if (!document.getElementById('demo-start-date').textContent.includes('-')) {
-                const today = new Date();
-                document.getElementById('demo-start-date').textContent = today.toISOString().split('T')[0];
-                document.getElementById('demo-end-date').textContent = today.toISOString().split('T')[0];
-            }
-
-            showCustomPeriodSheetBase();
-        }
-
-        function openMonthlySheet() {
-            document.getElementById('list-sheet-overlay').classList.remove('active');
-            populateMonthyPicker();
-            showMonthlyPeriodSheetBase();
-        }
-
-        // 2. Custom Period Logic
-        function showCalendarSheet(targetInputId) {
-            if (targetInputId === 'start') currentTargetDateInputId = 'demo-start-date';
-            else if (targetInputId === 'end') currentTargetDateInputId = 'demo-end-date';
-            showCalendarSheetBase();
-        }
-
-        function confirmDateSelection(day) {
-            if (currentTargetDateInputId) {
-                document.getElementById(currentTargetDateInputId).textContent = `2025-10-${day}`;
-            }
-            closeCalendarSheet();
-        }
-
-        function applyCustomPeriod() {
-            const start = document.getElementById('demo-start-date').textContent;
-            const end = document.getElementById('demo-end-date').textContent;
-            selectedPeriodValue = `${start} ~ ${end}`;
-            document.getElementById('selected-period-text').textContent = selectedPeriodValue;
-            document.getElementById('demo-period-btn').classList.remove('open');
-            closeCustomPeriodSheet();
-            filterIssueList();
-        }
-
-        function setPresetPeriod(days) {
-            alert(days + '일 기간 자동 설정 (데모)');
-        }
-
-        // 3. Monthly Period Logic
-        function populateMonthyPicker() {
-            const yearSelect = document.getElementById('select-year');
-            const monthSelect = document.getElementById('select-month');
-            const currentYear = new Date().getFullYear();
-            const currentMonth = new Date().getMonth() + 1;
-
-            if (yearSelect.options.length === 0) {
-                for (let i = 0; i < 5; i++) {
-                    const year = currentYear - i;
-                    yearSelect.add(new Option(`${year}년`, year));
-                }
-            }
-            if (monthSelect.options.length === 0) {
-                for (let i = 1; i <= 12; i++) {
-                    monthSelect.add(new Option(`${i}월`, i));
-                }
-            }
-            yearSelect.value = currentYear;
-            monthSelect.value = currentMonth;
-        }
-
-        function applyMonthlyPeriod() {
-            const year = document.getElementById('select-year').value;
-            const month = document.getElementById('select-month').value;
-            selectedPeriodValue = `${year}년 ${month}월`;
-            document.getElementById('selected-period-text').textContent = selectedPeriodValue;
-            document.getElementById('demo-period-btn').classList.remove('open');
-            closeMonthlyPeriodSheet();
-            filterIssueList();
-        }
-
-        // '발급 내역' 발급유형 필터
-        function toggleIssueTypeChip(chip) {
-            const status = chip.getAttribute('data-status');
-            const group = chip.closest('#issue-type-chip-group');
-            const allChip = group.querySelector('[data-status="전체"]');
-
-            if (status === '전체') {
-                const isTurningOn = !chip.classList.contains('multi-chip-on');
-                toggleMultiChip(chip, isTurningOn);
-                group.querySelectorAll('.multi-chip').forEach(c => {
-                    if (c !== chip) toggleMultiChip(c, false);
-                });
-            } else {
-                toggleMultiChip(chip);
-                toggleMultiChip(allChip, false);
-                const anyOtherOn = Array.from(group.querySelectorAll('.multi-chip:not([data-status="전체"])'))
-                    .some(c => c.classList.contains('multi-chip-on'));
-                if (!anyOtherOn) {
-                    toggleMultiChip(allChip, true);
-                }
-            }
-            filterIssueList();
-        }
-
-        // '발급 내역' 목록 필터링
-        function filterIssueList() {
-            const selectedStatuses = [];
-            document.querySelectorAll('#issue-type-chip-group .multi-chip-on').forEach(chip => {
-                selectedStatuses.push(chip.dataset.status);
-            });
-
-            const listContainer = document.getElementById('issue-list-container');
-            if (!listContainer) return;
-
-            const cards = listContainer.querySelectorAll('.common-table-card');
-            const noResultMsg = document.getElementById('no-issue-list');
-            let visibleCount = 0;
-            const isAllSelected = selectedStatuses.includes('전체');
-
-            cards.forEach(card => {
-                const cardType = card.getAttribute('data-type');
-                if (isAllSelected || selectedStatuses.includes(cardType)) {
-                    card.style.display = '';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            const countEl = document.getElementById('issue-count');
-            if (countEl) countEl.textContent = visibleCount;
-            if (noResultMsg) noResultMsg.style.display = visibleCount === 0 ? 'block' : 'none';
-        }
-
-        // --- [MODIFIED] 발급 상세 모달 데이터 바인딩 및 아코디언 로직 ---
-
-        function showIssueFullDetailsModal(details) {
-            const modalBody = document.getElementById('issue-detail-body');
-            if (!modalBody) return;
-
-            // 1. [상단] 발급 정보 + 총 합계
-            let summaryHtml = `
+        // 1. [상단] 발급 정보 + 총 합계
+        let summaryHtml = `
         <h2 class="modal-section-title">발급 정보</h2>
         <div class="summary-grid">
             <div class="summary-row">
@@ -2410,25 +2910,25 @@
         </div>
     `;
 
-            // 2. [중단] 접수 정보 (Accordion List)
-            let accordionHtml = `<h2 class="modal-section-title">접수 정보</h2>`;
+        // 2. [중단] 접수 정보 (Accordion List)
+        let accordionHtml = `<h2 class="modal-section-title">접수 정보</h2>`;
 
-            if (details.orders && details.orders.length > 0) {
-                // [추가] 작성일자: 타이틀 바로 밑에 1회 표시 (첫 번째 주문의 작성일자 사용)
-                accordionHtml += `
+        if (details.orders && details.orders.length > 0) {
+          // [추가] 작성일자: 타이틀 바로 밑에 1회 표시 (첫 번째 주문의 작성일자 사용)
+          accordionHtml += `
             <div style="margin-bottom: 12px; padding: 0 2px;">
                  <span style="font-weight: 600; color: #555; font-size: 13px;">작성일자</span>
                  <span style="margin-left: 8px; font-weight: 500; color: #333; font-size: 14px;">${details.orders[0].writeDate}</span>
             </div>
         `;
 
-                accordionHtml += `<div class="issue-accordion">`;
+          accordionHtml += `<div class="issue-accordion">`;
 
-                details.orders.forEach((order, index) => {
-                    // 품목 HTML 생성
-                    let itemsHtml = '';
-                    order.items.forEach(item => {
-                        itemsHtml += `
+          details.orders.forEach((order, index) => {
+            // 품목 HTML 생성
+            let itemsHtml = "";
+            order.items.forEach((item) => {
+              itemsHtml += `
                     <div class="acc-product-row">
                         <div class="prod-name">${item.name}</div>
                         <div class="prod-price-box">
@@ -2437,10 +2937,10 @@
                         </div>
                     </div>
                 `;
-                    });
+            });
 
-                    // 아코디언 아이템 생성
-                    accordionHtml += `
+            // 아코디언 아이템 생성
+            accordionHtml += `
                 <div class="acc-item" id="acc-item-${index}">
                     <div class="acc-header" onclick="toggleAccordion('acc-item-${index}')">
                         <div class="acc-header-left">
@@ -2469,14 +2969,14 @@
                     </div>
                 </div>
             `;
-                });
-                accordionHtml += `</div>`;
-            } else {
-                accordionHtml += `<div class="no-transactions">접수 정보가 없습니다.</div>`;
-            }
+          });
+          accordionHtml += `</div>`;
+        } else {
+          accordionHtml += `<div class="no-transactions">접수 정보가 없습니다.</div>`;
+        }
 
-            // 3. [하단] 기업 정보
-            let companyHtml = `
+        // 3. [하단] 기업 정보
+        let companyHtml = `
         <h2 class="modal-section-title">기업 정보</h2>
         <div class="summary-grid" style="margin-bottom: 30px;">
              <div class="summary-row">
@@ -2492,69 +2992,71 @@
                 <div class="summary-value">${details.repName}</div>
             </div>
             <div class="summary-row">
-                <div class="summary-label">담당자명</div>
+                <div class="summary-label">회계 담당자명</div>
                 <div class="summary-value">${details.contactName}</div>
             </div>
             <div class="summary-row">
-                <div class="summary-label">연락처</div>
+                <div class="summary-label">회계 담당자 휴대폰 번호</div>
                 <div class="summary-value">${details.contactPhone}</div>
             </div>
             <div class="summary-row">
-                <div class="summary-label">이메일</div>
+                <div class="summary-label">회계 담당자 이메일</div>
                 <div class="summary-value">${details.contactEmail}</div>
             </div>
         </div>
     `;
 
-            modalBody.innerHTML = summaryHtml + accordionHtml + companyHtml;
-            openModal('issue-full-details-modal-overlay');
+        modalBody.innerHTML = summaryHtml + accordionHtml + companyHtml;
+        openModal("issue-full-details-modal-overlay");
+      }
+
+      // 아코디언 토글 함수
+      function toggleAccordion(id) {
+        const item = document.getElementById(id);
+        if (item) {
+          item.classList.toggle("open");
         }
+      }
 
-        // 아코디언 토글 함수
-        function toggleAccordion(id) {
-            const item = document.getElementById(id);
-            if (item) {
-                item.classList.toggle('open');
+      // --- [MODIFIED] Initialize (Event listeners etc.) ---
+      document.addEventListener("DOMContentLoaded", () => {
+        // 초기 페이지 상태 설정 ('발급 내역' 탭)
+        selectPageTab(document.querySelector(".page-tab-item.active"));
+
+        // '신청' 탭 필터 초기화
+        filterTaxInvoices();
+        updateTaxFooter();
+
+        // '발급 내역' 탭 필터 초기화
+        filterIssueList();
+
+        // [NEW] Modal overlay click-to-close listeners
+        document.querySelectorAll(".modal-overlay").forEach((overlay) => {
+          overlay.addEventListener("click", (e) => {
+            if (e.target.id === overlay.id) {
+              closeModal(overlay.id);
             }
-        }
-
-
-        // --- [MODIFIED] Initialize (Event listeners etc.) ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // 초기 페이지 상태 설정 ('발급 내역' 탭)
-            selectPageTab(document.querySelector('.page-tab-item.active'));
-
-            // '신청' 탭 필터 초기화
-            filterTaxInvoices();
-            updateTaxFooter();
-
-            // '발급 내역' 탭 필터 초기화
-            filterIssueList();
-
-            // [NEW] Modal overlay click-to-close listeners
-            document.querySelectorAll('.modal-overlay').forEach(overlay => {
-                overlay.addEventListener('click', (e) => {
-                    if (e.target.id === overlay.id) {
-                        closeModal(overlay.id);
-                    }
-                });
-            });
-
-            // Add event listener for main period button
-            const btn = document.getElementById('demo-period-btn');
-            if (btn) {
-                btn.addEventListener('click', function () {
-                    this.classList.add('open');
-                });
-            }
-
-            // Reset Arrow on Sheet Close via Overlay
-            document.getElementById('list-sheet-overlay').addEventListener('click', function (e) {
-                if (e.target === this) document.getElementById('demo-period-btn').classList.remove('open');
-            });
+          });
         });
 
-    </script>
-</body>
+        // Add event listener for main period button
+        const btn = document.getElementById("demo-period-btn");
+        if (btn) {
+          btn.addEventListener("click", function () {
+            this.classList.add("open");
+          });
+        }
 
+        // Reset Arrow on Sheet Close via Overlay
+        document
+          .getElementById("list-sheet-overlay")
+          .addEventListener("click", function (e) {
+            if (e.target === this)
+              document
+                .getElementById("demo-period-btn")
+                .classList.remove("open");
+          });
+      });
+    </script>
+  </body>
 </html>
